@@ -6,6 +6,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Home',
     component: () => import('./pages/Home.vue'),
   },
+  // 格式化工具
   {
     path: '/json-formatter',
     name: 'JsonFormatter',
@@ -91,7 +92,85 @@ const routes: RouteRecordRaw[] = [
     name: 'DartFormatter',
     component: () => import('./pages/DartFormatter.vue'),
   },
-  // 其他工具页面路由后续补充
+  // 加密工具
+  {
+    path: '/rsa-encrypt',
+    name: 'RsaEncrypt',
+    component: () => import('./pages/RsaEncrypt.vue'),
+  },
+  {
+    path: '/rsa-sign',
+    name: 'RsaSign',
+    component: () => import('./pages/RsaSign.vue'),
+  },
+  {
+    path: '/des-encrypt',
+    name: 'DesEncrypt',
+    component: () => import('./pages/DesEncrypt.vue'),
+  },
+  {
+    path: '/bcrypt-hash',
+    name: 'BcryptHash',
+    component: () => import('./pages/BcryptHash.vue'),
+  },
+  {
+    path: '/jwt-codec',
+    name: 'JwtCodec',
+    component: () => import('./pages/JwtCodec.vue'),
+  },
+  // 转换工具
+  {
+    path: '/radix-converter',
+    name: 'RadixConverter',
+    component: () => import('./pages/RadixConverter.vue'),
+  },
+  {
+    path: '/unit-converter',
+    name: 'UnitConverter',
+    component: () => import('./pages/UnitConverter.vue'),
+  },
+  {
+    path: '/url-codec',
+    name: 'UrlCodec',
+    component: () => import('./pages/UrlCodec.vue'),
+  },
+  {
+    path: '/base64-codec',
+    name: 'Base64Codec',
+    component: () => import('./pages/Base64Codec.vue'),
+  },
+  // 文本工具
+  {
+    path: '/regex-generator',
+    name: 'RegexGenerator',
+    component: () => import('./pages/RegexGenerator.vue'),
+  },
+  {
+    path: '/markdown-to-html',
+    name: 'MarkdownToHtml',
+    component: () => import('./pages/MarkdownToHtml.vue'),
+  },
+  // 其他工具
+  {
+    path: '/calculator',
+    name: 'Calculator',
+    component: () => import('./pages/Calculator.vue'),
+  },
+  {
+    path: '/http-status-code',
+    name: 'HttpStatusCode',
+    component: () => import('./pages/HttpStatusCode.vue'),
+  },
+  {
+    path: '/short-url',
+    name: 'ShortUrlTool',
+    component: () => import('./pages/ShortUrlTool.vue'),
+  },
+  {
+    path: '/tool-arrange',
+    name: 'ToolArrange',
+    component: () => import('./pages/ToolArrange.vue'),
+  },
 ];
 
 const router = createRouter({
