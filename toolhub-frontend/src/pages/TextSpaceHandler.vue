@@ -1,20 +1,15 @@
 <template>
-  <div class="text-replacer">
-    <n-card :title="t('tools.textReplacer.title')">
+  <div class="text-space-handler">
+    <n-card :title="t('tools.textSpaceHandler.title')">
       <n-input
         v-model:value="input"
         type="textarea"
-        :placeholder="t('tools.textReplacer.inputPlaceholder')"
+        :placeholder="t('tools.textSpaceHandler.inputPlaceholder')"
         :autosize="{ minRows: 8, maxRows: 20 }"
       />
-      <div class="replacement-options">
-        <n-radio-group v-model:value="replacementType">
-          <n-radio-button value="newline-to-comma">{{ t('tools.textReplacer.newlineToComma') }}</n-radio-button>
-          <n-radio-button value="comma-to-newline">{{ t('tools.textReplacer.commaToNewline') }}</n-radio-button>
-        </n-radio-group>
-      </div>
       <div class="btn-group">
-        <n-button @click="replaceText">{{ t('tools.textReplacer.replace') }}</n-button>
+        <n-button @click="trimSpaces">{{ t('tools.textSpaceHandler.trim') }}</n-button>
+        <n-button @click="compressSpaces">{{ t('tools.textSpaceHandler.compress') }}</n-button>
         <n-button @click="copyText">{{ t('common.copy') }}</n-button>
         <n-button @click="clearText">{{ t('common.clear') }}</n-button>
       </div>
@@ -31,15 +26,14 @@ import { useClipboard } from '@vueuse/core';
 const { t } = useI18n();
 const input = ref('');
 const copySuccess = ref(false);
-const replacementType = ref('newline-to-comma');
 const { copy } = useClipboard();
 
-function replaceText() {
-  if (replacementType.value === 'newline-to-comma') {
-    input.value = input.value.replace(/\n/g, ',');
-  } else {
-    input.value = input.value.replace(/,/g, '\n');
-  }
+function trimSpaces() {
+  input.value = input.value.trim();
+}
+
+function compressSpaces() {
+  input.value = input.value.replace(/\s+/g, ' ');
 }
 
 function copyText() {
@@ -54,12 +48,9 @@ function clearText() {
 </script>
 
 <style scoped>
-.text-replacer {
+.text-space-handler {
   max-width: 800px;
   margin: 0 auto;
-}
-.replacement-options {
-  margin: 16px 0;
 }
 .btn-group {
   display: flex;

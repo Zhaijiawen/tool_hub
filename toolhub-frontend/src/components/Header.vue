@@ -134,6 +134,7 @@ export const menuOptions = [
     label: t('menu.crypto.label'),
     key: 'crypto',
     children: [
+      { label: t('menu.crypto.aesEncrypt'), key: 'aes-encryptor' },
       { label: t('menu.crypto.rsaEncrypt'), key: 'rsa-encrypt' },
       { label: t('menu.crypto.rsaSign'), key: 'rsa-sign' },
       { label: t('menu.crypto.desEncrypt'), key: 'des-encrypt' },
@@ -145,18 +146,40 @@ export const menuOptions = [
     label: t('menu.convert.label'),
     key: 'convert',
     children: [
-      { label: t('menu.convert.radix'), key: 'radix-converter' },
-      { label: t('menu.convert.unit'), key: 'unit-converter' },
-      { label: t('menu.convert.urlCodec'), key: 'url-codec' },
-      { label: t('menu.convert.base64Codec'), key: 'base64-codec' },
+      {
+        label: t('menu.convert.unit'),
+        key: 'unit-converter'
+      },
+      {
+        label: t('menu.convert.numberBase'),
+        key: 'number-base-converter'
+      },
+      {
+        label: t('menu.convert.time'),
+        key: 'time-converter'
+      }
     ]
   },
   {
     label: t('menu.text.label'),
     key: 'text',
     children: [
-      { label: t('menu.text.regex'), key: 'regex-generator' },
-      { label: t('menu.text.markdownToHtml'), key: 'markdown-to-html' },
+      {
+        label: t('menu.text.caseConverter'),
+        key: 'text-case-converter'
+      },
+      {
+        label: t('menu.text.reverser'),
+        key: 'text-reverser'
+      },
+      {
+        label: t('menu.text.spaceHandler'),
+        key: 'text-space-handler'
+      },
+      {
+        label: t('menu.text.replacer'),
+        key: 'text-replacer'
+      }
     ]
   },
   {

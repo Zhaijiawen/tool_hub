@@ -1,115 +1,314 @@
 <template>
   <div class="unit-converter">
-    <n-card title="单位转换工具">
-      <div class="input-group">
-        <n-input v-model:value="input" placeholder="请输入数值" style="width: 200px;" />
-        <n-select v-model:value="fromUnit" :options="unitOptions" style="width: 140px; margin: 0 8px;" />
-        <span style="margin: 0 8px;">→</span>
-        <n-select v-model:value="toUnit" :options="unitOptions" style="width: 140px; margin-right: 8px;" />
-        <n-button @click="convert">转换</n-button>
-      </div>
-      <n-input v-model:value="result" placeholder="转换结果" style="margin-top: 16px;" readonly />
-      <n-button @click="copyResult" style="margin-top: 8px;">复制结果</n-button>
-      <n-select v-model:value="category" :options="categoryOptions" style="margin-top: 16px; width: 200px;" @update:value="onCategoryChange" />
-      <n-alert v-if="error" type="error" class="err-tip">{{ error }}</n-alert>
-      <n-alert v-if="copySuccess" type="success" class="copy-tip">复制成功！</n-alert>
+    <n-card :title="t('tools.unitConverter.title')">
+      <n-tabs type="line" animated>
+        <!-- 存储单位转换 -->
+        <n-tab-pane name="storage" :tab="t('tools.unitConverter.storage')">
+          <n-form>
+            <n-form-item>
+              <n-input-number
+                v-model:value="storageValue"
+                :min="0"
+                :precision="2"
+                @update:value="convertStorage"
+              />
+              <n-select
+                v-model:value="storageFromUnit"
+                :options="storageUnits"
+                style="width: 120px; margin: 0 8px;"
+                @update:value="convertStorage"
+              />
+              <span style="margin: 0 8px;">=</span>
+              <n-input-number
+                v-model:value="storageResult"
+                :min="0"
+                :precision="2"
+                readonly
+              />
+              <n-select
+                v-model:value="storageToUnit"
+                :options="storageUnits"
+                style="width: 120px; margin-left: 8px;"
+                @update:value="convertStorage"
+              />
+            </n-form-item>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 时间单位转换 -->
+        <n-tab-pane name="time" :tab="t('tools.unitConverter.time')">
+          <n-form>
+            <n-form-item>
+              <n-input-number
+                v-model:value="timeValue"
+                :min="0"
+                :precision="2"
+                @update:value="convertTime"
+              />
+              <n-select
+                v-model:value="timeFromUnit"
+                :options="timeUnits"
+                style="width: 120px; margin: 0 8px;"
+                @update:value="convertTime"
+              />
+              <span style="margin: 0 8px;">=</span>
+              <n-input-number
+                v-model:value="timeResult"
+                :min="0"
+                :precision="2"
+                readonly
+              />
+              <n-select
+                v-model:value="timeToUnit"
+                :options="timeUnits"
+                style="width: 120px; margin-left: 8px;"
+                @update:value="convertTime"
+              />
+            </n-form-item>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 长度单位转换 -->
+        <n-tab-pane name="length" :tab="t('tools.unitConverter.length')">
+          <n-form>
+            <n-form-item>
+              <n-input-number
+                v-model:value="lengthValue"
+                :min="0"
+                :precision="2"
+                @update:value="convertLength"
+              />
+              <n-select
+                v-model:value="lengthFromUnit"
+                :options="lengthUnits"
+                style="width: 120px; margin: 0 8px;"
+                @update:value="convertLength"
+              />
+              <span style="margin: 0 8px;">=</span>
+              <n-input-number
+                v-model:value="lengthResult"
+                :min="0"
+                :precision="2"
+                readonly
+              />
+              <n-select
+                v-model:value="lengthToUnit"
+                :options="lengthUnits"
+                style="width: 120px; margin-left: 8px;"
+                @update:value="convertLength"
+              />
+            </n-form-item>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 温度单位转换 -->
+        <n-tab-pane name="temperature" :tab="t('tools.unitConverter.temperature')">
+          <n-form>
+            <n-form-item>
+              <n-input-number
+                v-model:value="temperatureValue"
+                :precision="2"
+                @update:value="convertTemperature"
+              />
+              <n-select
+                v-model:value="temperatureFromUnit"
+                :options="temperatureUnits"
+                style="width: 120px; margin: 0 8px;"
+                @update:value="convertTemperature"
+              />
+              <span style="margin: 0 8px;">=</span>
+              <n-input-number
+                v-model:value="temperatureResult"
+                :precision="2"
+                readonly
+              />
+              <n-select
+                v-model:value="temperatureToUnit"
+                :options="temperatureUnits"
+                style="width: 120px; margin-left: 8px;"
+                @update:value="convertTemperature"
+              />
+            </n-form-item>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 重量单位转换 -->
+        <n-tab-pane name="weight" :tab="t('tools.unitConverter.weight')">
+          <n-form>
+            <n-form-item>
+              <n-input-number
+                v-model:value="weightValue"
+                :min="0"
+                :precision="2"
+                @update:value="convertWeight"
+              />
+              <n-select
+                v-model:value="weightFromUnit"
+                :options="weightUnits"
+                style="width: 120px; margin: 0 8px;"
+                @update:value="convertWeight"
+              />
+              <span style="margin: 0 8px;">=</span>
+              <n-input-number
+                v-model:value="weightResult"
+                :min="0"
+                :precision="2"
+                readonly
+              />
+              <n-select
+                v-model:value="weightToUnit"
+                :options="weightUnits"
+                style="width: 120px; margin-left: 8px;"
+                @update:value="convertWeight"
+              />
+            </n-form-item>
+          </n-form>
+        </n-tab-pane>
+      </n-tabs>
     </n-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useClipboard } from '@vueuse/core';
-let input = ref('');
-let result = ref('');
-let error = ref('');
-let copySuccess = ref(false);
-let category = ref('storage');
-let fromUnit = ref('B');
-let toUnit = ref('KB');
-const { copy } = useClipboard();
-const categoryOptions = [
-  { label: '存储', value: 'storage' },
-  { label: '时间', value: 'time' },
-  { label: '长度', value: 'length' },
-  { label: '温度', value: 'temp' },
-  { label: '重量', value: 'weight' },
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+// 存储单位
+const storageUnits = [
+  { label: 'B', value: 'B' },
+  { label: 'KB', value: 'KB' },
+  { label: 'MB', value: 'MB' },
+  { label: 'GB', value: 'GB' },
+  { label: 'TB', value: 'TB' },
+  { label: 'PB', value: 'PB' }
 ];
-const unitMap = {
-  storage: [
-    { label: '字节(B)', value: 'B', factor: 1 },
-    { label: 'KB', value: 'KB', factor: 1024 },
-    { label: 'MB', value: 'MB', factor: 1024 * 1024 },
-    { label: 'GB', value: 'GB', factor: 1024 * 1024 * 1024 },
-    { label: 'TB', value: 'TB', factor: 1024 * 1024 * 1024 * 1024 },
-    { label: 'PB', value: 'PB', factor: 1024 * 1024 * 1024 * 1024 * 1024 },
-  ],
-  time: [
-    { label: '毫秒', value: 'ms', factor: 1 },
-    { label: '秒', value: 's', factor: 1000 },
-    { label: '分钟', value: 'min', factor: 1000 * 60 },
-    { label: '小时', value: 'h', factor: 1000 * 60 * 60 },
-    { label: '天', value: 'd', factor: 1000 * 60 * 60 * 24 },
-  ],
-  length: [
-    { label: '米', value: 'm', factor: 1 },
-    { label: '英尺', value: 'ft', factor: 0.3048 },
-  ],
-  temp: [
-    { label: '摄氏度', value: 'C' },
-    { label: '华氏度', value: 'F' },
-  ],
-  weight: [
-    { label: '千克', value: 'kg', factor: 1 },
-    { label: '磅', value: 'lb', factor: 0.45359237 },
-  ],
-};
-let unitOptions = ref(unitMap[category.value]);
 
-watch(category, (val) => {
-  unitOptions.value = unitMap[val];
-  fromUnit.value = unitOptions.value[0].value;
-  toUnit.value = unitOptions.value[1].value;
-});
+const storageValue = ref(1);
+const storageFromUnit = ref('MB');
+const storageToUnit = ref('KB');
+const storageResult = ref(1024);
 
-function convert() {
-  error.value = '';
-  if (!input.value) {
-    error.value = '请输入数值';
-    return;
-  }
-  let num = Number(input.value);
-  if (isNaN(num)) {
-    error.value = '输入格式有误';
-    return;
-  }
-  if (category.value === 'temp') {
-    if (fromUnit.value === toUnit.value) {
-      result.value = num + '';
-    } else if (fromUnit.value === 'C' && toUnit.value === 'F') {
-      result.value = (num * 9 / 5 + 32).toFixed(2);
-    } else if (fromUnit.value === 'F' && toUnit.value === 'C') {
-      result.value = ((num - 32) * 5 / 9).toFixed(2);
-    }
-    return;
-  }
-  let from = unitOptions.value.find(u => u.value === fromUnit.value);
-  let to = unitOptions.value.find(u => u.value === toUnit.value);
-  if (!from || !to) {
-    error.value = '单位选择有误';
-    return;
-  }
-  let base = num * from.factor;
-  let res = base / to.factor;
-  result.value = res + '';
+function convertStorage() {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+  const fromIndex = units.indexOf(storageFromUnit.value);
+  const toIndex = units.indexOf(storageToUnit.value);
+  const diff = fromIndex - toIndex;
+  storageResult.value = storageValue.value * Math.pow(1024, diff);
 }
-function copyResult() {
-  copy(result.value);
-  copySuccess.value = true;
-  setTimeout(() => (copySuccess.value = false), 1500);
+
+// 时间单位
+const timeUnits = [
+  { label: '毫秒', value: 'ms' },
+  { label: '秒', value: 's' },
+  { label: '分钟', value: 'min' },
+  { label: '小时', value: 'h' },
+  { label: '天', value: 'd' }
+];
+
+const timeValue = ref(1);
+const timeFromUnit = ref('h');
+const timeToUnit = ref('min');
+const timeResult = ref(60);
+
+function convertTime() {
+  const unitToMs = {
+    'ms': 1,
+    's': 1000,
+    'min': 60 * 1000,
+    'h': 60 * 60 * 1000,
+    'd': 24 * 60 * 60 * 1000
+  };
+  const ms = timeValue.value * unitToMs[timeFromUnit.value];
+  timeResult.value = ms / unitToMs[timeToUnit.value];
 }
-function onCategoryChange() {
-  // 已在watch中处理
+
+// 长度单位
+const lengthUnits = [
+  { label: '毫米', value: 'mm' },
+  { label: '厘米', value: 'cm' },
+  { label: '米', value: 'm' },
+  { label: '千米', value: 'km' },
+  { label: '英寸', value: 'in' },
+  { label: '英尺', value: 'ft' }
+];
+
+const lengthValue = ref(1);
+const lengthFromUnit = ref('m');
+const lengthToUnit = ref('cm');
+const lengthResult = ref(100);
+
+function convertLength() {
+  const unitToMm = {
+    'mm': 1,
+    'cm': 10,
+    'm': 1000,
+    'km': 1000000,
+    'in': 25.4,
+    'ft': 304.8
+  };
+  const mm = lengthValue.value * unitToMm[lengthFromUnit.value];
+  lengthResult.value = mm / unitToMm[lengthToUnit.value];
+}
+
+// 温度单位
+const temperatureUnits = [
+  { label: '摄氏度', value: 'C' },
+  { label: '华氏度', value: 'F' },
+  { label: '开尔文', value: 'K' }
+];
+
+const temperatureValue = ref(0);
+const temperatureFromUnit = ref('C');
+const temperatureToUnit = ref('F');
+const temperatureResult = ref(32);
+
+function convertTemperature() {
+  let kelvin = 0;
+  // 先转换为开尔文
+  if (temperatureFromUnit.value === 'C') {
+    kelvin = temperatureValue.value + 273.15;
+  } else if (temperatureFromUnit.value === 'F') {
+    kelvin = (temperatureValue.value - 32) * 5/9 + 273.15;
+  } else {
+    kelvin = temperatureValue.value;
+  }
+  
+  // 从开尔文转换为目标单位
+  if (temperatureToUnit.value === 'C') {
+    temperatureResult.value = kelvin - 273.15;
+  } else if (temperatureToUnit.value === 'F') {
+    temperatureResult.value = (kelvin - 273.15) * 9/5 + 32;
+  } else {
+    temperatureResult.value = kelvin;
+  }
+}
+
+// 重量单位
+const weightUnits = [
+  { label: '毫克', value: 'mg' },
+  { label: '克', value: 'g' },
+  { label: '千克', value: 'kg' },
+  { label: '吨', value: 't' },
+  { label: '磅', value: 'lb' }
+];
+
+const weightValue = ref(1);
+const weightFromUnit = ref('kg');
+const weightToUnit = ref('g');
+const weightResult = ref(1000);
+
+function convertWeight() {
+  const unitToG = {
+    'mg': 0.001,
+    'g': 1,
+    'kg': 1000,
+    't': 1000000,
+    'lb': 453.59237
+  };
+  const g = weightValue.value * unitToG[weightFromUnit.value];
+  weightResult.value = g / unitToG[weightToUnit.value];
 }
 </script>
 
@@ -117,17 +316,5 @@ function onCategoryChange() {
 .unit-converter {
   max-width: 800px;
   margin: 0 auto;
-}
-.input-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-.err-tip {
-  margin-top: 8px;
-}
-.copy-tip {
-  margin-top: 8px;
 }
 </style> 

@@ -1,37 +1,151 @@
 <template>
   <div class="markdown-to-html">
-    <n-card title="Markdown转HTML工具">
-      <n-input v-model:value="markdown" placeholder="请输入Markdown文本" type="textarea" :autosize="{minRows: 6}" />
-      <n-button @click="convert" style="margin-top: 8px;">转换</n-button>
-      <n-input v-model:value="html" placeholder="HTML结果" type="textarea" :autosize="{minRows: 6}" readonly style="margin-top: 16px;" />
-      <n-button @click="copyHtml" style="margin-top: 8px;">复制HTML</n-button>
-      <n-alert v-if="copySuccess" type="success" class="copy-tip">复制成功！</n-alert>
-      <div style="margin-top: 16px;">
-        <span>实时预览：</span>
-        <div v-html="html" class="preview"></div>
+    <n-card :title="t('tools.markdownToHtml.title')">
+      <n-grid :cols="2" :x-gap="12">
+        <n-grid-item>
+          <n-form-item :label="t('tools.markdownToHtml.markdown')">
+            <n-input
+              v-model:value="markdown"
+              type="textarea"
+              :placeholder="t('tools.markdownToHtml.markdownPlaceholder')"
+              :autosize="{ minRows: 10, maxRows: 20 }"
+              @update:value="handleConvert"
+            />
+          </n-form-item>
+        </n-grid-item>
+        <n-grid-item>
+          <n-form-item :label="t('tools.markdownToHtml.html')">
+            <n-input
+              v-model:value="html"
+              type="textarea"
+              :placeholder="t('tools.markdownToHtml.htmlPlaceholder')"
+              :autosize="{ minRows: 10, maxRows: 20 }"
+              readonly
+            />
+          </n-form-item>
+        </n-grid-item>
+      </n-grid>
+      <n-grid :cols="2" :x-gap="12">
+        <n-grid-item>
+          <n-form-item :label="t('tools.markdownToHtml.preview')">
+            <div class="preview" v-html="previewHtml"></div>
+          </n-form-item>
+        </n-grid-item>
+      </n-grid>
+      <div class="btn-group">
+        <n-button @click="copyHtml">{{ t('common.copy') }}</n-button>
+        <n-button @click="clearAll">{{ t('common.clear') }}</n-button>
       </div>
     </n-card>
   </div>
 </template>
+
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useClipboard } from '@vueuse/core';
-import { marked } from 'marked';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useMessage } from 'naive-ui';
+import marked from 'marked';
+import DOMPurify from 'dompurify';
+
+const { t } = useI18n();
+const message = useMessage();
+
 const markdown = ref('');
 const html = ref('');
-const copySuccess = ref(false);
-const { copy } = useClipboard();
-function convert() {
-  html.value = marked.parse(markdown.value);
+const previewHtml = computed(() => {
+  if (!markdown.value) return '';
+  const rawHtml = marked(markdown.value);
+  return DOMPurify.sanitize(rawHtml);
+});
+
+function handleConvert() {
+  if (!markdown.value) {
+    html.value = '';
+    return;
+  }
+  html.value = marked(markdown.value);
 }
+
 function copyHtml() {
-  copy(html.value);
-  copySuccess.value = true;
-  setTimeout(() => (copySuccess.value = false), 1500);
+  if (html.value) {
+    navigator.clipboard.writeText(html.value);
+    message.success(t('common.copySuccess'));
+  }
+}
+
+function clearAll() {
+  markdown.value = '';
+  html.value = '';
 }
 </script>
+
 <style scoped>
-.markdown-to-html { max-width: 800px; margin: 0 auto; }
-.copy-tip { margin-top: 8px; }
-.preview { border: 1px solid #eee; padding: 12px; margin-top: 8px; background: #fafbfc; }
+.markdown-to-html {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+.preview {
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  min-height: 200px;
+  background: #fff;
+}
+.preview :deep(h1) {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+.preview :deep(h2) {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+.preview :deep(h3) {
+  font-size: 1.17em;
+  margin-bottom: 0.5em;
+}
+.preview :deep(p) {
+  margin-bottom: 1em;
+}
+.preview :deep(ul), .preview :deep(ol) {
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+.preview :deep(blockquote) {
+  border-left: 4px solid #ddd;
+  padding-left: 1em;
+  margin-left: 0;
+  color: #666;
+}
+.preview :deep(code) {
+  background: #f5f5f5;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+.preview :deep(pre) {
+  background: #f5f5f5;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+.preview :deep(pre code) {
+  background: none;
+  padding: 0;
+}
+.preview :deep(table) {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+.preview :deep(th), .preview :deep(td) {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+}
+.preview :deep(th) {
+  background: #f5f5f5;
+}
 </style> 
