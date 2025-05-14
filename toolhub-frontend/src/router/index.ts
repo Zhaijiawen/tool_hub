@@ -51,6 +51,10 @@ import ImageCropper from '../pages/ImageCropper.vue';
 import ImageRotator from '../pages/ImageRotator.vue';
 import ImageWatermarker from '../pages/ImageWatermarker.vue';
 import ImageWatermarkRemover from '../pages/ImageWatermarkRemover.vue';
+import Calculator from '../pages/Calculator.vue';
+import HttpStatusExplainer from '../pages/HttpStatusExplainer.vue';
+import IpAddressLookup from '../pages/IpAddressLookup.vue';
+import UserAgentParser from '../pages/UserAgentParser.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -321,6 +325,24 @@ const router = createRouter({
       path: '/image-watermark-remover',
       name: 'image-watermark-remover',
       component: ImageWatermarkRemover
+    },
+    {
+      path: '/calculator',
+      name: 'calculator',
+      component: Calculator
+    },
+    {
+      path: '/http-status-explainer',
+      name: 'http-status-explainer',
+      component: HttpStatusExplainer
+    },
+    {
+      path: '/ip-address-lookup',
+      component: IpAddressLookup
+    },
+    {
+      path: '/user-agent-parser',
+      component: UserAgentParser
     }
   ]
 });
