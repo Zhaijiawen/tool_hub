@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 const search = ref('');
-const isDark = ref(false);
+const isDark = ref(localStorage.getItem('theme') === 'dark');
 const menuOptions = [
   { label: '格式化工具', key: 'format' },
   { label: '加密工具', key: 'crypto' },
@@ -28,15 +28,24 @@ const menuOptions = [
 ];
 const router = useRouter();
 function onSearch() {
-  // 跳转到搜索结果或编排页
+  if (search.value) {
+    // 跳转到编排页并添加工具
+    router.push({ name: 'ToolArrange', query: { add: search.value } });
+  }
 }
 function onArrange() {
-  // 跳转到编排页
+  router.push({ name: 'ToolArrange' });
 }
-function toggleTheme() {
-  // 主题切换逻辑
+function toggleTheme(val: boolean) {
+  isDark.value = val;
+  localStorage.setItem('theme', val ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', val ? 'dark' : 'light');
 }
+watch(isDark, (val) => {
+  document.documentElement.setAttribute('data-theme', val ? 'dark' : 'light');
+});
 function onMenuSelect(key: string) {
+  // 可根据key跳转到对应页面
   if (key === 'format') {
     router.push('/json-formatter');
   }

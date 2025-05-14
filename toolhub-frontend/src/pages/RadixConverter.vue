@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useClipboard } from '@vueuse/core';
 const input = ref('');
 const result = ref('');
@@ -32,6 +32,23 @@ const radixOptions = [
   { label: '10进制', value: 10 },
   { label: '16进制', value: 16 }
 ];
+
+onMounted(() => {
+  const cache = localStorage.getItem('RadixConverter');
+  if (cache) {
+    const { input: i, fromRadix: f, toRadix: t } = JSON.parse(cache);
+    input.value = i;
+    fromRadix.value = f;
+    toRadix.value = t;
+  }
+});
+watch([input, fromRadix, toRadix], () => {
+  localStorage.setItem('RadixConverter', JSON.stringify({
+    input: input.value,
+    fromRadix: fromRadix.value,
+    toRadix: toRadix.value
+  }));
+});
 
 function convert() {
   error.value = '';

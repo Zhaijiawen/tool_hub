@@ -1,10 +1,13 @@
 <template>
   <n-layout-footer class="footer">
     <div class="footer-main">
-      <span>备案信息：粤ICP备xxxxxxx号</span>
-      <span>友情链接：<a href="https://json.cn" target="_blank">json.cn</a></span>
+      <span>备案号：<a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2024000000号</a></span>
+      <span>友情链接：
+        <a href="https://json.cn" target="_blank">json.cn</a>
+        <a href="https://tool.lu" target="_blank">tool.lu</a>
+      </span>
       <span>版权信息：© 2024 ToolHub</span>
-      <span>联系我们：contact@toolhub.com</span>
+      <span>联系我们：<a href="mailto:contact@toolhub.com">contact@toolhub.com</a></span>
     </div>
   </n-layout-footer>
 </template>
@@ -30,5 +33,6 @@
 .footer a {
   color: #409eff;
   text-decoration: none;
+  margin: 0 4px;
 }
 </style> 
