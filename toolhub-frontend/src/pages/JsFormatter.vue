@@ -1,14 +1,20 @@
 <template>
-  <code-formatter
-    :title="t('tools.jsFormatter.title')"
-    language="javascript"
-    storage-key="js"
+  <base-formatter
+    title="JavaScript格式化"
+    placeholder="请输入JavaScript代码"
+    :format-fn="formatJs"
+    :compress-fn="compressJs"
   />
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import CodeFormatter from '../components/CodeFormatter.vue';
+import BaseFormatter from '../components/BaseFormatter.vue'
+import { formatJs, compressJs } from '../utils/formatter'
+</script>
 
-const { t } = useI18n();
-</script> 
+<style scoped>
+.js-formatter {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style> 

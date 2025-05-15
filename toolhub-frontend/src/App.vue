@@ -1,40 +1,60 @@
 <template>
-  <n-config-provider :theme="naiveTheme">
-    <n-layout position="absolute" style="min-height: 100vh;">
-      <Header />
-      <n-layout-content class="main-content">
-        <router-view />
-      </n-layout-content>
-      <Footer />
-    </n-layout>
+  <n-config-provider>
+    <n-message-provider>
+      <n-layout>
+        <n-layout-header bordered>
+          <div class="header">
+            <div class="logo" @click="router.push('/')">
+              <n-icon size="24">
+                <code-slash />
+              </n-icon>
+              <span>ToolHub</span>
+            </div>
+          </div>
+        </n-layout-header>
+        <n-layout-content>
+          <router-view />
+        </n-layout-content>
+        <n-layout-footer bordered>
+          <div class="footer">
+            <p>© 2024 ToolHub. All rights reserved.</p>
+          </div>
+        </n-layout-footer>
+      </n-layout>
+    </n-message-provider>
   </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { darkTheme } from 'naive-ui';
-import Header from './components/Header.vue';
-import Footer from './components/Footer.vue';
-const theme = ref(localStorage.getItem('theme') || 'light');
-const naiveTheme = computed(() => theme.value === 'dark' ? darkTheme : null);
-onMounted(() => {
-  const t = localStorage.getItem('theme');
-  if (t) theme.value = t;
-  document.documentElement.setAttribute('data-theme', theme.value);
-});
-window.addEventListener('storage', () => {
-  const t = localStorage.getItem('theme');
-  if (t) theme.value = t;
-});
+import { NConfigProvider, NMessageProvider, NLayout, NLayoutHeader, NLayoutContent, NLayoutFooter, NIcon } from 'naive-ui'
+import { useRouter } from 'vue-router'
+import { CodeSlash } from '@vicons/ionicons5'
+
+const router = useRouter()
 </script>
 
-<style>
-body[data-theme='dark'] {
-  background: #18181c;
-  color: #eee;
+<style scoped>
+.header {
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  background: #fff;
 }
-body[data-theme='light'] {
-  background: #f6f8fa;
-  color: #222;
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.footer {
+  padding: 24px;
+  text-align: center;
+  color: #666;
 }
 </style> 

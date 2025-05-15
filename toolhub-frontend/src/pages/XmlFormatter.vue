@@ -1,14 +1,20 @@
 <template>
-  <code-formatter
-    :title="t('tools.xmlFormatter.title')"
-    language="xml"
-    storage-key="xml"
+  <base-formatter
+    title="XML格式化"
+    placeholder="请输入XML数据"
+    :format-fn="formatXml"
+    :compress-fn="compressXml"
   />
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import CodeFormatter from '../components/CodeFormatter.vue';
+import BaseFormatter from '../components/BaseFormatter.vue'
+import { formatXml, compressXml } from '../utils/formatter'
+</script>
 
-const { t } = useI18n();
-</script> 
+<style scoped>
+.xml-formatter {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+</style> 

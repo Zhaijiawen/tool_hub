@@ -40,9 +40,6 @@ import ImageTools from '../pages/ImageTools.vue';
 import RegexTools from '../pages/RegexTools.vue';
 import MarkdownToHtml from '../pages/MarkdownToHtml.vue';
 import QrCodeTools from '../pages/QrCodeTools.vue';
-import Base64Tools from '../pages/Base64Tools.vue';
-import JsonTools from '../pages/JsonTools.vue';
-import HashTools from '../pages/HashTools.vue';
 import ShortUrlTools from '../pages/ShortUrlTools.vue';
 import ColorPickerTools from '../pages/ColorPickerTools.vue';
 import ImageCompressor from '../pages/ImageCompressor.vue';
@@ -57,133 +54,168 @@ import IpAddressLookup from '../pages/IpAddressLookup.vue';
 import UserAgentParser from '../pages/UserAgentParser.vue';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'home',
       component: Home
     },
+    // 格式化工具
     {
-      path: '/format/json',
-      name: 'json-formatter',
-      component: JsonFormatter
+      path: '/format',
+      name: 'format',
+      component: () => import('../pages/Format.vue'),
+      children: [
+        {
+          path: 'json',
+          name: 'json-formatter',
+          component: JsonFormatter
+        },
+        {
+          path: 'xml',
+          name: 'xml-formatter',
+          component: XmlFormatter
+        },
+        {
+          path: 'js',
+          name: 'js-formatter',
+          component: JsFormatter
+        },
+        {
+          path: 'html',
+          name: 'html-formatter',
+          component: HtmlFormatter
+        },
+        {
+          path: 'css',
+          name: 'css-formatter',
+          component: CssFormatter
+        },
+        {
+          path: 'python',
+          name: 'python-formatter',
+          component: PythonFormatter
+        },
+        {
+          path: 'java',
+          name: 'java-formatter',
+          component: JavaFormatter
+        },
+        {
+          path: 'csharp',
+          name: 'csharp-formatter',
+          component: CSharpFormatter
+        },
+        {
+          path: 'go',
+          name: 'go-formatter',
+          component: GoFormatter
+        },
+        {
+          path: 'php',
+          name: 'php-formatter',
+          component: PhpFormatter
+        },
+        {
+          path: 'ruby',
+          name: 'ruby-formatter',
+          component: RubyFormatter
+        },
+        {
+          path: 'kotlin',
+          name: 'kotlin-formatter',
+          component: KotlinFormatter
+        },
+        {
+          path: 'rust',
+          name: 'rust-formatter',
+          component: RustFormatter
+        },
+        {
+          path: 'shell',
+          name: 'shell-formatter',
+          component: ShellFormatter
+        },
+        {
+          path: 'sql',
+          name: 'sql-formatter',
+          component: SqlFormatter
+        },
+        {
+          path: 'markdown',
+          name: 'markdown-formatter',
+          component: MarkdownFormatter
+        },
+        {
+          path: 'dart',
+          name: 'dart-formatter',
+          component: DartFormatter
+        }
+      ]
     },
+    // 文本工具
     {
-      path: '/format/xml',
-      name: 'xml-formatter',
-      component: XmlFormatter
+      path: '/text',
+      name: 'text',
+      component: () => import('../pages/Text.vue'),
+      children: [
+        {
+          path: 'case-converter',
+          name: 'text-case-converter',
+          component: TextCaseConverter
+        },
+        {
+          path: 'reverser',
+          name: 'text-reverser',
+          component: TextReverser
+        },
+        {
+          path: 'space-handler',
+          name: 'text-space-handler',
+          component: TextSpaceHandler
+        },
+        {
+          path: 'replacer',
+          name: 'text-replacer',
+          component: TextReplacer
+        }
+      ]
     },
+    // 转换工具
     {
-      path: '/format/js',
-      name: 'js-formatter',
-      component: JsFormatter
+      path: '/convert',
+      name: 'convert',
+      component: () => import('../pages/Convert.vue'),
+      children: [
+        {
+          path: 'unit',
+          name: 'unit-converter',
+          component: UnitConverter
+        },
+        {
+          path: 'number-base',
+          name: 'number-base-converter',
+          component: NumberBaseConverter
+        },
+        {
+          path: 'time',
+          name: 'time-converter',
+          component: TimeConverter
+        },
+        {
+          path: 'char',
+          name: 'char-converter',
+          component: CharConverter
+        },
+        {
+          path: 'number',
+          name: 'number-converter',
+          component: NumberConverter
+        }
+      ]
     },
-    {
-      path: '/format/html',
-      name: 'html-formatter',
-      component: HtmlFormatter
-    },
-    {
-      path: '/format/css',
-      name: 'css-formatter',
-      component: CssFormatter
-    },
-    {
-      path: '/format/python',
-      name: 'python-formatter',
-      component: PythonFormatter
-    },
-    {
-      path: '/format/java',
-      name: 'java-formatter',
-      component: JavaFormatter
-    },
-    {
-      path: '/format/csharp',
-      name: 'csharp-formatter',
-      component: CSharpFormatter
-    },
-    {
-      path: '/format/go',
-      name: 'go-formatter',
-      component: GoFormatter
-    },
-    {
-      path: '/format/php',
-      name: 'php-formatter',
-      component: PhpFormatter
-    },
-    {
-      path: '/format/ruby',
-      name: 'ruby-formatter',
-      component: RubyFormatter
-    },
-    {
-      path: '/format/kotlin',
-      name: 'kotlin-formatter',
-      component: KotlinFormatter
-    },
-    {
-      path: '/format/rust',
-      name: 'rust-formatter',
-      component: RustFormatter
-    },
-    {
-      path: '/format/shell',
-      name: 'shell-formatter',
-      component: ShellFormatter
-    },
-    {
-      path: '/format/sql',
-      name: 'sql-formatter',
-      component: SqlFormatter
-    },
-    {
-      path: '/format/markdown',
-      name: 'markdown-formatter',
-      component: MarkdownFormatter
-    },
-    {
-      path: '/format/dart',
-      name: 'dart-formatter',
-      component: DartFormatter
-    },
-    {
-      path: '/text/case-converter',
-      name: 'text-case-converter',
-      component: TextCaseConverter
-    },
-    {
-      path: '/text/reverser',
-      name: 'text-reverser',
-      component: TextReverser
-    },
-    {
-      path: '/text/space-handler',
-      name: 'text-space-handler',
-      component: TextSpaceHandler
-    },
-    {
-      path: '/text/replacer',
-      name: 'text-replacer',
-      component: TextReplacer
-    },
-    {
-      path: '/convert/unit',
-      name: 'unit-converter',
-      component: UnitConverter
-    },
-    {
-      path: '/convert/number-base',
-      name: 'number-base-converter',
-      component: NumberBaseConverter
-    },
-    {
-      path: '/convert/time',
-      name: 'time-converter',
-      component: TimeConverter
-    },
+    // 加密工具
     {
       path: '/crypto',
       name: 'crypto',
@@ -238,111 +270,99 @@ const router = createRouter({
           path: 'url',
           name: 'url-codec',
           component: UrlCodec
-        },
-        {
-          path: 'char',
-          name: 'char-converter',
-          component: CharConverter
-        },
-        {
-          path: 'number',
-          name: 'number-converter',
-          component: NumberConverter
         }
       ]
     },
+    // 图片工具
     {
       path: '/image',
-      name: 'image-tools',
-      component: ImageTools
+      name: 'image',
+      component: () => import('../pages/Image.vue'),
+      children: [
+        {
+          path: 'compressor',
+          name: 'image-compressor',
+          component: ImageCompressor
+        },
+        {
+          path: 'converter',
+          name: 'image-converter',
+          component: ImageConverter
+        },
+        {
+          path: 'cropper',
+          name: 'image-cropper',
+          component: ImageCropper
+        },
+        {
+          path: 'rotator',
+          name: 'image-rotator',
+          component: ImageRotator
+        },
+        {
+          path: 'watermarker',
+          name: 'image-watermarker',
+          component: ImageWatermarker
+        },
+        {
+          path: 'watermark-remover',
+          name: 'image-watermark-remover',
+          component: ImageWatermarkRemover
+        }
+      ]
     },
+    // 其他工具
     {
-      path: '/regex',
-      name: 'regex-tools',
-      component: RegexTools
-    },
-    {
-      path: '/markdown-to-html',
-      name: 'markdown-to-html',
-      component: MarkdownToHtml
-    },
-    {
-      path: '/qr-code',
-      name: 'qr-code-tools',
-      component: QrCodeTools
-    },
-    {
-      path: '/base64',
-      name: 'base64-tools',
-      component: Base64Tools
-    },
-    {
-      path: '/json',
-      name: 'json-tools',
-      component: JsonTools
-    },
-    {
-      path: '/hash',
-      name: 'hash-tools',
-      component: HashTools
-    },
-    {
-      path: '/short-url',
-      name: 'short-url-tools',
-      component: ShortUrlTools
-    },
-    {
-      path: '/color-picker',
-      name: 'color-picker-tools',
-      component: ColorPickerTools
-    },
-    {
-      path: '/image-compressor',
-      name: 'image-compressor',
-      component: ImageCompressor
-    },
-    {
-      path: '/image-converter',
-      name: 'image-converter',
-      component: ImageConverter
-    },
-    {
-      path: '/image-cropper',
-      name: 'image-cropper',
-      component: ImageCropper
-    },
-    {
-      path: '/image-rotator',
-      name: 'image-rotator',
-      component: ImageRotator
-    },
-    {
-      path: '/image-watermarker',
-      name: 'image-watermarker',
-      component: ImageWatermarker
-    },
-    {
-      path: '/image-watermark-remover',
-      name: 'image-watermark-remover',
-      component: ImageWatermarkRemover
-    },
-    {
-      path: '/calculator',
-      name: 'calculator',
-      component: Calculator
-    },
-    {
-      path: '/http-status-explainer',
-      name: 'http-status-explainer',
-      component: HttpStatusExplainer
-    },
-    {
-      path: '/ip-address-lookup',
-      component: IpAddressLookup
-    },
-    {
-      path: '/user-agent-parser',
-      component: UserAgentParser
+      path: '/tools',
+      name: 'tools',
+      component: () => import('../pages/Tools.vue'),
+      children: [
+        {
+          path: 'calculator',
+          name: 'calculator',
+          component: Calculator
+        },
+        {
+          path: 'http-status',
+          name: 'http-status-explainer',
+          component: HttpStatusExplainer
+        },
+        {
+          path: 'ip-lookup',
+          name: 'ip-address-lookup',
+          component: IpAddressLookup
+        },
+        {
+          path: 'user-agent',
+          name: 'user-agent-parser',
+          component: UserAgentParser
+        },
+        {
+          path: 'regex',
+          name: 'regex-tools',
+          component: RegexTools
+        },
+        {
+          path: 'markdown-to-html',
+          name: 'markdown-to-html',
+          component: MarkdownToHtml
+        },
+        {
+          path: 'qr-code',
+          name: 'qr-code-tools',
+          component: QrCodeTools
+        },
+        {
+          path: 'short-url',
+          name: 'short-url-tools',
+          component: ShortUrlTools
+        },
+        {
+          path: 'color-picker',
+          name: 'color-picker-tools',
+          component: ColorPickerTools
+        }
+      ]
     }
   ]
 });
