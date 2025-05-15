@@ -1,39 +1,56 @@
 <template>
   <div class="text-view">
-    <n-tabs type="line" animated>
-      <!-- 文本转换 -->
-      <n-tab-pane name="convert" :tab="$t('text.convert')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <text-case />
-          </n-grid-item>
-          <n-grid-item>
-            <text-reverse />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-
-      <!-- 文本处理 -->
-      <n-tab-pane name="process" :tab="$t('text.process')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <text-whitespace />
-          </n-grid-item>
-          <n-grid-item>
-            <text-replace />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-    </n-tabs>
+    <n-card>
+      <template #header>
+        <div class="text-header">
+          <n-space vertical>
+            <tool-search :tools="allTools" />
+            <n-space>
+              <n-button
+                v-for="tool in textTools"
+                :key="tool.path"
+                :type="isActive(tool.path) ? 'primary' : 'default'"
+                @click="navigateTo(tool.path)"
+              >
+                {{ tool.name }}
+              </n-button>
+            </n-space>
+          </n-space>
+        </div>
+      </template>
+      <router-view></router-view>
+    </n-card>
   </div>
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NTabs, NTabPane } from 'naive-ui'
-import TextCase from '@/components/text/Case.vue'
-import TextReverse from '@/components/text/Reverse.vue'
-import TextWhitespace from '@/components/text/Whitespace.vue'
-import TextReplace from '@/components/text/Replace.vue'
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { NCard, NSpace, NButton } from 'naive-ui'
+import ToolSearch from '@/components/common/ToolSearch.vue'
+
+const router = useRouter()
+const route = useRoute()
+
+// 文本工具列表
+const textTools = [
+  { name: '文本替换', path: '/text/replace', description: '批量替换文本内容，支持正则表达式', category: '文本处理' }
+]
+
+// 所有工具列表（用于搜索）
+const allTools = computed(() => {
+  return textTools
+})
+
+// 判断当前路由是否激活
+const isActive = (path) => {
+  return route.path === path
+}
+
+// 导航到指定工具
+const navigateTo = (path) => {
+  router.push(path)
+}
 </script>
 
 <style scoped>
@@ -41,5 +58,13 @@ import TextReplace from '@/components/text/Replace.vue'
   padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.text-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 </style> 

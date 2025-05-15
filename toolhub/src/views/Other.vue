@@ -1,51 +1,57 @@
 <template>
   <div class="other-view">
-    <n-tabs type="line" animated>
-      <!-- 二维码工具 -->
-      <n-tab-pane name="qrcode" :tab="$t('other.qrcode.title')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <qrcode-tool />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-
-      <!-- 短网址工具 -->
-      <n-tab-pane name="shortUrl" :tab="$t('other.shortUrl.title')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <short-url-tool />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-
-      <!-- IP工具 -->
-      <n-tab-pane name="ipTools" :tab="$t('other.ipTools.title')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <ip-tools />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-
-      <!-- 网页计算器 -->
-      <n-tab-pane name="calculator" :tab="$t('other.calculator.title')">
-        <n-grid :cols="2" :x-gap="16" :y-gap="16">
-          <n-grid-item>
-            <calculator />
-          </n-grid-item>
-        </n-grid>
-      </n-tab-pane>
-    </n-tabs>
+    <n-card>
+      <template #header>
+        <div class="other-header">
+          <n-space vertical>
+            <tool-search :tools="allTools" />
+            <n-space>
+              <n-button
+                v-for="tool in otherTools"
+                :key="tool.path"
+                :type="isActive(tool.path) ? 'primary' : 'default'"
+                @click="navigateTo(tool.path)"
+              >
+                {{ tool.name }}
+              </n-button>
+            </n-space>
+          </n-space>
+        </div>
+      </template>
+      <router-view></router-view>
+    </n-card>
   </div>
 </template>
 
 <script setup>
-import { NGrid, NGridItem, NTabs, NTabPane } from 'naive-ui'
-import QrcodeTool from '@/components/other/QrcodeTool.vue'
-import ShortUrlTool from '@/components/other/ShortUrlTool.vue'
-import IpTools from '@/components/other/IpTools.vue'
-import Calculator from '@/components/other/Calculator.vue'
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { NCard, NSpace, NButton } from 'naive-ui'
+import ToolSearch from '@/components/common/ToolSearch.vue'
+
+const router = useRouter()
+const route = useRoute()
+
+// 其他工具列表
+const otherTools = [
+  { name: '二维码工具', path: '/other/qrcode', description: '生成和解析二维码，支持自定义样式', category: '实用工具' },
+  { name: '时间戳转换', path: '/other/timestamp', description: '时间戳与日期时间互转，支持多种格式', category: '实用工具' }
+]
+
+// 所有工具列表（用于搜索）
+const allTools = computed(() => {
+  return otherTools
+})
+
+// 判断当前路由是否激活
+const isActive = (path) => {
+  return route.path === path
+}
+
+// 导航到指定工具
+const navigateTo = (path) => {
+  router.push(path)
+}
 </script>
 
 <style scoped>
@@ -53,5 +59,13 @@ import Calculator from '@/components/other/Calculator.vue'
   padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.other-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 </style> 
