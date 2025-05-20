@@ -129,9 +129,9 @@ export default {
     untag: '取消标签'
   },
   footer: {
-    about: '关于我们',
-    description: 'ToolHub是一个在线工具集合，提供各种实用的开发工具，帮助开发者提高工作效率。',
-    links: '相关链接',
+    about: '关于',
+    description: 'ToolHub 是一个在线工具集合，提供各种实用的开发工具。',
+    links: '链接',
     contact: '联系我们',
     follow: '关注我们',
     rights: '保留所有权利',
@@ -181,11 +181,16 @@ export default {
       title: 'Dart格式化',
       placeholder: '请输入Dart代码',
       format: '格式化'
+    },
+    java: {
+      title: 'Java 格式化',
+      description: '格式化 Java 代码'
     }
   },
   encrypt: {
     aes: {
-      title: 'AES加密/解密',
+      title: 'AES 加密/解密',
+      description: 'AES 加密和解密工具',
       inputPlaceholder: '请输入要加密/解密的内容',
       outputPlaceholder: '加密/解密结果将显示在这里',
       key: '密钥',
@@ -849,6 +854,7 @@ export default {
   image: {
     compress: {
       title: '图片压缩',
+      description: '压缩图片大小',
       upload: '点击或拖拽图片到此处',
       quality: '压缩质量',
       format: '输出格式',
@@ -886,6 +892,7 @@ export default {
     },
     crop: {
       title: '图片裁剪',
+      description: '裁剪图片',
       upload: '点击或拖拽图片到此处',
       crop: '裁剪',
       download: '下载',
@@ -971,6 +978,7 @@ export default {
     },
     replace: {
       title: '文本替换',
+      description: '文本查找和替换',
       input: '输入文本',
       inputPlaceholder: '请输入要替换的文本',
       find: '查找',
@@ -991,7 +999,8 @@ export default {
   },
   other: {
     qrcode: {
-      title: '二维码工具',
+      title: '二维码生成',
+      description: '生成二维码',
       generate: '生成二维码',
       decode: '解码二维码',
       content: '内容',

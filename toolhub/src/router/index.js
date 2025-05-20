@@ -8,6 +8,11 @@ const router = createRouter({
       path: '/',
       component: AppLayout,
       children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('@/components/home/Home.vue')
+        },
         // 格式化工具
         {
           path: 'format/java',
@@ -18,7 +23,7 @@ const router = createRouter({
         {
           path: 'encrypt/aes',
           name: 'aes-encrypt',
-          component: () => import('@/components/encrypt/AES.vue')
+          component: () => import('@/components/encrypt/AesEncrypt.vue')
         },
         // 其他工具
         {

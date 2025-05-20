@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "prettier-plugin-java": "^2.6.7"
+  },
+  "dependencies": {
+    "cropperjs": "^1.5.13",
+    "dompurify": "^3.2.6",
+    "marked": "^15.0.12",
+    "vue-cropper": "^0.6.5"
+  }
+}

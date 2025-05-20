@@ -1,182 +1,161 @@
 <template>
-  <n-card :title="$t('image.crop.title')">
-    <n-upload
-      accept="image/*"
-      :max="1"
-      :show-file-list="false"
-      @change="handleFileChange"
-    >
-      <n-upload-dragger>
-        <div class="upload-trigger">
-          <n-icon size="48" :depth="3">
-            <upload-outlined />
-          </n-icon>
-          <n-text style="margin-top: 8px">
-            {{ $t('image.crop.upload') }}
-          </n-text>
+  <div class="cropper-container">
+    <n-card title="图片裁剪">
+      <n-upload
+        :max="1"
+        accept="image/*"
+        :show-file-list="false"
+        @change="onFileChange"
+      >
+        <n-button>上传图片</n-button>
+      </n-upload>
+      <div v-if="imgSrc" class="cropper-wrapper">
+        <div class="img-container">
+          <img ref="image" :src="imgSrc" style="max-width: 100%;" />
         </div>
-      </n-upload-dragger>
-    </n-upload>
-
-    <div v-if="originalImage" class="mt-4">
-      <div class="crop-container">
-        <vue-cropper
-          ref="cropper"
-          :img="originalImage"
-          :output-size="1"
-          :output-type="'png'"
-          :info="true"
-          :full="true"
-          :can-move="false"
-          :can-scale="false"
-          :auto-crop="true"
-          :fixed="true"
-          :fixed-number="[1, 1]"
-          :center-box="true"
-          :info-true="true"
-          :high="true"
-        />
+        <n-space class="mt-2">
+          <n-button @click="getCroppedImage" type="primary">裁剪并预览</n-button>
+          <n-button @click="clear">清空</n-button>
+        </n-space>
       </div>
-
-      <n-space class="mt-4">
-        <n-button type="primary" @click="cropImage">
-          {{ $t('image.crop.crop') }}
-        </n-button>
-        <n-button @click="downloadImage" :disabled="!croppedImage">
-          {{ $t('image.crop.download') }}
-        </n-button>
-      </n-space>
-
-      <div class="preview-container mt-4">
-        <div class="preview-item">
-          <h3>{{ $t('image.crop.original') }}</h3>
-          <n-image
-            :src="originalImage"
-            :alt="$t('image.crop.original')"
-            width="300"
-          />
-        </div>
-
-        <div v-if="croppedImage" class="preview-item">
-          <h3>{{ $t('image.crop.cropped') }}</h3>
-          <n-image
-            :src="croppedImage"
-            :alt="$t('image.crop.cropped')"
-            width="300"
-          />
-        </div>
+      <div v-if="croppedImg" class="preview">
+        <h4>裁剪结果预览：</h4>
+        <img :src="croppedImg" alt="裁剪结果" style="max-width: 100%; border: 1px solid #eee;" />
       </div>
-    </div>
-
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      class="mt-4"
-    />
-  </n-card>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useMessage } from 'naive-ui'
-import { UploadOutlined } from '@vicons/antd'
-import { VueCropper } from 'vue-cropper'
-import 'vue-cropper/dist/index.css'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import Cropper from 'cropperjs'
+import { NCard, NButton, NUpload, NSpace } from 'naive-ui'
 
-const { t } = useI18n()
-const message = useMessage()
+const imgSrc = ref('')
+const croppedImg = ref('')
+const image = ref(null)
+let cropper = null
 
-// 状态变量
-const originalImage = ref('')
-const croppedImage = ref('')
-const error = ref('')
-const cropper = ref(null)
+function initCropper() {
+  if (cropper) {
+    cropper.destroy()
+  }
+  if (image.value) {
+    cropper = new Cropper(image.value, {
+      aspectRatio: 1,
+      viewMode: 1,
+      ready: function () {
+        // 裁剪器准备就绪
+      }
+    })
+  }
+}
 
-// 处理文件上传
-async function handleFileChange({ file }) {
-  if (!file) return
-
-  try {
-    // 检查文件类型
-    if (!file.file.type.startsWith('image/')) {
-      throw new Error(t('image.crop.invalidFileType'))
-    }
-
-    // 读取文件
+function onFileChange({ file }) {
+  if (file && file.file) {
     const reader = new FileReader()
     reader.onload = (e) => {
-      originalImage.value = e.target.result
-      croppedImage.value = ''
-      error.value = ''
+      imgSrc.value = e.target.result
+      croppedImg.value = ''
+      // 等待DOM更新后初始化裁剪器
+      setTimeout(initCropper, 100)
     }
     reader.readAsDataURL(file.file)
-  } catch (err) {
-    error.value = err.message
   }
 }
 
-// 裁剪图片
-async function cropImage() {
-  try {
-    if (!originalImage.value) {
-      throw new Error(t('image.crop.noImage'))
-    }
-
-    // 获取裁剪后的图片
-    const canvas = await cropper.value.getCropData()
-    croppedImage.value = canvas
-    error.value = ''
-  } catch (err) {
-    error.value = err.message
+function getCroppedImage() {
+  if (cropper) {
+    const canvas = cropper.getCroppedCanvas()
+    croppedImg.value = canvas.toDataURL('image/jpeg')
   }
 }
 
-// 下载裁剪后的图片
-function downloadImage() {
-  if (!croppedImage.value) return
-
-  const link = document.createElement('a')
-  link.href = croppedImage.value
-  link.download = 'cropped.png'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+function clear() {
+  imgSrc.value = ''
+  croppedImg.value = ''
+  if (cropper) {
+    cropper.destroy()
+    cropper = null
+  }
 }
+
+onBeforeUnmount(() => {
+  if (cropper) {
+    cropper.destroy()
+    cropper = null
+  }
+})
 </script>
 
-<style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+<style>
+/* Cropper.js 的必要样式 */
+.cropper-container {
+  direction: ltr;
+  font-size: 0;
+  line-height: 0;
+  position: relative;
+  touch-action: none;
+  user-select: none;
 }
 
-.mt-4 {
-  margin-top: 16px;
+.cropper-wrap-box,
+.cropper-canvas,
+.cropper-drag-box,
+.cropper-crop-box,
+.cropper-modal {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
-.upload-trigger {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+.cropper-wrap-box {
+  overflow: hidden;
 }
 
-.crop-container {
+.cropper-drag-box {
+  background-color: #fff;
+  opacity: 0;
+}
+
+.cropper-modal {
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.cropper-view-box {
+  display: block;
+  height: 100%;
+  outline: 1px solid #39f;
+  outline-color: rgba(51, 153, 255, 0.75);
+  overflow: hidden;
   width: 100%;
-  height: 400px;
-  background-color: #f5f5f5;
+}
+</style>
+
+<style scoped>
+.cropper-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 0;
 }
 
-.preview-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+.cropper-wrapper {
+  margin-top: 24px;
 }
 
-.preview-item {
-  text-align: center;
+.img-container {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.preview {
+  margin-top: 24px;
+}
+
+.mt-2 {
+  margin-top: 12px;
 }
 </style> 

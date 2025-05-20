@@ -5,7 +5,7 @@
         <div class="logo">
           <router-link to="/">ToolHub</router-link>
         </div>
-        <n-menu mode="horizontal" :options="menuOptions" />
+        <n-menu mode="horizontal" :options="menuOptions" :value="activeKey" @update:value="handleMenuClick" />
         <div class="header-right">
           <tool-search :tools="allTools" />
           <n-button @click="toggleTheme">
@@ -71,13 +71,13 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/composables/useTheme'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import ToolSearch from '@/components/common/ToolSearch.vue'
 import {
-  Search as SearchIcon,
-  Sun as SunIcon,
-  Moon as MoonIcon,
-  Language as LanguageIcon,
+  SearchOutline as SearchIcon,
+  SunnyOutline as SunIcon,
+  MoonOutline as MoonIcon,
+  LanguageOutline as LanguageIcon,
   LogoGithub as GithubIcon,
   LogoTwitter as TwitterIcon,
   LogoWechat as WechatIcon
@@ -86,6 +86,7 @@ import {
 const { t, locale } = useI18n()
 const { isDark, toggleTheme } = useTheme()
 const router = useRouter()
+const route = useRoute()
 
 const currentLanguage = computed(() => locale.value === 'zh' ? '中文' : 'English')
 
@@ -105,16 +106,29 @@ const handleLanguageSelect = (key) => {
   localStorage.setItem('language', key)
 }
 
+// 获取当前激活的菜单项
+const activeKey = computed(() => {
+  const path = route.path
+  for (const menu of menuOptions.value) {
+    for (const item of menu.children || []) {
+      if (item.path === path) {
+        return item.key
+      }
+    }
+  }
+  return null
+})
+
 // 所有工具列表（用于搜索）
 const allTools = computed(() => {
   return [
     // 格式化工具
-    { name: t('format.json.title'), path: '/format/json', description: t('format.json.description'), category: t('common.format') },
-    { name: t('format.xml.title'), path: '/format/xml', description: t('format.xml.description'), category: t('common.format') },
+    { name: t('format.java.title'), path: '/format/java', description: t('format.java.description'), category: t('common.format') },
     // 加密工具
     { name: t('encrypt.aes.title'), path: '/encrypt/aes', description: t('encrypt.aes.description'), category: t('common.encrypt') },
     // 图片工具
     { name: t('image.compress.title'), path: '/image/compress', description: t('image.compress.description'), category: t('common.image') },
+    { name: t('image.crop.title'), path: '/image/crop', description: t('image.crop.description'), category: t('common.image') },
     // 文本工具
     { name: t('text.replace.title'), path: '/text/replace', description: t('text.replace.description'), category: t('common.text') },
     // 其他工具
@@ -122,20 +136,15 @@ const allTools = computed(() => {
   ]
 })
 
-const menuOptions = [
+const menuOptions = computed(() => [
   {
     label: t('common.format'),
     key: 'format',
     children: [
       {
-        label: t('format.json.title'),
-        key: 'json-format',
-        path: '/format/json'
-      },
-      {
-        label: t('format.xml.title'),
-        key: 'xml-format',
-        path: '/format/xml'
+        label: t('format.java.title'),
+        key: 'java-format',
+        path: '/format/java'
       }
     ]
   },
@@ -158,6 +167,11 @@ const menuOptions = [
         label: t('image.compress.title'),
         key: 'image-compress',
         path: '/image/compress'
+      },
+      {
+        label: t('image.crop.title'),
+        key: 'image-crop',
+        path: '/image/crop'
       }
     ]
   },
@@ -183,12 +197,18 @@ const menuOptions = [
       }
     ]
   }
-]
+])
 
 // 处理菜单点击
-const handleMenuClick = (key, item) => {
-  if (item.path) {
-    router.push(item.path)
+const handleMenuClick = (key) => {
+  // 查找对应的路由路径
+  for (const menu of menuOptions.value) {
+    for (const item of menu.children || []) {
+      if (item.key === key) {
+        router.push(item.path)
+        return
+      }
+    }
   }
 }
 </script>
