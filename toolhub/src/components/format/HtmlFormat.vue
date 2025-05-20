@@ -30,7 +30,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { beautify } from 'js-beautify'
+import prettier from 'prettier'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -40,9 +40,14 @@ const error = ref('')
 
 const formatHtml = () => {
   try {
-    input.value = beautify.html(input.value, {
-      indent_size: 2,
-      space_in_empty_paren: true
+    input.value = prettier.format(input.value, {
+      parser: 'html',
+      printWidth: 100,
+      tabWidth: 2,
+      useTabs: false,
+      semi: true,
+      singleQuote: true,
+      trailingComma: 'none'
     })
     error.value = ''
   } catch (e) {

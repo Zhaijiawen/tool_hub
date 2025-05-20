@@ -30,8 +30,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserRuby from 'prettier/parser-ruby'
+import { js_beautify } from 'js-beautify'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -41,15 +40,9 @@ const error = ref('')
 
 const formatRuby = () => {
   try {
-    input.value = prettier.format(input.value, {
-      parser: 'ruby',
-      plugins: [parserRuby],
-      printWidth: 100,
-      tabWidth: 2,
-      useTabs: false,
-      semi: false,
-      singleQuote: true,
-      trailingComma: 'none'
+    input.value = js_beautify(input.value, {
+      indent_size: 2,
+      space_in_empty_paren: true
     })
     error.value = ''
   } catch (e) {

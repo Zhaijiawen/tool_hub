@@ -33,7 +33,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { beautify } from 'js-beautify'
+import prettier from 'prettier'
+import xmlPlugin from '@prettier/plugin-xml'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -43,9 +44,15 @@ const error = ref('')
 
 const formatXml = () => {
   try {
-    input.value = beautify.xml(input.value, {
-      indent_size: 2,
-      space_in_empty_paren: true
+    input.value = prettier.format(input.value, {
+      parser: 'xml',
+      plugins: [xmlPlugin],
+      printWidth: 100,
+      tabWidth: 2,
+      useTabs: false,
+      semi: true,
+      singleQuote: true,
+      trailingComma: 'none'
     })
     error.value = ''
   } catch (e) {

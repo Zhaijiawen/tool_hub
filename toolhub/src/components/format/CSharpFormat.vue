@@ -30,8 +30,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserCSharp from 'prettier/parser-csharp'
+import prettier from 'prettier'
+import csharpPlugin from 'prettier-plugin-csharp'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -43,7 +43,7 @@ const formatCSharp = () => {
   try {
     input.value = prettier.format(input.value, {
       parser: 'csharp',
-      plugins: [parserCSharp],
+      plugins: [csharpPlugin],
       printWidth: 100,
       tabWidth: 4,
       useTabs: false,

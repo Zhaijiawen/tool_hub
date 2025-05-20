@@ -30,8 +30,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserPhp from 'prettier/parser-php'
+import prettier from 'prettier'
+import phpPlugin from '@prettier/plugin-php'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -43,7 +43,7 @@ const formatPhp = () => {
   try {
     input.value = prettier.format(input.value, {
       parser: 'php',
-      plugins: [parserPhp],
+      plugins: [phpPlugin],
       printWidth: 100,
       tabWidth: 4,
       useTabs: false,

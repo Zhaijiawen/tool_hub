@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Search as SearchIcon } from '@vicons/ionicons5'
 import { NInputGroup, NInput, NButton, NIcon, NCard, NList, NListItem, NThing, NTag, NEmpty } from 'naive-ui'

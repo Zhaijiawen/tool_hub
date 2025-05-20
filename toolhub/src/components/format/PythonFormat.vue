@@ -30,8 +30,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserPython from 'prettier/parser-python'
+import prettier from 'prettier'
+import pythonPlugin from '@prettier/plugin-python'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -43,7 +43,7 @@ const formatPython = () => {
   try {
     input.value = prettier.format(input.value, {
       parser: 'python',
-      plugins: [parserPython],
+      plugins: [pythonPlugin],
       printWidth: 80,
       tabWidth: 4,
       useTabs: false,

@@ -30,8 +30,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserGo from 'prettier/parser-go'
+import prettier from 'prettier'
+import goPlugin from 'prettier-plugin-go-template'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -42,8 +42,8 @@ const error = ref('')
 const formatGo = () => {
   try {
     input.value = prettier.format(input.value, {
-      parser: 'go',
-      plugins: [parserGo],
+      parser: 'go-template',
+      plugins: [goPlugin],
       printWidth: 100,
       tabWidth: 8,
       useTabs: true,

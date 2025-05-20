@@ -39,7 +39,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { beautify } from 'js-beautify'
+import prettier from 'prettier'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -49,10 +49,14 @@ const error = ref('')
 
 const formatJson = () => {
   try {
-    const parsed = JSON.parse(input.value)
-    input.value = beautify(JSON.stringify(parsed), {
-      indent_size: 2,
-      space_in_empty_paren: true
+    input.value = prettier.format(input.value, {
+      parser: 'json',
+      printWidth: 100,
+      tabWidth: 2,
+      useTabs: false,
+      semi: true,
+      singleQuote: false,
+      trailingComma: 'none'
     })
     error.value = ''
   } catch (e) {

@@ -30,8 +30,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserDart from 'prettier/parser-dart'
+import { js_beautify } from 'js-beautify'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -41,15 +40,9 @@ const error = ref('')
 
 const formatDart = () => {
   try {
-    input.value = prettier.format(input.value, {
-      parser: 'dart',
-      plugins: [parserDart],
-      printWidth: 100,
-      tabWidth: 2,
-      useTabs: false,
-      semi: true,
-      singleQuote: true,
-      trailingComma: 'all'
+    input.value = js_beautify(input.value, {
+      indent_size: 2,
+      space_in_empty_paren: true
     })
     error.value = ''
   } catch (e) {

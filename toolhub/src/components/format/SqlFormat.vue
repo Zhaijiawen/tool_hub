@@ -30,8 +30,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserSql from 'prettier/parser-sql'
+import { format } from 'sql-formatter'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -41,15 +40,11 @@ const error = ref('')
 
 const formatSql = () => {
   try {
-    input.value = prettier.format(input.value, {
-      parser: 'sql',
-      plugins: [parserSql],
-      printWidth: 100,
-      tabWidth: 2,
-      useTabs: false,
-      semi: true,
-      singleQuote: true,
-      trailingComma: 'none'
+    input.value = format(input.value, {
+      language: 'sql',
+      uppercase: true,
+      linesBetweenQueries: 2,
+      indentStyle: '  '
     })
     error.value = ''
   } catch (e) {

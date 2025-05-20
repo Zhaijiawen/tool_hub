@@ -30,8 +30,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import parserMarkdown from 'prettier/parser-markdown'
+import prettier from 'prettier'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -43,11 +42,10 @@ const formatMarkdown = () => {
   try {
     input.value = prettier.format(input.value, {
       parser: 'markdown',
-      plugins: [parserMarkdown],
       printWidth: 100,
       tabWidth: 2,
       useTabs: false,
-      proseWrap: 'always',
+      semi: true,
       singleQuote: true,
       trailingComma: 'none'
     })

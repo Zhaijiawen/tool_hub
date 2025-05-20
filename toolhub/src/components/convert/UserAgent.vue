@@ -1,72 +1,52 @@
 <template>
-  <n-card :title="$t('convert.userAgent.title')">
-    <n-form>
-      <n-form-item :label="$t('convert.userAgent.input')">
-        <n-input
-          v-model:value="formData.input"
-          :placeholder="$t('convert.userAgent.inputPlaceholder')"
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }"
-        />
-      </n-form-item>
-
-      <n-space>
-        <n-button type="primary" @click="parse">
-          {{ $t('convert.userAgent.parse') }}
+  <div class="user-agent">
+    <n-card :title="t('convert.userAgent.title')">
+      <n-input
+        v-model:value="input"
+        type="textarea"
+        :placeholder="t('convert.userAgent.placeholder')"
+        :autosize="{ minRows: 10, maxRows: 20 }"
+      />
+      <div class="button-group">
+        <n-button @click="parse" type="primary">
+          {{ t('convert.userAgent.parse') }}
         </n-button>
-        <n-button @click="copyResult">
-          {{ $t('convert.userAgent.copy') }}
+        <n-button @click="copyToClipboard">
+          {{ t('common.copy') }}
         </n-button>
-      </n-space>
-
-      <n-divider />
-
-      <template v-if="formData.result">
+      </div>
+      <n-alert
+        v-if="error"
+        type="error"
+        :title="t('common.error')"
+        :content="error"
+        class="error-alert"
+      />
+      <n-card v-if="result" :title="t('convert.userAgent.result')" class="result-card">
         <n-descriptions bordered>
-          <n-descriptions-item :label="$t('convert.userAgent.browser')">
-            {{ formData.result.browser }}
+          <n-descriptions-item :label="t('convert.userAgent.browser')">
+            {{ result.browser.name }} {{ result.browser.version }}
           </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.userAgent.browserVersion')">
-            {{ formData.result.browserVersion }}
+          <n-descriptions-item :label="t('convert.userAgent.os')">
+            {{ result.os.name }} {{ result.os.version }}
           </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.userAgent.os')">
-            {{ formData.result.os }}
+          <n-descriptions-item :label="t('convert.userAgent.device')">
+            {{ result.device.type || 'Desktop' }}
           </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.userAgent.osVersion')">
-            {{ formData.result.osVersion }}
+          <n-descriptions-item :label="t('convert.userAgent.engine')">
+            {{ result.engine.name }} {{ result.engine.version }}
           </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.userAgent.device')">
-            {{ formData.result.device }}
-          </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.userAgent.deviceType')">
-            {{ formData.result.deviceType }}
+          <n-descriptions-item :label="t('convert.userAgent.cpu')">
+            {{ result.cpu.architecture || 'Unknown' }}
           </n-descriptions-item>
         </n-descriptions>
-
-        <n-card :title="$t('convert.userAgent.details')" class="mt-4">
-          <n-list>
-            <n-list-item v-for="(value, key) in formData.result.details" :key="key">
-              <template #header>
-                {{ key }}
-              </template>
-              {{ value }}
-            </n-list-item>
-          </n-list>
-        </n-card>
-      </template>
-    </n-form>
-
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
-  </n-card>
+      </n-card>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import UAParser from 'ua-parser-js'
@@ -74,59 +54,52 @@ import UAParser from 'ua-parser-js'
 const { t } = useI18n()
 const message = useMessage()
 
-const formData = reactive({
-  input: '',
-  result: null
-})
-
+const input = ref('')
 const error = ref('')
+const result = ref(null)
 
-function parse() {
-  error.value = ''
-  
+const parse = () => {
   try {
-    if (!formData.input) {
+    if (!input.value) {
       throw new Error(t('convert.userAgent.inputRequired'))
     }
-
-    const parser = new UAParser(formData.input)
-    const result = parser.getResult()
-
-    formData.result = {
-      browser: result.browser.name || 'Unknown',
-      browserVersion: result.browser.version || 'Unknown',
-      os: result.os.name || 'Unknown',
-      osVersion: result.os.version || 'Unknown',
-      device: result.device.model || 'Unknown',
-      deviceType: result.device.type || 'Unknown',
-      details: {
-        'Engine': result.engine.name ? `${result.engine.name} ${result.engine.version}` : 'Unknown',
-        'CPU': result.cpu.architecture || 'Unknown',
-        'Mobile': result.device.vendor || 'Unknown',
-        'Language': result.browser.language || 'Unknown'
-      }
-    }
-  } catch (err) {
-    error.value = err.message
+    const parser = new UAParser(input.value)
+    result.value = parser.getResult()
+    error.value = ''
+  } catch (e) {
+    error.value = e.message
+    result.value = null
   }
 }
 
-function copyResult() {
-  if (formData.result) {
-    const text = JSON.stringify(formData.result, null, 2)
-    navigator.clipboard.writeText(text)
-    message.success(t('convert.userAgent.copied'))
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(input.value)
+    message.success(t('common.success'))
+  } catch (e) {
+    message.error(t('common.error'))
   }
 }
 </script>
 
 <style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+.user-agent {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
-.mt-4 {
+.button-group {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.error-alert {
+  margin-top: 16px;
+}
+
+.result-card {
   margin-top: 16px;
 }
 </style> 
