@@ -1,99 +1,112 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
-  },
-  {
-    path: '/format',
-    name: 'Format',
-    component: () => import('../views/Format.vue'),
-    children: [
-      {
-        path: 'json',
-        name: 'JsonFormat',
-        component: () => import('../components/format/JsonFormat.vue')
-      },
-      {
-        path: 'xml',
-        name: 'XmlFormat',
-        component: () => import('../components/format/XmlFormat.vue')
-      }
-      // 其他格式化工具路由
-    ]
-  },
-  {
-    path: '/encrypt',
-    name: 'Encrypt',
-    component: () => import('../views/Encrypt.vue'),
-    children: [
-      {
-        path: 'aes',
-        name: 'AES',
-        component: () => import('../components/encrypt/AES.vue')
-      }
-      // 其他加密工具路由
-    ]
-  },
-  {
-    path: '/convert',
-    name: 'Convert',
-    component: () => import('../views/Convert.vue'),
-    children: [
-      {
-        path: 'timestamp',
-        name: 'Timestamp',
-        component: () => import('../components/convert/Timestamp.vue')
-      }
-      // 其他转换工具路由
-    ]
-  },
-  {
-    path: '/image',
-    name: 'Image',
-    component: () => import('../views/Image.vue'),
-    children: [
-      {
-        path: 'compress',
-        name: 'ImageCompress',
-        component: () => import('../components/image/ImageCompress.vue')
-      }
-      // 其他图片工具路由
-    ]
-  },
-  {
-    path: '/text',
-    name: 'Text',
-    component: () => import('../views/Text.vue'),
-    children: [
-      {
-        path: 'case',
-        name: 'CaseConvert',
-        component: () => import('../components/text/CaseConvert.vue')
-      }
-      // 其他文本工具路由
-    ]
-  },
-  {
-    path: '/other',
-    name: 'Other',
-    component: () => import('../views/Other.vue'),
-    children: [
-      {
-        path: 'qrcode',
-        name: 'QRCode',
-        component: () => import('../components/other/QRCode.vue')
-      }
-      // 其他工具路由
-    ]
-  }
-]
+import AppLayout from '@/components/layout/AppLayout.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      component: AppLayout,
+      children: [
+        // 格式化工具
+        {
+          path: 'format/java',
+          name: 'java-format',
+          component: () => import('@/components/format/JavaFormat.vue')
+        },
+        // 加密工具
+        {
+          path: 'encrypt/aes',
+          name: 'aes-encrypt',
+          component: () => import('@/components/encrypt/AES.vue')
+        },
+        // 其他工具
+        {
+          path: 'other/qrcode',
+          name: 'qrcode',
+          component: () => import('@/components/other/QRCode.vue')
+        },
+        {
+          path: 'other/calculator',
+          name: 'calculator',
+          component: () => import('@/components/other/Calculator.vue')
+        },
+        // 转换工具
+        {
+          path: 'convert/regex',
+          name: 'regex',
+          component: () => import('@/components/convert/Regex.vue')
+        },
+        {
+          path: 'convert/unit',
+          name: 'unit',
+          component: () => import('@/components/convert/Unit.vue')
+        },
+        {
+          path: 'convert/number',
+          name: 'number',
+          component: () => import('@/components/convert/Number.vue')
+        },
+        {
+          path: 'convert/http-status',
+          name: 'http-status',
+          component: () => import('@/components/convert/HttpStatus.vue')
+        },
+        {
+          path: 'convert/markdown',
+          name: 'markdown',
+          component: () => import('@/components/convert/Markdown.vue')
+        },
+        {
+          path: 'convert/char-code',
+          name: 'char-code',
+          component: () => import('@/components/convert/CharCode.vue')
+        },
+        // 图片工具
+        {
+          path: 'image/compress',
+          name: 'image-compress',
+          component: () => import('@/components/image/Compress.vue')
+        },
+        {
+          path: 'image/crop',
+          name: 'image-crop',
+          component: () => import('@/components/image/Crop.vue')
+        },
+        {
+          path: 'image/convert',
+          name: 'image-convert',
+          component: () => import('@/components/image/Convert.vue')
+        },
+        {
+          path: 'image/rotate',
+          name: 'image-rotate',
+          component: () => import('@/components/image/Rotate.vue')
+        },
+        {
+          path: 'image/remove-watermark',
+          name: 'image-remove-watermark',
+          component: () => import('@/components/image/RemoveWatermark.vue')
+        },
+        {
+          path: 'image/watermark',
+          name: 'image-watermark',
+          component: () => import('@/components/image/Watermark.vue')
+        },
+        // 文本工具
+        {
+          path: 'text/case',
+          name: 'text-case',
+          component: () => import('@/components/text/Case.vue')
+        },
+        {
+          path: 'text/replace',
+          name: 'text-replace',
+          component: () => import('@/components/text/Replace.vue')
+        }
+      ]
+    }
+  ]
 })
 
 export default router 
