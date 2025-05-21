@@ -1,57 +1,64 @@
 <template>
   <div class="ed25519-encrypt">
     <n-card :title="t('encrypt.ed25519.title')">
-      <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.ed25519.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
-        <n-form :model="formData" label-placement="left" label-width="auto">
-          <n-form-item :label="t('encrypt.ed25519.publicKey')">
-            <n-input
-              v-model:value="formData.publicKey"
-              type="textarea"
-              :placeholder="t('encrypt.ed25519.publicKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-          
-          <n-form-item :label="t('encrypt.ed25519.privateKey')">
-            <n-input
-              v-model:value="formData.privateKey"
-              type="textarea"
-              :placeholder="t('encrypt.ed25519.privateKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-        </n-form>
-
+      <n-form>
+        <n-form-item :label="t('encrypt.ed25519.message')">
+          <n-input
+            v-model:value="messageText"
+            type="textarea"
+            :placeholder="t('encrypt.ed25519.messagePlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
+        <n-form-item :label="t('encrypt.ed25519.privateKey')">
+          <n-input
+            v-model:value="privateKey"
+            type="textarea"
+            :placeholder="t('encrypt.ed25519.privateKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
             {{ t('encrypt.ed25519.generateKeyPair') }}
           </n-button>
-          <n-button @click="encrypt">
-            {{ t('encrypt.ed25519.encrypt') }}
+          <n-button @click="sign" :disabled="!messageText || !privateKey">
+            {{ t('encrypt.ed25519.sign') }}
           </n-button>
-          <n-button @click="decrypt">
-            {{ t('encrypt.ed25519.decrypt') }}
-          </n-button>
-          <n-button @click="copyToClipboard">
-            {{ t('common.copy') }}
+          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey">
+            {{ t('encrypt.ed25519.verify') }}
           </n-button>
         </n-space>
-
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.ed25519.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
-
+        <n-form-item v-if="signature" :label="t('encrypt.ed25519.signature')">
+          <n-input
+            v-model:value="signature"
+            type="textarea"
+            readonly
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+          <template #suffix>
+            <n-button @click="copySignature" quaternary circle>
+              <template #icon>
+                <n-icon><copy-icon /></n-icon>
+              </template>
+            </n-button>
+          </template>
+        </n-form-item>
+        <n-form-item v-if="publicKey" :label="t('encrypt.ed25519.publicKey')">
+          <n-input
+            v-model:value="publicKey"
+            type="textarea"
+            readonly
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+          <template #suffix>
+            <n-button @click="copyPublicKey" quaternary circle>
+              <template #icon>
+                <n-icon><copy-icon /></n-icon>
+              </template>
+            </n-button>
+          </template>
+        </n-form-item>
         <n-alert
           v-if="error"
           type="error"
@@ -59,93 +66,99 @@
           :content="error"
           class="error-alert"
         />
-      </n-space>
+      </n-form>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { createSign, createVerify } from 'crypto'
+import { CopyOutline as CopyIcon } from '@vicons/ionicons5'
+import * as nacl from 'tweetnacl'
+import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 
 const { t } = useI18n()
 const message = useMessage()
 
-const input = ref('')
-const output = ref('')
+const messageText = ref('')
+const privateKey = ref('')
+const publicKey = ref('')
+const signature = ref('')
 const error = ref('')
 
-const formData = reactive({
-  publicKey: '',
-  privateKey: ''
-})
-
-const generateKeyPair = async () => {
+const generateKeyPair = () => {
   try {
-    const response = await fetch('/api/ed25519/generate')
-    const data = await response.json()
-    
-    if (data.error) {
-      throw new Error(data.error)
-    }
-    
-    formData.publicKey = data.publicKey
-    formData.privateKey = data.privateKey
+    const keyPair = nacl.sign.keyPair()
+    privateKey.value = encodeBase64(keyPair.secretKey)
+    publicKey.value = encodeBase64(keyPair.publicKey)
     error.value = ''
   } catch (e) {
     error.value = e.message
   }
 }
 
-const encrypt = () => {
+const sign = () => {
   try {
-    if (!formData.publicKey) {
-      throw new Error(t('encrypt.ed25519.publicKeyRequired'))
+    if (!messageText.value || !privateKey.value) {
+      throw new Error(t('encrypt.ed25519.allFieldsRequired'))
     }
 
-    const sign = createSign('ed25519')
-    sign.update(input.value)
-    const signature = sign.sign(formData.privateKey, 'hex')
-    
-    output.value = signature
+    const messageBytes = new TextEncoder().encode(messageText.value)
+    const privateKeyBytes = decodeBase64(privateKey.value)
+    const signatureBytes = nacl.sign.detached(messageBytes, privateKeyBytes)
+    signature.value = encodeBase64(signatureBytes)
     error.value = ''
   } catch (e) {
     error.value = e.message
   }
 }
 
-const decrypt = () => {
+const verify = () => {
   try {
-    if (!formData.privateKey) {
-      throw new Error(t('encrypt.ed25519.privateKeyRequired'))
+    if (!messageText.value || !signature.value || !publicKey.value) {
+      throw new Error(t('encrypt.ed25519.allFieldsRequired'))
     }
 
-    const verify = createVerify('ed25519')
-    verify.update(input.value)
-    const isValid = verify.verify(formData.publicKey, input.value, 'hex')
-    
-    output.value = isValid ? t('encrypt.ed25519.verificationSuccess') : t('encrypt.ed25519.verificationFailed')
+    const messageBytes = new TextEncoder().encode(messageText.value)
+    const signatureBytes = decodeBase64(signature.value)
+    const publicKeyBytes = decodeBase64(publicKey.value)
+    const isValid = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes)
+
+    if (isValid) {
+      message.success(t('encrypt.ed25519.verificationSuccess'))
+    } else {
+      message.error(t('encrypt.ed25519.verificationFailed'))
+    }
     error.value = ''
   } catch (e) {
     error.value = e.message
   }
 }
 
-const copyToClipboard = async () => {
+const copySignature = async () => {
   try {
-    await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    await navigator.clipboard.writeText(signature.value)
+    message.success(t('common.copied'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyFailed'))
+  }
+}
+
+const copyPublicKey = async () => {
+  try {
+    await navigator.clipboard.writeText(publicKey.value)
+    message.success(t('common.copied'))
+  } catch (e) {
+    message.error(t('common.copyFailed'))
   }
 }
 </script>
 
 <style scoped>
 .ed25519-encrypt {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 20px auto;
   padding: 0 20px;
 }

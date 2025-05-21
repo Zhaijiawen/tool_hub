@@ -36,6 +36,8 @@
     "qrcode": "^1.5.3",
     "qrcode.vue": "^3.4.1",
     "sql-formatter": "^12.1.0",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
     "ua-parser-js": "^2.0.3",
     "vue": "^3.3.8",
     "vue-cropper": "^1.0.3",

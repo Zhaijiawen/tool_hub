@@ -33,6 +33,7 @@
                 <moon-icon v-else />
               </n-icon>
             </template>
+            {{ isDark ? t('common.theme.light') : t('common.theme.dark') }}
           </n-button>
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
             <n-button>
@@ -86,7 +87,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/composables/useTheme'
 import { useRouter, useRoute } from 'vue-router'
@@ -106,6 +107,15 @@ const { t, locale } = useI18n()
 const { isDark, toggleTheme } = useTheme()
 const router = useRouter()
 const route = useRoute()
+
+// 监听主题变化
+watch(isDark, (newValue) => {
+  document.documentElement.classList.toggle('dark', newValue)
+  // 强制更新主题
+  nextTick(() => {
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: { isDark: newValue } }))
+  })
+}, { immediate: true })
 
 const currentLanguage = computed(() => locale.value === 'zh' ? '中文' : 'English')
 const currentLayout = ref(localStorage.getItem('layout') || 'grid')
@@ -701,6 +711,8 @@ const handleMenuClick = (key) => {
   height: 64px;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .logo {
@@ -711,7 +723,7 @@ const handleMenuClick = (key) => {
 }
 
 .logo a {
-  color: inherit;
+  color: var(--text-color);
   text-decoration: none;
 }
 
@@ -726,16 +738,23 @@ const handleMenuClick = (key) => {
   width: 300px;
 }
 
+:deep(.n-menu) {
+  background-color: var(--background-color);
+}
+
 :deep(.n-menu .n-menu-item-content) {
   font-size: 14px;
+  color: var(--text-color);
 }
 
 :deep(.n-menu .n-menu-item-content__icon) {
   margin-right: 8px;
+  color: var(--text-color);
 }
 
 :deep(.n-menu .n-menu-item-content__text) {
   white-space: nowrap;
+  color: var(--text-color);
 }
 
 :deep(.n-menu .n-menu-item-content__text) {
@@ -749,6 +768,7 @@ const handleMenuClick = (key) => {
 
 :deep(.n-menu .n-menu-item-content--selected) {
   font-weight: bold;
+  background-color: var(--menu-item-color-selected);
 }
 
 :deep(.n-menu .n-menu-item-content--collapsed) {
@@ -768,17 +788,91 @@ const handleMenuClick = (key) => {
   position: absolute;
   left: 100%;
   top: 0;
-  background: var(--n-menu-item-color);
+  background: var(--menu-item-color);
+  color: var(--text-color);
   padding: 8px 12px;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 100;
 }
 
+/* 按钮样式 */
+:deep(.n-button) {
+  color: var(--button-text-color);
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+:deep(.n-button:hover) {
+  color: var(--button-text-color-hover);
+  border-color: var(--primary-color);
+}
+
+:deep(.n-button:active) {
+  color: var(--primary-color);
+}
+
+/* 下拉菜单样式 */
+:deep(.n-dropdown-menu) {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+:deep(.n-dropdown-option) {
+  color: var(--text-color);
+}
+
+:deep(.n-dropdown-option:hover) {
+  background-color: var(--menu-item-color-hover);
+}
+
+:deep(.n-dropdown-option--selected) {
+  background-color: var(--menu-item-color-selected);
+  color: var(--primary-color);
+}
+
+/* 搜索框样式 */
+:deep(.n-input) {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+:deep(.n-input:hover) {
+  border-color: var(--primary-color);
+}
+
+:deep(.n-input:focus) {
+  border-color: var(--primary-color);
+}
+
+:deep(.n-input__input) {
+  color: var(--input-text-color);
+}
+
+:deep(.n-input__input::placeholder) {
+  color: var(--input-placeholder-color);
+}
+
+/* 菜单组样式 */
+:deep(.n-menu-item-group__title) {
+  color: var(--text-color-secondary);
+}
+
+:deep(.n-menu-item-group__content) {
+  background-color: var(--background-color);
+}
+
+/* 菜单分割线样式 */
+:deep(.n-menu-item-divider) {
+  border-color: var(--border-color);
+}
+
 .footer-content {
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .footer-sections {
@@ -791,6 +885,7 @@ const handleMenuClick = (key) => {
 .footer-section h3 {
   margin-bottom: 16px;
   font-size: 18px;
+  color: var(--text-color);
 }
 
 .footer-links {
@@ -800,7 +895,7 @@ const handleMenuClick = (key) => {
 }
 
 .footer-links a {
-  color: inherit;
+  color: var(--text-color-secondary);
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -815,7 +910,7 @@ const handleMenuClick = (key) => {
 }
 
 .social-links a {
-  color: inherit;
+  color: var(--text-color-secondary);
   font-size: 24px;
   transition: color 0.3s;
 }

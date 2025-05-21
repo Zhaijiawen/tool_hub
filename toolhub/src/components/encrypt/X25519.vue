@@ -1,47 +1,54 @@
 <template>
   <div class="x25519">
     <n-card :title="t('encrypt.x25519.title')">
-      <n-space vertical>
-        <n-form :model="formData" label-placement="left" label-width="auto">
-          <n-form-item :label="t('encrypt.x25519.privateKey')">
-            <n-input
-              v-model:value="formData.privateKey"
-              type="textarea"
-              :placeholder="t('encrypt.x25519.privateKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-          
-          <n-form-item :label="t('encrypt.x25519.publicKey')">
-            <n-input
-              v-model:value="formData.publicKey"
-              type="textarea"
-              :placeholder="t('encrypt.x25519.publicKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-        </n-form>
-
+      <n-form>
+        <n-form-item :label="t('encrypt.x25519.privateKey')">
+          <n-input
+            v-model:value="privateKey"
+            type="textarea"
+            :placeholder="t('encrypt.x25519.privateKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
+        <n-form-item :label="t('encrypt.x25519.publicKey')">
+          <n-input
+            v-model:value="publicKey"
+            type="textarea"
+            :placeholder="t('encrypt.x25519.publicKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
+        <n-form-item :label="t('encrypt.x25519.peerPublicKey')">
+          <n-input
+            v-model:value="peerPublicKey"
+            type="textarea"
+            :placeholder="t('encrypt.x25519.peerPublicKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
             {{ t('encrypt.x25519.generateKeyPair') }}
           </n-button>
-          <n-button @click="computeSharedSecret">
+          <n-button @click="computeSharedSecret" :disabled="!privateKey || !peerPublicKey">
             {{ t('encrypt.x25519.computeSharedSecret') }}
           </n-button>
-          <n-button @click="copyToClipboard">
-            {{ t('common.copy') }}
-          </n-button>
         </n-space>
-
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.x25519.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
-
+        <n-form-item v-if="sharedSecret" :label="t('encrypt.x25519.sharedSecret')">
+          <n-input
+            v-model:value="sharedSecret"
+            type="textarea"
+            readonly
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+          <template #suffix>
+            <n-button @click="copySharedSecret" quaternary circle>
+              <template #icon>
+                <n-icon><copy-icon /></n-icon>
+              </template>
+            </n-button>
+          </template>
+        </n-form-item>
         <n-alert
           v-if="error"
           type="error"
@@ -49,35 +56,33 @@
           :content="error"
           class="error-alert"
         />
-      </n-space>
+      </n-form>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { createECDH } from 'crypto'
+import { CopyOutline as CopyIcon } from '@vicons/ionicons5'
+import * as nacl from 'tweetnacl'
+import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 
 const { t } = useI18n()
 const message = useMessage()
 
-const output = ref('')
+const privateKey = ref('')
+const publicKey = ref('')
+const peerPublicKey = ref('')
+const sharedSecret = ref('')
 const error = ref('')
-
-const formData = reactive({
-  privateKey: '',
-  publicKey: ''
-})
 
 const generateKeyPair = () => {
   try {
-    const ecdh = createECDH('x25519')
-    ecdh.generateKeys()
-    
-    formData.privateKey = ecdh.getPrivateKey('hex')
-    formData.publicKey = ecdh.getPublicKey('hex')
+    const keyPair = nacl.box.keyPair()
+    privateKey.value = encodeBase64(keyPair.secretKey)
+    publicKey.value = encodeBase64(keyPair.publicKey)
     error.value = ''
   } catch (e) {
     error.value = e.message
@@ -86,34 +91,33 @@ const generateKeyPair = () => {
 
 const computeSharedSecret = () => {
   try {
-    if (!formData.privateKey || !formData.publicKey) {
+    if (!privateKey.value || !peerPublicKey.value) {
       throw new Error(t('encrypt.x25519.allFieldsRequired'))
     }
 
-    const ecdh = createECDH('x25519')
-    ecdh.setPrivateKey(Buffer.from(formData.privateKey, 'hex'))
-    
-    const sharedSecret = ecdh.computeSecret(Buffer.from(formData.publicKey, 'hex'))
-    output.value = sharedSecret.toString('hex')
+    const privateKeyBytes = decodeBase64(privateKey.value)
+    const peerPublicKeyBytes = decodeBase64(peerPublicKey.value)
+    const sharedSecretBytes = nacl.box.before(peerPublicKeyBytes, privateKeyBytes)
+    sharedSecret.value = encodeBase64(sharedSecretBytes)
     error.value = ''
   } catch (e) {
     error.value = e.message
   }
 }
 
-const copyToClipboard = async () => {
+const copySharedSecret = async () => {
   try {
-    await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    await navigator.clipboard.writeText(sharedSecret.value)
+    message.success(t('common.copied'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyFailed'))
   }
 }
 </script>
 
 <style scoped>
 .x25519 {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 20px auto;
   padding: 0 20px;
 }

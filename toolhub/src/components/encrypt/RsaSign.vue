@@ -1,65 +1,57 @@
 <template>
   <div class="rsa-sign">
     <n-card :title="t('encrypt.rsaSign.title')">
-      <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.rsaSign.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
-        <n-form :model="formData" label-placement="left" label-width="auto">
-          <n-form-item :label="t('encrypt.rsaSign.privateKey')">
-            <n-input
-              v-model:value="formData.privateKey"
-              type="textarea"
-              :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-          
-          <n-form-item :label="t('encrypt.rsaSign.publicKey')">
-            <n-input
-              v-model:value="formData.publicKey"
-              type="textarea"
-              :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
-          </n-form-item>
-          
-          <n-form-item :label="t('encrypt.rsaSign.algorithm')">
-            <n-select
-              v-model:value="formData.algorithm"
-              :options="algorithmOptions"
-              :placeholder="t('encrypt.rsaSign.algorithmPlaceholder')"
-            />
-          </n-form-item>
-        </n-form>
-
+      <n-form>
+        <n-form-item :label="t('encrypt.rsaSign.message')">
+          <n-input
+            v-model:value="messageText"
+            type="textarea"
+            :placeholder="t('encrypt.rsaSign.messagePlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
+        <n-form-item :label="t('encrypt.rsaSign.privateKey')">
+          <n-input
+            v-model:value="privateKey"
+            type="textarea"
+            :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
+        <n-form-item :label="t('encrypt.rsaSign.publicKey')">
+          <n-input
+            v-model:value="publicKey"
+            type="textarea"
+            :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+        </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
             {{ t('encrypt.rsaSign.generateKeyPair') }}
           </n-button>
-          <n-button @click="sign">
+          <n-button @click="sign" :disabled="!messageText || !privateKey">
             {{ t('encrypt.rsaSign.sign') }}
           </n-button>
-          <n-button @click="verify">
+          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey">
             {{ t('encrypt.rsaSign.verify') }}
           </n-button>
-          <n-button @click="copyToClipboard">
-            {{ t('common.copy') }}
-          </n-button>
         </n-space>
-
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.rsaSign.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
-
+        <n-form-item v-if="signature" :label="t('encrypt.rsaSign.signature')">
+          <n-input
+            v-model:value="signature"
+            type="textarea"
+            readonly
+            :autosize="{ minRows: 3, maxRows: 10 }"
+          />
+          <template #suffix>
+            <n-button @click="copySignature" quaternary circle>
+              <template #icon>
+                <n-icon><copy-icon /></n-icon>
+              </template>
+            </n-button>
+          </template>
+        </n-form-item>
         <n-alert
           v-if="error"
           type="error"
@@ -67,47 +59,33 @@
           :content="error"
           class="error-alert"
         />
-      </n-space>
+      </n-form>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { createSign, createVerify } from 'crypto'
+import { CopyOutline as CopyIcon } from '@vicons/ionicons5'
+import * as nacl from 'tweetnacl'
+import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 
 const { t } = useI18n()
 const message = useMessage()
 
-const input = ref('')
-const output = ref('')
+const messageText = ref('')
+const privateKey = ref('')
+const publicKey = ref('')
+const signature = ref('')
 const error = ref('')
 
-const formData = reactive({
-  privateKey: '',
-  publicKey: '',
-  algorithm: 'SHA256'
-})
-
-const algorithmOptions = [
-  { label: 'SHA256', value: 'SHA256' },
-  { label: 'SHA384', value: 'SHA384' },
-  { label: 'SHA512', value: 'SHA512' }
-]
-
-const generateKeyPair = async () => {
+const generateKeyPair = () => {
   try {
-    const response = await fetch('/api/rsa/generate')
-    const data = await response.json()
-    
-    if (data.error) {
-      throw new Error(data.error)
-    }
-    
-    formData.publicKey = data.publicKey
-    formData.privateKey = data.privateKey
+    const keyPair = nacl.sign.keyPair()
+    privateKey.value = encodeBase64(keyPair.secretKey)
+    publicKey.value = encodeBase64(keyPair.publicKey)
     error.value = ''
   } catch (e) {
     error.value = e.message
@@ -116,15 +94,14 @@ const generateKeyPair = async () => {
 
 const sign = () => {
   try {
-    if (!formData.privateKey) {
-      throw new Error(t('encrypt.rsaSign.privateKeyRequired'))
+    if (!messageText.value || !privateKey.value) {
+      throw new Error(t('encrypt.rsaSign.allFieldsRequired'))
     }
 
-    const sign = createSign(formData.algorithm)
-    sign.update(input.value)
-    const signature = sign.sign(formData.privateKey, 'hex')
-    
-    output.value = signature
+    const messageBytes = new TextEncoder().encode(messageText.value)
+    const privateKeyBytes = decodeBase64(privateKey.value)
+    const signatureBytes = nacl.sign.detached(messageBytes, privateKeyBytes)
+    signature.value = encodeBase64(signatureBytes)
     error.value = ''
   } catch (e) {
     error.value = e.message
@@ -133,34 +110,39 @@ const sign = () => {
 
 const verify = () => {
   try {
-    if (!formData.publicKey) {
-      throw new Error(t('encrypt.rsaSign.publicKeyRequired'))
+    if (!messageText.value || !signature.value || !publicKey.value) {
+      throw new Error(t('encrypt.rsaSign.allFieldsRequired'))
     }
 
-    const verify = createVerify(formData.algorithm)
-    verify.update(input.value)
-    const isValid = verify.verify(formData.publicKey, output.value, 'hex')
-    
-    output.value = isValid ? t('encrypt.rsaSign.verificationSuccess') : t('encrypt.rsaSign.verificationFailed')
+    const messageBytes = new TextEncoder().encode(messageText.value)
+    const signatureBytes = decodeBase64(signature.value)
+    const publicKeyBytes = decodeBase64(publicKey.value)
+    const isValid = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes)
+
+    if (isValid) {
+      message.success(t('encrypt.rsaSign.verificationSuccess'))
+    } else {
+      message.error(t('encrypt.rsaSign.verificationFailed'))
+    }
     error.value = ''
   } catch (e) {
     error.value = e.message
   }
 }
 
-const copyToClipboard = async () => {
+const copySignature = async () => {
   try {
-    await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    await navigator.clipboard.writeText(signature.value)
+    message.success(t('common.copied'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyFailed'))
   }
 }
 </script>
 
 <style scoped>
 .rsa-sign {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 20px auto;
   padding: 0 20px;
 }

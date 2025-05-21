@@ -2,11 +2,21 @@
 import { NConfigProvider, NMessageProvider, NDialogProvider, NNotificationProvider } from 'naive-ui'
 import { useTheme } from '@/composables/useTheme'
 
-const { theme } = useTheme()
+const { theme, isDark, toggleTheme } = useTheme()
+
+// 主题覆盖配置
+const themeOverrides = {
+  common: {
+    primaryColor: '#18a058',
+    primaryColorHover: '#36ad6a',
+    primaryColorPressed: '#0c7a43',
+    primaryColorSuppl: '#18a058'
+  }
+}
 </script>
 
 <template>
-  <n-config-provider :theme="theme">
+  <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
     <n-message-provider>
       <n-dialog-provider>
         <n-notification-provider>
@@ -18,22 +28,6 @@ const { theme } = useTheme()
 </template>
 
 <style>
-:root {
-  --primary-color: #18a058;
-  --text-color: #333;
-  --text-color-secondary: #666;
-  --border-color: #eee;
-  --background-color: #fff;
-}
-
-.dark {
-  --primary-color: #63e2b7;
-  --text-color: #fff;
-  --text-color-secondary: #999;
-  --border-color: #333;
-  --background-color: #18181c;
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -41,11 +35,20 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--text-color);
-  background-color: var(--background-color);
 }
 
 #app {
   height: 100%;
+}
+
+/* 链接样式 */
+a {
+  color: var(--n-primary-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  opacity: 0.8;
 }
 </style>
