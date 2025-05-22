@@ -2,15 +2,12 @@
 import { NConfigProvider, NMessageProvider, NDialogProvider, NNotificationProvider } from 'naive-ui'
 import { useTheme } from '@/composables/useTheme'
 
-const { theme, isDark, toggleTheme } = useTheme()
+const { theme } = useTheme()
 
 // 主题覆盖配置
 const themeOverrides = {
   common: {
-    primaryColor: '#18a058',
-    primaryColorHover: '#36ad6a',
-    primaryColorPressed: '#0c7a43',
-    primaryColorSuppl: '#18a058'
+    primaryColor: '#18a058'
   }
 }
 </script>
@@ -35,10 +32,12 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+  color: #222;
 }
-
-#app {
-  height: 100%;
+html.dark, html.dark body {
+  background: #18181c;
+  color: #fff;
 }
 
 /* 链接样式 */
