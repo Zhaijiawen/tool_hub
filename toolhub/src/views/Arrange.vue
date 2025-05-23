@@ -1,21 +1,27 @@
 <template>
+  <!-- 工具布局视图容器 -->
   <div class="arrange-view">
+    <!-- 工具卡片 -->
     <n-card>
+      <!-- 卡片头部：操作按钮 -->
       <template #header>
         <div class="arrange-header">
           <n-space>
+            <!-- 添加工具按钮 -->
             <n-button type="primary" @click="addTool">
               <template #icon>
                 <n-icon><add-icon /></n-icon>
               </template>
               {{ $t('arrange.addTool') }}
             </n-button>
+            <!-- 保存布局按钮 -->
             <n-button @click="saveLayout">
               <template #icon>
                 <n-icon><save-icon /></n-icon>
               </template>
               {{ $t('arrange.saveLayout') }}
             </n-button>
+            <!-- 重置布局按钮 -->
             <n-button @click="resetLayout">
               <template #icon>
                 <n-icon><refresh-icon /></n-icon>
@@ -26,12 +32,15 @@
         </div>
       </template>
 
+      <!-- 工具网格布局 -->
       <n-grid :cols="24" :x-gap="16" :y-gap="16">
+        <!-- 遍历工具列表 -->
         <n-grid-item
           v-for="(tool, index) in tools"
           :key="index"
           :span="tool.span || 12"
         >
+          <!-- 工具卡片 -->
           <n-card
             class="tool-card"
             :class="{ 'is-dragging': draggingIndex === index }"
@@ -40,10 +49,13 @@
             @mouseup="endDrag"
             @mouseleave="endDrag"
           >
+            <!-- 工具卡片头部 -->
             <template #header>
               <div class="tool-header">
                 <n-space>
+                  <!-- 拖拽手柄 -->
                   <n-icon class="drag-handle"><drag-icon /></n-icon>
+                  <!-- 工具类型选择器 -->
                   <n-select
                     v-model:value="tool.type"
                     :options="toolOptions"
@@ -51,12 +63,14 @@
                     style="width: 200px"
                     @update:value="handleToolChange(index, $event)"
                   />
+                  <!-- 工具大小选择器 -->
                   <n-select
                     v-model:value="tool.span"
                     :options="spanOptions"
                     :placeholder="$t('arrange.selectSize')"
                     style="width: 100px"
                   />
+                  <!-- 删除工具按钮 -->
                   <n-button
                     circle
                     size="small"
@@ -70,11 +84,13 @@
                 </n-space>
               </div>
             </template>
+            <!-- 工具组件 -->
             <component
               :is="tool.component"
               v-if="tool.component"
               v-bind="tool.props || {}"
             />
+            <!-- 工具占位符 -->
             <div v-else class="tool-placeholder">
               {{ $t('arrange.selectTool') }}
             </div>
@@ -86,8 +102,11 @@
 </template>
 
 <script setup>
+// 导入Vue相关功能
 import { ref, computed, onMounted, shallowRef } from 'vue'
+// 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
+// 导入图标组件
 import {
   Add as AddIcon,
   Save as SaveIcon,
@@ -96,14 +115,17 @@ import {
   Move as DragIcon
 } from '@vicons/ionicons5'
 
+// 初始化消息提示
 const message = useMessage()
 
-// 工具列表
+// 工具列表状态
 const tools = ref([])
+// 当前拖拽的工具索引
 const draggingIndex = ref(-1)
+// 拖拽起始Y坐标
 const dragStartY = ref(0)
 
-// 工具选项
+// 工具选项配置
 const toolOptions = computed(() => [
   {
     label: 'JSON格式化',
@@ -135,7 +157,7 @@ const toolOptions = computed(() => [
   }
 ])
 
-// 布局选项
+// 布局大小选项配置
 const spanOptions = [
   {
     label: '1/2',
@@ -163,7 +185,11 @@ const spanOptions = [
   }
 ]
 
-// 动态导入组件
+/**
+ * 动态加载组件
+ * @param {string} type - 组件类型
+ * @returns {Promise<Component>} - 加载的组件
+ */
 const loadComponent = async (type) => {
   try {
     const component = await import(`@/components/${type}.vue`)
@@ -174,7 +200,11 @@ const loadComponent = async (type) => {
   }
 }
 
-// 处理工具变更
+/**
+ * 处理工具变更
+ * @param {number} index - 工具索引
+ * @param {string} type - 工具类型
+ */
 const handleToolChange = async (index, type) => {
   if (!type) return
   
@@ -187,7 +217,9 @@ const handleToolChange = async (index, type) => {
   }
 }
 
-// 添加工具
+/**
+ * 添加新工具
+ */
 const addTool = () => {
   tools.value.push({
     type: null,
@@ -197,13 +229,18 @@ const addTool = () => {
   })
 }
 
-// 移除工具
+/**
+ * 移除工具
+ * @param {number} index - 要移除的工具索引
+ */
 const removeTool = (index) => {
   tools.value.splice(index, 1)
   message.success('工具移除成功')
 }
 
-// 保存布局
+/**
+ * 保存当前布局到本地存储
+ */
 const saveLayout = () => {
   try {
     const layoutToSave = tools.value.map(tool => ({
@@ -217,19 +254,28 @@ const saveLayout = () => {
   }
 }
 
-// 重置布局
+/**
+ * 重置布局
+ */
 const resetLayout = () => {
   tools.value = []
   localStorage.removeItem('toolhub-layout')
   message.success('布局已重置')
 }
 
-// 拖拽相关
+/**
+ * 开始拖拽
+ * @param {number} index - 被拖拽的工具索引
+ */
 const startDrag = (index) => {
   draggingIndex.value = index
   dragStartY.value = event.clientY
 }
 
+/**
+ * 拖拽过程处理
+ * @param {MouseEvent} event - 鼠标事件
+ */
 const onDrag = (event) => {
   if (draggingIndex.value === -1) return
   
@@ -248,6 +294,9 @@ const onDrag = (event) => {
   }
 }
 
+/**
+ * 结束拖拽
+ */
 const endDrag = () => {
   draggingIndex.value = -1
 }
@@ -284,43 +333,43 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* 工具布局视图容器样式 */
 .arrange-view {
   padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.arrange-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.tool-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
+/* 工具卡片样式 */
 .tool-card {
-  cursor: move;
+  height: 100%;
   transition: all 0.3s ease;
 }
 
+/* 拖拽中的工具卡片样式 */
 .tool-card.is-dragging {
   opacity: 0.5;
-  transform: scale(0.95);
+  cursor: move;
 }
 
+/* 工具卡片头部样式 */
+.tool-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 拖拽手柄样式 */
 .drag-handle {
   cursor: move;
-  color: #666;
+  color: #999;
 }
 
+/* 工具占位符样式 */
 .tool-placeholder {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 200px;
   background-color: #f5f5f5;
   border-radius: 4px;
