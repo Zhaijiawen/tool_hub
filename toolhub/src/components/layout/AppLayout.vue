@@ -1,10 +1,14 @@
 <template>
+  <!-- 使用Naive UI的布局组件 -->
   <n-layout>
+    <!-- 页面头部 -->
     <n-layout-header bordered>
       <div class="header-content">
+        <!-- 网站Logo -->
         <div class="logo">
           <router-link to="/">ToolHub</router-link>
         </div>
+        <!-- 主导航菜单 -->
         <n-menu
           mode="horizontal"
           :options="menuOptions"
@@ -14,10 +18,13 @@
           :collapsed-icon-size="22"
           :indent="18"
         />
+        <!-- 头部右侧功能区 -->
         <div class="header-right">
+          <!-- 工具搜索框 -->
           <div class="search-container">
             <tool-search :tools="allTools" />
           </div>
+          <!-- 布局切换下拉菜单 -->
           <n-dropdown :options="layoutOptions" @select="handleLayoutSelect">
             <n-button>
               <template #icon>
@@ -26,6 +33,7 @@
               {{ currentLayout }}
             </n-button>
           </n-dropdown>
+          <!-- 主题切换按钮 -->
           <n-button @click="toggleTheme">
             <template #icon>
               <n-icon>
@@ -35,6 +43,7 @@
             </template>
             {{ isDark ? t('common.theme.light') : t('common.theme.dark') }}
           </n-button>
+          <!-- 语言切换下拉菜单 -->
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
             <n-button>
               {{ currentLanguage }}
@@ -46,16 +55,21 @@
         </div>
       </div>
     </n-layout-header>
+    <!-- 主要内容区域 -->
     <n-layout-content>
       <router-view></router-view>
     </n-layout-content>
+    <!-- 页面底部 -->
     <n-layout-footer bordered>
       <div class="footer-content">
+        <!-- 页脚内容区域 -->
         <div class="footer-sections">
+          <!-- 关于我们 -->
           <div class="footer-section">
             <h3>{{ $t('footer.about') }}</h3>
             <p>{{ $t('footer.description') }}</p>
           </div>
+          <!-- 相关链接 -->
           <div class="footer-section">
             <h3>{{ $t('footer.links') }}</h3>
             <div class="footer-links">
@@ -64,6 +78,7 @@
               <a href="mailto:your.email@example.com">{{ $t('footer.contact') }}</a>
             </div>
           </div>
+          <!-- 社交媒体链接 -->
           <div class="footer-section">
             <h3>{{ $t('footer.follow') }}</h3>
             <div class="social-links">
@@ -73,6 +88,7 @@
             </div>
           </div>
         </div>
+        <!-- 页脚底部信息 -->
         <div class="footer-bottom">
           <div class="copyright">
             © 2024 ToolHub. {{ $t('footer.rights') }}
@@ -87,11 +103,17 @@
 </template>
 
 <script setup>
+// 导入Vue相关功能
 import { ref, computed, watch, nextTick } from 'vue'
+// 导入国际化功能
 import { useI18n } from 'vue-i18n'
+// 导入主题管理
 import { useTheme } from '@/composables/useTheme'
+// 导入路由相关功能
 import { useRouter, useRoute } from 'vue-router'
+// 导入工具搜索组件
 import ToolSearch from '@/components/common/ToolSearch.vue'
+// 导入图标组件
 import {
   SearchOutline as SearchIcon,
   SunnyOutline as SunIcon,
@@ -103,12 +125,15 @@ import {
   GridOutline as GridIcon
 } from '@vicons/ionicons5'
 
+// 初始化国际化
 const { t, locale } = useI18n()
+// 初始化主题管理
 const { isDark, toggleTheme } = useTheme()
+// 初始化路由
 const router = useRouter()
 const route = useRoute()
 
-// 监听主题变化
+// 监听主题变化，更新DOM和触发事件
 watch(isDark, (newValue) => {
   document.documentElement.classList.toggle('dark', newValue)
   // 强制更新主题
@@ -117,9 +142,12 @@ watch(isDark, (newValue) => {
   })
 }, { immediate: true })
 
+// 计算当前语言显示文本
 const currentLanguage = computed(() => locale.value === 'zh' ? '中文' : 'English')
+// 获取当前布局设置
 const currentLayout = ref(localStorage.getItem('layout') || 'grid')
 
+// 语言选项配置
 const languageOptions = [
   {
     label: '中文',
@@ -131,6 +159,7 @@ const languageOptions = [
   }
 ]
 
+// 布局选项配置
 const layoutOptions = [
   {
     label: t('common.layout.grid'),
@@ -150,6 +179,7 @@ const layoutOptions = [
   }
 ]
 
+// 处理布局切换
 const handleLayoutSelect = (key) => {
   currentLayout.value = key
   localStorage.setItem('layout', key)
@@ -157,12 +187,13 @@ const handleLayoutSelect = (key) => {
   window.dispatchEvent(new CustomEvent('layout-change', { detail: { layout: key } }))
 }
 
+// 处理语言切换
 const handleLanguageSelect = (key) => {
   locale.value = key
   localStorage.setItem('language', key)
 }
 
-// 获取当前激活的菜单项
+// 计算当前激活的菜单项
 const activeKey = computed(() => {
   const path = route.path
   for (const menu of menuOptions.value) {
@@ -175,10 +206,10 @@ const activeKey = computed(() => {
   return null
 })
 
-// 所有工具列表（用于搜索）
+// 计算所有工具列表（用于搜索功能）
 const allTools = computed(() => {
   return [
-    // 格式化工具
+    // 格式化工具列表
     { name: t('format.json.title'), path: '/format/json', description: t('format.json.description'), category: t('common.format') },
     { name: t('format.xml.title'), path: '/format/xml', description: t('format.xml.description'), category: t('common.format') },
     { name: t('format.js.title'), path: '/format/js', description: t('format.js.description'), category: t('common.format') },
@@ -197,7 +228,7 @@ const allTools = computed(() => {
     { name: t('format.dart.title'), path: '/format/dart', description: t('format.dart.description'), category: t('common.format') },
     { name: t('format.markdown.title'), path: '/format/markdown', description: t('format.markdown.description'), category: t('common.format') },
     
-    // 加密工具
+    // 加密工具列表
     { name: t('encrypt.aes.title'), path: '/encrypt/aes', description: t('encrypt.aes.description'), category: t('common.encrypt') },
     { name: t('encrypt.chacha20.title'), path: '/encrypt/chacha20', description: t('encrypt.chacha20.description'), category: t('common.encrypt') },
     { name: t('encrypt.des.title'), path: '/encrypt/des', description: t('encrypt.des.description'), category: t('common.encrypt') },
@@ -219,7 +250,7 @@ const allTools = computed(() => {
     { name: t('encrypt.html.title'), path: '/encrypt/html', description: t('encrypt.html.description'), category: t('common.encrypt') },
     { name: t('encrypt.jwt.title'), path: '/encrypt/jwt', description: t('encrypt.jwt.description'), category: t('common.encrypt') },
     
-    // 转换工具
+    // 转换工具列表
     { name: t('convert.timestamp.title'), path: '/convert/timestamp', description: t('convert.timestamp.description'), category: t('common.convert') },
     { name: t('convert.dateCalc.title'), path: '/convert/date-calc', description: t('convert.dateCalc.description'), category: t('common.convert') },
     { name: t('convert.dateDiff.title'), path: '/convert/date-diff', description: t('convert.dateDiff.description'), category: t('common.convert') },
