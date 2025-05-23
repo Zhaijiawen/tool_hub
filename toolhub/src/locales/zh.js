@@ -151,19 +151,15 @@ export default {
     otherLanguage: '其他语言',
     json: {
       title: 'JSON格式化',
-      description: '格式化、压缩、转义JSON数据',
-      placeholder: '请输入JSON数据',
-      format: '格式化',
-      compress: '压缩',
-      escape: '转义',
-      unescape: '去除转义'
+      description: '格式化JSON数据，支持压缩和美化'
     },
     xml: {
       title: 'XML格式化',
-      description: '格式化、压缩XML数据',
-      placeholder: '请输入XML数据',
-      format: '格式化',
-      compress: '压缩'
+      description: '格式化XML数据，支持压缩和美化'
+    },
+    yaml: {
+      title: 'YAML格式化',
+      description: '格式化YAML数据，支持压缩和美化'
     },
     js: {
       title: 'JavaScript格式化',

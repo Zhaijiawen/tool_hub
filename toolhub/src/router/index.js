@@ -19,6 +19,11 @@ const router = createRouter({
           path: 'format/xml',
           component: () => import('@/components/format/XmlFormat.vue')
         },
+        // YAML格式化
+        {
+          path: 'format/yaml',
+          component: () => import('@/components/format/YamlFormat.vue')
+        },
         // JavaScript格式化
         {
           path: 'format/js',

@@ -212,6 +212,7 @@ const allTools = computed(() => {
     // 格式化工具列表
     { name: t('format.json.title'), path: '/format/json', description: t('format.json.description'), category: t('common.format') },
     { name: t('format.xml.title'), path: '/format/xml', description: t('format.xml.description'), category: t('common.format') },
+    { name: t('format.yaml.title'), path: '/format/yaml', description: t('format.yaml.description'), category: t('common.format') },
     { name: t('format.js.title'), path: '/format/js', description: t('format.js.description'), category: t('common.format') },
     { name: t('format.html.title'), path: '/format/html', description: t('format.html.description'), category: t('common.format') },
     { name: t('format.css.title'), path: '/format/css', description: t('format.css.description'), category: t('common.format') },
@@ -287,6 +288,11 @@ const menuOptions = computed(() => [
             label: t('format.xml.title'),
             key: 'xml-format',
             path: '/format/xml'
+          },
+          {
+            label: t('format.yaml.title'),
+            key: 'yaml-format',
+            path: '/format/yaml'
           }
         ]
       },

@@ -26,13 +26,15 @@ export default {
       format: 'Format',
       compress: 'Compress',
       escape: 'Escape',
-      unescape: 'Unescape'
+      unescape: 'Unescape',
+      description: 'Format JSON data with compression and beautification'
     },
     xml: {
       title: 'XML Formatter',
       placeholder: 'Enter XML data',
       format: 'Format',
-      compress: 'Compress'
+      compress: 'Compress',
+      description: 'Format XML data with compression and beautification'
     },
     kotlin: {
       title: 'Kotlin Formatter',
@@ -63,6 +65,10 @@ export default {
       title: 'Dart Formatter',
       placeholder: 'Enter Dart code',
       format: 'Format'
+    },
+    yaml: {
+      title: 'YAML Formatter',
+      description: 'Format YAML data with compression and beautification'
     }
   },
   encrypt: {

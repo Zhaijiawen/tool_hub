@@ -48,6 +48,7 @@ const route = useRoute()
 const formatTools = [
   { name: 'JSON格式化', path: '/format/json', description: '格式化JSON数据，支持压缩和美化', category: '数据格式' },
   { name: 'XML格式化', path: '/format/xml', description: '格式化XML数据，支持压缩和美化', category: '数据格式' },
+  { name: 'YAML格式化', path: '/format/yaml', description: '格式化YAML数据，支持压缩和美化', category: '数据格式' },
   { name: 'JS格式化', path: '/format/js', description: '格式化JavaScript代码，支持压缩和美化', category: '编程语言' },
   { name: 'HTML格式化', path: '/format/html', description: '格式化HTML代码，支持压缩和美化', category: '编程语言' },
   { name: 'CSS格式化', path: '/format/css', description: '格式化CSS代码，支持压缩和美化', category: '编程语言' },
