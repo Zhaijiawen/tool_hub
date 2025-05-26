@@ -134,7 +134,10 @@ export default {
       list: '列表',
       compact: '紧凑',
       comfortable: '舒适'
-    }
+    },
+    enableHighlight: '启用代码高亮',
+    copySuccess: '复制成功',
+    copyError: '复制失败'
   },
   footer: {
     about: '关于',

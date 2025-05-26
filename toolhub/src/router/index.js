@@ -100,6 +100,13 @@ const router = createRouter({
           component: () => import('@/components/format/DartFormat.vue')
         },
 
+        // ===== 测试页面 =====
+        // CodeEditor测试
+        {
+          path: 'test/code-editor',
+          component: () => import('@/components/test/CodeEditorTest.vue')
+        },
+
         // ===== 加密工具路由 =====
         // AES加密
         {

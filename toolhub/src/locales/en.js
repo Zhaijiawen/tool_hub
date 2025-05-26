@@ -17,7 +17,10 @@ export default {
     theme: {
       light: 'Light',
       dark: 'Dark'
-    }
+    },
+    enableHighlight: 'Enable Code Highlighting',
+    copySuccess: 'Copy Success',
+    copyError: 'Copy Failed'
   },
   format: {
     json: {
