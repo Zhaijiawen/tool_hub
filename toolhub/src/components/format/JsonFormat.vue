@@ -52,8 +52,6 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码格式化工具
-import prettier from 'prettier'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -66,23 +64,48 @@ const input = ref('')
 const error = ref('')
 
 /**
+ * 验证 JSON 格式
+ * @param {string} jsonString - 要验证的 JSON 字符串
+ * @returns {boolean} - 是否为有效的 JSON
+ */
+const isValidJson = (jsonString) => {
+  try {
+    JSON.parse(jsonString)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
  * 格式化JSON
- * 使用prettier进行格式化，设置缩进和换行等规则
+ * 使用原生 JSON 方法进行格式化，确保兼容性和稳定性
  */
 const formatJson = () => {
+  const trimmedInput = input.value.trim()
+  
+  // 检查输入是否为空
+  if (!trimmedInput) {
+    message.warning(t('format.json.empty'))
+    return
+  }
+  
+  // 验证 JSON 格式
+  if (!isValidJson(trimmedInput)) {
+    error.value = t('format.json.invalidJson')
+    message.error(t('format.json.invalidJson'))
+    return
+  }
+  
   try {
-    input.value = prettier.format(input.value, {
-      parser: 'json',
-      printWidth: 100,    // 每行最大长度
-      tabWidth: 2,        // 缩进空格数
-      useTabs: false,     // 使用空格而不是制表符
-      semi: true,         // 使用分号
-      singleQuote: false, // 使用双引号
-      trailingComma: 'none' // 不使用尾随逗号
-    })
+    // 使用原生 JSON 格式化（稳定可靠）
+    const parsed = JSON.parse(trimmedInput)
+    input.value = JSON.stringify(parsed, null, 2) // 2个空格缩进
     error.value = ''
+    message.success(t('format.json.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.json.error'))
   }
 }
 
@@ -91,12 +114,21 @@ const formatJson = () => {
  * 移除所有空白字符，使JSON更紧凑
  */
 const compressJson = () => {
+  const trimmedInput = input.value.trim()
+  
+  if (!trimmedInput) {
+    message.warning(t('format.json.empty'))
+    return
+  }
+  
   try {
-    const parsed = JSON.parse(input.value)
+    const parsed = JSON.parse(trimmedInput)
     input.value = JSON.stringify(parsed)
     error.value = ''
+    message.success(t('format.json.compressSuccess'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.json.compressError'))
   }
 }
 
@@ -105,11 +137,18 @@ const compressJson = () => {
  * 将JSON字符串转换为转义形式
  */
 const escapeJson = () => {
+  if (!input.value) {
+    message.warning(t('format.json.empty'))
+    return
+  }
+  
   try {
     input.value = JSON.stringify(input.value)
     error.value = ''
+    message.success(t('format.json.escapeSuccess'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.json.escapeError'))
   }
 }
 
@@ -118,11 +157,18 @@ const escapeJson = () => {
  * 将转义的JSON字符串转换回原始形式
  */
 const unescapeJson = () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.json.empty'))
+    return
+  }
+  
   try {
     input.value = JSON.parse(input.value)
     error.value = ''
+    message.success(t('format.json.unescapeSuccess'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.json.unescapeError'))
   }
 }
 
@@ -133,9 +179,9 @@ const unescapeJson = () => {
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(input.value)
-    message.success(t('common.success'))
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 </script>

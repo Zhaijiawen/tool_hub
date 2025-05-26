@@ -7,8 +7,9 @@
         :placeholder="t('format.java.placeholder')"
         :autosize="{ minRows: 10, maxRows: 20 }"
       />
+      <!-- 操作按钮组 -->
       <div class="button-group">
-        <n-button @click="formatJava" type="primary">
+        <n-button @click="formatJava" type="primary" :loading="loading">
           {{ t('format.java.format') }}
         </n-button>
         <n-button @click="copyToClipboard">
@@ -38,10 +39,17 @@ const message = useMessage()
 
 const input = ref('')
 const error = ref('')
+const loading = ref(false)
 
-const formatJava = () => {
+const formatJava = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.java.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = prettier.format(input.value, {
+    const formatted = await prettier.format(input.value, {
       parser: 'java',
       plugins: [parserJava],
       printWidth: 100,
@@ -51,18 +59,23 @@ const formatJava = () => {
       singleQuote: false,
       trailingComma: 'none'
     })
+    input.value = formatted
     error.value = ''
+    message.success(t('format.java.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.java.error'))
+  } finally {
+    loading.value = false
   }
 }
 
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(input.value)
-    message.success(t('common.success'))
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 </script>

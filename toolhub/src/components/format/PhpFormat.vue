@@ -7,8 +7,9 @@
         :placeholder="t('format.php.placeholder')"
         :autosize="{ minRows: 10, maxRows: 20 }"
       />
+      <!-- 操作按钮组 -->
       <div class="button-group">
-        <n-button @click="formatPhp" type="primary">
+        <n-button @click="formatPhp" type="primary" :loading="loading">
           {{ t('format.php.format') }}
         </n-button>
         <n-button @click="copyToClipboard">
@@ -30,7 +31,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier'
+import prettier from 'prettier/standalone'
 import phpPlugin from '@prettier/plugin-php'
 
 const { t } = useI18n()
@@ -38,10 +39,17 @@ const message = useMessage()
 
 const input = ref('')
 const error = ref('')
+const loading = ref(false)
 
-const formatPhp = () => {
+const formatPhp = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.php.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = prettier.format(input.value, {
+    const formatted = await prettier.format(input.value, {
       parser: 'php',
       plugins: [phpPlugin],
       printWidth: 100,
@@ -51,18 +59,23 @@ const formatPhp = () => {
       singleQuote: true,
       trailingComma: 'none'
     })
+    input.value = formatted
     error.value = ''
+    message.success(t('format.php.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.php.error'))
+  } finally {
+    loading.value = false
   }
 }
 
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(input.value)
-    message.success(t('common.success'))
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 </script>

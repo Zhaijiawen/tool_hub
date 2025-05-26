@@ -13,7 +13,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatHtml" type="primary">
+        <n-button @click="formatHtml" type="primary" :loading="loading">
           {{ t('format.html.format') }}
         </n-button>
         <!-- 复制按钮 -->
@@ -41,7 +41,7 @@ import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
 // 导入代码格式化工具
-import prettier from 'prettier'
+import prettier from 'prettier/standalone'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -52,14 +52,23 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+// 加载状态
+const loading = ref(false)
 
 /**
  * 格式化HTML
  * 使用prettier进行格式化，设置缩进和换行等规则
  */
-const formatHtml = () => {
+const formatHtml = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.html.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = prettier.format(input.value, {
+    // 使用 Prettier 格式化 HTML 代码
+    const formatted = await prettier.format(input.value, {
       parser: 'html',
       printWidth: 100,    // 每行最大长度
       tabWidth: 2,        // 缩进空格数
@@ -68,9 +77,14 @@ const formatHtml = () => {
       singleQuote: true,  // 使用单引号
       trailingComma: 'none' // 不使用尾随逗号
     })
+    input.value = formatted
     error.value = ''
+    message.success(t('format.html.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.html.error'))
+  } finally {
+    loading.value = false
   }
 }
 
@@ -81,9 +95,9 @@ const formatHtml = () => {
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(input.value)
-    message.success(t('common.success'))
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 </script>

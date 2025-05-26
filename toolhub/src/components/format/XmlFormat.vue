@@ -13,7 +13,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatXml" type="primary">
+        <n-button @click="formatXml" type="primary" :loading="loading">
           {{ t('format.xml.format') }}
         </n-button>
         <!-- 压缩按钮 -->
@@ -45,7 +45,7 @@ import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
 // 导入代码格式化工具
-import prettier from 'prettier'
+import prettier from 'prettier/standalone'
 // 导入XML格式化插件
 import xmlPlugin from '@prettier/plugin-xml'
 
@@ -58,14 +58,23 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+// 加载状态
+const loading = ref(false)
 
 /**
  * 格式化XML
  * 使用prettier和xml插件进行格式化，设置缩进和换行等规则
  */
-const formatXml = () => {
+const formatXml = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.xml.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = prettier.format(input.value, {
+    // 使用 Prettier 格式化 XML 代码
+    const formatted = await prettier.format(input.value, {
       parser: 'xml',
       plugins: [xmlPlugin],
       printWidth: 100,    // 每行最大长度
@@ -75,9 +84,14 @@ const formatXml = () => {
       singleQuote: true,  // 使用单引号
       trailingComma: 'none' // 不使用尾随逗号
     })
+    input.value = formatted
     error.value = ''
+    message.success(t('format.xml.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.xml.error'))
+  } finally {
+    loading.value = false
   }
 }
 
@@ -89,8 +103,10 @@ const compressXml = () => {
   try {
     input.value = input.value.replace(/>\s+</g, '><').trim()
     error.value = ''
+    message.success(t('format.xml.compressSuccess'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.xml.compressError'))
   }
 }
 
@@ -101,9 +117,9 @@ const compressXml = () => {
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(input.value)
-    message.success(t('common.success'))
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 </script>
