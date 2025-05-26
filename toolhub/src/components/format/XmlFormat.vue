@@ -3,12 +3,10 @@
   <div class="xml-format">
     <!-- 工具卡片 -->
     <n-card :title="t('format.xml.title')">
-      <!-- XML输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- XML输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.xml.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
@@ -48,6 +46,8 @@ import { useMessage } from 'naive-ui'
 import prettier from 'prettier/standalone'
 // 导入XML格式化插件
 import xmlPlugin from '@prettier/plugin-xml'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 // 初始化国际化
 const { t } = useI18n()

@@ -1,11 +1,10 @@
 <template>
   <div class="python-format">
     <n-card :title="t('format.python.title')">
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- Python输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.python.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">
@@ -33,6 +32,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import prettier from 'prettier/standalone'
 import pythonPlugin from '@prettier/plugin-python'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 const { t } = useI18n()
 const message = useMessage()

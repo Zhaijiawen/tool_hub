@@ -3,12 +3,10 @@
   <div class="ruby-format">
     <!-- 工具卡片 -->
     <n-card :title="t('format.ruby.title')">
-      <!-- Ruby输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- Ruby输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.ruby.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
@@ -42,6 +40,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入代码美化工具
 import { js_beautify } from 'js-beautify'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -64,8 +64,10 @@ const formatRuby = () => {
       space_in_empty_paren: true   // 空括号内添加空格
     })
     error.value = ''
+    message.success(t('format.ruby.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.ruby.error'))
   }
 }
 

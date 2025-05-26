@@ -3,12 +3,10 @@
   <div class="json-format">
     <!-- 工具卡片 -->
     <n-card :title="t('format.json.title')">
-      <!-- JSON输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- JSON输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.json.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
@@ -52,6 +50,8 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -199,6 +199,7 @@ const copyToClipboard = async () => {
   margin-top: 16px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* 错误提示样式 */

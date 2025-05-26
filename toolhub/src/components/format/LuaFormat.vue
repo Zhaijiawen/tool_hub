@@ -1,18 +1,18 @@
 <template>
-  <!-- Shell格式化工具容器 -->
-  <div class="shell-format">
+  <!-- Lua格式化工具容器 -->
+  <div class="lua-format">
     <!-- 工具卡片 -->
-    <n-card :title="t('format.shell.title')">
-      <!-- Shell输入区域 - 带行号的代码编辑器 -->
+    <n-card :title="t('format.lua.title')">
+      <!-- Lua输入区域 - 带行号的代码编辑器 -->
       <CodeEditor 
         v-model="input"
-        :placeholder="t('format.shell.placeholder')"
+        :placeholder="t('format.lua.placeholder')"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatShell" type="primary">
-          {{ t('format.shell.format') }}
+        <n-button @click="formatLua" type="primary">
+          {{ t('format.lua.format') }}
         </n-button>
         <!-- 复制按钮 -->
         <n-button @click="copyToClipboard">
@@ -54,25 +54,20 @@ const input = ref('')
 const error = ref('')
 
 /**
- * 格式化Shell脚本
+ * 格式化Lua代码
  * 使用js-beautify进行格式化，设置缩进和空格等规则
  */
-const formatShell = () => {
-  if (!input.value.trim()) {
-    message.warning(t('format.shell.empty'))
-    return
-  }
-  
+const formatLua = () => {
   try {
     input.value = js_beautify(input.value, {
       indent_size: 2,              // 缩进空格数
       space_in_empty_paren: true   // 空括号内添加空格
     })
     error.value = ''
-    message.success(t('format.shell.success'))
+    message.success(t('format.lua.success'))
   } catch (e) {
     error.value = e.message
-    message.error(t('format.shell.error'))
+    message.error(t('format.lua.error'))
   }
 }
 
@@ -92,7 +87,7 @@ const copyToClipboard = async () => {
 
 <style scoped>
 /* 工具容器样式 */
-.shell-format {
+.lua-format {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;

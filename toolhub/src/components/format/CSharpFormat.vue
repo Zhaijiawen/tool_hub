@@ -17,12 +17,10 @@
       <!-- 折叠内容区域 -->
       <n-collapse-transition>
         <div v-show="!isCollapsed">
-          <!-- C#输入区域 -->
-          <n-input
-            v-model:value="input"
-            type="textarea"
+          <!-- C#输入区域 - 带行号的代码编辑器 -->
+          <CodeEditor 
+            v-model="input"
             :placeholder="t('format.csharp.placeholder')"
-            :autosize="{ minRows: 10, maxRows: 20 }"
           />
           <!-- 功能按钮组 -->
           <div class="button-group">
@@ -60,6 +58,8 @@ import { useMessage } from 'naive-ui'
 import { js_beautify } from 'js-beautify'
 // 导入图标组件
 import { ChevronDown, ChevronUp } from '@vicons/ionicons5'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -99,8 +99,10 @@ const formatCSharp = () => {
       indent_empty_lines: false      // 不缩进空行
     })
     error.value = ''
+    message.success(t('format.csharp.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.csharp.error'))
   }
 }
 

@@ -2,12 +2,10 @@
   <!-- Rust 代码格式化工具 -->
   <div class="rust-format">
     <n-card :title="t('format.rust.title')">
-      <!-- 代码输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- Rust输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.rust.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">
@@ -36,6 +34,8 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { js_beautify } from 'js-beautify'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 const { t } = useI18n()
 const message = useMessage()

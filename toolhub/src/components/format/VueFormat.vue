@@ -2,12 +2,10 @@
   <!-- Vue 代码格式化工具 -->
   <div class="vue-format">
     <n-card :title="t('format.vue.title')">
-      <!-- 代码输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- Vue输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.vue.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">
@@ -37,6 +35,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import prettier from 'prettier/standalone'
 import vuePlugin from '@prettier/plugin-vue'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 const { t } = useI18n()
 const message = useMessage()

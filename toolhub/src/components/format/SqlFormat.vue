@@ -3,12 +3,10 @@
   <div class="sql-format">
     <!-- 工具卡片 -->
     <n-card :title="t('format.sql.title')">
-      <!-- SQL输入区域 -->
-      <n-input
-        v-model:value="input"
-        type="textarea"
+      <!-- SQL输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
         :placeholder="t('format.sql.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
@@ -42,6 +40,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入SQL格式化工具
 import { format } from 'sql-formatter'
+// 导入通用代码编辑器组件
+import CodeEditor from '@/components/common/CodeEditor.vue'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -66,8 +66,10 @@ const formatSql = () => {
       indentStyle: '  '          // 使用两个空格缩进
     })
     error.value = ''
+    message.success(t('format.sql.success'))
   } catch (e) {
     error.value = e.message
+    message.error(t('format.sql.error'))
   }
 }
 
