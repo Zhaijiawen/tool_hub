@@ -22,8 +22,23 @@ import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { json } from '@codemirror/lang-json'
 import { python } from '@codemirror/lang-python'
+import { xml } from '@codemirror/lang-xml'
+import { sql } from '@codemirror/lang-sql'
+import { markdown } from '@codemirror/lang-markdown'
+import { rust } from '@codemirror/lang-rust'
+import { php } from '@codemirror/lang-php'
+import { vue } from '@codemirror/lang-vue'
 
-
+// Legacy modes 支持
+import { StreamLanguage } from '@codemirror/language'
+import { go } from '@codemirror/legacy-modes/mode/go'
+import { csharp, kotlin, scala, dart } from '@codemirror/legacy-modes/mode/clike'
+import { swift } from '@codemirror/legacy-modes/mode/swift'
+import { ruby } from '@codemirror/legacy-modes/mode/ruby'
+import { lua } from '@codemirror/legacy-modes/mode/lua'
+import { perl } from '@codemirror/legacy-modes/mode/perl'
+import { shell } from '@codemirror/legacy-modes/mode/shell'
+import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -61,12 +76,26 @@ const languageMap = {
   python: python(),
   js: javascript(),
   ts: javascript(), // TypeScript 使用 JavaScript 高亮
-  xml: html(), // XML 使用 HTML 高亮
-  sql: javascript(), // SQL 暂时使用 JavaScript 高亮
-  yaml: javascript(), // YAML 暂时使用 JavaScript 高亮
-  markdown: javascript(), // Markdown 暂时使用 JavaScript 高亮
-  shell: javascript(), // Shell 暂时使用 JavaScript 高亮
-  bash: javascript(), // Bash 暂时使用 JavaScript 高亮
+  typescript: javascript({ typescript: true }), // TypeScript 完整支持
+  xml: xml(),
+  sql: sql(),
+  yaml: StreamLanguage.define(yaml),
+  markdown: markdown(),
+  shell: StreamLanguage.define(shell),
+  bash: StreamLanguage.define(shell), // Bash 使用 shell 高亮
+  rust: rust(),
+  php: php(),
+  // 使用 legacy-modes 的语言支持
+  go: StreamLanguage.define(go),
+  csharp: StreamLanguage.define(csharp),
+  swift: StreamLanguage.define(swift),
+  kotlin: StreamLanguage.define(kotlin),
+  scala: StreamLanguage.define(scala),
+  ruby: StreamLanguage.define(ruby),
+  dart: StreamLanguage.define(dart),
+  lua: StreamLanguage.define(lua),
+  perl: StreamLanguage.define(perl),
+  vue: vue(), // Vue 官方语言支持
 }
 
 // 获取当前主题

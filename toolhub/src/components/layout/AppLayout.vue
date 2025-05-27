@@ -276,8 +276,9 @@ const menuOptions = computed(() => [
     key: 'format',
     children: [
       {
+        type: 'group',
         label: t('format.dataFormat'),
-        key: 'data-format',
+        key: 'data-format-group',
         children: [
           {
             label: t('format.json.title'),
@@ -293,13 +294,17 @@ const menuOptions = computed(() => [
             label: t('format.yaml.title'),
             key: 'yaml-format',
             path: '/format/yaml'
+          },
+          {
+            label: t('format.markdown.title'),
+            key: 'markdown-format',
+            path: '/format/markdown'
           }
         ]
       },
       {
-        label: t('format.programmingLanguage'),
-        key: 'programming-language',
-        type: 'group',
+        label: t('format.programmingLanguageFormat'),
+        key: 'programming-language-format',
         children: [
           {
             label: t('format.js.title'),
@@ -372,11 +377,6 @@ const menuOptions = computed(() => [
             path: '/format/dart'
           }
         ]
-      },
-      {
-        label: t('format.markdown.title'),
-        key: 'markdown-format',
-        path: '/format/markdown'
       }
     ]
   },

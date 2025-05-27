@@ -23,6 +23,10 @@ export default {
     copyError: 'Copy Failed'
   },
   format: {
+    formatTools: 'Format Tools',
+    dataFormat: 'Data Format',
+    programmingLanguage: 'Programming Language',
+    programmingLanguageFormat: 'Programming Language Format',
     json: {
       title: 'JSON Formatter',
       placeholder: 'Enter JSON data',

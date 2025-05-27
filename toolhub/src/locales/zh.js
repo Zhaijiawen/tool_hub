@@ -149,8 +149,10 @@ export default {
     icp: '京ICP备XXXXXXXX号-1'
   },
   format: {
+    formatTools: '格式化工具',
     dataFormat: '数据格式',
     programmingLanguage: '编程语言',
+    programmingLanguageFormat: '编程语言格式化',
     otherLanguage: '其他语言',
     json: {
       title: 'JSON格式化',

@@ -3,47 +3,31 @@
   <div class="csharp-format">
     <!-- 工具卡片 -->
     <n-card :title="t('format.csharp.title')" :bordered="false">
-      <!-- 折叠按钮 -->
-      <template #header-extra>
-        <n-button quaternary circle @click="isCollapsed = !isCollapsed">
-          <template #icon>
-            <n-icon>
-              <chevron-down v-if="!isCollapsed" />
-              <chevron-up v-else />
-            </n-icon>
-          </template>
+      <!-- C#输入区域 - 带行号的代码编辑器 -->
+      <CodeEditor 
+        v-model="input"
+        :placeholder="t('format.csharp.placeholder')"
+        language="csharp"
+      />
+      <!-- 功能按钮组 -->
+      <div class="button-group">
+        <!-- 格式化按钮 -->
+        <n-button @click="formatCSharp" type="primary">
+          {{ t('format.csharp.format') }}
         </n-button>
-      </template>
-      <!-- 折叠内容区域 -->
-      <n-collapse-transition>
-        <div v-show="!isCollapsed">
-          <!-- C#输入区域 - 带行号的代码编辑器 -->
-          <CodeEditor 
-            v-model="input"
-            :placeholder="t('format.csharp.placeholder')"
-            language="csharp"
-          />
-          <!-- 功能按钮组 -->
-          <div class="button-group">
-            <!-- 格式化按钮 -->
-            <n-button @click="formatCSharp" type="primary">
-              {{ t('format.csharp.format') }}
-            </n-button>
-            <!-- 复制按钮 -->
-            <n-button @click="copyToClipboard">
-              {{ t('common.copy') }}
-            </n-button>
-          </div>
-          <!-- 错误提示 -->
-          <n-alert
-            v-if="error"
-            type="error"
-            :title="t('common.error')"
-            :content="error"
-            class="error-alert"
-          />
-        </div>
-      </n-collapse-transition>
+        <!-- 复制按钮 -->
+        <n-button @click="copyToClipboard">
+          {{ t('common.copy') }}
+        </n-button>
+      </div>
+      <!-- 错误提示 -->
+      <n-alert
+        v-if="error"
+        type="error"
+        :title="t('common.error')"
+        :content="error"
+        class="error-alert"
+      />
     </n-card>
   </div>
 </template>
@@ -57,8 +41,6 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入代码美化工具
 import { js_beautify } from 'js-beautify'
-// 导入图标组件
-import { ChevronDown, ChevronUp } from '@vicons/ionicons5'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
 
@@ -71,8 +53,6 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
-// 折叠状态
-const isCollapsed = ref(false)
 
 /**
  * 格式化C#代码
