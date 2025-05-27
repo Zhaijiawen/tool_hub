@@ -349,11 +349,6 @@ const menuOptions = computed(() => [
     ]
   },
   {
-    label: t('common.composer'),
-    key: 'composer',
-    path: '/composer'
-  },
-  {
     label: t('common.encrypt'),
     key: 'encrypt',
     children: [
@@ -722,19 +717,22 @@ const goToComposer = () => {
 .header-content {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 8px;
   height: 64px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
 .logo {
+  display: flex;
+  align-items: center;
   font-size: 24px;
   font-weight: bold;
-  margin-right: 40px;
-  white-space: nowrap;
+  margin-right: 32px;
+  line-height: 1;
+  height: 64px;
 }
 
 .logo a {
@@ -746,7 +744,7 @@ const goToComposer = () => {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
 .search-container {
@@ -758,7 +756,7 @@ const goToComposer = () => {
 }
 
 :deep(.n-menu .n-menu-item-content) {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-color);
 }
 
