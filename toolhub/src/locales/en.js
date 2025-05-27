@@ -20,7 +20,8 @@ export default {
     },
     enableHighlight: 'Enable Code Highlighting',
     copySuccess: 'Copy Success',
-    copyError: 'Copy Failed'
+    copyError: 'Copy Failed',
+    composer: 'Component Composer'
   },
   format: {
     formatTools: 'Format Tools',

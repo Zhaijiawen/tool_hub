@@ -35,6 +35,13 @@
             </template>
             {{ isDark ? t('common.theme.light') : t('common.theme.dark') }}
           </n-button>
+          <!-- 组件编排按钮 -->
+          <n-button @click="goToComposer">
+            <template #icon>
+              <n-icon><puzzle-icon /></n-icon>
+            </template>
+            编排
+          </n-button>
           <!-- 语言切换下拉菜单 -->
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
             <n-button>
@@ -51,8 +58,7 @@
     <n-layout-content>
       <router-view></router-view>
     </n-layout-content>
-    <!-- 页面底部 -->
-    <n-layout-footer bordered>
+    <n-layout-footer v-if="route.path !== '/composer'" bordered>
       <div class="footer-content">
         <!-- 页脚内容区域 -->
         <div class="footer-sections">
@@ -113,7 +119,8 @@ import {
   LanguageOutline as LanguageIcon,
   LogoGithub as GithubIcon,
   LogoTwitter as TwitterIcon,
-  LogoWechat as WechatIcon
+  LogoWechat as WechatIcon,
+  AppsOutline as PuzzleIcon
 } from '@vicons/ionicons5'
 
 // 初始化国际化
@@ -340,6 +347,11 @@ const menuOptions = computed(() => [
         ]
       }
     ]
+  },
+  {
+    label: t('common.composer'),
+    key: 'composer',
+    path: '/composer'
   },
   {
     label: t('common.encrypt'),
@@ -698,6 +710,11 @@ const handleMenuClick = (key) => {
   if (path) {
     router.push(path)
   }
+}
+
+// 添加跳转到组件编排页面的方法
+const goToComposer = () => {
+  router.push('/composer')
 }
 </script>
 

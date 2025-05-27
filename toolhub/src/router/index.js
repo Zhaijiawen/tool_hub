@@ -8,6 +8,12 @@ const router = createRouter({
       path: '/',
       component: AppLayout,
       children: [
+        // ===== 组件编排页面 =====
+        {
+          path: 'composer',
+          component: () => import('@/views/ComponentComposer.vue')
+        },
+        
         // ===== 格式化工具路由 =====
         // JSON格式化
         {
