@@ -24,15 +24,7 @@
           <div class="search-container">
             <tool-search :tools="allTools" />
           </div>
-          <!-- 布局切换下拉菜单 -->
-          <n-dropdown :options="layoutOptions" @select="handleLayoutSelect">
-            <n-button>
-              <template #icon>
-                <n-icon><grid-icon /></n-icon>
-              </template>
-              {{ currentLayout }}
-            </n-button>
-          </n-dropdown>
+
           <!-- 主题切换按钮 -->
           <n-button @click="toggleTheme">
             <template #icon>
@@ -121,8 +113,7 @@ import {
   LanguageOutline as LanguageIcon,
   LogoGithub as GithubIcon,
   LogoTwitter as TwitterIcon,
-  LogoWechat as WechatIcon,
-  GridOutline as GridIcon
+  LogoWechat as WechatIcon
 } from '@vicons/ionicons5'
 
 // 初始化国际化
@@ -144,8 +135,6 @@ watch(isDark, (newValue) => {
 
 // 计算当前语言显示文本
 const currentLanguage = computed(() => locale.value === 'zh' ? '中文' : 'English')
-// 获取当前布局设置
-const currentLayout = ref(localStorage.getItem('layout') || 'grid')
 
 // 语言选项配置
 const languageOptions = [
@@ -158,34 +147,6 @@ const languageOptions = [
     key: 'en'
   }
 ]
-
-// 布局选项配置
-const layoutOptions = [
-  {
-    label: t('common.layout.grid'),
-    key: 'grid'
-  },
-  {
-    label: t('common.layout.list'),
-    key: 'list'
-  },
-  {
-    label: t('common.layout.compact'),
-    key: 'compact'
-  },
-  {
-    label: t('common.layout.comfortable'),
-    key: 'comfortable'
-  }
-]
-
-// 处理布局切换
-const handleLayoutSelect = (key) => {
-  currentLayout.value = key
-  localStorage.setItem('layout', key)
-  // 触发布局更新事件
-  window.dispatchEvent(new CustomEvent('layout-change', { detail: { layout: key } }))
-}
 
 // 处理语言切换
 const handleLanguageSelect = (key) => {
