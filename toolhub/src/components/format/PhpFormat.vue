@@ -5,6 +5,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.php.placeholder')"
+        language="php"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

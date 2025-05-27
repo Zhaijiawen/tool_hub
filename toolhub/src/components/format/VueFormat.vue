@@ -6,6 +6,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.vue.placeholder')"
+        language="vue"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

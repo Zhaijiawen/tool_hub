@@ -5,6 +5,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.python.placeholder')"
+        language="python"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

@@ -5,6 +5,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.go.placeholder')"
+        language="go"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

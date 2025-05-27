@@ -7,6 +7,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.json.placeholder')"
+        language="json"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">

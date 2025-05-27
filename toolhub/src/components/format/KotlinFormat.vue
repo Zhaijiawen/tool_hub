@@ -6,6 +6,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.kotlin.placeholder')"
+        language="kotlin"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

@@ -7,6 +7,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.shell.placeholder')"
+        language="shell"
       />
       <!-- 功能按钮组 -->
       <div class="button-group">
