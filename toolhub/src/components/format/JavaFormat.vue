@@ -5,6 +5,7 @@
       <CodeEditor 
         v-model="input"
         :placeholder="t('format.java.placeholder')"
+        language="java"
       />
       <!-- 操作按钮组 -->
       <div class="button-group">

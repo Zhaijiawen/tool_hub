@@ -1,19 +1,6 @@
 <template>
   <!-- 带行号的代码编辑器组件 -->
   <div class="code-editor">
-    <!-- 工具栏 -->
-    <div class="toolbar">
-      <n-checkbox v-model:checked="enableHighlight">
-        {{ t('common.enableHighlight') }}
-      </n-checkbox>
-      <n-select
-        v-if="enableHighlight"
-        v-model:value="language"
-        :options="languageOptions"
-        size="small"
-        class="language-select"
-      />
-    </div>
     <!-- 编辑器容器 -->
     <div class="editor-container">
       <!-- 行号区域 -->
@@ -22,37 +9,29 @@
           v-for="(line, index) in lineNumbers" 
           :key="index" 
           class="line-number"
-          :class="{ 'collapsed': collapsedLines.has(index) }"
         >
-          <!-- 折叠按钮 -->
-          <span 
-            v-if="canFold(index)"
-            class="fold-button"
-            @click="toggleFold(index)"
-          >
-            {{ collapsedLines.has(index) ? '▶' : '▼' }}
-          </span>
           <span class="line-num">{{ index + 1 }}</span>
         </div>
       </div>
       <!-- 代码输入区域 -->
-      <n-input
-        v-if="!enableHighlight"
-        :value="modelValue"
-        @update:value="handleInput"
-        type="textarea"
-        :placeholder="placeholder"
-        :autosize="{ minRows: 10, maxRows: 20 }"
-        class="code-textarea"
-      />
-      <pre v-else class="highlight-container"><code :class="language" ref="highlightCode">{{ displayCode }}</code></pre>
+      <div class="code-area">
+        <div
+          ref="editorRef"
+          class="code-input"
+          contenteditable="true"
+          :data-placeholder="placeholder"
+          @input="handleInput"
+          @paste="handlePaste"
+          @keydown="handleKeydown"
+        ></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 // 导入Vue相关功能
-import { computed, defineProps, defineEmits, ref, watch, nextTick } from 'vue'
+import { computed, defineProps, defineEmits, ref, watch, nextTick, onMounted } from 'vue'
 // 导入国际化功能
 import { useI18n } from 'vue-i18n'
 // 导入highlight.js
@@ -72,7 +51,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  defaultLanguage: {
+  language: {
     type: String,
     default: 'javascript'
   }
@@ -81,28 +60,8 @@ const props = defineProps({
 // 定义组件事件
 const emit = defineEmits(['update:modelValue'])
 
-// 高亮相关状态
-const enableHighlight = ref(false)
-const language = ref(props.defaultLanguage)
-const highlightCode = ref(null)
-
-// 折叠相关状态
-const collapsedLines = ref(new Set())
-
-// 支持的语言选项
-const languageOptions = [
-  { label: 'JavaScript', value: 'javascript' },
-  { label: 'HTML', value: 'html' },
-  { label: 'CSS', value: 'css' },
-  { label: 'JSON', value: 'json' },
-  { label: 'Shell', value: 'bash' },
-  { label: 'Python', value: 'python' },
-  { label: 'Java', value: 'java' },
-  { label: 'XML', value: 'xml' }
-]
-
-// 支持折叠的语言
-const foldableLanguages = ['javascript', 'json', 'html', 'css', 'java', 'python']
+// 编辑器引用
+const editorRef = ref(null)
 
 // 计算行号
 const lineNumbers = computed(() => {
@@ -110,147 +69,78 @@ const lineNumbers = computed(() => {
   return lines.length > 0 ? lines : ['']
 })
 
-// 计算显示的代码（考虑折叠）
-const displayCode = computed(() => {
-  if (!enableHighlight.value || collapsedLines.value.size === 0) {
-    return props.modelValue
-  }
-  
-  const lines = props.modelValue.split('\n')
-  const result = []
-  
-  for (let i = 0; i < lines.length; i++) {
-    if (!collapsedLines.value.has(i)) {
-      result.push(lines[i])
-    } else {
-      // 显示折叠提示
-      result.push('  // ... 已折叠 ...')
-      // 跳过折叠的内容
-      const endIndex = findFoldEnd(i, lines)
-      i = endIndex
-    }
-  }
-  
-  return result.join('\n')
-})
-
-/**
- * 处理输入事件
- * @param {string} value - 输入的值
- */
-const handleInput = (value) => {
-  emit('update:modelValue', value)
+// 处理输入事件
+const handleInput = (event) => {
+  const text = event.target.innerText || ''
+  emit('update:modelValue', text)
 }
 
-/**
- * 判断某行是否可以折叠
- * @param {number} lineIndex - 行索引
- */
-const canFold = (lineIndex) => {
-  // 只有在启用高亮且支持折叠的语言时才显示折叠按钮
-  if (!enableHighlight.value || !foldableLanguages.includes(language.value)) {
-    return false
-  }
-  
-  const lines = props.modelValue.split('\n')
-  const line = lines[lineIndex]
-  
-  if (!line || line.trim() === '') {
-    return false
-  }
-  
-  // JSON 折叠逻辑
-  if (language.value === 'json') {
-    return line.includes('{') || line.includes('[')
-  }
-  
-  // JavaScript 折叠逻辑
-  if (language.value === 'javascript') {
-    return line.includes('{') || line.includes('function') || line.includes('class')
-  }
-  
-  // HTML 折叠逻辑
-  if (language.value === 'html') {
-    return line.includes('<') && !line.includes('</') && !line.includes('/>')
-  }
-  
-  // CSS 折叠逻辑
-  if (language.value === 'css') {
-    return line.includes('{')
-  }
-  
-  return false
+// 处理粘贴事件
+const handlePaste = (event) => {
+  event.preventDefault()
+  const text = (event.clipboardData || window.clipboardData).getData('text')
+  document.execCommand('insertText', false, text)
 }
 
-/**
- * 查找折叠结束位置
- * @param {number} startIndex - 开始索引
- * @param {Array} lines - 代码行数组
- */
-const findFoldEnd = (startIndex, lines) => {
-  const startLine = lines[startIndex]
-  let depth = 0
-  
-  if (language.value === 'json') {
-    for (let i = startIndex; i < lines.length; i++) {
-      const line = lines[i]
-      depth += (line.match(/[{\[]/g) || []).length
-      depth -= (line.match(/[}\]]/g) || []).length
-      if (depth === 0 && i > startIndex) {
-        return i
-      }
-    }
+// 处理键盘事件
+const handleKeydown = (event) => {
+  // Tab键处理
+  if (event.key === 'Tab') {
+    event.preventDefault()
+    document.execCommand('insertText', false, '  ')
   }
-  
-  // 其他语言的折叠逻辑
-  for (let i = startIndex; i < lines.length; i++) {
-    const line = lines[i]
-    depth += (line.match(/{/g) || []).length
-    depth -= (line.match(/}/g) || []).length
-    if (depth === 0 && i > startIndex) {
-      return i
-    }
-  }
-  
-  return lines.length - 1
 }
 
-/**
- * 切换折叠状态
- * @param {number} lineIndex - 行索引
- */
-const toggleFold = (lineIndex) => {
-  const newCollapsed = new Set(collapsedLines.value)
+// 应用语法高亮
+const applyHighlight = () => {
+  if (!editorRef.value) return
   
-  if (newCollapsed.has(lineIndex)) {
-    newCollapsed.delete(lineIndex)
-  } else {
-    newCollapsed.add(lineIndex)
+  const text = props.modelValue
+  if (!text.trim()) {
+    editorRef.value.innerHTML = ''
+    return
   }
   
-  collapsedLines.value = newCollapsed
+  try {
+    const highlighted = hljs.highlight(text, { language: props.language }).value
+    editorRef.value.innerHTML = highlighted
+    
+    // 恢复光标位置到末尾
+    const range = document.createRange()
+    const selection = window.getSelection()
+    range.selectNodeContents(editorRef.value)
+    range.collapse(false)
+    selection.removeAllRanges()
+    selection.addRange(range)
+  } catch (error) {
+    // 如果高亮失败，显示原始文本
+    editorRef.value.innerText = text
+  }
 }
 
-// 监听代码变化，更新高亮
-watch(() => props.modelValue, async () => {
-  if (enableHighlight.value && highlightCode.value) {
+// 监听内容变化
+watch(() => props.modelValue, async (newValue) => {
+  if (!editorRef.value) return
+  
+  // 如果编辑器内容与props不同步，更新编辑器
+  const currentText = editorRef.value.innerText || ''
+  if (currentText !== newValue) {
     await nextTick()
-    hljs.highlightElement(highlightCode.value)
+    applyHighlight()
   }
+}, { immediate: true })
+
+// 监听语言变化
+watch(() => props.language, async () => {
+  await nextTick()
+  applyHighlight()
 })
 
-// 监听语言变化，更新高亮和重置折叠
-watch(language, async () => {
-  collapsedLines.value = new Set() // 重置折叠状态
-  if (enableHighlight.value && highlightCode.value) {
-    await nextTick()
-    hljs.highlightElement(highlightCode.value)
+// 组件挂载后初始化
+onMounted(() => {
+  if (props.modelValue) {
+    applyHighlight()
   }
-})
-
-// 监听高亮状态变化
-watch(enableHighlight, () => {
-  collapsedLines.value = new Set() // 重置折叠状态
 })
 </script>
 
@@ -264,20 +154,6 @@ watch(enableHighlight, () => {
   border-radius: 6px;
   overflow: hidden;
   background-color: var(--n-color);
-}
-
-/* 工具栏 */
-.toolbar {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  border-bottom: 1px solid var(--n-border-color);
-  background-color: var(--n-color-modal);
-}
-
-.language-select {
-  margin-left: 8px;
-  width: 120px;
 }
 
 /* 编辑器容器 */
@@ -309,63 +185,35 @@ watch(enableHighlight, () => {
   position: relative;
 }
 
-.line-number.collapsed {
-  opacity: 0.6;
-}
-
-.fold-button {
-  position: absolute;
-  left: -2px;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 8px;
-  cursor: pointer;
-  color: var(--n-text-color-disabled);
-  transition: color 0.2s;
-}
-
-.fold-button:hover {
-  color: var(--n-text-color);
-}
-
 .line-num {
   margin-left: 14px;
 }
 
-/* 代码文本框 */
-.code-textarea {
+/* 代码区域 */
+.code-area {
   flex: 1;
-}
-
-.code-textarea :deep(.n-input__textarea-el) {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  border: none;
-  outline: none;
-  resize: none;
-  padding: 8px 12px;
-  background-color: transparent;
-}
-
-.code-textarea :deep(.n-input__border),
-.code-textarea :deep(.n-input__state-border) {
-  display: none;
-}
-
-/* 高亮容器 */
-.highlight-container {
-  flex: 1;
-  margin: 0;
-  padding: 8px 12px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  line-height: 1.5;
   overflow: auto;
-  background-color: transparent;
+}
+
+/* 代码输入区域 */
+.code-input {
+  min-height: 200px;
+  padding: 8px 12px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: var(--n-text-color);
+  white-space: pre;
+  overflow-wrap: break-word;
+}
+
+.code-input:empty:before {
+  content: attr(data-placeholder);
+  color: var(--n-text-color-disabled);
+  pointer-events: none;
 }
 
 /* 深色主题适配 */
@@ -377,18 +225,5 @@ watch(enableHighlight, () => {
   background-color: #1f1f23;
   border-right-color: #3f3f46;
   color: #6b7280;
-}
-
-.dark .toolbar {
-  background-color: #1f1f23;
-  border-bottom-color: #3f3f46;
-}
-
-.dark .fold-button {
-  color: #6b7280;
-}
-
-.dark .fold-button:hover {
-  color: #d1d5db;
 }
 </style> 
