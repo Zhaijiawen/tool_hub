@@ -53,6 +53,7 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+const loading = ref(false)
 
 /**
  * 格式化JavaScript
@@ -75,10 +76,6 @@ const formatJs = async () => {
     message.error(t('format.js.error'))
   } finally {
     loading.value = false
-  }
-} catch (e) {
-    error.value = e.message
-    message.error(t('format.js.error'))
   }
 }
 

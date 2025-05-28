@@ -80,29 +80,6 @@ const formatYaml = async () => {
     loading.value = false
   }
 }
-  
-  loading.value = true
-  try {
-    // 使用 Prettier 格式化 YAML 代码
-    const formatted = await prettier.format(input.value, {
-      parser: 'yaml',       // 使用YAML解析器
-      printWidth: 100,      // 每行最大长度
-      tabWidth: 2,          // 缩进空格数
-      useTabs: false,       // 使用空格而不是制表符
-      semi: true,           // 使用分号
-      singleQuote: true,    // 使用单引号
-      trailingComma: 'none' // 不使用尾随逗号
-    })
-    input.value = formatted
-    error.value = ''
-    message.success(t('format.yaml.success'))
-  } catch (e) {
-    error.value = e.message
-    message.error(t('format.yaml.error'))
-  } finally {
-    loading.value = false
-  }
-}
 
 /**
  * 复制到剪贴板

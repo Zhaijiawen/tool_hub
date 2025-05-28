@@ -34,16 +34,12 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import vuePlugin from '@prettier/plugin-vue'
-// 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
-// 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
 
-// 响应式数据
 const input = ref('')
 const error = ref('')
 const loading = ref(false)
@@ -62,30 +58,6 @@ const formatVue = async () => {
   loading.value = true
   try {
     input.value = await formatCode(input.value, 'vue')
-    error.value = ''
-    message.success(t('format.vue.success'))
-  } catch (e) {
-    error.value = e.message
-    message.error(t('format.vue.error'))
-  } finally {
-    loading.value = false
-  }
-}
-  
-  loading.value = true
-  try {
-    // 使用 Prettier 格式化 Vue 代码
-    const formatted = await prettier.format(input.value, {
-      parser: 'vue',
-      plugins: [vuePlugin],
-      printWidth: 100,
-      tabWidth: 2,
-      useTabs: false,
-      semi: false,
-      singleQuote: true,
-      trailingComma: 'none'
-    })
-    input.value = formatted
     error.value = ''
     message.success(t('format.vue.success'))
   } catch (e) {
