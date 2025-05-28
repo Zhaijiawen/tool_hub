@@ -6,7 +6,21 @@
       <div class="header-content">
         <!-- 网站Logo -->
         <div class="logo">
-          <router-link to="/">ToolHub</router-link>
+          <router-link to="/">
+            <n-icon size="32" class="logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <!-- 工具箱主体（线框） -->
+                <rect x="4" y="8" width="24" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <!-- 工具箱把手 -->
+                <path d="M12 8V4C12 2.89543 12.8954 2 14 2H18C19.1046 2 20 2.89543 20 4V8" stroke="currentColor" stroke-width="2" fill="none"/>
+                <!-- 工具箱工具图标 -->
+                <path d="M10 14H14M18 14H22M10 18H14M18 18H22M10 22H14M18 22H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <!-- 工具箱装饰线条 -->
+                <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none"/>
+              </svg>
+            </n-icon>
+            ToolHub
+          </router-link>
         </div>
         <!-- 主导航菜单 -->
         <n-menu
@@ -728,16 +742,20 @@ const goToComposer = () => {
 .logo {
   display: flex;
   align-items: center;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-right: 32px;
-  line-height: 1;
-  height: 64px;
 }
 
 .logo a {
-  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
   text-decoration: none;
+}
+
+.logo-icon {
+  color: var(--n-primary-color);
 }
 
 .header-right {
