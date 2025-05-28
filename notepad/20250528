@@ -1,0 +1,13 @@
+prettier插件://prettier.io/docs/plugins
+
+https://github.com/prettier/plugin-php
+https://github.com/prettier/plugin-ruby
+https://github.com/prettier/plugin-xml
+https://github.com/NiklasPor/prettier-plugin-go-template
+https://github.com/jhipster/prettier-java
+https://github.com/Angry-Potato/prettier-plugin-kotlin
+https://github.com/jinxdash/prettier-plugin-rust
+https://github.com/un-ts/prettier/tree/master/packages/sh
+https://github.com/un-ts/prettier/tree/master/packages/sql
+
+查看format下的组件实现。优先使用js-beautify实现格式化（如json,js,html）。如果js-beautify不支持目标语言的格式化，尝试使用prettier进行前端格式化。如果插件需要后端node支持。请使用axios请求后端。目前该项目没有后端，可以在 toolhub同级增加文件夹补充后端能力。
