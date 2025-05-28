@@ -32,8 +32,8 @@ const BACKEND_REQUIRED_PLUGINS = [
   'prettier-plugin-java',
   'prettier-plugin-kotlin',
   'prettier-plugin-rust',
-  '@un-ts/prettier-plugin-sh',
-  '@un-ts/prettier-plugin-sql'
+  'prettier-plugin-sh',
+  'prettier-plugin-sql'
 ];
 
 /**

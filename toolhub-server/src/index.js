@@ -8,6 +8,9 @@ const kotlinPlugin = require('prettier-plugin-kotlin');
 const rustPlugin = require('prettier-plugin-rust');
 const shPlugin = require('prettier-plugin-sh');
 const sqlPlugin = require('prettier-plugin-sql');
+const xmlPlugin = require('@prettier/plugin-xml');
+const goPlugin = require('prettier-plugin-go-template');
+const vuePlugin = require('@vue/compiler-sfc');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,7 +27,10 @@ const pluginMap = {
   kotlin: [kotlinPlugin],
   rust: [rustPlugin],
   shell: [shPlugin],
-  sql: [sqlPlugin]
+  sql: [sqlPlugin],
+  xml: [xmlPlugin],
+  go: [goPlugin],
+  vue: [vuePlugin]
 };
 
 // 格式化配置
@@ -34,7 +40,11 @@ const prettierOptions = {
   useTabs: false,
   semi: true,
   singleQuote: true,
-  trailingComma: 'none'
+  trailingComma: 'none',
+  // XML 特定配置
+  xmlWhitespaceSensitivity: 'ignore',
+  xmlSelfClosingSpace: true,
+  xmlSortAttributesByKey: true
 };
 
 // 格式化接口
@@ -69,7 +79,12 @@ function getParser(language) {
     kotlin: 'kotlin',
     rust: 'rust',
     shell: 'sh',
-    sql: 'sql'
+    sql: 'sql',
+    xml: 'xml',
+    go: 'go-template',
+    vue: 'vue',
+    markdown: 'markdown',
+    yaml: 'yaml'
   };
   return parserMap[language.toLowerCase()] || 'babel';
 }
