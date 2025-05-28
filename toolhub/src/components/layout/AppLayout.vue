@@ -717,9 +717,9 @@ const goToComposer = () => {
 .header-content {
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 20px;
   height: 64px;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   background-color: var(--background-color);
   color: var(--text-color);
