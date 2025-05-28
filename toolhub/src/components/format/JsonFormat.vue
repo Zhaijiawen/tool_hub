@@ -53,6 +53,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -80,28 +82,16 @@ const isValidJson = (jsonString) => {
 
 /**
  * 格式化JSON
- * 使用原生 JSON 方法进行格式化，确保兼容性和稳定性
+ * 使用通用格式化工具进行格式化
  */
-const formatJson = () => {
+const formatJson = async () => {
   const trimmedInput = input.value.trim()
-  
-  // 检查输入是否为空
   if (!trimmedInput) {
     message.warning(t('format.json.empty'))
     return
   }
-  
-  // 验证 JSON 格式
-  if (!isValidJson(trimmedInput)) {
-    error.value = t('format.json.invalidJson')
-    message.error(t('format.json.invalidJson'))
-    return
-  }
-  
   try {
-    // 使用原生 JSON 格式化（稳定可靠）
-    const parsed = JSON.parse(trimmedInput)
-    input.value = JSON.stringify(parsed, null, 2) // 2个空格缩进
+    input.value = await formatCode(trimmedInput, 'json')
     error.value = ''
     message.success(t('format.json.success'))
   } catch (e) {

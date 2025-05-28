@@ -40,9 +40,10 @@ import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
 // 导入代码格式化工具
-import prettier from 'prettier/standalone'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -60,11 +61,25 @@ const loading = ref(false)
  * 格式化YAML
  * 使用prettier进行格式化，设置缩进和换行等规则
  */
+
 const formatYaml = async () => {
   if (!input.value.trim()) {
     message.warning(t('format.yaml.empty'))
     return
   }
+  
+  loading.value = true
+  try {
+    input.value = await formatCode(input.value, 'yaml')
+    error.value = ''
+    message.success(t('format.yaml.success'))
+  } catch (e) {
+    error.value = e.message
+    message.error(t('format.yaml.error'))
+  } finally {
+    loading.value = false
+  }
+}
   
   loading.value = true
   try {

@@ -31,10 +31,10 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import phpPlugin from '@prettier/plugin-php'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -51,17 +51,7 @@ const formatPhp = async () => {
   
   loading.value = true
   try {
-    const formatted = await prettier.format(input.value, {
-      parser: 'php',
-      plugins: [phpPlugin],
-      printWidth: 100,
-      tabWidth: 4,
-      useTabs: false,
-      semi: true,
-      singleQuote: true,
-      trailingComma: 'none'
-    })
-    input.value = formatted
+    input.value = await formatCode(input.value, 'php')
     error.value = ''
     message.success(t('format.php.success'))
   } catch (e) {

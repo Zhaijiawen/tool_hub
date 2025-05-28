@@ -12,7 +12,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatScala" type="primary">
+        <n-button @click="formatScala" type="primary" :loading="loading">
           {{ t('format.scala.format') }}
         </n-button>
         <!-- 复制按钮 -->
@@ -43,6 +43,8 @@ import { useMessage } from 'naive-ui'
 import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -53,22 +55,28 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+const loading = ref(false)
 
 /**
  * 格式化Scala代码
  * 使用js-beautify进行格式化，设置缩进和空格等规则
  */
-const formatScala = () => {
+const formatScala = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.scala.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = js_beautify(input.value, {
-      indent_size: 2,              // 缩进空格数
-      space_in_empty_paren: true   // 空括号内添加空格
-    })
+    input.value = await formatCode(input.value, 'scala')
     error.value = ''
     message.success(t('format.scala.success'))
   } catch (e) {
     error.value = e.message
     message.error(t('format.scala.error'))
+  } finally {
+    loading.value = false
   }
 }
 

@@ -43,6 +43,8 @@ import { useMessage } from 'naive-ui'
 import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -53,27 +55,28 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+const loading = ref(false)
 
 /**
  * 格式化Shell脚本
  * 使用js-beautify进行格式化，设置缩进和空格等规则
  */
-const formatShell = () => {
+const formatShell = async () => {
   if (!input.value.trim()) {
     message.warning(t('format.shell.empty'))
     return
   }
   
+  loading.value = true
   try {
-    input.value = js_beautify(input.value, {
-      indent_size: 2,              // 缩进空格数
-      space_in_empty_paren: true   // 空括号内添加空格
-    })
+    input.value = await formatCode(input.value, 'shell')
     error.value = ''
     message.success(t('format.shell.success'))
   } catch (e) {
     error.value = e.message
     message.error(t('format.shell.error'))
+  } finally {
+    loading.value = false
   }
 }
 

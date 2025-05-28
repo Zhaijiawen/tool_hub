@@ -31,10 +31,8 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
-import pythonPlugin from '@prettier/plugin-python'
-// 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -51,17 +49,7 @@ const formatPython = async () => {
   
   loading.value = true
   try {
-    const formatted = await prettier.format(input.value, {
-      parser: 'python',
-      plugins: [pythonPlugin],
-      printWidth: 80,
-      tabWidth: 4,
-      useTabs: false,
-      semi: true,
-      singleQuote: true,
-      trailingComma: 'none'
-    })
-    input.value = formatted
+    input.value = await formatCode(input.value, 'python')
     error.value = ''
     message.success(t('format.python.success'))
   } catch (e) {

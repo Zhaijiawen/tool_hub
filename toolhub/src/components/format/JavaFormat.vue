@@ -31,10 +31,11 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import prettier from 'prettier/standalone'
 import parserJava from 'prettier-plugin-java'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -48,20 +49,9 @@ const formatJava = async () => {
     message.warning(t('format.java.empty'))
     return
   }
-  
   loading.value = true
   try {
-    const formatted = await prettier.format(input.value, {
-      parser: 'java',
-      plugins: [parserJava],
-      printWidth: 100,
-      tabWidth: 2,
-      useTabs: false,
-      semi: true,
-      singleQuote: false,
-      trailingComma: 'none'
-    })
-    input.value = formatted
+    input.value = await formatCode(input.value, 'java')
     error.value = ''
     message.success(t('format.java.success'))
   } catch (e) {

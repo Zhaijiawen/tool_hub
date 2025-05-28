@@ -39,12 +39,10 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码格式化工具
-import prettier from 'prettier/standalone'
-import parserBabel from 'prettier/plugins/babel'
-import parserEstree from 'prettier/plugins/estree'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -58,24 +56,27 @@ const error = ref('')
 
 /**
  * 格式化JavaScript
- * 使用prettier进行格式化，设置缩进和换行等规则
+ * 使用通用格式化工具进行格式化
  */
+
 const formatJs = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.js.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    // 使用 Prettier 格式化 JavaScript 代码
-    input.value = await prettier.format(input.value, {
-      parser: 'babel',
-      plugins: [parserBabel, parserEstree],
-      printWidth: 100,    // 每行最大长度
-      tabWidth: 2,        // 缩进空格数
-      useTabs: false,     // 使用空格而不是制表符
-      semi: true,         // 使用分号
-      singleQuote: true,  // 使用单引号
-      trailingComma: 'none' // 不使用尾随逗号
-    })
+    input.value = await formatCode(input.value, 'js')
     error.value = ''
     message.success(t('format.js.success'))
   } catch (e) {
+    error.value = e.message
+    message.error(t('format.js.error'))
+  } finally {
+    loading.value = false
+  }
+} catch (e) {
     error.value = e.message
     message.error(t('format.js.error'))
   }

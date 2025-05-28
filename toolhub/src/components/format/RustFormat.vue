@@ -34,33 +34,36 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { js_beautify } from 'js-beautify'
-// 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
 
-// 响应式数据
 const input = ref('')
 const error = ref('')
+const loading = ref(false)
 
 /**
  * 格式化 Rust 代码
- * 使用 js-beautify 进行代码美化
+ * 使用 formatUtils 进行代码美化
  */
-const formatRust = () => {
+const formatRust = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.rust.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    // 使用 js-beautify 格式化 Rust 代码
-    input.value = js_beautify(input.value, {
-      indent_size: 2, // 缩进大小
-      space_in_empty_paren: true // 空括号中添加空格
-    })
+    input.value = await formatCode(input.value, 'rust')
     error.value = ''
     message.success(t('format.rust.success'))
   } catch (e) {
     error.value = e.message
     message.error(t('format.rust.error'))
+  } finally {
+    loading.value = false
   }
 }
 

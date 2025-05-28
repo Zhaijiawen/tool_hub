@@ -39,10 +39,10 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码美化工具
-import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -56,14 +56,15 @@ const error = ref('')
 
 /**
  * 格式化Lua代码
- * 使用js-beautify进行格式化，设置缩进和空格等规则
+ * 使用通用格式化工具进行格式化
  */
-const formatLua = () => {
+const formatLua = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.lua.empty'))
+    return
+  }
   try {
-    input.value = js_beautify(input.value, {
-      indent_size: 2,              // 缩进空格数
-      space_in_empty_paren: true   // 空括号内添加空格
-    })
+    input.value = await formatCode(input.value, 'lua')
     error.value = ''
     message.success(t('format.lua.success'))
   } catch (e) {

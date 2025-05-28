@@ -39,10 +39,10 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码美化工具
-import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -56,29 +56,15 @@ const error = ref('')
 
 /**
  * 格式化C#代码
- * 使用js-beautify进行格式化，设置缩进和换行等规则
+ * 使用通用格式化工具进行格式化
  */
-const formatCSharp = () => {
+const formatCSharp = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.csharp.empty'))
+    return
+  }
   try {
-    input.value = js_beautify(input.value, {
-      indent_size: 4,                // 缩进空格数
-      indent_char: ' ',              // 使用空格缩进
-      max_preserve_newlines: 2,      // 最大保留空行数
-      preserve_newlines: true,       // 保留换行
-      keep_array_indentation: false, // 不保持数组缩进
-      break_chained_methods: false,  // 不打断链式方法
-      indent_scripts: 'normal',      // 脚本缩进样式
-      brace_style: 'collapse',       // 大括号样式
-      space_before_conditional: true,// 条件语句前加空格
-      unescape_strings: false,       // 不转义字符串
-      jslint_happy: false,          // 不使用jslint风格
-      end_with_newline: true,        // 以换行结束
-      wrap_line_length: 100,         // 行长度限制
-      indent_inner_html: false,      // 不缩进内部HTML
-      comma_first: false,           // 不使用逗号开头
-      e4x: false,                   // 不使用E4X
-      indent_empty_lines: false      // 不缩进空行
-    })
+    input.value = await formatCode(input.value, 'csharp')
     error.value = ''
     message.success(t('format.csharp.success'))
   } catch (e) {

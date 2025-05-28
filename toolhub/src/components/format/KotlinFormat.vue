@@ -34,9 +34,10 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -47,15 +48,15 @@ const error = ref('')
 
 /**
  * 格式化 Kotlin 代码
- * 使用 js-beautify 进行代码美化
+ * 使用通用格式化工具进行格式化
  */
-const formatKotlin = () => {
+const formatKotlin = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.kotlin.empty'))
+    return
+  }
   try {
-    // 使用 js-beautify 格式化 Kotlin 代码
-    input.value = js_beautify(input.value, {
-      indent_size: 2, // 缩进大小
-      space_in_empty_paren: true // 空括号中添加空格
-    })
+    input.value = await formatCode(input.value, 'kotlin')
     error.value = ''
     message.success(t('format.kotlin.success'))
   } catch (e) {

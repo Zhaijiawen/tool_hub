@@ -12,7 +12,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatSql" type="primary">
+        <n-button @click="formatSql" type="primary" :loading="loading">
           {{ t('format.sql.format') }}
         </n-button>
         <!-- 复制按钮 -->
@@ -39,10 +39,10 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入SQL格式化工具
-import { format } from 'sql-formatter'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入格式化工具
+import { formatCode } from '@/utils/formatUtils'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -53,24 +53,28 @@ const message = useMessage()
 const input = ref('')
 // 错误信息
 const error = ref('')
+const loading = ref(false)
 
 /**
  * 格式化SQL
  * 使用sql-formatter进行格式化，设置SQL关键字大写和缩进等规则
  */
-const formatSql = () => {
+const formatSql = async () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.sql.empty'))
+    return
+  }
+  
+  loading.value = true
   try {
-    input.value = format(input.value, {
-      language: 'sql',           // 使用SQL语言
-      uppercase: true,           // SQL关键字大写
-      linesBetweenQueries: 2,    // 查询之间空行数
-      indentStyle: '  '          // 使用两个空格缩进
-    })
+    input.value = await formatCode(input.value, 'sql')
     error.value = ''
     message.success(t('format.sql.success'))
   } catch (e) {
     error.value = e.message
     message.error(t('format.sql.error'))
+  } finally {
+    loading.value = false
   }
 }
 
