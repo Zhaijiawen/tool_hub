@@ -16,7 +16,7 @@
         </template>
       </n-input>
       <!-- 搜索按钮 -->
-      <n-button type="primary" @click="handleSearch">
+      <n-button type="primary" :loading="isSearching" @click="handleSearch">
         {{ $t('common.search') }}
       </n-button>
     </n-input-group>
@@ -24,10 +24,10 @@
     <!-- 搜索结果展示区域 -->
     <div v-if="showResults" class="search-results">
       <!-- 有搜索结果时显示列表 -->
-      <n-card v-if="filteredTools.length > 0">
+      <n-card v-if="searchResults.length > 0">
         <n-list>
           <n-list-item
-            v-for="tool in filteredTools"
+            v-for="tool in searchResults"
             :key="tool.path"
             @click="handleToolSelect(tool)"
           >
@@ -48,21 +48,15 @@
 
 <script setup>
 // 导入Vue相关功能
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 // 导入路由功能
 import { useRouter } from 'vue-router'
 // 导入搜索图标
 import { Search as SearchIcon } from '@vicons/ionicons5'
 // 导入Naive UI组件
 import { NInputGroup, NInput, NButton, NIcon, NCard, NList, NListItem, NThing, NTag, NEmpty } from 'naive-ui'
-
-// 定义组件属性
-const props = defineProps({
-  tools: {
-    type: Array,
-    required: true
-  }
-})
+// 导入API服务
+import { searchTools } from '@/api/tools'
 
 // 初始化路由
 const router = useRouter()
@@ -70,30 +64,31 @@ const router = useRouter()
 const searchText = ref('')
 // 是否显示搜索结果
 const showResults = ref(false)
-
-/**
- * 过滤工具列表
- * 根据搜索文本匹配工具名称、描述和分类
- */
-const filteredTools = computed(() => {
-  if (!searchText.value) return []
-  
-  const searchLower = searchText.value.toLowerCase()
-  return props.tools.filter(tool => {
-    return (
-      tool.name.toLowerCase().includes(searchLower) ||
-      tool.description?.toLowerCase().includes(searchLower) ||
-      tool.category?.toLowerCase().includes(searchLower)
-    )
-  })
-})
+// 搜索结果
+const searchResults = ref([])
+// 是否正在搜索
+const isSearching = ref(false)
 
 /**
  * 处理搜索操作
- * 显示搜索结果
+ * 调用服务端搜索API
  */
-const handleSearch = () => {
-  showResults.value = true
+const handleSearch = async () => {
+  if (!searchText.value) {
+    showResults.value = false
+    return
+  }
+
+  try {
+    isSearching.value = true
+    const { results } = await searchTools(searchText.value)
+    searchResults.value = results
+    showResults.value = true
+  } catch (error) {
+    console.error('Search failed:', error)
+  } finally {
+    isSearching.value = false
+  }
 }
 
 /**
