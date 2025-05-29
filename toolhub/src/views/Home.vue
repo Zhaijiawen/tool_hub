@@ -17,8 +17,8 @@
             </template>
             <!-- 工具列表 -->
             <n-list>
-              <!-- 遍历分类下的工具 -->
-              <n-list-item v-for="tool in category.tools" :key="tool.id">
+              <!-- 只展示前6个工具 -->
+              <n-list-item v-for="tool in category.tools.slice(0, 6)" :key="tool.id">
                 <router-link :to="tool.path">{{ t(`${category.key}.${tool.id}.title`) }}</router-link>
               </n-list-item>
             </n-list>
@@ -45,14 +45,11 @@ const categories = ref([])
 // 获取工具列表
 const fetchTools = async () => {
   try {
-    console.log('Fetching tools with locale:', locale.value)
     const response = await getAllTools(locale.value)
-    console.log('API Response:', response)
     
     if (response.code === 0) {
       // 按分类组织工具
       const toolsByCategory = response.data.reduce((acc, tool) => {
-        console.log('Processing tool:', tool)
         const category = tool.category
         if (!acc[category]) {
           acc[category] = {
@@ -67,11 +64,8 @@ const fetchTools = async () => {
         return acc
       }, {})
       
-      console.log('Organized tools:', toolsByCategory)
       categories.value = Object.values(toolsByCategory)
-      console.log('Final categories:', categories.value)
       window._categories = categories.value
-      console.log('window._categories', window._categories)
     } else {
       console.error('API returned error:', response)
     }

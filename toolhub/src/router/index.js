@@ -20,6 +20,10 @@ const router = createRouter({
           path: 'format',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // JSON格式化
             {
               path: 'json',
@@ -118,6 +122,10 @@ const router = createRouter({
           path: 'encrypt',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // AES加密
             {
               path: 'aes',
@@ -226,6 +234,10 @@ const router = createRouter({
           path: 'convert',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // 时间戳转换
             {
               path: 'timestamp',
@@ -309,6 +321,10 @@ const router = createRouter({
           path: 'image',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // 图片压缩
             {
               path: 'compress',
@@ -347,6 +363,10 @@ const router = createRouter({
           path: 'text',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // 文本工具
             {
               path: 'case',
@@ -372,6 +392,10 @@ const router = createRouter({
           path: 'other',
           component: BaseView,
           children: [
+            {
+              path: '',
+              component: () => import('@/views/CategoryHome.vue')
+            },
             // 其他工具
             {
               path: 'qrcode',
