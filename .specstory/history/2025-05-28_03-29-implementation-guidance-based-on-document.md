@@ -19031,3 +19031,144 @@ _**Assistant**_
 
 ---
 
+_**User**_
+
+有个小问题，切换暗色的时候，编辑器这里有个白条
+
+---
+
+_**Assistant**_
+
+你反馈“切换暗色时编辑器有个白条”，这个白条通常是 CodeMirror 编辑器的滚动条、gutter 或背景没有适配暗色主题导致的。
+
+---
+
+## 解决方法
+
+### 1. 检查 CodeMirror 的主题
+
+确保你在暗色模式下为 CodeMirror 设置了 `one-dark` 或其他暗色主题。例如：
+
+```js
+import { oneDark } from '@codemirror/theme-one-dark'
+
+const editor = new EditorView({
+  // ...
+  extensions: [oneDark]
+})
+```
+
+### 2. 覆盖滚动条和gutter样式
+
+在你的全局样式或对应组件的 `<style>` 里加：
+
+```css
+/* 针对 CodeMirror 6 */
+.cm-editor, .cm-gutters {
+  background: #181a1b !important; /* 或与one-dark一致的深色 */
+}
+
+.cm-scroller {
+  background: #181a1b !important;
+}
+
+/* 滚动条美化（可选） */
+.cm-editor ::-webkit-scrollbar {
+  background: #181a1b;
+}
+.cm-editor ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+```
+
+### 3. 如果你用的是 scoped 样式
+
+请用 `:deep` 修饰符：
+
+```css
+:deep(.cm-editor), :deep(.cm-gutters), :deep(.cm-scroller) {
+  background: #181a1b !important;
+}
+```
+
+---
+
+## 总结
+
+- 主要是 `.cm-editor`、`.cm-gutters`、`.cm-scroller` 的背景色要和暗色主题一致。
+- 滚动条也可以自定义为深色。
+
+如需我帮你自动加到某个组件或全局样式里，请告诉我编辑器用的是哪个组件文件！
+
+---
+
+_**User**_
+
+@CodeEditor.vue 编辑器文件
+
+---
+
+_**Assistant**_
+
+你用的是 CodeMirror 6，并且已经有了暗色主题的适配，但你遇到“暗色模式下有白条”。  
+这个白条通常是 `.cm-gutters`、`.cm-scroller` 或 `.cm-editor` 的背景色没有完全覆盖。
+
+---
+
+## 解决方法
+
+请在 `CodeEditor.vue` 的 `<style scoped>` 里补充如下样式，确保所有相关区域在暗色下都是深色：
+
+```css
+/* 适配 CodeMirror 6 暗色模式下的 gutter、scroller、编辑器背景 */
+.dark .code-editor :deep(.cm-editor),
+.dark .code-editor :deep(.cm-gutters),
+.dark .code-editor :deep(.cm-scroller) {
+  background: #181a1b !important;
+}
+```
+
+如果你想让亮色模式下也统一，可以加：
+
+```css
+.code-editor :deep(.cm-editor),
+.code-editor :deep(.cm-gutters),
+.code-editor :deep(.cm-scroller) {
+  background: var(--n-color) !important;
+}
+```
+
+---
+
+## 推荐操作
+
+1. 在 `CodeEditor.vue` 的 `<style scoped>` 最后加上：
+
+```css
+.dark .code-editor :deep(.cm-editor),
+.dark .code-editor :deep(.cm-gutters),
+.dark .code-editor :deep(.cm-scroller) {
+  background: #181a1b !important;
+}
+```
+
+2. 保存后刷新页面，白条应该就消失了。
+
+---
+
+如需我帮你自动加到文件里，请回复“自动修复”即可！
+
+---
+
+_**User**_
+
+自动修复
+
+---
+
+_**Assistant**_
+
+
+
+---
+

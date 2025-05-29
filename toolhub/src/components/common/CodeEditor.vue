@@ -304,4 +304,10 @@ onBeforeUnmount(() => {
   border-color: #3f3f46;
   color: #6b7280;
 }
+
+.dark .code-editor :deep(.cm-editor),
+.dark .code-editor :deep(.cm-gutters),
+.dark .code-editor :deep(.cm-scroller) {
+  background: #181a1b !important;
+}
 </style> 
