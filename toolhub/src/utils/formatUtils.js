@@ -2,7 +2,7 @@ import beautify from 'js-beautify';
 import prettier from 'prettier/standalone';
 import parserBabel from 'prettier/plugins/babel';
 import parserEstree from 'prettier/plugins/estree';
-import axios from 'axios';
+import { formatCode as formatWithBackend } from '@/api/format';
 
 // js-beautify 配置
 const beautifyOptions = {
@@ -161,25 +161,6 @@ const getPrettierPlugins = async (language) => {
 const needsBackendSupport = (language) => {
   const plugins = getPrettierPlugins(language);
   return plugins.some(plugin => BACKEND_REQUIRED_PLUGINS.includes(plugin));
-};
-
-/**
- * 通过后端进行格式化
- * @param {string} code - 要格式化的代码
- * @param {string} language - 代码语言
- * @returns {Promise<string>} 格式化后的代码
- */
-const formatWithBackend = async (code, language) => {
-  try {
-    const response = await axios.post('/api/format', {
-      code,
-      language
-    });
-    return response.data.formattedCode;
-  } catch (error) {
-    console.error('Backend formatting failed:', error);
-    throw new Error('Backend formatting failed');
-  }
 };
 
 /**

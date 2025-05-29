@@ -33,7 +33,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { getAllTools } from '@/api/tools'
 
 // 初始化国际化
 const { t, locale } = useI18n()
@@ -45,15 +45,11 @@ const categories = ref([])
 // 获取工具列表
 const fetchTools = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/tools', {
-      params: {
-        locale: locale.value
-      }
-    })
+    const response = await getAllTools(locale.value)
     
-    if (response.data.code === 0) {
+    if (response.code === 0) {
       // 按分类组织工具
-      const toolsByCategory = response.data.data.reduce((acc, tool) => {
+      const toolsByCategory = response.data.reduce((acc, tool) => {
         if (!acc[tool.category]) {
           acc[tool.category] = {
             key: tool.category,
