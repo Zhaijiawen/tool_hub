@@ -17896,11 +17896,156 @@ _**Assistant**_
 
 ---
 
-
+```diff
+              <!-- 工具列表 -->
+              <n-list>
+-               <!-- 遍历分类下的工具 -->
+-               <n-list-item v-for="tool in category.tools" :key="tool.id">
++               <!-- 只展示前6个工具 -->
++               <n-list-item v-for="tool in category.tools.slice(0, 6)" :key="tool.id">
+                  <router-link :to="tool.path">{{ t(`${category.key}.${tool.id}.title`) }}</router-link>
+                </n-list-item>
+```
 
 ---
 
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // JSON格式化
+              {
+```
 
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // AES加密
+              {
+```
+
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // 时间戳转换
+              {
+```
+
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // 图片压缩
+              {
+```
+
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // 文本工具
+              {
+```
+
+```diff
+            component: BaseView,
+            children: [
++             {
++               path: '',
++               component: () => import('@/views/CategoryHome.vue')
++             },
+              // 其他工具
+              {
+```
+
+---
+
+已为你自动完成如下优化：
+
+1. 首页每类只展示前6个工具，页面更简洁。
+2. 新增了通用的 `CategoryHome.vue`，点击“更多”跳转到二级页面，自动展示该分类下所有工具。
+3. 路由已为每个分类加了默认子路由，指向 `CategoryHome.vue`，保证二级页面不会空白。
+
+你现在可以体验到：首页简洁，分类页完整，且所有分类页都自动适配，无需重复写代码！
+
+如需美化分类页、增加搜索/筛选等功能，随时告诉我！
+
+---
+
+_**User**_
+
+@CategoryHome.vue 这里使用单页列表不合适，因为工具会很多，拆成两列吧
+
+---
+
+_**Assistant**_
+
+你说得很对，工具较多时单列列表会显得冗长，使用两列（或多列）卡片布局会更美观。  
+下面是推荐的实现方式：使用 Naive UI 的 `n-grid` 实现两列卡片布局。
+
+---
+
+### 修改建议
+
+将 `CategoryHome.vue` 的 `<n-list>` 部分替换为 `n-grid`，每个工具用 `n-card` 展示：
+
+```vue
+<n-grid :cols="2" :x-gap="16" :y-gap="16">
+  <n-grid-item v-for="tool in tools" :key="tool.id">
+    <n-card :title="t(`${category}.${tool.id}.title`)" hoverable>
+      <div>{{ t(`${category}.${tool.id}.description`) }}</div>
+      <template #footer>
+        <router-link :to="tool.path">
+          <n-button type="primary" size="small">{{ t('common.more') }}</n-button>
+        </router-link>
+      </template>
+    </n-card>
+  </n-grid-item>
+</n-grid>
+```
+
+---
+
+### 完整代码片段（只需替换 `<n-list>` 部分）
+
+```vue
+<n-grid :cols="2" :x-gap="16" :y-gap="16">
+  <n-grid-item v-for="tool in tools" :key="tool.id">
+    <n-card :title="t(`${category}.${tool.id}.title`)" hoverable>
+      <div>{{ t(`${category}.${tool.id}.description`) }}</div>
+      <template #footer>
+        <router-link :to="tool.path">
+          <n-button type="primary" size="small">{{ t('common.more') }}</n-button>
+        </router-link>
+      </template>
+    </n-card>
+  </n-grid-item>
+</n-grid>
+```
+
+---
+
+这样每个工具会以卡片形式，两列展示，既美观又易于浏览。  
+如需三列、四列，只需调整 `:cols="2"` 为对应数字即可。
+
+需要我帮你自动替换并美化整个文件吗？
 
 ---
 

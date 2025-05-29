@@ -1,11 +1,18 @@
 <template>
   <div class="category-home">
     <n-card :title="t(`common.${category}`)">
-      <n-list>
-        <n-list-item v-for="tool in tools" :key="tool.id">
-          <router-link :to="tool.path">{{ t(`${category}.${tool.id}.title`) }}</router-link>
-        </n-list-item>
-      </n-list>
+      <n-grid :cols="2" :x-gap="16" :y-gap="16">
+        <n-grid-item v-for="tool in tools" :key="tool.id">
+          <n-card :title="t(`${category}.${tool.id}.title`)" hoverable>
+            <div>{{ t(`${category}.${tool.id}.description`) }}</div>
+            <template #footer>
+              <router-link :to="tool.path">
+                <!-- <n-button type="primary" size="small">{{ t('common.more') }}</n-button> -->
+              </router-link>
+            </template>
+          </n-card>
+        </n-grid-item>
+      </n-grid>
     </n-card>
   </div>
 </template>
