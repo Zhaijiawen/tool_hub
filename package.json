@@ -1,5 +1,15 @@
 {
+  "name": "toolhub",
+  "version": "1.0.0",
+  "description": "A collection of useful development tools",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd toolhub-server && npm start",
+    "client": "cd toolhub && npm run dev",
+    "install-all": "npm install --legacy-peer-deps && cd toolhub-server && npm install --legacy-peer-deps && cd ../toolhub && npm install --legacy-peer-deps"
+  },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "prettier": "^3.5.3",
     "prettier-plugin-java": "^2.6.7"
   },

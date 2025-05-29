@@ -1,111 +1,26 @@
-# ToolHub - 在线工具集合
+# ToolHub
 
-ToolHub 是一个功能丰富的在线工具集合网站，提供各种实用的开发工具和转换工具，帮助开发者提高工作效率。
+一个集成了多种开发工具的在线工具箱。
 
-## 功能特性
+## 功能特点
 
-### 1. 格式化工具
-- JSON 格式化
-- XML 格式化
-- 编程语言格式化
-  - JavaScript
-  - HTML
-  - CSS
-  - Python
-  - Java
-  - C#
-  - Go
-  - PHP
-  - Ruby
-  - Kotlin
-  - Rust
-- 其他语言格式化
-  - Shell/Bash
-  - SQL
-  - Markdown
-  - Dart
-
-### 2. 加密工具
-- 对称加密
-  - AES
-  - ChaCha20
-  - DES/3DES
-- 非对称加密
-  - RSA
-  - ECC
-  - Ed25519
-- 哈希算法
-  - SHA-1
-  - SHA-256
-  - SHA-512
-  - Bcrypt
-  - Argon2
-- 密钥交换
-  - Diffie-Hellman
-  - ECDH
-  - X25519
-- 数字签名
-  - RSA
-  - ECDSA
-  - Ed25519
-- 编码与解码
-  - Base64
-  - Hex
-  - URL编码
-  - HTML编码
-  - JWT编码解码
-
-### 3. 转换工具
-- 时间转换
-  - 时间戳转换
-  - 日期间计算
-  - 日期加减
-- 进制转换
-  - 2进制/10进制/8进制/16进制
-- 字符转换
-  - ASCII码与Unicode码转换
-- 数值转换
-  - 科学计数法
-  - 千分位分隔
-- 单位转换
-  - 存储单位
-  - 时间单位
-  - 长度/温度/重量
-  - 颜色格式
-- 其他工具
-  - 正则表达式工具
-  - Markdown转HTML
-  - 二维码生成器
-  - HTTP状态码解释
-  - User-Agent解析
-  - IP地址查询
-
-### 4. 图片工具
-- 图片压缩
-- 图片裁剪
-- 水印处理
-- 图片格式转换
-
-### 5. 文本工具
-- 文本替换
-- 大小写转换
-- 文本格式化
+- 代码格式化
+- 加密解密
+- 时间戳转换
+- 更多工具持续添加中...
 
 ## 技术栈
 
-- 前端框架：Vue 3
-- UI组件库：Naive UI
-- 国际化：vue-i18n
-- 路由：vue-router
-- 主题：支持亮色/暗色主题切换
+- 前端：Vue 3 + Naive UI
+- 后端：Node.js + Express
+- 国际化：Vue I18n
 
-## 安装说明
+## 开发环境要求
 
-### 环境要求
-- Node.js >= 16.0.0
-- npm >= 7.0.0
+- Node.js >= 16
+- npm >= 8
 
-### 安装步骤
+## 安装
 
 1. 克隆项目
 ```bash
@@ -115,31 +30,39 @@ cd toolhub
 
 2. 安装依赖
 ```bash
-npm install
+npm run install-all
 ```
 
-3. 启动开发服务器
+## 开发
+
+启动开发服务器（同时启动前端和后端）：
 ```bash
-npm run dev
+npm start
 ```
 
-4. 构建生产版本
+单独启动后端服务：
 ```bash
-npm run build
+npm run server
 ```
+
+单独启动前端服务：
+```bash
+npm run client
+```
+
+## 访问
+
+- 前端：http://localhost:5173
+- 后端：http://localhost:3000
 
 ## 项目结构
 
 ```
 toolhub/
-├── src/
-│   ├── components/     # 组件目录
-│   ├── views/         # 页面视图
-│   ├── composables/   # 组合式函数
-│   ├── locales/       # 国际化文件
-│   └── router/        # 路由配置
-├── public/            # 静态资源
-└── package.json       # 项目配置
+├── toolhub/          # 前端项目
+├── toolhub-server/   # 后端项目
+├── package.json      # 项目配置
+└── README.md         # 项目说明
 ```
 
 ## 贡献指南
