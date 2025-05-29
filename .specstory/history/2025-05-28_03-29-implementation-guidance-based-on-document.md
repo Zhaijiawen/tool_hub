@@ -11934,9 +11934,2102 @@ _**Assistant**_
 
 ---
 
+```diff
+- 
++ export default {
++   // 格式化工具
++   format: {
++     json: {
++       title: 'JSON 格式化',
++       description: '格式化、压缩和验证 JSON 数据'
++     },
++     xml: {
++       title: 'XML 格式化',
++       description: '格式化 XML 文档'
++     },
++     yaml: {
++       title: 'YAML 格式化',
++       description: '格式化 YAML 文档'
++     },
++     js: {
++       title: 'JavaScript 格式化',
++       description: '格式化 JavaScript 代码'
++     },
++     html: {
++       title: 'HTML 格式化',
++       description: '格式化 HTML 文档'
++     },
++     css: {
++       title: 'CSS 格式化',
++       description: '格式化 CSS 样式代码'
++     },
++     python: {
++       title: 'Python 格式化',
++       description: '格式化 Python 代码'
++     },
++     java: {
++       title: 'Java 格式化',
++       description: '格式化 Java 代码'
++     },
++     csharp: {
++       title: 'C# 格式化',
++       description: '格式化 C# 代码'
++     },
++     go: {
++       title: 'Go 格式化',
++       description: '格式化 Go 代码'
++     },
++     php: {
++       title: 'PHP 格式化',
++       description: '格式化 PHP 代码'
++     },
++     ruby: {
++       title: 'Ruby 格式化',
++       description: '格式化 Ruby 代码'
++     },
++     kotlin: {
++       title: 'Kotlin 格式化',
++       description: '格式化 Kotlin 代码'
++     },
++     rust: {
++       title: 'Rust 格式化',
++       description: '格式化 Rust 代码'
++     },
++     shell: {
++       title: 'Shell 格式化',
++       description: '格式化 Shell 脚本'
++     },
++     sql: {
++       title: 'SQL 格式化',
++       description: '格式化 SQL 查询语句'
++     },
++     markdown: {
++       title: 'Markdown 格式化',
++       description: '格式化 Markdown 文档'
++     },
++     dart: {
++       title: 'Dart 格式化',
++       description: '格式化 Dart 代码'
++     }
++   },
++ 
++   // 加密工具
++   encrypt: {
++     aes: {
++       title: 'AES 加密',
++       description: 'AES 对称加密算法'
++     },
++     chacha20: {
++       title: 'ChaCha20 加密',
++       description: 'ChaCha20 流加密算法'
++     },
++     des: {
++       title: 'DES 加密',
++       description: 'DES 对称加密算法'
++     },
++     rsa: {
++       title: 'RSA 加密',
++       description: 'RSA 非对称加密算法'
++     },
++     ecc: {
++       title: 'ECC 加密',
++       description: '椭圆曲线加密算法'
++     },
++     ed25519: {
++       title: 'Ed25519 加密',
++       description: 'Ed25519 数字签名算法'
++     },
++     sha: {
++       title: 'SHA 哈希',
++       description: 'SHA 系列哈希算法'
++     },
++     bcrypt: {
++       title: 'Bcrypt 哈希',
++       description: 'Bcrypt 密码哈希算法'
++     },
++     argon2: {
++       title: 'Argon2 哈希',
++       description: 'Argon2 密码哈希算法'
++     },
++     'diffie-hellman': {
++       title: 'Diffie-Hellman 密钥交换',
++       description: 'Diffie-Hellman 密钥交换算法'
++     },
++     ecdh: {
++       title: 'ECDH 密钥交换',
++       description: '椭圆曲线 Diffie-Hellman 密钥交换'
++     },
++     x25519: {
++       title: 'X25519 密钥交换',
++       description: 'X25519 密钥交换算法'
++     },
++     'rsa-sign': {
++       title: 'RSA 签名',
++       description: 'RSA 数字签名算法'
++     },
++     'ecdsa-sign': {
++       title: 'ECDSA 签名',
++       description: '椭圆曲线数字签名算法'
++     },
++     'ed25519-sign': {
++       title: 'Ed25519 签名',
++       description: 'Ed25519 数字签名算法'
++     },
++     base64: {
++       title: 'Base64 编解码',
++       description: 'Base64 编码和解码'
++     },
++     hex: {
++       title: '十六进制编解码',
++       description: '十六进制编码和解码'
++     },
++     url: {
++       title: 'URL 编解码',
++       description: 'URL 编码和解码'
++     },
++     html: {
++       title: 'HTML 编解码',
++       description: 'HTML 实体编码和解码'
++     },
++     jwt: {
++       title: 'JWT 编解码',
++       description: 'JWT 令牌编码和解码'
++     }
++   },
++ 
++   // 转换工具
++   convert: {
++     timestamp: {
++       title: '时间戳转换',
++       description: '时间戳与日期时间互转'
++     },
++     'date-calc': {
++       title: '日期计算',
++       description: '日期加减计算'
++     },
++     'date-diff': {
++       title: '日期差异计算',
++       description: '计算两个日期之间的差异'
++     },
++     number: {
++       title: '数字转换',
++       description: '数字格式转换'
++     },
++     'number-format': {
++       title: '数字格式化',
++       description: '数字格式化显示'
++     },
++     'number-base': {
++       title: '数字进制转换',
++       description: '二进制、八进制、十进制、十六进制互转'
++     },
++     'storage-time': {
++       title: '存储时间转换',
++       description: '存储单位时间转换'
++     },
++     unit: {
++       title: '单位转换',
++       description: '长度、重量、面积等单位转换'
++     },
++     color: {
++       title: '颜色转换',
++       description: '颜色格式转换'
++     },
++     regex: {
++       title: '正则表达式测试',
++       description: '正则表达式测试和验证'
++     },
++     markdown: {
++       title: 'Markdown 预览',
++       description: 'Markdown 实时预览'
++     },
++     'http-status': {
++       title: 'HTTP 状态码查询',
++       description: 'HTTP 状态码查询和说明'
++     },
++     'user-agent': {
++       title: 'User-Agent 解析',
++       description: '解析 User-Agent 字符串'
++     },
++     'ip-lookup': {
++       title: 'IP 地址查询',
++       description: 'IP 地址信息查询'
++     },
++     'char-code': {
++       title: '字符编码转换',
++       description: '字符编码转换工具'
++     }
++   },
++ 
++   // 图片工具
++   image: {
++     compress: {
++       title: '图片压缩',
++       description: '压缩图片大小，保持质量'
++     },
++     convert: {
++       title: '图片格式转换',
++       description: '支持多种图片格式互转'
++     },
++     rotate: {
++       title: '图片旋转',
++       description: '图片旋转和翻转'
++     },
++     crop: {
++       title: '图片裁剪',
++       description: '在线裁剪和调整图片尺寸'
++     },
++     watermark: {
++       title: '图片水印',
++       description: '添加图片水印'
++     },
++     'remove-watermark': {
++       title: '图片去水印',
++       description: '去除图片水印'
++     }
++   },
++ 
++   // 文本工具
++   text: {
++     case: {
++       title: '文本大小写转换',
++       description: '转换文本大小写'
++     },
++     reverse: {
++       title: '文本反转',
++       description: '反转文本内容'
++     },
++     whitespace: {
++       title: '空白字符处理',
++       description: '处理文本中的空白字符'
++     },
++     replace: {
++       title: '文本替换',
++       description: '批量替换文本内容'
++     }
++   },
++ 
++   // 其他工具
++   other: {
++     qrcode: {
++       title: '二维码生成',
++       description: '生成和解析二维码'
++     },
++     'short-url': {
++       title: '短链接生成',
++       description: '生成短链接'
++     },
++     ip: {
++       title: 'IP 工具',
++       description: 'IP 地址相关工具'
++     },
++     calculator: {
++       title: '计算器',
++       description: '在线计算器'
++     }
++   }
++ } 
+```
+
+---
+
+```diff
+- 
++ export default {
++   // Format Tools
++   format: {
++     json: {
++       title: 'JSON Formatter',
++       description: 'Format, compress and validate JSON data'
++     },
++     xml: {
++       title: 'XML Formatter',
++       description: 'Format XML documents'
++     },
++     yaml: {
++       title: 'YAML Formatter',
++       description: 'Format YAML documents'
++     },
++     js: {
++       title: 'JavaScript Formatter',
++       description: 'Format JavaScript code'
++     },
++     html: {
++       title: 'HTML Formatter',
++       description: 'Format HTML documents'
++     },
++     css: {
++       title: 'CSS Formatter',
++       description: 'Format CSS styles'
++     },
++     python: {
++       title: 'Python Formatter',
++       description: 'Format Python code'
++     },
++     java: {
++       title: 'Java Formatter',
++       description: 'Format Java code'
++     },
++     csharp: {
++       title: 'C# Formatter',
++       description: 'Format C# code'
++     },
++     go: {
++       title: 'Go Formatter',
++       description: 'Format Go code'
++     },
++     php: {
++       title: 'PHP Formatter',
++       description: 'Format PHP code'
++     },
++     ruby: {
++       title: 'Ruby Formatter',
++       description: 'Format Ruby code'
++     },
++     kotlin: {
++       title: 'Kotlin Formatter',
++       description: 'Format Kotlin code'
++     },
++     rust: {
++       title: 'Rust Formatter',
++       description: 'Format Rust code'
++     },
++     shell: {
++       title: 'Shell Formatter',
++       description: 'Format Shell scripts'
++     },
++     sql: {
++       title: 'SQL Formatter',
++       description: 'Format SQL queries'
++     },
++     markdown: {
++       title: 'Markdown Formatter',
++       description: 'Format Markdown documents'
++     },
++     dart: {
++       title: 'Dart Formatter',
++       description: 'Format Dart code'
++     }
++   },
++ 
++   // Encryption Tools
++   encrypt: {
++     aes: {
++       title: 'AES Encryption',
++       description: 'AES symmetric encryption algorithm'
++     },
++     chacha20: {
++       title: 'ChaCha20 Encryption',
++       description: 'ChaCha20 stream cipher'
++     },
++     des: {
++       title: 'DES Encryption',
++       description: 'DES symmetric encryption algorithm'
++     },
++     rsa: {
++       title: 'RSA Encryption',
++       description: 'RSA asymmetric encryption algorithm'
++     },
++     ecc: {
++       title: 'ECC Encryption',
++       description: 'Elliptic Curve Cryptography'
++     },
++     ed25519: {
++       title: 'Ed25519 Encryption',
++       description: 'Ed25519 digital signature algorithm'
++     },
++     sha: {
++       title: 'SHA Hash',
++       description: 'SHA series hash algorithms'
++     },
++     bcrypt: {
++       title: 'Bcrypt Hash',
++       description: 'Bcrypt password hashing algorithm'
++     },
++     argon2: {
++       title: 'Argon2 Hash',
++       description: 'Argon2 password hashing algorithm'
++     },
++     'diffie-hellman': {
++       title: 'Diffie-Hellman Key Exchange',
++       description: 'Diffie-Hellman key exchange algorithm'
++     },
++     ecdh: {
++       title: 'ECDH Key Exchange',
++       description: 'Elliptic Curve Diffie-Hellman key exchange'
++     },
++     x25519: {
++       title: 'X25519 Key Exchange',
++       description: 'X25519 key exchange algorithm'
++     },
++     'rsa-sign': {
++       title: 'RSA Signature',
++       description: 'RSA digital signature algorithm'
++     },
++     'ecdsa-sign': {
++       title: 'ECDSA Signature',
++       description: 'Elliptic Curve Digital Signature Algorithm'
++     },
++     'ed25519-sign': {
++       title: 'Ed25519 Signature',
++       description: 'Ed25519 digital signature algorithm'
++     },
++     base64: {
++       title: 'Base64 Encode/Decode',
++       description: 'Base64 encoding and decoding'
++     },
++     hex: {
++       title: 'Hex Encode/Decode',
++       description: 'Hexadecimal encoding and decoding'
++     },
++     url: {
++       title: 'URL Encode/Decode',
++       description: 'URL encoding and decoding'
++     },
++     html: {
++       title: 'HTML Encode/Decode',
++       description: 'HTML entity encoding and decoding'
++     },
++     jwt: {
++       title: 'JWT Encode/Decode',
++       description: 'JWT token encoding and decoding'
++     }
++   },
++ 
++   // Conversion Tools
++   convert: {
++     timestamp: {
++       title: 'Timestamp Converter',
++       description: 'Convert between timestamp and datetime'
++     },
++     'date-calc': {
++       title: 'Date Calculator',
++       description: 'Date addition and subtraction'
++     },
++     'date-diff': {
++       title: 'Date Difference',
++       description: 'Calculate difference between dates'
++     },
++     number: {
++       title: 'Number Converter',
++       description: 'Number format conversion'
++     },
++     'number-format': {
++       title: 'Number Formatter',
++       description: 'Number formatting display'
++     },
++     'number-base': {
++       title: 'Number Base Converter',
++       description: 'Convert between binary, octal, decimal, and hexadecimal'
++     },
++     'storage-time': {
++       title: 'Storage Time Converter',
++       description: 'Storage unit time conversion'
++     },
++     unit: {
++       title: 'Unit Converter',
++       description: 'Convert length, weight, area and other units'
++     },
++     color: {
++       title: 'Color Converter',
++       description: 'Color format conversion'
++     },
++     regex: {
++       title: 'Regex Tester',
++       description: 'Regular expression testing and validation'
++     },
++     markdown: {
++       title: 'Markdown Preview',
++       description: 'Real-time Markdown preview'
++     },
++     'http-status': {
++       title: 'HTTP Status Code Lookup',
++       description: 'HTTP status code lookup and explanation'
++     },
++     'user-agent': {
++       title: 'User-Agent Parser',
++       description: 'Parse User-Agent string'
++     },
++     'ip-lookup': {
++       title: 'IP Address Lookup',
++       description: 'IP address information lookup'
++     },
++     'char-code': {
++       title: 'Character Code Converter',
++       description: 'Character encoding conversion tool'
++     }
++   },
++ 
++   // Image Tools
++   image: {
++     compress: {
++       title: 'Image Compression',
++       description: 'Compress image size while maintaining quality'
++     },
++     convert: {
++       title: 'Image Format Converter',
++       description: 'Convert between various image formats'
++     },
++     rotate: {
++       title: 'Image Rotation',
++       description: 'Rotate and flip images'
++     },
++     crop: {
++       title: 'Image Cropping',
++       description: 'Online image cropping and resizing'
++     },
++     watermark: {
++       title: 'Image Watermark',
++       description: 'Add watermark to images'
++     },
++     'remove-watermark': {
++       title: 'Watermark Removal',
++       description: 'Remove watermark from images'
++     }
++   },
++ 
++   // Text Tools
++   text: {
++     case: {
++       title: 'Text Case Converter',
++       description: 'Convert text case'
++     },
++     reverse: {
++       title: 'Text Reverser',
++       description: 'Reverse text content'
++     },
++     whitespace: {
++       title: 'Whitespace Handler',
++       description: 'Handle whitespace in text'
++     },
++     replace: {
++       title: 'Text Replacer',
++       description: 'Batch text replacement'
++     }
++   },
++ 
++   // Other Tools
++   other: {
++     qrcode: {
++       title: 'QR Code Generator',
++       description: 'Generate and parse QR codes'
++     },
++     'short-url': {
++       title: 'URL Shortener',
++       description: 'Generate short URLs'
++     },
++     ip: {
++       title: 'IP Tools',
++       description: 'IP address related tools'
++     },
++     calculator: {
++       title: 'Calculator',
++       description: 'Online calculator'
++     }
++   }
++ } 
+```
+
+---
+
+现在我们需要在前端项目中配置 i18n：
 
 
 ---
+
+```diff
+- 
++ import { createI18n } from 'vue-i18n'
++ import zhCN from '../locales/zh-CN'
++ import enUS from '../locales/en-US'
++ 
++ const i18n = createI18n({
++   legacy: false,
++   locale: localStorage.getItem('language') || 'zh-CN',
++   fallbackLocale: 'en-US',
++   messages: {
++     'zh-CN': zhCN,
++     'en-US': enUS
++   }
++ })
++ 
++ export default i18n 
+```
+
+---
+
+现在我们需要在 main.js 中注册 i18n：
+
+
+---
+
+```diff
+  import router from './router'
+  // 导入国际化配置
+- import i18n from './locales'
++ import i18n from './i18n'
+  
+  // 导入全局样式
+```
+
+---
+
+现在我们已经完成了 i18n 的配置：
+
+1. 创建了中文（zh-CN）和英文（en-US）的翻译文件
+2. 配置了 i18n 实例，默认使用中文
+3. 在 main.js 中注册了 i18n
+
+现在你可以在组件中使用 i18n 了，例如：
+
+```vue
+<template>
+  <div>{{ $t('format.json.title') }}</div>
+</template>
+```
+
+这样就会根据当前语言显示对应的翻译文本。你觉得这样的实现合适吗？
+
+---
+
+_**User**_
+
+后端的i18n应该在后端实现，搜索的时候也可以根据当前环境 搜索描述或者名字
+
+---
+
+_**Assistant**_
+
+您说得对，让我们修改后端的实现，添加 i18n 支持：
+
+
+---
+
+```diff
+- 
++ module.exports = {
++   // 格式化工具
++   format: {
++     json: {
++       title: 'JSON 格式化',
++       description: '格式化、压缩和验证 JSON 数据'
++     },
++     xml: {
++       title: 'XML 格式化',
++       description: '格式化 XML 文档'
++     },
++     yaml: {
++       title: 'YAML 格式化',
++       description: '格式化 YAML 文档'
++     },
++     js: {
++       title: 'JavaScript 格式化',
++       description: '格式化 JavaScript 代码'
++     },
++     html: {
++       title: 'HTML 格式化',
++       description: '格式化 HTML 文档'
++     },
++     css: {
++       title: 'CSS 格式化',
++       description: '格式化 CSS 样式代码'
++     },
++     python: {
++       title: 'Python 格式化',
++       description: '格式化 Python 代码'
++     },
++     java: {
++       title: 'Java 格式化',
++       description: '格式化 Java 代码'
++     },
++     csharp: {
++       title: 'C# 格式化',
++       description: '格式化 C# 代码'
++     },
++     go: {
++       title: 'Go 格式化',
++       description: '格式化 Go 代码'
++     },
++     php: {
++       title: 'PHP 格式化',
++       description: '格式化 PHP 代码'
++     },
++     ruby: {
++       title: 'Ruby 格式化',
++       description: '格式化 Ruby 代码'
++     },
++     kotlin: {
++       title: 'Kotlin 格式化',
++       description: '格式化 Kotlin 代码'
++     },
++     rust: {
++       title: 'Rust 格式化',
++       description: '格式化 Rust 代码'
++     },
++     shell: {
++       title: 'Shell 格式化',
++       description: '格式化 Shell 脚本'
++     },
++     sql: {
++       title: 'SQL 格式化',
++       description: '格式化 SQL 查询语句'
++     },
++     markdown: {
++       title: 'Markdown 格式化',
++       description: '格式化 Markdown 文档'
++     },
++     dart: {
++       title: 'Dart 格式化',
++       description: '格式化 Dart 代码'
++     }
++   },
++ 
++   // 加密工具
++   encrypt: {
++     aes: {
++       title: 'AES 加密',
++       description: 'AES 对称加密算法'
++     },
++     chacha20: {
++       title: 'ChaCha20 加密',
++       description: 'ChaCha20 流加密算法'
++     },
++     des: {
++       title: 'DES 加密',
++       description: 'DES 对称加密算法'
++     },
++     rsa: {
++       title: 'RSA 加密',
++       description: 'RSA 非对称加密算法'
++     },
++     ecc: {
++       title: 'ECC 加密',
++       description: '椭圆曲线加密算法'
++     },
++     ed25519: {
++       title: 'Ed25519 加密',
++       description: 'Ed25519 数字签名算法'
++     },
++     sha: {
++       title: 'SHA 哈希',
++       description: 'SHA 系列哈希算法'
++     },
++     bcrypt: {
++       title: 'Bcrypt 哈希',
++       description: 'Bcrypt 密码哈希算法'
++     },
++     argon2: {
++       title: 'Argon2 哈希',
++       description: 'Argon2 密码哈希算法'
++     },
++     'diffie-hellman': {
++       title: 'Diffie-Hellman 密钥交换',
++       description: 'Diffie-Hellman 密钥交换算法'
++     },
++     ecdh: {
++       title: 'ECDH 密钥交换',
++       description: '椭圆曲线 Diffie-Hellman 密钥交换'
++     },
++     x25519: {
++       title: 'X25519 密钥交换',
++       description: 'X25519 密钥交换算法'
++     },
++     'rsa-sign': {
++       title: 'RSA 签名',
++       description: 'RSA 数字签名算法'
++     },
++     'ecdsa-sign': {
++       title: 'ECDSA 签名',
++       description: '椭圆曲线数字签名算法'
++     },
++     'ed25519-sign': {
++       title: 'Ed25519 签名',
++       description: 'Ed25519 数字签名算法'
++     },
++     base64: {
++       title: 'Base64 编解码',
++       description: 'Base64 编码和解码'
++     },
++     hex: {
++       title: '十六进制编解码',
++       description: '十六进制编码和解码'
++     },
++     url: {
++       title: 'URL 编解码',
++       description: 'URL 编码和解码'
++     },
++     html: {
++       title: 'HTML 编解码',
++       description: 'HTML 实体编码和解码'
++     },
++     jwt: {
++       title: 'JWT 编解码',
++       description: 'JWT 令牌编码和解码'
++     }
++   },
++ 
++   // 转换工具
++   convert: {
++     timestamp: {
++       title: '时间戳转换',
++       description: '时间戳与日期时间互转'
++     },
++     'date-calc': {
++       title: '日期计算',
++       description: '日期加减计算'
++     },
++     'date-diff': {
++       title: '日期差异计算',
++       description: '计算两个日期之间的差异'
++     },
++     number: {
++       title: '数字转换',
++       description: '数字格式转换'
++     },
++     'number-format': {
++       title: '数字格式化',
++       description: '数字格式化显示'
++     },
++     'number-base': {
++       title: '数字进制转换',
++       description: '二进制、八进制、十进制、十六进制互转'
++     },
++     'storage-time': {
++       title: '存储时间转换',
++       description: '存储单位时间转换'
++     },
++     unit: {
++       title: '单位转换',
++       description: '长度、重量、面积等单位转换'
++     },
++     color: {
++       title: '颜色转换',
++       description: '颜色格式转换'
++     },
++     regex: {
++       title: '正则表达式测试',
++       description: '正则表达式测试和验证'
++     },
++     markdown: {
++       title: 'Markdown 预览',
++       description: 'Markdown 实时预览'
++     },
++     'http-status': {
++       title: 'HTTP 状态码查询',
++       description: 'HTTP 状态码查询和说明'
++     },
++     'user-agent': {
++       title: 'User-Agent 解析',
++       description: '解析 User-Agent 字符串'
++     },
++     'ip-lookup': {
++       title: 'IP 地址查询',
++       description: 'IP 地址信息查询'
++     },
++     'char-code': {
++       title: '字符编码转换',
++       description: '字符编码转换工具'
++     }
++   },
++ 
++   // 图片工具
++   image: {
++     compress: {
++       title: '图片压缩',
++       description: '压缩图片大小，保持质量'
++     },
++     convert: {
++       title: '图片格式转换',
++       description: '支持多种图片格式互转'
++     },
++     rotate: {
++       title: '图片旋转',
++       description: '图片旋转和翻转'
++     },
++     crop: {
++       title: '图片裁剪',
++       description: '在线裁剪和调整图片尺寸'
++     },
++     watermark: {
++       title: '图片水印',
++       description: '添加图片水印'
++     },
++     'remove-watermark': {
++       title: '图片去水印',
++       description: '去除图片水印'
++     }
++   },
++ 
++   // 文本工具
++   text: {
++     case: {
++       title: '文本大小写转换',
++       description: '转换文本大小写'
++     },
++     reverse: {
++       title: '文本反转',
++       description: '反转文本内容'
++     },
++     whitespace: {
++       title: '空白字符处理',
++       description: '处理文本中的空白字符'
++     },
++     replace: {
++       title: '文本替换',
++       description: '批量替换文本内容'
++     }
++   },
++ 
++   // 其他工具
++   other: {
++     qrcode: {
++       title: '二维码生成',
++       description: '生成和解析二维码'
++     },
++     'short-url': {
++       title: '短链接生成',
++       description: '生成短链接'
++     },
++     ip: {
++       title: 'IP 工具',
++       description: 'IP 地址相关工具'
++     },
++     calculator: {
++       title: '计算器',
++       description: '在线计算器'
++     }
++   }
++ } 
+```
+
+---
+
+```diff
+- 
++ module.exports = {
++   // Format Tools
++   format: {
++     json: {
++       title: 'JSON Formatter',
++       description: 'Format, compress and validate JSON data'
++     },
++     xml: {
++       title: 'XML Formatter',
++       description: 'Format XML documents'
++     },
++     yaml: {
++       title: 'YAML Formatter',
++       description: 'Format YAML documents'
++     },
++     js: {
++       title: 'JavaScript Formatter',
++       description: 'Format JavaScript code'
++     },
++     html: {
++       title: 'HTML Formatter',
++       description: 'Format HTML documents'
++     },
++     css: {
++       title: 'CSS Formatter',
++       description: 'Format CSS styles'
++     },
++     python: {
++       title: 'Python Formatter',
++       description: 'Format Python code'
++     },
++     java: {
++       title: 'Java Formatter',
++       description: 'Format Java code'
++     },
++     csharp: {
++       title: 'C# Formatter',
++       description: 'Format C# code'
++     },
++     go: {
++       title: 'Go Formatter',
++       description: 'Format Go code'
++     },
++     php: {
++       title: 'PHP Formatter',
++       description: 'Format PHP code'
++     },
++     ruby: {
++       title: 'Ruby Formatter',
++       description: 'Format Ruby code'
++     },
++     kotlin: {
++       title: 'Kotlin Formatter',
++       description: 'Format Kotlin code'
++     },
++     rust: {
++       title: 'Rust Formatter',
++       description: 'Format Rust code'
++     },
++     shell: {
++       title: 'Shell Formatter',
++       description: 'Format Shell scripts'
++     },
++     sql: {
++       title: 'SQL Formatter',
++       description: 'Format SQL queries'
++     },
++     markdown: {
++       title: 'Markdown Formatter',
++       description: 'Format Markdown documents'
++     },
++     dart: {
++       title: 'Dart Formatter',
++       description: 'Format Dart code'
++     }
++   },
++ 
++   // Encryption Tools
++   encrypt: {
++     aes: {
++       title: 'AES Encryption',
++       description: 'AES symmetric encryption algorithm'
++     },
++     chacha20: {
++       title: 'ChaCha20 Encryption',
++       description: 'ChaCha20 stream cipher'
++     },
++     des: {
++       title: 'DES Encryption',
++       description: 'DES symmetric encryption algorithm'
++     },
++     rsa: {
++       title: 'RSA Encryption',
++       description: 'RSA asymmetric encryption algorithm'
++     },
++     ecc: {
++       title: 'ECC Encryption',
++       description: 'Elliptic Curve Cryptography'
++     },
++     ed25519: {
++       title: 'Ed25519 Encryption',
++       description: 'Ed25519 digital signature algorithm'
++     },
++     sha: {
++       title: 'SHA Hash',
++       description: 'SHA series hash algorithms'
++     },
++     bcrypt: {
++       title: 'Bcrypt Hash',
++       description: 'Bcrypt password hashing algorithm'
++     },
++     argon2: {
++       title: 'Argon2 Hash',
++       description: 'Argon2 password hashing algorithm'
++     },
++     'diffie-hellman': {
++       title: 'Diffie-Hellman Key Exchange',
++       description: 'Diffie-Hellman key exchange algorithm'
++     },
++     ecdh: {
++       title: 'ECDH Key Exchange',
++       description: 'Elliptic Curve Diffie-Hellman key exchange'
++     },
++     x25519: {
++       title: 'X25519 Key Exchange',
++       description: 'X25519 key exchange algorithm'
++     },
++     'rsa-sign': {
++       title: 'RSA Signature',
++       description: 'RSA digital signature algorithm'
++     },
++     'ecdsa-sign': {
++       title: 'ECDSA Signature',
++       description: 'Elliptic Curve Digital Signature Algorithm'
++     },
++     'ed25519-sign': {
++       title: 'Ed25519 Signature',
++       description: 'Ed25519 digital signature algorithm'
++     },
++     base64: {
++       title: 'Base64 Encode/Decode',
++       description: 'Base64 encoding and decoding'
++     },
++     hex: {
++       title: 'Hex Encode/Decode',
++       description: 'Hexadecimal encoding and decoding'
++     },
++     url: {
++       title: 'URL Encode/Decode',
++       description: 'URL encoding and decoding'
++     },
++     html: {
++       title: 'HTML Encode/Decode',
++       description: 'HTML entity encoding and decoding'
++     },
++     jwt: {
++       title: 'JWT Encode/Decode',
++       description: 'JWT token encoding and decoding'
++     }
++   },
++ 
++   // Conversion Tools
++   convert: {
++     timestamp: {
++       title: 'Timestamp Converter',
++       description: 'Convert between timestamp and datetime'
++     },
++     'date-calc': {
++       title: 'Date Calculator',
++       description: 'Date addition and subtraction'
++     },
++     'date-diff': {
++       title: 'Date Difference',
++       description: 'Calculate difference between dates'
++     },
++     number: {
++       title: 'Number Converter',
++       description: 'Number format conversion'
++     },
++     'number-format': {
++       title: 'Number Formatter',
++       description: 'Number formatting display'
++     },
++     'number-base': {
++       title: 'Number Base Converter',
++       description: 'Convert between binary, octal, decimal, and hexadecimal'
++     },
++     'storage-time': {
++       title: 'Storage Time Converter',
++       description: 'Storage unit time conversion'
++     },
++     unit: {
++       title: 'Unit Converter',
++       description: 'Convert length, weight, area and other units'
++     },
++     color: {
++       title: 'Color Converter',
++       description: 'Color format conversion'
++     },
++     regex: {
++       title: 'Regex Tester',
++       description: 'Regular expression testing and validation'
++     },
++     markdown: {
++       title: 'Markdown Preview',
++       description: 'Real-time Markdown preview'
++     },
++     'http-status': {
++       title: 'HTTP Status Code Lookup',
++       description: 'HTTP status code lookup and explanation'
++     },
++     'user-agent': {
++       title: 'User-Agent Parser',
++       description: 'Parse User-Agent string'
++     },
++     'ip-lookup': {
++       title: 'IP Address Lookup',
++       description: 'IP address information lookup'
++     },
++     'char-code': {
++       title: 'Character Code Converter',
++       description: 'Character encoding conversion tool'
++     }
++   },
++ 
++   // Image Tools
++   image: {
++     compress: {
++       title: 'Image Compression',
++       description: 'Compress image size while maintaining quality'
++     },
++     convert: {
++       title: 'Image Format Converter',
++       description: 'Convert between various image formats'
++     },
++     rotate: {
++       title: 'Image Rotation',
++       description: 'Rotate and flip images'
++     },
++     crop: {
++       title: 'Image Cropping',
++       description: 'Online image cropping and resizing'
++     },
++     watermark: {
++       title: 'Image Watermark',
++       description: 'Add watermark to images'
++     },
++     'remove-watermark': {
++       title: 'Watermark Removal',
++       description: 'Remove watermark from images'
++     }
++   },
++ 
++   // Text Tools
++   text: {
++     case: {
++       title: 'Text Case Converter',
++       description: 'Convert text case'
++     },
++     reverse: {
++       title: 'Text Reverser',
++       description: 'Reverse text content'
++     },
++     whitespace: {
++       title: 'Whitespace Handler',
++       description: 'Handle whitespace in text'
++     },
++     replace: {
++       title: 'Text Replacer',
++       description: 'Batch text replacement'
++     }
++   },
++ 
++   // Other Tools
++   other: {
++     qrcode: {
++       title: 'QR Code Generator',
++       description: 'Generate and parse QR codes'
++     },
++     'short-url': {
++       title: 'URL Shortener',
++       description: 'Generate short URLs'
++     },
++     ip: {
++       title: 'IP Tools',
++       description: 'IP address related tools'
++     },
++     calculator: {
++       title: 'Calculator',
++       description: 'Online calculator'
++     }
++   }
++ } 
+```
+
+---
+
+现在让我们修改工具路由，支持多语言搜索：
+
+
+---
+
+```diff
+  const router = express.Router();
+  const tools = require('../data/tools');
++ const zhCN = require('../locales/zh-CN');
++ const enUS = require('../locales/en-US');
+  
+  // 获取所有工具信息
+  router.get('/', (req, res) => {
++   const locale = req.query.locale || 'zh-CN';
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   
++   const localizedTools = tools.map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
++ 
+    res.json({
+      code: 0,
+-     data: tools,
++     data: localizedTools,
+      message: 'success'
+    });
+```
+
+```diff
+  router.get('/category/:category', (req, res) => {
+    const { category } = req.params;
+-   const filteredTools = tools.filter(tool => tool.category === category);
++   const locale = req.query.locale || 'zh-CN';
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   
++   const filteredTools = tools
++     .filter(tool => tool.category === category)
++     .map(tool => ({
++       ...tool,
++       name: translations[tool.category][tool.id].title,
++       description: translations[tool.category][tool.id].description
++     }));
+  
+    res.json({
+```
+
+```diff
+  // 搜索工具
+  router.get('/search', (req, res) => {
+-   const { keyword } = req.query;
++   const { keyword, locale = 'zh-CN' } = req.query;
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++ 
+    if (!keyword) {
++     const localizedTools = tools.map(tool => ({
++       ...tool,
++       name: translations[tool.category][tool.id].title,
++       description: translations[tool.category][tool.id].description
++     }));
++ 
+      return res.json({
+        code: 0,
+-       data: tools,
++       data: localizedTools,
+        message: 'success'
+      });
+    }
+  
+    const searchResults = tools.filter(tool => {
+-     const searchStr = `${tool.name} ${tool.description}`.toLowerCase();
++     const zhTitle = zhCN[tool.category][tool.id].title;
++     const zhDesc = zhCN[tool.category][tool.id].description;
++     const enTitle = enUS[tool.category][tool.id].title;
++     const enDesc = enUS[tool.category][tool.id].description;
++     
++     const searchStr = `${zhTitle} ${zhDesc} ${enTitle} ${enDesc}`.toLowerCase();
+      return searchStr.includes(keyword.toLowerCase());
+-   });
++   }).map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
+  
+    res.json({
+```
+
+---
+
+主要改动：
+
+1. 创建了后端的翻译文件：
+   - `zh-CN.js` - 中文翻译
+   - `en-US.js` - 英文翻译
+
+2. 更新了工具路由：
+   - 添加了 `locale` 参数支持，默认为 `zh-CN`
+   - 所有接口返回的工具信息都会根据当前语言进行本地化
+   - 搜索功能现在会同时搜索中英文的标题和描述
+
+现在前端可以通过以下方式获取本地化的工具信息：
+
+1. 获取所有工具：
+```http
+GET /api/tools?locale=zh-CN
+```
+
+2. 按分类获取工具：
+```http
+GET /api/tools/category/format?locale=en-US
+```
+
+3. 搜索工具（支持中英文搜索）：
+```http
+GET /api/tools/search?keyword=json&locale=zh-CN
+```
+
+这样的实现可以让用户：
+1. 根据当前语言环境获取对应的工具信息
+2. 使用中文或英文关键词搜索工具
+3. 搜索结果会根据用户的语言偏好显示对应的翻译
+
+你觉得这样的实现合适吗？
+
+---
+
+_**User**_
+
+@tools.js @tools.js 这俩名字重复
+
+---
+
+_**Assistant**_
+
+我注意到有两个 `tools.js` 文件，让我们重命名一下以避免混淆：
+
+1. 后端的工具数据文件：`toolhub-server/src/data/tools.js`
+2. 后端的工具路由文件：`toolhub-server/src/routes/tools.js`
+
+让我们重命名路由文件：
+
+
+---
+
+```diff
+- 
++ const express = require('express');
++ const router = express.Router();
++ const tools = require('../data/tools');
++ const zhCN = require('../locales/zh-CN');
++ const enUS = require('../locales/en-US');
++ 
++ // 获取所有工具信息
++ router.get('/', (req, res) => {
++   const locale = req.query.locale || 'zh-CN';
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   
++   const localizedTools = tools.map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
++ 
++   res.json({
++     code: 0,
++     data: localizedTools,
++     message: 'success'
++   });
++ });
++ 
++ // 按分类获取工具信息
++ router.get('/category/:category', (req, res) => {
++   const { category } = req.params;
++   const locale = req.query.locale || 'zh-CN';
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   
++   const filteredTools = tools
++     .filter(tool => tool.category === category)
++     .map(tool => ({
++       ...tool,
++       name: translations[tool.category][tool.id].title,
++       description: translations[tool.category][tool.id].description
++     }));
++ 
++   res.json({
++     code: 0,
++     data: filteredTools,
++     message: 'success'
++   });
++ });
++ 
++ // 搜索工具
++ router.get('/search', (req, res) => {
++   const { keyword, locale = 'zh-CN' } = req.query;
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++ 
++   if (!keyword) {
++     const localizedTools = tools.map(tool => ({
++       ...tool,
++       name: translations[tool.category][tool.id].title,
++       description: translations[tool.category][tool.id].description
++     }));
++ 
++     return res.json({
++       code: 0,
++       data: localizedTools,
++       message: 'success'
++     });
++   }
++ 
++   const searchResults = tools.filter(tool => {
++     const zhTitle = zhCN[tool.category][tool.id].title;
++     const zhDesc = zhCN[tool.category][tool.id].description;
++     const enTitle = enUS[tool.category][tool.id].title;
++     const enDesc = enUS[tool.category][tool.id].description;
++     
++     const searchStr = `${zhTitle} ${zhDesc} ${enTitle} ${enDesc}`.toLowerCase();
++     return searchStr.includes(keyword.toLowerCase());
++   }).map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
++ 
++   res.json({
++     code: 0,
++     data: searchResults,
++     message: 'success'
++   });
++ });
++ 
++ module.exports = router; 
+```
+
+---
+
+现在我们需要更新 `app.js` 中的路由引用：
+
+
+---
+
+```diff
+  const express = require('express');
+  const cors = require('cors');
+- const toolsRouter = require('./routes/tools');
++ const toolRoutes = require('./routes/toolRoutes');
+  
+  const app = express();
+```
+
+```diff
+  
+  // 路由
+- app.use('/api/tools', toolsRouter);
++ app.use('/api/tools', toolRoutes);
+  
+  // 错误处理
+```
+
+---
+
+现在我们可以删除原来的 `tools.js` 路由文件：
+
+
+---
+
+undefined
+
+---
+
+现在文件结构更清晰了：
+
+1. `toolhub-server/src/data/tools.js` - 工具数据定义
+2. `toolhub-server/src/routes/toolRoutes.js` - 工具路由处理
+3. `toolhub-server/src/locales/zh-CN.js` - 中文翻译
+4. `toolhub-server/src/locales/en-US.js` - 英文翻译
+
+这样的命名更加明确，避免了混淆。你觉得这样的修改合适吗？
+
+---
+
+_**User**_
+
+之前的逻辑中服务都在@services 下，而且已经有了searchService
+
+---
+
+_**Assistant**_
+
+您说得对，我们应该把搜索逻辑移到 `searchService.js` 中，保持代码结构的一致性。让我们修改一下：
+
+
+---
+
+```diff
+  const tools = require('../data/tools');
+- 
+- /**
+-  * 搜索工具
+-  * @param {string} query - 搜索关键词
+-  * @returns {Array} 搜索结果
+-  */
+- function searchTools(query) {
+-   if (!query) return [];
+-   
+-   const searchLower = query.toLowerCase();
+-   return tools.filter(tool => {
+-     return (
+-       tool.name.toLowerCase().includes(searchLower) ||
+-       tool.description?.toLowerCase().includes(searchLower) ||
+-       tool.category?.toLowerCase().includes(searchLower)
+-     );
+-   });
+- }
++ const zhCN = require('../locales/zh-CN');
++ const enUS = require('../locales/en-US');
++ 
++ // 获取本地化的工具信息
++ const getLocalizedTools = (tools, translations) => {
++   return tools.map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
++ };
++ 
++ // 获取所有工具
++ const getAllTools = (locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   return getLocalizedTools(tools, translations);
++ };
++ 
++ // 按分类获取工具
++ const getToolsByCategory = (category, locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   const filteredTools = tools.filter(tool => tool.category === category);
++   return getLocalizedTools(filteredTools, translations);
++ };
++ 
++ // 搜索工具
++ const searchTools = (keyword, locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++ 
++   if (!keyword) {
++     return getLocalizedTools(tools, translations);
++   }
++ 
++   const searchResults = tools.filter(tool => {
++     const zhTitle = zhCN[tool.category][tool.id].title;
++     const zhDesc = zhCN[tool.category][tool.id].description;
++     const enTitle = enUS[tool.category][tool.id].title;
++     const enDesc = enUS[tool.category][tool.id].description;
++     
++     const searchStr = `${zhTitle} ${zhDesc} ${enTitle} ${enDesc}`.toLowerCase();
++     return searchStr.includes(keyword.toLowerCase());
++   });
++ 
++   return getLocalizedTools(searchResults, translations);
++ };
+  
+  module.exports = {
++   getAllTools,
++   getToolsByCategory,
+    searchTools
+  }; 
+```
+
+---
+
+现在让我们更新路由文件，使用搜索服务：
+
+
+---
+
+```diff
+  const express = require('express');
+  const router = express.Router();
+- const tools = require('../data/tools');
+- const zhCN = require('../locales/zh-CN');
+- const enUS = require('../locales/en-US');
++ const { getAllTools, getToolsByCategory, searchTools } = require('../services/searchService');
+  
+  // 获取所有工具信息
+  router.get('/', (req, res) => {
+    const locale = req.query.locale || 'zh-CN';
+-   const translations = locale === 'zh-CN' ? zhCN : enUS;
+-   
+-   const localizedTools = tools.map(tool => ({
+-     ...tool,
+-     name: translations[tool.category][tool.id].title,
+-     description: translations[tool.category][tool.id].description
+-   }));
++   const tools = getAllTools(locale);
+  
+    res.json({
+      code: 0,
+-     data: localizedTools,
++     data: tools,
+      message: 'success'
+    });
+```
+
+```diff
+    const { category } = req.params;
+    const locale = req.query.locale || 'zh-CN';
+-   const translations = locale === 'zh-CN' ? zhCN : enUS;
+-   
+-   const filteredTools = tools
+-     .filter(tool => tool.category === category)
+-     .map(tool => ({
+-       ...tool,
+-       name: translations[tool.category][tool.id].title,
+-       description: translations[tool.category][tool.id].description
+-     }));
++   const tools = getToolsByCategory(category, locale);
+  
+    res.json({
+      code: 0,
+-     data: filteredTools,
++     data: tools,
+      message: 'success'
+    });
+```
+
+```diff
+  router.get('/search', (req, res) => {
+    const { keyword, locale = 'zh-CN' } = req.query;
+-   const translations = locale === 'zh-CN' ? zhCN : enUS;
+- 
+-   if (!keyword) {
+-     const localizedTools = tools.map(tool => ({
+-       ...tool,
+-       name: translations[tool.category][tool.id].title,
+-       description: translations[tool.category][tool.id].description
+-     }));
+- 
+-     return res.json({
+-       code: 0,
+-       data: localizedTools,
+-       message: 'success'
+-     });
+-   }
+- 
+-   const searchResults = tools.filter(tool => {
+-     const zhTitle = zhCN[tool.category][tool.id].title;
+-     const zhDesc = zhCN[tool.category][tool.id].description;
+-     const enTitle = enUS[tool.category][tool.id].title;
+-     const enDesc = enUS[tool.category][tool.id].description;
+-     
+-     const searchStr = `${zhTitle} ${zhDesc} ${enTitle} ${enDesc}`.toLowerCase();
+-     return searchStr.includes(keyword.toLowerCase());
+-   }).map(tool => ({
+-     ...tool,
+-     name: translations[tool.category][tool.id].title,
+-     description: translations[tool.category][tool.id].description
+-   }));
++   const tools = searchTools(keyword, locale);
+  
+    res.json({
+      code: 0,
+-     data: searchResults,
++     data: tools,
+      message: 'success'
+    });
+```
+
+---
+
+现在代码结构更清晰了：
+
+1. `searchService.js` 负责所有工具相关的业务逻辑：
+   - 获取所有工具
+   - 按分类获取工具
+   - 搜索工具
+   - 工具信息的本地化处理
+
+2. `toolRoutes.js` 只负责路由处理：
+   - 调用相应的服务方法
+   - 处理请求参数
+   - 返回响应
+
+这样的结构有以下优点：
+1. 业务逻辑集中在服务层，便于维护和测试
+2. 路由层只负责请求处理，代码更简洁
+3. 保持了与其他服务（如 `formatService.js`）相同的代码结构
+
+你觉得这样的修改合适吗？
+
+---
+
+_**User**_
+
+@toolRoutes.js 不要了，都集成到@searchService.js 中，searchService可以个合适名字
+
+---
+
+_**Assistant**_
+
+您说得对，我们可以把路由逻辑也集成到服务中，并给服务一个更合适的名字。由于这个服务主要处理工具相关的所有操作，我们可以叫它 `toolService.js`：
+
+
+---
+
+```diff
+- 
++ const express = require('express');
++ const router = express.Router();
++ const tools = require('../data/tools');
++ const zhCN = require('../locales/zh-CN');
++ const enUS = require('../locales/en-US');
++ 
++ // 获取本地化的工具信息
++ const getLocalizedTools = (tools, translations) => {
++   return tools.map(tool => ({
++     ...tool,
++     name: translations[tool.category][tool.id].title,
++     description: translations[tool.category][tool.id].description
++   }));
++ };
++ 
++ // 获取所有工具
++ const getAllTools = (locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   return getLocalizedTools(tools, translations);
++ };
++ 
++ // 按分类获取工具
++ const getToolsByCategory = (category, locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++   const filteredTools = tools.filter(tool => tool.category === category);
++   return getLocalizedTools(filteredTools, translations);
++ };
++ 
++ // 搜索工具
++ const searchTools = (keyword, locale = 'zh-CN') => {
++   const translations = locale === 'zh-CN' ? zhCN : enUS;
++ 
++   if (!keyword) {
++     return getLocalizedTools(tools, translations);
++   }
++ 
++   const searchResults = tools.filter(tool => {
++     const zhTitle = zhCN[tool.category][tool.id].title;
++     const zhDesc = zhCN[tool.category][tool.id].description;
++     const enTitle = enUS[tool.category][tool.id].title;
++     const enDesc = enUS[tool.category][tool.id].description;
++     
++     const searchStr = `${zhTitle} ${zhDesc} ${enTitle} ${enDesc}`.toLowerCase();
++     return searchStr.includes(keyword.toLowerCase());
++   });
++ 
++   return getLocalizedTools(searchResults, translations);
++ };
++ 
++ // 路由处理
++ router.get('/', (req, res) => {
++   const locale = req.query.locale || 'zh-CN';
++   const tools = getAllTools(locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
++ 
++ router.get('/category/:category', (req, res) => {
++   const { category } = req.params;
++   const locale = req.query.locale || 'zh-CN';
++   const tools = getToolsByCategory(category, locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
++ 
++ router.get('/search', (req, res) => {
++   const { keyword, locale = 'zh-CN' } = req.query;
++   const tools = searchTools(keyword, locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
++ 
++ module.exports = router; 
+```
+
+---
+
+现在我们需要更新 `app.js` 中的路由引用：
+
+
+---
+
+```diff
+  const express = require('express');
+  const cors = require('cors');
+- const toolRoutes = require('./routes/toolRoutes');
++ const toolService = require('./services/toolService');
+  
+  const app = express();
+```
+
+```diff
+  
+  // 路由
+- app.use('/api/tools', toolRoutes);
++ app.use('/api/tools', toolService);
+  
+  // 错误处理
+```
+
+---
+
+现在我们可以删除原来的路由文件：
+
+
+---
+
+undefined
+
+---
+
+现在的结构更加清晰了：
+
+1. 删除了 `toolRoutes.js`，把所有逻辑都集成到了 `toolService.js` 中
+2. 服务名称从 `searchService.js` 改为 `toolService.js`，更准确地反映了它的功能
+3. 保持了相同的 API 接口，前端代码不需要修改
+
+这样的改动有以下优点：
+1. 代码结构更简洁，减少了文件数量
+2. 所有工具相关的逻辑都集中在一个服务中
+3. 服务名称更准确地反映了其功能
+
+你觉得这样的修改合适吗？
+
+---
+
+_**User**_
+
+@searchService.js 是否也可以删除
+
+---
+
+_**Assistant**_
+
+是的，现在 `searchService.js` 的功能已经完全集成到 `toolService.js` 中了，我们可以删除它：
+
+
+---
+
+undefined
+
+---
+
+现在服务层的结构更加清晰了：
+1. `toolService.js` - 处理所有工具相关的功能，包括搜索、分类和本地化
+2. `formatService.js` - 处理格式化相关的功能
+
+这样的结构更加合理，避免了功能重复和文件冗余。你觉得这样的修改合适吗？
+
+---
+
+_**User**_
+
+@toolService.js 的路由移动到@app.js 中 toolService只处理逻辑
+
+---
+
+_**Assistant**_
+
+好的，让我们把路由逻辑从 `toolService.js` 移到 `app.js` 中，保持服务层只处理业务逻辑：
+
+
+---
+
+```diff
+- const express = require('express');
+- const router = express.Router();
+  const tools = require('../data/tools');
+  const zhCN = require('../locales/zh-CN');
+```
+
+```diff
+  };
+  
+- // 路由处理
+- router.get('/', (req, res) => {
+-   const locale = req.query.locale || 'zh-CN';
+-   const tools = getAllTools(locale);
+- 
+-   res.json({
+-     code: 0,
+-     data: tools,
+-     message: 'success'
+-   });
+- });
+- 
+- router.get('/category/:category', (req, res) => {
+-   const { category } = req.params;
+-   const locale = req.query.locale || 'zh-CN';
+-   const tools = getToolsByCategory(category, locale);
+- 
+-   res.json({
+-     code: 0,
+-     data: tools,
+-     message: 'success'
+-   });
+- });
+- 
+- router.get('/search', (req, res) => {
+-   const { keyword, locale = 'zh-CN' } = req.query;
+-   const tools = searchTools(keyword, locale);
+- 
+-   res.json({
+-     code: 0,
+-     data: tools,
+-     message: 'success'
+-   });
+- });
+- 
+- module.exports = router; 
++ module.exports = {
++   getAllTools,
++   getToolsByCategory,
++   searchTools
++ }; 
+```
+
+---
+
+现在让我们更新 `app.js`，添加路由处理：
+
+
+---
+
+```diff
+  const express = require('express');
+  const cors = require('cors');
+- const toolService = require('./services/toolService');
++ const { getAllTools, getToolsByCategory, searchTools } = require('./services/toolService');
+  
+  const app = express();
+```
+
+```diff
+  app.use(express.json());
+  
+- // 路由
+- app.use('/api/tools', toolService);
++ // 工具路由
++ app.get('/api/tools', (req, res) => {
++   const locale = req.query.locale || 'zh-CN';
++   const tools = getAllTools(locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
++ 
++ app.get('/api/tools/category/:category', (req, res) => {
++   const { category } = req.params;
++   const locale = req.query.locale || 'zh-CN';
++   const tools = getToolsByCategory(category, locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
++ 
++ app.get('/api/tools/search', (req, res) => {
++   const { keyword, locale = 'zh-CN' } = req.query;
++   const tools = searchTools(keyword, locale);
++ 
++   res.json({
++     code: 0,
++     data: tools,
++     message: 'success'
++   });
++ });
+  
+  // 错误处理
+```
+
+---
+
+现在的结构更加清晰了：
+
+1. `toolService.js` 只负责业务逻辑：
+   - 获取所有工具
+   - 按分类获取工具
+   - 搜索工具
+   - 工具信息的本地化处理
+
+2. `app.js` 负责路由处理：
+   - 定义 API 路由
+   - 调用相应的服务方法
+   - 处理请求参数
+   - 返回响应
+
+这样的分层更加合理：
+1. 服务层专注于业务逻辑
+2. 路由层专注于请求处理
+3. 代码职责更加清晰
+
+你觉得这样的修改合适吗？
+
+---
+
+_**User**_
+
+@app.js @index.js 这俩的关系是什么，为什么都有路由呢
+
+---
+
+_**Assistant**_
 
 
 

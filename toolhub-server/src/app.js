@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const toolsRouter = require('./routes/tools');
+const { getAllTools, getToolsByCategory, searchTools } = require('./services/toolService');
+const { formatCode } = require('./services/formatService');
 
 const app = express();
 
@@ -8,8 +9,52 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 路由
-app.use('/api/tools', toolsRouter);
+// 工具路由
+app.get('/api/tools', (req, res) => {
+  const locale = req.query.locale || 'zh-CN';
+  const tools = getAllTools(locale);
+
+  res.json({
+    code: 0,
+    data: tools,
+    message: 'success'
+  });
+});
+
+app.get('/api/tools/category/:category', (req, res) => {
+  const { category } = req.params;
+  const locale = req.query.locale || 'zh-CN';
+  const tools = getToolsByCategory(category, locale);
+
+  res.json({
+    code: 0,
+    data: tools,
+    message: 'success'
+  });
+});
+
+app.get('/api/tools/search', (req, res) => {
+  const { keyword, locale = 'zh-CN' } = req.query;
+  const tools = searchTools(keyword, locale);
+
+  res.json({
+    code: 0,
+    data: tools,
+    message: 'success'
+  });
+});
+
+// 格式化接口
+app.post('/api/format', async (req, res) => {
+  try {
+    const { code, language } = req.body;
+    const formattedCode = await formatCode(code, language);
+    res.json({ formattedCode });
+  } catch (error) {
+    console.error('Formatting error:', error);
+    res.status(500).json({ error: 'Formatting failed' });
+  }
+});
 
 // 错误处理
 app.use((err, req, res, next) => {
