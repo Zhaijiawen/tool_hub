@@ -57,6 +57,8 @@ import { Search as SearchIcon } from '@vicons/ionicons5'
 import { NInputGroup, NInput, NButton, NIcon, NCard, NList, NListItem, NThing, NTag, NEmpty } from 'naive-ui'
 // 导入API服务
 import { searchTools } from '@/api/tools'
+// 导入i18n功能
+import { useI18n } from 'vue-i18n'
 
 // 初始化路由
 const router = useRouter()
@@ -68,6 +70,8 @@ const showResults = ref(false)
 const searchResults = ref([])
 // 是否正在搜索
 const isSearching = ref(false)
+// 获取i18n实例
+const { locale } = useI18n()
 
 /**
  * 处理搜索操作
@@ -81,8 +85,8 @@ const handleSearch = async () => {
 
   try {
     isSearching.value = true
-    const { results } = await searchTools(searchText.value)
-    searchResults.value = results
+    const res = await searchTools(searchText.value, locale.value)
+    searchResults.value = res.data || []
     showResults.value = true
   } catch (error) {
     console.error('Search failed:', error)
@@ -105,6 +109,13 @@ const handleToolSelect = (tool) => {
 watch(searchText, (newValue) => {
   if (!newValue) {
     showResults.value = false
+  }
+})
+
+// 监听语言切换，自动刷新搜索结果
+watch(locale, (newLocale) => {
+  if (searchText.value) {
+    handleSearch()
   }
 })
 

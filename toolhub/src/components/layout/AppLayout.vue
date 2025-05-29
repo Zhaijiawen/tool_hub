@@ -19,7 +19,7 @@
                 <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none"/>
               </svg>
             </n-icon>
-            ToolHub
+            <span>ToolHub</span>
           </router-link>
         </div>
         <!-- 主导航菜单 -->
@@ -741,9 +741,10 @@ const goToComposer = () => {
 
 .logo {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   font-size: 1.5rem;
   font-weight: bold;
+  margin-right: 24px;
 }
 
 .logo a {
@@ -754,8 +755,13 @@ const goToComposer = () => {
   text-decoration: none;
 }
 
+.logo span {
+  margin-top: -2px;
+  display: inline-block;
+}
+
 .logo-icon {
-  color: var(--n-primary-color);
+  margin-bottom: 4px;
 }
 
 .header-right {

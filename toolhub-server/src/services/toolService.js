@@ -15,20 +15,20 @@ const getLocalizedTools = (tools, translations) => {
 
 // 获取所有工具
 const getAllTools = (locale = 'zh-CN') => {
-  const translations = locale === 'zh-CN' ? zhCN : enUS;
+  const translations = locale && locale.startsWith('zh') ? zhCN : enUS;
   return getLocalizedTools(tools, translations);
 };
 
 // 按分类获取工具
 const getToolsByCategory = (category, locale = 'zh-CN') => {
-  const translations = locale === 'zh-CN' ? zhCN : enUS;
+  const translations = locale && locale.startsWith('zh') ? zhCN : enUS;
   const filteredTools = tools.filter(tool => tool.category === category);
   return getLocalizedTools(filteredTools, translations);
 };
 
 // 搜索工具
 const searchTools = (keyword, locale = 'zh-CN') => {
-  const translations = locale === 'zh-CN' ? zhCN : enUS;
+  const translations = locale && locale.startsWith('zh') ? zhCN : enUS;
 
   if (!keyword) {
     return getLocalizedTools(tools, translations);
