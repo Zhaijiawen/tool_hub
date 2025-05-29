@@ -105,10 +105,22 @@ const handleToolSelect = (tool) => {
   searchText.value = ''
 }
 
-// 监听搜索文本变化，当清空时隐藏结果
+// 防抖函数
+function debounce(fn, delay = 300) {
+  let timer = null
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
+  }
+}
+
+const debouncedSearch = debounce(handleSearch, 300)
+
 watch(searchText, (newValue) => {
   if (!newValue) {
     showResults.value = false
+  } else {
+    debouncedSearch()
   }
 })
 

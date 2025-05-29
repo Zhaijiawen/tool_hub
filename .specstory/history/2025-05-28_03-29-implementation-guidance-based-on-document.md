@@ -19168,6 +19168,88 @@ _**User**_
 
 _**Assistant**_
 
+```diff
+    color: #6b7280;
+  }
++ 
++ .dark .code-editor :deep(.cm-editor),
++ .dark .code-editor :deep(.cm-gutters),
++ .dark .code-editor :deep(.cm-scroller) {
++   background: #181a1b !important;
++ }
+  </style> 
+```
+
+---
+
+已自动修复：  
+现在暗色模式下，CodeMirror 编辑器的 gutter、scroller、主区域都会是深色背景，白条问题彻底消失。
+
+如还有其他暗色/亮色主题细节问题，欢迎随时反馈！
+
+---
+
+_**User**_
+
+@ToolSearch.vue 这里点击回车才会搜索，能改成及时响应的搜索吗
+
+---
+
+_**Assistant**_
+
+可以！你只需在 `ToolSearch.vue` 里监听输入框内容变化（即 `searchText`），在用户输入时自动触发搜索（带防抖），就能实现“即时响应搜索”。
+
+---
+
+## 推荐实现方式
+
+1. **引入防抖（debounce）函数**，避免每次输入都请求，提升性能。
+2. **监听 `searchText` 变化，自动调用 `handleSearch`。**
+
+---
+
+### 代码修改建议
+
+在 `<script setup>` 里加：
+
+```js
+// 防抖函数
+function debounce(fn, delay = 300) {
+  let timer = null
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => fn(...args), delay)
+  }
+}
+
+const debouncedSearch = debounce(handleSearch, 300)
+
+watch(searchText, (newValue) => {
+  if (!newValue) {
+    showResults.value = false
+  } else {
+    debouncedSearch()
+  }
+})
+```
+
+- 这样用户输入时会自动搜索，且不会频繁请求。
+- 可以把原来的 `@keyup.enter="handleSearch"` 去掉，或者保留，回车时也能立即搜索。
+
+---
+
+需要我帮你自动加到 `ToolSearch.vue` 吗？
+
+---
+
+_**User**_
+
+需要
+
+---
+
+_**Assistant**_
+
 
 
 ---
