@@ -1,6 +1,6 @@
 <template>
-  <!-- 转换工具视图容器 -->
-  <div class="convert-view">
+  <!-- 工具视图容器 -->
+  <div class="tool-view">
     <router-view></router-view>
   </div>
 </template>
@@ -15,8 +15,8 @@ const route = useRoute()
 </script>
 
 <style scoped>
-/* 转换工具视图容器样式 */
-.convert-view {
+/* 工具视图容器样式 */
+.tool-view {
   padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
