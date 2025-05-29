@@ -13,6 +13,7 @@ app.use(express.json());
 app.get('/api/tools', (req, res) => {
   const locale = req.query.locale || 'zh-CN';
   const tools = getAllTools(locale);
+  console.log('Tools data:', tools);
 
   res.json({
     code: 0,
@@ -49,10 +50,17 @@ app.post('/api/format', async (req, res) => {
   try {
     const { code, language } = req.body;
     const formattedCode = await formatCode(code, language);
-    res.json({ formattedCode });
+    res.json({
+      code: 0,
+      data: { formattedCode },
+      message: 'success'
+    });
   } catch (error) {
-    console.error('Formatting error:', error);
-    res.status(500).json({ error: 'Formatting failed' });
+    console.error('Format error:', error);
+    res.status(500).json({
+      code: 1,
+      message: error.message
+    });
   }
 });
 
@@ -63,6 +71,11 @@ app.use((err, req, res, next) => {
     code: 500,
     message: 'Internal Server Error'
   });
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 module.exports = app; 

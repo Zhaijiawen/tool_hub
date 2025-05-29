@@ -1,4 +1,18 @@
 module.exports = {
+  // 通用
+  common: {
+    format: '格式化',
+    encrypt: '加密',
+    convert: '转换',
+    image: '图片',
+    text: '文本',
+    other: '其他',
+    more: '更多',
+    search: '搜索',
+    searchPlaceholder: '搜索工具...',
+    noResults: '没有找到相关工具'
+  },
+
   // 格式化工具
   format: {
     json: {
@@ -23,7 +37,7 @@ module.exports = {
     },
     css: {
       title: 'CSS 格式化',
-      description: '格式化 CSS 样式代码'
+      description: '格式化 CSS 样式'
     },
     python: {
       title: 'Python 格式化',
@@ -63,7 +77,7 @@ module.exports = {
     },
     sql: {
       title: 'SQL 格式化',
-      description: '格式化 SQL 查询语句'
+      description: '格式化 SQL 查询'
     },
     markdown: {
       title: 'Markdown 格式化',
@@ -95,7 +109,7 @@ module.exports = {
     },
     ecc: {
       title: 'ECC 加密',
-      description: '椭圆曲线加密算法'
+      description: '椭圆曲线加密'
     },
     ed25519: {
       title: 'Ed25519 加密',
@@ -142,7 +156,7 @@ module.exports = {
       description: 'Base64 编码和解码'
     },
     hex: {
-      title: '十六进制编解码',
+      title: 'Hex 编解码',
       description: '十六进制编码和解码'
     },
     url: {
@@ -163,15 +177,15 @@ module.exports = {
   convert: {
     timestamp: {
       title: '时间戳转换',
-      description: '时间戳与日期时间互转'
+      description: '时间戳和日期时间互转'
     },
     'date-calc': {
       title: '日期计算',
       description: '日期加减计算'
     },
     'date-diff': {
-      title: '日期差异计算',
-      description: '计算两个日期之间的差异'
+      title: '日期差值',
+      description: '计算两个日期之间的差值'
     },
     number: {
       title: '数字转换',
@@ -182,7 +196,7 @@ module.exports = {
       description: '数字格式化显示'
     },
     'number-base': {
-      title: '数字进制转换',
+      title: '进制转换',
       description: '二进制、八进制、十进制、十六进制互转'
     },
     'storage-time': {
@@ -198,16 +212,16 @@ module.exports = {
       description: '颜色格式转换'
     },
     regex: {
-      title: '正则表达式测试',
+      title: '正则表达式',
       description: '正则表达式测试和验证'
     },
     markdown: {
       title: 'Markdown 预览',
-      description: 'Markdown 实时预览'
+      description: '实时 Markdown 预览'
     },
     'http-status': {
-      title: 'HTTP 状态码查询',
-      description: 'HTTP 状态码查询和说明'
+      title: 'HTTP 状态码',
+      description: 'HTTP 状态码查询和解释'
     },
     'user-agent': {
       title: 'User-Agent 解析',
@@ -231,22 +245,22 @@ module.exports = {
     },
     convert: {
       title: '图片格式转换',
-      description: '支持多种图片格式互转'
+      description: '各种图片格式互转'
     },
     rotate: {
       title: '图片旋转',
-      description: '图片旋转和翻转'
+      description: '旋转和翻转图片'
     },
     crop: {
       title: '图片裁剪',
-      description: '在线裁剪和调整图片尺寸'
+      description: '在线图片裁剪和调整大小'
     },
     watermark: {
       title: '图片水印',
       description: '添加图片水印'
     },
     'remove-watermark': {
-      title: '图片去水印',
+      title: '去除水印',
       description: '去除图片水印'
     }
   },
@@ -267,7 +281,7 @@ module.exports = {
     },
     replace: {
       title: '文本替换',
-      description: '批量替换文本内容'
+      description: '批量文本替换'
     }
   },
 

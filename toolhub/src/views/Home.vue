@@ -8,7 +8,7 @@
         <!-- 遍历工具分类 -->
         <n-grid-item v-for="category in categories" :key="category.key">
           <!-- 分类卡片 -->
-          <n-card :title="t(category.title)" hoverable>
+          <n-card :title="t(`common.${category.key}`)" hoverable>
             <!-- 卡片头部额外内容：更多按钮 -->
             <template #header-extra>
               <n-button text @click="navigateToCategory(category.key)">
@@ -19,7 +19,7 @@
             <n-list>
               <!-- 遍历分类下的工具 -->
               <n-list-item v-for="tool in category.tools" :key="tool.id">
-                <router-link :to="tool.path">{{ tool.name }}</router-link>
+                <router-link :to="tool.path">{{ t(`${category.key}.${tool.id}.title`) }}</router-link>
               </n-list-item>
             </n-list>
           </n-card>
@@ -45,27 +45,35 @@ const categories = ref([])
 // 获取工具列表
 const fetchTools = async () => {
   try {
+    console.log('Fetching tools with locale:', locale.value)
     const response = await getAllTools(locale.value)
+    console.log('API Response:', response)
     
     if (response.code === 0) {
       // 按分类组织工具
       const toolsByCategory = response.data.reduce((acc, tool) => {
-        if (!acc[tool.category]) {
-          acc[tool.category] = {
-            key: tool.category,
-            title: `common.${tool.category}`,
+        console.log('Processing tool:', tool)
+        const category = tool.category
+        if (!acc[category]) {
+          acc[category] = {
+            key: category,
             tools: []
           }
         }
-        acc[tool.category].tools.push({
+        acc[category].tools.push({
           id: tool.id,
-          name: tool.name,
-          path: `/${tool.category}/${tool.id}`
+          path: tool.path
         })
         return acc
       }, {})
       
+      console.log('Organized tools:', toolsByCategory)
       categories.value = Object.values(toolsByCategory)
+      console.log('Final categories:', categories.value)
+      window._categories = categories.value
+      console.log('window._categories', window._categories)
+    } else {
+      console.error('API returned error:', response)
     }
   } catch (error) {
     console.error('Failed to fetch tools:', error)

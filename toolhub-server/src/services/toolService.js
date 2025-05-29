@@ -5,9 +5,11 @@ const enUS = require('../locales/en-US');
 // 获取本地化的工具信息
 const getLocalizedTools = (tools, translations) => {
   return tools.map(tool => ({
-    ...tool,
+    id: tool.id,
     name: translations[tool.category][tool.id].title,
-    description: translations[tool.category][tool.id].description
+    description: translations[tool.category][tool.id].description,
+    path: tool.path,
+    category: tool.category
   }));
 };
 

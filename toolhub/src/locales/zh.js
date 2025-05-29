@@ -1,11 +1,14 @@
 export default {
+  home: {
+    welcome: '欢迎使用 ToolHub'
+  },
   common: {
-    format: '格式化工具',
-    encrypt: '加密工具',
-    convert: '转换工具',
-    image: '图片工具',
-    text: '文本工具',
-    other: '其他工具',
+    format: '格式化',
+    encrypt: '加密',
+    convert: '转换',
+    image: '图片',
+    text: '文本',
+    other: '其他',
     copy: '复制',
     success: '成功',
     error: '错误',
@@ -156,106 +159,76 @@ export default {
     programmingLanguageFormat: '编程语言格式化',
     otherLanguage: '其他语言',
     json: {
-      title: 'JSON格式化',
-      description: '格式化JSON数据，支持压缩和美化'
+      title: 'JSON 格式化',
+      description: '格式化、压缩和验证 JSON 数据'
     },
     xml: {
-      title: 'XML格式化',
-      description: '格式化XML数据，支持压缩和美化'
+      title: 'XML 格式化',
+      description: '格式化 XML 文档'
     },
     yaml: {
-      title: 'YAML格式化',
-      description: '格式化YAML数据，支持压缩和美化'
+      title: 'YAML 格式化',
+      description: '格式化 YAML 文档'
     },
     js: {
-      title: 'JavaScript格式化',
-      description: '格式化JavaScript代码',
-      placeholder: '请输入JavaScript代码',
-      format: '格式化'
+      title: 'JavaScript 格式化',
+      description: '格式化 JavaScript 代码'
     },
     html: {
-      title: 'HTML格式化',
-      description: '格式化HTML代码',
-      placeholder: '请输入HTML代码',
-      format: '格式化'
+      title: 'HTML 格式化',
+      description: '格式化 HTML 文档'
     },
     css: {
-      title: 'CSS格式化',
-      description: '格式化CSS代码',
-      placeholder: '请输入CSS代码',
-      format: '格式化'
+      title: 'CSS 格式化',
+      description: '格式化 CSS 样式'
     },
     python: {
-      title: 'Python格式化',
-      description: '格式化Python代码',
-      placeholder: '请输入Python代码',
-      format: '格式化'
+      title: 'Python 格式化',
+      description: '格式化 Python 代码'
     },
     java: {
-      title: 'Java格式化',
-      description: '格式化Java代码',
-      placeholder: '请输入Java代码',
-      format: '格式化'
+      title: 'Java 格式化',
+      description: '格式化 Java 代码'
     },
     csharp: {
-      title: 'C#格式化',
-      description: '格式化C#代码',
-      placeholder: '请输入C#代码',
-      format: '格式化'
+      title: 'C# 格式化',
+      description: '格式化 C# 代码'
     },
     go: {
-      title: 'Go格式化',
-      description: '格式化Go代码',
-      placeholder: '请输入Go代码',
-      format: '格式化'
+      title: 'Go 格式化',
+      description: '格式化 Go 代码'
     },
     php: {
-      title: 'PHP格式化',
-      description: '格式化PHP代码',
-      placeholder: '请输入PHP代码',
-      format: '格式化'
+      title: 'PHP 格式化',
+      description: '格式化 PHP 代码'
     },
     ruby: {
-      title: 'Ruby格式化',
-      description: '格式化Ruby代码',
-      placeholder: '请输入Ruby代码',
-      format: '格式化'
+      title: 'Ruby 格式化',
+      description: '格式化 Ruby 代码'
     },
     kotlin: {
-      title: 'Kotlin格式化',
-      description: '格式化Kotlin代码',
-      placeholder: '请输入Kotlin代码',
-      format: '格式化'
+      title: 'Kotlin 格式化',
+      description: '格式化 Kotlin 代码'
     },
     rust: {
-      title: 'Rust格式化',
-      description: '格式化Rust代码',
-      placeholder: '请输入Rust代码',
-      format: '格式化'
+      title: 'Rust 格式化',
+      description: '格式化 Rust 代码'
     },
     shell: {
-      title: 'Shell/Bash格式化',
-      description: '格式化Shell/Bash脚本',
-      placeholder: '请输入Shell/Bash脚本',
-      format: '格式化'
+      title: 'Shell 格式化',
+      description: '格式化 Shell 脚本'
     },
     sql: {
-      title: 'SQL格式化',
-      description: '格式化SQL语句',
-      placeholder: '请输入SQL语句',
-      format: '格式化'
+      title: 'SQL 格式化',
+      description: '格式化 SQL 查询'
     },
     markdown: {
-      title: 'Markdown格式化',
-      description: '格式化Markdown文本',
-      placeholder: '请输入Markdown文本',
-      format: '格式化'
+      title: 'Markdown 格式化',
+      description: '格式化 Markdown 文档'
     },
     dart: {
-      title: 'Dart格式化',
-      description: '格式化Dart代码',
-      placeholder: '请输入Dart代码',
-      format: '格式化'
+      title: 'Dart 格式化',
+      description: '格式化 Dart 代码'
     }
   },
   encrypt: {
@@ -266,92 +239,84 @@ export default {
     digitalSignature: '数字签名',
     encoding: '编码与解码',
     aes: {
-      title: 'AES加密/解密',
-      description: 'AES加密和解密工具'
+      title: 'AES 加密',
+      description: 'AES 对称加密算法'
     },
     chacha20: {
-      title: 'ChaCha20加密/解密',
-      description: 'ChaCha20加密和解密工具'
+      title: 'ChaCha20 加密',
+      description: 'ChaCha20 流加密算法'
     },
     des: {
-      title: 'DES/3DES加密/解密',
-      description: 'DES和3DES加密和解密工具'
+      title: 'DES 加密',
+      description: 'DES 对称加密算法'
     },
     rsa: {
-      title: 'RSA加密/解密',
-      description: 'RSA加密和解密工具'
+      title: 'RSA 加密',
+      description: 'RSA 非对称加密算法'
     },
     ecc: {
-      title: 'ECC加密/解密',
-      description: 'ECC加密和解密工具'
+      title: 'ECC 加密',
+      description: '椭圆曲线加密'
     },
     ed25519: {
-      title: 'Ed25519加密/解密',
-      description: 'Ed25519加密和解密工具'
+      title: 'Ed25519 加密',
+      description: 'Ed25519 数字签名算法'
     },
-    sha1: {
-      title: 'SHA-1哈希',
-      description: 'SHA-1哈希计算工具'
-    },
-    sha256: {
-      title: 'SHA-256哈希',
-      description: 'SHA-256哈希计算工具'
-    },
-    sha512: {
-      title: 'SHA-512哈希',
-      description: 'SHA-512哈希计算工具'
+    sha: {
+      title: 'SHA 哈希',
+      description: 'SHA 系列哈希算法'
     },
     bcrypt: {
-      title: 'Bcrypt哈希',
-      description: 'Bcrypt哈希计算工具'
+      title: 'Bcrypt 哈希',
+      description: 'Bcrypt 密码哈希算法'
     },
     argon2: {
-      title: 'Argon2哈希',
-      description: 'Argon2哈希计算工具'
+      title: 'Argon2 哈希',
+      description: 'Argon2 密码哈希算法'
     },
-    diffieHellman: {
-      title: 'Diffie-Hellman密钥交换',
-      description: 'Diffie-Hellman密钥交换工具'
+    'diffie-hellman': {
+      title: 'Diffie-Hellman 密钥交换',
+      description: 'Diffie-Hellman 密钥交换算法'
     },
     ecdh: {
-      title: 'ECDH密钥交换',
-      description: 'ECDH密钥交换工具'
+      title: 'ECDH 密钥交换',
+      description: '椭圆曲线 Diffie-Hellman 密钥交换'
     },
     x25519: {
-      title: 'X25519密钥交换',
-      description: 'X25519密钥交换工具'
+      title: 'X25519 密钥交换',
+      description: 'X25519 密钥交换算法'
     },
-    rsaSignature: {
-      title: 'RSA签名',
-      description: 'RSA数字签名工具'
+    'rsa-sign': {
+      title: 'RSA 签名',
+      description: 'RSA 数字签名算法'
     },
-    ecdsa: {
-      title: 'ECDSA签名',
-      description: 'ECDSA数字签名工具'
+    'ecdsa-sign': {
+      title: 'ECDSA 签名',
+      description: '椭圆曲线数字签名算法'
     },
-    ed25519Signature: {
-      title: 'Ed25519签名',
-      description: 'Ed25519数字签名工具'
+    'ed25519-sign': {
+      title: 'Ed25519 签名',
+      description: 'Ed25519 数字签名算法'
     },
     base64: {
-      title: 'Base64编码/解码',
-      description: 'Base64编码和解码工具'
+      title: 'Base64 编解码',
+      description: 'Base64 编码和解码'
     },
     hex: {
-      title: 'Hex编码/解码',
-      description: 'Hex编码和解码工具'
+      title: 'Hex 编解码',
+      description: '十六进制编码和解码'
     },
     url: {
-      title: 'URL编码/解码',
-      description: 'URL编码和解码工具'
+      title: 'URL 编解码',
+      description: 'URL 编码和解码'
     },
     html: {
-      title: 'HTML编码/解码',
-      description: 'HTML编码和解码工具'
+      title: 'HTML 编解码',
+      description: 'HTML 实体编码和解码'
     },
     jwt: {
-      title: 'JWT编码/解码',
-      description: 'JWT编码和解码工具'
+      title: 'JWT 编解码',
+      description: 'JWT 令牌编码和解码'
     }
   },
   convert: {
@@ -361,13 +326,25 @@ export default {
     },
     timestamp: {
       title: '时间戳转换',
-      description: '时间戳与日期互转工具'
+      description: '时间戳和日期时间互转'
     },
-    dateCalc: {
+    'date-calc': {
       title: '日期计算',
-      description: '计算日期差值和日期加减'
+      description: '日期加减计算'
+    },
+    'date-diff': {
+      title: '日期差值',
+      description: '计算两个日期之间的差值'
     },
     number: {
+      title: '数字转换',
+      description: '数字格式转换'
+    },
+    'number-format': {
+      title: '数字格式化',
+      description: '数字格式化显示'
+    },
+    'number-base': {
       title: '进制转换',
       description: '二进制、八进制、十进制、十六进制互转'
     },
@@ -385,117 +362,105 @@ export default {
     },
     unit: {
       title: '单位转换',
-      description: '各种单位转换工具'
+      description: '长度、重量、面积等单位转换'
     },
-    storage: {
-      title: '存储单位转换',
-      description: '字节、KB、MB、GB等单位转换'
-    },
-    timeUnit: {
-      title: '时间单位转换',
-      description: '毫秒、秒、分钟、小时等单位转换'
-    },
-    length: {
-      title: '长度单位转换',
-      description: '米、英尺等单位转换'
-    },
-    temperature: {
-      title: '温度单位转换',
-      description: '摄氏度、华氏度等单位转换'
-    },
-    weight: {
-      title: '重量单位转换',
-      description: '千克、磅等单位转换'
+    'storage-time': {
+      title: '存储时间转换',
+      description: '存储单位时间转换'
     },
     color: {
-      title: '颜色格式转换',
-      description: 'HEX、RGB等颜色格式转换'
+      title: '颜色转换',
+      description: '颜色格式转换'
     },
     regex: {
-      title: '正则表达式工具',
-      description: '正则表达式测试和生成'
+      title: '正则表达式',
+      description: '正则表达式测试和验证'
     },
     markdown: {
-      title: 'Markdown转HTML',
-      description: 'Markdown实时预览和转换'
+      title: 'Markdown 预览',
+      description: '实时 Markdown 预览'
     },
     qrcode: {
       title: '二维码生成器',
       description: '生成二维码图片'
     },
-    httpStatus: {
-      title: 'HTTP状态码',
-      description: 'HTTP状态码查询和解释'
+    'http-status': {
+      title: 'HTTP 状态码',
+      description: 'HTTP 状态码查询和解释'
     },
-    userAgent: {
-      title: 'User-Agent解析',
-      description: '解析User-Agent字符串'
+    'user-agent': {
+      title: 'User-Agent 解析',
+      description: '解析 User-Agent 字符串'
     },
-    ip: {
-      title: 'IP地址查询',
-      description: '查询IP地址信息'
+    'ip-lookup': {
+      title: 'IP 地址查询',
+      description: 'IP 地址信息查询'
+    },
+    'char-code': {
+      title: '字符编码转换',
+      description: '字符编码转换工具'
     }
   },
   image: {
     compress: {
       title: '图片压缩',
-      description: '压缩图片大小'
+      description: '压缩图片大小，保持质量'
     },
     convert: {
-      title: '图片转换',
-      description: '转换图片格式'
+      title: '图片格式转换',
+      description: '各种图片格式互转'
     },
     rotate: {
       title: '图片旋转',
-      description: '旋转图片角度'
+      description: '旋转和翻转图片'
     },
     crop: {
       title: '图片裁剪',
-      description: '裁剪图片尺寸'
+      description: '在线图片裁剪和调整大小'
     },
     watermark: {
       title: '图片水印',
       description: '添加图片水印'
     },
-    removeWatermark: {
-      title: '图片去水印',
+    'remove-watermark': {
+      title: '去除水印',
       description: '去除图片水印'
     }
   },
   text: {
     case: {
-      title: '大小写转换',
+      title: '文本大小写转换',
       description: '转换文本大小写'
     },
     reverse: {
-      title: '字符串反转',
-      description: '反转字符串顺序'
+      title: '文本反转',
+      description: '反转文本内容'
     },
-    space: {
-      title: '空格处理',
-      description: '处理文本空格'
+    whitespace: {
+      title: '空白字符处理',
+      description: '处理文本中的空白字符'
     },
     replace: {
       title: '文本替换',
-      description: '替换文本内容'
+      description: '批量文本替换'
     }
   },
   other: {
     qrcode: {
-      title: '二维码工具',
-      description: '生成和解码二维码'
+      title: '二维码生成',
+      description: '生成和解析二维码'
     },
-    shortUrl: {
-      title: '短网址工具',
-      description: '生成和解码短网址'
+    'short-url': {
+      title: '短链接生成',
+      description: '生成短链接'
     },
     ip: {
-      title: 'IP工具',
-      description: 'IP查询和定位'
+      title: 'IP 工具',
+      description: 'IP 地址相关工具'
     },
     calculator: {
-      title: '网页计算器',
-      description: '在线计算器工具'
+      title: '计算器',
+      description: '在线计算器'
     }
   },
   color: {

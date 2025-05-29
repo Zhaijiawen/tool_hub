@@ -390,6 +390,10 @@ const router = createRouter({
               component: () => import('@/components/other/Calculator.vue')
             }
           ]
+        },
+        {
+          path: '',
+          component: () => import('@/views/Home.vue')
         }
       ]
     }
