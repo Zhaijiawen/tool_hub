@@ -125,7 +125,7 @@ const compressJson = () => {
 
 /**
  * 转义JSON
- * 将双引号转义为\"
+ * 将双引号转义为\"，反斜杠转义为\\
  */
 const escapeJson = () => {
   if (!input.value) {
@@ -134,8 +134,10 @@ const escapeJson = () => {
   }
   
   try {
-    // 转义双引号
-    let escaped = input.value.replace(/"/g, '\\"')
+    // 先转义反斜杠，再转义双引号（顺序很重要）
+    let escaped = input.value
+      .replace(/\\/g, '\\\\')  // 转义反斜杠
+      .replace(/"/g, '\\"')    // 转义双引号
     
     input.value = escaped
     error.value = ''
@@ -148,7 +150,7 @@ const escapeJson = () => {
 
 /**
  * 反转义JSON
- * 将\"转换回双引号"
+ * 将\"转换回双引号"，将\\转换回反斜杠\
  */
 const unescapeJson = () => {
   if (!input.value.trim()) {
@@ -157,8 +159,10 @@ const unescapeJson = () => {
   }
   
   try {
-    // 反转义双引号
-    let unescaped = input.value.replace(/\\"/g, '"')
+    // 先反转义双引号，再反转义反斜杠（顺序很重要）
+    let unescaped = input.value
+      .replace(/\\"/g, '"')     // 反转义双引号
+      .replace(/\\\\/g, '\\')   // 反转义反斜杠
     
     input.value = unescaped
     error.value = ''
