@@ -125,7 +125,7 @@ const compressJson = () => {
 
 /**
  * 转义JSON
- * 将JSON字符串中的特殊字符进行转义
+ * 将双引号转义为\"
  */
 const escapeJson = () => {
   if (!input.value) {
@@ -134,15 +134,8 @@ const escapeJson = () => {
   }
   
   try {
-    // 转义特殊字符
-    let escaped = input.value
-      .replace(/\\/g, '\\\\')  // 转义反斜杠
-      .replace(/"/g, '\\"')    // 转义双引号
-      .replace(/\n/g, '\\n')   // 转义换行符
-      .replace(/\r/g, '\\r')   // 转义回车符
-      .replace(/\t/g, '\\t')   // 转义制表符
-      .replace(/\f/g, '\\f')   // 转义换页符
-      .replace(/\b/g, '\\b')   // 转义退格符
+    // 转义双引号
+    let escaped = input.value.replace(/"/g, '\\"')
     
     input.value = escaped
     error.value = ''
@@ -155,7 +148,7 @@ const escapeJson = () => {
 
 /**
  * 反转义JSON
- * 将转义的字符串还原为原始形式
+ * 将\"转换回双引号"
  */
 const unescapeJson = () => {
   if (!input.value.trim()) {
@@ -164,15 +157,8 @@ const unescapeJson = () => {
   }
   
   try {
-    // 反转义特殊字符
-    let unescaped = input.value
-      .replace(/\\"/g, '"')     // 反转义双引号
-      .replace(/\\n/g, '\n')    // 反转义换行符
-      .replace(/\\r/g, '\r')    // 反转义回车符
-      .replace(/\\t/g, '\t')    // 反转义制表符
-      .replace(/\\f/g, '\f')    // 反转义换页符
-      .replace(/\\b/g, '\b')    // 反转义退格符
-      .replace(/\\\\/g, '\\')   // 反转义反斜杠（必须放在最后）
+    // 反转义双引号
+    let unescaped = input.value.replace(/\\"/g, '"')
     
     input.value = unescaped
     error.value = ''
