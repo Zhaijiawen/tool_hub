@@ -17,8 +17,8 @@
 
 ## 开发环境要求
 
-- Node.js >= 16
-- npm >= 8
+- Node.js >= 22 (推荐使用 LTS 版本 v22.x)
+- npm >= 10
 
 ## 安装
 
@@ -28,7 +28,17 @@ git clone https://github.com/yourusername/toolhub.git
 cd toolhub
 ```
 
-2. 安装依赖
+2. 安装Node.js（推荐使用nvm）
+```bash
+# 如果使用nvm，会自动使用.nvmrc中指定的版本
+nvm use
+
+# 或者手动安装Node.js v22 LTS
+nvm install 22
+nvm use 22
+```
+
+3. 安装依赖
 ```bash
 npm run install-all
 ```
@@ -57,8 +67,7 @@ npm run client
 
 ## 项目结构
 
-```
-toolhub/
+```toolhub/
 ├── toolhub/          # 前端项目
 ├── toolhub-server/   # 后端项目
 ├── package.json      # 项目配置

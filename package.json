@@ -2,6 +2,10 @@
   "name": "toolhub",
   "version": "1.0.0",
   "description": "A collection of useful development tools",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd toolhub-server && npm start",
