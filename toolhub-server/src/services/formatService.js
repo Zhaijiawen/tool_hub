@@ -4,15 +4,33 @@ import { createRequire } from 'module';
 // 使用createRequire来导入CommonJS模块
 const require = createRequire(import.meta.url);
 
-const phpPlugin = require('@prettier/plugin-php');
-const rubyPlugin = require('@prettier/plugin-ruby');
-const javaPlugin = require('prettier-plugin-java');
-const kotlinPlugin = require('prettier-plugin-kotlin');
-const rustPlugin = require('prettier-plugin-rust');
-const shPlugin = require('prettier-plugin-sh');
-const sqlPlugin = require('prettier-plugin-sql');
-const xmlPlugin = require('@prettier/plugin-xml');
-const goPlugin = require('prettier-plugin-go-template');
+// 导入插件模块并获取实际插件
+const phpPluginModule = require('@prettier/plugin-php');
+const phpPlugin = phpPluginModule.default || phpPluginModule;
+
+const rubyPluginModule = require('@prettier/plugin-ruby');
+const rubyPlugin = rubyPluginModule.default || rubyPluginModule;
+
+const javaPluginModule = require('prettier-plugin-java');
+const javaPlugin = javaPluginModule.default || javaPluginModule;
+
+const kotlinPluginModule = require('prettier-plugin-kotlin');
+const kotlinPlugin = kotlinPluginModule.default || kotlinPluginModule;
+
+const rustPluginModule = require('prettier-plugin-rust');
+const rustPlugin = rustPluginModule.default || rustPluginModule;
+
+const shPluginModule = require('prettier-plugin-sh');
+const shPlugin = shPluginModule.default || shPluginModule;
+
+const sqlPluginModule = require('prettier-plugin-sql');
+const sqlPlugin = sqlPluginModule.default || sqlPluginModule;
+
+const xmlPluginModule = require('@prettier/plugin-xml');
+const xmlPlugin = xmlPluginModule.default || xmlPluginModule;
+
+const goPluginModule = require('prettier-plugin-go-template');
+const goPlugin = goPluginModule.default || goPluginModule;
 
 // 插件映射
 const pluginMap = {
