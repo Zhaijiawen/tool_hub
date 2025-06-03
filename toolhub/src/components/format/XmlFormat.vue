@@ -43,9 +43,6 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码格式化工具
-// 导入XML格式化插件
-import xmlPlugin from '@prettier/plugin-xml'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具

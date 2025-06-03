@@ -33,7 +33,9 @@ const BACKEND_REQUIRED_PLUGINS = [
   'prettier-plugin-kotlin',
   'prettier-plugin-rust',
   'prettier-plugin-sh',
-  'prettier-plugin-sql'
+  'prettier-plugin-sql',
+  'prettier-plugin-csharp',
+  'prettier-plugin-go-template'
 ];
 
 /**
@@ -137,7 +139,6 @@ const getPrettierPlugins = async (language) => {
     php: ['@prettier/plugin-php'],
     ruby: ['@prettier/plugin-ruby'],
     xml: ['@prettier/plugin-xml'],
-    go: ['prettier-plugin-go-template'],
     java: ['prettier-plugin-java'],
     kotlin: ['prettier-plugin-kotlin'],
     rust: ['prettier-plugin-rust'],
@@ -146,7 +147,8 @@ const getPrettierPlugins = async (language) => {
     vue: ['@vue/compiler-sfc'],
     markdown: ['prettier-plugin-markdown'],
     yaml: ['prettier-plugin-yaml'],
-    csharp: ['prettier-plugin-csharp']
+    csharp: ['prettier-plugin-csharp'],
+    go: ['prettier-plugin-go-template']
   };
   
   const languagePlugins = pluginMap[language.toLowerCase()] || [];
