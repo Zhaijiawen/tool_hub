@@ -1,6 +1,6 @@
-const tools = require('../data/tools');
-const zhCN = require('../locales/zh-CN');
-const enUS = require('../locales/en-US');
+import tools from '../data/tools.js';
+import zhCN from '../locales/zh-CN.js';
+import enUS from '../locales/en-US.js';
 
 // 获取本地化的工具信息
 const getLocalizedTools = (tools, translations) => {
@@ -47,7 +47,7 @@ const searchTools = (keyword, locale = 'zh-CN') => {
   return getLocalizedTools(searchResults, translations);
 };
 
-module.exports = {
+export {
   getAllTools,
   getToolsByCategory,
   searchTools

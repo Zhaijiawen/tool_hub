@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const { getAllTools, getToolsByCategory, searchTools } = require('./services/toolService');
-const { formatCode } = require('./services/formatService');
+import express from 'express';
+import cors from 'cors';
+import { getAllTools, getToolsByCategory, searchTools } from './services/toolService.js';
+import { formatCode } from './services/formatService.js';
 
 const app = express();
 
@@ -78,4 +78,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = app; 
+export default app; 

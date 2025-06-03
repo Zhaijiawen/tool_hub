@@ -481,4 +481,4 @@ const tools = [
   }
 ];
 
-module.exports = tools; 
+export default tools; 

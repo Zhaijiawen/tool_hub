@@ -1,4 +1,9 @@
-const prettier = require('prettier');
+import prettier from 'prettier';
+import { createRequire } from 'module';
+
+// 使用createRequire来导入CommonJS模块
+const require = createRequire(import.meta.url);
+
 const phpPlugin = require('@prettier/plugin-php');
 const rubyPlugin = require('@prettier/plugin-ruby');
 const javaPlugin = require('prettier-plugin-java');
@@ -8,7 +13,6 @@ const shPlugin = require('prettier-plugin-sh');
 const sqlPlugin = require('prettier-plugin-sql');
 const xmlPlugin = require('@prettier/plugin-xml');
 const goPlugin = require('prettier-plugin-go-template');
-const vuePlugin = require('@vue/compiler-sfc');
 
 // 插件映射
 const pluginMap = {
@@ -20,8 +24,7 @@ const pluginMap = {
   shell: [shPlugin],
   sql: [sqlPlugin],
   xml: [xmlPlugin],
-  go: [goPlugin],
-  vue: [vuePlugin]
+  go: [goPlugin]
 };
 
 // 格式化配置
@@ -75,6 +78,4 @@ async function formatCode(code, language) {
   });
 }
 
-module.exports = {
-  formatCode
-}; 
+export { formatCode }; 

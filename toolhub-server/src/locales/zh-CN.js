@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // 通用
   common: {
     format: '格式化',
