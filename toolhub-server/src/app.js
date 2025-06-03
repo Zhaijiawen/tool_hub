@@ -13,7 +13,7 @@ app.use(express.json());
 app.get('/api/tools', (req, res) => {
   const locale = req.query.locale || 'zh-CN';
   const tools = getAllTools(locale);
-  console.log('Tools data:', tools);
+  // console.log('Tools data:', tools);
 
   res.json({
     code: 0,
