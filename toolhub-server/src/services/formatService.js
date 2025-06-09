@@ -88,10 +88,18 @@ async function formatCode(code, language) {
     throw new Error('Missing code or language parameter');
   }
 
-  const plugins = pluginMap[language.toLowerCase()] || [];
+  const langLowerCase = language.toLowerCase();
+  const plugins = pluginMap[langLowerCase] || [];
+
+  let specificOptions = {};
+  if (langLowerCase === 'markdown') {
+    specificOptions.proseWrap = 'always';
+  }
+
   return await prettier.format(code, {
     ...prettierOptions,
-    parser: getParser(language),
+    ...specificOptions,
+    parser: getParser(language), // getParser handles toLowerCase internally
     plugins
   });
 }

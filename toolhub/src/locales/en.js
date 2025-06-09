@@ -141,7 +141,9 @@ export default {
     enableHighlight: 'Enable Code Highlighting',
     copySuccess: 'Copy Success',
     copyError: 'Copy Failed',
-    composer: 'Component Composer'
+    composer: 'Component Composer',
+    logoText: 'ToolHub',
+    composerButton: 'Composer'
   },
   footer: {
     about: 'About',
@@ -249,6 +251,30 @@ export default {
       placeholder: 'Enter Dart code',
       format: 'Format',
       description: 'Format Dart code'
+    },
+    lua: {
+      title: 'Lua Formatter',
+      description: 'Format Lua code'
+    },
+    perl: {
+      title: 'Perl Formatter',
+      description: 'Format Perl code'
+    },
+    scala: {
+      title: 'Scala Formatter',
+      description: 'Format Scala code'
+    },
+    swift: {
+      title: 'Swift Formatter',
+      description: 'Format Swift code'
+    },
+    ts: {
+      title: 'TypeScript Formatter',
+      description: 'Format TypeScript code'
+    },
+    vue: {
+      title: 'Vue Formatter',
+      description: 'Format Vue SFC code'
     }
   },
   encrypt: {
@@ -636,6 +662,12 @@ export default {
       quality: 'Quality',
       size: 'File Size',
       format: 'Output Format',
+      compress: 'Compress',
+      download: 'Download',
+      original: 'Original',
+      compressed: 'Compressed',
+      invalidFileType: 'Invalid file type. Please upload an image.',
+      noImage: 'No image selected for compression.',
       description: 'Compress image size while maintaining quality'
     },
     convert: {
@@ -662,12 +694,23 @@ export default {
   text: {
     case: {
       title: 'Case Converter',
+      input: 'Input',
       inputPlaceholder: 'Enter text to convert',
+      output: 'Output',
       outputPlaceholder: 'Converted result will appear here',
       uppercase: 'UPPERCASE',
+      upperCase: 'UPPERCASE', // Alias for existing key if used elsewhere
       lowercase: 'lowercase',
-      capitalize: 'Capitalize',
-      inputRequired: 'Please enter text to convert'
+      lowerCase: 'lowercase', // Alias for existing key
+      titleCase: 'Title Case',
+      sentenceCase: 'Sentence Case',
+      alternatingCase: 'Alternating Case',
+      capitalize: 'Capitalize', // This was present, ensure it's what's intended if used
+      copy: 'Copy',
+      clear: 'Clear',
+      noInput: 'Please enter some text first.',
+      copied: 'Output copied to clipboard!',
+      inputRequired: 'Please enter text to convert' // Already present
     },
     reverse: {
       title: 'Text Reverser',
@@ -717,6 +760,28 @@ export default {
     },
     calculator: {
       title: 'Calculator',
+      history: 'History',
+      invalidExpression: 'Invalid Expression',
+      error: 'Error',
+      clear: 'C',
+      backspace: '←',
+      percent: '%',
+      divide: '÷',
+      multiply: '×',
+      subtract: '-',
+      add: '+',
+      decimal: '.',
+      equals: '=',
+      num0: '0',
+      num1: '1',
+      num2: '2',
+      num3: '3',
+      num4: '4',
+      num5: '5',
+      num6: '6',
+      num7: '7',
+      num8: '8',
+      num9: '9',
       description: 'Online calculator'
     }
   },

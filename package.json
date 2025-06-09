@@ -23,6 +23,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.36.8",
+    "@prettier/plugin-xml": "^3.4.1",
     "cropperjs": "^1.5.13",
     "dompurify": "^3.2.6",
     "marked": "^15.0.12",

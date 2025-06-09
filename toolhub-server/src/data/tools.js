@@ -126,6 +126,48 @@ const tools = [
     description: 'format.dart.description',
     category: 'format'
   },
+  {
+    id: 'lua',
+    name: 'format.lua.title',
+    path: '/format/lua',
+    description: 'format.lua.description',
+    category: 'format'
+  },
+  {
+    id: 'perl',
+    name: 'format.perl.title',
+    path: '/format/perl',
+    description: 'format.perl.description',
+    category: 'format'
+  },
+  {
+    id: 'scala',
+    name: 'format.scala.title',
+    path: '/format/scala',
+    description: 'format.scala.description',
+    category: 'format'
+  },
+  {
+    id: 'swift',
+    name: 'format.swift.title',
+    path: '/format/swift',
+    description: 'format.swift.description',
+    category: 'format'
+  },
+  {
+    id: 'ts',
+    name: 'format.ts.title',
+    path: '/format/ts',
+    description: 'format.ts.description',
+    category: 'format'
+  },
+  {
+    id: 'vue',
+    name: 'format.vue.title',
+    path: '/format/vue',
+    description: 'format.vue.description',
+    category: 'format'
+  },
 
   // 加密工具
   {

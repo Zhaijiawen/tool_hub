@@ -8,37 +8,37 @@
 
       <div class="keypad">
         <div class="row">
-          <n-button @click="clear">C</n-button>
-          <n-button @click="backspace">←</n-button>
-          <n-button @click="appendOperator('%')">%</n-button>
-          <n-button @click="appendOperator('/')">÷</n-button>
+          <n-button @click="clear">{{ $t('other.calculator.clear') }}</n-button>
+          <n-button @click="backspace">{{ $t('other.calculator.backspace') }}</n-button>
+          <n-button @click="appendOperator('%')">{{ $t('other.calculator.percent') }}</n-button>
+          <n-button @click="appendOperator('/')">{{ $t('other.calculator.divide') }}</n-button>
         </div>
 
         <div class="row">
-          <n-button @click="appendNumber('7')">7</n-button>
-          <n-button @click="appendNumber('8')">8</n-button>
-          <n-button @click="appendNumber('9')">9</n-button>
-          <n-button @click="appendOperator('*')">×</n-button>
+          <n-button @click="appendNumber('7')">{{ $t('other.calculator.num7') }}</n-button>
+          <n-button @click="appendNumber('8')">{{ $t('other.calculator.num8') }}</n-button>
+          <n-button @click="appendNumber('9')">{{ $t('other.calculator.num9') }}</n-button>
+          <n-button @click="appendOperator('*')">{{ $t('other.calculator.multiply') }}</n-button>
         </div>
 
         <div class="row">
-          <n-button @click="appendNumber('4')">4</n-button>
-          <n-button @click="appendNumber('5')">5</n-button>
-          <n-button @click="appendNumber('6')">6</n-button>
-          <n-button @click="appendOperator('-')">-</n-button>
+          <n-button @click="appendNumber('4')">{{ $t('other.calculator.num4') }}</n-button>
+          <n-button @click="appendNumber('5')">{{ $t('other.calculator.num5') }}</n-button>
+          <n-button @click="appendNumber('6')">{{ $t('other.calculator.num6') }}</n-button>
+          <n-button @click="appendOperator('-')">{{ $t('other.calculator.subtract') }}</n-button>
         </div>
 
         <div class="row">
-          <n-button @click="appendNumber('1')">1</n-button>
-          <n-button @click="appendNumber('2')">2</n-button>
-          <n-button @click="appendNumber('3')">3</n-button>
-          <n-button @click="appendOperator('+')">+</n-button>
+          <n-button @click="appendNumber('1')">{{ $t('other.calculator.num1') }}</n-button>
+          <n-button @click="appendNumber('2')">{{ $t('other.calculator.num2') }}</n-button>
+          <n-button @click="appendNumber('3')">{{ $t('other.calculator.num3') }}</n-button>
+          <n-button @click="appendOperator('+')">{{ $t('other.calculator.add') }}</n-button>
         </div>
 
         <div class="row">
-          <n-button @click="appendNumber('0')">0</n-button>
-          <n-button @click="appendDecimal">.</n-button>
-          <n-button @click="calculate" type="primary" class="equals">=</n-button>
+          <n-button @click="appendNumber('0')">{{ $t('other.calculator.num0') }}</n-button>
+          <n-button @click="appendDecimal">{{ $t('other.calculator.decimal') }}</n-button>
+          <n-button @click="calculate" type="primary" class="equals">{{ $t('other.calculator.equals') }}</n-button>
         </div>
       </div>
 
@@ -129,7 +129,7 @@ function calculate() {
     // 格式化结果
     result.value = formatNumber(calculateResult)
   } catch (err) {
-    result.value = 'Error'
+    result.value = t('other.calculator.error')
   }
 }
 

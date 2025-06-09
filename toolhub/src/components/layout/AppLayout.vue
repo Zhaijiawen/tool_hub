@@ -19,7 +19,7 @@
                 <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none"/>
               </svg>
             </n-icon>
-            <span>ToolHub</span>
+            <span>{{ $t('common.logoText') }}</span>
           </router-link>
         </div>
         <!-- 主导航菜单 -->
@@ -54,7 +54,7 @@
             <template #icon>
               <n-icon><puzzle-icon /></n-icon>
             </template>
-            编排
+            {{ $t('common.composerButton') }}
           </n-button>
           <!-- 语言切换下拉菜单 -->
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">

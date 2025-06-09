@@ -229,6 +229,10 @@ export default {
     dart: {
       title: 'Dart 格式化',
       description: '格式化 Dart 代码'
+    },
+    lua: {
+      title: 'Lua 格式化',
+      description: '格式化 Lua 代码'
     }
   },
   encrypt: {

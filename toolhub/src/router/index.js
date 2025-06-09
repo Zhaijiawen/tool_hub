@@ -113,6 +113,36 @@ const router = createRouter({
             {
               path: 'dart',
               component: () => import('@/components/format/DartFormat.vue')
+            },
+            // Lua格式化
+            {
+              path: 'lua',
+              component: () => import('@/components/format/LuaFormat.vue')
+            },
+            // Perl格式化
+            {
+              path: 'perl',
+              component: () => import('@/components/format/PerlFormat.vue')
+            },
+            // Scala格式化
+            {
+              path: 'scala',
+              component: () => import('@/components/format/ScalaFormat.vue')
+            },
+            // Swift格式化
+            {
+              path: 'swift',
+              component: () => import('@/components/format/SwiftFormat.vue')
+            },
+            // TypeScript格式化
+            {
+              path: 'ts',
+              component: () => import('@/components/format/TsFormat.vue')
+            },
+            // Vue格式化
+            {
+              path: 'vue',
+              component: () => import('@/components/format/VueFormat.vue')
             }
           ]
         },

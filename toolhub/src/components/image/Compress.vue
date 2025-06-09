@@ -77,7 +77,8 @@
     <n-alert
       v-if="error"
       type="error"
-      :title="error"
+      :title="$t('common.error')"
+      :content="error"
       class="mt-4"
     />
   </n-card>

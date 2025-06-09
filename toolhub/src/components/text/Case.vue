@@ -12,10 +12,10 @@
 
       <n-space>
         <n-button @click="toUpperCase">
-          {{ $t('text.case.upperCase') }}
+          {{ $t('text.case.uppercase') }}
         </n-button>
         <n-button @click="toLowerCase">
-          {{ $t('text.case.lowerCase') }}
+          {{ $t('text.case.lowercase') }}
         </n-button>
         <n-button @click="toTitleCase">
           {{ $t('text.case.titleCase') }}

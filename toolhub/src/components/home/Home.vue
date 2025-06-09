@@ -2,7 +2,7 @@
   <div class="home">
     <n-card>
       <template #header>
-        <h1>欢迎使用 ToolHub</h1>
+        <h1>{{ $t('home.welcome') }}</h1>
       </template>
       <n-grid :x-gap="12" :y-gap="8" :cols="4">
         <n-grid-item v-for="tool in tools" :key="tool.path">

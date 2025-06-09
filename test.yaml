@@ -1,0 +1,8 @@
+unformatted:
+  key: value
+  list:
+  - item1
+  - item2
+another_key: A long string that might exceed print width if not handled well, let's see how Prettier formats this particular string. And one more sentence to make it really long.
+boolean_value: true
+string_with_special_chars: "value with: colon" # Explicitly quoted
