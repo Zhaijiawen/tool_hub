@@ -108,11 +108,6 @@ const router = createRouter({
             {
               path: 'markdown',
               component: () => import('@/components/format/MarkdownFormat.vue')
-            },
-            // Dart格式化
-            {
-              path: 'dart',
-              component: () => import('@/components/format/DartFormat.vue')
             }
           ]
         },

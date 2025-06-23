@@ -29,13 +29,19 @@ const BEAUTIFY_SUPPORTED_LANGUAGES = ['javascript', 'js', 'html', 'css', 'json']
 const BACKEND_REQUIRED_PLUGINS = [
   '@prettier/plugin-php',
   '@prettier/plugin-ruby',
+  '@prettier/plugin-xml',
   'prettier-plugin-java',
   'prettier-plugin-kotlin',
   'prettier-plugin-rust',
   'prettier-plugin-sh',
   'prettier-plugin-sql',
   'prettier-plugin-csharp',
-  'prettier-plugin-go-template'
+  'prettier-plugin-go-template',
+  '@un-ts/prettier-plugin-sh',
+  '@un-ts/prettier-plugin-sql',
+  '@vue/compiler-sfc'
+  //'markdown', 天然支持
+  //'yaml'
 ];
 
 /**
@@ -78,7 +84,7 @@ export const formatWithBeautify = (code, language) => {
 export const formatWithPrettier = async (code, language) => {
   try {
     const parser = getPrettierParser(language);
-    const plugins = await getPrettierPlugins(language);
+    const plugins = getPrettierPlugins(language);
     
     return await prettier.format(code, {
       ...prettierOptions,
@@ -117,10 +123,8 @@ const getPrettierParser = (language) => {
     csharp: 'csharp',
     vue: 'vue',
     markdown: 'markdown',
-    yaml: 'yaml',
     perl: 'perl',
     lua: 'lua',
-    dart: 'dart',
     scala: 'scala',
     swift: 'swift',
     python: 'python'
@@ -131,9 +135,9 @@ const getPrettierParser = (language) => {
 /**
  * 获取 prettier 插件
  * @param {string} language - 代码语言
- * @returns {Promise<Array>} 插件列表
+ * @returns {Array} 插件列表
  */
-const getPrettierPlugins = async (language) => {
+const getPrettierPlugins = (language) => {
   const basePlugins = [parserBabel, parserEstree];
   const pluginMap = {
     php: ['@prettier/plugin-php'],
@@ -145,8 +149,6 @@ const getPrettierPlugins = async (language) => {
     shell: ['@un-ts/prettier-plugin-sh'],
     sql: ['@un-ts/prettier-plugin-sql'],
     vue: ['@vue/compiler-sfc'],
-    markdown: ['prettier-plugin-markdown'],
-    yaml: ['prettier-plugin-yaml'],
     csharp: ['prettier-plugin-csharp'],
     go: ['prettier-plugin-go-template']
   };

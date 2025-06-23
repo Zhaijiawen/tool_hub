@@ -208,7 +208,6 @@ const allTools = computed(() => {
     { name: t('format.rust.title'), path: '/format/rust', description: t('format.rust.description'), category: t('common.format') },
     { name: t('format.shell.title'), path: '/format/shell', description: t('format.shell.description'), category: t('common.format') },
     { name: t('format.sql.title'), path: '/format/sql', description: t('format.sql.description'), category: t('common.format') },
-    { name: t('format.dart.title'), path: '/format/dart', description: t('format.dart.description'), category: t('common.format') },
     { name: t('format.markdown.title'), path: '/format/markdown', description: t('format.markdown.description'), category: t('common.format') },
     
     // 加密工具列表
@@ -352,11 +351,6 @@ const menuOptions = computed(() => [
             label: t('format.sql.title'),
             key: 'sql-format',
             path: '/format/sql'
-          },
-          {
-            label: t('format.dart.title'),
-            key: 'dart-format',
-            path: '/format/dart'
           }
         ]
       }

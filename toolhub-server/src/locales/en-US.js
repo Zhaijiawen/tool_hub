@@ -68,10 +68,6 @@ export default {
     markdown: {
       title: 'Markdown Formatter',
       description: 'Format Markdown documents'
-    },
-    dart: {
-      title: 'Dart Formatter',
-      description: 'Format Dart code'
     }
   },
 

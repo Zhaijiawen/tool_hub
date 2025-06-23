@@ -119,13 +119,6 @@ const tools = [
     description: 'format.markdown.description',
     category: 'format'
   },
-  {
-    id: 'dart',
-    name: 'format.dart.title',
-    path: '/format/dart',
-    description: 'format.dart.description',
-    category: 'format'
-  },
 
   // 加密工具
   {

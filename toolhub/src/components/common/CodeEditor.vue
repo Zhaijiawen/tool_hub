@@ -32,8 +32,7 @@ import { vue } from '@codemirror/lang-vue'
 // Legacy modes 支持
 import { StreamLanguage } from '@codemirror/language'
 import { go } from '@codemirror/legacy-modes/mode/go'
-import { csharp, kotlin, scala, dart } from '@codemirror/legacy-modes/mode/clike'
-import { swift } from '@codemirror/legacy-modes/mode/swift'
+import { csharp, kotlin } from '@codemirror/legacy-modes/mode/clike'
 import { ruby } from '@codemirror/legacy-modes/mode/ruby'
 import { lua } from '@codemirror/legacy-modes/mode/lua'
 import { perl } from '@codemirror/legacy-modes/mode/perl'
@@ -88,11 +87,8 @@ const languageMap = {
   // 使用 legacy-modes 的语言支持
   go: StreamLanguage.define(go),
   csharp: StreamLanguage.define(csharp),
-  swift: StreamLanguage.define(swift),
   kotlin: StreamLanguage.define(kotlin),
-  scala: StreamLanguage.define(scala),
   ruby: StreamLanguage.define(ruby),
-  dart: StreamLanguage.define(dart),
   lua: StreamLanguage.define(lua),
   perl: StreamLanguage.define(perl),
   vue: vue(), // Vue 官方语言支持

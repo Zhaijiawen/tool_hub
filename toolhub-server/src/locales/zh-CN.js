@@ -82,10 +82,6 @@ export default {
     markdown: {
       title: 'Markdown 格式化',
       description: '格式化 Markdown 文档'
-    },
-    dart: {
-      title: 'Dart 格式化',
-      description: '格式化 Dart 代码'
     }
   },
 

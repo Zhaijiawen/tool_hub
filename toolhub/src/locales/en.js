@@ -243,12 +243,6 @@ export default {
       placeholder: 'Enter Markdown text',
       format: 'Format',
       description: 'Format Markdown documents'
-    },
-    dart: {
-      title: 'Dart Formatter',
-      placeholder: 'Enter Dart code',
-      format: 'Format',
-      description: 'Format Dart code'
     }
   },
   encrypt: {
