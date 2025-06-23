@@ -30,10 +30,7 @@ cd toolhub
 
 2. 安装Node.js（推荐使用nvm）
 ```bash
-# 如果使用nvm，会自动使用.nvmrc中指定的版本
-nvm use
-
-# 或者手动安装Node.js v22 LTS
+# 手动安装Node.js v22 LTS
 nvm install 22
 nvm use 22
 ```
@@ -41,6 +38,10 @@ nvm use 22
 3. 安装依赖
 ```bash
 npm run install-all
+```
+windows powershell需要额外执行命令
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 ## 开发
