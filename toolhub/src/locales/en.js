@@ -219,6 +219,10 @@ export default {
       placeholder: 'Enter Markdown text',
       format: 'Format',
       description: 'Format Markdown documents'
+    },
+    vue: {
+      title: 'Vue Formatter',
+      description: 'Format .vue single file component code'
     }
   },
   encrypt: {

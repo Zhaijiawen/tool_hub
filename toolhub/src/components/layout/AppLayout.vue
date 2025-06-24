@@ -209,6 +209,7 @@ const allTools = computed(() => {
     { name: t('format.shell.title'), path: '/format/shell', description: t('format.shell.description'), category: t('common.format') },
     { name: t('format.sql.title'), path: '/format/sql', description: t('format.sql.description'), category: t('common.format') },
     { name: t('format.markdown.title'), path: '/format/markdown', description: t('format.markdown.description'), category: t('common.format') },
+    { name: t('format.vue.title'), path: '/format/vue', description: t('format.vue.description'), category: t('common.format') },
     
     // 加密工具列表
     { name: t('encrypt.aes.title'), path: '/encrypt/aes', description: t('encrypt.aes.description'), category: t('common.encrypt') },
@@ -326,6 +327,11 @@ const menuOptions = computed(() => [
             label: t('format.sql.title'),
             key: 'sql-format',
             path: '/format/sql'
+          },
+          {
+            label: t('format.vue.title'),
+            key: 'vue-format',
+            path: '/format/vue'
           }
         ]
       }

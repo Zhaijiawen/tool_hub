@@ -84,6 +84,13 @@ const tools = [
     description: 'format.markdown.description',
     category: 'format'
   },
+  {
+    id: 'vue',
+    name: 'format.vue.title',
+    path: '/format/vue',
+    description: 'format.vue.description',
+    category: 'format'
+  },
 
   // 加密工具
   {

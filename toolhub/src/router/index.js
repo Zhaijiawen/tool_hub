@@ -83,6 +83,11 @@ const router = createRouter({
             {
               path: 'markdown',
               component: () => import('@/components/format/MarkdownFormat.vue')
+            },
+            // Vue格式化
+            {
+              path: 'vue',
+              component: () => import('@/components/format/VueFormat.vue')
             }
           ]
         },

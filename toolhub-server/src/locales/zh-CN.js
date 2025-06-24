@@ -62,6 +62,10 @@ export default {
     markdown: {
       title: 'Markdown 格式化',
       description: '格式化 Markdown 文档'
+    },
+    vue: {
+      title: 'Vue 格式化',
+      description: '格式化 .vue 单文件组件代码'
     }
   },
 

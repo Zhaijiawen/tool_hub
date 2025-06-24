@@ -48,6 +48,10 @@ export default {
     markdown: {
       title: 'Markdown Formatter',
       description: 'Format Markdown documents'
+    },
+    vue: {
+      title: 'Vue Formatter',
+      description: 'Format .vue single file component code'
     }
   },
 
