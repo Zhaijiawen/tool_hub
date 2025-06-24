@@ -36,7 +36,7 @@
         <div class="header-right">
           <!-- 工具搜索框 -->
           <div class="search-container">
-            <tool-search :tools="allTools" />
+            <tool-search />
           </div>
 
           <!-- 主题切换按钮 -->
@@ -186,70 +186,6 @@ const activeKey = computed(() => {
     }
   }
   return null
-})
-
-// 计算所有工具列表（用于搜索功能）
-const allTools = computed(() => {
-  return [
-    // 格式化工具列表
-    { name: t('format.json.title'), path: '/format/json', description: t('format.json.description'), category: t('common.format') },
-    { name: t('format.xml.title'), path: '/format/xml', description: t('format.xml.description'), category: t('common.format') },
-    { name: t('format.yaml.title'), path: '/format/yaml', description: t('format.yaml.description'), category: t('common.format') },
-    { name: t('format.js.title'), path: '/format/js', description: t('format.js.description'), category: t('common.format') },
-    { name: t('format.html.title'), path: '/format/html', description: t('format.html.description'), category: t('common.format') },
-    { name: t('format.css.title'), path: '/format/css', description: t('format.css.description'), category: t('common.format') },
-    { name: t('format.python.title'), path: '/format/python', description: t('format.python.description'), category: t('common.format') },
-    { name: t('format.java.title'), path: '/format/java', description: t('format.java.description'), category: t('common.format') },
-    { name: t('format.csharp.title'), path: '/format/csharp', description: t('format.csharp.description'), category: t('common.format') },
-    { name: t('format.go.title'), path: '/format/go', description: t('format.go.description'), category: t('common.format') },
-    { name: t('format.php.title'), path: '/format/php', description: t('format.php.description'), category: t('common.format') },
-    { name: t('format.ruby.title'), path: '/format/ruby', description: t('format.ruby.description'), category: t('common.format') },
-    { name: t('format.kotlin.title'), path: '/format/kotlin', description: t('format.kotlin.description'), category: t('common.format') },
-    { name: t('format.rust.title'), path: '/format/rust', description: t('format.rust.description'), category: t('common.format') },
-    { name: t('format.shell.title'), path: '/format/shell', description: t('format.shell.description'), category: t('common.format') },
-    { name: t('format.sql.title'), path: '/format/sql', description: t('format.sql.description'), category: t('common.format') },
-    { name: t('format.markdown.title'), path: '/format/markdown', description: t('format.markdown.description'), category: t('common.format') },
-    { name: t('format.vue.title'), path: '/format/vue', description: t('format.vue.description'), category: t('common.format') },
-    
-    // 加密工具列表
-    { name: t('encrypt.aes.title'), path: '/encrypt/aes', description: t('encrypt.aes.description'), category: t('common.encrypt') },
-    { name: t('encrypt.chacha20.title'), path: '/encrypt/chacha20', description: t('encrypt.chacha20.description'), category: t('common.encrypt') },
-    { name: t('encrypt.des.title'), path: '/encrypt/des', description: t('encrypt.des.description'), category: t('common.encrypt') },
-    { name: t('encrypt.rsa.title'), path: '/encrypt/rsa', description: t('encrypt.rsa.description'), category: t('common.encrypt') },
-    { name: t('encrypt.ecc.title'), path: '/encrypt/ecc', description: t('encrypt.ecc.description'), category: t('common.encrypt') },
-    { name: t('encrypt.ed25519.title'), path: '/encrypt/ed25519', description: t('encrypt.ed25519.description'), category: t('common.encrypt') },
-    { name: t('encrypt.sha.title'), path: '/encrypt/sha', description: t('encrypt.sha.description'), category: t('common.encrypt') },
-    { name: t('encrypt.bcrypt.title'), path: '/encrypt/bcrypt', description: t('encrypt.bcrypt.description'), category: t('common.encrypt') },
-    { name: t('encrypt.argon2.title'), path: '/encrypt/argon2', description: t('encrypt.argon2.description'), category: t('common.encrypt') },
-    { name: t('encrypt.diffieHellman.title'), path: '/encrypt/diffie-hellman', description: t('encrypt.diffieHellman.description'), category: t('common.encrypt') },
-    { name: t('encrypt.ecdh.title'), path: '/encrypt/ecdh', description: t('encrypt.ecdh.description'), category: t('common.encrypt') },
-    { name: t('encrypt.x25519.title'), path: '/encrypt/x25519', description: t('encrypt.x25519.description'), category: t('common.encrypt') },
-    { name: t('encrypt.rsaSign.title'), path: '/encrypt/rsa-sign', description: t('encrypt.rsaSign.description'), category: t('common.encrypt') },
-    { name: t('encrypt.ecdsaSign.title'), path: '/encrypt/ecdsa-sign', description: t('encrypt.ecdsaSign.description'), category: t('common.encrypt') },
-    { name: t('encrypt.ed25519Sign.title'), path: '/encrypt/ed25519-sign', description: t('encrypt.ed25519Sign.description'), category: t('common.encrypt') },
-    { name: t('encrypt.base64.title'), path: '/encrypt/base64', description: t('encrypt.base64.description'), category: t('common.encrypt') },
-    { name: t('encrypt.hex.title'), path: '/encrypt/hex', description: t('encrypt.hex.description'), category: t('common.encrypt') },
-    { name: t('encrypt.url.title'), path: '/encrypt/url', description: t('encrypt.url.description'), category: t('common.encrypt') },
-    { name: t('encrypt.html.title'), path: '/encrypt/html', description: t('encrypt.html.description'), category: t('common.encrypt') },
-    { name: t('encrypt.jwt.title'), path: '/encrypt/jwt', description: t('encrypt.jwt.description'), category: t('common.encrypt') },
-    
-    // 转换工具列表
-    { name: t('convert.timestamp.title'), path: '/convert/timestamp', description: t('convert.timestamp.description'), category: t('common.convert') },
-    { name: t('convert.dateCalc.title'), path: '/convert/date-calc', description: t('convert.dateCalc.description'), category: t('common.convert') },
-    { name: t('convert.dateDiff.title'), path: '/convert/date-diff', description: t('convert.dateDiff.description'), category: t('common.convert') },
-    { name: t('convert.number.title'), path: '/convert/number', description: t('convert.number.description'), category: t('common.convert') },
-    { name: t('convert.numberFormat.title'), path: '/convert/number-format', description: t('convert.numberFormat.description'), category: t('common.convert') },
-    { name: t('convert.numberBase.title'), path: '/convert/number-base', description: t('convert.numberBase.description'), category: t('common.convert') },
-    { name: t('convert.storageTime.title'), path: '/convert/storage-time', description: t('convert.storageTime.description'), category: t('common.convert') },
-    { name: t('convert.unit.title'), path: '/convert/unit', description: t('convert.unit.description'), category: t('common.convert') },
-    { name: t('convert.color.title'), path: '/convert/color', description: t('convert.color.description'), category: t('common.convert') },
-    { name: t('convert.regex.title'), path: '/convert/regex', description: t('convert.regex.description'), category: t('common.convert') },
-    { name: t('convert.markdown.title'), path: '/convert/markdown', description: t('convert.markdown.description'), category: t('common.convert') },
-    { name: t('convert.httpStatus.title'), path: '/convert/http-status', description: t('convert.httpStatus.description'), category: t('common.convert') },
-    { name: t('convert.userAgent.title'), path: '/convert/user-agent', description: t('convert.userAgent.description'), category: t('common.convert') },
-    { name: t('convert.ipLookup.title'), path: '/convert/ip-lookup', description: t('convert.ipLookup.description'), category: t('common.convert') },
-    { name: t('convert.charCode.title'), path: '/convert/char-code', description: t('convert.charCode.description'), category: t('common.convert') }
-  ]
 })
 
 const menuOptions = computed(() => [
