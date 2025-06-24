@@ -21,21 +21,15 @@ import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { json } from '@codemirror/lang-json'
-import { python } from '@codemirror/lang-python'
 import { xml } from '@codemirror/lang-xml'
 import { sql } from '@codemirror/lang-sql'
 import { markdown } from '@codemirror/lang-markdown'
-import { rust } from '@codemirror/lang-rust'
 import { php } from '@codemirror/lang-php'
 import { vue } from '@codemirror/lang-vue'
 
 // Legacy modes 支持
 import { StreamLanguage } from '@codemirror/language'
-import { go } from '@codemirror/legacy-modes/mode/go'
-import { csharp, kotlin } from '@codemirror/legacy-modes/mode/clike'
 import { ruby } from '@codemirror/legacy-modes/mode/ruby'
-import { lua } from '@codemirror/legacy-modes/mode/lua'
-import { perl } from '@codemirror/legacy-modes/mode/perl'
 import { shell } from '@codemirror/legacy-modes/mode/shell'
 import { yaml } from '@codemirror/legacy-modes/mode/yaml'
 
@@ -72,25 +66,14 @@ const languageMap = {
   html: html(),
   css: css(),
   json: json(),
-  python: python(),
   js: javascript(),
-  ts: javascript(), // TypeScript 使用 JavaScript 高亮
-  typescript: javascript({ typescript: true }), // TypeScript 完整支持
   xml: xml(),
   sql: sql(),
   yaml: StreamLanguage.define(yaml),
   markdown: markdown(),
   shell: StreamLanguage.define(shell),
-  bash: StreamLanguage.define(shell), // Bash 使用 shell 高亮
-  rust: rust(),
   php: php(),
-  // 使用 legacy-modes 的语言支持
-  go: StreamLanguage.define(go),
-  csharp: StreamLanguage.define(csharp),
-  kotlin: StreamLanguage.define(kotlin),
   ruby: StreamLanguage.define(ruby),
-  lua: StreamLanguage.define(lua),
-  perl: StreamLanguage.define(perl),
   vue: vue(), // Vue 官方语言支持
 }
 

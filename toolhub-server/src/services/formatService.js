@@ -14,12 +14,6 @@ const rubyPlugin = rubyPluginModule.default || rubyPluginModule;
 const javaPluginModule = require('prettier-plugin-java');
 const javaPlugin = javaPluginModule.default || javaPluginModule;
 
-const kotlinPluginModule = require('prettier-plugin-kotlin');
-const kotlinPlugin = kotlinPluginModule.default || kotlinPluginModule;
-
-const rustPluginModule = require('prettier-plugin-rust');
-const rustPlugin = rustPluginModule.default || rustPluginModule;
-
 const shPluginModule = require('prettier-plugin-sh');
 const shPlugin = shPluginModule.default || shPluginModule;
 
@@ -29,20 +23,14 @@ const sqlPlugin = sqlPluginModule.default || sqlPluginModule;
 const xmlPluginModule = require('@prettier/plugin-xml');
 const xmlPlugin = xmlPluginModule.default || xmlPluginModule;
 
-const goPluginModule = require('prettier-plugin-go-template');
-const goPlugin = goPluginModule.default || goPluginModule;
-
 // 插件映射
 const pluginMap = {
   php: [phpPlugin],
   ruby: [rubyPlugin],
   java: [javaPlugin],
-  kotlin: [kotlinPlugin],
-  rust: [rustPlugin],
   shell: [shPlugin],
   sql: [sqlPlugin],
-  xml: [xmlPlugin],
-  go: [goPlugin]
+  xml: [xmlPlugin]
 };
 
 // 格式化配置

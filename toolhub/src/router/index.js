@@ -54,25 +54,10 @@ const router = createRouter({
               path: 'css',
               component: () => import('@/components/format/CssFormat.vue')
             },
-            // Python格式化
-            {
-              path: 'python',
-              component: () => import('@/components/format/PythonFormat.vue')
-            },
             // Java格式化
             {
               path: 'java',
               component: () => import('@/components/format/JavaFormat.vue')
-            },
-            // C#格式化
-            {
-              path: 'csharp',
-              component: () => import('@/components/format/CSharpFormat.vue')
-            },
-            // Go格式化
-            {
-              path: 'go',
-              component: () => import('@/components/format/GoFormat.vue')
             },
             // PHP格式化
             {
@@ -83,16 +68,6 @@ const router = createRouter({
             {
               path: 'ruby',
               component: () => import('@/components/format/RubyFormat.vue')
-            },
-            // Kotlin格式化
-            {
-              path: 'kotlin',
-              component: () => import('@/components/format/KotlinFormat.vue')
-            },
-            // Rust格式化
-            {
-              path: 'rust',
-              component: () => import('@/components/format/RustFormat.vue')
             },
             // Shell脚本格式化
             {

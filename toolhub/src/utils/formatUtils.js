@@ -31,12 +31,8 @@ const BACKEND_REQUIRED_PLUGINS = [
   '@prettier/plugin-ruby',
   '@prettier/plugin-xml',
   'prettier-plugin-java',
-  'prettier-plugin-kotlin',
-  'prettier-plugin-rust',
   'prettier-plugin-sh',
   'prettier-plugin-sql',
-  'prettier-plugin-csharp',
-  'prettier-plugin-go-template',
   '@un-ts/prettier-plugin-sh',
   '@un-ts/prettier-plugin-sql',
   '@vue/compiler-sfc'
@@ -114,20 +110,12 @@ const getPrettierParser = (language) => {
     php: 'php',
     ruby: 'ruby',
     xml: 'xml',
-    go: 'go-template',
     java: 'java',
-    kotlin: 'kotlin',
-    rust: 'rust',
     shell: 'sh',
     sql: 'sql',
-    csharp: 'csharp',
     vue: 'vue',
     markdown: 'markdown',
-    perl: 'perl',
-    lua: 'lua',
-    scala: 'scala',
-    swift: 'swift',
-    python: 'python'
+    yaml: 'yaml'
   };
   return parserMap[language.toLowerCase()] || 'babel';
 };
@@ -144,15 +132,10 @@ const getPrettierPlugins = (language) => {
     ruby: ['@prettier/plugin-ruby'],
     xml: ['@prettier/plugin-xml'],
     java: ['prettier-plugin-java'],
-    kotlin: ['prettier-plugin-kotlin'],
-    rust: ['prettier-plugin-rust'],
     shell: ['@un-ts/prettier-plugin-sh'],
     sql: ['@un-ts/prettier-plugin-sql'],
-    vue: ['@vue/compiler-sfc'],
-    csharp: ['prettier-plugin-csharp'],
-    go: ['prettier-plugin-go-template']
+    vue: ['@vue/compiler-sfc']
   };
-  
   const languagePlugins = pluginMap[language.toLowerCase()] || [];
   return [...basePlugins, ...languagePlugins];
 };

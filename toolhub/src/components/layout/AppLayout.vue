@@ -303,24 +303,9 @@ const menuOptions = computed(() => [
             path: '/format/css'
           },
           {
-            label: t('format.python.title'),
-            key: 'python-format',
-            path: '/format/python'
-          },
-          {
             label: t('format.java.title'),
             key: 'java-format',
             path: '/format/java'
-          },
-          {
-            label: t('format.csharp.title'),
-            key: 'csharp-format',
-            path: '/format/csharp'
-          },
-          {
-            label: t('format.go.title'),
-            key: 'go-format',
-            path: '/format/go'
           },
           {
             label: t('format.php.title'),
@@ -331,16 +316,6 @@ const menuOptions = computed(() => [
             label: t('format.ruby.title'),
             key: 'ruby-format',
             path: '/format/ruby'
-          },
-          {
-            label: t('format.kotlin.title'),
-            key: 'kotlin-format',
-            path: '/format/kotlin'
-          },
-          {
-            label: t('format.rust.title'),
-            key: 'rust-format',
-            path: '/format/rust'
           },
           {
             label: t('format.shell.title'),

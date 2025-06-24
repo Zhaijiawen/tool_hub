@@ -182,21 +182,9 @@ export default {
       title: 'CSS 格式化',
       description: '格式化 CSS 样式'
     },
-    python: {
-      title: 'Python 格式化',
-      description: '格式化 Python 代码'
-    },
     java: {
       title: 'Java 格式化',
       description: '格式化 Java 代码'
-    },
-    csharp: {
-      title: 'C# 格式化',
-      description: '格式化 C# 代码'
-    },
-    go: {
-      title: 'Go 格式化',
-      description: '格式化 Go 代码'
     },
     php: {
       title: 'PHP 格式化',
@@ -205,14 +193,6 @@ export default {
     ruby: {
       title: 'Ruby 格式化',
       description: '格式化 Ruby 代码'
-    },
-    kotlin: {
-      title: 'Kotlin 格式化',
-      description: '格式化 Kotlin 代码'
-    },
-    rust: {
-      title: 'Rust 格式化',
-      description: '格式化 Rust 代码'
     },
     shell: {
       title: 'Shell 格式化',

@@ -190,21 +190,9 @@ export default {
       title: 'CSS Formatter',
       description: 'Format CSS styles'
     },
-    python: {
-      title: 'Python Formatter',
-      description: 'Format Python code'
-    },
     java: {
       title: 'Java Formatter',
       description: 'Format Java code'
-    },
-    csharp: {
-      title: 'C# Formatter',
-      description: 'Format C# code'
-    },
-    go: {
-      title: 'Go Formatter',
-      description: 'Format Go code'
     },
     php: {
       title: 'PHP Formatter',
@@ -213,18 +201,6 @@ export default {
     ruby: {
       title: 'Ruby Formatter',
       description: 'Format Ruby code'
-    },
-    kotlin: {
-      title: 'Kotlin Formatter',
-      placeholder: 'Enter Kotlin code',
-      format: 'Format',
-      description: 'Format Kotlin code'
-    },
-    rust: {
-      title: 'Rust Formatter',
-      placeholder: 'Enter Rust code',
-      format: 'Format',
-      description: 'Format Rust code'
     },
     shell: {
       title: 'Shell/Bash Formatter',

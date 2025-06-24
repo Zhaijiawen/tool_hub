@@ -43,31 +43,10 @@ const tools = [
     category: 'format'
   },
   {
-    id: 'python',
-    name: 'format.python.title',
-    path: '/format/python',
-    description: 'format.python.description',
-    category: 'format'
-  },
-  {
     id: 'java',
     name: 'format.java.title',
     path: '/format/java',
     description: 'format.java.description',
-    category: 'format'
-  },
-  {
-    id: 'csharp',
-    name: 'format.csharp.title',
-    path: '/format/csharp',
-    description: 'format.csharp.description',
-    category: 'format'
-  },
-  {
-    id: 'go',
-    name: 'format.go.title',
-    path: '/format/go',
-    description: 'format.go.description',
     category: 'format'
   },
   {
@@ -82,20 +61,6 @@ const tools = [
     name: 'format.ruby.title',
     path: '/format/ruby',
     description: 'format.ruby.description',
-    category: 'format'
-  },
-  {
-    id: 'kotlin',
-    name: 'format.kotlin.title',
-    path: '/format/kotlin',
-    description: 'format.kotlin.description',
-    category: 'format'
-  },
-  {
-    id: 'rust',
-    name: 'format.rust.title',
-    path: '/format/rust',
-    description: 'format.rust.description',
     category: 'format'
   },
   {
