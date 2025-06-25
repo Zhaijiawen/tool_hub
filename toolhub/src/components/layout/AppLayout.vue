@@ -139,6 +139,21 @@ import {
 
 // 初始化国际化
 const { t, locale } = useI18n()
+
+// 如果localStorage没有language，根据浏览器环境自动设置
+if (!localStorage.getItem('language')) {
+  // 获取浏览器语言
+  const browserLang = navigator.language || navigator.userLanguage || 'en'
+  // 判断是否为中文
+  const isZh = browserLang.toLowerCase().startsWith('zh')
+  const lang = isZh ? 'zh' : 'en'
+  locale.value = lang
+  document.documentElement.lang = lang
+  localStorage.setItem('language', lang)
+} else {
+  document.documentElement.lang = localStorage.getItem('language')
+}
+
 // 初始化主题管理
 const { isDark, toggleTheme } = useTheme()
 // 初始化路由
@@ -195,7 +210,6 @@ const menuOptions = computed(() => [
     key: 'format',
     children: [
       {
-        type: 'group',
         label: t('format.dataFormat'),
         key: 'data-format-group',
         children: [
