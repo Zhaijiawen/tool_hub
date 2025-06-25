@@ -210,6 +210,7 @@ const menuOptions = computed(() => [
     key: 'format',
     children: [
       {
+        type: 'group',
         label: t('format.dataFormat'),
         key: 'data-format-group',
         children: [
