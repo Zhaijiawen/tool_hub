@@ -14,7 +14,7 @@ export async function formatCode(code, language) {
       code,
       language
     })
-    return response.data.formattedCode
+    return response.data.data.formattedCode
   } catch (error) {
     console.error('Format code API error:', error)
     throw error

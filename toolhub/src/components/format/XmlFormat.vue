@@ -29,9 +29,10 @@
         v-if="error"
         type="error"
         :title="t('common.error')"
-        :content="error"
         class="error-alert"
-      />
+      >
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -99,7 +100,7 @@ const compressXml = () => {
     error.value = ''
     message.success(t('format.xml.compressSuccess'))
   } catch (e) {
-    error.value = e.message
+    error.value = e
     message.error(t('format.xml.compressError'))
   }
 }

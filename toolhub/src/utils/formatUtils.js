@@ -73,18 +73,13 @@ export const formatWithBeautify = (code, language) => {
  * @returns {Promise<string|null>} 格式化后的代码
  */
 export const formatWithPrettier = async (code, language) => {
-  try {
-    const parser = getPrettierParser(language);
-    if (!parser) return null; // 只允许 markdown/yaml
-    return await prettier.format(code, {
-      ...prettierOptions,
-      parser
-      // plugins: [] // 可省略，markdown/yaml 不需要额外插件
-    });
-  } catch (error) {
-    console.error('Prettier formatting failed:', error);
-    return null;
-  }
+  const parser = getPrettierParser(language);
+  if (!parser) return null; // 只允许 markdown/yaml
+  return await prettier.format(code, {
+    ...prettierOptions,
+    parser
+    // plugins: [] // 可省略，markdown/yaml 不需要额外插件
+  });
 };
 
 /**
