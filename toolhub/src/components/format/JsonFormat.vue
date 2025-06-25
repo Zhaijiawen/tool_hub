@@ -37,9 +37,10 @@
         v-if="error"
         type="error"
         :title="t('common.error')"
-        :content="error"
         class="error-alert"
-      />
+      >
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>

@@ -49,23 +49,20 @@ export const formatWithBeautify = (code, language) => {
     return null;
   }
 
-  try {
-    switch (language.toLowerCase()) {
-      case 'javascript':
-      case 'js':
-        return beautify.js(code, beautifyOptions);
-      case 'html':
-        return beautify.html(code, beautifyOptions);
-      case 'css':
-        return beautify.css(code, beautifyOptions);
-      case 'json':
-        return beautify.js(code, beautifyOptions);
-      default:
-        return null;
-    }
-  } catch (error) {
-    console.error('Beautify formatting failed:', error);
-    return null;
+  switch (language.toLowerCase()) {
+    case 'javascript':
+    case 'js':
+      return beautify.js(code, beautifyOptions);
+    case 'html':
+      return beautify.html(code, beautifyOptions);
+    case 'css':
+      return beautify.css(code, beautifyOptions);
+    case 'json':
+      // 先校验 JSON 合法性，不合法直接抛出异常
+      JSON.parse(code);
+      return beautify.js(code, beautifyOptions);
+    default:
+      return null;
   }
 };
 
