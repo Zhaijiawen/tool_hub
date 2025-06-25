@@ -172,6 +172,7 @@ const languageOptions = [
 // 处理语言切换
 const handleLanguageSelect = (key) => {
   locale.value = key
+  document.documentElement.lang = key
   localStorage.setItem('language', key)
 }
 
