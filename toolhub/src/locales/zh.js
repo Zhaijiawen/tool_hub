@@ -141,7 +141,7 @@ export default {
     enableHighlight: '启用代码高亮',
     copySuccess: '复制成功',
     copyError: '复制失败',
-    composer: '组件编排'
+    composer: '编排'
   },
   footer: {
     about: '关于',

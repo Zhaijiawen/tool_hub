@@ -54,7 +54,7 @@
             <template #icon>
               <n-icon><puzzle-icon /></n-icon>
             </template>
-            编排
+            {{ t('common.composer') }}
           </n-button>
           <!-- 语言切换下拉菜单 -->
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">

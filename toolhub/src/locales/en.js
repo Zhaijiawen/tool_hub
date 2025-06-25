@@ -141,7 +141,7 @@ export default {
     enableHighlight: 'Enable Code Highlighting',
     copySuccess: 'Copy Success',
     copyError: 'Copy Failed',
-    composer: 'Component Composer'
+    composer: 'Composer'
   },
   footer: {
     about: 'About',
