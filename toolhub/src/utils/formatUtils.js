@@ -36,7 +36,8 @@ const BACKEND_REQUIRED_PLUGINS = [
   '@un-ts/prettier-plugin-sh',
   '@un-ts/prettier-plugin-sql',
   '@vue/compiler-sfc',
-  'yaml'
+  'yaml',
+  'markdown'
 ];
 
 /**
@@ -75,11 +76,11 @@ export const formatWithBeautify = (code, language) => {
  */
 export const formatWithPrettier = async (code, language) => {
   const parser = getPrettierParser(language);
-  if (!parser) return null; // 只允许 markdown
+  if (!parser) return null;
   return await prettier.format(code, {
     ...prettierOptions,
     parser
-    // plugins: [] // 可省略，markdown 不需要额外插件
+    // plugins: [] // 可省略
   });
 };
 
@@ -90,8 +91,7 @@ export const formatWithPrettier = async (code, language) => {
  */
 const getPrettierParser = (language) => {
   const parserMap = {
-    markdown: 'markdown',
-    yaml: 'yaml'
+    // xxx: 'xxx'
   };
   return parserMap[language.toLowerCase()] || null;
 };
@@ -111,7 +111,8 @@ const getPrettierPlugins = (language) => {
     shell: ['@un-ts/prettier-plugin-sh'],
     sql: ['@un-ts/prettier-plugin-sql'],
     vue: ['@vue/compiler-sfc'],
-    yaml: ['yaml']
+    yaml: ['yaml'],
+    markdown: ['markdown']
   };
   const languagePlugins = pluginMap[language.toLowerCase()] || [];
   return [...basePlugins, ...languagePlugins];
