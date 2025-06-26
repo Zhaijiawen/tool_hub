@@ -183,6 +183,7 @@ const copyToClipboard = async () => {
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {
+    error.value = e.message
     message.error(t('common.copyError'))
   }
 }
