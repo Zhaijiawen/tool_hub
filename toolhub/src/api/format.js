@@ -9,14 +9,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000
  * @returns {Promise<string>} 格式化后的代码
  */
 export async function formatCode(code, language) {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/format`, {
-      code,
-      language
-    })
+  const response = await axios.post(`${API_BASE_URL}/format`, {
+    code,
+    language
+  })
+  if (response.data.code === 0) {
     return response.data.data.formattedCode
-  } catch (error) {
-    console.error('Format code API error:', error)
-    throw error
   }
+  throw new Error(response.data.message)
 } 

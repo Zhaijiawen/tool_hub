@@ -56,9 +56,9 @@ app.post('/api/format', async (req, res) => {
       message: 'success'
     });
   } catch (error) {
-    console.error('Format error:', error);
-    res.status(500).json({
+    res.json({
       code: 1,
+      data: null,
       message: error.message
     });
   }
@@ -67,9 +67,10 @@ app.post('/api/format', async (req, res) => {
 // 错误处理
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({
-    code: 500,
-    message: 'Internal Server Error'
+  res.status(200).json({
+    code: 1,
+    data: null,
+    message: err.message || 'Internal Server Error'
   });
 });
 

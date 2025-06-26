@@ -100,7 +100,7 @@ const compressXml = () => {
     error.value = ''
     message.success(t('format.xml.compressSuccess'))
   } catch (e) {
-    error.value = e
+    error.value = e.message
     message.error(t('format.xml.compressError'))
   }
 }
@@ -114,6 +114,7 @@ const copyToClipboard = async () => {
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {
+    error.value = e.message
     message.error(t('common.copyError'))
   }
 }
