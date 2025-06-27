@@ -71,8 +71,8 @@ const formatYaml = async () => {
   
   loading.value = true
   try {
-    input.value = await formatCode(input.value, 'yaml')
     error.value = ''
+    input.value = await formatCode(input.value, 'yaml')
     message.success(t('format.yaml.success'))
   } catch (e) {
     error.value = e.message
@@ -88,6 +88,7 @@ const formatYaml = async () => {
  */
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {

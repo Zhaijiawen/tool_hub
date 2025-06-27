@@ -71,8 +71,8 @@ const formatMarkdown = async () => {
   
   loading.value = true
   try {
-    input.value = await formatCode(input.value, 'markdown')
     error.value = ''
+    input.value = await formatCode(input.value, 'markdown')
     message.success(t('format.markdown.success'))
   } catch (e) {
     error.value = e.message
@@ -88,6 +88,7 @@ const formatMarkdown = async () => {
  */
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {

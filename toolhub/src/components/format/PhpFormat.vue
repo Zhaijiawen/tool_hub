@@ -16,13 +16,15 @@
           {{ t('common.copy') }}
         </n-button>
       </div>
+      <!-- 错误提示 -->
       <n-alert
         v-if="error"
         type="error"
         :title="t('common.error')"
-        :content="error"
         class="error-alert"
-      />
+      >
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -51,8 +53,8 @@ const formatPhp = async () => {
   
   loading.value = true
   try {
-    input.value = await formatCode(input.value, 'php')
     error.value = ''
+    input.value = await formatCode(input.value, 'php')
     message.success(t('format.php.success'))
   } catch (e) {
     error.value = e.message
@@ -64,9 +66,11 @@ const formatPhp = async () => {
 
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {
+    error.value = e.message
     message.error(t('common.copyError'))
   }
 }

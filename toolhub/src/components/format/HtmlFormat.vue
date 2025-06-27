@@ -25,9 +25,10 @@
         v-if="error"
         type="error"
         :title="t('common.error')"
-        :content="error"
         class="error-alert"
-      />
+      >
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -67,8 +68,8 @@ const formatHtml = async () => {
   }
   loading.value = true
   try {
-    input.value = await formatCode(input.value, 'html')
     error.value = ''
+    input.value = await formatCode(input.value, 'html')
     message.success(t('format.html.success'))
   } catch (e) {
     error.value = e.message
@@ -84,9 +85,11 @@ const formatHtml = async () => {
  */
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {
+    error.value = e.message
     message.error(t('common.copyError'))
   }
 }

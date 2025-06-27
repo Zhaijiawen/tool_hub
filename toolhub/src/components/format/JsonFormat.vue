@@ -92,8 +92,8 @@ const formatJson = async () => {
     return
   }
   try {
-    input.value = await formatCode(trimmedInput, 'json')
     error.value = ''
+    input.value = await formatCode(trimmedInput, 'json')
     message.success(t('format.json.success'))
   } catch (e) {
     error.value = e.message
@@ -114,9 +114,9 @@ const compressJson = () => {
   }
   
   try {
+    error.value = ''
     const parsed = JSON.parse(trimmedInput)
     input.value = JSON.stringify(parsed)
-    error.value = ''
     message.success(t('format.json.compressSuccess'))
   } catch (e) {
     error.value = e.message
@@ -135,13 +135,13 @@ const escapeJson = () => {
   }
   
   try {
+    error.value = ''
     // 先转义反斜杠，再转义双引号（顺序很重要）
     let escaped = input.value
       .replace(/\\/g, '\\\\')  // 转义反斜杠
       .replace(/"/g, '\\"')    // 转义双引号
     
     input.value = escaped
-    error.value = ''
     message.success(t('format.json.escapeSuccess'))
   } catch (e) {
     error.value = e.message
@@ -160,13 +160,13 @@ const unescapeJson = () => {
   }
   
   try {
+    error.value = ''
     // 先反转义双引号，再反转义反斜杠（顺序很重要）
     let unescaped = input.value
       .replace(/\\"/g, '"')     // 反转义双引号
       .replace(/\\\\/g, '\\')   // 反转义反斜杠
     
     input.value = unescaped
-    error.value = ''
     message.success(t('format.json.unescapeSuccess'))
   } catch (e) {
     error.value = e.message
@@ -180,6 +180,7 @@ const unescapeJson = () => {
  */
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {

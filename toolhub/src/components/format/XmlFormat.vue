@@ -74,8 +74,8 @@ const formatXml = async () => {
   
   loading.value = true
   try {
-    input.value = await formatCode(input.value, 'xml')
     error.value = ''
+    input.value = await formatCode(input.value, 'xml')
     message.success(t('format.xml.success'))
   } catch (e) {
     error.value = e.message
@@ -96,8 +96,8 @@ const compressXml = () => {
   }
   
   try {
-    input.value = input.value.replace(/>\s+</g, '><').trim()
     error.value = ''
+    input.value = input.value.replace(/>\s+</g, '><').trim()
     message.success(t('format.xml.compressSuccess'))
   } catch (e) {
     error.value = e.message
@@ -111,6 +111,7 @@ const compressXml = () => {
  */
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(input.value)
     message.success(t('common.copySuccess'))
   } catch (e) {
