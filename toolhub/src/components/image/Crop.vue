@@ -1,12 +1,7 @@
 <template>
   <div class="cropper-container">
     <n-card title="图片裁剪">
-      <n-upload
-        :max="1"
-        accept="image/*"
-        :show-file-list="false"
-        @change="onFileChange"
-      >
+      <n-upload :max="1" accept="image/*" :show-file-list="false" @change="onFileChange">
         <n-button>上传图片</n-button>
       </n-upload>
       <div v-if="imgSrc" class="cropper-wrapper">
@@ -158,4 +153,4 @@ onBeforeUnmount(() => {
 .mt-2 {
   margin-top: 12px;
 }
-</style> 
+</style>

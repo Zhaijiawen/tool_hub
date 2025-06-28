@@ -4,11 +4,7 @@
     <!-- 工具卡片 -->
     <n-card :title="t('format.html.title')">
       <!-- HTML输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.html.placeholder')"
-        language="html"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.html.placeholder')" language="html" />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
@@ -21,12 +17,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -114,4 +105,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

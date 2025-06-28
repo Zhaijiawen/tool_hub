@@ -5,29 +5,17 @@
       <n-tab-pane name="generate" :tab="$t('other.qrcode.generate')">
         <n-form>
           <n-form-item :label="$t('other.qrcode.content')">
-            <n-input
-              v-model:value="generateForm.content"
-              type="textarea"
-              :placeholder="$t('other.qrcode.contentPlaceholder')"
-              :autosize="{ minRows: 3, maxRows: 5 }"
-            />
+            <n-input v-model:value="generateForm.content" type="textarea"
+              :placeholder="$t('other.qrcode.contentPlaceholder')" :autosize="{ minRows: 3, maxRows: 5 }" />
           </n-form-item>
 
           <n-form-item :label="$t('other.qrcode.size')">
-            <n-slider
-              v-model:value="generateForm.size"
-              :min="100"
-              :max="400"
-              :step="10"
-            />
+            <n-slider v-model:value="generateForm.size" :min="100" :max="400" :step="10" />
             <div class="text-right">{{ generateForm.size }}px</div>
           </n-form-item>
 
           <n-form-item :label="$t('other.qrcode.level')">
-            <n-select
-              v-model:value="generateForm.level"
-              :options="errorCorrectionLevels"
-            />
+            <n-select v-model:value="generateForm.level" :options="errorCorrectionLevels" />
           </n-form-item>
 
           <n-space>
@@ -47,12 +35,7 @@
 
       <!-- 解码二维码 -->
       <n-tab-pane name="decode" :tab="$t('other.qrcode.decode')">
-        <n-upload
-          accept="image/*"
-          :max="1"
-          :show-file-list="false"
-          @change="handleFileChange"
-        >
+        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
               <n-icon size="48" :depth="3">
@@ -66,28 +49,17 @@
         </n-upload>
 
         <div v-if="previewUrl" class="mt-4">
-          <n-image
-            :src="previewUrl"
-            :alt="$t('other.qrcode.preview')"
-            width="200"
-          />
+          <n-image :src="previewUrl" :alt="$t('other.qrcode.preview')" width="200" />
         </div>
 
-        <n-alert
-          v-if="decodeResult"
-          type="success"
-          :title="$t('other.qrcode.decodeResult')"
-          class="mt-4"
-        >
+        <n-alert v-if="decodeResult" type="success" :title="$t('other.qrcode.decodeResult')" class="mt-4">
           {{ decodeResult }}
         </n-alert>
 
-        <n-alert
-          v-if="decodeError"
-          type="error"
-          :title="$t('other.qrcode.decodeError')"
-          class="mt-4"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="decodeError" type="t('common.error')" :title="error" class="mt-4">
+          {{ decodeError }}
+        </n-alert>
       </n-tab-pane>
     </n-tabs>
   </n-card>
@@ -168,10 +140,10 @@ async function handleFileChange({ file }) {
 
     // 读取图片数据
     const imageData = await readImageData(file.file)
-    
+
     // 解码二维码
     const code = jsQR(imageData.data, imageData.width, imageData.height)
-    
+
     if (code) {
       decodeResult.value = code.data
       decodeError.value = ''
@@ -227,4 +199,4 @@ function readImageData(file) {
   justify-content: center;
   padding: 20px;
 }
-</style> 
+</style>

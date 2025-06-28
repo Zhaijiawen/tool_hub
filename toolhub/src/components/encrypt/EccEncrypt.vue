@@ -1,12 +1,8 @@
 <template>
   <div class="ecc-encrypt">
     <n-card :title="t('encrypt.ecc.title')">
-      <n-input
-        v-model:value="input"
-        type="textarea"
-        :placeholder="t('encrypt.ecc.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
-      />
+      <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.ecc.placeholder')"
+        :autosize="{ minRows: 10, maxRows: 20 }" />
       <div class="button-group">
         <n-button @click="encrypt" type="primary">
           {{ t('encrypt.ecc.encrypt') }}
@@ -18,13 +14,10 @@
           {{ t('common.copy') }}
         </n-button>
       </div>
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        :content="error"
-        class="error-alert"
-      />
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -92,4 +85,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

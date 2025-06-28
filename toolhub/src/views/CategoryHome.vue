@@ -48,4 +48,4 @@ watch(() => route.path, (newPath) => {
   margin: 20px auto;
   padding: 0 20px;
 }
-</style> 
+</style>

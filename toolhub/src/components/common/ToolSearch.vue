@@ -4,12 +4,8 @@
     <!-- 搜索输入组 -->
     <n-input-group>
       <!-- 搜索输入框 -->
-      <n-input
-        v-model:value="searchText"
-        :placeholder="$t('common.searchPlaceholder')"
-        clearable
-        @keyup.enter="handleSearch"
-      >
+      <n-input v-model:value="searchText" :placeholder="$t('common.searchPlaceholder')" clearable
+        @keyup.enter="handleSearch">
         <!-- 搜索图标前缀 -->
         <template #prefix>
           <n-icon><search-icon /></n-icon>
@@ -26,11 +22,7 @@
       <!-- 有搜索结果时显示列表 -->
       <n-card v-if="searchResults.length > 0">
         <n-list>
-          <n-list-item
-            v-for="tool in searchResults"
-            :key="tool.path"
-            @click="handleToolSelect(tool)"
-          >
+          <n-list-item v-for="tool in searchResults" :key="tool.path" @click="handleToolSelect(tool)">
             <n-thing :title="tool.name" :description="tool.description">
               <!-- 工具分类标签 -->
               <template #header-extra>
@@ -186,4 +178,4 @@ onUnmounted(() => {
 :deep(.n-list-item:hover) {
   background-color: #f5f5f5;
 }
-</style> 
+</style>

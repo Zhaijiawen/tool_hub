@@ -2,12 +2,7 @@
   <div class="image-convert">
     <n-card :title="$t('image.convert.title')">
       <n-space vertical>
-        <n-upload
-          accept="image/*"
-          :max="1"
-          :show-file-list="false"
-          @change="handleFileChange"
-        >
+        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
               <n-icon size="48" :depth="3">
@@ -22,19 +17,11 @@
 
         <n-form>
           <n-form-item :label="$t('image.convert.format')">
-            <n-select
-              v-model:value="format"
-              :options="formatOptions"
-            />
+            <n-select v-model:value="format" :options="formatOptions" />
           </n-form-item>
 
           <n-form-item :label="$t('image.convert.quality')">
-            <n-slider
-              v-model:value="quality"
-              :min="0"
-              :max="100"
-              :step="1"
-            />
+            <n-slider v-model:value="quality" :min="0" :max="100" :step="1" />
             <div class="text-right">{{ quality }}%</div>
           </n-form-item>
 
@@ -52,11 +39,7 @@
           <div class="preview-container">
             <div class="preview-item">
               <h3>{{ $t('image.convert.original') }}</h3>
-              <n-image
-                :src="originalImage"
-                :alt="$t('image.convert.original')"
-                width="300"
-              />
+              <n-image :src="originalImage" :alt="$t('image.convert.original')" width="300" />
               <div class="info">
                 <div>{{ $t('image.convert.format') }}: {{ originalFormat }}</div>
                 <div>{{ $t('image.convert.size') }}: {{ formatFileSize(originalSize) }}</div>
@@ -65,11 +48,7 @@
 
             <div v-if="convertedImage" class="preview-item">
               <h3>{{ $t('image.convert.converted') }}</h3>
-              <n-image
-                :src="convertedImage"
-                :alt="$t('image.convert.converted')"
-                width="300"
-              />
+              <n-image :src="convertedImage" :alt="$t('image.convert.converted')" width="300" />
               <div class="info">
                 <div>{{ $t('image.convert.format') }}: {{ format }}</div>
                 <div>{{ $t('image.convert.size') }}: {{ formatFileSize(convertedSize) }}</div>
@@ -78,12 +57,10 @@
           </div>
         </div>
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="error"
-          class="mt-4"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="t('common.error')" :title="error" class="mt-4">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -245,4 +222,4 @@ function formatFileSize(bytes) {
   margin-top: 8px;
   color: var(--n-text-color-3);
 }
-</style> 
+</style>

@@ -141,7 +141,7 @@ const initEditor = () => {
 // 更新编辑器内容
 const updateEditorContent = (newValue) => {
   if (!editorView) return
-  
+
   const currentValue = editorView.state.doc.toString()
   if (currentValue !== newValue) {
     editorView.dispatch({
@@ -200,10 +200,10 @@ watch(() => props.language, () => {
 onMounted(async () => {
   await nextTick()
   initEditor()
-  
+
   // 开始监听主题变化
   const themeObserver = observeThemeChange()
-  
+
   // 在组件卸载时清理观察器
   onBeforeUnmount(() => {
     themeObserver.disconnect()
@@ -289,4 +289,4 @@ onBeforeUnmount(() => {
 .dark .code-editor :deep(.cm-scroller) {
   background: #181a1b !important;
 }
-</style> 
+</style>

@@ -4,11 +4,7 @@
     <!-- 工具卡片 -->
     <n-card :title="t('format.yaml.title')">
       <!-- YAML输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.yaml.placeholder')"
-        language="yaml"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.yaml.placeholder')" language="yaml" />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
@@ -21,12 +17,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -68,7 +59,7 @@ const formatYaml = async () => {
     message.warning(t('format.yaml.empty'))
     return
   }
-  
+
   loading.value = true
   try {
     error.value = ''
@@ -117,4 +108,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

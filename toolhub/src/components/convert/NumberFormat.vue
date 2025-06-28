@@ -2,12 +2,8 @@
   <n-card :title="$t('convert.numberFormat.title')">
     <n-form>
       <n-form-item :label="$t('convert.numberFormat.input')">
-        <n-input
-          v-model:value="formData.input"
-          :placeholder="$t('convert.numberFormat.inputPlaceholder')"
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }"
-        />
+        <n-input v-model:value="formData.input" :placeholder="$t('convert.numberFormat.inputPlaceholder')"
+          type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" />
       </n-form-item>
 
       <n-form-item :label="$t('convert.numberFormat.operation')">
@@ -21,13 +17,8 @@
       </n-form-item>
 
       <n-form-item :label="$t('convert.numberFormat.output')">
-        <n-input
-          v-model:value="formData.output"
-          :placeholder="$t('convert.numberFormat.outputPlaceholder')"
-          type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }"
-          readonly
-        />
+        <n-input v-model:value="formData.output" :placeholder="$t('convert.numberFormat.outputPlaceholder')"
+          type="textarea" :autosize="{ minRows: 3, maxRows: 5 }" readonly />
       </n-form-item>
 
       <n-space>
@@ -40,12 +31,10 @@
       </n-space>
     </n-form>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" class="error-alert">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -82,7 +71,7 @@ function toThousands(num) {
 
 function convert() {
   error.value = ''
-  
+
   try {
     if (!formData.input) {
       throw new Error(t('convert.numberFormat.inputRequired'))
@@ -122,4 +111,4 @@ function copyOutput() {
   max-width: 800px;
   margin: 0 auto;
 }
-</style> 
+</style>

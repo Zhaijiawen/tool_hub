@@ -1,11 +1,6 @@
 <template>
   <n-card :title="$t('image.rotate.title')">
-    <n-upload
-      accept="image/*"
-      :max="1"
-      :show-file-list="false"
-      @change="handleFileChange"
-    >
+    <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
       <n-upload-dragger>
         <div class="upload-trigger">
           <n-icon size="48" :depth="3">
@@ -21,13 +16,7 @@
     <div v-if="originalImage" class="mt-4">
       <n-form>
         <n-form-item :label="$t('image.rotate.angle')">
-          <n-slider
-            v-model:value="angle"
-            :min="0"
-            :max="360"
-            :step="90"
-            :marks="angleMarks"
-          />
+          <n-slider v-model:value="angle" :min="0" :max="360" :step="90" :marks="angleMarks" />
           <div class="text-right">{{ angle }}°</div>
         </n-form-item>
 
@@ -44,30 +33,20 @@
       <div class="preview-container mt-4">
         <div class="preview-item">
           <h3>{{ $t('image.rotate.original') }}</h3>
-          <n-image
-            :src="originalImage"
-            :alt="$t('image.rotate.original')"
-            width="300"
-          />
+          <n-image :src="originalImage" :alt="$t('image.rotate.original')" width="300" />
         </div>
 
         <div v-if="rotatedImage" class="preview-item">
           <h3>{{ $t('image.rotate.rotated') }}</h3>
-          <n-image
-            :src="rotatedImage"
-            :alt="$t('image.rotate.rotated')"
-            width="300"
-          />
+          <n-image :src="rotatedImage" :alt="$t('image.rotate.rotated')" width="300" />
         </div>
       </div>
     </div>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      class="mt-4"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" class="mt-4">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -209,4 +188,4 @@ function downloadImage() {
 .preview-item {
   text-align: center;
 }
-</style> 
+</style>

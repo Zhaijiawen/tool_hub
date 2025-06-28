@@ -3,11 +3,7 @@
   <div class="vue-format">
     <n-card :title="t('format.vue.title')">
       <!-- Vue输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.vue.placeholder')"
-        language="vue"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.vue.placeholder')" language="vue" />
       <!-- 操作按钮组 -->
       <div class="button-group">
         <n-button @click="formatVue" type="primary" :loading="loading">
@@ -18,12 +14,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -55,7 +46,7 @@ const formatVue = async () => {
     message.warning(t('format.vue.empty'))
     return
   }
-  
+
   loading.value = true
   try {
     error.value = ''
@@ -101,4 +92,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

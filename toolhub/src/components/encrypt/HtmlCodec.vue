@@ -2,20 +2,13 @@
   <div class="html-codec">
     <n-card :title="t('encrypt.html.title')">
       <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.html.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
+        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.html.inputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
+
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.html.operation')">
-            <n-select
-              v-model:value="formData.operation"
-              :options="operationOptions"
-              :placeholder="t('encrypt.html.operationPlaceholder')"
-            />
+            <n-select v-model:value="formData.operation" :options="operationOptions"
+              :placeholder="t('encrypt.html.operationPlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -28,21 +21,13 @@
           </n-button>
         </n-space>
 
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.html.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.html.outputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -84,7 +69,7 @@ const process = () => {
       textarea.innerHTML = input.value
       output.value = textarea.textContent
     }
-    
+
     error.value = ''
   } catch (e) {
     error.value = e.message
@@ -111,4 +96,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

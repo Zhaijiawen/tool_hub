@@ -2,26 +2,16 @@
   <n-card :title="$t('text.replace.title')">
     <n-form>
       <n-form-item :label="$t('text.replace.input')">
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="$t('text.replace.inputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-        />
+        <n-input v-model:value="input" type="textarea" :placeholder="$t('text.replace.inputPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" />
       </n-form-item>
 
       <n-form-item :label="$t('text.replace.find')">
-        <n-input
-          v-model:value="find"
-          :placeholder="$t('text.replace.findPlaceholder')"
-        />
+        <n-input v-model:value="find" :placeholder="$t('text.replace.findPlaceholder')" />
       </n-form-item>
 
       <n-form-item :label="$t('text.replace.replace')">
-        <n-input
-          v-model:value="replace"
-          :placeholder="$t('text.replace.replacePlaceholder')"
-        />
+        <n-input v-model:value="replace" :placeholder="$t('text.replace.replacePlaceholder')" />
       </n-form-item>
 
       <n-space>
@@ -43,13 +33,8 @@
       </n-space>
 
       <n-form-item :label="$t('text.replace.output')" class="mt-4">
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="$t('text.replace.outputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="$t('text.replace.outputPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" readonly />
       </n-form-item>
 
       <n-space>
@@ -155,4 +140,4 @@ function clearAll() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

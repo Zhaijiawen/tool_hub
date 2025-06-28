@@ -2,10 +2,7 @@
   <n-card :title="$t('convert.httpStatus.title')">
     <n-form>
       <n-form-item :label="$t('convert.httpStatus.input')">
-        <n-input
-          v-model:value="formData.input"
-          :placeholder="$t('convert.httpStatus.inputPlaceholder')"
-        />
+        <n-input v-model:value="formData.input" :placeholder="$t('convert.httpStatus.inputPlaceholder')" />
       </n-form-item>
 
       <n-space>
@@ -38,28 +35,28 @@
 
         <n-card :title="$t('convert.httpStatus.scenarios')" class="mt-4">
           <n-list>
-            <n-list-item v-for="(scenario, index) in $t(`convert.httpStatus.codes.${formData.result.code}.scenarios`)" :key="index">
+            <n-list-item v-for="(scenario, index) in $t(`convert.httpStatus.codes.${formData.result.code}.scenarios`)"
+              :key="index">
               {{ scenario }}
             </n-list-item>
           </n-list>
         </n-card>
 
-        <n-card :title="$t('convert.httpStatus.solutions')" class="mt-4" v-if="$t(`convert.httpStatus.codes.${formData.result.code}.solutions`)">
+        <n-card :title="$t('convert.httpStatus.solutions')" class="mt-4"
+          v-if="$t(`convert.httpStatus.codes.${formData.result.code}.solutions`)">
           <n-list>
-            <n-list-item v-for="(solution, index) in $t(`convert.httpStatus.codes.${formData.result.code}.solutions`)" :key="index">
+            <n-list-item v-for="(solution, index) in $t(`convert.httpStatus.codes.${formData.result.code}.solutions`)"
+              :key="index">
               {{ solution }}
             </n-list-item>
           </n-list>
         </n-card>
       </template>
     </n-form>
-
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" style="margin-top: 16px">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -165,7 +162,7 @@ const statusCodes = {
 
 function search() {
   error.value = ''
-  
+
   try {
     if (!formData.input) {
       throw new Error(t('convert.httpStatus.inputRequired'))
@@ -207,4 +204,4 @@ function copyResult() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

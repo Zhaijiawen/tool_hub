@@ -2,12 +2,8 @@
   <n-card :title="$t('text.reverse.title')">
     <n-form>
       <n-form-item :label="$t('text.reverse.input')">
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="$t('text.reverse.inputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-        />
+        <n-input v-model:value="input" type="textarea" :placeholder="$t('text.reverse.inputPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" />
       </n-form-item>
 
       <n-space>
@@ -23,13 +19,8 @@
       </n-space>
 
       <n-form-item :label="$t('text.reverse.output')" class="mt-4">
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="$t('text.reverse.outputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="$t('text.reverse.outputPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" readonly />
       </n-form-item>
 
       <n-space>
@@ -106,4 +97,4 @@ function clearAll() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

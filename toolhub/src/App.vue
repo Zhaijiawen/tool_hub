@@ -34,7 +34,8 @@ const themeOverrides = {
 
 <style>
 /* 基础样式重置 */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -48,7 +49,8 @@ html, body {
 }
 
 /* 暗色主题样式 */
-html.dark, html.dark body {
+html.dark,
+html.dark body {
   background: #18181c;
   color: #fff;
 }

@@ -3,28 +3,16 @@
     <n-card :title="t('encrypt.x25519.title')">
       <n-form>
         <n-form-item :label="t('encrypt.x25519.privateKey')">
-          <n-input
-            v-model:value="privateKey"
-            type="textarea"
-            :placeholder="t('encrypt.x25519.privateKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="privateKey" type="textarea" :placeholder="t('encrypt.x25519.privateKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.x25519.publicKey')">
-          <n-input
-            v-model:value="publicKey"
-            type="textarea"
-            :placeholder="t('encrypt.x25519.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="publicKey" type="textarea" :placeholder="t('encrypt.x25519.publicKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.x25519.peerPublicKey')">
-          <n-input
-            v-model:value="peerPublicKey"
-            type="textarea"
-            :placeholder="t('encrypt.x25519.peerPublicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="peerPublicKey" type="textarea"
+            :placeholder="t('encrypt.x25519.peerPublicKeyPlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
@@ -35,12 +23,7 @@
           </n-button>
         </n-space>
         <n-form-item v-if="sharedSecret" :label="t('encrypt.x25519.sharedSecret')">
-          <n-input
-            v-model:value="sharedSecret"
-            type="textarea"
-            readonly
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="sharedSecret" type="textarea" readonly :autosize="{ minRows: 3, maxRows: 10 }" />
           <template #suffix>
             <n-button @click="copySharedSecret" quaternary circle>
               <template #icon>
@@ -49,13 +32,10 @@
             </n-button>
           </template>
         </n-form-item>
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-form>
     </n-card>
   </div>
@@ -125,4 +105,4 @@ const copySharedSecret = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

@@ -2,12 +2,7 @@
   <div class="image-watermark">
     <n-card :title="$t('image.watermark.title')">
       <n-space vertical>
-        <n-upload
-          accept="image/*"
-          :max="1"
-          :show-file-list="false"
-          @change="handleFileChange"
-        >
+        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
               <n-icon size="48" :depth="3">
@@ -22,70 +17,39 @@
 
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="$t('image.watermark.text')">
-            <n-input
-              v-model:value="formData.text"
-              :placeholder="$t('image.watermark.textPlaceholder')"
-            />
+            <n-input v-model:value="formData.text" :placeholder="$t('image.watermark.textPlaceholder')" />
           </n-form-item>
 
           <n-form-item :label="$t('image.watermark.fontSize')">
-            <n-slider
-              v-model:value="formData.fontSize"
-              :min="12"
-              :max="72"
-              :step="1"
-            />
+            <n-slider v-model:value="formData.fontSize" :min="12" :max="72" :step="1" />
             <div class="text-right">{{ formData.fontSize }}px</div>
           </n-form-item>
 
           <n-form-item :label="$t('image.watermark.color')">
-            <n-color-picker
-              v-model:value="formData.color"
-              :show-alpha="true"
-            />
+            <n-color-picker v-model:value="formData.color" :show-alpha="true" />
           </n-form-item>
 
           <n-form-item :label="$t('image.watermark.opacity')">
-            <n-slider
-              v-model:value="formData.opacity"
-              :min="0"
-              :max="100"
-              :step="1"
-            />
+            <n-slider v-model:value="formData.opacity" :min="0" :max="100" :step="1" />
             <div class="text-right">{{ formData.opacity }}%</div>
           </n-form-item>
 
           <n-form-item :label="$t('image.watermark.rotation')">
-            <n-slider
-              v-model:value="formData.rotation"
-              :min="-180"
-              :max="180"
-              :step="1"
-            />
+            <n-slider v-model:value="formData.rotation" :min="-180" :max="180" :step="1" />
             <div class="text-right">{{ formData.rotation }}°</div>
           </n-form-item>
 
           <n-form-item :label="$t('image.watermark.position')">
-            <n-select
-              v-model:value="formData.position"
-              :options="positionOptions"
-              :placeholder="$t('image.watermark.positionPlaceholder')"
-            />
+            <n-select v-model:value="formData.position" :options="positionOptions"
+              :placeholder="$t('image.watermark.positionPlaceholder')" />
           </n-form-item>
         </n-form>
 
         <n-space>
-          <n-button
-            @click="addWatermark"
-            type="primary"
-            :disabled="!originalImage"
-          >
+          <n-button @click="addWatermark" type="primary" :disabled="!originalImage">
             {{ $t('image.watermark.add') }}
           </n-button>
-          <n-button
-            @click="downloadImage"
-            :disabled="!watermarkedImage"
-          >
+          <n-button @click="downloadImage" :disabled="!watermarkedImage">
             {{ $t('image.watermark.download') }}
           </n-button>
         </n-space>
@@ -93,29 +57,18 @@
         <div v-if="originalImage || watermarkedImage" class="preview-container">
           <div class="preview-item">
             <h3>{{ $t('image.watermark.original') }}</h3>
-            <n-image
-              :src="originalImage"
-              :alt="$t('image.watermark.original')"
-              width="300"
-            />
+            <n-image :src="originalImage" :alt="$t('image.watermark.original')" width="300" />
           </div>
           <div class="preview-item">
             <h3>{{ $t('image.watermark.watermarked') }}</h3>
-            <n-image
-              :src="watermarkedImage"
-              :alt="$t('image.watermark.watermarked')"
-              width="300"
-            />
+            <n-image :src="watermarkedImage" :alt="$t('image.watermark.watermarked')" width="300" />
           </div>
         </div>
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="$t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="t('common.error')" :title="error" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -291,4 +244,4 @@ const downloadImage = () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

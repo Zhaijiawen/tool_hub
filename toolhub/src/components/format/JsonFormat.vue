@@ -4,11 +4,7 @@
     <!-- 工具卡片 -->
     <n-card :title="t('format.json.title')">
       <!-- JSON输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.json.placeholder')"
-        language="json"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.json.placeholder')" language="json" />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
@@ -33,12 +29,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -107,12 +98,12 @@ const formatJson = async () => {
  */
 const compressJson = () => {
   const trimmedInput = input.value.trim()
-  
+
   if (!trimmedInput) {
     message.warning(t('format.json.empty'))
     return
   }
-  
+
   try {
     error.value = ''
     const parsed = JSON.parse(trimmedInput)
@@ -133,14 +124,14 @@ const escapeJson = () => {
     message.warning(t('format.json.empty'))
     return
   }
-  
+
   try {
     error.value = ''
     // 先转义反斜杠，再转义双引号（顺序很重要）
     let escaped = input.value
       .replace(/\\/g, '\\\\')  // 转义反斜杠
       .replace(/"/g, '\\"')    // 转义双引号
-    
+
     input.value = escaped
     message.success(t('format.json.escapeSuccess'))
   } catch (e) {
@@ -158,14 +149,14 @@ const unescapeJson = () => {
     message.warning(t('format.json.empty'))
     return
   }
-  
+
   try {
     error.value = ''
     // 先反转义双引号，再反转义反斜杠（顺序很重要）
     let unescaped = input.value
       .replace(/\\"/g, '"')     // 反转义双引号
       .replace(/\\\\/g, '\\')   // 反转义反斜杠
-    
+
     input.value = unescaped
     message.success(t('format.json.unescapeSuccess'))
   } catch (e) {
@@ -210,4 +201,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

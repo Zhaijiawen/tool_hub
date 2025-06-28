@@ -88,7 +88,7 @@ function appendDecimal() {
 // 添加运算符
 function appendOperator(op) {
   if (!expression.value) return
-  
+
   const lastChar = expression.value.slice(-1)
   if (/[+\-*/%]/.test(lastChar)) {
     expression.value = expression.value.slice(0, -1) + op
@@ -120,7 +120,7 @@ function calculate() {
 
     // 使用Function构造器来安全地计算表达式
     const calculateResult = new Function(`return ${expression.value}`)()
-    
+
     // 处理结果
     if (isNaN(calculateResult) || !isFinite(calculateResult)) {
       throw new Error(t('other.calculator.invalidExpression'))
@@ -139,7 +139,7 @@ function calculateAndAddToHistory() {
     if (!expression.value) return
 
     const calculateResult = new Function(`return ${expression.value}`)()
-    
+
     if (isNaN(calculateResult) || !isFinite(calculateResult)) {
       throw new Error(t('other.calculator.invalidExpression'))
     }
@@ -231,4 +231,4 @@ function formatNumber(num) {
   font-size: 16px;
   font-weight: normal;
 }
-</style> 
+</style>

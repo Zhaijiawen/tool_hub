@@ -5,10 +5,7 @@
       <n-tab-pane name="lookup" :tab="$t('other.ipTools.lookup')">
         <n-form>
           <n-form-item :label="$t('other.ipTools.ip')">
-            <n-input
-              v-model:value="lookupForm.ip"
-              :placeholder="$t('other.ipTools.ipPlaceholder')"
-            />
+            <n-input v-model:value="lookupForm.ip" :placeholder="$t('other.ipTools.ipPlaceholder')" />
           </n-form-item>
 
           <n-space>
@@ -20,11 +17,7 @@
             </n-button>
           </n-space>
 
-          <n-result
-            v-if="lookupResult"
-            :status="'success'"
-            :title="$t('other.ipTools.lookupResult')"
-          >
+          <n-result v-if="lookupResult" :status="'success'" :title="$t('other.ipTools.lookupResult')">
             <template #footer>
               <n-descriptions bordered>
                 <n-descriptions-item :label="$t('other.ipTools.ip')">
@@ -55,12 +48,10 @@
             </template>
           </n-result>
 
-          <n-alert
-            v-if="lookupError"
-            type="error"
-            :title="$t('other.ipTools.lookupError')"
-            class="mt-4"
-          />
+          <!-- 错误提示 -->
+          <n-alert v-if="lookupError" type="t('common.error')" :title="error" class="mt-4">
+            {{ lookupError }}
+          </n-alert>
         </n-form>
       </n-tab-pane>
 
@@ -68,10 +59,7 @@
       <n-tab-pane name="reverse" :tab="$t('other.ipTools.reverse')">
         <n-form>
           <n-form-item :label="$t('other.ipTools.domain')">
-            <n-input
-              v-model:value="reverseForm.domain"
-              :placeholder="$t('other.ipTools.domainPlaceholder')"
-            />
+            <n-input v-model:value="reverseForm.domain" :placeholder="$t('other.ipTools.domainPlaceholder')" />
           </n-form-item>
 
           <n-space>
@@ -83,11 +71,7 @@
             </n-button>
           </n-space>
 
-          <n-result
-            v-if="reverseResult"
-            :status="'success'"
-            :title="$t('other.ipTools.reverseResult')"
-          >
+          <n-result v-if="reverseResult" :status="'success'" :title="$t('other.ipTools.reverseResult')">
             <template #footer>
               <n-list>
                 <n-list-item v-for="(ip, index) in reverseResult" :key="index">
@@ -97,12 +81,7 @@
             </template>
           </n-result>
 
-          <n-alert
-            v-if="reverseError"
-            type="error"
-            :title="$t('other.ipTools.reverseError')"
-            class="mt-4"
-          />
+          <n-alert v-if="reverseError" type="error" :title="$t('other.ipTools.reverseError')" class="mt-4" />
         </n-form>
       </n-tab-pane>
     </n-tabs>
@@ -186,7 +165,7 @@ async function reverseLookup() {
 // 复制查询结果
 function copyResult() {
   if (!lookupResult.value) return
-  
+
   const result = JSON.stringify(lookupResult.value, null, 2)
   navigator.clipboard.writeText(result)
   message.success(t('other.ipTools.copied'))
@@ -195,7 +174,7 @@ function copyResult() {
 // 复制反查结果
 function copyReverseResult() {
   if (!reverseResult.value.length) return
-  
+
   const result = reverseResult.value.join('\n')
   navigator.clipboard.writeText(result)
   message.success(t('other.ipTools.copied'))
@@ -211,4 +190,4 @@ function copyReverseResult() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

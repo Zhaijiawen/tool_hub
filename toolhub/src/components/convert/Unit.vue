@@ -2,43 +2,27 @@
   <n-card :title="$t('convert.unit.title')">
     <n-form>
       <n-form-item :label="$t('convert.unit.category')">
-        <n-select
-          v-model:value="formData.category"
-          :options="categoryOptions"
-          :placeholder="$t('convert.unit.categoryPlaceholder')"
-        />
+        <n-select v-model:value="formData.category" :options="categoryOptions"
+          :placeholder="$t('convert.unit.categoryPlaceholder')" />
       </n-form-item>
 
       <n-form-item :label="$t('convert.unit.input')">
-        <n-input-number
-          v-model:value="formData.input"
-          :placeholder="$t('convert.unit.inputPlaceholder')"
-          style="width: 100%"
-        />
+        <n-input-number v-model:value="formData.input" :placeholder="$t('convert.unit.inputPlaceholder')"
+          style="width: 100%" />
       </n-form-item>
 
       <n-form-item :label="$t('convert.unit.fromUnit')">
-        <n-select
-          v-model:value="formData.fromUnit"
-          :options="unitOptions"
-          :placeholder="$t('convert.unit.unitPlaceholder')"
-        />
+        <n-select v-model:value="formData.fromUnit" :options="unitOptions"
+          :placeholder="$t('convert.unit.unitPlaceholder')" />
       </n-form-item>
 
       <n-form-item :label="$t('convert.unit.toUnit')">
-        <n-select
-          v-model:value="formData.toUnit"
-          :options="unitOptions"
-          :placeholder="$t('convert.unit.unitPlaceholder')"
-        />
+        <n-select v-model:value="formData.toUnit" :options="unitOptions"
+          :placeholder="$t('convert.unit.unitPlaceholder')" />
       </n-form-item>
 
       <n-form-item :label="$t('convert.unit.output')">
-        <n-input
-          v-model:value="formData.output"
-          :placeholder="$t('convert.unit.outputPlaceholder')"
-          readonly
-        />
+        <n-input v-model:value="formData.output" :placeholder="$t('convert.unit.outputPlaceholder')" readonly />
       </n-form-item>
 
       <n-space>
@@ -51,12 +35,7 @@
       </n-space>
     </n-form>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <n-alert v-if="error" type="error" :title="error" style="margin-top: 16px" />
   </n-card>
 </template>
 
@@ -133,23 +112,23 @@ const unitOptions = computed(() => {
 
 function convert() {
   error.value = ''
-  
+
   try {
     if (formData.input === null) {
       throw new Error(t('convert.unit.inputRequired'))
     }
-    
+
     if (!formData.fromUnit || !formData.toUnit) {
       throw new Error(t('convert.unit.unitRequired'))
     }
-    
+
     const fromUnit = units[formData.category].find(u => u.value === formData.fromUnit)
     const toUnit = units[formData.category].find(u => u.value === formData.toUnit)
-    
+
     // 转换为基本单位，再转换为目标单位
     const baseValue = formData.input * fromUnit.factor
     const result = baseValue / toUnit.factor
-    
+
     formData.output = result.toFixed(6)
   } catch (err) {
     error.value = err.message
@@ -169,4 +148,4 @@ function copyOutput() {
   max-width: 800px;
   margin: 0 auto;
 }
-</style> 
+</style>

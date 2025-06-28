@@ -4,11 +4,7 @@
       <n-space vertical>
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('convert.dateCalc.date')">
-            <n-date-picker
-              v-model:value="formData.date"
-              type="datetime"
-              clearable
-            />
+            <n-date-picker v-model:value="formData.date" type="datetime" clearable />
           </n-form-item>
 
           <n-form-item :label="t('convert.dateCalc.operation')">
@@ -23,19 +19,12 @@
           </n-form-item>
 
           <n-form-item :label="t('convert.dateCalc.value')">
-            <n-input-number
-              v-model:value="formData.value"
-              :min="0"
-              :precision="0"
-            />
+            <n-input-number v-model:value="formData.value" :min="0" :precision="0" />
           </n-form-item>
 
           <n-form-item :label="t('convert.dateCalc.unit')">
-            <n-select
-              v-model:value="formData.unit"
-              :options="unitOptions"
-              :placeholder="t('convert.dateCalc.unitPlaceholder')"
-            />
+            <n-select v-model:value="formData.unit" :options="unitOptions"
+              :placeholder="t('convert.dateCalc.unitPlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -122,4 +111,4 @@ const calculate = () => {
   font-weight: bold;
   color: #18a058;
 }
-</style> 
+</style>

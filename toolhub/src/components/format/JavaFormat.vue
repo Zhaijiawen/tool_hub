@@ -2,11 +2,7 @@
   <div class="java-format">
     <n-card :title="t('format.java.title')">
       <!-- Java输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.java.placeholder')"
-        language="java"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.java.placeholder')" language="java" />
       <!-- 操作按钮组 -->
       <div class="button-group">
         <n-button @click="formatJava" type="primary" :loading="loading">
@@ -17,12 +13,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -91,4 +82,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

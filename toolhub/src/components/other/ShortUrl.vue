@@ -5,17 +5,11 @@
       <n-tab-pane name="generate" :tab="$t('other.shortUrl.generate')">
         <n-form>
           <n-form-item :label="$t('other.shortUrl.url')">
-            <n-input
-              v-model:value="generateForm.url"
-              :placeholder="$t('other.shortUrl.urlPlaceholder')"
-            />
+            <n-input v-model:value="generateForm.url" :placeholder="$t('other.shortUrl.urlPlaceholder')" />
           </n-form-item>
 
           <n-form-item :label="$t('other.shortUrl.expires')">
-            <n-select
-              v-model:value="generateForm.expires"
-              :options="expireOptions"
-            />
+            <n-select v-model:value="generateForm.expires" :options="expireOptions" />
           </n-form-item>
 
           <n-space>
@@ -27,12 +21,7 @@
             </n-button>
           </n-space>
 
-          <n-alert
-            v-if="shortUrl"
-            type="success"
-            :title="$t('other.shortUrl.result')"
-            class="mt-4"
-          >
+          <n-alert v-if="shortUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
             <n-text copyable>{{ shortUrl }}</n-text>
           </n-alert>
         </n-form>
@@ -42,10 +31,7 @@
       <n-tab-pane name="decode" :tab="$t('other.shortUrl.decode')">
         <n-form>
           <n-form-item :label="$t('other.shortUrl.shortUrl')">
-            <n-input
-              v-model:value="decodeForm.shortUrl"
-              :placeholder="$t('other.shortUrl.shortUrlPlaceholder')"
-            />
+            <n-input v-model:value="decodeForm.shortUrl" :placeholder="$t('other.shortUrl.shortUrlPlaceholder')" />
           </n-form-item>
 
           <n-space>
@@ -57,21 +43,15 @@
             </n-button>
           </n-space>
 
-          <n-alert
-            v-if="longUrl"
-            type="success"
-            :title="$t('other.shortUrl.result')"
-            class="mt-4"
-          >
+          <n-alert v-if="longUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
             <n-text copyable>{{ longUrl }}</n-text>
           </n-alert>
 
-          <n-alert
-            v-if="decodeError"
-            type="error"
-            :title="$t('other.shortUrl.decodeError')"
-            class="mt-4"
-          />
+          <!-- 错误提示 -->
+          <n-alert v-if="decodeError" type="t('common.error')" :title="error" class="mt-4">
+            {{ decodeError }}
+          </n-alert>
+
         </n-form>
       </n-tab-pane>
     </n-tabs>
@@ -189,4 +169,4 @@ function copyLongUrl() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

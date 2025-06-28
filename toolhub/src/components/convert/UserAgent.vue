@@ -1,12 +1,8 @@
 <template>
   <div class="user-agent">
     <n-card :title="t('convert.userAgent.title')">
-      <n-input
-        v-model:value="input"
-        type="textarea"
-        :placeholder="t('convert.userAgent.placeholder')"
-        :autosize="{ minRows: 10, maxRows: 20 }"
-      />
+      <n-input v-model:value="input" type="textarea" :placeholder="t('convert.userAgent.placeholder')"
+        :autosize="{ minRows: 10, maxRows: 20 }" />
       <div class="button-group">
         <n-button @click="parse" type="primary">
           {{ t('convert.userAgent.parse') }}
@@ -15,13 +11,7 @@
           {{ t('common.copy') }}
         </n-button>
       </div>
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        :content="error"
-        class="error-alert"
-      />
+      <n-alert v-if="error" type="error" :title="t('common.error')" :content="error" class="error-alert" />
       <n-card v-if="result" :title="t('convert.userAgent.result')" class="result-card">
         <n-descriptions bordered>
           <n-descriptions-item :label="t('convert.userAgent.browser')">
@@ -102,4 +92,4 @@ const copyToClipboard = async () => {
 .result-card {
   margin-top: 16px;
 }
-</style> 
+</style>

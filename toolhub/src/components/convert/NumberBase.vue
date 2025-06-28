@@ -5,32 +5,18 @@
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('convert.numberBase.input')">
             <n-input-group>
-              <n-input
-                v-model:value="formData.input"
-                :placeholder="t('convert.numberBase.inputPlaceholder')"
-                @input="handleInput"
-              />
-              <n-select
-                v-model:value="formData.fromBase"
-                :options="baseOptions"
-                style="width: 120px"
-              />
+              <n-input v-model:value="formData.input" :placeholder="t('convert.numberBase.inputPlaceholder')"
+                @input="handleInput" />
+              <n-select v-model:value="formData.fromBase" :options="baseOptions" style="width: 120px" />
             </n-input-group>
           </n-form-item>
 
           <n-form-item :label="t('convert.numberBase.output')">
             <n-space vertical>
               <n-input-group>
-                <n-input
-                  v-model:value="formData.output"
-                  :placeholder="t('convert.numberBase.outputPlaceholder')"
-                  readonly
-                />
-                <n-select
-                  v-model:value="formData.toBase"
-                  :options="baseOptions"
-                  style="width: 120px"
-                />
+                <n-input v-model:value="formData.output" :placeholder="t('convert.numberBase.outputPlaceholder')"
+                  readonly />
+                <n-select v-model:value="formData.toBase" :options="baseOptions" style="width: 120px" />
               </n-input-group>
               <n-button @click="copyOutput" size="small">
                 {{ t('common.copy') }}
@@ -38,14 +24,10 @@
             </n-space>
           </n-form-item>
         </n-form>
-
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="t('common.error')" :title="error" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -133,4 +115,4 @@ watch([() => formData.fromBase, () => formData.toBase], () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

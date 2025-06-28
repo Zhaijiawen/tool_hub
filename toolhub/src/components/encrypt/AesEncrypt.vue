@@ -2,36 +2,26 @@
   <div class="aes-encrypt">
     <n-card :title="t('encrypt.aes.title')">
       <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.aes.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
+        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.aes.inputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
+
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.aes.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.aes.keyPlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.aes.iv')">
             <n-input v-model:value="formData.iv" :placeholder="t('encrypt.aes.ivPlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.aes.mode')">
-            <n-select
-              v-model:value="formData.mode"
-              :options="modeOptions"
-              :placeholder="t('encrypt.aes.modePlaceholder')"
-            />
+            <n-select v-model:value="formData.mode" :options="modeOptions"
+              :placeholder="t('encrypt.aes.modePlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.aes.padding')">
-            <n-select
-              v-model:value="formData.padding"
-              :options="paddingOptions"
-              :placeholder="t('encrypt.aes.paddingPlaceholder')"
-            />
+            <n-select v-model:value="formData.padding" :options="paddingOptions"
+              :placeholder="t('encrypt.aes.paddingPlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -47,21 +37,14 @@
           </n-button>
         </n-space>
 
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.aes.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.aes.outputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -166,4 +149,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

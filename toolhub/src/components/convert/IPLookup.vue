@@ -2,10 +2,7 @@
   <n-card :title="$t('convert.ipLookup.title')">
     <n-form>
       <n-form-item :label="$t('convert.ipLookup.input')">
-        <n-input
-          v-model:value="formData.input"
-          :placeholder="$t('convert.ipLookup.inputPlaceholder')"
-        />
+        <n-input v-model:value="formData.input" :placeholder="$t('convert.ipLookup.inputPlaceholder')" />
       </n-form-item>
 
       <n-space>
@@ -66,12 +63,10 @@
       </template>
     </n-form>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" style="margin-top: 16px">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -93,7 +88,7 @@ const error = ref('')
 
 async function lookup() {
   error.value = ''
-  
+
   try {
     if (!formData.input) {
       throw new Error(t('convert.ipLookup.inputRequired'))
@@ -143,4 +138,4 @@ function copyResult() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

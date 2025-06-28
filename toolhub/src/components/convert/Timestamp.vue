@@ -22,22 +22,11 @@
           </template>
           <n-space vertical>
             <n-input-group>
-              <n-input
-                v-model:value="timestampInput"
-                :placeholder="t('convert.timestamp.timestamp')"
-                type="number"
-              />
-              <n-select
-                v-model:value="timestampUnit"
-                :options="unitOptions"
-                style="width: 120px"
-              />
+              <n-input v-model:value="timestampInput" :placeholder="t('convert.timestamp.timestamp')" type="number" />
+              <n-select v-model:value="timestampUnit" :options="unitOptions" style="width: 120px" />
             </n-input-group>
-            <n-select
-              v-model:value="timezone"
-              :options="timezoneOptions"
-              :placeholder="t('convert.timestamp.timezone')"
-            />
+            <n-select v-model:value="timezone" :options="timezoneOptions"
+              :placeholder="t('convert.timestamp.timezone')" />
             <n-button @click="convertToDate" type="primary">
               {{ t('common.convert') }}
             </n-button>
@@ -53,16 +42,9 @@
             {{ t('convert.timestamp.date') }} → {{ t('convert.timestamp.timestamp') }}
           </template>
           <n-space vertical>
-            <n-date-picker
-              v-model:value="dateInput"
-              type="datetime"
-              clearable
-            />
-            <n-select
-              v-model:value="timezone"
-              :options="timezoneOptions"
-              :placeholder="t('convert.timestamp.timezone')"
-            />
+            <n-date-picker v-model:value="dateInput" type="datetime" clearable />
+            <n-select v-model:value="timezone" :options="timezoneOptions"
+              :placeholder="t('convert.timestamp.timezone')" />
             <n-button @click="convertToTimestamp" type="primary">
               {{ t('common.convert') }}
             </n-button>
@@ -170,4 +152,4 @@ onUnmounted(() => {
   margin: 20px auto;
   padding: 0 20px;
 }
-</style> 
+</style>

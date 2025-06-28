@@ -2,28 +2,18 @@
   <div class="sha-hash">
     <n-card :title="t('encrypt.sha.title')">
       <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.sha.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
+        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.sha.inputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
+
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.sha.algorithm')">
-            <n-select
-              v-model:value="formData.algorithm"
-              :options="algorithmOptions"
-              :placeholder="t('encrypt.sha.algorithmPlaceholder')"
-            />
+            <n-select v-model:value="formData.algorithm" :options="algorithmOptions"
+              :placeholder="t('encrypt.sha.algorithmPlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.sha.outputFormat')">
-            <n-select
-              v-model:value="formData.outputFormat"
-              :options="outputFormatOptions"
-              :placeholder="t('encrypt.sha.outputFormatPlaceholder')"
-            />
+            <n-select v-model:value="formData.outputFormat" :options="outputFormatOptions"
+              :placeholder="t('encrypt.sha.outputFormatPlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -36,21 +26,13 @@
           </n-button>
         </n-space>
 
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.sha.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.sha.outputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -106,10 +88,10 @@ const hash = () => {
         throw new Error(t('encrypt.sha.invalidAlgorithm'))
     }
 
-    output.value = formData.outputFormat === 'hex' 
+    output.value = formData.outputFormat === 'hex'
       ? hashed.toString(CryptoJS.enc.Hex)
       : hashed.toString(CryptoJS.enc.Base64)
-    
+
     error.value = ''
   } catch (e) {
     error.value = e.message
@@ -136,4 +118,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

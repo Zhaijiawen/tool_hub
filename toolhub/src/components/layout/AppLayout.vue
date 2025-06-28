@@ -10,28 +10,23 @@
             <n-icon size="32" class="logo-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <!-- 工具箱主体（线框） -->
-                <rect x="4" y="8" width="24" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="4" y="8" width="24" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
                 <!-- 工具箱把手 -->
-                <path d="M12 8V4C12 2.89543 12.8954 2 14 2H18C19.1046 2 20 2.89543 20 4V8" stroke="currentColor" stroke-width="2" fill="none"/>
+                <path d="M12 8V4C12 2.89543 12.8954 2 14 2H18C19.1046 2 20 2.89543 20 4V8" stroke="currentColor"
+                  stroke-width="2" fill="none" />
                 <!-- 工具箱工具图标 -->
-                <path d="M10 14H14M18 14H22M10 18H14M18 18H22M10 22H14M18 22H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+                <path d="M10 14H14M18 14H22M10 18H14M18 18H22M10 22H14M18 22H22" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" fill="none" />
                 <!-- 工具箱装饰线条 -->
-                <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none"/>
+                <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none" />
               </svg>
             </n-icon>
             <span class="logo-text">ToolHub<span class="logo-domain">.studio</span></span>
           </router-link>
         </div>
         <!-- 主导航菜单 -->
-        <n-menu
-          mode="horizontal"
-          :options="menuOptions"
-          :value="activeKey"
-          @update:value="handleMenuClick"
-          :collapsed-width="64"
-          :collapsed-icon-size="22"
-          :indent="18"
-        />
+        <n-menu mode="horizontal" :options="menuOptions" :value="activeKey" @update:value="handleMenuClick"
+          :collapsed-width="64" :collapsed-icon-size="22" :indent="18" />
         <!-- 头部右侧功能区 -->
         <div class="header-right">
           <!-- 工具搜索框 -->
@@ -943,4 +938,4 @@ const goToComposer = () => {
   letter-spacing: 0;
   font-weight: normal;
 }
-</style> 
+</style>

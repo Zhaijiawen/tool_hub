@@ -3,28 +3,16 @@
     <n-card :title="t('encrypt.ed25519Sign.title')">
       <n-form>
         <n-form-item :label="t('encrypt.ed25519Sign.message')">
-          <n-input
-            v-model:value="messageText"
-            type="textarea"
-            :placeholder="t('encrypt.ed25519Sign.messagePlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="messageText" type="textarea"
+            :placeholder="t('encrypt.ed25519Sign.messagePlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.ed25519Sign.privateKey')">
-          <n-input
-            v-model:value="privateKey"
-            type="textarea"
-            :placeholder="t('encrypt.ed25519Sign.privateKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="privateKey" type="textarea"
+            :placeholder="t('encrypt.ed25519Sign.privateKeyPlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.ed25519Sign.publicKey')">
-          <n-input
-            v-model:value="publicKey"
-            type="textarea"
-            :placeholder="t('encrypt.ed25519Sign.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="publicKey" type="textarea"
+            :placeholder="t('encrypt.ed25519Sign.publicKeyPlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
@@ -38,12 +26,7 @@
           </n-button>
         </n-space>
         <n-form-item v-if="signature" :label="t('encrypt.ed25519Sign.signature')">
-          <n-input
-            v-model:value="signature"
-            type="textarea"
-            readonly
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="signature" type="textarea" readonly :autosize="{ minRows: 3, maxRows: 10 }" />
           <template #suffix>
             <n-button @click="copySignature" quaternary circle>
               <template #icon>
@@ -52,13 +35,10 @@
             </n-button>
           </template>
         </n-form-item>
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-form>
     </n-card>
   </div>
@@ -147,4 +127,4 @@ const copySignature = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

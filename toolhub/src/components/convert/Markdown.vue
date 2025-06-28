@@ -2,12 +2,8 @@
   <n-card :title="$t('convert.markdown.title')">
     <n-form>
       <n-form-item :label="$t('convert.markdown.input')">
-        <n-input
-          v-model:value="formData.input"
-          :placeholder="$t('convert.markdown.inputPlaceholder')"
-          type="textarea"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
+        <n-input v-model:value="formData.input" :placeholder="$t('convert.markdown.inputPlaceholder')" type="textarea"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
       </n-form-item>
 
       <n-space>
@@ -26,22 +22,15 @@
       </n-form-item>
 
       <n-form-item :label="$t('convert.markdown.output')">
-        <n-input
-          v-model:value="formData.output"
-          :placeholder="$t('convert.markdown.outputPlaceholder')"
-          type="textarea"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="formData.output" :placeholder="$t('convert.markdown.outputPlaceholder')" type="textarea"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
       </n-form-item>
     </n-form>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" style="margin-top: 16px">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -64,7 +53,7 @@ const error = ref('')
 
 function convert() {
   error.value = ''
-  
+
   try {
     if (!formData.input) {
       throw new Error(t('convert.markdown.inputRequired'))
@@ -119,7 +108,8 @@ function copyOutput() {
   margin-bottom: 1em;
 }
 
-.preview :deep(ul), .preview :deep(ol) {
+.preview :deep(ul),
+.preview :deep(ol) {
   margin-bottom: 1em;
   padding-left: 2em;
 }
@@ -156,7 +146,8 @@ function copyOutput() {
   margin-bottom: 1em;
 }
 
-.preview :deep(th), .preview :deep(td) {
+.preview :deep(th),
+.preview :deep(td) {
   border: 1px solid #ddd;
   padding: 0.5em;
 }
@@ -178,4 +169,4 @@ function copyOutput() {
 .preview :deep(a:hover) {
   text-decoration: underline;
 }
-</style> 
+</style>

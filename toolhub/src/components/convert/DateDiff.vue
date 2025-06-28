@@ -4,27 +4,16 @@
       <n-space vertical>
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('convert.dateDiff.startDate')">
-            <n-date-picker
-              v-model:value="formData.startDate"
-              type="datetime"
-              clearable
-            />
+            <n-date-picker v-model:value="formData.startDate" type="datetime" clearable />
           </n-form-item>
 
           <n-form-item :label="t('convert.dateDiff.endDate')">
-            <n-date-picker
-              v-model:value="formData.endDate"
-              type="datetime"
-              clearable
-            />
+            <n-date-picker v-model:value="formData.endDate" type="datetime" clearable />
           </n-form-item>
 
           <n-form-item :label="t('convert.dateDiff.unit')">
-            <n-select
-              v-model:value="formData.unit"
-              :options="unitOptions"
-              :placeholder="t('convert.dateDiff.unitPlaceholder')"
-            />
+            <n-select v-model:value="formData.unit" :options="unitOptions"
+              :placeholder="t('convert.dateDiff.unitPlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -110,4 +99,4 @@ const calculateDiff = () => {
   font-weight: bold;
   color: #18a058;
 }
-</style> 
+</style>

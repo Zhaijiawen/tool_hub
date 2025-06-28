@@ -3,28 +3,17 @@
     <n-card :title="t('encrypt.diffieHellman.title')">
       <n-form>
         <n-form-item :label="t('encrypt.diffieHellman.privateKey')">
-          <n-input
-            v-model:value="privateKey"
-            type="textarea"
-            :placeholder="t('encrypt.diffieHellman.privateKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="privateKey" type="textarea"
+            :placeholder="t('encrypt.diffieHellman.privateKeyPlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.diffieHellman.publicKey')">
-          <n-input
-            v-model:value="publicKey"
-            type="textarea"
-            :placeholder="t('encrypt.diffieHellman.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="publicKey" type="textarea"
+            :placeholder="t('encrypt.diffieHellman.publicKeyPlaceholder')" :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-form-item :label="t('encrypt.diffieHellman.peerPublicKey')">
-          <n-input
-            v-model:value="peerPublicKey"
-            type="textarea"
+          <n-input v-model:value="peerPublicKey" type="textarea"
             :placeholder="t('encrypt.diffieHellman.peerPublicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+            :autosize="{ minRows: 3, maxRows: 10 }" />
         </n-form-item>
         <n-space>
           <n-button @click="generateKeyPair" type="primary">
@@ -35,12 +24,7 @@
           </n-button>
         </n-space>
         <n-form-item v-if="sharedSecret" :label="t('encrypt.diffieHellman.sharedSecret')">
-          <n-input
-            v-model:value="sharedSecret"
-            type="textarea"
-            readonly
-            :autosize="{ minRows: 3, maxRows: 10 }"
-          />
+          <n-input v-model:value="sharedSecret" type="textarea" readonly :autosize="{ minRows: 3, maxRows: 10 }" />
           <template #suffix>
             <n-button @click="copySharedSecret" quaternary circle>
               <template #icon>
@@ -49,13 +33,10 @@
             </n-button>
           </template>
         </n-form-item>
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-form>
     </n-card>
   </div>
@@ -125,4 +106,4 @@ const copySharedSecret = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

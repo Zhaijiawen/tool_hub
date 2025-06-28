@@ -1,12 +1,8 @@
 <template>
   <div class="component-composer">
     <div class="composer-container">
-      <div
-        v-for="(block, index) in blocks"
-        :key="index"
-        class="composer-block"
-        :class="{ 'is-empty': !block.component }"
-      >
+      <div v-for="(block, index) in blocks" :key="index" class="composer-block"
+        :class="{ 'is-empty': !block.component }">
         <div v-if="block.component" class="component-wrapper">
           <component :is="componentMap[block.component]" v-bind="block.props" />
           <div class="block-actions">
@@ -145,7 +141,8 @@ const removeComponent = (index) => {
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(320px, auto);
   gap: 0;
-  max-height: 660px; /* 2行2列，每块320px，含边距 */
+  max-height: 660px;
+  /* 2行2列，每块320px，含边距 */
   overflow-y: auto;
   border: 2px solid var(--border-color);
   border-radius: 10px;
@@ -196,4 +193,4 @@ const removeComponent = (index) => {
 :deep(.n-thing-main__description) {
   margin-top: 8px;
 }
-</style> 
+</style>

@@ -2,10 +2,7 @@
   <n-card :title="$t('regex.title')">
     <n-form>
       <n-form-item :label="$t('regex.pattern')">
-        <n-input
-          v-model:value="pattern"
-          :placeholder="$t('regex.patternPlaceholder')"
-        />
+        <n-input v-model:value="pattern" :placeholder="$t('regex.patternPlaceholder')" />
       </n-form-item>
 
       <n-form-item :label="$t('regex.flags')">
@@ -19,12 +16,8 @@
       </n-form-item>
 
       <n-form-item :label="$t('regex.testString')">
-        <n-input
-          v-model:value="testString"
-          type="textarea"
-          :placeholder="$t('regex.testStringPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-        />
+        <n-input v-model:value="testString" type="textarea" :placeholder="$t('regex.testStringPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" />
       </n-form-item>
 
       <n-space>
@@ -37,13 +30,8 @@
       </n-space>
 
       <n-form-item :label="$t('regex.result')" class="mt-4">
-        <n-input
-          v-model:value="result"
-          type="textarea"
-          :placeholder="$t('regex.resultPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="result" type="textarea" :placeholder="$t('regex.resultPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" readonly />
       </n-form-item>
 
       <n-space>
@@ -165,4 +153,4 @@ function clearAll() {
 .mt-4 {
   margin-top: 16px;
 }
-</style> 
+</style>

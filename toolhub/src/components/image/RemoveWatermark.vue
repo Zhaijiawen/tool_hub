@@ -1,11 +1,6 @@
 <template>
   <n-card :title="$t('image.removeWatermark.title')">
-    <n-upload
-      accept="image/*"
-      :max="1"
-      :show-file-list="false"
-      @change="handleFileChange"
-    >
+    <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
       <n-upload-dragger>
         <div class="upload-trigger">
           <n-icon size="48" :depth="3">
@@ -21,12 +16,7 @@
     <div v-if="originalImage" class="mt-4">
       <n-form>
         <n-form-item :label="$t('image.removeWatermark.brushSize')">
-          <n-slider
-            v-model:value="brushSize"
-            :min="1"
-            :max="50"
-            :step="1"
-          />
+          <n-slider v-model:value="brushSize" :min="1" :max="50" :step="1" />
           <div class="text-right">{{ brushSize }}px</div>
         </n-form-item>
 
@@ -41,42 +31,27 @@
       </n-form>
 
       <div class="canvas-container mt-4">
-        <canvas
-          ref="canvas"
-          @mousedown="startDrawing"
-          @mousemove="draw"
-          @mouseup="stopDrawing"
-          @mouseleave="stopDrawing"
-        />
+        <canvas ref="canvas" @mousedown="startDrawing" @mousemove="draw" @mouseup="stopDrawing"
+          @mouseleave="stopDrawing" />
       </div>
 
       <div class="preview-container mt-4">
         <div class="preview-item">
           <h3>{{ $t('image.removeWatermark.original') }}</h3>
-          <n-image
-            :src="originalImage"
-            :alt="$t('image.removeWatermark.original')"
-            width="300"
-          />
+          <n-image :src="originalImage" :alt="$t('image.removeWatermark.original')" width="300" />
         </div>
 
         <div v-if="removedImage" class="preview-item">
           <h3>{{ $t('image.removeWatermark.removed') }}</h3>
-          <n-image
-            :src="removedImage"
-            :alt="$t('image.removeWatermark.removed')"
-            width="300"
-          />
+          <n-image :src="removedImage" :alt="$t('image.removeWatermark.removed')" width="300" />
         </div>
       </div>
     </div>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      class="mt-4"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" class="mt-4">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -245,4 +220,4 @@ canvas {
 .preview-item {
   text-align: center;
 }
-</style> 
+</style>

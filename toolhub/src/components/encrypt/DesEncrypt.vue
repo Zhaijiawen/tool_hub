@@ -2,36 +2,26 @@
   <div class="des-encrypt">
     <n-card :title="t('encrypt.des.title')">
       <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('encrypt.des.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
-        
+        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.des.inputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
+
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.des.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.des.keyPlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.des.iv')">
             <n-input v-model:value="formData.iv" :placeholder="t('encrypt.des.ivPlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.des.mode')">
-            <n-select
-              v-model:value="formData.mode"
-              :options="modeOptions"
-              :placeholder="t('encrypt.des.modePlaceholder')"
-            />
+            <n-select v-model:value="formData.mode" :options="modeOptions"
+              :placeholder="t('encrypt.des.modePlaceholder')" />
           </n-form-item>
-          
+
           <n-form-item :label="t('encrypt.des.type')">
-            <n-select
-              v-model:value="formData.type"
-              :options="typeOptions"
-              :placeholder="t('encrypt.des.typePlaceholder')"
-            />
+            <n-select v-model:value="formData.type" :options="typeOptions"
+              :placeholder="t('encrypt.des.typePlaceholder')" />
           </n-form-item>
         </n-form>
 
@@ -47,21 +37,13 @@
           </n-button>
         </n-space>
 
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('encrypt.des.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.des.outputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -109,15 +91,15 @@ const encrypt = () => {
     const key = CryptoJS.enc.Utf8.parse(formData.key)
     const iv = formData.iv ? CryptoJS.enc.Utf8.parse(formData.iv) : undefined
 
-    const encrypted = formData.type === 'DES' 
+    const encrypted = formData.type === 'DES'
       ? CryptoJS.DES.encrypt(input.value, key, {
-          iv: iv,
-          mode: CryptoJS.mode[formData.mode]
-        })
+        iv: iv,
+        mode: CryptoJS.mode[formData.mode]
+      })
       : CryptoJS.TripleDES.encrypt(input.value, key, {
-          iv: iv,
-          mode: CryptoJS.mode[formData.mode]
-        })
+        iv: iv,
+        mode: CryptoJS.mode[formData.mode]
+      })
 
     output.value = encrypted.toString()
     error.value = ''
@@ -137,13 +119,13 @@ const decrypt = () => {
 
     const decrypted = formData.type === 'DES'
       ? CryptoJS.DES.decrypt(input.value, key, {
-          iv: iv,
-          mode: CryptoJS.mode[formData.mode]
-        })
+        iv: iv,
+        mode: CryptoJS.mode[formData.mode]
+      })
       : CryptoJS.TripleDES.decrypt(input.value, key, {
-          iv: iv,
-          mode: CryptoJS.mode[formData.mode]
-        })
+        iv: iv,
+        mode: CryptoJS.mode[formData.mode]
+      })
 
     output.value = decrypted.toString(CryptoJS.enc.Utf8)
     error.value = ''
@@ -172,4 +154,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

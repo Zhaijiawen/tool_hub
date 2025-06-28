@@ -12,69 +12,40 @@
 
       <template v-if="formData.operation === 'picker'">
         <n-form-item :label="$t('convert.color.pickColor')">
-          <n-color-picker
-            v-model:value="formData.color"
-            :show-alpha="true"
-            :modes="['hex', 'rgb', 'hsl']"
-            @update:value="handleColorChange"
-          />
+          <n-color-picker v-model:value="formData.color" :show-alpha="true" :modes="['hex', 'rgb', 'hsl']"
+            @update:value="handleColorChange" />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.hex')">
-          <n-input
-            v-model:value="formData.hex"
-            :placeholder="$t('convert.color.hexPlaceholder')"
-            readonly
-          />
+          <n-input v-model:value="formData.hex" :placeholder="$t('convert.color.hexPlaceholder')" readonly />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.rgb')">
-          <n-input
-            v-model:value="formData.rgb"
-            :placeholder="$t('convert.color.rgbPlaceholder')"
-            readonly
-          />
+          <n-input v-model:value="formData.rgb" :placeholder="$t('convert.color.rgbPlaceholder')" readonly />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.hsl')">
-          <n-input
-            v-model:value="formData.hsl"
-            :placeholder="$t('convert.color.hslPlaceholder')"
-            readonly
-          />
+          <n-input v-model:value="formData.hsl" :placeholder="$t('convert.color.hslPlaceholder')" readonly />
         </n-form-item>
       </template>
 
       <template v-else>
         <n-form-item :label="$t('convert.color.input')">
-          <n-input
-            v-model:value="formData.input"
-            :placeholder="$t('convert.color.inputPlaceholder')"
-          />
+          <n-input v-model:value="formData.input" :placeholder="$t('convert.color.inputPlaceholder')" />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.fromFormat')">
-          <n-select
-            v-model:value="formData.fromFormat"
-            :options="formatOptions"
-            :placeholder="$t('convert.color.formatPlaceholder')"
-          />
+          <n-select v-model:value="formData.fromFormat" :options="formatOptions"
+            :placeholder="$t('convert.color.formatPlaceholder')" />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.toFormat')">
-          <n-select
-            v-model:value="formData.toFormat"
-            :options="formatOptions"
-            :placeholder="$t('convert.color.formatPlaceholder')"
-          />
+          <n-select v-model:value="formData.toFormat" :options="formatOptions"
+            :placeholder="$t('convert.color.formatPlaceholder')" />
         </n-form-item>
 
         <n-form-item :label="$t('convert.color.output')">
-          <n-input
-            v-model:value="formData.output"
-            :placeholder="$t('convert.color.outputPlaceholder')"
-            readonly
-          />
+          <n-input v-model:value="formData.output" :placeholder="$t('convert.color.outputPlaceholder')" readonly />
         </n-form-item>
 
         <n-space>
@@ -88,12 +59,7 @@
       </template>
     </n-form>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      style="margin-top: 16px"
-    />
+    <n-alert v-if="error" type="error" :title="error" style="margin-top: 16px" />
   </n-card>
 </template>
 
@@ -174,11 +140,11 @@ function hexToHsl(hex) {
 function rgbToHex(rgb) {
   const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
   if (!match) return ''
-  
+
   const r = parseInt(match[1])
   const g = parseInt(match[2])
   const b = parseInt(match[3])
-  
+
   return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
 }
 
@@ -186,11 +152,11 @@ function rgbToHex(rgb) {
 function hslToHex(hsl) {
   const match = hsl.match(/^hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)$/)
   if (!match) return ''
-  
+
   const h = parseInt(match[1]) / 360
   const s = parseInt(match[2]) / 100
   const l = parseInt(match[3]) / 100
-  
+
   let r, g, b
 
   if (s === 0) {
@@ -199,17 +165,17 @@ function hslToHex(hsl) {
     const hue2rgb = (p, q, t) => {
       if (t < 0) t += 1
       if (t > 1) t -= 1
-      if (t < 1/6) return p + (q - p) * 6 * t
-      if (t < 1/2) return q
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6
+      if (t < 1 / 6) return p + (q - p) * 6 * t
+      if (t < 1 / 2) return q
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
       return p
     }
 
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s
     const p = 2 * l - q
-    r = hue2rgb(p, q, h + 1/3)
+    r = hue2rgb(p, q, h + 1 / 3)
     g = hue2rgb(p, q, h)
-    b = hue2rgb(p, q, h - 1/3)
+    b = hue2rgb(p, q, h - 1 / 3)
   }
 
   const toHex = x => {
@@ -222,7 +188,7 @@ function hslToHex(hsl) {
 
 function convert() {
   error.value = ''
-  
+
   try {
     if (!formData.input) {
       throw new Error(t('convert.color.inputRequired'))
@@ -274,4 +240,4 @@ function copyOutput() {
   max-width: 800px;
   margin: 0 auto;
 }
-</style> 
+</style>

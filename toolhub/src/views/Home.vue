@@ -46,7 +46,7 @@ const categories = ref([])
 const fetchTools = async () => {
   try {
     const response = await getAllTools(locale.value)
-    
+
     if (response.code === 0) {
       // 按分类组织工具
       const toolsByCategory = response.data.reduce((acc, tool) => {
@@ -63,7 +63,7 @@ const fetchTools = async () => {
         })
         return acc
       }, {})
-      
+
       categories.value = Object.values(toolsByCategory)
       window._categories = categories.value
     } else {
@@ -92,4 +92,4 @@ onMounted(() => {
   margin: 20px auto;
   padding: 0 20px;
 }
-</style> 
+</style>

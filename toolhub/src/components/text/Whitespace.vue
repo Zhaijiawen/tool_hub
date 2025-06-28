@@ -2,12 +2,8 @@
   <div class="whitespace-handler">
     <n-card :title="t('text.whitespace.title')">
       <n-space vertical>
-        <n-input
-          v-model:value="input"
-          type="textarea"
-          :placeholder="t('text.whitespace.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-        />
+        <n-input v-model:value="input" type="textarea" :placeholder="t('text.whitespace.inputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" />
 
         <n-space>
           <n-button @click="trimWhitespace">
@@ -21,21 +17,13 @@
           </n-button>
         </n-space>
 
-        <n-input
-          v-model:value="output"
-          type="textarea"
-          :placeholder="t('text.whitespace.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }"
-          readonly
-        />
+        <n-input v-model:value="output" type="textarea" :placeholder="t('text.whitespace.outputPlaceholder')"
+          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
-        <n-alert
-          v-if="error"
-          type="error"
-          :title="t('common.error')"
-          :content="error"
-          class="error-alert"
-        />
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
       </n-space>
     </n-card>
   </div>
@@ -97,4 +85,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

@@ -2,11 +2,7 @@
   <div class="php-format">
     <n-card :title="t('format.php.title')">
       <!-- PHP输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.php.placeholder')"
-        language="php"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.php.placeholder')" language="php" />
       <!-- 操作按钮组 -->
       <div class="button-group">
         <n-button @click="formatPhp" type="primary" :loading="loading">
@@ -17,12 +13,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -50,7 +41,7 @@ const formatPhp = async () => {
     message.warning(t('format.php.empty'))
     return
   }
-  
+
   loading.value = true
   try {
     error.value = ''
@@ -92,4 +83,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

@@ -4,11 +4,7 @@
     <!-- 工具卡片 -->
     <n-card :title="t('format.xml.title')">
       <!-- XML输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor 
-        v-model="input"
-        :placeholder="t('format.xml.placeholder')"
-        language="xml"
-      />
+      <CodeEditor v-model="input" :placeholder="t('format.xml.placeholder')" language="xml" />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
@@ -25,12 +21,7 @@
         </n-button>
       </div>
       <!-- 错误提示 -->
-      <n-alert
-        v-if="error"
-        type="error"
-        :title="t('common.error')"
-        class="error-alert"
-      >
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
     </n-card>
@@ -71,7 +62,7 @@ const formatXml = async () => {
     message.warning(t('format.xml.empty'))
     return
   }
-  
+
   loading.value = true
   try {
     error.value = ''
@@ -94,7 +85,7 @@ const compressXml = () => {
     message.warning(t('format.xml.empty'))
     return
   }
-  
+
   try {
     error.value = ''
     input.value = input.value.replace(/>\s+</g, '><').trim()
@@ -140,4 +131,4 @@ const copyToClipboard = async () => {
 .error-alert {
   margin-top: 16px;
 }
-</style> 
+</style>

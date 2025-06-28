@@ -1,11 +1,6 @@
 <template>
   <n-card :title="$t('image.compress.title')">
-    <n-upload
-      accept="image/*"
-      :max="1"
-      :show-file-list="false"
-      @change="handleFileChange"
-    >
+    <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
       <n-upload-dragger>
         <div class="upload-trigger">
           <n-icon size="48" :depth="3">
@@ -21,20 +16,12 @@
     <div v-if="originalImage" class="mt-4">
       <n-form>
         <n-form-item :label="$t('image.compress.quality')">
-          <n-slider
-            v-model:value="quality"
-            :min="0"
-            :max="100"
-            :step="1"
-          />
+          <n-slider v-model:value="quality" :min="0" :max="100" :step="1" />
           <div class="text-right">{{ quality }}%</div>
         </n-form-item>
 
         <n-form-item :label="$t('image.compress.format')">
-          <n-select
-            v-model:value="format"
-            :options="formatOptions"
-          />
+          <n-select v-model:value="format" :options="formatOptions" />
         </n-form-item>
 
         <n-space>
@@ -50,11 +37,7 @@
       <div class="preview-container mt-4">
         <div class="preview-item">
           <h3>{{ $t('image.compress.original') }}</h3>
-          <n-image
-            :src="originalImage"
-            :alt="$t('image.compress.original')"
-            width="300"
-          />
+          <n-image :src="originalImage" :alt="$t('image.compress.original')" width="300" />
           <div class="size-info">
             {{ $t('image.compress.size') }}: {{ formatFileSize(originalSize) }}
           </div>
@@ -62,11 +45,7 @@
 
         <div v-if="compressedImage" class="preview-item">
           <h3>{{ $t('image.compress.compressed') }}</h3>
-          <n-image
-            :src="compressedImage"
-            :alt="$t('image.compress.compressed')"
-            width="300"
-          />
+          <n-image :src="compressedImage" :alt="$t('image.compress.compressed')" width="300" />
           <div class="size-info">
             {{ $t('image.compress.size') }}: {{ formatFileSize(compressedSize) }}
           </div>
@@ -74,12 +53,10 @@
       </div>
     </div>
 
-    <n-alert
-      v-if="error"
-      type="error"
-      :title="error"
-      class="mt-4"
-    />
+    <!-- 错误提示 -->
+    <n-alert v-if="error" type="t('common.error')" :title="error" class="mt-4">
+      {{ error }}
+    </n-alert>
   </n-card>
 </template>
 
@@ -235,4 +212,4 @@ function formatFileSize(bytes) {
   margin-top: 8px;
   color: var(--n-text-color-3);
 }
-</style> 
+</style>
