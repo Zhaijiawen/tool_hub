@@ -459,19 +459,28 @@ export default {
     },
     ed25519Sign: {
       title: 'Ed25519 Signature',
-      inputPlaceholder: 'Enter text to sign',
+      description: 'Ed25519 digital signature algorithm',
+      message: 'Message',
+      messagePlaceholder: 'Enter message to sign',
       privateKey: 'Private Key',
-      privateKeyPlaceholder: 'Enter private key',
+      privateKeyPlaceholder: 'Enter Ed25519 private key',
       publicKey: 'Public Key',
-      publicKeyPlaceholder: 'Enter public key',
+      publicKeyPlaceholder: 'Enter Ed25519 public key',
+      signature: 'Signature',
+      signaturePlaceholder: 'Enter signature to verify',
       generateKeyPair: 'Generate Key Pair',
       sign: 'Sign',
       verify: 'Verify',
-      outputPlaceholder: 'Signature or verification result will appear here',
-      privateKeyRequired: 'Please enter private key',
-      publicKeyRequired: 'Please enter public key',
-      verificationSuccess: 'Verification successful',
-      verificationFailed: 'Verification failed'
+      allFieldsRequired: 'Please fill in all required fields',
+      keyPairGenerated: 'Key pair generated successfully',
+      signatureCreated: 'Signature created successfully',
+      verificationSuccess: 'Signature verification successful',
+      verificationFailed: 'Signature verification failed',
+      charCount: 'Character count: {count}',
+      length: 'Length',
+      characters: 'characters',
+      verificationResult: 'Verification Result',
+      invalidBase64Format: 'Invalid Base64 format, please check your input'
     },
     sha: {
       title: 'SHA Hash Algorithm',
@@ -655,10 +664,6 @@ export default {
       description: 'Elliptic Curve Digital Signature Algorithm'
     },
     'ed25519-sign': {
-      title: 'Ed25519 Signature',
-      description: 'Ed25519 digital signature algorithm'
-    },
-    ed25519Sign: {
       title: 'Ed25519 Signature',
       description: 'Ed25519 digital signature algorithm'
     },
