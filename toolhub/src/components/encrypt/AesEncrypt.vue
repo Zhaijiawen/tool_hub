@@ -5,7 +5,7 @@
         <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.aes.inputPlaceholder')"
           :autosize="{ minRows: 5, maxRows: 10 }" />
 
-        <n-form :model="formData" label-placement="left" label-width="auto">
+        <n-form :model="formData" label-placement="left" label-width="200px">
           <n-form-item :label="t('encrypt.aes.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.aes.keyPlaceholder')" />
             <template #feedback>
