@@ -142,7 +142,8 @@ export default {
     enableHighlight: '启用代码高亮',
     copySuccess: '复制成功',
     copyError: '复制失败',
-    composer: '编排'
+    composer: '编排',
+    clear: '清空'
   },
   footer: {
     about: '关于',
@@ -344,8 +345,28 @@ export default {
       noPaddingTip: 'NoPadding (数据长度需为8字节倍数)'
     },
     rsa: {
-      title: 'RSA 加密',
-      description: 'RSA 非对称加密算法'
+      title: 'RSA 加密/解密',
+      keyLength: '密钥长度',
+      input: '输入文本',
+      placeholder: '请输入要加密或解密的文本',
+      charCount: '字符数：{count}',
+      textTooLong: '文本过长，最大支持 {maxLength} 个字符',
+      generateKeys: '生成密钥对',
+      encrypt: '加密',
+      decrypt: '解密',
+      publicKey: '公钥',
+      privateKey: '私钥',
+      publicKeyPlaceholder: '请输入或生成公钥',
+      privateKeyPlaceholder: '请输入或生成私钥',
+      noPublicKey: '请先生成或输入公钥',
+      noPrivateKey: '请先生成或输入私钥',
+      keysGenerated: '密钥对生成成功',
+      encryptSuccess: '加密成功',
+      encryptFailed: '加密失败',
+      decryptSuccess: '解密成功',
+      decryptFailed: '解密失败',
+      publicKeyCopied: '公钥已复制',
+      privateKeyCopied: '私钥已复制'
     },
     ecc: {
       title: 'ECC 加密',
