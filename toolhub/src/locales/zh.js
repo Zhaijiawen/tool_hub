@@ -593,7 +593,10 @@ export default {
       copyError: '复制失败',
       charCount: '字符数：{count}',
       length: '长度',
-      characters: '字符'
+      characters: '字符',
+      verificationResult: '验证结果',
+      copySignature: '复制签名',
+      invalidBase64Format: '无效的Base64格式，请检查输入'
     },
     'ecdsa-sign': {
       title: 'ECDSA 签名',

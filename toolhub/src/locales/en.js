@@ -641,7 +641,10 @@ export default {
       copyError: 'Copy failed',
       charCount: 'Character count: {count}',
       length: 'Length',
-      characters: 'characters'
+      characters: 'characters',
+      verificationResult: 'Verification Result',
+      copySignature: 'Copy Signature',
+      invalidBase64Format: 'Invalid Base64 format, please check your input'
     },
     'ecdsa-sign': {
       title: 'ECDSA Signature',

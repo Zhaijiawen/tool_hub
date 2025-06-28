@@ -50,6 +50,18 @@
           </div>
         </n-form-item>
         
+        <n-form-item :label="t('encrypt.rsaSign.signature')">
+          <n-input 
+            v-model:value="signature" 
+            type="textarea" 
+            :placeholder="t('encrypt.rsaSign.signaturePlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+          />
+          <div class="input-info" v-if="signature">
+            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ signature.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+          </div>
+        </n-form-item>
+        
         <n-space>
           <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
             {{ t('encrypt.rsaSign.generateKeyPair') }}
@@ -60,31 +72,14 @@
           <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
             {{ t('encrypt.rsaSign.verify') }}
           </n-button>
-          <n-button @click="copyToClipboard" :disabled="!signature">
-            {{ t('common.copy') }}
-          </n-button>
           <n-button @click="clearAll">
             {{ t('common.clear') }}
           </n-button>
         </n-space>
         
-        <n-form-item v-if="signature" :label="t('encrypt.rsaSign.signature')">
-          <n-input 
-            v-model:value="signature" 
-            type="textarea" 
-            readonly 
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info">
-            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ signature.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
-          </div>
-          <template #suffix>
-            <n-button @click="copySignature" quaternary circle>
-              <template #icon>
-                <n-icon><copy-icon /></n-icon>
-              </template>
-            </n-button>
-          </template>
+        <!-- 验证结果显示 -->
+        <n-form-item v-if="verificationResult !== null" :label="t('encrypt.rsaSign.verificationResult')">
+          <n-alert :type="verificationResult ? 'success' : 'error'" :title="verificationResult ? t('encrypt.rsaSign.verificationSuccess') : t('encrypt.rsaSign.verificationFailed')" />
         </n-form-item>
         
         <!-- 错误提示 -->
@@ -100,7 +95,6 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { CopyOutline as CopyIcon } from '@vicons/ionicons5'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -116,6 +110,7 @@ const isSigning = ref(false)
 const isVerifying = ref(false)
 const selectedKeyLength = ref(2048)
 const selectedHashAlgorithm = ref('SHA-256')
+const verificationResult = ref(null)
 
 // 密钥长度选项
 const keyLengthOptions = [
@@ -143,12 +138,16 @@ const arrayBufferToBase64 = (buffer) => {
 
 // 将Base64字符串转换为ArrayBuffer
 const base64ToArrayBuffer = (base64) => {
-  const binaryString = atob(base64)
-  const bytes = new Uint8Array(binaryString.length)
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i)
+  try {
+    const binaryString = atob(base64)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
+    }
+    return bytes.buffer
+  } catch (e) {
+    throw new Error(t('encrypt.rsaSign.invalidBase64Format'))
   }
-  return bytes.buffer
 }
 
 // 生成密钥对
@@ -194,6 +193,7 @@ const sign = async () => {
 
     isSigning.value = true
     error.value = ''
+    verificationResult.value = null
 
     // 导入私钥
     const privateKeyBuffer = base64ToArrayBuffer(privateKey.value)
@@ -240,6 +240,7 @@ const verify = async () => {
 
     isVerifying.value = true
     error.value = ''
+    verificationResult.value = null
 
     // 导入公钥
     const publicKeyBuffer = base64ToArrayBuffer(publicKey.value)
@@ -269,6 +270,7 @@ const verify = async () => {
       hashBuffer
     )
 
+    verificationResult.value = isValid
     if (isValid) {
       message.success(t('encrypt.rsaSign.verificationSuccess'))
     } else {
@@ -276,29 +278,10 @@ const verify = async () => {
     }
   } catch (e) {
     error.value = e.message
+    verificationResult.value = false
     message.error(t('common.error'))
   } finally {
     isVerifying.value = false
-  }
-}
-
-// 复制签名
-const copySignature = async () => {
-  try {
-    await navigator.clipboard.writeText(signature.value)
-    message.success(t('encrypt.rsaSign.signatureCopied'))
-  } catch (e) {
-    message.error(t('encrypt.rsaSign.copyError'))
-  }
-}
-
-// 复制到剪贴板
-const copyToClipboard = async () => {
-  try {
-    await navigator.clipboard.writeText(signature.value)
-    message.success(t('encrypt.rsaSign.copySuccess'))
-  } catch (e) {
-    message.error(t('encrypt.rsaSign.copyError'))
   }
 }
 
@@ -309,6 +292,7 @@ const clearAll = () => {
   publicKey.value = ''
   signature.value = ''
   error.value = ''
+  verificationResult.value = null
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -333,9 +317,5 @@ const clearAll = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.error-alert {
-  margin-top: 16px;
 }
 </style>
