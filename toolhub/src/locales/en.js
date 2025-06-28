@@ -557,19 +557,34 @@ export default {
     },
     'diffie-hellman': {
       title: 'Diffie-Hellman Key Exchange',
-      prime: 'Prime',
-      primePlaceholder: 'Enter prime number (hex)',
-      generator: 'Generator',
-      generatorPlaceholder: 'Enter generator (hex)',
       privateKey: 'Private Key',
-      privateKeyPlaceholder: 'Enter private key (hex)',
+      privateKeyPlaceholder: 'Enter private key (hex format)',
       publicKey: 'Public Key',
-      publicKeyPlaceholder: 'Enter public key (hex)',
+      publicKeyPlaceholder: 'Public key will be displayed here',
+      peerPublicKey: 'Peer Public Key',
+      peerPublicKeyPlaceholder: 'Enter peer public key (hex format)',
+      sharedSecret: 'Shared Secret',
+      sharedSecretPlaceholder: 'Shared secret will be displayed here',
       generateKeyPair: 'Generate Key Pair',
       computeSharedSecret: 'Compute Shared Secret',
-      outputPlaceholder: 'Shared secret will appear here',
-      primeAndGeneratorRequired: 'Please enter prime and generator',
-      allFieldsRequired: 'Please fill in all fields',
+      copySuccess: 'Copied successfully',
+      copyError: 'Copy failed',
+      clear: 'Clear',
+      charCount: 'Characters: {count}',
+      length: 'Length',
+      characters: 'characters',
+      allFieldsRequired: 'Please fill in all required fields',
+      keyPairGenerated: 'Key pair generated successfully',
+      sharedSecretComputed: 'Shared secret computed successfully',
+      invalidKeyFormat: 'Invalid key format',
+      generateTestPeerKey: 'Generate Test Peer Key',
+      copyMyPublicKey: 'Copy My Public Key',
+      testPeerKeyGenerated: 'Test peer key generated successfully',
+      publicKeyCopied: 'Public key copied successfully',
+      description: 'Diffie-Hellman key exchange algorithm'
+    },
+    diffieHellman: {
+      title: 'Diffie-Hellman Key Exchange',
       description: 'Diffie-Hellman key exchange algorithm'
     },
     ecdh: {
@@ -594,11 +609,23 @@ export default {
       title: 'RSA Signature',
       description: 'RSA digital signature algorithm'
     },
+    rsaSign: {
+      title: 'RSA Signature',
+      description: 'RSA digital signature algorithm'
+    },
     'ecdsa-sign': {
       title: 'ECDSA Signature',
       description: 'Elliptic Curve Digital Signature Algorithm'
     },
+    ecdsaSign: {
+      title: 'ECDSA Signature',
+      description: 'Elliptic Curve Digital Signature Algorithm'
+    },
     'ed25519-sign': {
+      title: 'Ed25519 Signature',
+      description: 'Ed25519 digital signature algorithm'
+    },
+    ed25519Sign: {
       title: 'Ed25519 Signature',
       description: 'Ed25519 digital signature algorithm'
     },

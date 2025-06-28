@@ -509,6 +509,34 @@ export default {
     },
     'diffie-hellman': {
       title: 'Diffie-Hellman 密钥交换',
+      privateKey: '私钥',
+      privateKeyPlaceholder: '请输入私钥（十六进制格式）',
+      publicKey: '公钥',
+      publicKeyPlaceholder: '公钥将显示在这里',
+      peerPublicKey: '对方公钥',
+      peerPublicKeyPlaceholder: '请输入对方的公钥（十六进制格式）',
+      sharedSecret: '共享密钥',
+      sharedSecretPlaceholder: '共享密钥将显示在这里',
+      generateKeyPair: '生成密钥对',
+      computeSharedSecret: '计算共享密钥',
+      copySuccess: '复制成功',
+      copyError: '复制失败',
+      clear: '清空',
+      charCount: '字符数：{count}',
+      length: '长度',
+      characters: '字符',
+      allFieldsRequired: '请填写所有必需字段',
+      keyPairGenerated: '密钥对生成成功',
+      sharedSecretComputed: '共享密钥计算成功',
+      invalidKeyFormat: '无效的密钥格式',
+      generateTestPeerKey: '生成测试对方公钥',
+      copyMyPublicKey: '复制我的公钥',
+      testPeerKeyGenerated: '测试对方公钥生成成功',
+      publicKeyCopied: '公钥复制成功',
+      description: 'Diffie-Hellman 密钥交换算法'
+    },
+    diffieHellman: {
+      title: 'Diffie-Hellman 密钥交换',
       description: 'Diffie-Hellman 密钥交换算法'
     },
     ecdh: {
@@ -523,11 +551,23 @@ export default {
       title: 'RSA 签名',
       description: 'RSA 数字签名算法'
     },
+    rsaSign: {
+      title: 'RSA 签名',
+      description: 'RSA 数字签名算法'
+    },
     'ecdsa-sign': {
       title: 'ECDSA 签名',
       description: '椭圆曲线数字签名算法'
     },
+    ecdsaSign: {
+      title: 'ECDSA 签名',
+      description: '椭圆曲线数字签名算法'
+    },
     'ed25519-sign': {
+      title: 'Ed25519 签名',
+      description: 'Ed25519 数字签名算法'
+    },
+    ed25519Sign: {
       title: 'Ed25519 签名',
       description: 'Ed25519 数字签名算法'
     },
