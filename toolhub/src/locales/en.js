@@ -491,6 +491,9 @@ export default {
       copyError: 'Copy failed',
       clear: 'Clear',
       charCount: 'Characters: {count}',
+      bit: 'bits',
+      hex: 'Hexadecimal',
+      length: 'Length',
       description: 'SHA series hash algorithms'
     },
     bcrypt: {

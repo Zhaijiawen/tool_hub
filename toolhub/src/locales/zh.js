@@ -442,6 +442,9 @@ export default {
       copyError: '复制失败',
       clear: '清空',
       charCount: '字符数：{count}',
+      bit: '位',
+      hex: '十六进制',
+      length: '长度',
       description: 'SHA 系列哈希算法'
     },
     bcrypt: {

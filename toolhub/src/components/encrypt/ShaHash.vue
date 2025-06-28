@@ -60,7 +60,7 @@
           readonly 
         />
         <div class="output-info" v-if="output">
-          <n-text depth="3">长度：{{ output.length }} 字符</n-text>
+          <n-text depth="3">{{ t('encrypt.sha.length') }}：{{ output.length }} {{ t('encrypt.sha.characters') }}</n-text>
         </div>
       </div>
 
@@ -93,19 +93,19 @@ const formData = reactive({
 
 // 算法选项
 const algorithmOptions = [
-  { label: 'SHA-1 (160位)', value: 'SHA-1' },
-  { label: 'SHA-224 (224位)', value: 'SHA-224' },
-  { label: 'SHA-256 (256位)', value: 'SHA-256' },
-  { label: 'SHA-384 (384位)', value: 'SHA-384' },
-  { label: 'SHA-512 (512位)', value: 'SHA-512' },
-  { label: 'SHA-512/224 (224位)', value: 'SHA-512/224' },
-  { label: 'SHA-512/256 (256位)', value: 'SHA-512/256' },
-  { label: 'MD5 (128位)', value: 'MD5' }
+  { label: `SHA-1 (160${t('encrypt.sha.bit')})`, value: 'SHA-1' },
+  { label: `SHA-224 (224${t('encrypt.sha.bit')})`, value: 'SHA-224' },
+  { label: `SHA-256 (256${t('encrypt.sha.bit')})`, value: 'SHA-256' },
+  { label: `SHA-384 (384${t('encrypt.sha.bit')})`, value: 'SHA-384' },
+  { label: `SHA-512 (512${t('encrypt.sha.bit')})`, value: 'SHA-512' },
+  { label: `SHA-512/224 (224${t('encrypt.sha.bit')})`, value: 'SHA-512/224' },
+  { label: `SHA-512/256 (256${t('encrypt.sha.bit')})`, value: 'SHA-512/256' },
+  { label: `MD5 (128${t('encrypt.sha.bit')})`, value: 'MD5' }
 ]
 
 // 输出格式选项
 const outputFormatOptions = [
-  { label: 'HEX (十六进制)', value: 'hex' },
+  { label: `HEX (${t('encrypt.sha.hex')})`, value: 'hex' },
   { label: 'Base64', value: 'base64' },
   { label: 'Base64URL', value: 'base64url' }
 ]
