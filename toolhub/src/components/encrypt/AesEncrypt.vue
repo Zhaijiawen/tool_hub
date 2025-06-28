@@ -8,10 +8,24 @@
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.aes.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.aes.keyPlaceholder')" />
+            <template #feedback>
+              <span style="font-size: 12px; color: #666;">
+                密钥长度必须是16字符（128位）
+              </span>
+            </template>
           </n-form-item>
 
           <n-form-item :label="t('encrypt.aes.iv')">
-            <n-input v-model:value="formData.iv" :placeholder="t('encrypt.aes.ivPlaceholder')" />
+            <n-input v-model:value="formData.iv" :placeholder="t('encrypt.aes.ivPlaceholder')" 
+              :disabled="formData.mode === 'ECB'" />
+            <template #feedback>
+              <span v-if="formData.mode === 'ECB'" style="font-size: 12px; color: #999;">
+                ECB 模式不需要 IV
+              </span>
+              <span v-else style="font-size: 12px; color: #666;">
+                CBC、CFB、CTR、OFB 模式需要 IV，长度必须是16字符（128位）
+              </span>
+            </template>
           </n-form-item>
 
           <n-form-item :label="t('encrypt.aes.mode')">
@@ -32,6 +46,9 @@
           <n-button @click="decrypt">
             {{ t('encrypt.aes.decrypt') }}
           </n-button>
+          <n-button @click="generateKeyIV">
+            生成密钥和IV
+          </n-button>
           <n-button @click="copyToClipboard">
             {{ t('common.copy') }}
           </n-button>
@@ -39,6 +56,27 @@
 
         <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.aes.outputPlaceholder')"
           :autosize="{ minRows: 5, maxRows: 10 }" readonly />
+
+        <!-- 调试信息 -->
+        <n-alert v-if="debugInfo" type="info" title="当前配置" class="debug-alert">
+          <p>模式: {{ formData.mode }}</p>
+          <p>填充: {{ formData.padding }}</p>
+          <p>密钥长度: {{ formData.key.length }} 字符 
+            <span v-if="formData.key.length === 16" style="color: green;">✓ 正确</span>
+            <span v-else style="color: red;">✗ 错误（需要16字符）</span>
+          </p>
+          <p>IV长度: {{ formData.iv.length }} 字符 
+            <span v-if="formData.mode === 'ECB'" style="color: #999;">（ECB模式不需要）</span>
+            <span v-else-if="formData.iv.length === 16" style="color: green;">✓ 正确</span>
+            <span v-else style="color: red;">✗ 错误（需要16字符）</span>
+          </p>
+          <p>输入长度: {{ input.length }} 字符
+            <span v-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 16 === 0" style="color: green;">✓ 正确（16的倍数）</span>
+            <span v-else-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 16 !== 0" style="color: red;">✗ 错误（NoPadding需要16的倍数）</span>
+            <span v-else-if="isEncrypting && formData.padding === 'Pkcs7'" style="color: #666;">（PKCS7支持任意长度）</span>
+            <span v-else style="color: #999;">（解密模式）</span>
+          </p>
+        </n-alert>
 
         <!-- 错误提示 -->
         <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
@@ -62,12 +100,14 @@ const message = useMessage()
 const input = ref('')
 const output = ref('')
 const error = ref('')
+const debugInfo = ref(true)
+const isEncrypting = ref(true)
 
 const formData = reactive({
   key: '',
   iv: '',
   mode: 'CBC',
-  padding: 'PKCS7'
+  padding: 'Pkcs7'
 })
 
 const modeOptions = [
@@ -79,62 +119,189 @@ const modeOptions = [
 ]
 
 const paddingOptions = [
-  { label: 'PKCS7', value: 'PKCS7' },
-  { label: 'PKCS5', value: 'PKCS5' },
-  { label: 'ZeroPadding', value: 'ZeroPadding' },
-  { label: 'NoPadding', value: 'NoPadding' }
+  { label: 'PKCS7', value: 'Pkcs7' },
+  { label: 'NoPadding (数据长度需为16字节倍数)', value: 'NoPadding' }
 ]
 
 const encrypt = () => {
   try {
+    error.value = ''
+
+    isEncrypting.value = true // 设置为加密状态
+    
     if (!formData.key) {
       throw new Error(t('encrypt.aes.keyRequired'))
+    }
+
+    if (!input.value.trim()) {
+      throw new Error('请输入要加密的文本')
+    }
+
+    // 检查是否需要 IV
+    const modesRequiringIV = ['CBC', 'CFB', 'CTR', 'OFB']
+    if (modesRequiringIV.includes(formData.mode) && !formData.iv.trim()) {
+      throw new Error(`${formData.mode} 模式需要提供 IV`)
+    }
+
+    // 验证密钥长度
+    if (formData.key.length !== 16) {
+      throw new Error('密钥长度必须是16字符（128位）')
+    }
+
+    // 验证IV长度（如果需要）
+    if (modesRequiringIV.includes(formData.mode) && formData.iv.length !== 16) {
+      throw new Error('IV长度必须是16字符（128位）')
+    }
+
+    // 验证 NoPadding 的数据长度
+    if (formData.padding === 'NoPadding' && input.value.length % 16 !== 0) {
+      throw new Error('NoPadding 模式要求输入数据长度必须是16的倍数，当前长度：' + input.value.length)
     }
 
     const key = CryptoJS.enc.Utf8.parse(formData.key)
     const iv = formData.iv ? CryptoJS.enc.Utf8.parse(formData.iv) : undefined
 
-    const encrypted = CryptoJS.AES.encrypt(input.value, key, {
-      iv: iv,
-      mode: CryptoJS.mode[formData.mode],
-      padding: CryptoJS.pad[formData.padding]
-    })
+    // 构建配置对象
+    const config = {
+      mode: CryptoJS.mode[formData.mode]
+    }
+    
+    // 添加 IV（如果提供且模式需要）
+    if (iv && modesRequiringIV.includes(formData.mode)) {
+      config.iv = iv
+    }
+
+    // 添加 padding 配置
+    if (formData.padding === 'Pkcs7') {
+      config.padding = CryptoJS.pad.Pkcs7
+    } else if (formData.padding === 'NoPadding') {
+      config.padding = CryptoJS.pad.NoPadding
+    }
+
+    const encrypted = CryptoJS.AES.encrypt(input.value, key, config)
 
     output.value = encrypted.toString()
-    error.value = ''
   } catch (e) {
     error.value = e.message
+    output.value = '' // 清空输出
   }
 }
 
 const decrypt = () => {
   try {
+    error.value = ''
+
+    isEncrypting.value = false // 设置为解密状态
+    
     if (!formData.key) {
       throw new Error(t('encrypt.aes.keyRequired'))
+    }
+
+    if (!input.value.trim()) {
+      throw new Error('请输入要解密的文本')
+    }
+
+    // 检查是否需要 IV
+    const modesRequiringIV = ['CBC', 'CFB', 'CTR', 'OFB']
+    if (modesRequiringIV.includes(formData.mode) && !formData.iv.trim()) {
+      throw new Error(`${formData.mode} 模式需要提供 IV`)
+    }
+
+    // 验证密钥长度
+    if (formData.key.length !== 16) {
+      throw new Error('密钥长度必须是16字符（128位）')
+    }
+
+    // 验证IV长度（如果需要）
+    if (modesRequiringIV.includes(formData.mode) && formData.iv.length !== 16) {
+      throw new Error('IV长度必须是16字符（128位）')
     }
 
     const key = CryptoJS.enc.Utf8.parse(formData.key)
     const iv = formData.iv ? CryptoJS.enc.Utf8.parse(formData.iv) : undefined
 
-    const decrypted = CryptoJS.AES.decrypt(input.value, key, {
-      iv: iv,
-      mode: CryptoJS.mode[formData.mode],
-      padding: CryptoJS.pad[formData.padding]
-    })
+    // 构建配置对象
+    const config = {
+      mode: CryptoJS.mode[formData.mode]
+    }
+    
+    // 添加 IV（如果提供且模式需要）
+    if (iv && modesRequiringIV.includes(formData.mode)) {
+      config.iv = iv
+    }
 
-    output.value = decrypted.toString(CryptoJS.enc.Utf8)
-    error.value = ''
+    // 添加 padding 配置
+    if (formData.padding === 'Pkcs7') {
+      config.padding = CryptoJS.pad.Pkcs7
+    } else if (formData.padding === 'NoPadding') {
+      config.padding = CryptoJS.pad.NoPadding
+    }
+
+    const decrypted = CryptoJS.AES.decrypt(input.value, key, config)
+    
+    // 对于 NoPadding，尝试不同的编码方式
+    let decryptedText = ''
+    if (formData.padding === 'NoPadding') {
+      try {
+        // 首先尝试 UTF-8
+        decryptedText = decrypted.toString(CryptoJS.enc.Utf8)
+      } catch (e) {
+        try {
+          // 如果 UTF-8 失败，尝试 Hex 编码
+          decryptedText = decrypted.toString(CryptoJS.enc.Hex)
+        } catch (e2) {
+          try {
+            // 最后尝试 Base64 编码
+            decryptedText = decrypted.toString(CryptoJS.enc.Base64)
+          } catch (e3) {
+            // 如果都失败，显示原始字节数据
+            decryptedText = '解密成功，但数据不是有效的文本格式。原始数据：' + decrypted.toString()
+          }
+        }
+      }
+    } else {
+      // 对于其他 padding 方式，使用 UTF-8
+      decryptedText = decrypted.toString(CryptoJS.enc.Utf8)
+    }
+
+    // 检查解密结果是否为空
+    if (!decryptedText) {
+      throw new Error('解密失败：密钥或IV可能不正确，或者输入格式有误')
+    }
+
+    output.value = decryptedText
   } catch (e) {
     error.value = e.message
+    output.value = '' // 清空输出
   }
 }
 
 const copyToClipboard = async () => {
   try {
+    error.value = ''
     await navigator.clipboard.writeText(output.value)
     message.success(t('common.success'))
   } catch (e) {
+    error.value = e.message
     message.error(t('common.error'))
+  }
+}
+
+const generateKeyIV = () => {
+  try {
+    error.value = ''
+    // 生成16字节的随机密钥和IV
+    const keyBytes = CryptoJS.lib.WordArray.random(16)
+    const ivBytes = CryptoJS.lib.WordArray.random(16)
+    
+    // 转换为16字符的字符串
+    formData.key = keyBytes.toString(CryptoJS.enc.Hex).substring(0, 16)
+    formData.iv = ivBytes.toString(CryptoJS.enc.Hex).substring(0, 16)
+    
+    message.success('已生成16字符的密钥和IV')
+  } catch (e) {
+    error.value = e.message
+    message.error('生成失败：' + e.message)
   }
 }
 </script>
@@ -147,6 +314,10 @@ const copyToClipboard = async () => {
 }
 
 .error-alert {
+  margin-top: 16px;
+}
+
+.debug-alert {
   margin-top: 16px;
 }
 </style>
