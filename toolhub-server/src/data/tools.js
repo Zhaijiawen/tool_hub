@@ -157,17 +157,10 @@ const tools = [
     category: 'encrypt'
   },
   {
-    id: 'diffie-hellman',
-    name: 'encrypt.diffie-hellman.title',
-    path: '/encrypt/diffie-hellman',
-    description: 'encrypt.diffie-hellman.description',
-    category: 'encrypt'
-  },
-  {
-    id: 'ecdh',
-    name: 'encrypt.ecdh.title',
-    path: '/encrypt/ecdh',
-    description: 'encrypt.ecdh.description',
+    id: 'ecdh-key-exchange',
+    name: 'encrypt.ecdh-key-exchange.title',
+    path: '/encrypt/ecdh-key-exchange',
+    description: 'encrypt.ecdh-key-exchange.description',
     category: 'encrypt'
   },
   {

@@ -107,11 +107,7 @@ export default {
       title: 'Argon2 哈希',
       description: 'Argon2 密码哈希算法'
     },
-    'diffie-hellman': {
-      title: 'Diffie-Hellman 密钥交换',
-      description: 'Diffie-Hellman 密钥交换算法'
-    },
-    ecdh: {
+    'ecdh-key-exchange': {
       title: 'ECDH 密钥交换',
       description: '椭圆曲线 Diffie-Hellman 密钥交换'
     },

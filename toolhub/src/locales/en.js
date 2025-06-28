@@ -555,8 +555,8 @@ export default {
       invalidHashFormat: 'Invalid hash format. Expected: algorithm:iterations:salt:hash',
       description: 'Password hash algorithm'
     },
-    'diffie-hellman': {
-      title: 'Diffie-Hellman Key Exchange',
+    'ecdh-key-exchange': {
+      title: 'ECDH Key Exchange',
       privateKey: 'Private Key',
       privateKeyPlaceholder: 'Enter private key (hex format)',
       publicKey: 'Public Key',
@@ -581,24 +581,6 @@ export default {
       copyMyPublicKey: 'Copy My Public Key',
       testPeerKeyGenerated: 'Test peer key generated successfully',
       publicKeyCopied: 'Public key copied successfully',
-      description: 'Diffie-Hellman key exchange algorithm'
-    },
-    diffieHellman: {
-      title: 'Diffie-Hellman Key Exchange',
-      description: 'Diffie-Hellman key exchange algorithm'
-    },
-    ecdh: {
-      title: 'ECDH Key Exchange',
-      curve: 'Curve',
-      curvePlaceholder: 'Select elliptic curve',
-      privateKey: 'Private Key',
-      privateKeyPlaceholder: 'Enter private key (hex)',
-      publicKey: 'Public Key',
-      publicKeyPlaceholder: 'Enter public key (hex)',
-      generateKeyPair: 'Generate Key Pair',
-      computeSharedSecret: 'Compute Shared Secret',
-      outputPlaceholder: 'Shared secret will appear here',
-      allFieldsRequired: 'Please fill in all fields',
       description: 'Elliptic Curve Diffie-Hellman key exchange'
     },
     x25519: {

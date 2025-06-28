@@ -146,15 +146,10 @@ const router = createRouter({
               path: 'argon2',
               component: () => import('@/components/encrypt/Argon2Hash.vue')
             },
-            // Diffie-Hellman密钥交换
-            {
-              path: 'diffie-hellman',
-              component: () => import('@/components/encrypt/DiffieHellman.vue')
-            },
             // ECDH密钥交换
             {
-              path: 'ecdh',
-              component: () => import('@/components/encrypt/Ecdh.vue')
+              path: 'ecdh-key-exchange',
+              component: () => import('@/components/encrypt/EcdhKeyExchange.vue')
             },
             // X25519密钥交换
             {

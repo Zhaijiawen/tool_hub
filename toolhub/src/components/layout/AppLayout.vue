@@ -356,14 +356,9 @@ const menuOptions = computed(() => [
         key: 'key-exchange',
         children: [
           {
-            label: t('encrypt.diffieHellman.title'),
-            key: 'diffie-hellman',
-            path: '/encrypt/diffie-hellman'
-          },
-          {
-            label: t('encrypt.ecdh.title'),
-            key: 'ecdh',
-            path: '/encrypt/ecdh'
+            label: t('encrypt.ecdh-key-exchange.title'),
+            key: 'ecdh-key-exchange',
+            path: '/encrypt/ecdh-key-exchange'
           },
           {
             label: t('encrypt.x25519.title'),

@@ -507,8 +507,8 @@ export default {
       invalidHashFormat: '无效的哈希格式。期望格式：algorithm:iterations:salt:hash',
       description: '密码哈希算法'
     },
-    'diffie-hellman': {
-      title: 'Diffie-Hellman 密钥交换',
+    'ecdh-key-exchange': {
+      title: 'ECDH 密钥交换',
       privateKey: '私钥',
       privateKeyPlaceholder: '请输入私钥（十六进制格式）',
       publicKey: '公钥',
@@ -533,14 +533,6 @@ export default {
       copyMyPublicKey: '复制我的公钥',
       testPeerKeyGenerated: '测试对方公钥生成成功',
       publicKeyCopied: '公钥复制成功',
-      description: 'Diffie-Hellman 密钥交换算法'
-    },
-    diffieHellman: {
-      title: 'Diffie-Hellman 密钥交换',
-      description: 'Diffie-Hellman 密钥交换算法'
-    },
-    ecdh: {
-      title: 'ECDH 密钥交换',
       description: '椭圆曲线 Diffie-Hellman 密钥交换'
     },
     x25519: {

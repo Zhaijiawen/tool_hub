@@ -1,54 +1,54 @@
 <template>
-  <div class="diffie-hellman">
-    <n-card :title="t('encrypt.diffie-hellman.title')">
+  <div class="ecdh-key-exchange">
+    <n-card :title="t('encrypt.ecdh-key-exchange.title')">
       <!-- 私钥区域 -->
       <div class="input-section">
-        <n-text>{{ t('encrypt.diffie-hellman.privateKey') }}</n-text>
+        <n-text>{{ t('encrypt.ecdh-key-exchange.privateKey') }}</n-text>
         <n-input 
           v-model:value="privateKey" 
           type="textarea" 
-          :placeholder="t('encrypt.diffie-hellman.privateKeyPlaceholder')"
+          :placeholder="t('encrypt.ecdh-key-exchange.privateKeyPlaceholder')"
           :autosize="{ minRows: 4, maxRows: 8 }" 
         />
         <div class="input-info">
-          <n-text depth="3">{{ t('encrypt.diffie-hellman.charCount', { count: privateKey.length }) }}</n-text>
+          <n-text depth="3">{{ t('encrypt.ecdh-key-exchange.charCount', { count: privateKey.length }) }}</n-text>
         </div>
       </div>
 
       <!-- 公钥区域 -->
       <div class="input-section">
-        <n-text>{{ t('encrypt.diffie-hellman.publicKey') }}</n-text>
+        <n-text>{{ t('encrypt.ecdh-key-exchange.publicKey') }}</n-text>
         <n-input 
           v-model:value="publicKey" 
           type="textarea" 
-          :placeholder="t('encrypt.diffie-hellman.publicKeyPlaceholder')"
+          :placeholder="t('encrypt.ecdh-key-exchange.publicKeyPlaceholder')"
           :autosize="{ minRows: 4, maxRows: 8 }" 
           readonly 
         />
         <div class="input-info" v-if="publicKey">
-          <n-text depth="3">{{ t('encrypt.diffie-hellman.length') }}：{{ publicKey.length }} {{ t('encrypt.diffie-hellman.characters') }}</n-text>
+          <n-text depth="3">{{ t('encrypt.ecdh-key-exchange.length') }}：{{ publicKey.length }} {{ t('encrypt.ecdh-key-exchange.characters') }}</n-text>
         </div>
       </div>
 
       <!-- 对方公钥区域 -->
       <div class="input-section">
-        <n-text>{{ t('encrypt.diffie-hellman.peerPublicKey') }}</n-text>
+        <n-text>{{ t('encrypt.ecdh-key-exchange.peerPublicKey') }}</n-text>
         <n-input 
           v-model:value="peerPublicKey" 
           type="textarea" 
-          :placeholder="t('encrypt.diffie-hellman.peerPublicKeyPlaceholder')"
+          :placeholder="t('encrypt.ecdh-key-exchange.peerPublicKeyPlaceholder')"
           :autosize="{ minRows: 4, maxRows: 8 }" 
         />
         <div class="input-info">
-          <n-text depth="3">{{ t('encrypt.diffie-hellman.charCount', { count: peerPublicKey.length }) }}</n-text>
+          <n-text depth="3">{{ t('encrypt.ecdh-key-exchange.charCount', { count: peerPublicKey.length }) }}</n-text>
         </div>
         <!-- 测试按钮 -->
         <div class="test-buttons">
           <n-button @click="generateTestPeerKey" size="small" type="info">
-            {{ t('encrypt.diffie-hellman.generateTestPeerKey') }}
+            {{ t('encrypt.ecdh-key-exchange.generateTestPeerKey') }}
           </n-button>
           <n-button @click="copyPeerPublicKey" size="small" :disabled="!publicKey">
-            {{ t('encrypt.diffie-hellman.copyMyPublicKey') }}
+            {{ t('encrypt.ecdh-key-exchange.copyMyPublicKey') }}
           </n-button>
         </div>
       </div>
@@ -56,10 +56,10 @@
       <!-- 操作按钮 -->
       <div class="button-group">
         <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
-          {{ t('encrypt.diffie-hellman.generateKeyPair') }}
+          {{ t('encrypt.ecdh-key-exchange.generateKeyPair') }}
         </n-button>
         <n-button @click="computeSharedSecret" type="info" :disabled="!privateKey || !peerPublicKey" :loading="isComputing">
-          {{ t('encrypt.diffie-hellman.computeSharedSecret') }}
+          {{ t('encrypt.ecdh-key-exchange.computeSharedSecret') }}
         </n-button>
         <n-button @click="copyToClipboard" :disabled="!sharedSecret">
           {{ t('common.copy') }}
@@ -71,16 +71,16 @@
 
       <!-- 共享密钥区域 -->
       <div class="output-section" v-if="sharedSecret">
-        <n-text>{{ t('encrypt.diffie-hellman.sharedSecret') }}</n-text>
+        <n-text>{{ t('encrypt.ecdh-key-exchange.sharedSecret') }}</n-text>
         <n-input 
           v-model:value="sharedSecret" 
           type="textarea" 
-          :placeholder="t('encrypt.diffie-hellman.sharedSecretPlaceholder')"
+          :placeholder="t('encrypt.ecdh-key-exchange.sharedSecretPlaceholder')"
           :autosize="{ minRows: 4, maxRows: 8 }" 
           readonly 
         />
         <div class="output-info">
-          <n-text depth="3">{{ t('encrypt.diffie-hellman.length') }}：{{ sharedSecret.length }} {{ t('encrypt.diffie-hellman.characters') }}</n-text>
+          <n-text depth="3">{{ t('encrypt.ecdh-key-exchange.length') }}：{{ sharedSecret.length }} {{ t('encrypt.ecdh-key-exchange.characters') }}</n-text>
         </div>
       </div>
 
@@ -147,7 +147,7 @@ const generateKeyPair = async () => {
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
     publicKey.value = arrayBufferToHex(publicKeyBuffer);
 
-    message.success(t('encrypt.diffie-hellman.keyPairGenerated'))
+    message.success(t('encrypt.ecdh-key-exchange.keyPairGenerated'))
   } catch (e) {
     error.value = e.message
     message.error(t('common.error'))
@@ -160,7 +160,7 @@ const generateKeyPair = async () => {
 const computeSharedSecret = async () => {
   try {
     if (!privateKey.value || !peerPublicKey.value) {
-      error.value = t('encrypt.diffie-hellman.allFieldsRequired')
+      error.value = t('encrypt.ecdh-key-exchange.allFieldsRequired')
       return
     }
 
@@ -169,7 +169,7 @@ const computeSharedSecret = async () => {
 
     // 验证密钥格式
     if (!/^[0-9a-fA-F]+$/.test(privateKey.value) || !/^[0-9a-fA-F]+$/.test(peerPublicKey.value)) {
-      throw new Error(t('encrypt.diffie-hellman.invalidKeyFormat'))
+      throw new Error(t('encrypt.ecdh-key-exchange.invalidKeyFormat'))
     }
 
     // 导入私钥
@@ -209,7 +209,7 @@ const computeSharedSecret = async () => {
     );
 
     sharedSecret.value = arrayBufferToHex(sharedSecretBuffer);
-    message.success(t('encrypt.diffie-hellman.sharedSecretComputed'))
+    message.success(t('encrypt.ecdh-key-exchange.sharedSecretComputed'))
   } catch (e) {
     error.value = e.message
     message.error(t('common.error'))
@@ -235,7 +235,7 @@ const generateTestPeerKey = async () => {
     const testPublicKeyBuffer = await crypto.subtle.exportKey('spki', testKeyPair.publicKey);
     peerPublicKey.value = arrayBufferToHex(testPublicKeyBuffer);
     
-    message.success(t('encrypt.diffie-hellman.testPeerKeyGenerated'))
+    message.success(t('encrypt.ecdh-key-exchange.testPeerKeyGenerated'))
   } catch (e) {
     error.value = e.message
     message.error(t('common.error'))
@@ -246,9 +246,9 @@ const generateTestPeerKey = async () => {
 const copyPeerPublicKey = async () => {
   try {
     await navigator.clipboard.writeText(publicKey.value)
-    message.success(t('encrypt.diffie-hellman.publicKeyCopied'))
+    message.success(t('encrypt.ecdh-key-exchange.publicKeyCopied'))
   } catch (e) {
-    message.error(t('encrypt.diffie-hellman.copyError'))
+    message.error(t('encrypt.ecdh-key-exchange.copyError'))
   }
 }
 
@@ -256,9 +256,9 @@ const copyPeerPublicKey = async () => {
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(sharedSecret.value)
-    message.success(t('encrypt.diffie-hellman.copySuccess'))
+    message.success(t('encrypt.ecdh-key-exchange.copySuccess'))
   } catch (e) {
-    message.error(t('encrypt.diffie-hellman.copyError'))
+    message.error(t('encrypt.ecdh-key-exchange.copyError'))
   }
 }
 
@@ -274,7 +274,7 @@ const clearAll = () => {
 </script>
 
 <style scoped>
-.diffie-hellman {
+.ecdh-key-exchange {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
@@ -328,4 +328,4 @@ const clearAll = () => {
   display: flex;
   gap: 8px;
 }
-</style>
+</style> 

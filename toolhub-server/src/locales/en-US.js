@@ -93,11 +93,7 @@ export default {
       title: 'Argon2 Hash',
       description: 'Argon2 password hashing algorithm'
     },
-    'diffie-hellman': {
-      title: 'Diffie-Hellman Key Exchange',
-      description: 'Diffie-Hellman key exchange algorithm'
-    },
-    ecdh: {
+    'ecdh-key-exchange': {
       title: 'ECDH Key Exchange',
       description: 'Elliptic Curve Diffie-Hellman key exchange'
     },
