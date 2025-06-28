@@ -1,32 +1,83 @@
 <template>
   <div class="rsa-sign">
     <n-card :title="t('encrypt.rsaSign.title')">
+      <!-- 密钥长度选择 -->
+      <div class="key-length-section">
+        <n-text>{{ t('encrypt.rsaSign.keyLength') }}</n-text>
+        <n-select v-model:value="selectedKeyLength" :options="keyLengthOptions" />
+      </div>
+
+      <!-- 哈希算法选择 -->
+      <div class="hash-algorithm-section">
+        <n-text>{{ t('encrypt.rsaSign.hashAlgorithm') }}</n-text>
+        <n-select v-model:value="selectedHashAlgorithm" :options="hashAlgorithmOptions" />
+      </div>
+
       <n-form>
         <n-form-item :label="t('encrypt.rsaSign.message')">
-          <n-input v-model:value="messageText" type="textarea" :placeholder="t('encrypt.rsaSign.messagePlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" />
+          <n-input 
+            v-model:value="messageText" 
+            type="textarea" 
+            :placeholder="t('encrypt.rsaSign.messagePlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+          />
+          <div class="input-info">
+            <n-text depth="3">{{ t('encrypt.rsaSign.charCount', { count: messageText.length }) }}</n-text>
+          </div>
         </n-form-item>
+        
         <n-form-item :label="t('encrypt.rsaSign.privateKey')">
-          <n-input v-model:value="privateKey" type="textarea" :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" />
+          <n-input 
+            v-model:value="privateKey" 
+            type="textarea" 
+            :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+          />
+          <div class="input-info" v-if="privateKey">
+            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ privateKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+          </div>
         </n-form-item>
+        
         <n-form-item :label="t('encrypt.rsaSign.publicKey')">
-          <n-input v-model:value="publicKey" type="textarea" :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" />
+          <n-input 
+            v-model:value="publicKey" 
+            type="textarea" 
+            :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+          />
+          <div class="input-info" v-if="publicKey">
+            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ publicKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+          </div>
         </n-form-item>
+        
         <n-space>
-          <n-button @click="generateKeyPair" type="primary">
+          <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
             {{ t('encrypt.rsaSign.generateKeyPair') }}
           </n-button>
-          <n-button @click="sign" :disabled="!messageText || !privateKey">
+          <n-button @click="sign" :disabled="!messageText || !privateKey" :loading="isSigning">
             {{ t('encrypt.rsaSign.sign') }}
           </n-button>
-          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey">
+          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
             {{ t('encrypt.rsaSign.verify') }}
           </n-button>
+          <n-button @click="copyToClipboard" :disabled="!signature">
+            {{ t('common.copy') }}
+          </n-button>
+          <n-button @click="clearAll">
+            {{ t('common.clear') }}
+          </n-button>
         </n-space>
+        
         <n-form-item v-if="signature" :label="t('encrypt.rsaSign.signature')">
-          <n-input v-model:value="signature" type="textarea" readonly :autosize="{ minRows: 3, maxRows: 10 }" />
+          <n-input 
+            v-model:value="signature" 
+            type="textarea" 
+            readonly 
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+          />
+          <div class="input-info">
+            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ signature.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+          </div>
           <template #suffix>
             <n-button @click="copySignature" quaternary circle>
               <template #icon>
@@ -35,6 +86,7 @@
             </n-button>
           </template>
         </n-form-item>
+        
         <!-- 错误提示 -->
         <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
           {{ error }}
@@ -49,82 +101,238 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { CopyOutline as CopyIcon } from '@vicons/ionicons5'
-import * as nacl from 'tweetnacl'
-import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 
 const { t } = useI18n()
 const message = useMessage()
 
+// 响应式数据
 const messageText = ref('')
 const privateKey = ref('')
 const publicKey = ref('')
 const signature = ref('')
 const error = ref('')
+const isGenerating = ref(false)
+const isSigning = ref(false)
+const isVerifying = ref(false)
+const selectedKeyLength = ref(2048)
+const selectedHashAlgorithm = ref('SHA-256')
 
-const generateKeyPair = () => {
+// 密钥长度选项
+const keyLengthOptions = [
+  { label: '1024 bits', value: 1024 },
+  { label: '2048 bits', value: 2048 },
+  { label: '4096 bits', value: 4096 }
+]
+
+// 哈希算法选项
+const hashAlgorithmOptions = [
+  { label: 'SHA-256', value: 'SHA-256' },
+  { label: 'SHA-384', value: 'SHA-384' },
+  { label: 'SHA-512', value: 'SHA-512' }
+]
+
+// 将ArrayBuffer转换为Base64字符串
+const arrayBufferToBase64 = (buffer) => {
+  const bytes = new Uint8Array(buffer)
+  let binary = ''
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return btoa(binary)
+}
+
+// 将Base64字符串转换为ArrayBuffer
+const base64ToArrayBuffer = (base64) => {
+  const binaryString = atob(base64)
+  const bytes = new Uint8Array(binaryString.length)
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i)
+  }
+  return bytes.buffer
+}
+
+// 生成密钥对
+const generateKeyPair = async () => {
   try {
-    const keyPair = nacl.sign.keyPair()
-    privateKey.value = encodeBase64(keyPair.secretKey)
-    publicKey.value = encodeBase64(keyPair.publicKey)
+    isGenerating.value = true
     error.value = ''
+
+    const keyPair = await crypto.subtle.generateKey(
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        modulusLength: selectedKeyLength.value,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: selectedHashAlgorithm.value
+      },
+      true,
+      ['sign', 'verify']
+    )
+
+    // 导出私钥
+    const privateKeyBuffer = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey)
+    privateKey.value = arrayBufferToBase64(privateKeyBuffer)
+
+    // 导出公钥
+    const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey)
+    publicKey.value = arrayBufferToBase64(publicKeyBuffer)
+
+    message.success(t('encrypt.rsaSign.keyPairGenerated'))
   } catch (e) {
     error.value = e.message
+    message.error(t('common.error'))
+  } finally {
+    isGenerating.value = false
   }
 }
 
-const sign = () => {
+// 签名
+const sign = async () => {
   try {
     if (!messageText.value || !privateKey.value) {
       throw new Error(t('encrypt.rsaSign.allFieldsRequired'))
     }
 
-    const messageBytes = new TextEncoder().encode(messageText.value)
-    const privateKeyBytes = decodeBase64(privateKey.value)
-    const signatureBytes = nacl.sign.detached(messageBytes, privateKeyBytes)
-    signature.value = encodeBase64(signatureBytes)
+    isSigning.value = true
     error.value = ''
+
+    // 导入私钥
+    const privateKeyBuffer = base64ToArrayBuffer(privateKey.value)
+    const privateKeyObj = await crypto.subtle.importKey(
+      'pkcs8',
+      privateKeyBuffer,
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        hash: selectedHashAlgorithm.value
+      },
+      false,
+      ['sign']
+    )
+
+    // 计算消息哈希
+    const messageBytes = new TextEncoder().encode(messageText.value)
+    const hashBuffer = await crypto.subtle.digest(selectedHashAlgorithm.value, messageBytes)
+
+    // 签名
+    const signatureBuffer = await crypto.subtle.sign(
+      {
+        name: 'RSASSA-PKCS1-v1_5'
+      },
+      privateKeyObj,
+      hashBuffer
+    )
+
+    signature.value = arrayBufferToBase64(signatureBuffer)
+    message.success(t('encrypt.rsaSign.signatureCreated'))
   } catch (e) {
     error.value = e.message
+    message.error(t('common.error'))
+  } finally {
+    isSigning.value = false
   }
 }
 
-const verify = () => {
+// 验证签名
+const verify = async () => {
   try {
     if (!messageText.value || !signature.value || !publicKey.value) {
       throw new Error(t('encrypt.rsaSign.allFieldsRequired'))
     }
 
+    isVerifying.value = true
+    error.value = ''
+
+    // 导入公钥
+    const publicKeyBuffer = base64ToArrayBuffer(publicKey.value)
+    const publicKeyObj = await crypto.subtle.importKey(
+      'spki',
+      publicKeyBuffer,
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        hash: selectedHashAlgorithm.value
+      },
+      false,
+      ['verify']
+    )
+
+    // 计算消息哈希
     const messageBytes = new TextEncoder().encode(messageText.value)
-    const signatureBytes = decodeBase64(signature.value)
-    const publicKeyBytes = decodeBase64(publicKey.value)
-    const isValid = nacl.sign.detached.verify(messageBytes, signatureBytes, publicKeyBytes)
+    const hashBuffer = await crypto.subtle.digest(selectedHashAlgorithm.value, messageBytes)
+
+    // 验证签名
+    const signatureBuffer = base64ToArrayBuffer(signature.value)
+    const isValid = await crypto.subtle.verify(
+      {
+        name: 'RSASSA-PKCS1-v1_5'
+      },
+      publicKeyObj,
+      signatureBuffer,
+      hashBuffer
+    )
 
     if (isValid) {
       message.success(t('encrypt.rsaSign.verificationSuccess'))
     } else {
       message.error(t('encrypt.rsaSign.verificationFailed'))
     }
-    error.value = ''
   } catch (e) {
     error.value = e.message
+    message.error(t('common.error'))
+  } finally {
+    isVerifying.value = false
   }
 }
 
+// 复制签名
 const copySignature = async () => {
   try {
     await navigator.clipboard.writeText(signature.value)
-    message.success(t('common.copied'))
+    message.success(t('encrypt.rsaSign.signatureCopied'))
   } catch (e) {
-    message.error(t('common.copyFailed'))
+    message.error(t('encrypt.rsaSign.copyError'))
   }
+}
+
+// 复制到剪贴板
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(signature.value)
+    message.success(t('encrypt.rsaSign.copySuccess'))
+  } catch (e) {
+    message.error(t('encrypt.rsaSign.copyError'))
+  }
+}
+
+// 清空所有
+const clearAll = () => {
+  messageText.value = ''
+  privateKey.value = ''
+  publicKey.value = ''
+  signature.value = ''
+  error.value = ''
+  message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
 
 <style scoped>
 .rsa-sign {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
+}
+
+.key-length-section,
+.hash-algorithm-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.input-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .error-alert {
