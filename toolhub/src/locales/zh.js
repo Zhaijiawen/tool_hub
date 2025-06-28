@@ -448,7 +448,27 @@ export default {
       description: 'SHA 系列哈希算法'
     },
     bcrypt: {
-      title: 'Bcrypt 哈希',
+      title: 'Bcrypt 哈希算法',
+      input: '输入内容',
+      inputPlaceholder: '请输入要计算哈希的内容',
+      output: '哈希结果',
+      outputPlaceholder: '哈希结果将显示在这里',
+      saltRounds: '盐轮数',
+      saltRoundsPlaceholder: '请输入盐轮数 (4-31)',
+      hash: '计算哈希',
+      verify: '验证哈希',
+      inputRequired: '请输入要计算哈希的内容',
+      bothInputsRequired: '请输入内容和哈希值进行验证',
+      verificationSuccess: '验证成功',
+      verificationFailed: '验证失败',
+      hashSuccess: '哈希计算成功',
+      copySuccess: '复制成功',
+      copyError: '复制失败',
+      clear: '清空',
+      charCount: '字符数：{count}',
+      length: '长度',
+      characters: '字符',
+      saltRoundsInfo: '推荐值：10-12，数值越大安全性越高但计算时间越长',
       description: 'Bcrypt 密码哈希算法'
     },
     argon2: {

@@ -498,7 +498,9 @@ export default {
     },
     bcrypt: {
       title: 'Bcrypt Hash Algorithm',
+      input: 'Input Content',
       inputPlaceholder: 'Enter content to calculate hash',
+      output: 'Hash Result',
       outputPlaceholder: 'Hash result will appear here',
       saltRounds: 'Salt Rounds',
       saltRoundsPlaceholder: 'Enter salt rounds (4-31)',
@@ -508,6 +510,13 @@ export default {
       bothInputsRequired: 'Please enter content and hash to verify',
       verificationSuccess: 'Verification successful',
       verificationFailed: 'Verification failed',
+      hashSuccess: 'Hash calculation successful',
+      copySuccess: 'Copy successful',
+      copyError: 'Copy failed',
+      clear: 'Clear',
+      charCount: 'Characters: {count}',
+      length: 'Length',
+      saltRoundsInfo: 'Recommended: 10-12, higher values increase security but take longer to compute',
       description: 'Bcrypt password hash algorithm'
     },
     argon2: {
