@@ -1,39 +1,73 @@
 <template>
   <div class="sha-hash">
     <n-card :title="t('encrypt.sha.title')">
-      <n-space vertical>
-        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.sha.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" />
+      <!-- 输入区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.sha.input') }}</n-text>
+        <n-input 
+          v-model:value="input" 
+          type="textarea" 
+          :placeholder="t('encrypt.sha.inputPlaceholder')"
+          :autosize="{ minRows: 8, maxRows: 15 }" 
+        />
+        <div class="input-info">
+          <n-text depth="3">{{ t('encrypt.sha.charCount', { count: input.length }) }}</n-text>
+        </div>
+      </div>
 
+      <!-- 算法和格式选择 -->
+      <div class="options-section">
         <n-form :model="formData" label-placement="left" label-width="auto">
           <n-form-item :label="t('encrypt.sha.algorithm')">
-            <n-select v-model:value="formData.algorithm" :options="algorithmOptions"
-              :placeholder="t('encrypt.sha.algorithmPlaceholder')" />
+            <n-select 
+              v-model:value="formData.algorithm" 
+              :options="algorithmOptions"
+              :placeholder="t('encrypt.sha.algorithmPlaceholder')" 
+            />
           </n-form-item>
 
           <n-form-item :label="t('encrypt.sha.outputFormat')">
-            <n-select v-model:value="formData.outputFormat" :options="outputFormatOptions"
-              :placeholder="t('encrypt.sha.outputFormatPlaceholder')" />
+            <n-select 
+              v-model:value="formData.outputFormat" 
+              :options="outputFormatOptions"
+              :placeholder="t('encrypt.sha.outputFormatPlaceholder')" 
+            />
           </n-form-item>
         </n-form>
+      </div>
 
-        <n-space>
-          <n-button @click="hash" type="primary">
-            {{ t('encrypt.sha.hash') }}
-          </n-button>
-          <n-button @click="copyToClipboard">
-            {{ t('common.copy') }}
-          </n-button>
-        </n-space>
+      <!-- 操作按钮 -->
+      <div class="button-group">
+        <n-button @click="hash" type="primary" :disabled="!input.trim()">
+          {{ t('encrypt.sha.hash') }}
+        </n-button>
+        <n-button @click="copyToClipboard" :disabled="!output">
+          {{ t('common.copy') }}
+        </n-button>
+        <n-button @click="clearAll">
+          {{ t('common.clear') }}
+        </n-button>
+      </div>
 
-        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.sha.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
+      <!-- 输出区域 -->
+      <div class="output-section">
+        <n-text>{{ t('encrypt.sha.output') }}</n-text>
+        <n-input 
+          v-model:value="output" 
+          type="textarea" 
+          :placeholder="t('encrypt.sha.outputPlaceholder')"
+          :autosize="{ minRows: 8, maxRows: 15 }" 
+          readonly 
+        />
+        <div class="output-info" v-if="output">
+          <n-text depth="3">长度：{{ output.length }} 字符</n-text>
+        </div>
+      </div>
 
-        <!-- 错误提示 -->
-        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
-          {{ error }}
-        </n-alert>
-      </n-space>
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -47,6 +81,7 @@ import CryptoJS from 'crypto-js'
 const { t } = useI18n()
 const message = useMessage()
 
+// 响应式数据
 const input = ref('')
 const output = ref('')
 const error = ref('')
@@ -56,21 +91,31 @@ const formData = reactive({
   outputFormat: 'hex'
 })
 
+// 算法选项
 const algorithmOptions = [
-  { label: 'SHA-1', value: 'SHA-1' },
-  { label: 'SHA-256', value: 'SHA-256' },
-  { label: 'SHA-512', value: 'SHA-512' }
+  { label: 'SHA-1 (160位)', value: 'SHA-1' },
+  { label: 'SHA-224 (224位)', value: 'SHA-224' },
+  { label: 'SHA-256 (256位)', value: 'SHA-256' },
+  { label: 'SHA-384 (384位)', value: 'SHA-384' },
+  { label: 'SHA-512 (512位)', value: 'SHA-512' },
+  { label: 'SHA-512/224 (224位)', value: 'SHA-512/224' },
+  { label: 'SHA-512/256 (256位)', value: 'SHA-512/256' },
+  { label: 'MD5 (128位)', value: 'MD5' }
 ]
 
+// 输出格式选项
 const outputFormatOptions = [
-  { label: 'HEX', value: 'hex' },
-  { label: 'Base64', value: 'base64' }
+  { label: 'HEX (十六进制)', value: 'hex' },
+  { label: 'Base64', value: 'base64' },
+  { label: 'Base64URL', value: 'base64url' }
 ]
 
+// 计算哈希
 const hash = () => {
   try {
-    if (!input.value) {
-      throw new Error(t('encrypt.sha.inputRequired'))
+    if (!input.value.trim()) {
+      error.value = t('encrypt.sha.inputRequired')
+      return
     }
 
     let hashed
@@ -78,33 +123,71 @@ const hash = () => {
       case 'SHA-1':
         hashed = CryptoJS.SHA1(input.value)
         break
+      case 'SHA-224':
+        hashed = CryptoJS.SHA224(input.value)
+        break
       case 'SHA-256':
         hashed = CryptoJS.SHA256(input.value)
+        break
+      case 'SHA-384':
+        hashed = CryptoJS.SHA384(input.value)
         break
       case 'SHA-512':
         hashed = CryptoJS.SHA512(input.value)
         break
+      case 'SHA-512/224':
+        hashed = CryptoJS.SHA512(input.value, { outputLength: 224 })
+        break
+      case 'SHA-512/256':
+        hashed = CryptoJS.SHA512(input.value, { outputLength: 256 })
+        break
+      case 'MD5':
+        hashed = CryptoJS.MD5(input.value)
+        break
       default:
-        throw new Error(t('encrypt.sha.invalidAlgorithm'))
+        error.value = t('encrypt.sha.invalidAlgorithm')
+        return
     }
 
-    output.value = formData.outputFormat === 'hex'
-      ? hashed.toString(CryptoJS.enc.Hex)
-      : hashed.toString(CryptoJS.enc.Base64)
+    // 根据输出格式转换
+    switch (formData.outputFormat) {
+      case 'hex':
+        output.value = hashed.toString(CryptoJS.enc.Hex)
+        break
+      case 'base64':
+        output.value = hashed.toString(CryptoJS.enc.Base64)
+        break
+      case 'base64url':
+        output.value = hashed.toString(CryptoJS.enc.Base64url)
+        break
+      default:
+        output.value = hashed.toString(CryptoJS.enc.Hex)
+    }
 
     error.value = ''
+    message.success(t('encrypt.sha.hashSuccess'))
   } catch (e) {
     error.value = e.message
+    message.error(t('common.error'))
   }
 }
 
+// 复制到剪贴板
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    message.success(t('encrypt.sha.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    message.error(t('encrypt.sha.copyError'))
   }
+}
+
+// 清空所有
+const clearAll = () => {
+  input.value = ''
+  output.value = ''
+  error.value = ''
+  message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
 
@@ -113,6 +196,49 @@ const copyToClipboard = async () => {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.input-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.options-section {
+  margin-bottom: 20px;
+}
+
+.button-group {
+  margin: 20px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.output-section {
+  margin: 20px 0;
+}
+
+.output-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.output-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .error-alert {

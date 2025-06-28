@@ -475,7 +475,9 @@ export default {
     },
     sha: {
       title: 'SHA Hash Algorithm',
+      input: 'Input Content',
       inputPlaceholder: 'Enter content to calculate hash',
+      output: 'Hash Result',
       outputPlaceholder: 'Hash result will appear here',
       algorithm: 'Algorithm',
       algorithmPlaceholder: 'Select hash algorithm',
@@ -484,6 +486,11 @@ export default {
       hash: 'Calculate Hash',
       inputRequired: 'Please enter content to calculate hash',
       invalidAlgorithm: 'Invalid hash algorithm',
+      hashSuccess: 'Hash calculation successful',
+      copySuccess: 'Copy successful',
+      copyError: 'Copy failed',
+      clear: 'Clear',
+      charCount: 'Characters: {count}',
       description: 'SHA series hash algorithms'
     },
     bcrypt: {

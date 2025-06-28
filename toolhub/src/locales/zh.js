@@ -425,7 +425,23 @@ export default {
       description: 'Ed25519 数字签名算法'
     },
     sha: {
-      title: 'SHA 哈希',
+      title: 'SHA 哈希算法',
+      input: '输入内容',
+      inputPlaceholder: '请输入要计算哈希的内容',
+      output: '哈希结果',
+      outputPlaceholder: '哈希结果将显示在这里',
+      algorithm: '算法',
+      algorithmPlaceholder: '请选择哈希算法',
+      outputFormat: '输出格式',
+      outputFormatPlaceholder: '请选择输出格式',
+      hash: '计算哈希',
+      inputRequired: '请输入要计算哈希的内容',
+      invalidAlgorithm: '无效的哈希算法',
+      hashSuccess: '哈希计算成功',
+      copySuccess: '复制成功',
+      copyError: '复制失败',
+      clear: '清空',
+      charCount: '字符数：{count}',
       description: 'SHA 系列哈希算法'
     },
     bcrypt: {
