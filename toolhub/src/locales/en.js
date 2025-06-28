@@ -535,6 +535,7 @@ export default {
       algorithmPlaceholder: 'Select hash algorithm',
       hash: 'Calculate Hash',
       verify: 'Verify Hash',
+      verifyPlaceholder: 'Enter hash to verify (format: algorithm:iterations:salt:hash)',
       inputRequired: 'Please enter content to calculate hash',
       bothInputsRequired: 'Please enter content and hash to verify',
       verificationSuccess: 'Verification successful',
@@ -550,6 +551,8 @@ export default {
       iterationsInfo: 'Number of iterations, recommended: 100000-500000',
       keyLengthInfo: 'Key length in bytes, recommended: 32',
       algorithmInfo: 'SHA-256: 256-bit hash, SHA-512: 512-bit hash',
+      recommended: 'Recommended',
+      invalidHashFormat: 'Invalid hash format. Expected: algorithm:iterations:salt:hash',
       description: 'Password hash algorithm'
     },
     'diffie-hellman': {

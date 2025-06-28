@@ -71,9 +71,6 @@
         <n-button @click="hash" type="primary" :disabled="!input.trim()" :loading="isHashing">
           {{ t('encrypt.argon2.hash') }}
         </n-button>
-        <n-button @click="verify" type="info" :disabled="!input.trim() || !output" :loading="isVerifying">
-          {{ t('encrypt.argon2.verify') }}
-        </n-button>
         <n-button @click="copyToClipboard" :disabled="!output">
           {{ t('common.copy') }}
         </n-button>
@@ -97,6 +94,22 @@
         </div>
       </div>
 
+      <!-- 验证区域 -->
+      <div class="verify-section">
+        <n-text>{{ t('encrypt.argon2.verify') }}</n-text>
+        <n-input 
+          v-model:value="verifyHash" 
+          type="textarea" 
+          :placeholder="t('encrypt.argon2.verifyPlaceholder')"
+          :autosize="{ minRows: 4, maxRows: 8 }" 
+        />
+        <div class="button-group">
+          <n-button @click="verify" type="info" :disabled="!input.trim() || !verifyHash.trim()" :loading="isVerifying">
+            {{ t('encrypt.argon2.verify') }}
+          </n-button>
+        </div>
+      </div>
+
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
@@ -106,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 
@@ -116,6 +129,7 @@ const message = useMessage()
 // 响应式数据
 const input = ref('')
 const output = ref('')
+const verifyHash = ref('')
 const error = ref('')
 const isHashing = ref(false)
 const isVerifying = ref(false)
@@ -127,12 +141,12 @@ const formData = reactive({
   algorithm: 'SHA-256'
 })
 
-// 哈希算法选项
-const typeOptions = [
-  { label: 'PBKDF2 (推荐)', value: 'pbkdf2' },
+// 哈希算法选项 - 使用computed确保i18n正确工作
+const typeOptions = computed(() => [
+  { label: `PBKDF2 (${t('encrypt.argon2.recommended')})`, value: 'pbkdf2' },
   { label: 'SHA-256', value: 'sha256' },
   { label: 'SHA-512', value: 'sha512' }
-]
+])
 
 // 哈希算法选项
 const algorithmOptions = [
@@ -227,7 +241,7 @@ const hash = async () => {
 // 验证哈希
 const verify = async () => {
   try {
-    if (!input.value.trim() || !output.value.trim()) {
+    if (!input.value.trim() || !verifyHash.value.trim()) {
       error.value = t('encrypt.argon2.bothInputsRequired')
       return
     }
@@ -236,10 +250,10 @@ const verify = async () => {
     error.value = ''
 
     const password = input.value;
-    const parts = output.value.split(':');
+    const parts = verifyHash.value.split(':');
     
     if (parts.length !== 4) {
-      message.error('Invalid hash format');
+      message.error(t('encrypt.argon2.invalidHashFormat'));
       return;
     }
 
@@ -304,6 +318,7 @@ const copyToClipboard = async () => {
 const clearAll = () => {
   input.value = ''
   output.value = ''
+  verifyHash.value = ''
   error.value = ''
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
@@ -363,6 +378,15 @@ const clearAll = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.verify-section {
+  margin: 20px 0;
+}
+
+.verify-section .n-text {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .error-alert {

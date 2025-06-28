@@ -487,6 +487,7 @@ export default {
       algorithmPlaceholder: '请选择哈希算法',
       hash: '计算哈希',
       verify: '验证哈希',
+      verifyPlaceholder: '请输入要验证的哈希值 (格式: algorithm:iterations:salt:hash)',
       inputRequired: '请输入要计算哈希的内容',
       bothInputsRequired: '请输入内容和哈希值进行验证',
       verificationSuccess: '验证成功',
@@ -502,6 +503,8 @@ export default {
       iterationsInfo: '迭代次数，推荐值：100000-500000',
       keyLengthInfo: '密钥长度（字节），推荐值：32',
       algorithmInfo: 'SHA-256: 256位哈希，SHA-512: 512位哈希',
+      recommended: '推荐',
+      invalidHashFormat: '无效的哈希格式。期望格式：algorithm:iterations:salt:hash',
       description: '密码哈希算法'
     },
     'diffie-hellman': {
