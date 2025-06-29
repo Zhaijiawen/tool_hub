@@ -262,10 +262,11 @@ function convert() {
 
     switch (formData.operation) {
       case 'toChinese':
-        const num = parseInt(formData.input)
-        if (isNaN(num)) {
-          throw new Error(t('convert.number.invalidNumber'))
+        // 验证输入是否为纯数字
+        if (!/^\d+$/.test(formData.input)) {
+          throw new Error(t('convert.number.pureNumberRequired'))
         }
+        const num = parseInt(formData.input)
         if (num < 0 || num > 999999999) {
           throw new Error(t('convert.number.outOfRange'))
         }
@@ -273,10 +274,11 @@ function convert() {
         break
 
       case 'toRoman':
-        const num2 = parseInt(formData.input)
-        if (isNaN(num2)) {
-          throw new Error(t('convert.number.invalidNumber'))
+        // 验证输入是否为纯数字
+        if (!/^\d+$/.test(formData.input)) {
+          throw new Error(t('convert.number.pureNumberRequired'))
         }
+        const num2 = parseInt(formData.input)
         if (num2 < 1 || num2 > 3999) {
           throw new Error(t('convert.number.romanOutOfRange'))
         }
@@ -284,15 +286,20 @@ function convert() {
         break
 
       case 'toScientific':
+        // 验证输入是否为纯数字
+        if (!/^\d+$/.test(formData.input)) {
+          throw new Error(t('convert.number.pureNumberRequired'))
+        }
         // 直接传递字符串，避免精度丢失
         formData.output = toScientific(formData.input)
         break
 
       case 'toThousands':
-        const num4 = parseFloat(formData.input)
-        if (isNaN(num4)) {
-          throw new Error(t('convert.number.invalidNumber'))
+        // 验证输入是否为纯数字
+        if (!/^\d+$/.test(formData.input)) {
+          throw new Error(t('convert.number.pureNumberRequired'))
         }
+        const num4 = parseFloat(formData.input)
         formData.output = toThousands(num4)
         break
 

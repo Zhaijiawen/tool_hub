@@ -812,6 +812,7 @@ export default {
       copy: 'Copy',
       copied: 'Copied to clipboard',
       inputRequired: 'Please enter content to convert',
+      pureNumberRequired: 'Please enter pure number format (e.g., 123)',
       invalidNumber: 'Invalid number format',
       invalidInput: 'Invalid input format',
       outOfRange: 'Number out of range (0-999999999)',

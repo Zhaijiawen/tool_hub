@@ -974,6 +974,7 @@ export default {
       copy: '复制',
       copied: '已复制到剪贴板',
       inputRequired: '请输入要转换的内容',
+      pureNumberRequired: '请输入纯数字格式（如：123）',
       invalidNumber: '无效的数字格式',
       invalidInput: '无效的输入格式',
       outOfRange: '数字超出范围（0-999999999）',
