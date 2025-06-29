@@ -742,7 +742,19 @@ export default {
     },
     jwt: {
       title: 'JWT 编解码',
-      description: 'JWT 令牌编码和解码'
+      description: 'JWT 令牌编码和解码',
+      textInput: '文本输入',
+      textInputPlaceholder: '请输入要编码/解码的文本',
+      textOutputPlaceholder: '编码/解码结果将显示在这里',
+      secret: '密钥',
+      secretPlaceholder: '请输入JWT密钥（用于签名验证）',
+      secretInfo: '密钥用于生成和验证JWT签名，确保令牌不被篡改',
+      encode: '编码',
+      decode: '解码',
+      inputRequired: '请输入要处理的内容',
+      secretRequired: '请输入密钥',
+      invalidJwt: '无效的JWT格式',
+      outputPlaceholder: '请先进行编码或解码操作'
     }
   },
   convert: {

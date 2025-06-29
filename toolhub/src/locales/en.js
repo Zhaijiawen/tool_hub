@@ -774,20 +774,19 @@ export default {
     },
     jwt: {
       title: 'JWT Encode/Decode',
-      inputPlaceholder: 'Enter content to encode/decode',
-      outputPlaceholder: 'Encoded/decoded result will appear here',
-      operation: 'Operation',
-      operationPlaceholder: 'Select operation type',
+      description: 'JWT token encoding and decoding',
+      textInput: 'Text Input',
+      textInputPlaceholder: 'Enter text to encode/decode',
+      textOutputPlaceholder: 'Encoded/decoded result will appear here',
+      secret: 'Secret',
+      secretPlaceholder: 'Enter JWT secret (for signature verification)',
+      secretInfo: 'Secret is used to generate and verify JWT signatures, ensuring tokens are not tampered with',
       encode: 'Encode',
       decode: 'Decode',
-      process: 'Process',
-      secret: 'Secret',
-      secretPlaceholder: 'Enter secret',
-      secretRequired: 'Please enter secret',
-      algorithm: 'Algorithm',
-      algorithmPlaceholder: 'Select algorithm',
       inputRequired: 'Please enter content to process',
-      description: 'JWT token encoding and decoding'
+      secretRequired: 'Please enter secret',
+      invalidJwt: 'Invalid JWT format',
+      outputPlaceholder: 'Please perform encode or decode operation first'
     }
   },
   convert: {
