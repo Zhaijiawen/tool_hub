@@ -749,15 +749,16 @@ export default {
     },
     url: {
       title: 'URL Encode/Decode',
-      inputPlaceholder: 'Enter content to encode/decode',
-      outputPlaceholder: 'Encoded/decoded result will appear here',
-      operation: 'Operation',
-      operationPlaceholder: 'Select operation type',
+      paramDescription: 'URL parameter value encode/decode tool. Supports full URL input, automatically identifies and only encodes/decodes parameter values.',
+      paramTip: 'You can input a full URL or individual parameter values. When inputting a full URL, only parameter values are encoded/decoded while URL structure remains unchanged.',
+      paramInputPlaceholder: 'Enter full URL or parameter value, e.g. https://example.com?name=john&data={"type":"test"} or hello world&= ',
+      textInput: 'URL or Parameter Value Input',
+      textOutputPlaceholder: 'Encoded/decoded result will appear here',
       encode: 'Encode',
       decode: 'Decode',
-      process: 'Process',
       inputRequired: 'Please enter content to process',
-      description: 'URL encoding and decoding'
+      invalidUrl: 'Invalid URL format',
+      outputPlaceholder: 'Please perform encode or decode operation first'
     },
     html: {
       title: 'HTML Encode/Decode',

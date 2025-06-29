@@ -717,7 +717,16 @@ export default {
     },
     url: {
       title: 'URL 编解码',
-      description: 'URL 编码和解码'
+      paramDescription: 'URL参数值编码/解码工具，支持完整URL输入，自动识别并只对参数值进行编码/解码。',
+      paramTip: '可以输入完整URL或单独的参数值。输入完整URL时，只对参数值进行编码/解码，URL结构保持不变。',
+      paramInputPlaceholder: '请输入完整URL或参数值，如 https://example.com?name=张三&data=test 或 你好 world&= ',
+      textInput: 'URL或参数值输入',
+      textOutputPlaceholder: '编码/解码结果将显示在这里',
+      encode: '编码',
+      decode: '解码',
+      inputRequired: '请输入要处理的内容',
+      invalidUrl: '无效的URL格式',
+      outputPlaceholder: '请先进行编码或解码操作'
     },
     html: {
       title: 'HTML 编解码',
