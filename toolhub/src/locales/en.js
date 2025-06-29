@@ -17,6 +17,9 @@ export default {
     convert: 'Convert',
     required: 'Required',
     more: 'More',
+    charCount: 'Character count',
+    characters: 'characters',
+    invalidInput: 'Invalid input',
     theme: {
       light: 'Light',
       dark: 'Dark'
@@ -130,7 +133,6 @@ export default {
     mention: 'Mention',
     tag: 'Tag',
     untag: 'Untag',
-    characters: 'characters',
     layout: {
       title: 'Layout',
       description: 'Adjust page layout',

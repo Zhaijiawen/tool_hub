@@ -17,6 +17,9 @@ export default {
     convert: '转换',
     required: '必填项',
     more: '更多',
+    charCount: '字符数',
+    characters: '字符',
+    invalidInput: '无效输入',
     theme: {
       light: '浅色',
       dark: '深色'
@@ -130,7 +133,6 @@ export default {
     mention: '提及',
     tag: '标签',
     untag: '取消标签',
-    characters: '字符',
     layout: {
       title: '布局',
       description: '调整页面布局',
@@ -662,6 +664,14 @@ export default {
     },
     base64: {
       title: 'Base64 编解码',
+      inputPlaceholder: '请输入要编码或解码的内容',
+      outputPlaceholder: '编码或解码结果将显示在这里',
+      operation: '操作',
+      operationPlaceholder: '请选择操作类型',
+      encode: '编码',
+      decode: '解码',
+      process: '处理',
+      inputRequired: '请输入要处理的内容',
       description: 'Base64 编码和解码'
     },
     hex: {

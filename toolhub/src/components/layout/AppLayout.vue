@@ -389,7 +389,7 @@ const menuOptions = computed(() => [
         ]
       },
       {
-        label: t('encrypt.codec'),
+        label: t('encrypt.encoding'),
         key: 'codec',
         children: [
           {
