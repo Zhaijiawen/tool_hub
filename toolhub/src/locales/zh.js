@@ -145,9 +145,7 @@ export default {
     copySuccess: '复制成功',
     copyError: '复制失败',
     composer: '编排',
-    clear: '清空',
-    clearedImageByText: '已清空图片输入，因为你输入了文本',
-    clearedTextByImage: '已清空文本输入，因为你上传了图片'
+    clear: '清空'
   },
   footer: {
     about: '关于',
@@ -691,6 +689,8 @@ export default {
       invalidBase64: '无效的Base64格式',
       detectedImage: '检测到图片数据，已切换到图片预览',
       detectedBinary: '检测到二进制数据，显示为十六进制格式',
+      clearedImageByText: '已清空图片输入，因为你输入了文本',
+      clearedTextByImage: '已清空文本输入，因为你上传了图片',
       description: 'Base64 编码和解码'
     },
     hex: {

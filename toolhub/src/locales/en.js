@@ -145,9 +145,7 @@ export default {
     copySuccess: 'Copy Success',
     copyError: 'Copy Failed',
     composer: 'Composer',
-    clear: 'Clear',
-    clearedImageByText: 'Image input cleared because you entered text',
-    clearedTextByImage: 'Text input cleared because you uploaded an image'
+    clear: 'Clear'
   },
   footer: {
     about: 'About',
@@ -723,6 +721,8 @@ export default {
       invalidBase64: 'Invalid Base64 format',
       detectedImage: 'Image data detected, switched to image preview',
       detectedBinary: 'Binary data detected, displaying as hexadecimal',
+      clearedImageByText: 'Image input cleared because you entered text',
+      clearedTextByImage: 'Text input cleared because you uploaded an image',
       description: 'Base64 encoding and decoding'
     },
     hex: {
