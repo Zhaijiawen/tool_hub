@@ -1099,7 +1099,7 @@ export default {
     userAgent: {
       title: 'User-Agent Parser',
       description: 'Parse User-Agent strings',
-      input: 'User-Agent',
+      input: 'Input',
       inputPlaceholder: 'Enter User-Agent string',
       parse: 'Parse',
       copy: 'Copy',
@@ -1107,7 +1107,22 @@ export default {
       os: 'Operating System',
       device: 'Device',
       engine: 'Engine',
-      version: 'Version'
+      version: 'Version',
+      result: 'Parse Result',
+      inputRequired: 'Please enter User-Agent string',
+      loadExample: 'Load Example',
+      exampleLoaded: 'Example loaded: {name}',
+      infoTitle: 'Usage Instructions',
+      infoContent: 'User-Agent Parser: Enter a User-Agent string to parse browser, operating system, device type, rendering engine, CPU architecture and other information. User-Agent is an identification string sent by browsers to servers, containing detailed information about device, browser, operating system, etc. Click "Load Example" to view common User-Agent examples.',
+      unknown: 'Unknown',
+      desktop: 'Desktop',
+      cpu: 'CPU Architecture',
+      examples: {
+        chrome: 'Chrome Browser',
+        firefox: 'Firefox Browser',
+        safari: 'Safari Browser',
+        mobile: 'Mobile Device'
+      }
     },
     ipLookup: {
       title: 'IP Address Lookup',

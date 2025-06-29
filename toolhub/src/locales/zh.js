@@ -983,7 +983,7 @@ export default {
     userAgent: {
       title: 'User-Agent 解析',
       description: '解析 User-Agent 字符串',
-      input: 'User-Agent',
+      input: '输入',
       inputPlaceholder: '请输入User-Agent字符串',
       parse: '解析',
       copy: '复制',
@@ -991,7 +991,22 @@ export default {
       os: '操作系统',
       device: '设备',
       engine: '渲染引擎',
-      version: '版本'
+      version: '版本',
+      result: '解析结果',
+      inputRequired: '请输入User-Agent字符串',
+      loadExample: '加载示例',
+      exampleLoaded: '已加载示例：{name}',
+      infoTitle: '使用说明',
+      infoContent: 'User-Agent解析：输入User-Agent字符串，解析出浏览器、操作系统、设备类型、渲染引擎、CPU架构等信息。User-Agent是浏览器发送给服务器的标识字符串，包含设备、浏览器、操作系统等详细信息。点击"加载示例"查看常用User-Agent示例。',
+      unknown: '未知',
+      desktop: '桌面设备',
+      cpu: 'CPU架构',
+      examples: {
+        chrome: 'Chrome浏览器',
+        firefox: 'Firefox浏览器',
+        safari: 'Safari浏览器',
+        mobile: '移动设备'
+      }
     },
     ipLookup: {
       title: 'IP 地址查询',
