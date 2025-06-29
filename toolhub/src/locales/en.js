@@ -833,6 +833,7 @@ export default {
       unitPlaceholder: 'Select unit',
       calculate: 'Calculate',
       result: 'Result',
+      inputRequired: 'Please select a date',
       units: {
         year: 'Year',
         month: 'Month',

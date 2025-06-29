@@ -797,6 +797,7 @@ export default {
       unitPlaceholder: '请选择单位',
       calculate: '计算',
       result: '计算结果',
+      inputRequired: '请选择日期',
       units: {
         year: '年',
         month: '月',

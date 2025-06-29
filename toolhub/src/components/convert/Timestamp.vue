@@ -162,7 +162,7 @@ const convertToDate = () => {
     const milliseconds = timestampFormat.value === 'second' ? timestamp * 1000 : timestamp
     const date = new Date(milliseconds)
 
-    // 格式化日期，包含毫秒
+    // 格式化日期，根据时间戳格式决定是否包含毫秒
     const formatDate = (date) => {
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -170,22 +170,30 @@ const convertToDate = () => {
       const hours = String(date.getHours()).padStart(2, '0')
       const minutes = String(date.getMinutes()).padStart(2, '0')
       const seconds = String(date.getSeconds()).padStart(2, '0')
-      const ms = String(date.getMilliseconds()).padStart(3, '0')
       
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${ms}`
+      if (timestampFormat.value === 'millisecond') {
+        const ms = String(date.getMilliseconds()).padStart(3, '0')
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${ms}`
+      } else {
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+      }
     }
 
     if (timezoneToDate.value === 'utc') {
-      // UTC格式，手动构建包含毫秒的UTC字符串
+      // UTC格式，根据时间戳格式决定是否包含毫秒
       const utcYear = date.getUTCFullYear()
       const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0')
       const utcDay = String(date.getUTCDate()).padStart(2, '0')
       const utcHours = String(date.getUTCHours()).padStart(2, '0')
       const utcMinutes = String(date.getUTCMinutes()).padStart(2, '0')
       const utcSeconds = String(date.getUTCSeconds()).padStart(2, '0')
-      const utcMs = String(date.getUTCMilliseconds()).padStart(3, '0')
       
-      dateResult.value = `${utcYear}-${utcMonth}-${utcDay} ${utcHours}:${utcMinutes}:${utcSeconds}.${utcMs} UTC`
+      if (timestampFormat.value === 'millisecond') {
+        const utcMs = String(date.getUTCMilliseconds()).padStart(3, '0')
+        dateResult.value = `${utcYear}-${utcMonth}-${utcDay} ${utcHours}:${utcMinutes}:${utcSeconds}.${utcMs} UTC`
+      } else {
+        dateResult.value = `${utcYear}-${utcMonth}-${utcDay} ${utcHours}:${utcMinutes}:${utcSeconds} UTC`
+      }
     } else {
       dateResult.value = formatDate(date)
     }
