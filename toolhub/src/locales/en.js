@@ -797,7 +797,25 @@ export default {
     unitGroup: 'Unit Conversion',
     number: {
       title: 'Number Conversion',
-      description: 'Number format conversion'
+      description: 'Number format conversion',
+      input: 'Input',
+      inputPlaceholder: 'Enter number, Chinese number, or Roman numeral',
+      operation: 'Conversion Operation',
+      toChinese: 'Number to Chinese',
+      toRoman: 'Number to Roman',
+      toNumber: 'Chinese/Roman to Number',
+      output: 'Output',
+      outputPlaceholder: 'Conversion result will appear here',
+      convert: 'Convert',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter content to convert',
+      invalidNumber: 'Invalid number format',
+      invalidInput: 'Invalid input format',
+      outOfRange: 'Number out of range (0-999999999)',
+      romanOutOfRange: 'Roman numeral out of range (1-3999)',
+      infoTitle: 'Usage Guide',
+      infoContent: 'Number to Chinese: supports numbers 0-999999999; Number to Roman: supports numbers 1-3999; Chinese/Roman to Number: supports Chinese numbers (e.g., 一百二十三) and Roman numerals (e.g., CXXIII).'
     },
     unit: {
       title: 'Unit Conversion',

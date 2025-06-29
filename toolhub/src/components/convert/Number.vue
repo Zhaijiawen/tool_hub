@@ -1,41 +1,64 @@
 <template>
-  <n-card :title="$t('convert.number.title')">
-    <n-form>
-      <n-form-item :label="$t('convert.number.input')">
-        <n-input v-model:value="formData.input" :placeholder="$t('convert.number.inputPlaceholder')" type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }" />
-      </n-form-item>
+  <div class="number-convert">
+    <n-card :title="t('convert.number.title')">
+      <!-- 输入区域 -->
+      <div class="input-section">
+        <n-text>{{ t('convert.number.input') }}</n-text>
+        <n-input 
+          v-model:value="formData.input" 
+          :placeholder="t('convert.number.inputPlaceholder')" 
+          type="textarea"
+          :autosize="{ minRows: 3, maxRows: 5 }" 
+        />
+      </div>
 
-      <n-form-item :label="$t('convert.number.operation')">
-        <n-radio-group v-model:value="formData.operation">
-          <n-space>
-            <n-radio value="toChinese">{{ $t('convert.number.toChinese') }}</n-radio>
-            <n-radio value="toRoman">{{ $t('convert.number.toRoman') }}</n-radio>
-            <n-radio value="toNumber">{{ $t('convert.number.toNumber') }}</n-radio>
-          </n-space>
+      <!-- 操作选择区域 -->
+      <div class="input-section">
+        <n-text>{{ t('convert.number.operation') }}</n-text>
+        <n-radio-group v-model:value="formData.operation" name="operation">
+          <n-radio value="toChinese">{{ t('convert.number.toChinese') }}</n-radio>
+          <n-radio value="toRoman">{{ t('convert.number.toRoman') }}</n-radio>
+          <n-radio value="toNumber">{{ t('convert.number.toNumber') }}</n-radio>
         </n-radio-group>
-      </n-form-item>
+      </div>
 
-      <n-form-item :label="$t('convert.number.output')">
-        <n-input v-model:value="formData.output" :placeholder="$t('convert.number.outputPlaceholder')" type="textarea"
-          :autosize="{ minRows: 3, maxRows: 5 }" readonly />
-      </n-form-item>
+      <!-- 提示信息 -->
+      <div class="info-section">
+        <n-alert type="info" :title="t('convert.number.infoTitle')" class="info-alert">
+          {{ t('convert.number.infoContent') }}
+        </n-alert>
+      </div>
 
-      <n-space>
-        <n-button type="primary" @click="convert">
-          {{ $t('convert.number.convert') }}
+      <!-- 转换按钮 -->
+      <div class="button-row">
+        <n-button type="primary" @click="convert" :disabled="!formData.input">
+          {{ t('convert.number.convert') }}
         </n-button>
-        <n-button @click="copyOutput">
-          {{ $t('convert.number.copy') }}
-        </n-button>
-      </n-space>
-    </n-form>
+      </div>
 
-    <!-- 错误提示 -->
-    <n-alert v-if="error" type="t('common.error')" :title="error" style="margin-top: 16px">
-      {{ error }}
-    </n-alert>
-  </n-card>
+      <!-- 输出区域 -->
+      <div class="input-section" v-if="formData.output">
+        <n-text>{{ t('convert.number.output') }}</n-text>
+        <div class="output-with-copy">
+          <n-input 
+            v-model:value="formData.output" 
+            :placeholder="t('convert.number.outputPlaceholder')" 
+            type="textarea"
+            :autosize="{ minRows: 3, maxRows: 5 }" 
+            readonly 
+          />
+          <n-button @click="copyOutput" size="small" type="info">
+            {{ t('common.copy') }}
+          </n-button>
+        </div>
+      </div>
+
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
@@ -117,23 +140,38 @@ function chineseToNumber(str) {
   }
 
   let result = 0
-  let temp = 0
-  let unit = 1
+  let current = 0
 
-  for (let i = str.length - 1; i >= 0; i--) {
+  for (let i = 0; i < str.length; i++) {
     const char = str[i]
+    
     if (digits[char] !== undefined) {
-      temp = digits[char]
+      // 数字
+      current = digits[char]
     } else if (units[char] !== undefined) {
-      if (temp === 0) temp = 1
-      result += temp * units[char]
-      temp = 0
+      // 单位
+      const unitValue = units[char]
+      
+      if (current === 0) {
+        // 如果前面没有数字，比如"十"表示10
+        current = 1
+      }
+      
+      if (unitValue >= 10000) {
+        // 万、亿等大单位
+        result = (result + current) * unitValue
+        current = 0
+      } else {
+        // 十、百、千等小单位
+        current *= unitValue
+        result += current
+        current = 0
+      }
     }
   }
 
-  if (temp !== 0) {
-    result += temp
-  }
+  // 处理最后的数字
+  result += current
 
   return result
 }
@@ -161,14 +199,23 @@ function romanToNumber(str) {
 }
 
 function convert() {
-  error.value = ''
-
   try {
+    if (!formData.input.trim()) {
+      error.value = t('convert.number.inputRequired')
+      return
+    }
+
+    error.value = ''
+    formData.output = ''
+
     switch (formData.operation) {
       case 'toChinese':
         const num = parseInt(formData.input)
         if (isNaN(num)) {
           throw new Error(t('convert.number.invalidNumber'))
+        }
+        if (num < 0 || num > 999999999) {
+          throw new Error(t('convert.number.outOfRange'))
         }
         formData.output = numberToChinese(num)
         break
@@ -177,6 +224,9 @@ function convert() {
         const num2 = parseInt(formData.input)
         if (isNaN(num2)) {
           throw new Error(t('convert.number.invalidNumber'))
+        }
+        if (num2 < 1 || num2 > 3999) {
+          throw new Error(t('convert.number.romanOutOfRange'))
         }
         formData.output = numberToRoman(num2)
         break
@@ -193,20 +243,61 @@ function convert() {
     }
   } catch (err) {
     error.value = err.message
+    message.error(t('common.error'))
   }
 }
 
 function copyOutput() {
   if (formData.output) {
-    navigator.clipboard.writeText(formData.output)
-    message.success(t('convert.number.copied'))
+    try {
+      navigator.clipboard.writeText(formData.output)
+      message.success(t('common.copy') + ' ' + t('common.success'))
+    } catch (e) {
+      message.error(t('common.copy') + ' ' + t('common.error'))
+    }
   }
 }
 </script>
 
 <style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+.number-convert {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.input-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.button-row {
+  margin: 12px 0;
+}
+
+.output-with-copy {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.output-with-copy .n-input {
+  flex: 1;
+}
+
+.error-alert {
+  margin-top: 16px;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-alert {
+  margin-top: 8px;
 }
 </style>

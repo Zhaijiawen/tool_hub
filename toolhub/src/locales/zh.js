@@ -963,7 +963,25 @@ export default {
     },
     number: {
       title: '数字转换',
-      description: '数字格式转换'
+      description: '数字格式转换',
+      input: '输入',
+      inputPlaceholder: '请输入数字或中文数字或罗马数字',
+      operation: '转换操作',
+      toChinese: '数字转中文',
+      toRoman: '数字转罗马数字',
+      toNumber: '中文/罗马数字转数字',
+      output: '输出',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入要转换的内容',
+      invalidNumber: '无效的数字格式',
+      invalidInput: '无效的输入格式',
+      outOfRange: '数字超出范围（0-999999999）',
+      romanOutOfRange: '罗马数字超出范围（1-3999）',
+      infoTitle: '使用说明',
+      infoContent: '数字转中文：支持0-999999999的数字；数字转罗马数字：支持1-3999的数字；中文/罗马数字转数字：支持中文数字（如：一百二十三）和罗马数字（如：CXXIII）的转换。'
     },
     unit: {
       title: '单位转换',
