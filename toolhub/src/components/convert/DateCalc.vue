@@ -44,16 +44,6 @@
         </div>
       </div>
 
-      <!-- 时区选择区域 -->
-      <div class="input-section">
-        <n-text>{{ t('convert.timestamp.timezone') }}</n-text>
-        <n-select 
-          v-model:value="timezone" 
-          :options="timezoneOptions"
-          :placeholder="t('convert.timestamp.timezone')" 
-        />
-      </div>
-
       <!-- 计算按钮 -->
       <div class="button-row">
         <n-button @click="calculate" type="primary" :disabled="!formData.date">
@@ -92,15 +82,8 @@ const formData = reactive({
   unit: 'day'
 })
 
-const timezone = ref('local')
 const result = ref('')
 const error = ref('')
-
-// 时区选项
-const timezoneOptions = [
-  { label: 'Local', value: 'local' },
-  { label: 'UTC', value: 'utc' }
-]
 
 const unitOptions = [
   { label: t('convert.dateCalc.units.year'), value: 'year' },
@@ -160,20 +143,7 @@ const calculate = () => {
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${ms}`
     }
 
-    if (timezone.value === 'utc') {
-      // UTC格式
-      const utcYear = date.getUTCFullYear()
-      const utcMonth = String(date.getUTCMonth() + 1).padStart(2, '0')
-      const utcDay = String(date.getUTCDate()).padStart(2, '0')
-      const utcHours = String(date.getUTCHours()).padStart(2, '0')
-      const utcMinutes = String(date.getUTCMinutes()).padStart(2, '0')
-      const utcSeconds = String(date.getUTCSeconds()).padStart(2, '0')
-      const utcMs = String(date.getUTCMilliseconds()).padStart(3, '0')
-      
-      result.value = `${utcYear}-${utcMonth}-${utcDay} ${utcHours}:${utcMinutes}:${utcSeconds}.${utcMs} UTC`
-    } else {
-      result.value = formatDate(date)
-    }
+    result.value = formatDate(date)
   } catch (e) {
     error.value = e.message
     message.error(t('common.error'))
