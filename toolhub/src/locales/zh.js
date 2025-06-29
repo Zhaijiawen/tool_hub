@@ -831,22 +831,6 @@ export default {
         millisecond: '毫秒'
       }
     },
-    numberFormat: {
-      title: '数字格式化',
-      description: '数字格式化显示',
-      input: '输入',
-      inputPlaceholder: '请输入要格式化的数字',
-      operation: '格式化操作',
-      toScientific: '转换为科学计数法',
-      toThousands: '转换为千分位格式',
-      output: '输出',
-      outputPlaceholder: '格式化结果将显示在这里',
-      convert: '转换',
-      copy: '复制',
-      copied: '已复制到剪贴板',
-      inputRequired: '请输入要格式化的数字',
-      invalidNumber: '无效的数字格式'
-    },
     numberBase: {
       title: '进制转换',
       description: '二进制、八进制、十进制、十六进制互转'
@@ -981,6 +965,8 @@ export default {
       operation: '转换操作',
       toChinese: '数字转中文',
       toRoman: '数字转罗马数字',
+      toScientific: '数字转科学计数法',
+      toThousands: '数字转千分位格式',
       toNumber: '中文/罗马数字转数字',
       output: '输出',
       outputPlaceholder: '转换结果将显示在这里',
@@ -993,7 +979,7 @@ export default {
       outOfRange: '数字超出范围（0-999999999）',
       romanOutOfRange: '罗马数字超出范围（1-3999）',
       infoTitle: '使用说明',
-      infoContent: '数字转中文：支持0-999999999的数字；数字转罗马数字：支持1-3999的数字；中文/罗马数字转数字：支持中文数字（如：一百二十三）和罗马数字（如：CXXIII）的转换。'
+      infoContent: '数字转中文：支持0-999999999的数字；数字转罗马数字：支持1-3999的数字；数字转科学计数法：将数字转换为科学计数法格式；数字转千分位格式：添加千分位分隔符；中文/罗马数字转数字：支持中文数字（如：一百二十三）和罗马数字（如：CXXIII）的转换。'
     },
     unit: {
       title: '单位转换',

@@ -18,6 +18,8 @@
         <n-radio-group v-model:value="formData.operation" name="operation">
           <n-radio value="toChinese">{{ t('convert.number.toChinese') }}</n-radio>
           <n-radio value="toRoman">{{ t('convert.number.toRoman') }}</n-radio>
+          <n-radio value="toScientific">{{ t('convert.number.toScientific') }}</n-radio>
+          <n-radio value="toThousands">{{ t('convert.number.toThousands') }}</n-radio>
           <n-radio value="toNumber">{{ t('convert.number.toNumber') }}</n-radio>
         </n-radio-group>
       </div>
@@ -198,6 +200,56 @@ function romanToNumber(str) {
   return result
 }
 
+// 转换为科学计数法
+function toScientific(numStr) {
+  // 验证输入是否为有效数字
+  if (!/^-?\d+(\.\d+)?$/.test(numStr)) {
+    throw new Error(t('convert.number.invalidNumber'))
+  }
+  
+  // 如果是小数，使用标准方法
+  if (numStr.includes('.')) {
+    return Number(numStr).toExponential()
+  } else {
+    // 整数：手动处理，避免精度丢失
+    const len = numStr.length
+    if (len <= 1) {
+      return numStr + 'e+0'
+    }
+    
+    const firstDigit = numStr[0]
+    const remainingDigits = numStr.slice(1)
+    const exponent = len - 1
+    
+    // 移除尾部的0
+    const trimmedRemaining = remainingDigits.replace(/0+$/, '')
+    const mantissa = trimmedRemaining ? firstDigit + '.' + trimmedRemaining : firstDigit
+    
+    return mantissa + 'e+' + exponent
+  }
+}
+
+// 转换为千分位格式
+function toThousands(num) {
+  // 将数字转换为字符串，避免大数字精度问题
+  const numStr = num.toString()
+  
+  // 处理小数部分
+  const parts = numStr.split('.')
+  const integerPart = parts[0]
+  const decimalPart = parts[1] || ''
+  
+  // 为整数部分添加千分位分隔符
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  
+  // 如果有小数部分，重新组合
+  if (decimalPart) {
+    return formattedInteger + '.' + decimalPart
+  }
+  
+  return formattedInteger
+}
+
 function convert() {
   try {
     if (!formData.input.trim()) {
@@ -229,6 +281,19 @@ function convert() {
           throw new Error(t('convert.number.romanOutOfRange'))
         }
         formData.output = numberToRoman(num2)
+        break
+
+      case 'toScientific':
+        // 直接传递字符串，避免精度丢失
+        formData.output = toScientific(formData.input)
+        break
+
+      case 'toThousands':
+        const num4 = parseFloat(formData.input)
+        if (isNaN(num4)) {
+          throw new Error(t('convert.number.invalidNumber'))
+        }
+        formData.output = toThousands(num4)
         break
 
       case 'toNumber':

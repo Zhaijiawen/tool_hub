@@ -228,11 +228,6 @@ const router = createRouter({
               path: 'number',
               component: () => import('@/components/convert/Number.vue')
             },
-            // 数字格式化
-            {
-              path: 'number-format',
-              component: () => import('@/components/convert/NumberFormat.vue')
-            },
             // 数字进制转换
             {
               path: 'number-base',

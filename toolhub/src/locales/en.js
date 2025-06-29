@@ -803,6 +803,8 @@ export default {
       operation: 'Conversion Operation',
       toChinese: 'Number to Chinese',
       toRoman: 'Number to Roman',
+      toScientific: 'Number to Scientific Notation',
+      toThousands: 'Number to Thousands Separator',
       toNumber: 'Chinese/Roman to Number',
       output: 'Output',
       outputPlaceholder: 'Conversion result will appear here',
@@ -815,7 +817,7 @@ export default {
       outOfRange: 'Number out of range (0-999999999)',
       romanOutOfRange: 'Roman numeral out of range (1-3999)',
       infoTitle: 'Usage Guide',
-      infoContent: 'Number to Chinese: supports numbers 0-999999999; Number to Roman: supports numbers 1-3999; Chinese/Roman to Number: supports Chinese numbers (e.g., 一百二十三) and Roman numerals (e.g., CXXIII).'
+      infoContent: 'Number to Chinese: supports numbers 0-999999999; Number to Roman: supports numbers 1-3999; Number to Scientific Notation: converts numbers to scientific notation format; Number to Thousands Separator: adds thousands separators; Chinese/Roman to Number: supports Chinese numbers (e.g., 一百二十三) and Roman numerals (e.g., CXXIII).'
     },
     unit: {
       title: 'Unit Conversion',
@@ -884,22 +886,6 @@ export default {
         second: 'Second',
         millisecond: 'Millisecond'
       }
-    },
-    numberFormat: {
-      title: 'Number Formatting',
-      description: 'Number formatting display',
-      input: 'Input',
-      inputPlaceholder: 'Enter number to format',
-      operation: 'Format Operation',
-      toScientific: 'To Scientific Notation',
-      toThousands: 'To Thousands Separator',
-      output: 'Output',
-      outputPlaceholder: 'Formatted result will appear here',
-      convert: 'Convert',
-      copy: 'Copy',
-      copied: 'Copied to clipboard',
-      inputRequired: 'Please enter a number to format',
-      invalidNumber: 'Invalid number format'
     },
     numberBase: {
       title: 'Base Conversion',

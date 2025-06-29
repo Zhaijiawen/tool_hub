@@ -456,11 +456,6 @@ const menuOptions = computed(() => [
             path: '/convert/number'
           },
           {
-            label: t('convert.numberFormat.title'),
-            key: 'number-format',
-            path: '/convert/number-format'
-          },
-          {
             label: t('convert.numberBase.title'),
             key: 'number-base',
             path: '/convert/number-base'
