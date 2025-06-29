@@ -846,7 +846,26 @@ export default {
     },
     dateDiff: {
       title: 'Date Difference',
-      description: 'Calculate the difference between two dates'
+      description: 'Calculate the difference between two dates',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      unit: 'Unit',
+      unitPlaceholder: 'Select unit',
+      calculate: 'Calculate',
+      result: 'Result',
+      inputRequired: 'Please select start date and end date',
+      invalidRange: 'End date cannot be earlier than start date',
+      infoTitle: 'Calculation Info',
+      infoContent: 'Results are displayed with 2 decimal places for more precise time differences. Year and month calculations consider actual calendar differences, providing more accurate results than simple time division.',
+      units: {
+        year: 'Year',
+        month: 'Month',
+        day: 'Day',
+        hour: 'Hour',
+        minute: 'Minute',
+        second: 'Second',
+        millisecond: 'Millisecond'
+      }
     },
     numberFormat: {
       title: 'Number Formatting',

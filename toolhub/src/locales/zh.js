@@ -817,6 +817,10 @@ export default {
       unitPlaceholder: '请选择单位',
       calculate: '计算',
       result: '计算结果',
+      inputRequired: '请选择开始日期和结束日期',
+      invalidRange: '结束日期不能早于开始日期',
+      infoTitle: '计算说明',
+      infoContent: '计算结果保留两位小数，提供更精确的时间差值。年、月计算考虑了实际日历差异，比简单的时间除法更准确。',
       units: {
         year: '年',
         month: '月',
