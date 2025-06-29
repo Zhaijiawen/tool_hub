@@ -275,31 +275,31 @@ const clearAll = () => {
 const loadExample = () => {
   const examples = [
     {
-      name: '邮箱验证',
+      name: t('convert.regex.examples.email'),
       pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
       testString: 'test@example.com\ninvalid-email\nuser123@gmail.com\nadmin@company.org',
       flags: { global: true, ignoreCase: false, multiline: true, sticky: false, unicode: false }
     },
     {
-      name: '手机号码',
+      name: t('convert.regex.examples.phone'),
       pattern: '1[3-9]\\d{9}',
       testString: '13812345678\n12345678901\n13987654321\ninvalid-phone',
       flags: { global: true, ignoreCase: false, multiline: false, sticky: false, unicode: false }
     },
     {
-      name: '提取数字',
+      name: t('convert.regex.examples.number'),
       pattern: '\\d+',
       testString: 'Hello 123 World 456\nPrice: $99.99\nID: 789012',
       flags: { global: true, ignoreCase: false, multiline: false, sticky: false, unicode: false }
     },
     {
-      name: 'HTML标签',
+      name: t('convert.regex.examples.html'),
       pattern: '<[^>]+>',
       testString: '<div>Hello</div>\n<span class="title">World</span>\n<p>Content</p>',
       flags: { global: true, ignoreCase: false, multiline: false, sticky: false, unicode: false }
     },
     {
-      name: '日期格式',
+      name: t('convert.regex.examples.date'),
       pattern: '\\d{4}-\\d{2}-\\d{2}',
       testString: '2024-01-15\n2023-12-31\ninvalid-date\n2024/01/15',
       flags: { global: true, ignoreCase: false, multiline: false, sticky: false, unicode: false }

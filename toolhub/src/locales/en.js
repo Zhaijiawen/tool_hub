@@ -1139,6 +1139,13 @@ export default {
       generatePatternDesc: 'Generate regex for specific pattern matching',
       generateTypeInvalid: 'Invalid generate type',
       helpText: 'Click "Load Example" to view common regex examples, click "Generate" to select preset regex templates',
+      examples: {
+        email: 'Email Validation',
+        phone: 'Phone Number',
+        number: 'Number Extract',
+        html: 'HTML Tags',
+        date: 'Date Format'
+      },
       infoTitle: 'Usage Instructions',
       infoContent: 'Regular Expression Testing: Enter a regular expression and test text, click the test button to view matching results; Regular Expression Generation: Click generate button to select generation type, supports exact match, email, phone, number, date, URL and other common patterns. Supports all JavaScript regular expression syntax, including capture groups, quantifiers, character classes, etc. Click "Load Example" button to view common regular expression examples.'
     },

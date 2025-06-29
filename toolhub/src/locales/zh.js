@@ -1019,6 +1019,13 @@ export default {
       generatePatternDesc: '生成匹配特定模式的正则表达式',
       generateTypeInvalid: '无效的生成类型',
       helpText: '点击"加载示例"查看常用正则表达式示例，点击"生成"选择预设的正则表达式模板',
+      examples: {
+        email: '邮箱验证',
+        phone: '手机号码',
+        number: '提取数字',
+        html: 'HTML标签',
+        date: '日期格式'
+      },
       infoTitle: '使用说明',
       infoContent: '正则表达式测试：输入正则表达式和测试文本，点击测试按钮查看匹配结果；正则表达式生成：点击生成按钮选择生成类型，支持精确匹配、邮箱、手机号、数字、日期、URL等常用模式。支持所有JavaScript正则表达式语法，包括捕获组、量词、字符类等。点击"加载示例"按钮可以查看常用正则表达式示例。'
     },
