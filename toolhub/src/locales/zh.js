@@ -833,7 +833,20 @@ export default {
     },
     numberBase: {
       title: '进制转换',
-      description: '二进制、八进制、十进制、十六进制互转'
+      description: '二进制、八进制、十进制、十六进制互转',
+      input: '输入',
+      inputPlaceholder: '请输入要转换的数字',
+      output: '输出',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      inputRequired: '请输入要转换的数字',
+      invalidInput: '无效的输入格式',
+      infoTitle: '使用说明',
+      infoContent: '支持二进制、八进制、十进制、十六进制之间的相互转换。二进制只能包含0和1，八进制只能包含0-7，十进制只能包含0-9，十六进制可以包含0-9和A-F。',
+      binary: '二进制 (2)',
+      octal: '八进制 (8)',
+      decimal: '十进制 (10)',
+      hexadecimal: '十六进制 (16)'
     },
     storageTime: {
       title: '存储时间转换',

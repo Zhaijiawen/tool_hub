@@ -890,7 +890,20 @@ export default {
     },
     numberBase: {
       title: 'Base Conversion',
-      description: 'Binary, octal, decimal, hexadecimal conversion'
+      description: 'Binary, octal, decimal, hexadecimal conversion',
+      input: 'Input',
+      inputPlaceholder: 'Enter number to convert',
+      output: 'Output',
+      outputPlaceholder: 'Conversion result will appear here',
+      convert: 'Convert',
+      inputRequired: 'Please enter number to convert',
+      invalidInput: 'Invalid input format',
+      infoTitle: 'Usage Guide',
+      infoContent: 'Supports conversion between binary, octal, decimal, and hexadecimal. Binary can only contain 0 and 1, octal can only contain 0-7, decimal can only contain 0-9, hexadecimal can contain 0-9 and A-F.',
+      binary: 'Binary (2)',
+      octal: 'Octal (8)',
+      decimal: 'Decimal (10)',
+      hexadecimal: 'Hexadecimal (16)'
     },
     storageTime: {
       title: 'Storage Time Conversion',
