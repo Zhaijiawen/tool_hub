@@ -867,7 +867,18 @@ export default {
       categories: {
         storage: '存储单位',
         time: '时间单位'
-      }
+      },
+      units: {
+        byte: '字节',
+        millisecond: '毫秒',
+        second: '秒',
+        minute: '分钟',
+        hour: '小时',
+        day: '天'
+      },
+      invalidUnit: '无效的单位选择',
+      infoTitle: '使用说明',
+      infoContent: '支持存储单位和时间单位的相互转换。存储单位包括字节(B)、KB、MB、GB、TB、PB；时间单位包括毫秒(ms)、秒(s)、分钟(min)、小时(h)、天(d)。转换结果会根据数值大小自动调整精度。'
     },
     httpStatus: {
       title: 'HTTP 状态码',

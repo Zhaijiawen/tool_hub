@@ -924,7 +924,18 @@ export default {
       categories: {
         storage: 'Storage Units',
         time: 'Time Units'
-      }
+      },
+      units: {
+        byte: 'Byte',
+        millisecond: 'Millisecond',
+        second: 'Second',
+        minute: 'Minute',
+        hour: 'Hour',
+        day: 'Day'
+      },
+      invalidUnit: 'Invalid unit selection',
+      infoTitle: 'Usage Guide',
+      infoContent: 'Supports conversion between storage units and time units. Storage units include Byte(B), KB, MB, GB, TB, PB; time units include millisecond(ms), second(s), minute(min), hour(h), day(d). Conversion results automatically adjust precision based on value size.'
     },
     httpStatus: {
       title: 'HTTP Status Code',
