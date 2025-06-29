@@ -368,7 +368,7 @@ const menuOptions = computed(() => [
         ]
       },
       {
-        label: t('encrypt.signature'),
+        label: t('encrypt.digitalSignature'),
         key: 'signature',
         children: [
           {
