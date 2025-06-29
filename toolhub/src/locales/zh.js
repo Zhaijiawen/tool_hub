@@ -754,6 +754,8 @@ export default {
       inputRequired: '请输入要处理的内容',
       secretRequired: '请输入密钥',
       invalidJwt: '无效的JWT格式',
+      invalidJwtFormat: 'JWT格式无效，应为 header.payload.signature 格式',
+      jsonParseError: 'JSON解析错误',
       outputPlaceholder: '请先进行编码或解码操作'
     }
   },

@@ -786,6 +786,8 @@ export default {
       inputRequired: 'Please enter content to process',
       secretRequired: 'Please enter secret',
       invalidJwt: 'Invalid JWT format',
+      invalidJwtFormat: 'Invalid JWT format, should be header.payload.signature',
+      jsonParseError: 'JSON parse error',
       outputPlaceholder: 'Please perform encode or decode operation first'
     }
   },

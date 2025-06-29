@@ -215,14 +215,24 @@ const handleDecode = async () => {
   try {
     const parts = textInput.value.trim().split('.')
     if (parts.length !== 3) {
-      throw new Error('Invalid JWT format')
+      throw new Error(t('encrypt.jwt.invalidJwtFormat'))
     }
     
     const [header, payload, signature] = parts
     
     // 解码头部和载荷
-    const decodedHeader = JSON.parse(base64UrlDecode(header))
-    const decodedPayload = JSON.parse(base64UrlDecode(payload))
+    let decodedHeader, decodedPayload
+    try {
+      decodedHeader = JSON.parse(base64UrlDecode(header))
+    } catch (e) {
+      throw new Error(t('encrypt.jwt.jsonParseError') + ' (header)')
+    }
+    
+    try {
+      decodedPayload = JSON.parse(base64UrlDecode(payload))
+    } catch (e) {
+      throw new Error(t('encrypt.jwt.jsonParseError') + ' (payload)')
+    }
     
     let result = {
       header: decodedHeader,
