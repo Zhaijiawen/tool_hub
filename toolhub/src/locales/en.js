@@ -762,15 +762,15 @@ export default {
     },
     html: {
       title: 'HTML Encode/Decode',
-      inputPlaceholder: 'Enter content to encode/decode',
-      outputPlaceholder: 'Encoded/decoded result will appear here',
-      operation: 'Operation',
-      operationPlaceholder: 'Select operation type',
+      description: 'HTML entity encoding and decoding',
+      textInput: 'Text Input',
+      textInputPlaceholder: 'Enter text to encode/decode',
+      textOutputPlaceholder: 'Encoded/decoded result will appear here',
       encode: 'Encode',
       decode: 'Decode',
-      process: 'Process',
       inputRequired: 'Please enter content to process',
-      description: 'HTML entity encoding and decoding'
+      invalidHtml: 'Invalid HTML format',
+      outputPlaceholder: 'Please perform encode or decode operation first'
     },
     jwt: {
       title: 'JWT Encode/Decode',

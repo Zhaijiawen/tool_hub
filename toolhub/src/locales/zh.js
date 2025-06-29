@@ -730,7 +730,15 @@ export default {
     },
     html: {
       title: 'HTML 编解码',
-      description: 'HTML 实体编码和解码'
+      description: 'HTML 实体编码和解码',
+      textInput: '文本输入',
+      textInputPlaceholder: '请输入要编码/解码的文本',
+      textOutputPlaceholder: '编码/解码结果将显示在这里',
+      encode: '编码',
+      decode: '解码',
+      inputRequired: '请输入要处理的内容',
+      invalidHtml: '无效的HTML格式',
+      outputPlaceholder: '请先进行编码或解码操作'
     },
     jwt: {
       title: 'JWT 编解码',
