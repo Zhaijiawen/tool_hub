@@ -695,7 +695,25 @@ export default {
     },
     hex: {
       title: 'Hex 编解码',
-      description: '十六进制编码和解码'
+      description: '十六进制编码和解码',
+      textInput: '文本输入',
+      textInputPlaceholder: '请输入要编码/解码的文本',
+      textOutputPlaceholder: '编码/解码结果将显示在这里',
+      encode: '编码',
+      decode: '解码',
+      inputRequired: '请输入要处理的内容',
+      invalidHex: '无效的十六进制字符串',
+      outputPlaceholder: '请先进行编码或解码操作',
+      clearedImageByText: '已清空图片输入，因为你输入了文本',
+      clearedTextByImage: '已清空文本输入，因为你上传了图片',
+      imageInput: '图片输入',
+      imageInputPlaceholder: '请上传图片进行编码',
+      uploadText: '点击或拖拽上传图片',
+      imagePreview: '图片预览',
+      imageSize: '图片大小',
+      decodedImage: '解码图片',
+      downloadImage: '下载图片',
+      downloadSuccess: '图片下载成功'
     },
     url: {
       title: 'URL 编解码',
