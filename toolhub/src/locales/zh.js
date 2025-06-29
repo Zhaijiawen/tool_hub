@@ -833,7 +833,19 @@ export default {
     },
     numberFormat: {
       title: '数字格式化',
-      description: '数字格式化显示'
+      description: '数字格式化显示',
+      input: '输入',
+      inputPlaceholder: '请输入要格式化的数字',
+      operation: '格式化操作',
+      toScientific: '转换为科学计数法',
+      toThousands: '转换为千分位格式',
+      output: '输出',
+      outputPlaceholder: '格式化结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入要格式化的数字',
+      invalidNumber: '无效的数字格式'
     },
     numberBase: {
       title: '进制转换',

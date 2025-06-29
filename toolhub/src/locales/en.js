@@ -887,7 +887,19 @@ export default {
     },
     numberFormat: {
       title: 'Number Formatting',
-      description: 'Number formatting display'
+      description: 'Number formatting display',
+      input: 'Input',
+      inputPlaceholder: 'Enter number to format',
+      operation: 'Format Operation',
+      toScientific: 'To Scientific Notation',
+      toThousands: 'To Thousands Separator',
+      output: 'Output',
+      outputPlaceholder: 'Formatted result will appear here',
+      convert: 'Convert',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter a number to format',
+      invalidNumber: 'Invalid number format'
     },
     numberBase: {
       title: 'Base Conversion',
