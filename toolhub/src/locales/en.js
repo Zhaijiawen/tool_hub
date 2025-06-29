@@ -1009,12 +1009,91 @@ export default {
       description: 'Description',
       scenarios: 'Scenarios',
       solutions: 'Solutions',
+      inputRequired: 'Please enter HTTP status code',
+      codeNotFound: 'Status code not found',
+      copied: 'Copied to clipboard',
+      infoTitle: 'Usage Instructions',
+      infoContent: 'HTTP Status Code Reference: Display all common HTTP status codes by category, including status code, name, description and other information. 1xx for informational responses, 2xx for successful responses, 3xx for redirects, 4xx for client errors, 5xx for server errors. Click copy button to copy detailed status code information.',
       categories: {
         informational: 'Informational',
         success: 'Success',
         redirect: 'Redirect',
         clientError: 'Client Error',
         serverError: 'Server Error'
+      },
+      codes: {
+        '100': {
+          name: 'Continue',
+          description: 'Continue. Server has received the request headers, client should continue sending request body. Common in large file uploads, streaming transmission, etc.'
+        },
+        '101': {
+          name: 'Switching Protocols',
+          description: 'Switching protocols. Server is switching protocols. Common in WebSocket upgrades, HTTP/2 upgrades, etc.'
+        },
+        '102': {
+          name: 'Processing',
+          description: 'Processing. Server is processing the request. Common in long processing, asynchronous operations, batch processing, etc.'
+        },
+        '200': {
+          name: 'OK',
+          description: 'OK. Request successful. Server normally processes the request and returns results, this is the most common success status code.'
+        },
+        '201': {
+          name: 'Created',
+          description: 'Created. Request successful and new resource created. Common in creating users, uploading files, creating records, etc.'
+        },
+        '204': {
+          name: 'No Content',
+          description: 'No content. Request successful but no content returned. Common in delete operations, update operations, status changes, etc.'
+        },
+        '301': {
+          name: 'Moved Permanently',
+          description: 'Moved permanently. Resource permanently moved to new location. Common in domain changes, URL restructuring, etc. Need to update bookmarks and links.'
+        },
+        '302': {
+          name: 'Found',
+          description: 'Found. Resource temporarily moved to new location. Common in temporary redirects, login redirects, A/B testing, etc.'
+        },
+        '304': {
+          name: 'Not Modified',
+          description: 'Not modified. Resource not modified, can use cache. Common in cache validation, conditional requests, etc. Can reduce network transmission.'
+        },
+        '400': {
+          name: 'Bad Request',
+          description: 'Bad request. Request format error or invalid parameters. Check request parameters, validate data format, correct request content.'
+        },
+        '401': {
+          name: 'Unauthorized',
+          description: 'Unauthorized. Authentication required. Common in not logged in, token expired, insufficient permissions, etc. Need to re-login or refresh token.'
+        },
+        '403': {
+          name: 'Forbidden',
+          description: 'Forbidden. Server refuses the request. Common in insufficient permissions, IP banned, resource protection, etc. Need to check permissions or contact administrator.'
+        },
+        '404': {
+          name: 'Not Found',
+          description: 'Not found. Requested resource does not exist. Check if URL is correct, confirm resource exists, contact administrator for confirmation.'
+        },
+        '429': {
+          name: 'Too Many Requests',
+          description: 'Too many requests. Request frequency too high. Common in API rate limiting, crawler requests, etc. Need to reduce request frequency or use cache.'
+        },
+        '500': {
+          name: 'Internal Server Error',
+          description: 'Internal server error. Server internal error. Common in program exceptions, database errors, configuration errors, etc. Need to contact administrator or retry later.'
+        },
+        '502': {
+          name: 'Bad Gateway',
+          description: 'Bad gateway. Gateway error. Common in proxy errors, upstream service exceptions, network issues, etc. Need to check network or contact administrator.'
+        },
+        '503': {
+          name: 'Service Unavailable',
+          description: 'Service unavailable. Service temporarily unavailable. Common in maintenance, overload, failures, etc. Need to retry later or check service announcements.'
+        },
+        '504': {
+          name: 'Gateway Timeout',
+          description: 'Gateway timeout. Gateway timeout. Common in upstream timeouts, network delays, slow service responses, etc. Need to check network or retry later.'
+        }
       }
     },
     userAgent: {

@@ -893,12 +893,91 @@ export default {
       description: '描述',
       scenarios: '使用场景',
       solutions: '解决方案',
+      inputRequired: '请输入HTTP状态码',
+      codeNotFound: '未找到该状态码',
+      copied: '已复制到剪贴板',
+      infoTitle: '使用说明',
+      infoContent: 'HTTP状态码参考：按分类展示所有常用HTTP状态码，包括状态码、名称、描述等信息。1xx为信息响应，2xx为成功响应，3xx为重定向，4xx为客户端错误，5xx为服务器错误。点击复制按钮可复制状态码详细信息。',
       categories: {
         informational: '信息响应',
         success: '成功响应',
         redirect: '重定向',
         clientError: '客户端错误',
         serverError: '服务器错误'
+      },
+      codes: {
+        '100': {
+          name: 'Continue',
+          description: '继续。服务器已收到请求头，客户端应继续发送请求体。常见于大文件上传、流式传输等场景。'
+        },
+        '101': {
+          name: 'Switching Protocols',
+          description: '切换协议。服务器正在切换协议。常见于WebSocket升级、HTTP/2升级等场景。'
+        },
+        '102': {
+          name: 'Processing',
+          description: '处理中。服务器正在处理请求。常见于长时间处理、异步操作、批量处理等场景。'
+        },
+        '200': {
+          name: 'OK',
+          description: '成功。请求成功。服务器正常处理请求并返回结果，这是最常见的成功状态码。'
+        },
+        '201': {
+          name: 'Created',
+          description: '已创建。请求成功并创建了新资源。常见于创建用户、上传文件、新建记录等操作。'
+        },
+        '204': {
+          name: 'No Content',
+          description: '无内容。请求成功但无返回内容。常见于删除操作、更新操作、状态变更等场景。'
+        },
+        '301': {
+          name: 'Moved Permanently',
+          description: '永久移动。资源已永久移动到新位置。常见于域名变更、URL重构等，需要更新书签和链接。'
+        },
+        '302': {
+          name: 'Found',
+          description: '已找到。资源临时移动到新位置。常见于临时重定向、登录跳转、A/B测试等场景。'
+        },
+        '304': {
+          name: 'Not Modified',
+          description: '未修改。资源未修改，可使用缓存。常见于缓存验证、条件请求等，可减少网络传输。'
+        },
+        '400': {
+          name: 'Bad Request',
+          description: '错误请求。请求格式错误或参数无效。检查请求参数、验证数据格式、修正请求内容。'
+        },
+        '401': {
+          name: 'Unauthorized',
+          description: '未授权。需要身份验证。常见于未登录、token过期、权限不足等，需要重新登录或刷新token。'
+        },
+        '403': {
+          name: 'Forbidden',
+          description: '禁止访问。服务器拒绝请求。常见于权限不足、IP被禁、资源保护等，需要检查权限或联系管理员。'
+        },
+        '404': {
+          name: 'Not Found',
+          description: '未找到。请求的资源不存在。检查URL是否正确、确认资源是否存在、联系管理员确认。'
+        },
+        '429': {
+          name: 'Too Many Requests',
+          description: '请求过多。请求频率过高。常见于API限流、爬虫请求等，需要降低请求频率或使用缓存。'
+        },
+        '500': {
+          name: 'Internal Server Error',
+          description: '内部服务器错误。服务器内部错误。常见于程序异常、数据库错误、配置错误等，需要联系管理员或稍后重试。'
+        },
+        '502': {
+          name: 'Bad Gateway',
+          description: '错误网关。网关错误。常见于代理错误、上游服务异常、网络问题等，需要检查网络或联系管理员。'
+        },
+        '503': {
+          name: 'Service Unavailable',
+          description: '服务不可用。服务暂时不可用。常见于维护中、过载、故障等，需要稍后重试或查看服务公告。'
+        },
+        '504': {
+          name: 'Gateway Timeout',
+          description: '网关超时。网关超时。常见于上游超时、网络延迟、服务响应慢等，需要检查网络或稍后重试。'
+        }
       }
     },
     userAgent: {

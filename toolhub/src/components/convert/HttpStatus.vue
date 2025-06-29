@@ -1,207 +1,262 @@
 <template>
-  <n-card :title="$t('convert.httpStatus.title')">
-    <n-form>
-      <n-form-item :label="$t('convert.httpStatus.input')">
-        <n-input v-model:value="formData.input" :placeholder="$t('convert.httpStatus.inputPlaceholder')" />
-      </n-form-item>
+  <div class="http-status">
+    <n-card :title="t('convert.httpStatus.title')" :bordered="false">
+      <n-space vertical size="large">
+        <!-- 使用说明 -->
+        <div class="info-section">
+          <n-alert type="info" :title="t('convert.httpStatus.infoTitle')" class="info-alert">
+            {{ t('convert.httpStatus.infoContent') }}
+          </n-alert>
+        </div>
 
-      <n-space>
-        <n-button type="primary" @click="search">
-          {{ $t('convert.httpStatus.search') }}
-        </n-button>
-        <n-button @click="copyResult">
-          {{ $t('convert.httpStatus.copy') }}
-        </n-button>
+        <!-- HTTP状态码展示 -->
+        <div class="status-codes-section">
+          <!-- 1xx 信息响应 -->
+          <div class="category-section">
+            <n-text class="category-title">{{ t('convert.httpStatus.categories.informational') }}</n-text>
+            <div class="status-grid">
+              <n-card 
+                v-for="code in getStatusCodesByCategory('informational')" 
+                :key="code"
+                class="status-card"
+                :class="`status-${code}`"
+              >
+                <div class="status-header">
+                  <n-text class="status-code">{{ code }}</n-text>
+                  <n-text class="status-name">{{ t(`convert.httpStatus.codes.${code}.name`) }}</n-text>
+                </div>
+                <n-text class="status-description">{{ t(`convert.httpStatus.codes.${code}.description`) }}</n-text>
+              </n-card>
+            </div>
+          </div>
+
+          <!-- 2xx 成功响应 -->
+          <div class="category-section">
+            <n-text class="category-title">{{ t('convert.httpStatus.categories.success') }}</n-text>
+            <div class="status-grid">
+              <n-card 
+                v-for="code in getStatusCodesByCategory('success')" 
+                :key="code"
+                class="status-card"
+                :class="`status-${code}`"
+              >
+                <div class="status-header">
+                  <n-text class="status-code">{{ code }}</n-text>
+                  <n-text class="status-name">{{ t(`convert.httpStatus.codes.${code}.name`) }}</n-text>
+                </div>
+                <n-text class="status-description">{{ t(`convert.httpStatus.codes.${code}.description`) }}</n-text>
+              </n-card>
+            </div>
+          </div>
+
+          <!-- 3xx 重定向 -->
+          <div class="category-section">
+            <n-text class="category-title">{{ t('convert.httpStatus.categories.redirect') }}</n-text>
+            <div class="status-grid">
+              <n-card 
+                v-for="code in getStatusCodesByCategory('redirect')" 
+                :key="code"
+                class="status-card"
+                :class="`status-${code}`"
+              >
+                <div class="status-header">
+                  <n-text class="status-code">{{ code }}</n-text>
+                  <n-text class="status-name">{{ t(`convert.httpStatus.codes.${code}.name`) }}</n-text>
+                </div>
+                <n-text class="status-description">{{ t(`convert.httpStatus.codes.${code}.description`) }}</n-text>
+              </n-card>
+            </div>
+          </div>
+
+          <!-- 4xx 客户端错误 -->
+          <div class="category-section">
+            <n-text class="category-title">{{ t('convert.httpStatus.categories.clientError') }}</n-text>
+            <div class="status-grid">
+              <n-card 
+                v-for="code in getStatusCodesByCategory('clientError')" 
+                :key="code"
+                class="status-card"
+                :class="`status-${code}`"
+              >
+                <div class="status-header">
+                  <n-text class="status-code">{{ code }}</n-text>
+                  <n-text class="status-name">{{ t(`convert.httpStatus.codes.${code}.name`) }}</n-text>
+                </div>
+                <n-text class="status-description">{{ t(`convert.httpStatus.codes.${code}.description`) }}</n-text>
+              </n-card>
+            </div>
+          </div>
+
+          <!-- 5xx 服务器错误 -->
+          <div class="category-section">
+            <n-text class="category-title">{{ t('convert.httpStatus.categories.serverError') }}</n-text>
+            <div class="status-grid">
+              <n-card 
+                v-for="code in getStatusCodesByCategory('serverError')" 
+                :key="code"
+                class="status-card"
+                :class="`status-${code}`"
+              >
+                <div class="status-header">
+                  <n-text class="status-code">{{ code }}</n-text>
+                  <n-text class="status-name">{{ t(`convert.httpStatus.codes.${code}.name`) }}</n-text>
+                </div>
+                <n-text class="status-description">{{ t(`convert.httpStatus.codes.${code}.description`) }}</n-text>
+              </n-card>
+            </div>
+          </div>
+        </div>
       </n-space>
-
-      <n-divider />
-
-      <template v-if="formData.result">
-        <n-descriptions bordered>
-          <n-descriptions-item :label="$t('convert.httpStatus.code')">
-            {{ formData.result.code }}
-          </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.httpStatus.name')">
-            {{ $t(`convert.httpStatus.codes.${formData.result.code}.name`) }}
-          </n-descriptions-item>
-          <n-descriptions-item :label="$t('convert.httpStatus.category')">
-            {{ $t(`convert.httpStatus.categories.${formData.result.category}`) }}
-          </n-descriptions-item>
-        </n-descriptions>
-
-        <n-card :title="$t('convert.httpStatus.description')" class="mt-4">
-          <p>{{ $t(`convert.httpStatus.codes.${formData.result.code}.description`) }}</p>
-        </n-card>
-
-        <n-card :title="$t('convert.httpStatus.scenarios')" class="mt-4">
-          <n-list>
-            <n-list-item v-for="(scenario, index) in $t(`convert.httpStatus.codes.${formData.result.code}.scenarios`)"
-              :key="index">
-              {{ scenario }}
-            </n-list-item>
-          </n-list>
-        </n-card>
-
-        <n-card :title="$t('convert.httpStatus.solutions')" class="mt-4"
-          v-if="$t(`convert.httpStatus.codes.${formData.result.code}.solutions`)">
-          <n-list>
-            <n-list-item v-for="(solution, index) in $t(`convert.httpStatus.codes.${formData.result.code}.solutions`)"
-              :key="index">
-              {{ solution }}
-            </n-list-item>
-          </n-list>
-        </n-card>
-      </template>
-    </n-form>
-    <!-- 错误提示 -->
-    <n-alert v-if="error" type="t('common.error')" :title="error" style="margin-top: 16px">
-      {{ error }}
-    </n-alert>
-  </n-card>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useMessage } from 'naive-ui'
 
 const { t } = useI18n()
-const message = useMessage()
-
-const formData = reactive({
-  input: '',
-  result: null
-})
-
-const error = ref('')
 
 // HTTP状态码数据
 const statusCodes = {
   // 1xx 信息响应
-  '100': {
-    code: '100',
-    category: 'informational'
-  },
-  '101': {
-    code: '101',
-    category: 'informational'
-  },
-  '102': {
-    code: '102',
-    category: 'informational'
-  },
+  '100': { code: '100', category: 'informational' },
+  '101': { code: '101', category: 'informational' },
+  '102': { code: '102', category: 'informational' },
 
   // 2xx 成功响应
-  '200': {
-    code: '200',
-    category: 'success'
-  },
-  '201': {
-    code: '201',
-    category: 'success'
-  },
-  '204': {
-    code: '204',
-    category: 'success'
-  },
+  '200': { code: '200', category: 'success' },
+  '201': { code: '201', category: 'success' },
+  '204': { code: '204', category: 'success' },
 
   // 3xx 重定向
-  '301': {
-    code: '301',
-    category: 'redirect'
-  },
-  '302': {
-    code: '302',
-    category: 'redirect'
-  },
-  '304': {
-    code: '304',
-    category: 'redirect'
-  },
+  '301': { code: '301', category: 'redirect' },
+  '302': { code: '302', category: 'redirect' },
+  '304': { code: '304', category: 'redirect' },
 
   // 4xx 客户端错误
-  '400': {
-    code: '400',
-    category: 'clientError'
-  },
-  '401': {
-    code: '401',
-    category: 'clientError'
-  },
-  '403': {
-    code: '403',
-    category: 'clientError'
-  },
-  '404': {
-    code: '404',
-    category: 'clientError'
-  },
-  '429': {
-    code: '429',
-    category: 'clientError'
-  },
+  '400': { code: '400', category: 'clientError' },
+  '401': { code: '401', category: 'clientError' },
+  '403': { code: '403', category: 'clientError' },
+  '404': { code: '404', category: 'clientError' },
+  '429': { code: '429', category: 'clientError' },
 
   // 5xx 服务器错误
-  '500': {
-    code: '500',
-    category: 'serverError'
-  },
-  '502': {
-    code: '502',
-    category: 'serverError'
-  },
-  '503': {
-    code: '503',
-    category: 'serverError'
-  },
-  '504': {
-    code: '504',
-    category: 'serverError'
-  }
+  '500': { code: '500', category: 'serverError' },
+  '502': { code: '502', category: 'serverError' },
+  '503': { code: '503', category: 'serverError' },
+  '504': { code: '504', category: 'serverError' }
 }
 
-function search() {
-  error.value = ''
-
-  try {
-    if (!formData.input) {
-      throw new Error(t('convert.httpStatus.inputRequired'))
-    }
-
-    const code = formData.input.trim()
-    if (!statusCodes[code]) {
-      throw new Error(t('convert.httpStatus.codeNotFound'))
-    }
-
-    formData.result = statusCodes[code]
-  } catch (err) {
-    error.value = err.message
-  }
-}
-
-function copyResult() {
-  if (formData.result) {
-    const text = JSON.stringify({
-      code: formData.result.code,
-      name: t(`convert.httpStatus.codes.${formData.result.code}.name`),
-      category: t(`convert.httpStatus.categories.${formData.result.category}`),
-      description: t(`convert.httpStatus.codes.${formData.result.code}.description`),
-      scenarios: t(`convert.httpStatus.codes.${formData.result.code}.scenarios`),
-      solutions: t(`convert.httpStatus.codes.${formData.result.code}.solutions`)
-    }, null, 2)
-    navigator.clipboard.writeText(text)
-    message.success(t('convert.httpStatus.copied'))
-  }
+// 根据分类获取状态码
+const getStatusCodesByCategory = (category) => {
+  return Object.values(statusCodes)
+    .filter(item => item.category === category)
+    .map(item => item.code)
+    .sort()
 }
 </script>
 
 <style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+.http-status {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
-.mt-4 {
-  margin-top: 16px;
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-alert {
+  margin-top: 8px;
+}
+
+.category-section {
+  margin-bottom: 32px;
+}
+
+.category-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #24292e;
+  border-bottom: 2px solid #e1e4e8;
+  padding-bottom: 8px;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.status-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e1e4e8;
+}
+
+.status-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.status-code {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.status-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #586069;
+}
+
+.status-description {
+  display: block;
+  line-height: 1.6;
+  color: #24292e;
+  margin-bottom: 16px;
+}
+
+/* 状态码颜色主题 */
+.status-100, .status-101, .status-102 {
+  border-left: 4px solid #0366d6;
+}
+
+.status-200, .status-201, .status-204 {
+  border-left: 4px solid #28a745;
+}
+
+.status-301, .status-302, .status-304 {
+  border-left: 4px solid #ffc107;
+}
+
+.status-400, .status-401, .status-403, .status-404, .status-429 {
+  border-left: 4px solid #dc3545;
+}
+
+.status-500, .status-502, .status-503, .status-504 {
+  border-left: 4px solid #6f42c1;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .http-status {
+    padding: 0 16px;
+  }
 }
 </style>
