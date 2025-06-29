@@ -1008,7 +1008,66 @@ export default {
     },
     unit: {
       title: '单位转换',
-      description: '长度、重量、面积等单位转换'
+      description: '长度、重量、面积等单位转换',
+      category: '转换类型',
+      categoryPlaceholder: '请选择转换类型',
+      input: '输入值',
+      inputPlaceholder: '请输入要转换的数值',
+      fromUnit: '源单位',
+      toUnit: '目标单位',
+      unitPlaceholder: '请选择单位',
+      output: '转换结果',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入要转换的数值',
+      unitRequired: '请选择源单位和目标单位',
+      invalidUnit: '无效的单位选择',
+      infoTitle: '使用说明',
+      infoContent: '支持长度、重量、面积、体积等单位的相互转换。包含公制和英制单位，转换结果会根据数值大小自动调整精度。',
+      categories: {
+        length: '长度',
+        weight: '重量',
+        area: '面积',
+        volume: '体积'
+      },
+      units: {
+        // 长度单位
+        millimeter: '毫米',
+        centimeter: '厘米',
+        meter: '米',
+        kilometer: '千米',
+        inch: '英寸',
+        foot: '英尺',
+        yard: '码',
+        mile: '英里',
+        // 重量单位
+        milligram: '毫克',
+        gram: '克',
+        kilogram: '千克',
+        ton: '吨',
+        pound: '磅',
+        ounce: '盎司',
+        // 面积单位
+        squareMillimeter: '平方毫米',
+        squareCentimeter: '平方厘米',
+        squareMeter: '平方米',
+        squareKilometer: '平方千米',
+        hectare: '公顷',
+        squareInch: '平方英寸',
+        squareFoot: '平方英尺',
+        squareYard: '平方码',
+        acre: '英亩',
+        // 体积单位
+        milliliter: '毫升',
+        liter: '升',
+        cubicMeter: '立方米',
+        cubicCentimeter: '立方厘米',
+        cubicInch: '立方英寸',
+        cubicFoot: '立方英尺',
+        gallon: '加仑'
+      }
     }
   },
   image: {
