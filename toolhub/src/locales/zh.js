@@ -946,7 +946,39 @@ export default {
     },
     color: {
       title: '颜色转换',
-      description: '颜色格式转换'
+      description: '颜色格式转换',
+      operation: '操作',
+      picker: '颜色选择器',
+      converter: '颜色格式转换',
+      pickColor: '选择颜色',
+      hex: 'HEX',
+      hexPlaceholder: 'HEX颜色值',
+      rgb: 'RGB',
+      rgbPlaceholder: 'RGB颜色值',
+      hsl: 'HSL',
+      hslPlaceholder: 'HSL颜色值',
+      input: '输入',
+      inputPlaceholder: '请输入颜色值',
+      fromFormat: '从',
+      toFormat: '到',
+      formatPlaceholder: '请选择颜色格式',
+      output: '输出',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入颜色值',
+      invalidInput: '无效的颜色值',
+      invalidHex: '无效的HEX格式，请输入#开头的6位十六进制颜色值',
+      invalidRgb: '无效的RGB格式，请输入rgb(r,g,b)格式',
+      invalidHsl: '无效的HSL格式，请输入hsl(h,s%,l%)格式',
+      infoTitle: '使用说明',
+      infoContent: '颜色选择器：使用颜色选择器选择颜色，自动显示HEX、RGB、HSL格式；颜色格式转换：支持HEX、RGB、HSL三种颜色格式之间的相互转换。HEX格式：6位十六进制颜色值（如：#FF0000）；RGB格式：rgb(r,g,b)格式（如：rgb(255,0,0)）；HSL格式：hsl(h,s%,l%)格式（如：hsl(0,100%,50%)）。',
+      formats: {
+        hex: 'HEX',
+        rgb: 'RGB',
+        hsl: 'HSL'
+      }
     },
     regex: {
       title: '正则表达式',
@@ -1155,7 +1187,17 @@ export default {
     copy: '复制',
     copied: '已复制到剪贴板',
     inputRequired: '请输入颜色值',
-    invalidInput: '无效的颜色值'
+    invalidInput: '无效的颜色值',
+    invalidHex: '无效的HEX格式，请输入#开头的6位十六进制颜色值',
+    invalidRgb: '无效的RGB格式，请输入rgb(r,g,b)格式',
+    invalidHsl: '无效的HSL格式，请输入hsl(h,s%,l%)格式',
+    infoTitle: '使用说明',
+    infoContent: '颜色选择器：使用颜色选择器选择颜色，自动显示HEX、RGB、HSL格式；颜色格式转换：支持HEX、RGB、HSL三种颜色格式之间的相互转换。HEX格式：6位十六进制颜色值（如：#FF0000）；RGB格式：rgb(r,g,b)格式（如：rgb(255,0,0)）；HSL格式：hsl(h,s%,l%)格式（如：hsl(0,100%,50%)）。',
+    formats: {
+      hex: 'HEX',
+      rgb: 'RGB',
+      hsl: 'HSL'
+    }
   },
   regex: {
     title: '正则表达式工具',

@@ -1,70 +1,151 @@
 <template>
-  <n-card :title="$t('convert.color.title')">
-    <n-form>
-      <n-form-item :label="$t('convert.color.operation')">
-        <n-radio-group v-model:value="formData.operation">
-          <n-space>
-            <n-radio value="picker">{{ $t('convert.color.picker') }}</n-radio>
-            <n-radio value="converter">{{ $t('convert.color.converter') }}</n-radio>
-          </n-space>
-        </n-radio-group>
-      </n-form-item>
+  <div class="color-convert">
+    <n-card :title="t('convert.color.title')" :bordered="false">
+      <n-space vertical size="large">
+        <!-- 操作类型选择 -->
+        <div class="operation-section">
+          <n-text class="section-title">{{ t('convert.color.operation') }}</n-text>
+          <n-radio-group v-model:value="formData.operation" @update:value="handleOperationChange">
+            <n-space>
+              <n-radio value="picker">{{ t('convert.color.picker') }}</n-radio>
+              <n-radio value="converter">{{ t('convert.color.converter') }}</n-radio>
+            </n-space>
+          </n-radio-group>
+        </div>
 
-      <template v-if="formData.operation === 'picker'">
-        <n-form-item :label="$t('convert.color.pickColor')">
-          <n-color-picker v-model:value="formData.color" :show-alpha="true" :modes="['hex', 'rgb', 'hsl']"
-            @update:value="handleColorChange" />
-        </n-form-item>
+        <!-- 颜色选择器模式 -->
+        <template v-if="formData.operation === 'picker'">
+          <div class="picker-section">
+            <n-text class="section-title">{{ t('convert.color.pickColor') }}</n-text>
+            <n-color-picker 
+              v-model:value="formData.color" 
+              :show-alpha="true" 
+              :modes="['hex', 'rgb', 'hsl']"
+              @update:value="handleColorChange" 
+            />
+          </div>
 
-        <n-form-item :label="$t('convert.color.hex')">
-          <n-input v-model:value="formData.hex" :placeholder="$t('convert.color.hexPlaceholder')" readonly />
-        </n-form-item>
+          <!-- 颜色值显示 -->
+          <div class="color-values-section">
+            <n-space vertical>
+              <div>
+                <n-text class="section-title">{{ t('convert.color.hex') }}</n-text>
+                <div class="output-with-copy">
+                  <n-input 
+                    v-model:value="formData.hex" 
+                    :placeholder="t('convert.color.hexPlaceholder')" 
+                    readonly 
+                  />
+                  <n-button @click="copyValue(formData.hex)" size="small" type="primary">
+                    {{ t('common.copy') }}
+                  </n-button>
+                </div>
+              </div>
+              <div>
+                <n-text class="section-title">{{ t('convert.color.rgb') }}</n-text>
+                <div class="output-with-copy">
+                  <n-input 
+                    v-model:value="formData.rgb" 
+                    :placeholder="t('convert.color.rgbPlaceholder')" 
+                    readonly 
+                  />
+                  <n-button @click="copyValue(formData.rgb)" size="small" type="primary">
+                    {{ t('common.copy') }}
+                  </n-button>
+                </div>
+              </div>
+              <div>
+                <n-text class="section-title">{{ t('convert.color.hsl') }}</n-text>
+                <div class="output-with-copy">
+                  <n-input 
+                    v-model:value="formData.hsl" 
+                    :placeholder="t('convert.color.hslPlaceholder')" 
+                    readonly 
+                  />
+                  <n-button @click="copyValue(formData.hsl)" size="small" type="primary">
+                    {{ t('common.copy') }}
+                  </n-button>
+                </div>
+              </div>
+            </n-space>
+          </div>
+        </template>
 
-        <n-form-item :label="$t('convert.color.rgb')">
-          <n-input v-model:value="formData.rgb" :placeholder="$t('convert.color.rgbPlaceholder')" readonly />
-        </n-form-item>
+        <!-- 颜色转换器模式 -->
+        <template v-else>
+          <div class="converter-section">
+            <!-- 输入区域 -->
+            <div class="input-section">
+              <n-text class="section-title">{{ t('convert.color.input') }}</n-text>
+              <n-input 
+                v-model:value="formData.input" 
+                :placeholder="t('convert.color.inputPlaceholder')"
+                clearable
+                @input="handleInput"
+              />
+            </div>
 
-        <n-form-item :label="$t('convert.color.hsl')">
-          <n-input v-model:value="formData.hsl" :placeholder="$t('convert.color.hslPlaceholder')" readonly />
-        </n-form-item>
-      </template>
+            <!-- 格式选择区域 -->
+            <div class="format-section">
+              <n-space vertical>
+                <div>
+                  <n-text class="section-title">{{ t('convert.color.fromFormat') }}</n-text>
+                  <n-select 
+                    v-model:value="formData.fromFormat" 
+                    :options="formatOptions"
+                    :placeholder="t('convert.color.formatPlaceholder')"
+                    style="width: 100%"
+                    @update:value="handleInput"
+                  />
+                </div>
+                <div>
+                  <n-text class="section-title">{{ t('convert.color.toFormat') }}</n-text>
+                  <n-select 
+                    v-model:value="formData.toFormat" 
+                    :options="formatOptions"
+                    :placeholder="t('convert.color.formatPlaceholder')"
+                    style="width: 100%"
+                    @update:value="handleInput"
+                  />
+                </div>
+              </n-space>
+            </div>
 
-      <template v-else>
-        <n-form-item :label="$t('convert.color.input')">
-          <n-input v-model:value="formData.input" :placeholder="$t('convert.color.inputPlaceholder')" />
-        </n-form-item>
+            <!-- 输出区域 -->
+            <div class="output-section" v-if="formData.output">
+              <n-text class="section-title">{{ t('convert.color.output') }}</n-text>
+              <div class="output-with-copy">
+                <n-input 
+                  v-model:value="formData.output" 
+                  :placeholder="t('convert.color.outputPlaceholder')" 
+                  readonly
+                />
+                <n-button @click="copyOutput" size="small" type="primary">
+                  {{ t('common.copy') }}
+                </n-button>
+              </div>
+            </div>
+          </div>
+        </template>
 
-        <n-form-item :label="$t('convert.color.fromFormat')">
-          <n-select v-model:value="formData.fromFormat" :options="formatOptions"
-            :placeholder="$t('convert.color.formatPlaceholder')" />
-        </n-form-item>
+        <!-- 错误提示 -->
+        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+          {{ error }}
+        </n-alert>
 
-        <n-form-item :label="$t('convert.color.toFormat')">
-          <n-select v-model:value="formData.toFormat" :options="formatOptions"
-            :placeholder="$t('convert.color.formatPlaceholder')" />
-        </n-form-item>
-
-        <n-form-item :label="$t('convert.color.output')">
-          <n-input v-model:value="formData.output" :placeholder="$t('convert.color.outputPlaceholder')" readonly />
-        </n-form-item>
-
-        <n-space>
-          <n-button type="primary" @click="convert">
-            {{ $t('convert.color.convert') }}
-          </n-button>
-          <n-button @click="copyOutput">
-            {{ $t('convert.color.copy') }}
-          </n-button>
-        </n-space>
-      </template>
-    </n-form>
-
-    <n-alert v-if="error" type="error" :title="error" style="margin-top: 16px" />
-  </n-card>
+        <!-- 使用说明 -->
+        <div class="info-section">
+          <n-alert type="info" :title="t('convert.color.infoTitle')" class="info-alert">
+            {{ t('convert.color.infoContent') }}
+          </n-alert>
+        </div>
+      </n-space>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 
@@ -74,9 +155,9 @@ const message = useMessage()
 const formData = reactive({
   operation: 'picker',
   color: '#18a058',
-  hex: '',
-  rgb: '',
-  hsl: '',
+  hex: '#18a058',
+  rgb: 'rgb(24, 160, 88)',
+  hsl: 'hsl(142, 74%, 36%)',
   input: '',
   fromFormat: 'hex',
   toFormat: 'rgb',
@@ -85,21 +166,72 @@ const formData = reactive({
 
 const error = ref('')
 
-const formatOptions = [
-  { label: 'HEX', value: 'hex' },
-  { label: 'RGB', value: 'rgb' },
-  { label: 'HSL', value: 'hsl' }
-]
+const formatOptions = computed(() => [
+  { label: t('convert.color.formats.hex'), value: 'hex' },
+  { label: t('convert.color.formats.rgb'), value: 'rgb' },
+  { label: t('convert.color.formats.hsl'), value: 'hsl' }
+])
+
+const handleOperationChange = () => {
+  // 切换操作类型时清空相关数据
+  if (formData.operation === 'picker') {
+    formData.input = ''
+    formData.output = ''
+    formData.fromFormat = 'hex'
+    formData.toFormat = 'rgb'
+    // 重新初始化颜色值
+    handleColorChange(formData.color)
+  } else {
+    formData.hex = ''
+    formData.rgb = ''
+    formData.hsl = ''
+  }
+  error.value = ''
+}
+
+const handleInput = () => {
+  error.value = ''
+  if (formData.input.trim() && formData.fromFormat && formData.toFormat) {
+    convert()
+  } else {
+    formData.output = ''
+  }
+}
 
 // 处理颜色选择器变化
-function handleColorChange(color) {
-  formData.hex = color
-  formData.rgb = hexToRgb(color)
-  formData.hsl = hexToHsl(color)
+const handleColorChange = (color) => {
+  console.log('Color changed:', color) // 调试信息
+  if (color) {
+    // 标准化HEX颜色值
+    let normalizedColor = color
+    if (color.startsWith('#')) {
+      // 处理3位HEX格式
+      if (color.length === 4) {
+        normalizedColor = '#' + color[1] + color[1] + color[2] + color[2] + color[3] + color[3]
+      }
+      // 处理带alpha的8位HEX格式，去掉alpha
+      if (color.length === 9) {
+        normalizedColor = color.substring(0, 7)
+      }
+    }
+    
+    formData.hex = normalizedColor
+    formData.rgb = hexToRgb(normalizedColor)
+    formData.hsl = hexToHsl(normalizedColor)
+    
+    console.log('Normalized color:', normalizedColor) // 调试信息
+    console.log('RGB:', formData.rgb) // 调试信息
+    console.log('HSL:', formData.hsl) // 调试信息
+  }
 }
 
 // HEX转RGB
-function hexToRgb(hex) {
+const hexToRgb = (hex) => {
+  if (!hex || !/^#[0-9A-F]{6}$/i.test(hex)) {
+    console.log('Invalid HEX format:', hex) // 调试信息
+    return ''
+  }
+  
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
@@ -107,7 +239,12 @@ function hexToRgb(hex) {
 }
 
 // HEX转HSL
-function hexToHsl(hex) {
+const hexToHsl = (hex) => {
+  if (!hex || !/^#[0-9A-F]{6}$/i.test(hex)) {
+    console.log('Invalid HEX format for HSL:', hex) // 调试信息
+    return ''
+  }
+  
   const r = parseInt(hex.slice(1, 3), 16) / 255
   const g = parseInt(hex.slice(3, 5), 16) / 255
   const b = parseInt(hex.slice(5, 7), 16) / 255
@@ -137,7 +274,7 @@ function hexToHsl(hex) {
 }
 
 // RGB转HEX
-function rgbToHex(rgb) {
+const rgbToHex = (rgb) => {
   const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
   if (!match) return ''
 
@@ -145,22 +282,30 @@ function rgbToHex(rgb) {
   const g = parseInt(match[2])
   const b = parseInt(match[3])
 
+  if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) return ''
+
   return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
 }
 
 // HSL转HEX
-function hslToHex(hsl) {
+const hslToHex = (hsl) => {
   const match = hsl.match(/^hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)$/)
   if (!match) return ''
 
-  const h = parseInt(match[1]) / 360
-  const s = parseInt(match[2]) / 100
-  const l = parseInt(match[3]) / 100
+  const h = parseInt(match[1])
+  const s = parseInt(match[2])
+  const l = parseInt(match[3])
+
+  if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100) return ''
+
+  const hue = h / 360
+  const sat = s / 100
+  const light = l / 100
 
   let r, g, b
 
-  if (s === 0) {
-    r = g = b = l
+  if (sat === 0) {
+    r = g = b = light
   } else {
     const hue2rgb = (p, q, t) => {
       if (t < 0) t += 1
@@ -171,11 +316,11 @@ function hslToHex(hsl) {
       return p
     }
 
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-    const p = 2 * l - q
-    r = hue2rgb(p, q, h + 1 / 3)
-    g = hue2rgb(p, q, h)
-    b = hue2rgb(p, q, h - 1 / 3)
+    const q = light < 0.5 ? light * (1 + sat) : light + sat - light * sat
+    const p = 2 * light - q
+    r = hue2rgb(p, q, hue + 1 / 3)
+    g = hue2rgb(p, q, hue)
+    b = hue2rgb(p, q, hue - 1 / 3)
   }
 
   const toHex = x => {
@@ -186,23 +331,30 @@ function hslToHex(hsl) {
   return '#' + toHex(r) + toHex(g) + toHex(b)
 }
 
-function convert() {
-  error.value = ''
-
+const convert = () => {
   try {
-    if (!formData.input) {
+    if (!formData.input.trim()) {
       throw new Error(t('convert.color.inputRequired'))
     }
 
     let hex
     switch (formData.fromFormat) {
       case 'hex':
+        if (!/^#[0-9A-F]{6}$/i.test(formData.input)) {
+          throw new Error(t('convert.color.invalidHex'))
+        }
         hex = formData.input
         break
       case 'rgb':
+        if (!/^rgb\(\d+,\s*\d+,\s*\d+\)$/.test(formData.input)) {
+          throw new Error(t('convert.color.invalidRgb'))
+        }
         hex = rgbToHex(formData.input)
         break
       case 'hsl':
+        if (!/^hsl\(\d+,\s*\d+%,\s*\d+%\)$/.test(formData.input)) {
+          throw new Error(t('convert.color.invalidHsl'))
+        }
         hex = hslToHex(formData.input)
         break
     }
@@ -222,22 +374,97 @@ function convert() {
         formData.output = hexToHsl(hex)
         break
     }
+    error.value = ''
   } catch (err) {
     error.value = err.message
+    formData.output = ''
+    message.error(t('common.error'))
   }
 }
 
-function copyOutput() {
+const copyValue = (value) => {
+  if (value) {
+    try {
+      navigator.clipboard.writeText(value)
+      message.success(t('common.copy') + ' ' + t('common.success'))
+    } catch (e) {
+      message.error(t('common.copy') + ' ' + t('common.error'))
+    }
+  }
+}
+
+const copyOutput = () => {
   if (formData.output) {
-    navigator.clipboard.writeText(formData.output)
-    message.success(t('convert.color.copied'))
+    try {
+      navigator.clipboard.writeText(formData.output)
+      message.success(t('common.copy') + ' ' + t('common.success'))
+    } catch (e) {
+      message.error(t('common.copy') + ' ' + t('common.error'))
+    }
   }
 }
 </script>
 
 <style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+.color-convert {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.operation-section {
+  margin-bottom: 20px;
+}
+
+.picker-section {
+  margin-bottom: 20px;
+}
+
+.color-values-section {
+  margin-bottom: 20px;
+}
+
+.converter-section {
+  margin-bottom: 20px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.format-section {
+  margin-bottom: 20px;
+}
+
+.output-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.output-with-copy {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.output-with-copy .n-input {
+  flex: 1;
+}
+
+.error-alert {
+  margin-top: 16px;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-alert {
+  margin-top: 8px;
 }
 </style>

@@ -1066,7 +1066,39 @@ export default {
     },
     color: {
       title: 'Color Conversion',
-      description: 'Color format conversion'
+      description: 'Color format conversion',
+      operation: 'Operation',
+      picker: 'Color Picker',
+      converter: 'Color Format Converter',
+      pickColor: 'Pick Color',
+      hex: 'HEX',
+      hexPlaceholder: 'HEX color value',
+      rgb: 'RGB',
+      rgbPlaceholder: 'RGB color value',
+      hsl: 'HSL',
+      hslPlaceholder: 'HSL color value',
+      input: 'Input',
+      inputPlaceholder: 'Please enter color value',
+      fromFormat: 'From',
+      toFormat: 'To',
+      formatPlaceholder: 'Please select color format',
+      output: 'Output',
+      outputPlaceholder: 'Conversion result will appear here',
+      convert: 'Convert',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter color value',
+      invalidInput: 'Invalid color value',
+      invalidHex: 'Invalid HEX format, please enter 6-digit hexadecimal color value starting with #',
+      invalidRgb: 'Invalid RGB format, please enter rgb(r,g,b) format',
+      invalidHsl: 'Invalid HSL format, please enter hsl(h,s%,l%) format',
+      infoTitle: 'Usage Instructions',
+      infoContent: 'Color Picker: Use the color picker to select colors, automatically displays HEX, RGB, HSL formats; Color Format Converter: Supports conversion between HEX, RGB, HSL color formats. HEX format: 6-digit hexadecimal color value (e.g., #FF0000); RGB format: rgb(r,g,b) format (e.g., rgb(255,0,0)); HSL format: hsl(h,s%,l%) format (e.g., hsl(0,100%,50%)).',
+      formats: {
+        hex: 'HEX',
+        rgb: 'RGB',
+        hsl: 'HSL'
+      }
     },
     regex: {
       title: 'Regular Expression',
@@ -1216,7 +1248,17 @@ export default {
     copy: 'Copy',
     copied: 'Copied to clipboard',
     inputRequired: 'Please enter color value',
-    invalidInput: 'Invalid color value'
+    invalidInput: 'Invalid color value',
+    invalidHex: 'Invalid HEX format, please enter 6-digit hexadecimal color value starting with #',
+    invalidRgb: 'Invalid RGB format, please enter rgb(r,g,b) format',
+    invalidHsl: 'Invalid HSL format, please enter hsl(h,s%,l%) format',
+    infoTitle: 'Usage Instructions',
+    infoContent: 'Color Picker: Use the color picker to select colors, automatically displays HEX, RGB, HSL formats; Color Format Converter: Supports conversion between HEX, RGB, HSL color formats. HEX format: 6-digit hexadecimal color value (e.g., #FF0000); RGB format: rgb(r,g,b) format (e.g., rgb(255,0,0)); HSL format: hsl(h,s%,l%) format (e.g., hsl(0,100%,50%)).',
+    formats: {
+      hex: 'HEX',
+      rgb: 'RGB',
+      hsl: 'HSL'
+    }
   },
   regex: {
     title: 'Regular Expression Tool',
