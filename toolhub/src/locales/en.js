@@ -145,7 +145,9 @@ export default {
     copySuccess: 'Copy Success',
     copyError: 'Copy Failed',
     composer: 'Composer',
-    clear: 'Clear'
+    clear: 'Clear',
+    clearedImageByText: 'Image input cleared because you entered text',
+    clearedTextByImage: 'Text input cleared because you uploaded an image'
   },
   footer: {
     about: 'About',

@@ -145,7 +145,9 @@ export default {
     copySuccess: '复制成功',
     copyError: '复制失败',
     composer: '编排',
-    clear: '清空'
+    clear: '清空',
+    clearedImageByText: '已清空图片输入，因为你输入了文本',
+    clearedTextByImage: '已清空文本输入，因为你上传了图片'
   },
   footer: {
     about: '关于',

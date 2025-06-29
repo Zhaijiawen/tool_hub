@@ -141,6 +141,9 @@ const hasInput = computed(() => {
 // 文本输入时自动清空图片
 const onTextInput = () => {
   if (textInput.value) {
+    if (imagePreview.value || fileList.value.length > 0) {
+      message.info(t('encrypt.base64.clearedImageByText'))
+    }
     imagePreview.value = ''
     imageSize.value = ''
     fileList.value = []
@@ -149,6 +152,9 @@ const onTextInput = () => {
 
 // 图片上传时自动清空文本
 const onImageUpload = (options) => {
+  if (textInput.value) {
+    message.info(t('encrypt.base64.clearedTextByImage'))
+  }
   textInput.value = ''
   textOutput.value = ''
   decodedImage.value = ''
