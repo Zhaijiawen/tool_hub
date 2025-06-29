@@ -811,9 +811,13 @@ export default {
       date: 'Date',
       timezone: 'Timezone',
       result: 'Result',
+      format: 'Timestamp Format',
+      inputRequired: 'Please enter timestamp or select date',
+      invalidTimestamp: 'Invalid timestamp format',
       unit: {
         second: 'Second',
-        millisecond: 'Millisecond'
+        millisecond: 'Millisecond',
+        digit: 'digit'
       },
       description: 'Convert between timestamp and datetime'
     },

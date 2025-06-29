@@ -770,7 +770,20 @@ export default {
     other: '其他转换',
     timestamp: {
       title: '时间戳转换',
-      description: '时间戳和日期时间互转'
+      description: '时间戳和日期时间互转',
+      current: '当前时间戳',
+      timestamp: '时间戳',
+      date: '日期',
+      timezone: '时区',
+      result: '转换结果',
+      format: '时间戳格式',
+      inputRequired: '请输入时间戳或选择日期',
+      invalidTimestamp: '无效的时间戳格式',
+      unit: {
+        second: '秒',
+        millisecond: '毫秒',
+        digit: '位'
+      }
     },
     dateCalc: {
       title: '日期计算',
