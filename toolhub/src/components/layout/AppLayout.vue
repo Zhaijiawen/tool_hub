@@ -508,11 +508,6 @@ const menuOptions = computed(() => [
             path: '/convert/user-agent'
           },
           {
-            label: t('convert.ipLookup.title'),
-            key: 'ip-lookup',
-            path: '/convert/ip-lookup'
-          },
-          {
             label: t('convert.charCode.title'),
             key: 'char-code',
             path: '/convert/char-code'

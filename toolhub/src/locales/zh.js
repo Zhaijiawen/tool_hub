@@ -1008,10 +1008,6 @@ export default {
         mobile: '移动设备'
       }
     },
-    ipLookup: {
-      title: 'IP 地址查询',
-      description: 'IP 地址信息查询'
-    },
     charCode: {
       title: '字符编码转换',
       description: '字符编码转换工具',

@@ -1124,10 +1124,6 @@ export default {
         mobile: 'Mobile Device'
       }
     },
-    ipLookup: {
-      title: 'IP Address Lookup',
-      description: 'IP address information query'
-    },
     charCode: {
       title: 'Character Encoding Conversion',
       description: 'Character encoding conversion tool',

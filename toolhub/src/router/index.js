@@ -268,11 +268,6 @@ const router = createRouter({
               path: 'user-agent',
               component: () => import('@/components/convert/UserAgent.vue')
             },
-            // IP地址查询
-            {
-              path: 'ip-lookup',
-              component: () => import('@/components/convert/IPLookup.vue')
-            },
             // 字符编码转换
             {
               path: 'char-code',
