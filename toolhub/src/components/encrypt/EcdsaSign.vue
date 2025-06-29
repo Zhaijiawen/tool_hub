@@ -215,6 +215,8 @@ const verify = async () => {
     const ec = getEC()
     const key = ec.keyFromPublic(publicKey.value, 'hex')
     const msgHash = await calculateHash(messageText.value)
+    
+    // 使用elliptic库的verify方法，直接传递DER格式的十六进制字符串
     const isValid = key.verify(msgHash, signature.value)
     
     verificationResult.value = isValid
@@ -224,7 +226,12 @@ const verify = async () => {
       message.error(t('encrypt.ecdsaSign.verificationFailed'))
     }
   } catch (e) {
-    error.value = e.message
+    // 优化错误提示
+    if (e.message && (e.message.includes('without r or s') || e.message.includes('Invalid signature'))) {
+      error.value = t('encrypt.ecdsaSign.invalidSignatureFormat')
+    } else {
+      error.value = e.message
+    }
     verificationResult.value = false
     message.error(t('common.error'))
   } finally {
