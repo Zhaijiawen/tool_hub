@@ -1009,18 +1009,19 @@ export default {
       }
     },
     charCode: {
-      title: '字符编码转换',
-      description: '字符编码转换工具',
+      title: 'Unicode 编码解码',
+      description: 'Unicode 编码与字符互转工具',
       input: '输入',
-      inputPlaceholder: '请输入字符或编码',
-      convert: '转换',
-      copy: '复制',
-      ascii: 'ASCII码',
-      unicode: 'Unicode码',
-      binary: '二进制',
-      octal: '八进制',
-      decimal: '十进制',
-      hexadecimal: '十六进制'
+      inputPlaceholder: '请输入字符或Unicode编码',
+      toCode: '字符转编码',
+      toChar: '编码转字符',
+      output: '输出',
+      outputPlaceholder: '转换结果将显示在这里',
+      inputRequired: '请输入字符或Unicode编码',
+      invalidInput: '无效的输入',
+      invalidCode: '无效的Unicode编码格式',
+      infoTitle: '使用说明',
+      infoContent: '字符转编码：输入任意字符，点击"字符转编码"可获得Unicode编码（U+XXXX格式）；编码转字符：输入U+XXXX格式的Unicode编码（可用空格分隔），点击"编码转字符"可还原为原始字符。支持常见中英文字符、标点、表情等。'
     },
     ascii: {
       title: 'ASCII码转换',

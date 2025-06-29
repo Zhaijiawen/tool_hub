@@ -1,35 +1,71 @@
 <template>
-  <n-card :title="$t('convert.charCode.title')">
-    <n-form>
-      <n-form-item :label="$t('convert.charCode.input')">
-        <n-input v-model:value="input" type="textarea" :placeholder="$t('convert.charCode.inputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }" />
-      </n-form-item>
+  <div class="char-codec">
+    <n-card :title="t('convert.charCode.title')" :description="t('convert.charCode.description')">
+      <!-- 输入区 -->
+      <div class="input-section">
+        <n-text>{{ t('convert.charCode.input') }}</n-text>
+        <n-input
+          v-model:value="input"
+          type="textarea"
+          :placeholder="t('convert.charCode.inputPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 8 }"
+        />
+        <div class="input-info" v-if="input">
+          <n-text depth="3">{{ t('common.charCount') }}：{{ input.length }} {{ t('common.characters') }}</n-text>
+        </div>
+      </div>
 
-      <n-space>
-        <n-button @click="toCode">
-          {{ $t('convert.charCode.toCode') }}
+      <!-- 按钮区 -->
+      <div class="button-group">
+        <n-button @click="toCode" type="primary" :disabled="!input">
+          {{ t('convert.charCode.toCode') }}
         </n-button>
-        <n-button @click="toChar">
-          {{ $t('convert.charCode.toChar') }}
-        </n-button>
-      </n-space>
-
-      <n-form-item :label="$t('convert.charCode.output')" class="mt-4">
-        <n-input v-model:value="output" type="textarea" :placeholder="$t('convert.charCode.outputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }" readonly />
-      </n-form-item>
-
-      <n-space>
-        <n-button @click="copyOutput" :disabled="!output">
-          {{ $t('common.copy') }}
+        <n-button @click="toChar" type="info" :disabled="!input">
+          {{ t('convert.charCode.toChar') }}
         </n-button>
         <n-button @click="clearAll">
-          {{ $t('common.clear') }}
+          {{ t('common.clear') }}
         </n-button>
-      </n-space>
-    </n-form>
-  </n-card>
+      </div>
+
+      <!-- 输出区 -->
+      <div class="output-section">
+        <n-text>{{ t('common.output') }}</n-text>
+        <div v-if="output">
+          <n-input
+            v-model:value="output"
+            type="textarea"
+            :placeholder="t('convert.charCode.outputPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 8 }"
+            readonly
+          />
+          <div class="output-actions">
+            <n-space>
+              <n-button @click="copyOutput" size="small">
+                {{ t('common.copy') }}
+              </n-button>
+              <n-text depth="3">{{ t('common.charCount') }}：{{ output.length }} {{ t('common.characters') }}</n-text>
+            </n-space>
+          </div>
+        </div>
+        <div v-if="!output" class="output-placeholder">
+          <n-text depth="3">{{ t('convert.charCode.outputPlaceholder') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
+
+      <!-- 使用说明 -->
+      <div class="info-section">
+        <n-alert type="info" :title="t('convert.charCode.infoTitle')" class="info-alert">
+          {{ t('convert.charCode.infoContent') }}
+        </n-alert>
+      </div>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
@@ -40,17 +76,16 @@ import { useMessage } from 'naive-ui'
 const { t } = useI18n()
 const message = useMessage()
 
-// 状态变量
 const input = ref('')
 const output = ref('')
+const error = ref('')
 
-// 字符转编码
 function toCode() {
+  error.value = ''
   if (!input.value) {
-    message.warning(t('convert.charCode.inputRequired'))
+    error.value = t('convert.charCode.inputRequired')
     return
   }
-
   try {
     const result = []
     for (let i = 0; i < input.value.length; i++) {
@@ -60,21 +95,19 @@ function toCode() {
     }
     output.value = result.join(' ')
   } catch (e) {
-    message.error(t('convert.charCode.invalidInput'))
+    error.value = t('convert.charCode.invalidInput')
   }
 }
 
-// 编码转字符
 function toChar() {
+  error.value = ''
   if (!input.value) {
-    message.warning(t('convert.charCode.inputRequired'))
+    error.value = t('convert.charCode.inputRequired')
     return
   }
-
   try {
     const codes = input.value.trim().split(/\s+/)
     const result = codes.map(code => {
-      // 处理 U+ 前缀
       const hex = code.replace(/^U\+/i, '')
       const num = parseInt(hex, 16)
       if (isNaN(num)) {
@@ -84,31 +117,73 @@ function toChar() {
     })
     output.value = result.join('')
   } catch (e) {
-    message.error(e.message || t('convert.charCode.invalidInput'))
+    error.value = e.message || t('convert.charCode.invalidInput')
   }
 }
 
-// 复制输出
 function copyOutput() {
   if (!output.value) return
   navigator.clipboard.writeText(output.value)
   message.success(t('common.copied'))
 }
 
-// 清空所有
 function clearAll() {
   input.value = ''
   output.value = ''
+  error.value = ''
 }
 </script>
 
 <style scoped>
-.n-card {
-  max-width: 800px;
-  margin: 0 auto;
+.char-codec {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
-.mt-4 {
+.input-section,
+.output-section {
+  width: 100%;
+  margin-bottom: 20px;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.input-info {
+  margin-top: 8px;
+}
+
+.output-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-placeholder {
+  text-align: center;
+  padding: 40px;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.error-alert {
   margin-top: 16px;
+}
+
+.info-section {
+  margin-top: 16px;
+}
+
+.info-alert {
+  margin-bottom: 8px;
 }
 </style>

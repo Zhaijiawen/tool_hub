@@ -1125,18 +1125,19 @@ export default {
       }
     },
     charCode: {
-      title: 'Character Encoding Conversion',
-      description: 'Character encoding conversion tool',
+      title: 'Unicode Encoding/Decoding',
+      description: 'Unicode encoding and character conversion tool',
       input: 'Input',
-      inputPlaceholder: 'Enter character or code',
-      convert: 'Convert',
-      copy: 'Copy',
-      ascii: 'ASCII Code',
-      unicode: 'Unicode Code',
-      binary: 'Binary',
-      octal: 'Octal',
-      decimal: 'Decimal',
-      hexadecimal: 'Hexadecimal'
+      inputPlaceholder: 'Enter character or Unicode code',
+      toCode: 'Char to Code',
+      toChar: 'Code to Char',
+      output: 'Output',
+      outputPlaceholder: 'The conversion result will appear here',
+      inputRequired: 'Please enter character or Unicode code',
+      invalidInput: 'Invalid input',
+      invalidCode: 'Invalid Unicode code format',
+      infoTitle: 'Instructions',
+      infoContent: 'Char to Code: Enter any character and click "Char to Code" to get Unicode code (U+XXXX format); Code to Char: Enter Unicode code in U+XXXX format (space separated), click "Code to Char" to restore original characters. Supports common Chinese, English, punctuation, emoji, etc.'
     },
     ascii: {
       title: 'ASCII Code Conversion',
