@@ -796,6 +796,10 @@ export default {
       title: 'Time Conversion',
       description: 'Timestamp and date conversion tools'
     },
+    dateTime: 'Time Conversion',
+    number: 'Number Conversion',
+    unit: 'Unit Conversion',
+    other: 'Other Conversion',
     timestamp: {
       title: 'Timestamp Converter',
       current: 'Current Timestamp',
@@ -809,6 +813,138 @@ export default {
       },
       description: 'Convert between timestamp and datetime'
     },
+    dateCalc: {
+      title: 'Date Calculation',
+      description: 'Date addition and subtraction calculation',
+      date: 'Date',
+      operation: 'Operation',
+      add: 'Add',
+      subtract: 'Subtract',
+      value: 'Value',
+      unit: 'Unit',
+      unitPlaceholder: 'Select unit',
+      calculate: 'Calculate',
+      result: 'Result',
+      units: {
+        year: 'Year',
+        month: 'Month',
+        day: 'Day',
+        hour: 'Hour',
+        minute: 'Minute',
+        second: 'Second',
+        millisecond: 'Millisecond'
+      }
+    },
+    dateDiff: {
+      title: 'Date Difference',
+      description: 'Calculate the difference between two dates',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      unit: 'Unit',
+      unitPlaceholder: 'Select unit',
+      calculate: 'Calculate',
+      result: 'Result',
+      units: {
+        year: 'Year',
+        month: 'Month',
+        day: 'Day',
+        hour: 'Hour',
+        minute: 'Minute',
+        second: 'Second',
+        millisecond: 'Millisecond'
+      }
+    },
+    numberFormat: {
+      title: 'Number Formatting',
+      description: 'Number formatting display'
+    },
+    numberBase: {
+      title: 'Base Conversion',
+      description: 'Binary, octal, decimal, hexadecimal conversion'
+    },
+    storageTime: {
+      title: 'Storage Time Conversion',
+      description: 'Storage unit time conversion',
+      category: 'Conversion Type',
+      input: 'Input Value',
+      inputPlaceholder: 'Enter value to convert',
+      fromUnit: 'From Unit',
+      toUnit: 'To Unit',
+      unitPlaceholder: 'Select unit',
+      output: 'Conversion Result',
+      outputPlaceholder: 'Conversion result will appear here',
+      convert: 'Convert',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter value to convert',
+      unitRequired: 'Please select source and target units',
+      categories: {
+        storage: 'Storage Units',
+        time: 'Time Units'
+      }
+    },
+    httpStatus: {
+      title: 'HTTP Status Code',
+      description: 'HTTP status code query and explanation',
+      input: 'Status Code',
+      inputPlaceholder: 'Enter HTTP status code (e.g., 404)',
+      search: 'Search',
+      copy: 'Copy',
+      code: 'Code',
+      name: 'Name',
+      category: 'Category',
+      description: 'Description',
+      scenarios: 'Scenarios',
+      solutions: 'Solutions',
+      categories: {
+        informational: 'Informational',
+        success: 'Success',
+        redirect: 'Redirect',
+        clientError: 'Client Error',
+        serverError: 'Server Error'
+      }
+    },
+    userAgent: {
+      title: 'User-Agent Parser',
+      description: 'Parse User-Agent strings',
+      input: 'User-Agent',
+      inputPlaceholder: 'Enter User-Agent string',
+      parse: 'Parse',
+      copy: 'Copy',
+      browser: 'Browser',
+      os: 'Operating System',
+      device: 'Device',
+      engine: 'Engine',
+      version: 'Version'
+    },
+    ipLookup: {
+      title: 'IP Address Lookup',
+      description: 'IP address information query',
+      input: 'IP Address',
+      inputPlaceholder: 'Enter IP address',
+      lookup: 'Lookup',
+      copy: 'Copy',
+      country: 'Country',
+      region: 'Region',
+      city: 'City',
+      isp: 'ISP',
+      timezone: 'Timezone',
+      coordinates: 'Coordinates'
+    },
+    charCode: {
+      title: 'Character Encoding Conversion',
+      description: 'Character encoding conversion tool',
+      input: 'Input',
+      inputPlaceholder: 'Enter character or code',
+      convert: 'Convert',
+      copy: 'Copy',
+      ascii: 'ASCII Code',
+      unicode: 'Unicode Code',
+      binary: 'Binary',
+      octal: 'Octal',
+      decimal: 'Decimal',
+      hexadecimal: 'Hexadecimal'
+    },
     'date-calc': {
       title: 'Date Calculation',
       description: 'Date addition and subtraction calculation'
@@ -816,10 +952,6 @@ export default {
     'date-diff': {
       title: 'Date Difference',
       description: 'Calculate the difference between two dates'
-    },
-    number: {
-      title: 'Number Conversion',
-      description: 'Number format conversion'
     },
     'number-format': {
       title: 'Number Formatting',
@@ -843,7 +975,27 @@ export default {
     },
     unit: {
       title: 'Unit Conversion',
-      description: 'Length, weight, area and other unit conversions'
+      description: 'Length, weight, area and other unit conversions',
+      category: 'Conversion Type',
+      categoryPlaceholder: 'Select conversion type',
+      input: 'Input Value',
+      inputPlaceholder: 'Enter value to convert',
+      fromUnit: 'From Unit',
+      toUnit: 'To Unit',
+      unitPlaceholder: 'Select unit',
+      output: 'Conversion Result',
+      outputPlaceholder: 'Conversion result will appear here',
+      convert: 'Convert',
+      copy: 'Copy',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter value to convert',
+      unitRequired: 'Please select source and target units',
+      categories: {
+        length: 'Length',
+        weight: 'Weight',
+        area: 'Area',
+        volume: 'Volume'
+      }
     },
     'storage-time': {
       title: 'Storage Time Conversion',
@@ -859,7 +1011,16 @@ export default {
     },
     markdown: {
       title: 'Markdown Preview',
-      description: 'Real-time Markdown preview'
+      description: 'Real-time Markdown preview',
+      input: 'Input',
+      inputPlaceholder: 'Enter Markdown text',
+      convert: 'Convert',
+      copy: 'Copy',
+      preview: 'Preview',
+      output: 'Output',
+      outputPlaceholder: 'HTML code will appear here',
+      copied: 'Copied to clipboard',
+      inputRequired: 'Please enter Markdown text'
     },
     qrcode: {
       title: 'QR Code Generator',
@@ -879,7 +1040,33 @@ export default {
     },
     'char-code': {
       title: 'Character Encoding Conversion',
-      description: 'Character encoding conversion tool'
+      description: 'Character encoding conversion tool',
+      input: 'Input',
+      inputPlaceholder: 'Enter character or code',
+      convert: 'Convert',
+      copy: 'Copy',
+      ascii: 'ASCII Code',
+      unicode: 'Unicode Code',
+      binary: 'Binary',
+      octal: 'Octal',
+      decimal: 'Decimal',
+      hexadecimal: 'Hexadecimal'
+    },
+    'short-url': {
+      title: 'Short URL Generator',
+      description: 'Generate short URLs'
+    },
+    shortUrl: {
+      title: 'Short URL Generator',
+      description: 'Generate short URLs'
+    },
+    ip: {
+      title: 'IP Tools',
+      description: 'IP address related tools'
+    },
+    calculator: {
+      title: 'Calculator',
+      description: 'Online calculator'
     }
   },
   image: {
@@ -910,6 +1097,10 @@ export default {
     'remove-watermark': {
       title: 'Remove Watermark',
       description: 'Remove watermarks from images'
+    },
+    removeWatermark: {
+      title: 'Remove Watermark',
+      description: 'Remove watermarks from images'
     }
   },
   text: {
@@ -936,6 +1127,10 @@ export default {
       trim: 'Trim Whitespace',
       compress: 'Compress Whitespace',
       inputRequired: 'Please enter text to process'
+    },
+    space: {
+      title: 'Whitespace Handler',
+      description: 'Handle whitespace characters in text'
     },
     replace: {
       title: 'Text Replacer',

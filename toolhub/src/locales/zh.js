@@ -764,9 +764,168 @@ export default {
       title: '时间转换',
       description: '时间戳和日期转换工具'
     },
+    dateTime: '时间转换',
+    number: '数字转换',
+    unit: {
+      title: '单位转换',
+      description: '长度、重量、面积等单位转换',
+      category: '转换类型',
+      categoryPlaceholder: '请选择转换类型',
+      input: '输入值',
+      inputPlaceholder: '请输入要转换的数值',
+      fromUnit: '源单位',
+      toUnit: '目标单位',
+      unitPlaceholder: '请选择单位',
+      output: '转换结果',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入要转换的数值',
+      unitRequired: '请选择源单位和目标单位',
+      categories: {
+        length: '长度',
+        weight: '重量',
+        area: '面积',
+        volume: '体积'
+      }
+    },
+    other: '其他转换',
     timestamp: {
       title: '时间戳转换',
       description: '时间戳和日期时间互转'
+    },
+    dateCalc: {
+      title: '日期计算',
+      description: '日期加减计算',
+      date: '日期',
+      operation: '操作',
+      add: '加',
+      subtract: '减',
+      value: '数值',
+      unit: '单位',
+      unitPlaceholder: '请选择单位',
+      calculate: '计算',
+      result: '计算结果',
+      units: {
+        year: '年',
+        month: '月',
+        day: '天',
+        hour: '小时',
+        minute: '分钟',
+        second: '秒',
+        millisecond: '毫秒'
+      }
+    },
+    dateDiff: {
+      title: '日期差值',
+      description: '计算两个日期之间的差值',
+      startDate: '开始日期',
+      endDate: '结束日期',
+      unit: '单位',
+      unitPlaceholder: '请选择单位',
+      calculate: '计算',
+      result: '计算结果',
+      units: {
+        year: '年',
+        month: '月',
+        day: '天',
+        hour: '小时',
+        minute: '分钟',
+        second: '秒',
+        millisecond: '毫秒'
+      }
+    },
+    numberFormat: {
+      title: '数字格式化',
+      description: '数字格式化显示'
+    },
+    numberBase: {
+      title: '进制转换',
+      description: '二进制、八进制、十进制、十六进制互转'
+    },
+    storageTime: {
+      title: '存储时间转换',
+      description: '存储单位时间转换',
+      category: '转换类型',
+      input: '输入值',
+      inputPlaceholder: '请输入要转换的数值',
+      fromUnit: '源单位',
+      toUnit: '目标单位',
+      unitPlaceholder: '请选择单位',
+      output: '转换结果',
+      outputPlaceholder: '转换结果将显示在这里',
+      convert: '转换',
+      copy: '复制',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入要转换的数值',
+      unitRequired: '请选择源单位和目标单位',
+      categories: {
+        storage: '存储单位',
+        time: '时间单位'
+      }
+    },
+    httpStatus: {
+      title: 'HTTP 状态码',
+      description: 'HTTP 状态码查询和解释',
+      input: '状态码',
+      inputPlaceholder: '请输入HTTP状态码（如：404）',
+      search: '查询',
+      copy: '复制',
+      code: '状态码',
+      name: '名称',
+      category: '分类',
+      description: '描述',
+      scenarios: '使用场景',
+      solutions: '解决方案',
+      categories: {
+        informational: '信息响应',
+        success: '成功响应',
+        redirect: '重定向',
+        clientError: '客户端错误',
+        serverError: '服务器错误'
+      }
+    },
+    userAgent: {
+      title: 'User-Agent 解析',
+      description: '解析 User-Agent 字符串',
+      input: 'User-Agent',
+      inputPlaceholder: '请输入User-Agent字符串',
+      parse: '解析',
+      copy: '复制',
+      browser: '浏览器',
+      os: '操作系统',
+      device: '设备',
+      engine: '渲染引擎',
+      version: '版本'
+    },
+    ipLookup: {
+      title: 'IP 地址查询',
+      description: 'IP 地址信息查询',
+      input: 'IP地址',
+      inputPlaceholder: '请输入IP地址',
+      lookup: '查询',
+      copy: '复制',
+      country: '国家',
+      region: '地区',
+      city: '城市',
+      isp: '运营商',
+      timezone: '时区',
+      coordinates: '坐标'
+    },
+    charCode: {
+      title: '字符编码转换',
+      description: '字符编码转换工具',
+      input: '输入',
+      inputPlaceholder: '请输入字符或编码',
+      convert: '转换',
+      copy: '复制',
+      ascii: 'ASCII码',
+      unicode: 'Unicode码',
+      binary: '二进制',
+      octal: '八进制',
+      decimal: '十进制',
+      hexadecimal: '十六进制'
     },
     'date-calc': {
       title: '日期计算',
@@ -775,10 +934,6 @@ export default {
     'date-diff': {
       title: '日期差值',
       description: '计算两个日期之间的差值'
-    },
-    number: {
-      title: '数字转换',
-      description: '数字格式转换'
     },
     'number-format': {
       title: '数字格式化',
@@ -800,14 +955,6 @@ export default {
       title: '千分位转换',
       description: '数字千分位格式化'
     },
-    unit: {
-      title: '单位转换',
-      description: '长度、重量、面积等单位转换'
-    },
-    'storage-time': {
-      title: '存储时间转换',
-      description: '存储单位时间转换'
-    },
     color: {
       title: '颜色转换',
       description: '颜色格式转换'
@@ -818,7 +965,16 @@ export default {
     },
     markdown: {
       title: 'Markdown 预览',
-      description: '实时 Markdown 预览'
+      description: '实时 Markdown 预览',
+      input: '输入',
+      inputPlaceholder: '请输入Markdown文本',
+      convert: '转换',
+      copy: '复制',
+      preview: '预览',
+      output: '输出',
+      outputPlaceholder: 'HTML代码将显示在这里',
+      copied: '已复制到剪贴板',
+      inputRequired: '请输入Markdown文本'
     },
     qrcode: {
       title: '二维码生成器',
@@ -838,7 +994,33 @@ export default {
     },
     'char-code': {
       title: '字符编码转换',
-      description: '字符编码转换工具'
+      description: '字符编码转换工具',
+      input: '输入',
+      inputPlaceholder: '请输入字符或编码',
+      convert: '转换',
+      copy: '复制',
+      ascii: 'ASCII码',
+      unicode: 'Unicode码',
+      binary: '二进制',
+      octal: '八进制',
+      decimal: '十进制',
+      hexadecimal: '十六进制'
+    },
+    'short-url': {
+      title: '短链接生成',
+      description: '生成短链接'
+    },
+    shortUrl: {
+      title: '短链接生成',
+      description: '生成短链接'
+    },
+    ip: {
+      title: 'IP 工具',
+      description: 'IP 地址相关工具'
+    },
+    calculator: {
+      title: '计算器',
+      description: '在线计算器'
     }
   },
   image: {
@@ -865,6 +1047,10 @@ export default {
     'remove-watermark': {
       title: '去除水印',
       description: '去除图片水印'
+    },
+    removeWatermark: {
+      title: '去除水印',
+      description: '去除图片水印'
     }
   },
   text: {
@@ -877,6 +1063,10 @@ export default {
       description: '反转文本内容'
     },
     whitespace: {
+      title: '空白字符处理',
+      description: '处理文本中的空白字符'
+    },
+    space: {
       title: '空白字符处理',
       description: '处理文本中的空白字符'
     },
