@@ -792,13 +792,17 @@ export default {
     }
   },
   convert: {
-    time: {
-      title: 'Time Conversion',
-      description: 'Timestamp and date conversion tools'
-    },
     dateTime: 'Time Conversion',
-    number: 'Number Conversion',
-    unit: 'Unit Conversion',
+    numberGroup: 'Number Conversion',
+    unitGroup: 'Unit Conversion',
+    number: {
+      title: 'Number Conversion',
+      description: 'Number format conversion'
+    },
+    unit: {
+      title: 'Unit Conversion',
+      description: 'Length, weight, area and other unit conversions',
+    },
     other: 'Other Conversion',
     timestamp: {
       title: 'Timestamp Converter',
@@ -837,22 +841,7 @@ export default {
     },
     dateDiff: {
       title: 'Date Difference',
-      description: 'Calculate the difference between two dates',
-      startDate: 'Start Date',
-      endDate: 'End Date',
-      unit: 'Unit',
-      unitPlaceholder: 'Select unit',
-      calculate: 'Calculate',
-      result: 'Result',
-      units: {
-        year: 'Year',
-        month: 'Month',
-        day: 'Day',
-        hour: 'Hour',
-        minute: 'Minute',
-        second: 'Second',
-        millisecond: 'Millisecond'
-      }
+      description: 'Calculate the difference between two dates'
     },
     numberFormat: {
       title: 'Number Formatting',
@@ -919,17 +908,7 @@ export default {
     },
     ipLookup: {
       title: 'IP Address Lookup',
-      description: 'IP address information query',
-      input: 'IP Address',
-      inputPlaceholder: 'Enter IP address',
-      lookup: 'Lookup',
-      copy: 'Copy',
-      country: 'Country',
-      region: 'Region',
-      city: 'City',
-      isp: 'ISP',
-      timezone: 'Timezone',
-      coordinates: 'Coordinates'
+      description: 'IP address information query'
     },
     charCode: {
       title: 'Character Encoding Conversion',
@@ -945,22 +924,6 @@ export default {
       decimal: 'Decimal',
       hexadecimal: 'Hexadecimal'
     },
-    'date-calc': {
-      title: 'Date Calculation',
-      description: 'Date addition and subtraction calculation'
-    },
-    'date-diff': {
-      title: 'Date Difference',
-      description: 'Calculate the difference between two dates'
-    },
-    'number-format': {
-      title: 'Number Formatting',
-      description: 'Number formatting display'
-    },
-    'number-base': {
-      title: 'Base Conversion',
-      description: 'Binary, octal, decimal, hexadecimal conversion'
-    },
     ascii: {
       title: 'ASCII Code Conversion',
       description: 'ASCII and Unicode code conversion'
@@ -972,30 +935,6 @@ export default {
     thousand: {
       title: 'Thousand Separator Conversion',
       description: 'Number thousand separator formatting'
-    },
-    unit: {
-      title: 'Unit Conversion',
-      description: 'Length, weight, area and other unit conversions',
-      category: 'Conversion Type',
-      categoryPlaceholder: 'Select conversion type',
-      input: 'Input Value',
-      inputPlaceholder: 'Enter value to convert',
-      fromUnit: 'From Unit',
-      toUnit: 'To Unit',
-      unitPlaceholder: 'Select unit',
-      output: 'Conversion Result',
-      outputPlaceholder: 'Conversion result will appear here',
-      convert: 'Convert',
-      copy: 'Copy',
-      copied: 'Copied to clipboard',
-      inputRequired: 'Please enter value to convert',
-      unitRequired: 'Please select source and target units',
-      categories: {
-        length: 'Length',
-        weight: 'Weight',
-        area: 'Area',
-        volume: 'Volume'
-      }
     },
     'storage-time': {
       title: 'Storage Time Conversion',
@@ -1025,36 +964,6 @@ export default {
     qrcode: {
       title: 'QR Code Generator',
       description: 'Generate QR code images'
-    },
-    'http-status': {
-      title: 'HTTP Status Code',
-      description: 'HTTP status code query and explanation'
-    },
-    'user-agent': {
-      title: 'User-Agent Parser',
-      description: 'Parse User-Agent strings'
-    },
-    'ip-lookup': {
-      title: 'IP Address Lookup',
-      description: 'IP address information query'
-    },
-    'char-code': {
-      title: 'Character Encoding Conversion',
-      description: 'Character encoding conversion tool',
-      input: 'Input',
-      inputPlaceholder: 'Enter character or code',
-      convert: 'Convert',
-      copy: 'Copy',
-      ascii: 'ASCII Code',
-      unicode: 'Unicode Code',
-      binary: 'Binary',
-      octal: 'Octal',
-      decimal: 'Decimal',
-      hexadecimal: 'Hexadecimal'
-    },
-    'short-url': {
-      title: 'Short URL Generator',
-      description: 'Generate short URLs'
     },
     shortUrl: {
       title: 'Short URL Generator',
@@ -1094,10 +1003,6 @@ export default {
       title: 'Image Watermark',
       description: 'Add watermarks to images'
     },
-    'remove-watermark': {
-      title: 'Remove Watermark',
-      description: 'Remove watermarks from images'
-    },
     removeWatermark: {
       title: 'Remove Watermark',
       description: 'Remove watermarks from images'
@@ -1128,10 +1033,6 @@ export default {
       compress: 'Compress Whitespace',
       inputRequired: 'Please enter text to process'
     },
-    space: {
-      title: 'Whitespace Handler',
-      description: 'Handle whitespace characters in text'
-    },
     replace: {
       title: 'Text Replacer',
       inputPlaceholder: 'Enter text to replace',
@@ -1155,10 +1056,6 @@ export default {
       level: 'Error Correction Level',
       description: 'Generate and parse QR codes'
     },
-    'short-url': {
-      title: 'Short URL Generator',
-      description: 'Generate short URLs'
-    },
     ip: {
       title: 'IP Tools',
       description: 'IP address related tools'
@@ -1166,6 +1063,10 @@ export default {
     calculator: {
       title: 'Calculator',
       description: 'Online calculator'
+    },
+    shortUrl: {
+      title: 'Short URL Generator',
+      description: 'Generate short URLs'
     }
   },
   color: {

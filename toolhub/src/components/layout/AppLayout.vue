@@ -447,7 +447,7 @@ const menuOptions = computed(() => [
         ]
       },
       {
-        label: t('convert.number'),
+        label: t('convert.numberGroup'),
         key: 'number',
         children: [
           {
@@ -468,7 +468,7 @@ const menuOptions = computed(() => [
         ]
       },
       {
-        label: t('convert.unit'),
+        label: t('convert.unitGroup'),
         key: 'unit',
         children: [
           {
@@ -577,9 +577,9 @@ const menuOptions = computed(() => [
         path: '/text/reverse'
       },
       {
-        label: t('text.space.title'),
+        label: t('text.whitespace.title'),
         key: 'text-space',
-        path: '/text/space'
+        path: '/text/whitespace'
       },
       {
         label: t('text.replace.title'),

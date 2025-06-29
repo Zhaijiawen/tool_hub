@@ -765,31 +765,8 @@ export default {
       description: '时间戳和日期转换工具'
     },
     dateTime: '时间转换',
-    number: '数字转换',
-    unit: {
-      title: '单位转换',
-      description: '长度、重量、面积等单位转换',
-      category: '转换类型',
-      categoryPlaceholder: '请选择转换类型',
-      input: '输入值',
-      inputPlaceholder: '请输入要转换的数值',
-      fromUnit: '源单位',
-      toUnit: '目标单位',
-      unitPlaceholder: '请选择单位',
-      output: '转换结果',
-      outputPlaceholder: '转换结果将显示在这里',
-      convert: '转换',
-      copy: '复制',
-      copied: '已复制到剪贴板',
-      inputRequired: '请输入要转换的数值',
-      unitRequired: '请选择源单位和目标单位',
-      categories: {
-        length: '长度',
-        weight: '重量',
-        area: '面积',
-        volume: '体积'
-      }
-    },
+    numberGroup: '数字转换',
+    unitGroup: '单位转换',
     other: '其他转换',
     timestamp: {
       title: '时间戳转换',
@@ -901,17 +878,7 @@ export default {
     },
     ipLookup: {
       title: 'IP 地址查询',
-      description: 'IP 地址信息查询',
-      input: 'IP地址',
-      inputPlaceholder: '请输入IP地址',
-      lookup: '查询',
-      copy: '复制',
-      country: '国家',
-      region: '地区',
-      city: '城市',
-      isp: '运营商',
-      timezone: '时区',
-      coordinates: '坐标'
+      description: 'IP 地址信息查询'
     },
     charCode: {
       title: '字符编码转换',
@@ -926,22 +893,6 @@ export default {
       octal: '八进制',
       decimal: '十进制',
       hexadecimal: '十六进制'
-    },
-    'date-calc': {
-      title: '日期计算',
-      description: '日期加减计算'
-    },
-    'date-diff': {
-      title: '日期差值',
-      description: '计算两个日期之间的差值'
-    },
-    'number-format': {
-      title: '数字格式化',
-      description: '数字格式化显示'
-    },
-    'number-base': {
-      title: '进制转换',
-      description: '二进制、八进制、十进制、十六进制互转'
     },
     ascii: {
       title: 'ASCII码转换',
@@ -980,36 +931,6 @@ export default {
       title: '二维码生成器',
       description: '生成二维码图片'
     },
-    'http-status': {
-      title: 'HTTP 状态码',
-      description: 'HTTP 状态码查询和解释'
-    },
-    'user-agent': {
-      title: 'User-Agent 解析',
-      description: '解析 User-Agent 字符串'
-    },
-    'ip-lookup': {
-      title: 'IP 地址查询',
-      description: 'IP 地址信息查询'
-    },
-    'char-code': {
-      title: '字符编码转换',
-      description: '字符编码转换工具',
-      input: '输入',
-      inputPlaceholder: '请输入字符或编码',
-      convert: '转换',
-      copy: '复制',
-      ascii: 'ASCII码',
-      unicode: 'Unicode码',
-      binary: '二进制',
-      octal: '八进制',
-      decimal: '十进制',
-      hexadecimal: '十六进制'
-    },
-    'short-url': {
-      title: '短链接生成',
-      description: '生成短链接'
-    },
     shortUrl: {
       title: '短链接生成',
       description: '生成短链接'
@@ -1021,6 +942,14 @@ export default {
     calculator: {
       title: '计算器',
       description: '在线计算器'
+    },
+    number: {
+      title: '数字转换',
+      description: '数字格式转换'
+    },
+    unit: {
+      title: '单位转换',
+      description: '长度、重量、面积等单位转换'
     }
   },
   image: {
@@ -1044,10 +973,6 @@ export default {
       title: '图片水印',
       description: '添加图片水印'
     },
-    'remove-watermark': {
-      title: '去除水印',
-      description: '去除图片水印'
-    },
     removeWatermark: {
       title: '去除水印',
       description: '去除图片水印'
@@ -1066,10 +991,6 @@ export default {
       title: '空白字符处理',
       description: '处理文本中的空白字符'
     },
-    space: {
-      title: '空白字符处理',
-      description: '处理文本中的空白字符'
-    },
     replace: {
       title: '文本替换',
       description: '批量文本替换'
@@ -1080,10 +1001,6 @@ export default {
       title: '二维码生成',
       description: '生成和解析二维码'
     },
-    'short-url': {
-      title: '短链接生成',
-      description: '生成短链接'
-    },
     ip: {
       title: 'IP 工具',
       description: 'IP 地址相关工具'
@@ -1091,6 +1008,10 @@ export default {
     calculator: {
       title: '计算器',
       description: '在线计算器'
+    },
+    shortUrl: {
+      title: '短链接生成',
+      description: '生成短链接'
     }
   },
   color: {
