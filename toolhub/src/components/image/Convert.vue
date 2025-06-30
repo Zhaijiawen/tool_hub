@@ -1,7 +1,7 @@
 <template>
   <div class="image-convert">
-    <n-card :title="$t('image.convert.title')">
-      <n-space vertical>
+    <n-card :title="$t('image.convert.title')" :bordered="false">
+      <n-space vertical size="large">
         <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
@@ -20,10 +20,13 @@
             <n-select v-model:value="format" :options="formatOptions" />
           </n-form-item>
 
-          <n-form-item :label="$t('image.convert.quality')">
-            <n-slider v-model:value="quality" :min="0" :max="100" :step="1" />
+          <n-form-item :label="$t('image.convert.quality')" :disabled="isLossless">
+            <n-slider v-model:value="quality" :min="0" :max="100" :step="1" :disabled="isLossless" />
             <div class="text-right">{{ quality }}%</div>
           </n-form-item>
+          <n-text v-if="isLossless" depth="3" style="margin-top: -12px; display: block; margin-bottom: 24px;">
+            {{ t('image.convert.losslessNotice') }}
+          </n-text>
 
           <n-space>
             <n-button type="primary" @click="convertImage">
@@ -58,16 +61,23 @@
         </div>
 
         <!-- 错误提示 -->
-        <n-alert v-if="error" type="t('common.error')" :title="error" class="mt-4">
+        <n-alert v-if="error" type="error" :title="error" class="mt-4">
           {{ error }}
         </n-alert>
+        
+        <!-- 使用说明 -->
+        <div class="info-section">
+          <n-alert type="info" :title="t('image.convert.infoTitle')">
+            <div v-html="t('image.convert.infoContent')"></div>
+          </n-alert>
+        </div>
       </n-space>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
@@ -92,6 +102,10 @@ const convertedSize = ref(0)
 const quality = ref(80)
 const format = ref('image/jpeg')
 const error = ref('')
+
+const isLossless = computed(() => {
+  return format.value === 'image/png' || format.value === 'image/gif'
+})
 
 // 处理文件上传
 async function handleFileChange({ file }) {
@@ -148,7 +162,9 @@ async function convertImage() {
     ctx.drawImage(img, 0, 0)
 
     // 转换图片
-    const convertedDataUrl = canvas.toDataURL(format.value, quality.value / 100)
+    const convertedDataUrl = isLossless.value
+      ? canvas.toDataURL(format.value)
+      : canvas.toDataURL(format.value, quality.value / 100)
 
     // 计算转换后的大小
     const base64str = convertedDataUrl.split(',')[1]
@@ -221,5 +237,9 @@ function formatFileSize(bytes) {
 .info {
   margin-top: 8px;
   color: var(--n-text-color-3);
+}
+
+.info-section {
+  margin-top: 16px;
 }
 </style>

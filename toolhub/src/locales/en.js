@@ -1328,8 +1328,21 @@ export default {
   },
   image: {
     convert: {
-      title: 'Image Format Conversion',
-      description: 'Convert between various image formats'
+      title: 'Image Convert/Compress',
+      upload: 'Upload Image',
+      format: 'Output Format',
+      quality: 'Quality',
+      size: 'File Size',
+      convert: 'Convert',
+      download: 'Download',
+      original: 'Original',
+      converted: 'Converted',
+      noImage: 'Please upload an image first',
+      invalidFileType: 'Only image files are supported',
+      description: 'Supports image format conversion and compression, flexibly adjust output quality and format.',
+      losslessNotice: 'This is a lossless format, so quality cannot be adjusted.',
+      infoTitle: 'Format Information',
+      infoContent: '<b>Lossy Formats (JPEG, WebP):</b> Smaller file size, ideal for photos, but with some quality loss.<br/><b>Lossless Formats (PNG, GIF):</b> Preserves all details perfectly, suitable for high-quality images, but with larger file sizes.'
     },
     rotate: {
       title: 'Image Rotation',

@@ -1296,8 +1296,21 @@ export default {
   },
   image: {
     convert: {
-      title: '图片格式转换',
-      description: '各种图片格式互转'
+      title: '图片转换/压缩',
+      upload: '上传图片',
+      format: '输出格式',
+      quality: '质量',
+      size: '文件大小',
+      convert: '转换',
+      download: '下载',
+      original: '原图',
+      converted: '已转换',
+      noImage: '请先上传图片',
+      invalidFileType: '仅支持图片文件',
+      description: '支持图片格式转换与压缩，灵活调整输出质量和格式',
+      losslessNotice: '该格式为无损格式，无法调整压缩质量。',
+      infoTitle: '格式说明',
+      infoContent: '<b>有损格式 (JPEG, WebP):</b> 体积小，适合照片，但会损失部分质量。<br/><b>无损格式 (PNG, GIF):</b> 完美保留所有细节，适合需要高质量的图像，但体积较大。'
     },
     rotate: {
       title: '图片旋转',
