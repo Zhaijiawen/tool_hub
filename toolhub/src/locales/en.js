@@ -1373,7 +1373,29 @@ export default {
     },
     watermark: {
       title: 'Image Watermark',
-      description: 'Add watermarks to images'
+      upload: 'Upload Image',
+      text: 'Watermark Text',
+      textPlaceholder: 'Enter watermark text',
+      fontSize: 'Font Size',
+      color: 'Color',
+      opacity: 'Opacity',
+      rotation: 'Rotation',
+      position: 'Position',
+      positionPlaceholder: 'Select watermark position',
+      positions: {
+        topLeft: 'Top Left',
+        topRight: 'Top Right',
+        center: 'Center',
+        bottomLeft: 'Bottom Left',
+        bottomRight: 'Bottom Right'
+      },
+      add: 'Add Watermark',
+      download: 'Download',
+      original: 'Original',
+      watermarked: 'Watermarked',
+      noImage: 'Please upload an image first',
+      noText: 'Please enter watermark text',
+      invalidFileType: 'Only image files are supported'
     },
     removeWatermark: {
       title: 'Remove Watermark',

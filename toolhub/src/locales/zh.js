@@ -1341,7 +1341,29 @@ export default {
     },
     watermark: {
       title: '图片水印',
-      description: '添加图片水印'
+      upload: '上传图片',
+      text: '水印文字',
+      textPlaceholder: '请输入水印内容',
+      fontSize: '字体大小',
+      color: '颜色',
+      opacity: '透明度',
+      rotation: '旋转角度',
+      position: '水印位置',
+      positionPlaceholder: '请选择水印位置',
+      positions: {
+        topLeft: '左上',
+        topRight: '右上',
+        center: '居中',
+        bottomLeft: '左下',
+        bottomRight: '右下'
+      },
+      add: '添加水印',
+      download: '下载',
+      original: '原图',
+      watermarked: '加水印',
+      noImage: '请先上传图片',
+      noText: '请输入水印文字',
+      invalidFileType: '仅支持图片文件'
     },
     removeWatermark: {
       title: '去除水印',

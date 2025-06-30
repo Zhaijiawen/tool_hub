@@ -1,7 +1,7 @@
 <template>
   <div class="image-watermark">
     <n-card :title="$t('image.watermark.title')">
-      <n-space vertical>
+      <n-space vertical size="large">
         <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
@@ -15,58 +15,55 @@
           </n-upload-dragger>
         </n-upload>
 
-        <n-form :model="formData" label-placement="left" label-width="auto">
-          <n-form-item :label="$t('image.watermark.text')">
-            <n-input v-model:value="formData.text" :placeholder="$t('image.watermark.textPlaceholder')" />
-          </n-form-item>
-
-          <n-form-item :label="$t('image.watermark.fontSize')">
-            <n-slider v-model:value="formData.fontSize" :min="12" :max="72" :step="1" />
-            <div class="text-right">{{ formData.fontSize }}px</div>
-          </n-form-item>
-
-          <n-form-item :label="$t('image.watermark.color')">
-            <n-color-picker v-model:value="formData.color" :show-alpha="true" />
-          </n-form-item>
-
-          <n-form-item :label="$t('image.watermark.opacity')">
-            <n-slider v-model:value="formData.opacity" :min="0" :max="100" :step="1" />
-            <div class="text-right">{{ formData.opacity }}%</div>
-          </n-form-item>
-
-          <n-form-item :label="$t('image.watermark.rotation')">
-            <n-slider v-model:value="formData.rotation" :min="-180" :max="180" :step="1" />
-            <div class="text-right">{{ formData.rotation }}°</div>
-          </n-form-item>
-
-          <n-form-item :label="$t('image.watermark.position')">
-            <n-select v-model:value="formData.position" :options="positionOptions"
-              :placeholder="$t('image.watermark.positionPlaceholder')" />
-          </n-form-item>
-        </n-form>
-
-        <n-space>
-          <n-button @click="addWatermark" type="primary" :disabled="!originalImage">
-            {{ $t('image.watermark.add') }}
-          </n-button>
-          <n-button @click="downloadImage" :disabled="!watermarkedImage">
-            {{ $t('image.watermark.download') }}
-          </n-button>
-        </n-space>
-
-        <div v-if="originalImage || watermarkedImage" class="preview-container">
-          <div class="preview-item">
-            <h3>{{ $t('image.watermark.original') }}</h3>
-            <n-image :src="originalImage" :alt="$t('image.watermark.original')" width="300" />
+        <div v-if="originalImage" class="main-content">
+          <div class="form-section">
+            <n-form :model="formData" label-placement="left" label-width="auto">
+              <n-form-item :label="$t('image.watermark.text')">
+                <n-input v-model:value="formData.text" :placeholder="$t('image.watermark.textPlaceholder')" />
+              </n-form-item>
+              <n-form-item :label="$t('image.watermark.fontSize')">
+                <n-slider v-model:value="formData.fontSize" :min="12" :max="72" :step="1" />
+                <div class="text-right">{{ formData.fontSize }}px</div>
+              </n-form-item>
+              <n-form-item :label="$t('image.watermark.color')">
+                <n-color-picker v-model:value="formData.color" :show-alpha="true" />
+              </n-form-item>
+              <n-form-item :label="$t('image.watermark.opacity')">
+                <n-slider v-model:value="formData.opacity" :min="0" :max="100" :step="1" />
+                <div class="text-right">{{ formData.opacity }}%</div>
+              </n-form-item>
+              <n-form-item :label="$t('image.watermark.rotation')">
+                <n-slider v-model:value="formData.rotation" :min="-180" :max="180" :step="1" />
+                <div class="text-right">{{ formData.rotation }}°</div>
+              </n-form-item>
+            </n-form>
+            <n-space>
+              <n-button @click="downloadImage" :disabled="!watermarkedImage">
+                {{ $t('image.watermark.download') }}
+              </n-button>
+            </n-space>
           </div>
-          <div class="preview-item">
-            <h3>{{ $t('image.watermark.watermarked') }}</h3>
-            <n-image :src="watermarkedImage" :alt="$t('image.watermark.watermarked')" width="300" />
+          <div class="preview-section">
+            <div class="preview-row">
+              <div class="preview-box">
+                <h3>{{ $t('image.watermark.original') }}</h3>
+                <n-image :src="originalImage" :alt="$t('image.watermark.original')" width="300" />
+              </div>
+              <div class="preview-box">
+                <h3>{{ $t('image.watermark.watermarked') }}</h3>
+                <template v-if="watermarkedImage">
+                  <n-image :src="watermarkedImage" :alt="$t('image.watermark.watermarked')" width="300" />
+                </template>
+                <template v-else>
+                  <div class="preview-placeholder">{{ $t('image.watermark.noText') }}</div>
+                </template>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- 错误提示 -->
-        <n-alert v-if="error" type="t('common.error')" :title="error" class="error-alert">
+        <n-alert v-if="error" type="error" :title="error" class="error-alert">
           {{ error }}
         </n-alert>
       </n-space>
@@ -75,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
@@ -92,17 +89,8 @@ const formData = reactive({
   fontSize: 24,
   color: '#000000',
   opacity: 50,
-  position: 'center',
   rotation: 0
 })
-
-const positionOptions = [
-  { label: t('image.watermark.positions.topLeft'), value: 'topLeft' },
-  { label: t('image.watermark.positions.topRight'), value: 'topRight' },
-  { label: t('image.watermark.positions.center'), value: 'center' },
-  { label: t('image.watermark.positions.bottomLeft'), value: 'bottomLeft' },
-  { label: t('image.watermark.positions.bottomRight'), value: 'bottomRight' }
-]
 
 const handleFileChange = (options) => {
   const file = options.file?.file
@@ -110,12 +98,15 @@ const handleFileChange = (options) => {
 
   if (!file.type.startsWith('image/')) {
     error.value = t('image.watermark.invalidFileType')
+    originalImage.value = null
+    watermarkedImage.value = null
     return
   }
 
   const reader = new FileReader()
   reader.onload = (e) => {
     originalImage.value = e.target.result
+    watermarkedImage.value = null
     error.value = ''
   }
   reader.readAsDataURL(file)
@@ -124,86 +115,60 @@ const handleFileChange = (options) => {
 const addWatermark = async () => {
   try {
     if (!originalImage.value) {
-      throw new Error(t('image.watermark.noImage'))
+      watermarkedImage.value = null
+      return
     }
-
     if (!formData.text) {
-      throw new Error(t('image.watermark.noText'))
+      watermarkedImage.value = null
+      return
     }
-
     const img = new Image()
     img.src = originalImage.value
-
     await new Promise((resolve) => {
       img.onload = resolve
     })
-
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
-
     canvas.width = img.width
     canvas.height = img.height
-
     ctx.drawImage(img, 0, 0)
-
-    // 设置水印样式
     ctx.font = `${formData.fontSize}px Arial`
     ctx.fillStyle = formData.color
     ctx.globalAlpha = formData.opacity / 100
-
-    // 计算水印位置
+    ctx.save()
+    ctx.rotate((formData.rotation * Math.PI) / 180)
+    // 计算平铺间距
     const textMetrics = ctx.measureText(formData.text)
     const textWidth = textMetrics.width
-    const textHeight = formData.fontSize
-
-    let x, y
-    switch (formData.position) {
-      case 'topLeft':
-        x = 20
-        y = formData.fontSize + 20
-        break
-      case 'topRight':
-        x = canvas.width - textWidth - 20
-        y = formData.fontSize + 20
-        break
-      case 'center':
-        x = (canvas.width - textWidth) / 2
-        y = (canvas.height + textHeight) / 2
-        break
-      case 'bottomLeft':
-        x = 20
-        y = canvas.height - 20
-        break
-      case 'bottomRight':
-        x = canvas.width - textWidth - 20
-        y = canvas.height - 20
-        break
+    const textHeight = formData.fontSize * 1.5
+    // 斜向平铺
+    for (let y = -canvas.height; y < canvas.height * 2; y += textHeight) {
+      for (let x = -canvas.width; x < canvas.width * 2; x += textWidth + 80) {
+        ctx.fillText(formData.text, x, y)
+      }
     }
-
-    // 保存当前状态
-    ctx.save()
-
-    // 移动到中心点
-    ctx.translate(x + textWidth / 2, y)
-    // 旋转
-    ctx.rotate((formData.rotation * Math.PI) / 180)
-    // 绘制文字
-    ctx.fillText(formData.text, -textWidth / 2, 0)
-
-    // 恢复状态
     ctx.restore()
-
-    // 更新水印图片
     watermarkedImage.value = canvas.toDataURL()
     error.value = ''
   } catch (e) {
     error.value = e.message
+    watermarkedImage.value = null
   }
 }
 
+watch([
+  () => formData.text,
+  () => formData.fontSize,
+  () => formData.color,
+  () => formData.opacity,
+  () => formData.rotation,
+  originalImage
+], () => {
+  addWatermark()
+})
+
 const downloadImage = () => {
   if (!watermarkedImage.value) return
-
   const link = document.createElement('a')
   link.download = 'watermarked.png'
   link.href = watermarkedImage.value
@@ -226,15 +191,35 @@ const downloadImage = () => {
   padding: 20px;
 }
 
-.preview-container {
+.main-content {
   display: flex;
-  gap: 20px;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.preview-item {
-  flex: 1;
+.form-section {
+  margin-bottom: 24px;
+}
+
+.preview-section {
+  display: block;
+}
+
+.preview-row {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  padding: 0 24px;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-box {
   text-align: center;
+  background: #fafbfc;
+  border-radius: 8px;
+  padding: 16px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
 .text-right {
