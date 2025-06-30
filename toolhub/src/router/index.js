@@ -285,11 +285,6 @@ const router = createRouter({
               path: '',
               component: () => import('@/views/CategoryHome.vue')
             },
-            // 图片压缩
-            {
-              path: 'compress',
-              component: () => import('@/components/image/Compress.vue')
-            },
             // 图片格式转换
             {
               path: 'convert',

@@ -1327,14 +1327,6 @@ export default {
     }
   },
   image: {
-    compress: {
-      title: 'Image Compression',
-      upload: 'Upload Image',
-      quality: 'Quality',
-      size: 'File Size',
-      format: 'Output Format',
-      description: 'Compress image size while maintaining quality'
-    },
     convert: {
       title: 'Image Format Conversion',
       description: 'Convert between various image formats'

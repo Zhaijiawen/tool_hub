@@ -215,10 +215,6 @@ export default {
 
   // 图片工具
   image: {
-    compress: {
-      title: '图片压缩',
-      description: '压缩图片大小，保持质量'
-    },
     convert: {
       title: '图片格式转换',
       description: '各种图片格式互转'

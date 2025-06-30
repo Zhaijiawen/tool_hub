@@ -201,10 +201,6 @@ export default {
 
   // Image Tools
   image: {
-    compress: {
-      title: 'Image Compression',
-      description: 'Compress image size while maintaining quality'
-    },
     convert: {
       title: 'Image Format Converter',
       description: 'Convert between various image formats'

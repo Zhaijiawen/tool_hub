@@ -336,13 +336,6 @@ const tools = [
 
   // 图片工具
   {
-    id: 'compress',
-    name: 'image.compress.title',
-    path: '/image/compress',
-    description: 'image.compress.description',
-    category: 'image'
-  },
-  {
     id: 'convert',
     name: 'image.convert.title',
     path: '/image/convert',

@@ -521,11 +521,6 @@ const menuOptions = computed(() => [
     key: 'image',
     children: [
       {
-        label: t('image.compress.title'),
-        key: 'image-compress',
-        path: '/image/compress'
-      },
-      {
         label: t('image.convert.title'),
         key: 'image-convert',
         path: '/image/convert'
