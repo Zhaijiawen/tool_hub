@@ -216,10 +216,6 @@ export default {
     watermark: {
       title: 'Image Watermark',
       description: 'Add watermark to images'
-    },
-    'remove-watermark': {
-      title: 'Watermark Removal',
-      description: 'Remove watermark from images'
     }
   },
 

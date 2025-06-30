@@ -230,10 +230,6 @@ export default {
     watermark: {
       title: '图片水印',
       description: '添加图片水印'
-    },
-    'remove-watermark': {
-      title: '去除水印',
-      description: '去除图片水印'
     }
   },
 

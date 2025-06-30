@@ -304,11 +304,6 @@ const router = createRouter({
             {
               path: 'watermark',
               component: () => import('@/components/image/Watermark.vue')
-            },
-            // 图片去水印
-            {
-              path: 'remove-watermark',
-              component: () => import('@/components/image/RemoveWatermark.vue')
             }
           ]
         },

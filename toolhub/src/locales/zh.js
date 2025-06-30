@@ -1364,10 +1364,6 @@ export default {
       noImage: '请先上传图片',
       noText: '请输入水印文字',
       invalidFileType: '仅支持图片文件'
-    },
-    removeWatermark: {
-      title: '去除水印',
-      description: '去除图片水印'
     }
   },
   text: {

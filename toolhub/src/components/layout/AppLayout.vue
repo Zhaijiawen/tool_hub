@@ -539,11 +539,6 @@ const menuOptions = computed(() => [
         label: t('image.watermark.title'),
         key: 'image-watermark',
         path: '/image/watermark'
-      },
-      {
-        label: t('image.removeWatermark.title'),
-        key: 'image-remove-watermark',
-        path: '/image/remove-watermark'
       }
     ]
   },

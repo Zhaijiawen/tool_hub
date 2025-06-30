@@ -1396,10 +1396,6 @@ export default {
       noImage: 'Please upload an image first',
       noText: 'Please enter watermark text',
       invalidFileType: 'Only image files are supported'
-    },
-    removeWatermark: {
-      title: 'Remove Watermark',
-      description: 'Remove watermarks from images'
     }
   },
   text: {

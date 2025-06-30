@@ -363,14 +363,6 @@ const tools = [
     description: 'image.watermark.description',
     category: 'image'
   },
-  {
-    id: 'remove-watermark',
-    name: 'image.remove-watermark.title',
-    path: '/image/remove-watermark',
-    description: 'image.remove-watermark.description',
-    category: 'image'
-  },
-
   // 文本工具
   {
     id: 'case',
