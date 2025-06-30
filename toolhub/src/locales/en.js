@@ -1345,8 +1345,17 @@ export default {
       infoContent: '<b>Lossy Formats (JPEG, WebP):</b> Smaller file size, ideal for photos, but with some quality loss.<br/><b>Lossless Formats (PNG, GIF):</b> Preserves all details perfectly, suitable for high-quality images, but with larger file sizes.<br/><br/><b>Note:</b> Due to browser re-encoding, the output file can sometimes be larger than the original, even at 100% quality.'
     },
     rotate: {
-      title: 'Image Rotation',
-      description: 'Rotate and flip images'
+      title: 'Image Rotate',
+      upload: 'Upload Image',
+      angle: 'Angle',
+      rotate: 'Rotate',
+      download: 'Download',
+      original: 'Original',
+      rotated: 'Rotated',
+      noImage: 'Please upload an image first',
+      invalidFileType: 'Only image files are supported',
+      infoTitle: 'Usage Instructions',
+      infoContent: 'Rotation is triggered automatically after uploading an image or changing the angle.<br/>The output is a lossless PNG file. Due to recalculating boundaries, the dimensions and file size may change.'
     },
     crop: {
       title: 'Image Cropping',
