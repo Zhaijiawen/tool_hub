@@ -1368,8 +1368,22 @@ export default {
   },
   text: {
     case: {
-      title: '文本大小写转换',
-      description: '转换文本大小写'
+      title: '大小写转换',
+      input: '输入内容',
+      inputPlaceholder: '请输入要转换的文本',
+      output: '输出结果',
+      outputPlaceholder: '转换后的文本',
+      upperCase: '转大写',
+      lowerCase: '转小写',
+      titleCase: '标题格式',
+      sentenceCase: '句子格式',
+      alternatingCase: '交替大小写',
+      copy: '复制结果',
+      copied: '已复制',
+      clear: '清空',
+      noInput: '请输入内容后再转换',
+      infoTitle: '格式说明',
+      infoContent: '标题格式：每个单词首字母大写，常用于标题、书名等。句子格式：每个句子首字母大写，常用于正文、描述等。'
     },
     reverse: {
       title: '文本反转',

@@ -1401,12 +1401,21 @@ export default {
   text: {
     case: {
       title: 'Case Converter',
+      input: 'Input',
       inputPlaceholder: 'Enter text to convert',
-      outputPlaceholder: 'Converted result will appear here',
-      uppercase: 'UPPERCASE',
-      lowercase: 'lowercase',
-      capitalize: 'Capitalize',
-      inputRequired: 'Please enter text to convert'
+      output: 'Output',
+      outputPlaceholder: 'Converted text',
+      upperCase: 'UPPER CASE',
+      lowerCase: 'lower case',
+      titleCase: 'Title Case',
+      sentenceCase: 'Sentence case',
+      alternatingCase: 'AlTeRnAtInG CaSe',
+      copy: 'Copy',
+      copied: 'Copied',
+      clear: 'Clear',
+      noInput: 'Please enter text before converting',
+      infoTitle: 'Format Info',
+      infoContent: 'Title Case: Capitalizes the first letter of each word, commonly used for titles and headings. Sentence Case: Capitalizes the first letter of each sentence, commonly used for body text and descriptions.'
     },
     reverse: {
       title: 'Text Reverser',

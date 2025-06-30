@@ -37,6 +37,9 @@
           {{ $t('text.case.clear') }}
         </n-button>
       </n-space>
+      <n-alert type="info" :title="$t('text.case.infoTitle')" class="mt-4">
+        {{$t('text.case.infoContent')}}
+      </n-alert>
     </n-form>
   </n-card>
 </template>
@@ -59,7 +62,10 @@ function toUpperCase() {
     message.warning(t('text.case.noInput'))
     return
   }
-  output.value = input.value.toUpperCase()
+  output.value = input.value
+    .split('\n')
+    .map(line => line.toUpperCase())
+    .join('\n')
 }
 
 // 转换为小写
@@ -68,7 +74,10 @@ function toLowerCase() {
     message.warning(t('text.case.noInput'))
     return
   }
-  output.value = input.value.toLowerCase()
+  output.value = input.value
+    .split('\n')
+    .map(line => line.toLowerCase())
+    .join('\n')
 }
 
 // 转换为标题格式
@@ -78,10 +87,15 @@ function toTitleCase() {
     return
   }
   output.value = input.value
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
+    .split('\n')
+    .map(line =>
+      line
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    )
+    .join('\n')
 }
 
 // 转换为句子格式
@@ -91,10 +105,15 @@ function toSentenceCase() {
     return
   }
   output.value = input.value
-    .toLowerCase()
-    .split('. ')
-    .map(sentence => sentence.charAt(0).toUpperCase() + sentence.slice(1))
-    .join('. ')
+    .split('\n')
+    .map(line =>
+      line
+        .toLowerCase()
+        .split('. ')
+        .map(sentence => sentence.charAt(0).toUpperCase() + sentence.slice(1))
+        .join('. ')
+    )
+    .join('\n')
 }
 
 // 转换为交替大小写
@@ -104,9 +123,14 @@ function toAlternatingCase() {
     return
   }
   output.value = input.value
-    .split('')
-    .map((char, index) => index % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
-    .join('')
+    .split('\n')
+    .map(line =>
+      line
+        .split('')
+        .map((char, index) => index % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
+        .join('')
+    )
+    .join('\n')
 }
 
 // 复制输出
@@ -125,7 +149,7 @@ function clearAll() {
 
 <style scoped>
 .n-card {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
