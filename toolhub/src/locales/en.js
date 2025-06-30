@@ -1359,7 +1359,17 @@ export default {
     },
     crop: {
       title: 'Image Cropping',
-      description: 'Online image cropping and resizing'
+      upload: 'Upload Image',
+      preview: 'Preview',
+      options: 'Options',
+      aspectRatio: 'Aspect Ratio',
+      aspectRatios: {
+        free: 'Free'
+      },
+      actions: 'Actions',
+      download: 'Download',
+      infoTitle: 'Usage Instructions',
+      infoContent: 'After uploading, drag the box on the image to select the crop area. The preview will update automatically. Use the controls on the right to adjust.'
     },
     watermark: {
       title: 'Image Watermark',

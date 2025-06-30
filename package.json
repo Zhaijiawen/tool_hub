@@ -16,6 +16,7 @@
     "concurrently": "^9.2.0"
   },
   "dependencies": {
-    "@stablelib/chacha": "^2.0.1"
+    "@stablelib/chacha": "^2.0.1",
+    "vue-advanced-cropper": "^2.8.9"
   }
 }

@@ -1327,7 +1327,17 @@ export default {
     },
     crop: {
       title: '图片裁剪',
-      description: '在线图片裁剪和调整大小'
+      upload: '上传图片',
+      preview: '预览',
+      options: '参数选项',
+      aspectRatio: '裁剪比例',
+      aspectRatios: {
+        free: '自由'
+      },
+      actions: '操作',
+      download: '下载',
+      infoTitle: '使用说明',
+      infoContent: '上传图片后，在图片上拖动选框即可进行裁剪，右侧会实时预览。可使用右侧的控件进行更精细的调整。'
     },
     watermark: {
       title: '图片水印',
