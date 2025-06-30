@@ -2,7 +2,12 @@
   <div class="image-convert">
     <n-card :title="$t('image.convert.title')" :bordered="false">
       <n-space vertical size="large">
-        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
+        <n-upload
+          accept="image/*"
+          :max="1"
+          :show-file-list="false"
+          @change="handleFileChange"
+        >
           <n-upload-dragger>
             <div class="upload-trigger">
               <n-icon size="48" :depth="3">
@@ -29,9 +34,6 @@
           </n-text>
 
           <n-space>
-            <n-button type="primary" @click="convertImage">
-              {{ $t('image.convert.convert') }}
-            </n-button>
             <n-button @click="downloadImage" :disabled="!convertedImage">
               {{ $t('image.convert.download') }}
             </n-button>
@@ -77,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
@@ -109,7 +111,14 @@ const isLossless = computed(() => {
 
 // 处理文件上传
 async function handleFileChange({ file }) {
-  if (!file) return
+  if (!file || !file.file) {
+    originalImage.value = ''
+    convertedImage.value = ''
+    originalSize.value = 0
+    convertedSize.value = 0
+    error.value = ''
+    return
+  }
 
   try {
     // 检查文件类型
@@ -117,29 +126,32 @@ async function handleFileChange({ file }) {
       throw new Error(t('image.convert.invalidFileType'))
     }
 
+    // 清空之前的结果
+    convertedImage.value = ''
+    convertedSize.value = 0
+    error.value = ''
+
     // 读取文件
     const reader = new FileReader()
     reader.onload = (e) => {
       originalImage.value = e.target.result
       originalSize.value = file.file.size
       originalFormat.value = file.file.type
-      convertedImage.value = ''
-      convertedSize.value = 0
-      error.value = ''
     }
     reader.readAsDataURL(file.file)
   } catch (err) {
     error.value = err.message
+    originalImage.value = ''
   }
 }
 
 // 转换图片
 async function convertImage() {
-  try {
-    if (!originalImage.value) {
-      throw new Error(t('image.convert.noImage'))
-    }
+  if (!originalImage.value) {
+    return
+  }
 
+  try {
     // 创建图片对象
     const img = new Image()
     img.src = originalImage.value
@@ -147,7 +159,10 @@ async function convertImage() {
     // 等待图片加载
     await new Promise((resolve, reject) => {
       img.onload = resolve
-      img.onerror = reject
+      img.onerror = (err) => {
+        console.error("Image load error:", err);
+        reject(new Error('Failed to load image for conversion.'))
+      }
     })
 
     // 创建canvas
@@ -176,8 +191,29 @@ async function convertImage() {
     error.value = ''
   } catch (err) {
     error.value = err.message
+    convertedImage.value = ''
+    convertedSize.value = 0
   }
 }
+
+// 监听变更自动转换
+watch(originalImage, (newValue) => {
+  if (newValue) {
+    convertImage()
+  }
+})
+
+watch(format, () => {
+  if (originalImage.value) {
+    convertImage()
+  }
+})
+
+watch(quality, () => {
+  if (originalImage.value && !isLossless.value) {
+    convertImage()
+  }
+})
 
 // 下载转换后的图片
 function downloadImage() {
