@@ -63,58 +63,64 @@
             </div>
 
             <div class="keypad scientific-keypad">
-              <!-- 科学函数行 -->
+              <!-- 第1行：二级函数 -->
               <div class="row">
                 <n-button @click="appendFunction('sin')" class="function-btn">sin</n-button>
                 <n-button @click="appendFunction('cos')" class="function-btn">cos</n-button>
                 <n-button @click="appendFunction('tan')" class="function-btn">tan</n-button>
+                <n-button @click="appendParenthesis('(')" class="function-btn">(</n-button>
+                <n-button @click="appendParenthesis(')')" class="function-btn">)</n-button>
+              </div>
+
+              <!-- 第2行：高级函数 -->
+              <div class="row">
                 <n-button @click="appendFunction('log')" class="function-btn">log</n-button>
                 <n-button @click="appendFunction('ln')" class="function-btn">ln</n-button>
-              </div>
-
-              <div class="row">
                 <n-button @click="appendFunction('sqrt')" class="function-btn">√</n-button>
                 <n-button @click="appendOperator('^')" class="function-btn">x^y</n-button>
-                <n-button @click="appendConstant('pi')" class="function-btn">π</n-button>
-                <n-button @click="appendConstant('e')" class="function-btn">e</n-button>
-                <n-button @click="appendParenthesis('(')" class="function-btn">(</n-button>
+                <n-button @click="appendOperator('!')" class="function-btn">n!</n-button>
               </div>
 
-              <!-- 基础操作行 -->
+              <!-- 第3行：常量和清除 -->
               <div class="row">
+                <n-button @click="appendConstant('pi')" class="function-btn">π</n-button>
+                <n-button @click="appendConstant('e')" class="function-btn">e</n-button>
                 <n-button @click="clear" type="error" class="action-btn">{{ $t('other.calculator.clear') }}</n-button>
                 <n-button @click="clearEntry" class="action-btn">CE</n-button>
                 <n-button @click="backspace" class="action-btn">←</n-button>
-                <n-button @click="appendParenthesis(')')" class="function-btn">)</n-button>
-                <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
               </div>
 
-              <!-- 数字行 -->
-              <div class="row">
+              <!-- 第4行：数字区域开始 -->
+              <div class="row number-area">
                 <n-button @click="appendNumber('7')" class="number-btn">7</n-button>
                 <n-button @click="appendNumber('8')" class="number-btn">8</n-button>
                 <n-button @click="appendNumber('9')" class="number-btn">9</n-button>
-                <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
+                <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
               </div>
 
-              <div class="row">
+              <div class="row number-area">
                 <n-button @click="appendNumber('4')" class="number-btn">4</n-button>
                 <n-button @click="appendNumber('5')" class="number-btn">5</n-button>
                 <n-button @click="appendNumber('6')" class="number-btn">6</n-button>
-                <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
+                <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
               </div>
 
-              <div class="row">
+              <div class="row number-area">
                 <n-button @click="appendNumber('1')" class="number-btn">1</n-button>
                 <n-button @click="appendNumber('2')" class="number-btn">2</n-button>
                 <n-button @click="appendNumber('3')" class="number-btn">3</n-button>
+                <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
+              </div>
+
+              <div class="row number-area">
+                <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
+                <n-button @click="appendDecimal" class="number-btn">.</n-button>
                 <n-button @click="appendOperator('+')" class="operator-btn">+</n-button>
               </div>
 
-              <div class="row">
-                <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
-                <n-button @click="appendDecimal" class="number-btn">.</n-button>
-                <n-button @click="calculate" type="primary" class="equals-btn">=</n-button>
+              <!-- 等号单独一行，跨越整个宽度 -->
+              <div class="row equals-row">
+                <n-button @click="calculate" type="primary" class="equals-btn-full">=</n-button>
               </div>
             </div>
           </div>
@@ -672,6 +678,14 @@ function appendOperator(op) {
   
   if (!expression.value) return
   
+  // 处理阶乘
+  if (op === '!') {
+    // 阶乘直接添加到表达式末尾
+    expression.value += '!'
+    calculateReal()
+    return
+  }
+  
   // 转换显示符号为计算符号
   const calcOp = op === '×' ? '*' : op === '÷' ? '/' : op
   
@@ -983,7 +997,7 @@ onMounted(() => {
 }
 
 .scientific-keypad {
-  grid-template-rows: repeat(7, 1fr);
+  grid-template-rows: repeat(8, 1fr);
 }
 
 .row {
@@ -992,9 +1006,22 @@ onMounted(() => {
   gap: 8px;
 }
 
-.scientific-keypad .row:first-child,
-.scientific-keypad .row:nth-child(2) {
+/* 科学计算器前3行使用5列布局 */
+.scientific-keypad .row:nth-child(1),
+.scientific-keypad .row:nth-child(2),
+.scientific-keypad .row:nth-child(3) {
   grid-template-columns: repeat(5, 1fr);
+}
+
+/* 数字区域使用4列布局 */
+.scientific-keypad .row.number-area {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 等号行占满宽度 */
+.scientific-keypad .row.equals-row {
+  grid-template-columns: 1fr;
+  margin-top: 8px;
 }
 
 .number-btn {
@@ -1082,6 +1109,20 @@ onMounted(() => {
 }
 
 .equals-btn:hover {
+  background-color: #36ad6a !important;
+}
+
+.equals-btn-full {
+  height: 48px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #18a058 !important;
+  color: white !important;
+  border: 1px solid #18a058 !important;
+  width: 100%;
+}
+
+.equals-btn-full:hover {
   background-color: #36ad6a !important;
 }
 
