@@ -1139,22 +1139,6 @@ export default {
       infoTitle: 'Instructions',
       infoContent: 'Char to Code: Enter any character and click "Char to Code" to get Unicode code (U+XXXX format); Code to Char: Enter Unicode code in U+XXXX format (space separated), click "Code to Char" to restore original characters. Supports common Chinese, English, punctuation, emoji, etc.'
     },
-    ascii: {
-      title: 'ASCII Code Conversion',
-      description: 'ASCII and Unicode code conversion'
-    },
-    scientific: {
-      title: 'Scientific Notation Conversion',
-      description: 'Scientific notation and normal value conversion'
-    },
-    thousand: {
-      title: 'Thousand Separator Conversion',
-      description: 'Number thousand separator formatting'
-    },
-    'storage-time': {
-      title: 'Storage Time Conversion',
-      description: 'Storage unit time conversion'
-    },
     color: {
       title: 'Color Conversion',
       description: 'Color format conversion',
@@ -1308,49 +1292,6 @@ export default {
         footnoteText: 'Here is a footnote',
         footnoteContent: 'This is the footnote content'
       }
-    },
-    qrcode: {
-      title: 'QR Code Generator',
-      description: 'Generate QR code images'
-    },
-    shortUrl: {
-      title: 'Short URL Generator',
-      description: 'Generate short URLs'
-    },
-    ip: {
-      title: 'IP Tools',
-      description: 'IP address related tools'
-    },
-    calculator: {
-      title: 'Calculator',
-      description: 'Online calculator'
-    },
-    replace: {
-      title: 'Text Replace',
-      input: 'Input',
-      inputPlaceholder: 'Enter text to process',
-      output: 'Output',
-      outputPlaceholder: 'Replaced text',
-      find: 'Find',
-      findPlaceholder: 'Enter text to find',
-      replace: 'Replace With',
-      replacePlaceholder: 'Enter replacement text',
-      caseSensitive: 'Case Sensitive',
-      useRegex: 'Use Regex',
-      copy: 'Copy',
-      copied: 'Copied',
-      clear: 'Clear',
-      noInput: 'Please enter both input and find text',
-      invalidRegex: 'Invalid regular expression',
-      infoTitle: 'Function Info',
-      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly. \\n, \\t etc. can be inserted via dropdown or typed directly. \\n = newline, \\t = tab.',
-      special: 'Insert Symbol',
-      specialNewline: 'Newline (\\n)',
-      specialTab: 'Tab (\\t)',
-      specialReturn: 'Return (\\r)',
-      specialSpace: 'Space',
-      specialComma: 'Comma',
-      specialSemicolon: 'Semicolon'
     }
   },
   image: {
@@ -1482,14 +1423,22 @@ export default {
       replacePlaceholder: 'Enter replacement text',
       caseSensitive: 'Case Sensitive',
       useRegex: 'Use Regex',
+      replaceAll: 'Replace All',
+      replaceFirst: 'Replace First',
       copy: 'Copy',
       copied: 'Copied',
       clear: 'Clear',
       noInput: 'Please enter both input and find text',
       invalidRegex: 'Invalid regular expression',
       infoTitle: 'Function Info',
-      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly.',
-      replaceAll: 'Replace All'
+      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly. \\n, \\t etc. can be inserted via dropdown or typed directly. \\n = newline, \\t = tab. Note: Tab is an alignment character that automatically aligns to the next tab stop (usually every 8 characters), so tabs at different positions may display different widths. Use spaces for fixed-width spacing.',
+      special: 'Insert Symbol',
+      specialNewline: 'Newline (\\n)',
+      specialTab: 'Tab (\\t)',
+      specialReturn: 'Return (\\r)',
+      specialSpace: 'Space',
+      specialComma: 'Comma',
+      specialSemicolon: 'Semicolon'
     }
   },
   other: {
@@ -1512,70 +1461,5 @@ export default {
       title: 'Short URL Generator',
       description: 'Generate short URLs'
     }
-  },
-  color: {
-    title: 'Color Conversion',
-    operation: 'Operation',
-    picker: 'Color Picker',
-    converter: 'Color Format Converter',
-    pickColor: 'Pick Color',
-    hex: 'HEX',
-    hexPlaceholder: 'HEX color value',
-    rgb: 'RGB',
-    rgbPlaceholder: 'RGB color value',
-    hsl: 'HSL',
-    hslPlaceholder: 'HSL color value',
-    input: 'Input',
-    inputPlaceholder: 'Please enter color value',
-    fromFormat: 'From',
-    toFormat: 'To',
-    formatPlaceholder: 'Please select color format',
-    output: 'Output',
-    outputPlaceholder: 'Conversion result will appear here',
-    convert: 'Convert',
-    copy: 'Copy',
-    copied: 'Copied to clipboard',
-    inputRequired: 'Please enter color value',
-    invalidInput: 'Invalid color value',
-    invalidHex: 'Invalid HEX format, please enter 6-digit hexadecimal color value starting with #',
-    invalidRgb: 'Invalid RGB format, please enter rgb(r,g,b) format',
-    invalidHsl: 'Invalid HSL format, please enter hsl(h,s%,l%) format',
-    infoTitle: 'Usage Instructions',
-    infoContent: 'Color Picker: Use the color picker to select colors, automatically displays HEX, RGB, HSL formats; Color Format Converter: Supports conversion between HEX, RGB, HSL color formats. HEX format: 6-digit hexadecimal color value (e.g., #FF0000); RGB format: rgb(r,g,b) format (e.g., rgb(255,0,0)); HSL format: hsl(h,s%,l%) format (e.g., hsl(0,100%,50%)).',
-    formats: {
-      hex: 'HEX',
-      rgb: 'RGB',
-      hsl: 'HSL'
-    }
-  },
-  regex: {
-    title: 'Regular Expression Tool',
-    pattern: 'Regular Expression',
-    patternPlaceholder: 'Please enter regular expression',
-    flags: 'Flags',
-    testString: 'Test String',
-    testStringPlaceholder: 'Please enter text to test',
-    test: 'Test',
-    generate: 'Generate',
-    result: 'Result',
-    resultPlaceholder: 'Test result will appear here',
-    copy: 'Copy',
-    copied: 'Copied to clipboard',
-    patternRequired: 'Please enter regular expression',
-    testStringRequired: 'Please enter text to test',
-    noMatch: 'No matches found',
-    generated: 'Generated regular expression: {pattern}'
-  },
-  markdown: {
-    title: 'Markdown to HTML',
-    input: 'Input',
-    inputPlaceholder: 'Please enter Markdown text',
-    convert: 'Convert',
-    copy: 'Copy',
-    preview: 'Preview',
-    output: 'Output',
-    outputPlaceholder: 'HTML code will appear here',
-    copied: 'Copied to clipboard',
-    inputRequired: 'Please enter Markdown text'
   }
 } 

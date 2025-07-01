@@ -1023,18 +1023,6 @@ export default {
       infoTitle: '使用说明',
       infoContent: '字符转编码：输入任意字符，点击"字符转编码"可获得Unicode编码（U+XXXX格式）；编码转字符：输入U+XXXX格式的Unicode编码（可用空格分隔），点击"编码转字符"可还原为原始字符。支持常见中英文字符、标点、表情等。'
     },
-    ascii: {
-      title: 'ASCII码转换',
-      description: 'ASCII码与Unicode码转换'
-    },
-    scientific: {
-      title: '科学计数法转换',
-      description: '科学计数法与普通数值转换'
-    },
-    thousand: {
-      title: '千分位转换',
-      description: '数字千分位格式化'
-    },
     color: {
       title: '颜色转换',
       description: '颜色格式转换',
@@ -1189,22 +1177,6 @@ export default {
         footnoteContent: '这是脚注的内容'
       }
     },
-    qrcode: {
-      title: '二维码生成器',
-      description: '生成二维码图片'
-    },
-    shortUrl: {
-      title: '短链接生成',
-      description: '生成短链接'
-    },
-    ip: {
-      title: 'IP 工具',
-      description: 'IP 地址相关工具'
-    },
-    calculator: {
-      title: '计算器',
-      description: '在线计算器'
-    },
     number: {
       title: '数字转换',
       description: '数字格式转换',
@@ -1292,20 +1264,6 @@ export default {
         cubicFoot: '立方英尺',
         gallon: '加仑'
       }
-    },
-    whitespace: {
-      title: '空白字符处理',
-      inputPlaceholder: '请输入要处理的文本',
-      outputPlaceholder: '处理后的文本',
-      trim: '去除首尾空白',
-      compress: '压缩所有空白',
-      inputRequired: '请输入内容后再处理',
-      infoTitle: '功能说明',
-      infoContent: '去除首尾空白：仅去除文本开头和结尾的空白字符。压缩所有空白：将所有连续的空白字符（包括空格、制表符、换行等）压缩为一个空格。'
-    },
-    replace: {
-      title: '文本替换',
-      description: '批量文本替换'
     }
   },
   image: {
@@ -1437,13 +1395,22 @@ export default {
       replacePlaceholder: '请输入替换内容',
       caseSensitive: '区分大小写',
       useRegex: '使用正则表达式',
+      replaceAll: '全部替换',
+      replaceFirst: '替换第一个',
       copy: '复制结果',
       copied: '已复制',
       clear: '清空',
       noInput: '请输入内容和查找内容',
       invalidRegex: '无效的正则表达式',
       infoTitle: '功能说明',
-      infoContent: '普通替换：直接查找并替换文本。正则替换：支持正则表达式查找和替换。区分大小写：开启后严格区分大小写。\\n、\\t等可通过下拉插入或直接输入，\\n=换行，\\t=制表符。'
+      infoContent: '普通替换：直接查找并替换文本。正则替换：支持正则表达式查找和替换。区分大小写：开启后严格区分大小写。\\n、\\t等可通过下拉插入或直接输入，\\n=换行，\\t=制表符。注意：制表符(Tab)是对齐字符，会自动对齐到下一个Tab停止位(通常每8个字符)，因此不同位置的Tab显示宽度可能不同。如需固定宽度间隔，请使用空格。',
+      special: '插入符号',
+      specialNewline: '换行 (\\n)',
+      specialTab: '制表符 (\\t)',
+      specialReturn: '回车 (\\r)',
+      specialSpace: '空格',
+      specialComma: '逗号',
+      specialSemicolon: '分号'
     }
   },
   other: {
@@ -1463,70 +1430,5 @@ export default {
       title: '短链接生成',
       description: '生成短链接'
     }
-  },
-  color: {
-    title: '颜色转换',
-    operation: '操作',
-    picker: '颜色选择器',
-    converter: '颜色格式转换',
-    pickColor: '选择颜色',
-    hex: 'HEX',
-    hexPlaceholder: 'HEX颜色值',
-    rgb: 'RGB',
-    rgbPlaceholder: 'RGB颜色值',
-    hsl: 'HSL',
-    hslPlaceholder: 'HSL颜色值',
-    input: '输入',
-    inputPlaceholder: '请输入颜色值',
-    fromFormat: '从',
-    toFormat: '到',
-    formatPlaceholder: '请选择颜色格式',
-    output: '输出',
-    outputPlaceholder: '转换结果将显示在这里',
-    convert: '转换',
-    copy: '复制',
-    copied: '已复制到剪贴板',
-    inputRequired: '请输入颜色值',
-    invalidInput: '无效的颜色值',
-    invalidHex: '无效的HEX格式，请输入#开头的6位十六进制颜色值',
-    invalidRgb: '无效的RGB格式，请输入rgb(r,g,b)格式',
-    invalidHsl: '无效的HSL格式，请输入hsl(h,s%,l%)格式',
-    infoTitle: '使用说明',
-    infoContent: '颜色选择器：使用颜色选择器选择颜色，自动显示HEX、RGB、HSL格式；颜色格式转换：支持HEX、RGB、HSL三种颜色格式之间的相互转换。HEX格式：6位十六进制颜色值（如：#FF0000）；RGB格式：rgb(r,g,b)格式（如：rgb(255,0,0)）；HSL格式：hsl(h,s%,l%)格式（如：hsl(0,100%,50%)）。',
-    formats: {
-      hex: 'HEX',
-      rgb: 'RGB',
-      hsl: 'HSL'
-    }
-  },
-  regex: {
-    title: '正则表达式工具',
-    pattern: '正则表达式',
-    patternPlaceholder: '请输入正则表达式',
-    flags: '标志',
-    testString: '测试文本',
-    testStringPlaceholder: '请输入要测试的文本',
-    test: '测试',
-    generate: '生成',
-    result: '结果',
-    resultPlaceholder: '测试结果将显示在这里',
-    copy: '复制',
-    copied: '已复制到剪贴板',
-    patternRequired: '请输入正则表达式',
-    testStringRequired: '请输入要测试的文本',
-    noMatch: '没有匹配项',
-    generated: '生成的正则表达式：{pattern}'
-  },
-  markdown: {
-    title: 'Markdown转HTML',
-    input: '输入',
-    inputPlaceholder: '请输入Markdown文本',
-    convert: '转换',
-    copy: '复制',
-    preview: '预览',
-    output: '输出',
-    outputPlaceholder: 'HTML代码将显示在这里',
-    copied: '已复制到剪贴板',
-    inputRequired: '请输入Markdown文本'
   }
 } 
