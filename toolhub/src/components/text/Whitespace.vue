@@ -20,6 +20,10 @@
         <n-input v-model:value="output" type="textarea" :placeholder="t('text.whitespace.outputPlaceholder')"
           :autosize="{ minRows: 5, maxRows: 10 }" readonly />
 
+        <n-alert type="info" :title="t('text.whitespace.infoTitle')" class="info-section">
+          {{ t('text.whitespace.infoContent') }}
+        </n-alert>
+
         <!-- 错误提示 -->
         <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
           {{ error }}
@@ -80,6 +84,10 @@ const copyToClipboard = async () => {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
+}
+
+.info-section {
+  margin-top: 16px;
 }
 
 .error-alert {

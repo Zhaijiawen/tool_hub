@@ -1292,6 +1292,20 @@ export default {
         cubicFoot: '立方英尺',
         gallon: '加仑'
       }
+    },
+    whitespace: {
+      title: '空白字符处理',
+      inputPlaceholder: '请输入要处理的文本',
+      outputPlaceholder: '处理后的文本',
+      trim: '去除首尾空白',
+      compress: '压缩所有空白',
+      inputRequired: '请输入内容后再处理',
+      infoTitle: '功能说明',
+      infoContent: '去除首尾空白：仅去除文本开头和结尾的空白字符。压缩所有空白：将所有连续的空白字符（包括空格、制表符、换行等）压缩为一个空格。'
+    },
+    replace: {
+      title: '文本替换',
+      description: '批量文本替换'
     }
   },
   image: {
@@ -1403,7 +1417,13 @@ export default {
     },
     whitespace: {
       title: '空白字符处理',
-      description: '处理文本中的空白字符'
+      inputPlaceholder: '请输入要处理的文本',
+      outputPlaceholder: '处理后的文本',
+      trim: '去除首尾空白',
+      compress: '压缩所有空白',
+      inputRequired: '请输入内容后再处理',
+      infoTitle: '功能说明',
+      infoContent: '去除首尾空白：仅去除文本开头和结尾的空白字符。压缩所有空白：将所有连续的空白字符（包括空格、制表符、换行等）压缩为一个空格。'
     },
     replace: {
       title: '文本替换',

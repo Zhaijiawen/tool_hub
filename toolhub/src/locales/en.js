@@ -1436,10 +1436,12 @@ export default {
     whitespace: {
       title: 'Whitespace Handler',
       inputPlaceholder: 'Enter text to process',
-      outputPlaceholder: 'Processed result will appear here',
+      outputPlaceholder: 'Processed text',
       trim: 'Trim Whitespace',
       compress: 'Compress Whitespace',
-      inputRequired: 'Please enter text to process'
+      inputRequired: 'Please enter text before processing',
+      infoTitle: 'Function Info',
+      infoContent: 'Trim Whitespace: Only removes whitespace at the beginning and end of the text. Compress Whitespace: Compresses all consecutive whitespace (including spaces, tabs, newlines, etc.) into a single space.'
     },
     replace: {
       title: 'Text Replacer',
