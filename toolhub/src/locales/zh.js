@@ -1387,7 +1387,19 @@ export default {
     },
     reverse: {
       title: '文本反转',
-      description: '反转文本内容'
+      input: '输入内容',
+      inputPlaceholder: '请输入要反转的文本',
+      output: '输出结果',
+      outputPlaceholder: '反转后的文本',
+      reverse: '字符反转',
+      reverseWords: '单词顺序反转',
+      reverseLines: '行顺序反转',
+      copy: '复制结果',
+      copied: '已复制',
+      clear: '清空',
+      noInput: '请输入内容后再反转',
+      infoTitle: '功能说明',
+      infoContent: '字符反转：将所有字符顺序反转。单词顺序反转：将每一行的单词顺序反转。行顺序反转：将多行文本的行顺序反转。'
     },
     whitespace: {
       title: '空白字符处理',

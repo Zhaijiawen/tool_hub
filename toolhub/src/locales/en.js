@@ -1419,10 +1419,19 @@ export default {
     },
     reverse: {
       title: 'Text Reverser',
+      input: 'Input',
       inputPlaceholder: 'Enter text to reverse',
-      outputPlaceholder: 'Reversed result will appear here',
-      reverse: 'Reverse',
-      inputRequired: 'Please enter text to reverse'
+      output: 'Output',
+      outputPlaceholder: 'Reversed text',
+      reverse: 'Reverse Characters',
+      reverseWords: 'Reverse Words',
+      reverseLines: 'Reverse Lines',
+      copy: 'Copy',
+      copied: 'Copied',
+      clear: 'Clear',
+      noInput: 'Please enter text before reversing',
+      infoTitle: 'Function Info',
+      infoContent: 'Reverse Characters: Reverse all characters in the text. Reverse Words: Reverse the order of words in each line. Reverse Lines: Reverse the order of lines in multi-line text.'
     },
     whitespace: {
       title: 'Whitespace Handler',

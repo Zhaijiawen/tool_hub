@@ -31,6 +31,9 @@
           {{ $t('text.reverse.clear') }}
         </n-button>
       </n-space>
+      <n-alert type="info" :title="$t('text.reverse.infoTitle')" class="info-section">
+        {{$t('text.reverse.infoContent')}}
+      </n-alert>
     </n-form>
   </n-card>
 </template>
@@ -62,7 +65,10 @@ function reverseWords() {
     message.warning(t('text.reverse.noInput'))
     return
   }
-  output.value = input.value.split(' ').reverse().join(' ')
+  output.value = input.value
+    .split('\n')
+    .map(line => line.split(' ').reverse().join(' '))
+    .join('\n')
 }
 
 // 反转行顺序
@@ -90,11 +96,15 @@ function clearAll() {
 
 <style scoped>
 .n-card {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .mt-4 {
+  margin-top: 16px;
+}
+
+.info-section {
   margin-top: 16px;
 }
 </style>
