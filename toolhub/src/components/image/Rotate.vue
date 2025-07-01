@@ -2,50 +2,50 @@
   <div class="image-rotate">
     <n-card :title="$t('image.rotate.title')" :bordered="false">
       <n-space vertical size="large">
-        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
-          <n-upload-dragger>
-            <div class="upload-trigger">
-              <n-icon size="48" :depth="3">
-                <upload-outlined />
-              </n-icon>
-              <n-text style="margin-top: 8px">
-                {{ $t('image.rotate.upload') }}
-              </n-text>
-            </div>
-          </n-upload-dragger>
-        </n-upload>
+    <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
+      <n-upload-dragger>
+        <div class="upload-trigger">
+          <n-icon size="48" :depth="3">
+            <upload-outlined />
+          </n-icon>
+          <n-text style="margin-top: 8px">
+            {{ $t('image.rotate.upload') }}
+          </n-text>
+        </div>
+      </n-upload-dragger>
+    </n-upload>
 
-        <div v-if="originalImage" class="mt-4">
-          <n-form>
-            <n-form-item :label="$t('image.rotate.angle')">
-              <n-slider v-model:value="angle" :min="0" :max="360" :step="90" :marks="angleMarks" />
-              <div class="text-right">{{ angle }}°</div>
-            </n-form-item>
+    <div v-if="originalImage" class="mt-4">
+      <n-form>
+        <n-form-item :label="$t('image.rotate.angle')">
+          <n-slider v-model:value="angle" :min="0" :max="360" :step="90" :marks="angleMarks" />
+          <div class="text-right">{{ angle }}°</div>
+        </n-form-item>
 
-            <n-space>
-              <n-button @click="downloadImage" :disabled="!rotatedImage">
-                {{ $t('image.rotate.download') }}
-              </n-button>
-            </n-space>
-          </n-form>
+        <n-space>
+          <n-button @click="downloadImage" :disabled="!rotatedImage">
+            {{ $t('image.rotate.download') }}
+          </n-button>
+        </n-space>
+      </n-form>
 
-          <div class="preview-container mt-4">
-            <div class="preview-item">
-              <h3>{{ $t('image.rotate.original') }}</h3>
-              <n-image :src="originalImage" :alt="$t('image.rotate.original')" width="300" />
-            </div>
-
-            <div v-if="rotatedImage" class="preview-item">
-              <h3>{{ $t('image.rotate.rotated') }}</h3>
-              <n-image :src="rotatedImage" :alt="$t('image.rotate.rotated')" width="300" />
-            </div>
-          </div>
+      <div class="preview-container mt-4">
+        <div class="preview-item">
+          <h3>{{ $t('image.rotate.original') }}</h3>
+          <n-image :src="originalImage" :alt="$t('image.rotate.original')" width="300" />
         </div>
 
-        <!-- 错误提示 -->
+        <div v-if="rotatedImage" class="preview-item">
+          <h3>{{ $t('image.rotate.rotated') }}</h3>
+          <n-image :src="rotatedImage" :alt="$t('image.rotate.rotated')" width="300" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 错误提示 -->
         <n-alert v-if="error" type="error" :title="error" class="mt-4">
-          {{ error }}
-        </n-alert>
+      {{ error }}
+    </n-alert>
         
         <!-- 使用说明 -->
         <div class="info-section">
@@ -54,7 +54,7 @@
           </n-alert>
         </div>
       </n-space>
-    </n-card>
+  </n-card>
   </div>
 </template>
 
@@ -115,9 +115,9 @@ async function handleFileChange({ file }) {
 
 // 旋转图片
 async function rotateImage() {
-  if (!originalImage.value) {
+    if (!originalImage.value) {
     return
-  }
+    }
 
   try {
     // 创建图片对象

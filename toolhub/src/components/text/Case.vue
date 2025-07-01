@@ -90,10 +90,10 @@ function toTitleCase() {
     .split('\n')
     .map(line =>
       line
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
     )
     .join('\n')
 }
@@ -108,10 +108,10 @@ function toSentenceCase() {
     .split('\n')
     .map(line =>
       line
-        .toLowerCase()
-        .split('. ')
-        .map(sentence => sentence.charAt(0).toUpperCase() + sentence.slice(1))
-        .join('. ')
+    .toLowerCase()
+    .split('. ')
+    .map(sentence => sentence.charAt(0).toUpperCase() + sentence.slice(1))
+    .join('. ')
     )
     .join('\n')
 }
@@ -126,9 +126,9 @@ function toAlternatingCase() {
     .split('\n')
     .map(line =>
       line
-        .split('')
-        .map((char, index) => index % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
-        .join('')
+    .split('')
+    .map((char, index) => index % 2 === 0 ? char.toUpperCase() : char.toLowerCase())
+    .join('')
     )
     .join('\n')
 }

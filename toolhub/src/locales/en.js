@@ -1343,7 +1343,14 @@ export default {
       noInput: 'Please enter both input and find text',
       invalidRegex: 'Invalid regular expression',
       infoTitle: 'Function Info',
-      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly.'
+      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly. \\n, \\t etc. can be inserted via dropdown or typed directly. \\n = newline, \\t = tab.',
+      special: 'Insert Symbol',
+      specialNewline: 'Newline (\\n)',
+      specialTab: 'Tab (\\t)',
+      specialReturn: 'Return (\\r)',
+      specialSpace: 'Space',
+      specialComma: 'Comma',
+      specialSemicolon: 'Semicolon'
     }
   },
   image: {

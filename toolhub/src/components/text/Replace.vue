@@ -7,11 +7,37 @@
       </n-form-item>
 
       <n-form-item :label="$t('text.replace.find')">
-        <n-input v-model:value="find" :placeholder="$t('text.replace.findPlaceholder')" />
+        <n-input v-model:value="find" ref="findInput" :placeholder="$t('text.replace.findPlaceholder')" style="width: 70%" />
+        <n-select
+          :options="[
+            { label: t('text.replace.specialNewline'), value: '\n' },
+            { label: t('text.replace.specialTab'), value: '\t' },
+            { label: t('text.replace.specialReturn'), value: '\r' },
+            { label: t('text.replace.specialSpace'), value: ' ' },
+            { label: t('text.replace.specialComma'), value: ',' },
+            { label: t('text.replace.specialSemicolon'), value: ';' }
+          ]"
+          style="width: 120px; margin-left: 8px;"
+          @update:value="val => insertSpecial(findInput, val)"
+          :placeholder="t('text.replace.special')"
+        />
       </n-form-item>
 
       <n-form-item :label="$t('text.replace.replace')">
-        <n-input v-model:value="replace" :placeholder="$t('text.replace.replacePlaceholder')" />
+        <n-input v-model:value="replace" ref="replaceInput" :placeholder="$t('text.replace.replacePlaceholder')" style="width: 70%" />
+        <n-select
+          :options="[
+            { label: t('text.replace.specialNewline'), value: '\n' },
+            { label: t('text.replace.specialTab'), value: '\t' },
+            { label: t('text.replace.specialReturn'), value: '\r' },
+            { label: t('text.replace.specialSpace'), value: ' ' },
+            { label: t('text.replace.specialComma'), value: ',' },
+            { label: t('text.replace.specialSemicolon'), value: ';' }
+          ]"
+          style="width: 120px; margin-left: 8px;"
+          @update:value="val => insertSpecial(replaceInput, val)"
+          :placeholder="t('text.replace.special')"
+        />
       </n-form-item>
 
       <n-space>
@@ -53,20 +79,47 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 
 const { t } = useI18n()
 const message = useMessage()
 
-// 状态变量
 const input = ref('')
 const find = ref('')
 const replace = ref('')
 const output = ref('')
 const caseSensitive = ref(false)
 const useRegex = ref(false)
+
+const findInput = ref(null)
+const replaceInput = ref(null)
+
+const specialOptions = computed(() => [
+  { label: t('text.replace.specialNewline'), value: '\n' },
+  { label: t('text.replace.specialTab'), value: '\t' },
+  { label: t('text.replace.specialReturn'), value: '\r' },
+  { label: t('text.replace.specialSpace'), value: ' ' },
+  { label: t('text.replace.specialComma'), value: ',' },
+  { label: t('text.replace.specialSemicolon'), value: ';' }
+])
+
+function insertSpecial(inputRef, val) {
+  const inputEl = inputRef.value?.inputEl || inputRef.value?.$el?.querySelector('input')
+  if (!inputEl) return
+  const start = inputEl.selectionStart
+  const end = inputEl.selectionEnd
+  const oldVal = inputEl.value
+  const newVal = oldVal.slice(0, start) + val + oldVal.slice(end)
+  inputEl.value = newVal
+  inputRef.value?.$emit('update:value', newVal)
+  // 恢复光标
+  setTimeout(() => {
+    inputEl.setSelectionRange(start + val.length, start + val.length)
+    inputEl.focus()
+  }, 0)
+}
 
 // 替换文本
 function replaceText() {
