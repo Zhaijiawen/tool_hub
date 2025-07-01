@@ -409,13 +409,14 @@ const tools = [
   //   description: 'other.short-url.description',
   //   category: 'other'
   // },
-  {
-    id: 'ip',
-    name: 'other.ip.title',
-    path: '/other/ip',
-    description: 'other.ip.description',
-    category: 'other'
-  },
+  // IP工具功能暂时屏蔽
+  // {
+  //   id: 'ip',
+  //   name: 'other.ip.title',
+  //   path: '/other/ip',
+  //   description: 'other.ip.description',
+  //   category: 'other'
+  // },
   {
     id: 'calculator',
     name: 'other.calculator.title',

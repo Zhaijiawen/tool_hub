@@ -356,10 +356,11 @@ const router = createRouter({
             //   path: 'short-url',
             //   component: () => import('@/components/other/ShortUrl.vue')
             // },
-            {
-              path: 'ip',
-              component: () => import('@/components/other/IPTools.vue')
-            },
+            // IP工具功能暂时屏蔽
+            // {
+            //   path: 'ip',
+            //   component: () => import('@/components/other/IPTools.vue')
+            // },
             {
               path: 'calculator',
               component: () => import('@/components/other/Calculator.vue')

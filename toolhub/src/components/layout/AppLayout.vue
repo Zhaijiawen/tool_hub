@@ -583,11 +583,12 @@ const menuOptions = computed(() => [
       //   key: 'short-url',
       //   path: '/other/short-url'
       // },
-      {
-        label: t('other.ip.title'),
-        key: 'ip',
-        path: '/other/ip'
-      },
+      // IP工具功能暂时屏蔽
+      // {
+      //   label: t('other.ip.title'),
+      //   key: 'ip',
+      //   path: '/other/ip'
+      // },
       {
         label: t('other.calculator.title'),
         key: 'calculator',
