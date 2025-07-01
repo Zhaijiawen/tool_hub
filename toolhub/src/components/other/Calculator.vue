@@ -1001,26 +1001,74 @@ onMounted(() => {
   height: 48px;
   font-size: 18px;
   font-weight: 500;
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #e0e0e0;
+}
+
+.number-btn:hover {
+  background-color: #f5f5f5;
 }
 
 .operator-btn {
   height: 48px;
   font-size: 18px;
   font-weight: 500;
-  background-color: var(--n-color-primary);
-  color: white;
+  background-color: #18a058 !important;
+  color: white !important;
+  border: 1px solid #18a058 !important;
+}
+
+.operator-btn:hover {
+  background-color: #36ad6a !important;
 }
 
 .function-btn {
   height: 48px;
   font-size: 14px;
-  background-color: var(--n-color-info);
-  color: white;
+  background-color: #2080f0 !important;
+  color: white !important;
+  border: 1px solid #2080f0 !important;
+}
+
+.function-btn:hover {
+  background-color: #4098fc !important;
 }
 
 .action-btn {
   height: 48px;
   font-size: 16px;
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #e0e0e0;
+}
+
+.action-btn:hover {
+  background-color: #f5f5f5;
+}
+
+/* 深色主题支持 */
+[data-theme='dark'] .number-btn,
+[data-theme='dark'] .action-btn {
+  background-color: #48484e;
+  color: #ffffff;
+  border: 1px solid #5a5a5f;
+}
+
+[data-theme='dark'] .number-btn:hover,
+[data-theme='dark'] .action-btn:hover {
+  background-color: #5a5a5f;
+}
+
+/* 强制按钮可见性 */
+.n-button {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.n-button .n-button__content {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .equals-btn {
@@ -1028,6 +1076,13 @@ onMounted(() => {
   font-size: 18px;
   font-weight: bold;
   grid-column: span 2;
+  background-color: #18a058 !important;
+  color: white !important;
+  border: 1px solid #18a058 !important;
+}
+
+.equals-btn:hover {
+  background-color: #36ad6a !important;
 }
 
 .zero-btn {
