@@ -1484,7 +1484,33 @@ export default {
     },
     shortUrl: {
       title: '短链接生成',
-      description: '生成短链接'
+      description: '生成短链接',
+      generate: '生成短链接',
+      decode: '解码短链接',
+      url: '原始链接',
+      urlPlaceholder: '请输入要缩短的链接，如 https://www.example.com',
+      urlRequired: '请输入原始链接',
+      expires: '过期时间',
+      shortUrl: '短链接',
+      shortUrlPlaceholder: '请输入要解码的短链接，如 http://t.ly/abc123',
+      shortUrlRequired: '请输入短链接',
+      copy: '复制',
+      result: '结果',
+      copied: '复制成功',
+      generateError: '生成短链接失败',
+      decodeError: '解码短链接失败',
+      invalidUrl: '请输入有效的URL地址',
+      // 过期时间选项
+      expires1d: '1天',
+      expires7d: '7天',
+      expires30d: '30天',
+      expiresNever: '永久',
+      // 使用说明
+      infoTitle: '使用说明',
+      infoContent: '生成：输入完整的URL地址，选择过期时间，点击生成即可创建短链接。解码：输入短链接地址，点击解码即可查看原始链接。注意：本工具为演示版本，生成的短链接仅在当前浏览器有效。',
+      // 演示模式提示
+      demoMode: '演示模式',
+      demoModeDesc: '当前为演示模式，短链接仅在本地浏览器有效，无法跨设备使用'
     }
   }
 } 

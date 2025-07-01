@@ -577,11 +577,12 @@ const menuOptions = computed(() => [
         key: 'qrcode',
         path: '/other/qrcode'
       },
-      {
-        label: t('other.shortUrl.title'),
-        key: 'short-url',
-        path: '/other/short-url'
-      },
+      // 短链接功能暂时屏蔽
+      // {
+      //   label: t('other.shortUrl.title'),
+      //   key: 'short-url',
+      //   path: '/other/short-url'
+      // },
       {
         label: t('other.ip.title'),
         key: 'ip',

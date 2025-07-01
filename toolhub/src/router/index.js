@@ -351,10 +351,11 @@ const router = createRouter({
               path: 'qrcode',
               component: () => import('@/components/other/QRCode.vue')
             },
-            {
-              path: 'short-url',
-              component: () => import('@/components/other/ShortUrl.vue')
-            },
+            // 短链接功能暂时屏蔽
+            // {
+            //   path: 'short-url',
+            //   component: () => import('@/components/other/ShortUrl.vue')
+            // },
             {
               path: 'ip',
               component: () => import('@/components/other/IPTools.vue')

@@ -1292,6 +1292,36 @@ export default {
         footnoteText: 'Here is a footnote',
         footnoteContent: 'This is the footnote content'
       }
+    },
+    shortUrl: {
+      title: 'Short URL Generator',
+      description: 'Generate short URLs',
+      generate: 'Generate Short URL',
+      decode: 'Decode Short URL',
+      url: 'Original URL',
+      urlPlaceholder: 'Enter URL to shorten, e.g. https://www.example.com',
+      urlRequired: 'Please enter original URL',
+      expires: 'Expiration',
+      shortUrl: 'Short URL',
+      shortUrlPlaceholder: 'Enter short URL to decode, e.g. http://t.ly/abc123',
+      shortUrlRequired: 'Please enter short URL',
+      copy: 'Copy',
+      result: 'Result',
+      copied: 'Copied successfully',
+      generateError: 'Failed to generate short URL',
+      decodeError: 'Failed to decode short URL',
+      invalidUrl: 'Please enter a valid URL',
+      // Expiration options
+      expires1d: '1 Day',
+      expires7d: '7 Days',
+      expires30d: '30 Days',
+      expiresNever: 'Never',
+      // Usage instructions
+      infoTitle: 'Usage Instructions',
+      infoContent: 'Generate: Enter a complete URL, select expiration time, and click generate to create a short URL. Decode: Enter a short URL and click decode to view the original URL. Note: This is a demo version, short URLs are only valid in the current browser.',
+      // Demo mode
+      demoMode: 'Demo Mode',
+      demoModeDesc: 'Currently in demo mode, short URLs are only valid locally and cannot be used across devices'
     }
   },
   image: {
@@ -1512,7 +1542,33 @@ export default {
     },
     shortUrl: {
       title: 'Short URL Generator',
-      description: 'Generate short URLs'
+      description: 'Generate short URLs',
+      generate: 'Generate Short URL',
+      decode: 'Decode Short URL',
+      url: 'Original URL',
+      urlPlaceholder: 'Enter URL to shorten, e.g. https://www.example.com',
+      urlRequired: 'Please enter original URL',
+      expires: 'Expiration',
+      shortUrl: 'Short URL',
+      shortUrlPlaceholder: 'Enter short URL to decode, e.g. http://t.ly/abc123',
+      shortUrlRequired: 'Please enter short URL',
+      copy: 'Copy',
+      result: 'Result',
+      copied: 'Copied successfully',
+      generateError: 'Failed to generate short URL',
+      decodeError: 'Failed to decode short URL',
+      invalidUrl: 'Please enter a valid URL',
+      // Expiration options
+      expires1d: '1 Day',
+      expires7d: '7 Days',
+      expires30d: '30 Days',
+      expiresNever: 'Never',
+      // Usage instructions
+      infoTitle: 'Usage Instructions',
+      infoContent: 'Generate: Enter a complete URL, select expiration time, and click generate to create a short URL. Decode: Enter a short URL and click decode to view the original URL. Note: This is a demo version, short URLs are only valid in the current browser.',
+      // Demo mode
+      demoMode: 'Demo Mode',
+      demoModeDesc: 'Currently in demo mode, short URLs are only valid locally and cannot be used across devices'
     }
   }
 } 

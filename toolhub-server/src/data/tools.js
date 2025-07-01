@@ -401,13 +401,14 @@ const tools = [
     description: 'other.qrcode.description',
     category: 'other'
   },
-  {
-    id: 'short-url',
-    name: 'other.short-url.title',
-    path: '/other/short-url',
-    description: 'other.short-url.description',
-    category: 'other'
-  },
+  // 短链接功能暂时屏蔽
+  // {
+  //   id: 'short-url',
+  //   name: 'other.short-url.title',
+  //   path: '/other/short-url',
+  //   description: 'other.short-url.description',
+  //   category: 'other'
+  // },
   {
     id: 'ip',
     name: 'other.ip.title',
