@@ -1324,6 +1324,26 @@ export default {
     calculator: {
       title: 'Calculator',
       description: 'Online calculator'
+    },
+    replace: {
+      title: 'Text Replace',
+      input: 'Input',
+      inputPlaceholder: 'Enter text to process',
+      output: 'Output',
+      outputPlaceholder: 'Replaced text',
+      find: 'Find',
+      findPlaceholder: 'Enter text to find',
+      replace: 'Replace With',
+      replacePlaceholder: 'Enter replacement text',
+      caseSensitive: 'Case Sensitive',
+      useRegex: 'Use Regex',
+      copy: 'Copy',
+      copied: 'Copied',
+      clear: 'Clear',
+      noInput: 'Please enter both input and find text',
+      invalidRegex: 'Invalid regular expression',
+      infoTitle: 'Function Info',
+      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly.'
     }
   },
   image: {
@@ -1444,18 +1464,25 @@ export default {
       infoContent: 'Trim Whitespace: Only removes whitespace at the beginning and end of the text. Compress Whitespace: Compresses all consecutive whitespace (including spaces, tabs, newlines, etc.) into a single space.'
     },
     replace: {
-      title: 'Text Replacer',
-      inputPlaceholder: 'Enter text to replace',
-      outputPlaceholder: 'Replaced result will appear here',
-      from: 'Replace',
-      fromPlaceholder: 'Enter text to replace',
-      to: 'Replace with',
-      toPlaceholder: 'Enter replacement text',
-      replace: 'Replace',
-      newlineToComma: 'Newline to Comma',
-      commaToNewline: 'Comma to Newline',
-      inputRequired: 'Please enter text to replace',
-      fromRequired: 'Please enter text to replace'
+      title: 'Text Replace',
+      input: 'Input',
+      inputPlaceholder: 'Enter text to process',
+      output: 'Output',
+      outputPlaceholder: 'Replaced text',
+      find: 'Find',
+      findPlaceholder: 'Enter text to find',
+      replace: 'Replace With',
+      replacePlaceholder: 'Enter replacement text',
+      caseSensitive: 'Case Sensitive',
+      useRegex: 'Use Regex',
+      copy: 'Copy',
+      copied: 'Copied',
+      clear: 'Clear',
+      noInput: 'Please enter both input and find text',
+      invalidRegex: 'Invalid regular expression',
+      infoTitle: 'Function Info',
+      infoContent: 'Normal Replace: Directly find and replace text. Regex Replace: Support regular expression search and replace. Case Sensitive: When enabled, match case strictly.',
+      replaceAll: 'Replace All'
     }
   },
   other: {

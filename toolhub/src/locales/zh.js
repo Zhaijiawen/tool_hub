@@ -1427,7 +1427,24 @@ export default {
     },
     replace: {
       title: '文本替换',
-      description: '批量文本替换'
+      input: '输入内容',
+      inputPlaceholder: '请输入要处理的文本',
+      output: '输出结果',
+      outputPlaceholder: '替换后的文本',
+      find: '查找内容',
+      findPlaceholder: '请输入要查找的内容',
+      replace: '替换为',
+      replacePlaceholder: '请输入替换内容',
+      caseSensitive: '区分大小写',
+      useRegex: '使用正则表达式',
+      copy: '复制结果',
+      copied: '已复制',
+      clear: '清空',
+      noInput: '请输入内容和查找内容',
+      invalidRegex: '无效的正则表达式',
+      infoTitle: '功能说明',
+      infoContent: '普通替换：直接查找并替换文本。正则替换：支持正则表达式查找和替换。区分大小写：开启后严格区分大小写。',
+      replaceAll: '全部替换'
     }
   },
   other: {
