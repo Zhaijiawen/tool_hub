@@ -1571,7 +1571,279 @@ export default {
     },
     calculator: {
       title: 'Calculator',
-      description: 'Online calculator'
+      description: 'Online calculator',
+      basicMode: 'Basic Calculator',
+      scientificMode: 'Scientific Calculator',
+      expressionMode: 'Expression Calculator',
+      clear: 'Clear',
+      clearHistory: 'Clear History',
+      calculate: 'Calculate',
+      result: 'Result',
+      history: 'History',
+      historyCleared: 'History cleared',
+      calculateSuccess: 'Calculation successful',
+      calculateError: 'Calculation error',
+      expressionPlaceholder: 'Enter math expression, e.g.: sqrt(16), sin(pi/2), 2^3 + log(100)',
+      expressionRequired: 'Please enter expression',
+      examples: {
+        basic: "Basic Calculations",
+        basicExamples: [
+          "2 + 3 * 4",
+          "sqrt(16)",
+          "sin(pi/4)",
+          "abs(-5)"
+        ],
+        scientific: "Scientific Calculations",
+        scientificExamples: [
+          "cos(45 deg)",
+          "log(10, 2)",
+          "pow(2, 8)",
+          "factorial(5)"
+        ],
+        expression: "Expression Calculations",
+        expressionExamples: [
+          "x = 5; y = 3; x^2 + y^2",
+          "f(x) = x^2 + 2*x + 1; f(3)",
+          "det([[1,2],[3,4]])",
+          "2 + 3i",
+          "complex(2, 3)",
+          "abs(3 + 4i)"
+        ]
+      },
+      help: {
+        title: "Calculator Help",
+        basic: {
+          title: "Basic Operators",
+          operators: [
+            "+ Addition",
+            "- Subtraction",
+            "* Multiplication",
+            "/ Division", 
+            "^ or ** Exponentiation",
+            "% Modulo (remainder)",
+            "! Factorial"
+          ]
+        },
+        constants: {
+          title: "Constants",
+          list: [
+            "pi or PI - Mathematical constant π (3.14159...)",
+            "e or E - Euler's number (2.71828...)",
+            "i - Imaginary unit (√-1)",
+            "phi - Golden ratio (1.618...)",
+            "tau - 2π",
+            "LN2 - ln(2)",
+            "LN10 - ln(10)",
+            "LOG2E - log₂(e)",
+            "LOG10E - log₁₀(e)",
+            "SQRT1_2 - √(1/2)",
+            "SQRT2 - √2"
+          ]
+        },
+        functions: {
+          title: "Supported Functions",
+          basic: {
+            title: "Basic Functions",
+            list: [
+              "abs(x) - Absolute value",
+              "sqrt(x) - Square root",
+              "cbrt(x) - Cube root",
+              "sign(x) - Sign function",
+              "ceil(x) - Ceiling",
+              "floor(x) - Floor",
+              "round(x) - Round",
+              "trunc(x) - Truncate",
+              "mod(x, y) - Modulo operation",
+              "gcd(a, b) - Greatest common divisor",
+              "lcm(a, b) - Least common multiple",
+              "factorial(n) - Factorial"
+            ]
+          },
+          trigonometric: {
+            title: "Trigonometric Functions",
+            list: [
+              "sin(x) - Sine",
+              "cos(x) - Cosine", 
+              "tan(x) - Tangent",
+              "asin(x) - Arcsine",
+              "acos(x) - Arccosine",
+              "atan(x) - Arctangent",
+              "atan2(y, x) - Two-argument arctangent",
+              "sec(x) - Secant",
+              "csc(x) - Cosecant",
+              "cot(x) - Cotangent"
+            ]
+          },
+          hyperbolic: {
+            title: "Hyperbolic Functions",
+            list: [
+              "sinh(x) - Hyperbolic sine",
+              "cosh(x) - Hyperbolic cosine",
+              "tanh(x) - Hyperbolic tangent",
+              "asinh(x) - Inverse hyperbolic sine",
+              "acosh(x) - Inverse hyperbolic cosine",
+              "atanh(x) - Inverse hyperbolic tangent",
+              "sech(x) - Hyperbolic secant",
+              "csch(x) - Hyperbolic cosecant",
+              "coth(x) - Hyperbolic cotangent"
+            ]
+          },
+          logarithmic: {
+            title: "Logarithmic and Exponential Functions",
+            list: [
+              "exp(x) - Exponential (e^x)",
+              "expm1(x) - e^x - 1",
+              "log(x) - Natural logarithm",
+              "log(x, base) - Logarithm with specified base",
+              "log2(x) - Base-2 logarithm",
+              "log10(x) - Base-10 logarithm",
+              "log1p(x) - ln(1+x)",
+              "pow(x, y) - Power (x^y)",
+              "nthRoot(x, n) - nth root"
+            ]
+          },
+          complex: {
+            title: "Complex Number Functions",
+            list: [
+              "complex(re, im) - Create complex number",
+              "re(x) - Real part",
+              "im(x) - Imaginary part",
+              "arg(x) - Argument (phase)",
+              "conj(x) - Complex conjugate",
+              "i - Imaginary unit (√-1)"
+            ]
+          },
+          matrix: {
+            title: "Matrix Functions",
+            list: [
+              "matrix([[a,b],[c,d]]) - Create matrix",
+              "det(A) - Determinant",
+              "inv(A) - Inverse matrix",
+              "transpose(A) - Transpose",
+              "trace(A) - Trace",
+              "size(A) - Matrix size",
+              "diag(A) - Diagonal elements",
+              "identity(n) - Identity matrix",
+              "zeros(m, n) - Zero matrix",
+              "ones(m, n) - Ones matrix"
+            ]
+          },
+          statistical: {
+            title: "Statistical Functions",
+            list: [
+              "mean(A) - Average",
+              "median(A) - Median",
+              "mode(A) - Mode",
+              "std(A) - Standard deviation",
+              "var(A) - Variance",
+              "min(A) - Minimum",
+              "max(A) - Maximum",
+              "sum(A) - Sum",
+              "prod(A) - Product",
+              "quantileSeq(A, p) - Quantile"
+            ]
+          },
+          probability: {
+            title: "Probability and Combinatorics",
+            list: [
+              "random() - Random number 0-1",
+              "randomInt(min, max) - Random integer",
+              "combinations(n, k) - Combinations",
+              "permutations(n, k) - Permutations",
+              "gamma(x) - Gamma function",
+              "factorial(n) - Factorial",
+              "multinomial(A) - Multinomial coefficient"
+            ]
+          },
+          bitwise: {
+            title: "Bitwise Operations",
+            list: [
+              "bitAnd(x, y) - Bitwise AND",
+              "bitOr(x, y) - Bitwise OR",
+              "bitXor(x, y) - Bitwise XOR",
+              "bitNot(x) - Bitwise NOT",
+              "leftShift(x, y) - Left shift",
+              "rightArithShift(x, y) - Arithmetic right shift",
+              "rightLogShift(x, y) - Logical right shift"
+            ]
+          },
+          logical: {
+            title: "Logical Functions",
+            list: [
+              "and(x, y) - Logical AND",
+              "or(x, y) - Logical OR",
+              "xor(x, y) - Logical XOR",
+              "not(x) - Logical NOT"
+            ]
+          },
+          comparison: {
+            title: "Comparison Functions",
+            list: [
+              "equal(x, y) - Equal",
+              "unequal(x, y) - Not equal",
+              "smaller(x, y) - Less than",
+              "smallerEq(x, y) - Less than or equal",
+              "larger(x, y) - Greater than",
+              "largerEq(x, y) - Greater than or equal",
+              "compare(x, y) - Compare function",
+              "deepEqual(x, y) - Deep equality"
+            ]
+          },
+          string: {
+            title: "String and Type Conversion",
+            list: [
+              "string(x) - Convert to string",
+              "number(x) - Convert to number",
+              "boolean(x) - Convert to boolean",
+              "format(value, precision) - Format number",
+              "print(template, values) - Formatted output"
+            ]
+          },
+          utils: {
+            title: "Utility Functions",
+            list: [
+              "clone(x) - Deep clone",
+              "isNaN(x) - Check if NaN",
+              "isInteger(x) - Check if integer",
+              "isNumeric(x) - Check if numeric",
+              "isPositive(x) - Check if positive",
+              "isNegative(x) - Check if negative",
+              "isZero(x) - Check if zero",
+              "isPrime(x) - Check if prime"
+            ]
+          }
+        },
+        variables: {
+          title: "Variables and Function Definition",
+          description: "You can define variables and custom functions:",
+          examples: [
+            "x = 10",
+            "y = x^2 + 5",
+            "f(x) = x^2 + 2*x + 1",
+            "f(5)"
+          ]
+        },
+        units: {
+          title: "Unit Conversion",
+          description: "Supports unit calculations and conversions:",
+          examples: [
+            "5 m + 3 cm",
+            "10 kg * 9.8 m/s^2",
+            "60 mph to km/h",
+            "1 inch to cm"
+          ]
+        },
+        expressions: {
+          title: "Expression Examples",
+          description: "Complex expression calculations:",
+          examples: [
+            "solve(x^2 + x - 6, x)",
+            "derivative('x^2 + 3*x', 'x')",
+            "simplify('2*x + 3*x')",
+            "evaluate('x^2', {x: 5})"
+          ]
+        }
+      }
     },
     shortUrl: {
       title: 'Short URL Generator',

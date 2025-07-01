@@ -1513,7 +1513,279 @@ export default {
     },
     calculator: {
       title: '计算器',
-      description: '在线计算器'
+      description: '在线计算器',
+      basicMode: '基础计算器',
+      scientificMode: '科学计算器',
+      expressionMode: '表达式计算器',
+      clear: '清空',
+      clearHistory: '清空历史',
+      calculate: '计算',
+      result: '计算结果',
+      history: '历史记录',
+      historyCleared: '历史记录已清空',
+      calculateSuccess: '计算成功',
+      calculateError: '计算错误',
+      expressionPlaceholder: '输入数学表达式，如：sqrt(16), sin(pi/2), 2^3 + log(100)',
+      expressionRequired: '请输入表达式',
+      examples: {
+        basic: "基础计算",
+        basicExamples: [
+          "2 + 3 * 4",
+          "sqrt(16)",
+          "sin(pi/4)",
+          "abs(-5)"
+        ],
+        scientific: "科学计算",
+        scientificExamples: [
+          "cos(45 deg)",
+          "log(10, 2)",
+          "pow(2, 8)",
+          "factorial(5)"
+        ],
+        expression: "表达式计算",
+        expressionExamples: [
+          "x = 5; y = 3; x^2 + y^2",
+          "f(x) = x^2 + 2*x + 1; f(3)",
+          "det([[1,2],[3,4]])",
+          "2 + 3i",
+          "complex(2, 3)",
+          "abs(3 + 4i)"
+        ]
+      },
+      help: {
+        title: "计算器帮助",
+        basic: {
+          title: "基础运算符",
+          operators: [
+            "+ 加法",
+            "- 减法",
+            "* 乘法",
+            "/ 除法", 
+            "^ 或 ** 幂运算",
+            "% 取模运算（求余数）",
+            "! 阶乘"
+          ]
+        },
+        constants: {
+          title: "常量",
+          list: [
+            "pi 或 PI - 圆周率 (3.14159...)",
+            "e 或 E - 自然对数底数 (2.71828...)",
+            "i - 虚数单位 (√-1)",
+            "phi - 黄金比例 (1.618...)",
+            "tau - 2π",
+            "LN2 - ln(2)",
+            "LN10 - ln(10)",
+            "LOG2E - log₂(e)",
+            "LOG10E - log₁₀(e)",
+            "SQRT1_2 - √(1/2)",
+            "SQRT2 - √2"
+          ]
+        },
+        functions: {
+          title: "支持的函数",
+          basic: {
+            title: "基础函数",
+            list: [
+              "abs(x) - 绝对值",
+              "sqrt(x) - 平方根",
+              "cbrt(x) - 立方根",
+              "sign(x) - 符号函数",
+              "ceil(x) - 向上取整",
+              "floor(x) - 向下取整",
+              "round(x) - 四舍五入",
+              "trunc(x) - 截断小数部分",
+              "mod(x, y) - 取模运算",
+              "gcd(a, b) - 最大公约数",
+              "lcm(a, b) - 最小公倍数",
+              "factorial(n) - 阶乘"
+            ]
+          },
+          trigonometric: {
+            title: "三角函数",
+            list: [
+              "sin(x) - 正弦",
+              "cos(x) - 余弦", 
+              "tan(x) - 正切",
+              "asin(x) - 反正弦",
+              "acos(x) - 反余弦",
+              "atan(x) - 反正切",
+              "atan2(y, x) - 双参数反正切",
+              "sec(x) - 正割",
+              "csc(x) - 余割",
+              "cot(x) - 余切"
+            ]
+          },
+          hyperbolic: {
+            title: "双曲函数",
+            list: [
+              "sinh(x) - 双曲正弦",
+              "cosh(x) - 双曲余弦",
+              "tanh(x) - 双曲正切",
+              "asinh(x) - 反双曲正弦",
+              "acosh(x) - 反双曲余弦",
+              "atanh(x) - 反双曲正切",
+              "sech(x) - 双曲正割",
+              "csch(x) - 双曲余割",
+              "coth(x) - 双曲余切"
+            ]
+          },
+          logarithmic: {
+            title: "对数和指数函数",
+            list: [
+              "exp(x) - e的x次方",
+              "expm1(x) - e^x - 1",
+              "log(x) - 自然对数",
+              "log(x, base) - 指定底数的对数",
+              "log2(x) - 以2为底的对数",
+              "log10(x) - 以10为底的对数",
+              "log1p(x) - ln(1+x)",
+              "pow(x, y) - x的y次方",
+              "nthRoot(x, n) - n次方根"
+            ]
+          },
+          complex: {
+            title: "复数函数",
+            list: [
+              "complex(re, im) - 创建复数",
+              "re(x) - 实部",
+              "im(x) - 虚部",
+              "arg(x) - 幅角",
+              "conj(x) - 共轭复数",
+              "i - 虚数单位 (√-1)"
+            ]
+          },
+          matrix: {
+            title: "矩阵函数",
+            list: [
+              "matrix([[a,b],[c,d]]) - 创建矩阵",
+              "det(A) - 行列式",
+              "inv(A) - 逆矩阵",
+              "transpose(A) - 转置",
+              "trace(A) - 迹",
+              "size(A) - 矩阵大小",
+              "diag(A) - 对角线元素",
+              "identity(n) - 单位矩阵",
+              "zeros(m, n) - 零矩阵",
+              "ones(m, n) - 全1矩阵"
+            ]
+          },
+          statistical: {
+            title: "统计函数",
+            list: [
+              "mean(A) - 平均值",
+              "median(A) - 中位数",
+              "mode(A) - 众数",
+              "std(A) - 标准差",
+              "var(A) - 方差",
+              "min(A) - 最小值",
+              "max(A) - 最大值",
+              "sum(A) - 求和",
+              "prod(A) - 乘积",
+              "quantileSeq(A, p) - 分位数"
+            ]
+          },
+          probability: {
+            title: "概率和组合数学",
+            list: [
+              "random() - 0到1的随机数",
+              "randomInt(min, max) - 随机整数",
+              "combinations(n, k) - 组合数",
+              "permutations(n, k) - 排列数",
+              "gamma(x) - 伽马函数",
+              "factorial(n) - 阶乘",
+              "multinomial(A) - 多项式系数"
+            ]
+          },
+          bitwise: {
+            title: "位运算",
+            list: [
+              "bitAnd(x, y) - 按位与",
+              "bitOr(x, y) - 按位或",
+              "bitXor(x, y) - 按位异或",
+              "bitNot(x) - 按位非",
+              "leftShift(x, y) - 左移",
+              "rightArithShift(x, y) - 算术右移",
+              "rightLogShift(x, y) - 逻辑右移"
+            ]
+          },
+          logical: {
+            title: "逻辑函数",
+            list: [
+              "and(x, y) - 逻辑与",
+              "or(x, y) - 逻辑或",
+              "xor(x, y) - 逻辑异或",
+              "not(x) - 逻辑非"
+            ]
+          },
+          comparison: {
+            title: "比较函数",
+            list: [
+              "equal(x, y) - 等于",
+              "unequal(x, y) - 不等于",
+              "smaller(x, y) - 小于",
+              "smallerEq(x, y) - 小于等于",
+              "larger(x, y) - 大于",
+              "largerEq(x, y) - 大于等于",
+              "compare(x, y) - 比较函数",
+              "deepEqual(x, y) - 深度相等"
+            ]
+          },
+          string: {
+            title: "字符串和类型转换",
+            list: [
+              "string(x) - 转换为字符串",
+              "number(x) - 转换为数字",
+              "boolean(x) - 转换为布尔值",
+              "format(value, precision) - 格式化数字",
+              "print(template, values) - 格式化输出"
+            ]
+          },
+          utils: {
+            title: "实用函数",
+            list: [
+              "clone(x) - 深拷贝",
+              "isNaN(x) - 检查是否为NaN",
+              "isInteger(x) - 检查是否为整数",
+              "isNumeric(x) - 检查是否为数值",
+              "isPositive(x) - 检查是否为正数",
+              "isNegative(x) - 检查是否为负数",
+              "isZero(x) - 检查是否为零",
+              "isPrime(x) - 检查是否为质数"
+            ]
+          }
+        },
+        variables: {
+          title: "变量和函数定义",
+          description: "你可以定义变量和自定义函数：",
+          examples: [
+            "x = 10",
+            "y = x^2 + 5",
+            "f(x) = x^2 + 2*x + 1",
+            "f(5)"
+          ]
+        },
+        units: {
+          title: "单位转换",
+          description: "支持单位计算和转换：",
+          examples: [
+            "5 m + 3 cm",
+            "10 kg * 9.8 m/s^2",
+            "60 mph to km/h",
+            "1 inch to cm"
+          ]
+        },
+        expressions: {
+          title: "表达式示例",
+          description: "复杂表达式计算：",
+          examples: [
+            "solve(x^2 + x - 6, x)",
+            "derivative('x^2 + 3*x', 'x')",
+            "simplify('2*x + 3*x')",
+            "evaluate('x^2', {x: 5})"
+          ]
+        }
+      }
     },
     shortUrl: {
       title: '短链接生成',
