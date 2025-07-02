@@ -8,7 +8,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatRuby" type="primary">
+        <n-button @click="formatRuby" type="primary" :loading="loading">
           {{ t('format.ruby.format') }}
         </n-button>
         <!-- 复制按钮 -->
@@ -31,8 +31,6 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
 import { useMessage } from 'naive-ui'
-// 导入代码美化工具
-import { js_beautify } from 'js-beautify'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具

@@ -169,63 +169,142 @@ export default {
       compress: 'Compress',
       escape: 'Escape',
       unescape: 'Unescape',
-      description: 'Format, compress and validate JSON data'
+      empty: 'Please enter JSON data to format',
+      success: 'JSON formatted successfully',
+      error: 'JSON formatting failed',
+      compressSuccess: 'JSON compressed successfully',
+      compressError: 'JSON compression failed, please check JSON format',
+      escapeSuccess: 'JSON escaped successfully',
+      escapeError: 'JSON escape failed',
+      unescapeSuccess: 'JSON unescaped successfully',
+      unescapeError: 'JSON unescape failed',
+      description: 'Format, compress and validate JSON data',
+      info: {
+        title: 'Feature Description',
+        formatDesc: 'Format JSON data with proper indentation for readability',
+        compressDesc: 'Remove all whitespace to make JSON more compact',
+        escapeDesc: 'Escape double quotes to \\" and backslashes to \\\\',
+        unescapeDesc: 'Convert \\" back to double quotes and \\\\ back to backslashes'
+      }
     },
     xml: {
       title: 'XML Formatter',
       placeholder: 'Enter XML data',
       format: 'Format',
       compress: 'Compress',
-      description: 'Format XML documents'
+      empty: 'Please enter XML data to format',
+      success: 'XML formatted successfully',
+      error: 'XML formatting failed',
+      compressSuccess: 'XML compressed successfully',
+      compressError: 'XML compression failed',
+      description: 'Format XML documents',
+      info: {
+        title: 'Feature Description',
+        formatDesc: 'Format XML document with proper indentation for readability',
+        compressDesc: 'Remove whitespace between tags to make XML more compact'
+      }
     },
     yaml: {
       title: 'YAML Formatter',
+      placeholder: 'Enter YAML data',
+      format: 'Format',
+      empty: 'Please enter YAML data to format',
+      success: 'YAML formatted successfully',
+      error: 'YAML formatting failed',
       description: 'Format YAML documents'
     },
     js: {
       title: 'JavaScript Formatter',
-      description: 'Format JavaScript code'
+      placeholder: 'Enter JavaScript code',
+      format: 'Format',
+      empty: 'Please enter JavaScript code to format',
+      success: 'JavaScript formatted successfully',
+      error: 'JavaScript formatting failed',
+      description: 'Format JavaScript code',
+      info: {
+        title: 'Feature Description',
+        description: 'Use Prettier to format JavaScript code, automatically adjusting indentation, spacing, and line breaks to make code more readable and standardized.'
+      }
     },
     html: {
       title: 'HTML Formatter',
+      placeholder: 'Enter HTML code',
+      format: 'Format',
+      empty: 'Please enter HTML code to format',
+      success: 'HTML formatted successfully',
+      error: 'HTML formatting failed',
       description: 'Format HTML documents'
     },
     css: {
       title: 'CSS Formatter',
+      placeholder: 'Enter CSS code',
+      format: 'Format',
+      empty: 'Please enter CSS code to format',
+      success: 'CSS formatted successfully',
+      error: 'CSS formatting failed',
       description: 'Format CSS styles'
     },
     java: {
       title: 'Java Formatter',
+      placeholder: 'Enter Java code',
+      format: 'Format',
+      empty: 'Please enter Java code to format',
+      success: 'Java code formatted successfully',
+      error: 'Java code formatting failed',
       description: 'Format Java code'
     },
     php: {
       title: 'PHP Formatter',
+      placeholder: 'Enter PHP code',
+      format: 'Format',
+      empty: 'Please enter PHP code to format',
+      success: 'PHP code formatted successfully',
+      error: 'PHP code formatting failed',
       description: 'Format PHP code'
     },
     ruby: {
       title: 'Ruby Formatter',
+      placeholder: 'Enter Ruby code',
+      format: 'Format',
+      empty: 'Please enter Ruby code to format',
+      success: 'Ruby code formatted successfully',
+      error: 'Ruby code formatting failed',
       description: 'Format Ruby code'
     },
     shell: {
       title: 'Shell/Bash Formatter',
       placeholder: 'Enter Shell/Bash script',
       format: 'Format',
+      empty: 'Please enter Shell script to format',
+      success: 'Shell script formatted successfully',
+      error: 'Shell script formatting failed',
       description: 'Format Shell scripts'
     },
     sql: {
       title: 'SQL Formatter',
       placeholder: 'Enter SQL query',
       format: 'Format',
+      empty: 'Please enter SQL query to format',
+      success: 'SQL formatted successfully',
+      error: 'SQL formatting failed',
       description: 'Format SQL queries'
     },
     markdown: {
       title: 'Markdown Formatter',
       placeholder: 'Enter Markdown text',
       format: 'Format',
+      empty: 'Please enter Markdown text to format',
+      success: 'Markdown formatted successfully',
+      error: 'Markdown formatting failed',
       description: 'Format Markdown documents'
     },
     vue: {
       title: 'Vue Formatter',
+      placeholder: 'Enter Vue component code',
+      format: 'Format',
+      empty: 'Please enter Vue component code to format',
+      success: 'Vue code formatted successfully',
+      error: 'Vue code formatting failed',
       description: 'Format .vue single file component code'
     }
   },

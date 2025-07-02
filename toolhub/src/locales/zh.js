@@ -164,54 +164,147 @@ export default {
     otherLanguage: '其他语言',
     json: {
       title: 'JSON 格式化',
-      description: '格式化、压缩和验证 JSON 数据'
+      placeholder: '请输入JSON数据',
+      format: '格式化',
+      compress: '压缩',
+      escape: '转义',
+      unescape: '反转义',
+      empty: '请输入要格式化的JSON数据',
+      success: 'JSON格式化成功',
+      error: 'JSON格式化失败',
+      compressSuccess: 'JSON压缩成功',
+      compressError: 'JSON压缩失败，请检查JSON格式',
+      escapeSuccess: 'JSON转义成功',
+      escapeError: 'JSON转义失败',
+      unescapeSuccess: 'JSON反转义成功',
+      unescapeError: 'JSON反转义失败',
+      description: '格式化、压缩和验证 JSON 数据',
+      info: {
+        title: '功能说明',
+        formatDesc: '将JSON数据格式化为易读的缩进格式',
+        compressDesc: '移除所有空白字符，使JSON更紧凑',
+        escapeDesc: '将双引号转义为\\"，反斜杠转义为\\\\',
+        unescapeDesc: '将\\"转换回双引号，\\\\转换回反斜杠'
+      }
     },
     xml: {
       title: 'XML 格式化',
-      description: '格式化 XML 文档'
+      placeholder: '请输入XML数据',
+      format: '格式化',
+      compress: '压缩',
+      empty: '请输入要格式化的XML数据',
+      success: 'XML格式化成功',
+      error: 'XML格式化失败',
+      compressSuccess: 'XML压缩成功',
+      compressError: 'XML压缩失败',
+      description: '格式化 XML 文档',
+      info: {
+        title: '功能说明',
+        formatDesc: '将XML文档格式化为易读的缩进格式',
+        compressDesc: '移除标签间的空白字符，使XML更紧凑'
+      }
     },
     yaml: {
       title: 'YAML 格式化',
+      placeholder: '请输入YAML数据',
+      format: '格式化',
+      empty: '请输入要格式化的YAML数据',
+      success: 'YAML格式化成功',
+      error: 'YAML格式化失败',
       description: '格式化 YAML 文档'
     },
     js: {
       title: 'JavaScript 格式化',
-      description: '格式化 JavaScript 代码'
+      placeholder: '请输入JavaScript代码',
+      format: '格式化',
+      empty: '请输入要格式化的JavaScript代码',
+      success: 'JavaScript格式化成功',
+      error: 'JavaScript格式化失败',
+      description: '格式化 JavaScript 代码',
+      info: {
+        title: '功能说明',
+        description: '使用Prettier格式化JavaScript代码，自动调整缩进、空格和换行，使代码更易读和规范。'
+      }
     },
     html: {
       title: 'HTML 格式化',
+      placeholder: '请输入HTML代码',
+      format: '格式化',
+      empty: '请输入要格式化的HTML代码',
+      success: 'HTML格式化成功',
+      error: 'HTML格式化失败',
       description: '格式化 HTML 文档'
     },
     css: {
       title: 'CSS 格式化',
+      placeholder: '请输入CSS代码',
+      format: '格式化',
+      empty: '请输入要格式化的CSS代码',
+      success: 'CSS格式化成功',
+      error: 'CSS格式化失败',
       description: '格式化 CSS 样式'
     },
     java: {
       title: 'Java 格式化',
+      placeholder: '请输入Java代码',
+      format: '格式化',
+      empty: '请输入要格式化的Java代码',
+      success: 'Java代码格式化成功',
+      error: 'Java代码格式化失败',
       description: '格式化 Java 代码'
     },
     php: {
       title: 'PHP 格式化',
+      placeholder: '请输入PHP代码',
+      format: '格式化',
+      empty: '请输入要格式化的PHP代码',
+      success: 'PHP代码格式化成功',
+      error: 'PHP代码格式化失败',
       description: '格式化 PHP 代码'
     },
     ruby: {
       title: 'Ruby 格式化',
+      placeholder: '请输入Ruby代码',
+      format: '格式化',
+      empty: '请输入要格式化的Ruby代码',
+      success: 'Ruby代码格式化成功',
+      error: 'Ruby代码格式化失败',
       description: '格式化 Ruby 代码'
     },
     shell: {
       title: 'Shell 格式化',
+      placeholder: '请输入Shell脚本',
+      format: '格式化',
+      empty: '请输入要格式化的Shell脚本',
+      success: 'Shell脚本格式化成功',
+      error: 'Shell脚本格式化失败',
       description: '格式化 Shell 脚本'
     },
     sql: {
       title: 'SQL 格式化',
+      placeholder: '请输入SQL查询语句',
+      format: '格式化',
+      empty: '请输入要格式化的SQL查询语句',
+      success: 'SQL格式化成功',
+      error: 'SQL格式化失败',
       description: '格式化 SQL 查询'
     },
     markdown: {
       title: 'Markdown 格式化',
+      placeholder: '请输入Markdown文本',
+      format: '格式化',
+      empty: '请输入要格式化的Markdown文本',
+      success: 'Markdown格式化成功',
+      error: 'Markdown格式化失败',
       description: '格式化 Markdown 文档'
     },
     vue: {
       title: 'Vue 格式化',
+      placeholder: '请输入Vue组件代码',
+      format: '格式化',
+      empty: '请输入要格式化的Vue组件代码',
+      success: 'Vue代码格式化成功',
+      error: 'Vue代码格式化失败',
       description: '格式化 .vue 单文件组件代码'
     }
   },

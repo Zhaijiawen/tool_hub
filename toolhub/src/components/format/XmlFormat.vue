@@ -24,6 +24,17 @@
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
       </n-alert>
+      
+      <!-- 功能说明 -->
+      <n-alert type="info" class="info-alert">
+        <div class="info-content">
+          <h4>{{ t('format.xml.info.title') }}</h4>
+          <ul>
+            <li><strong>{{ t('format.xml.format') }}:</strong> {{ t('format.xml.info.formatDesc') }}</li>
+            <li><strong>{{ t('format.xml.compress') }}:</strong> {{ t('format.xml.info.compressDesc') }}</li>
+          </ul>
+        </div>
+      </n-alert>
     </n-card>
   </div>
 </template>
@@ -130,5 +141,25 @@ const copyToClipboard = async () => {
 /* 错误提示样式 */
 .error-alert {
   margin-top: 16px;
+}
+
+/* 信息提示样式 */
+.info-alert {
+  margin-top: 16px;
+}
+
+.info-content h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.info-content li {
+  margin-bottom: 8px;
 }
 </style>

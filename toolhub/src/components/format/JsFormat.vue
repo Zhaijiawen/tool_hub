@@ -8,7 +8,7 @@
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
-        <n-button @click="formatJs" type="primary">
+        <n-button @click="formatJs" type="primary" :loading="loading">
           {{ t('format.js.format') }}
         </n-button>
         <!-- 复制按钮 -->
@@ -19,6 +19,14 @@
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
+      </n-alert>
+      
+      <!-- 功能说明 -->
+      <n-alert type="info" class="info-alert">
+        <div class="info-content">
+          <h4>{{ t('format.js.info.title') }}</h4>
+          <p>{{ t('format.js.info.description') }}</p>
+        </div>
       </n-alert>
     </n-card>
   </div>
@@ -105,5 +113,21 @@ const copyToClipboard = async () => {
 /* 错误提示样式 */
 .error-alert {
   margin-top: 16px;
+}
+
+/* 信息提示样式 */
+.info-alert {
+  margin-top: 16px;
+}
+
+.info-content h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-content p {
+  margin: 0;
+  line-height: 1.6;
 }
 </style>
