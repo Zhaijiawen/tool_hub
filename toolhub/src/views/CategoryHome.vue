@@ -2,12 +2,12 @@
   <div class="category-home">
     <n-card :title="t(`common.${category}`)">
       <n-grid :cols="2" :x-gap="16" :y-gap="16">
-        <n-grid-item v-for="tool in tools" :key="tool.id">
-          <n-card :title="getToolTitle(tool.id)" hoverable>
-            <div>{{ getToolDescription(tool.id) }}</div>
+        <n-grid-item v-for="tool in tools" :key="tool.path">
+          <n-card :title="t(tool.name)" hoverable>
+            <div>{{ t(tool.description) }}</div>
             <template #footer>
               <router-link :to="tool.path">
-                <!-- <n-button type="primary" size="small">{{ t('common.more') }}</n-button> -->
+                <n-button type="primary" size="small">{{ t('common.go') }}</n-button>
               </router-link>
             </template>
           </n-card>
@@ -27,23 +27,6 @@ const route = useRoute()
 const { t, locale } = useI18n()
 const category = ref(route.path.replace('/', ''))
 const tools = ref([])
-
-// 将短横线命名转换为驼峰命名
-const toCamelCase = (str) => {
-  return str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
-}
-
-// 获取工具标题
-const getToolTitle = (toolId) => {
-  const camelCaseId = toCamelCase(toolId)
-  return t(`${category.value}.${camelCaseId}.title`)
-}
-
-// 获取工具描述
-const getToolDescription = (toolId) => {
-  const camelCaseId = toCamelCase(toolId)
-  return t(`${category.value}.${camelCaseId}.description`)
-}
 
 const fetchCategoryTools = async () => {
   const categoryTools = await getToolsByCategory(category.value, locale.value)

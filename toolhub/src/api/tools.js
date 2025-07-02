@@ -232,14 +232,14 @@ const tools = [
     category: 'convert'
   },
   {
-    id: 'date-calc',
+    id: 'dateCalc',
     name: 'convert.dateCalc.title',
     path: '/convert/date-calc',
     description: 'convert.dateCalc.description',
     category: 'convert'
   },
   {
-    id: 'date-diff',
+    id: 'dateDiff',
     name: 'convert.dateDiff.title',
     path: '/convert/date-diff',
     description: 'convert.dateDiff.description',
