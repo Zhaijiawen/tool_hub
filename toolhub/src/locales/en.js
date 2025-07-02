@@ -17,6 +17,7 @@ export default {
     convert: 'Convert',
     required: 'Required',
     more: 'More',
+    go: 'Go',
     charCount: 'Character count',
     characters: 'characters',
     invalidInput: 'Invalid input',

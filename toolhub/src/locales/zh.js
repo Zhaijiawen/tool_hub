@@ -17,6 +17,7 @@ export default {
     convert: '转换',
     required: '必填项',
     more: '更多',
+    go: '前往',
     charCount: '字符数',
     characters: '字符',
     invalidInput: '无效输入',

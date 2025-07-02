@@ -153,7 +153,7 @@ const tools = [
     category: 'encrypt'
   },
   {
-    id: 'ecdh-key-exchange',
+    id: 'ecdhKeyExchange',
     name: 'encrypt.ecdh-key-exchange.title',
     path: '/encrypt/ecdh-key-exchange',
     description: 'encrypt.ecdh-key-exchange.description',
@@ -167,21 +167,21 @@ const tools = [
     category: 'encrypt'
   },
   {
-    id: 'rsa-sign',
+    id: 'rsaSign',
     name: 'encrypt.rsa-sign.title',
     path: '/encrypt/rsa-sign',
     description: 'encrypt.rsa-sign.description',
     category: 'encrypt'
   },
   {
-    id: 'ecdsa-sign',
+    id: 'ecdsaSign',
     name: 'encrypt.ecdsa-sign.title',
     path: '/encrypt/ecdsa-sign',
     description: 'encrypt.ecdsa-sign.description',
     category: 'encrypt'
   },
   {
-    id: 'ed25519-sign',
+    id: 'ed25519Sign',
     name: 'encrypt.ed25519-sign.title',
     path: '/encrypt/ed25519-sign',
     description: 'encrypt.ed25519-sign.description',
@@ -253,14 +253,14 @@ const tools = [
     category: 'convert'
   },
   {
-    id: 'number-base',
+    id: 'numberBase',
     name: 'convert.numberBase.title',
     path: '/convert/number-base',
     description: 'convert.numberBase.description',
     category: 'convert'
   },
   {
-    id: 'storage-time',
+    id: 'storageTime',
     name: 'convert.storageTime.title',
     path: '/convert/storage-time',
     description: 'convert.storageTime.description',
@@ -295,21 +295,21 @@ const tools = [
     category: 'convert'
   },
   {
-    id: 'http-status',
+    id: 'httpStatus',
     name: 'convert.httpStatus.title',
     path: '/convert/http-status',
     description: 'convert.httpStatus.description',
     category: 'convert'
   },
   {
-    id: 'user-agent',
+    id: 'userAgent',
     name: 'convert.userAgent.title',
     path: '/convert/user-agent',
     description: 'convert.userAgent.description',
     category: 'convert'
   },
   {
-    id: 'char-code',
+    id: 'charCode',
     name: 'convert.charCode.title',
     path: '/convert/char-code',
     description: 'convert.charCode.description',
