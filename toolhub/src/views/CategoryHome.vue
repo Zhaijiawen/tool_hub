@@ -29,8 +29,8 @@ const category = ref(route.path.replace('/', ''))
 const tools = ref([])
 
 const fetchCategoryTools = async () => {
-  const res = await getToolsByCategory(category.value, locale.value)
-  if (res.code === 0) tools.value = res.data
+  const categoryTools = await getToolsByCategory(category.value, locale.value)
+  tools.value = categoryTools
 }
 
 onMounted(fetchCategoryTools)

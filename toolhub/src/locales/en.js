@@ -441,6 +441,7 @@ export default {
     },
     rsa: {
       title: 'RSA Encryption/Decryption',
+      description: 'RSA asymmetric encryption algorithm',
       keyLength: 'Key Length',
       input: 'Input Text',
       inputPlaceholder: 'Enter content to encrypt/decrypt',
@@ -475,6 +476,7 @@ export default {
     },
     ecc: {
       title: 'ECC Encryption/Decryption',
+      description: 'Elliptic Curve Cryptography',
       keyLength: 'Key Length',
       input: 'Input Text',
       inputPlaceholder: 'Enter content to encrypt/decrypt',
@@ -796,6 +798,7 @@ export default {
     },
     url: {
       title: 'URL Encode/Decode',
+      description: 'URL encoding and decoding',
       paramDescription: 'URL parameter value encode/decode tool. Supports full URL input, automatically identifies and only encodes/decodes parameter values.',
       paramTip: 'You can input a full URL or individual parameter values. When inputting a full URL, only parameter values are encoded/decoded while URL structure remains unchanged.',
       paramInputPlaceholder: 'Enter full URL or parameter value, e.g. https://example.com?name=john&data={"type":"test"} or hello world&= ',

@@ -45,30 +45,25 @@ const categories = ref([])
 // 获取工具列表
 const fetchTools = async () => {
   try {
-    const response = await getAllTools(locale.value)
-
-    if (response.code === 0) {
-      // 按分类组织工具
-      const toolsByCategory = response.data.reduce((acc, tool) => {
-        const category = tool.category
-        if (!acc[category]) {
-          acc[category] = {
-            key: category,
-            tools: []
-          }
+    const tools = await getAllTools(locale.value)
+    
+    // 按分类组织工具
+    const toolsByCategory = tools.reduce((acc, tool) => {
+      const category = tool.category
+      if (!acc[category]) {
+        acc[category] = {
+          key: category,
+          tools: []
         }
-        acc[category].tools.push({
-          id: tool.id,
-          path: tool.path
-        })
-        return acc
-      }, {})
+      }
+      acc[category].tools.push({
+        id: tool.id,
+        path: tool.path
+      })
+      return acc
+    }, {})
 
-      categories.value = Object.values(toolsByCategory)
-      window._categories = categories.value
-    } else {
-      console.error('API returned error:', response)
-    }
+    categories.value = Object.values(toolsByCategory)
   } catch (error) {
     console.error('Failed to fetch tools:', error)
   }

@@ -63,7 +63,7 @@ const searchResults = ref([])
 // 是否正在搜索
 const isSearching = ref(false)
 // 获取i18n实例
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 /**
  * 处理搜索操作
@@ -77,8 +77,14 @@ const handleSearch = async () => {
 
   try {
     isSearching.value = true
-    const res = await searchTools(searchText.value, locale.value)
-    searchResults.value = res.data || []
+    const results = await searchTools(searchText.value, locale.value)
+    // 翻译搜索结果
+    searchResults.value = (results || []).map(tool => ({
+      ...tool,
+      name: t(tool.name),
+      description: t(tool.description),
+      category: t(`common.${tool.category}`)
+    }))
     showResults.value = true
   } catch (error) {
     console.error('Search failed:', error)
