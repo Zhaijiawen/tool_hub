@@ -316,7 +316,7 @@ export default {
     digitalSignature: '数字签名',
     encoding: '编码与解码',
     aes: {
-      title: 'AES 加密',
+      title: 'AES 加密/解密',
       description: 'AES 对称加密算法',
       inputPlaceholder: '请输入要加密或解密的文本',
       outputPlaceholder: '加密或解密结果将显示在这里',
@@ -364,7 +364,7 @@ export default {
       noPaddingTip: 'NoPadding (数据长度需为16字节倍数)'
     },
     chacha20: {
-      title: 'ChaCha20 加密',
+      title: 'ChaCha20 加密/解密',
       description: 'ChaCha20 流加密算法',
       inputPlaceholder: '请输入要加密或解密的文本',
       outputPlaceholder: '加密或解密结果将显示在这里',
@@ -392,7 +392,7 @@ export default {
       decryptFailed: '解密失败：密钥或Nonce可能不正确，或者输入格式有误'
     },
     des: {
-      title: 'DES 加密',
+      title: 'DES 加密/解密',
       description: 'DES 对称加密算法',
       inputPlaceholder: '请输入要加密或解密的文本',
       outputPlaceholder: '加密或解密结果将显示在这里',
@@ -490,34 +490,6 @@ export default {
       privateKeyCopied: '私钥已复制',
       inputRequired: '请输入要加密或解密的文本',
       description: '椭圆曲线加密'
-    },
-    ed25519: {
-      title: 'Ed25519 签名/验证',
-      message: '消息',
-      messagePlaceholder: '请输入要签名的消息',
-      privateKey: '私钥',
-      privateKeyPlaceholder: '请输入或生成私钥',
-      publicKey: '公钥',
-      publicKeyPlaceholder: '公钥将在这里显示',
-      signature: '签名',
-      signaturePlaceholder: '签名将在这里显示',
-      generateKeyPair: '生成密钥对',
-      sign: '签名',
-      verify: '验证',
-      allFieldsRequired: '请填写所有必填字段',
-      verificationSuccess: '验证成功',
-      verificationFailed: '验证失败',
-      keysGenerated: '密钥对生成成功',
-      signSuccess: '签名成功',
-      signFailed: '签名失败',
-      publicKeyCopied: '公钥已复制',
-      signatureCopied: '签名已复制',
-      inputRequired: '请输入要签名的消息',
-      privateKeyRequired: '请先生成或输入私钥',
-      publicKeyRequired: '请先生成或输入公钥',
-      signatureRequired: '请先生成签名',
-      charCount: '字符数：{count}',
-      description: 'Ed25519 数字签名算法'
     },
     sha: {
       title: 'SHA 哈希算法',

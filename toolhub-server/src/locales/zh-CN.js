@@ -71,16 +71,16 @@ export default {
 
   // 加密工具
   encrypt: {
-    aes: {
-      title: 'AES 加密',
+      aes: {
+    title: 'AES 加密/解密',
       description: 'AES 对称加密算法'
     },
-    chacha20: {
-      title: 'ChaCha20 加密',
+      chacha20: {
+    title: 'ChaCha20 加密/解密',
       description: 'ChaCha20 流加密算法'
     },
-    des: {
-      title: 'DES 加密',
+      des: {
+    title: 'DES 加密/解密',
       description: 'DES 对称加密算法'
     },
     rsa: {
@@ -90,11 +90,7 @@ export default {
     ecc: {
       title: 'ECC 加密',
       description: '椭圆曲线加密'
-    },
-    ed25519: {
-      title: 'Ed25519 加密',
-      description: 'Ed25519 数字签名算法'
-    },
+      },
     sha: {
       title: 'SHA 哈希',
       description: 'SHA 系列哈希算法'

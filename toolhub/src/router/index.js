@@ -126,11 +126,7 @@ const router = createRouter({
               path: 'ecc',
               component: () => import('@/components/encrypt/EccEncrypt.vue')
             },
-            // Ed25519加密
-            {
-              path: 'ed25519',
-              component: () => import('@/components/encrypt/Ed25519Encrypt.vue')
-            },
+
             // SHA哈希
             {
               path: 'sha',

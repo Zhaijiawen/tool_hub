@@ -128,13 +128,7 @@ const tools = [
     description: 'encrypt.ecc.description',
     category: 'encrypt'
   },
-  {
-    id: 'ed25519',
-    name: 'encrypt.ed25519.title',
-    path: '/encrypt/ed25519',
-    description: 'encrypt.ed25519.description',
-    category: 'encrypt'
-  },
+
   {
     id: 'sha',
     name: 'encrypt.sha.title',

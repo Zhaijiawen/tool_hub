@@ -57,16 +57,16 @@ export default {
 
   // Encryption Tools
   encrypt: {
-    aes: {
-      title: 'AES Encryption',
+      aes: {
+    title: 'AES Encryption/Decryption',
       description: 'AES symmetric encryption algorithm'
     },
-    chacha20: {
-      title: 'ChaCha20 Encryption',
+      chacha20: {
+    title: 'ChaCha20 Encryption/Decryption',
       description: 'ChaCha20 stream cipher'
     },
-    des: {
-      title: 'DES Encryption',
+      des: {
+    title: 'DES Encryption/Decryption',
       description: 'DES symmetric encryption algorithm'
     },
     rsa: {
@@ -76,11 +76,7 @@ export default {
     ecc: {
       title: 'ECC Encryption',
       description: 'Elliptic Curve Cryptography'
-    },
-    ed25519: {
-      title: 'Ed25519 Encryption',
-      description: 'Ed25519 digital signature algorithm'
-    },
+      },
     sha: {
       title: 'SHA Hash',
       description: 'SHA series hash algorithms'

@@ -322,11 +322,6 @@ const menuOptions = computed(() => [
             label: t('encrypt.ecc.title'),
             key: 'ecc-encrypt',
             path: '/encrypt/ecc'
-          },
-          {
-            label: t('encrypt.ed25519.title'),
-            key: 'ed25519-encrypt',
-            path: '/encrypt/ed25519'
           }
         ]
       },
