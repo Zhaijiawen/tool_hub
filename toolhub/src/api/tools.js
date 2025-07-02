@@ -233,16 +233,16 @@ const tools = [
   },
   {
     id: 'date-calc',
-    name: 'convert.date-calc.title',
+    name: 'convert.dateCalc.title',
     path: '/convert/date-calc',
-    description: 'convert.date-calc.description',
+    description: 'convert.dateCalc.description',
     category: 'convert'
   },
   {
     id: 'date-diff',
-    name: 'convert.date-diff.title',
+    name: 'convert.dateDiff.title',
     path: '/convert/date-diff',
-    description: 'convert.date-diff.description',
+    description: 'convert.dateDiff.description',
     category: 'convert'
   },
   {
@@ -254,16 +254,16 @@ const tools = [
   },
   {
     id: 'number-base',
-    name: 'convert.number-base.title',
+    name: 'convert.numberBase.title',
     path: '/convert/number-base',
-    description: 'convert.number-base.description',
+    description: 'convert.numberBase.description',
     category: 'convert'
   },
   {
     id: 'storage-time',
-    name: 'convert.storage-time.title',
+    name: 'convert.storageTime.title',
     path: '/convert/storage-time',
-    description: 'convert.storage-time.description',
+    description: 'convert.storageTime.description',
     category: 'convert'
   },
   {
@@ -296,23 +296,23 @@ const tools = [
   },
   {
     id: 'http-status',
-    name: 'convert.http-status.title',
+    name: 'convert.httpStatus.title',
     path: '/convert/http-status',
-    description: 'convert.http-status.description',
+    description: 'convert.httpStatus.description',
     category: 'convert'
   },
   {
     id: 'user-agent',
-    name: 'convert.user-agent.title',
+    name: 'convert.userAgent.title',
     path: '/convert/user-agent',
-    description: 'convert.user-agent.description',
+    description: 'convert.userAgent.description',
     category: 'convert'
   },
   {
     id: 'char-code',
-    name: 'convert.char-code.title',
+    name: 'convert.charCode.title',
     path: '/convert/char-code',
-    description: 'convert.char-code.description',
+    description: 'convert.charCode.description',
     category: 'convert'
   },
 

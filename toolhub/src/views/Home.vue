@@ -19,7 +19,7 @@
             <n-list>
               <!-- 只展示前6个工具 -->
               <n-list-item v-for="tool in category.tools.slice(0, 6)" :key="tool.id">
-                <router-link :to="tool.path">{{ t(`${category.key}.${tool.id}.title`) }}</router-link>
+                <router-link :to="tool.path">{{ getToolTitle(category.key, tool.id) }}</router-link>
               </n-list-item>
             </n-list>
           </n-card>
@@ -41,6 +41,17 @@ const router = useRouter()
 
 // 工具分类数据
 const categories = ref([])
+
+// 将短横线命名转换为驼峰命名
+const toCamelCase = (str) => {
+  return str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
+}
+
+// 获取工具标题
+const getToolTitle = (category, toolId) => {
+  const camelCaseId = toCamelCase(toolId)
+  return t(`${category}.${camelCaseId}.title`)
+}
 
 // 获取工具列表
 const fetchTools = async () => {
