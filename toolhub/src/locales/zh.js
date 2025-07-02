@@ -223,7 +223,7 @@ export default {
       description: '格式化 JavaScript 代码',
       info: {
         title: '功能说明',
-        description: '使用Prettier格式化JavaScript代码，自动调整缩进、空格和换行，使代码更易读和规范。'
+        description: '使用js-beautify格式化JavaScript代码，自动调整缩进、空格和换行，使代码更易读和规范。支持ES6+语法和各种JavaScript方言。'
       }
     },
     html: {

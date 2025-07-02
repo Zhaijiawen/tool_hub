@@ -223,7 +223,7 @@ export default {
       description: 'Format JavaScript code',
       info: {
         title: 'Feature Description',
-        description: 'Use Prettier to format JavaScript code, automatically adjusting indentation, spacing, and line breaks to make code more readable and standardized.'
+        description: 'Use js-beautify to format JavaScript code, automatically adjusting indentation, spacing, and line breaks to make code more readable and standardized. Supports ES6+ syntax and various JavaScript dialects.'
       }
     },
     html: {

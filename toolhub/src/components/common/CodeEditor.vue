@@ -97,11 +97,12 @@ const createExtensions = () => {
       '&': {
         height: 'calc(100vh - 300px)',
         fontSize: '14px',
-        fontFamily: "'Monaco', 'Menlo', 'Ubuntu Mono', monospace"
+        fontFamily: "'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace"
       },
       '.cm-content': {
         padding: '8px 12px',
-        minHeight: '100%'
+        minHeight: '100%',
+        fontFamily: "'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace"
       },
       '.cm-focused': {
         outline: 'none'
@@ -111,6 +112,46 @@ const createExtensions = () => {
       },
       '.cm-scroller': {
         overflow: 'auto'
+      },
+      // 折叠图标样式 - 实心三角形
+      '.cm-foldGutter .cm-gutterElement': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer'
+      },
+      '.cm-foldGutter .cm-gutterElement::before': {
+        content: '""',
+        width: '0',
+        height: '0',
+        border: '4px solid transparent',
+        borderLeftColor: isDark.value ? '#9ca3af' : '#6b7280',
+        borderRightWidth: '0',
+        transition: 'transform 0.1s ease'
+      },
+      '.cm-foldGutter .cm-gutterElement.cm-foldGutter-open::before': {
+        transform: 'rotate(90deg)',
+        borderTopColor: isDark.value ? '#9ca3af' : '#6b7280',
+        borderLeftColor: 'transparent'
+      },
+      // 行号样式优化
+      '.cm-lineNumbers .cm-gutterElement': {
+        fontFamily: "'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace",
+        fontSize: '13px',
+        lineHeight: '1.4'
+      },
+      // 选择区域样式
+      '.cm-selectionBackground': {
+        backgroundColor: isDark.value ? '#264f78' : '#d3d3d3'
+      },
+      // 当前行高亮
+      '.cm-activeLine': {
+        backgroundColor: isDark.value ? '#2a2d3a' : '#f5f5f5'
+      },
+      // 匹配括号高亮
+      '.cm-matchingBracket': {
+        backgroundColor: isDark.value ? '#515a6b' : '#e6e6e6',
+        outline: '1px solid ' + (isDark.value ? '#747bff' : '#007acc')
       }
     })
   ]
@@ -258,11 +299,57 @@ onBeforeUnmount(() => {
   background-color: var(--n-color-modal);
   border-right: 1px solid var(--n-border-color);
   color: var(--n-text-color-disabled);
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace;
+  font-size: 13px;
+  font-feature-settings: 'liga' 0; /* 禁用连字符以确保清晰度 */
+  font-variant-ligatures: none;
 }
 
 /* 折叠按钮样式 */
 .code-editor :deep(.cm-foldGutter) {
   width: 16px;
+}
+
+/* 自定义折叠图标 */
+.code-editor :deep(.cm-foldGutter .cm-gutterElement) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.code-editor :deep(.cm-foldGutter .cm-gutterElement::before) {
+  content: '' !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 4px solid transparent !important;
+  border-left: 6px solid #6b7280 !important;
+  border-right: 0 !important;
+  transition: transform 0.15s ease !important;
+  position: absolute !important;
+}
+
+.code-editor :deep(.cm-foldGutter .cm-gutterElement.cm-foldGutter-open::before) {
+  transform: rotate(90deg) !important;
+  border-left: 4px solid #6b7280 !important;
+  border-top: 6px solid #6b7280 !important;
+  border-bottom: 0 !important;
+}
+
+/* 深色主题的折叠图标 */
+.dark .code-editor :deep(.cm-foldGutter .cm-gutterElement::before) {
+  border-left-color: #9ca3af !important;
+}
+
+.dark .code-editor :deep(.cm-foldGutter .cm-gutterElement.cm-foldGutter-open::before) {
+  border-left-color: #9ca3af !important;
+  border-top-color: #9ca3af !important;
+}
+
+/* 隐藏默认的折叠图标 */
+.code-editor :deep(.cm-foldGutter .cm-gutterElement span) {
+  display: none !important;
 }
 
 .code-editor :deep(.cm-foldPlaceholder) {
@@ -288,5 +375,57 @@ onBeforeUnmount(() => {
 .dark .code-editor :deep(.cm-gutters),
 .dark .code-editor :deep(.cm-scroller) {
   background: #181a1b !important;
+}
+
+/* 编辑器内容字体优化 */
+.code-editor :deep(.cm-content),
+.code-editor :deep(.cm-editor) {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Courier New', monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  font-feature-settings: 'liga' 0 !important; /* 禁用连字符 */
+  font-variant-ligatures: none !important;
+  letter-spacing: 0.02em !important; /* 轻微的字符间距 */
+}
+
+/* 语法高亮优化 */
+.code-editor :deep(.cm-editor .cm-content) {
+  caret-color: #007acc; /* VS Code风格的光标颜色 */
+}
+
+/* 选择文本样式 */
+.code-editor :deep(.cm-selectionBackground) {
+  background-color: rgba(0, 122, 204, 0.2) !important;
+}
+
+/* 当前行高亮 */
+.code-editor :deep(.cm-activeLine) {
+  background-color: rgba(0, 122, 204, 0.05) !important;
+}
+
+/* 匹配的括号高亮 */
+.code-editor :deep(.cm-matchingBracket) {
+  background-color: rgba(0, 122, 204, 0.15) !important;
+  outline: 1px solid #007acc !important;
+  border-radius: 2px !important;
+}
+
+/* 深色主题的编辑器优化 */
+.dark .code-editor :deep(.cm-editor .cm-content) {
+  caret-color: #569cd6 !important; /* 深色主题下的光标颜色 */
+}
+
+.dark .code-editor :deep(.cm-selectionBackground) {
+  background-color: rgba(86, 156, 214, 0.25) !important;
+}
+
+.dark .code-editor :deep(.cm-activeLine) {
+  background-color: rgba(86, 156, 214, 0.08) !important;
+}
+
+.dark .code-editor :deep(.cm-matchingBracket) {
+  background-color: rgba(86, 156, 214, 0.2) !important;
+  outline: 1px solid #569cd6 !important;
+  border-radius: 2px !important;
 }
 </style>
