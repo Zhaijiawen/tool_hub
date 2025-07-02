@@ -1,6 +1,14 @@
 <template>
   <div class="php-format">
-    <n-card :title="t('format.php.title')">
+    <n-card>
+      <template #header>
+        <div class="card-header">
+          <span>{{ t('format.php.title') }}</span>
+          <n-icon size="20" class="language-icon">
+            <CodeOutline />
+          </n-icon>
+        </div>
+      </template>
       <!-- PHP输入区域 - 带行号的代码编辑器 -->
       <CodeEditor v-model="input" :placeholder="t('format.php.placeholder')" language="php" />
       <!-- 操作按钮组 -->
@@ -28,6 +36,8 @@ import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
+// 导入图标
+import { CodeOutline } from '@vicons/ionicons5'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -82,5 +92,17 @@ const copyToClipboard = async () => {
 
 .error-alert {
   margin-top: 16px;
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-icon {
+  color: #777bb4;
+  opacity: 0.9;
 }
 </style>

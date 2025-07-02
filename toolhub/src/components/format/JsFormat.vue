@@ -2,7 +2,15 @@
   <!-- JavaScript格式化工具容器 -->
   <div class="js-format">
     <!-- 工具卡片 -->
-    <n-card :title="t('format.js.title')">
+    <n-card>
+      <template #header>
+        <div class="card-header">
+          <span>{{ t('format.js.title') }}</span>
+          <n-icon size="20" class="language-icon">
+            <LogoJavascript />
+          </n-icon>
+        </div>
+      </template>
       <!-- JavaScript输入区域 - 带行号的代码编辑器 -->
       <CodeEditor v-model="input" :placeholder="t('format.js.placeholder')" language="javascript" />
       <!-- 功能按钮组 -->
@@ -43,6 +51,8 @@ import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
+// 导入图标
+import { LogoJavascript } from '@vicons/ionicons5'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -129,5 +139,17 @@ const copyToClipboard = async () => {
 .info-content p {
   margin: 0;
   line-height: 1.6;
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-icon {
+  color: #f7df1e;
+  opacity: 0.9;
 }
 </style>

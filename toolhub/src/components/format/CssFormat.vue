@@ -2,7 +2,15 @@
   <!-- CSS格式化工具容器 -->
   <div class="css-format">
     <!-- 工具卡片 -->
-    <n-card :title="t('format.css.title')">
+    <n-card>
+      <template #header>
+        <div class="card-header">
+          <span>{{ t('format.css.title') }}</span>
+          <n-icon size="20" class="language-icon">
+            <LogoCss3 />
+          </n-icon>
+        </div>
+      </template>
       <!-- CSS输入区域 - 带行号的代码编辑器 -->
       <CodeEditor v-model="input" :placeholder="t('format.css.placeholder')" language="css" />
       <!-- 功能按钮组 -->
@@ -36,6 +44,8 @@ import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
+// 导入图标
+import { BrushOutline as LogoCss3 } from '@vicons/ionicons5'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -106,5 +116,17 @@ const copyToClipboard = async () => {
 /* 错误提示样式 */
 .error-alert {
   margin-top: 16px;
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-icon {
+  color: #379ad6;
+  opacity: 0.9;
 }
 </style>

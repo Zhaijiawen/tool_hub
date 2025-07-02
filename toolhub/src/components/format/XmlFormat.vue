@@ -2,7 +2,15 @@
   <!-- XML格式化工具容器 -->
   <div class="xml-format">
     <!-- 工具卡片 -->
-    <n-card :title="t('format.xml.title')">
+    <n-card>
+      <template #header>
+        <div class="card-header">
+          <span>{{ t('format.xml.title') }}</span>
+          <n-icon size="20" class="language-icon">
+            <DocumentTextOutline />
+          </n-icon>
+        </div>
+      </template>
       <!-- XML输入区域 - 带行号的代码编辑器 -->
       <CodeEditor v-model="input" :placeholder="t('format.xml.placeholder')" language="xml" />
       <!-- 功能按钮组 -->
@@ -50,6 +58,8 @@ import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
+// 导入图标
+import { DocumentTextOutline } from '@vicons/ionicons5'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -161,5 +171,17 @@ const copyToClipboard = async () => {
 
 .info-content li {
   margin-bottom: 8px;
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-icon {
+  color: #ff6600;
+  opacity: 0.9;
 }
 </style>

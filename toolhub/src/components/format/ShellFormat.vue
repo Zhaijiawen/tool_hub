@@ -2,7 +2,15 @@
   <!-- Shell格式化工具容器 -->
   <div class="shell-format">
     <!-- 工具卡片 -->
-    <n-card :title="t('format.shell.title')">
+    <n-card>
+      <template #header>
+        <div class="card-header">
+          <span>{{ t('format.shell.title') }}</span>
+          <n-icon size="20" class="language-icon">
+            <TerminalOutline />
+          </n-icon>
+        </div>
+      </template>
       <!-- Shell输入区域 - 带行号的代码编辑器 -->
       <CodeEditor v-model="input" :placeholder="t('format.shell.placeholder')" language="shell" />
       <!-- 功能按钮组 -->
@@ -35,6 +43,8 @@ import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
+// 导入图标
+import { TerminalOutline } from '@vicons/ionicons5'
 
 // 初始化国际化
 const { t } = useI18n()
@@ -104,5 +114,17 @@ const copyToClipboard = async () => {
 /* 错误提示样式 */
 .error-alert {
   margin-top: 16px;
+}
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.language-icon {
+  color: #4eaa25;
+  opacity: 0.9;
 }
 </style>
