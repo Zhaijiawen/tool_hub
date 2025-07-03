@@ -1884,5 +1884,15 @@ export default {
       demoMode: '演示模式',
       demoModeDesc: '当前为演示模式，短链接仅在本地浏览器有效，无法跨设备使用'
     }
+  },
+  composer: {
+    title: '组件编排',
+    addComponent: '添加组件',
+    removeComponent: '移除组件',
+    selectComponent: '选择组件',
+    searchPlaceholder: '搜索组件...',
+    addSuccess: '组件添加成功',
+    removeSuccess: '组件移除成功',
+    noResults: '未找到匹配的组件'
   }
 } 

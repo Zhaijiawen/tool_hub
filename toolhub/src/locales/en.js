@@ -1931,5 +1931,15 @@ export default {
       demoMode: 'Demo Mode',
       demoModeDesc: 'Currently in demo mode, short URLs are only valid locally and cannot be used across devices'
     }
+  },
+  composer: {
+    title: 'Component Composer',
+    addComponent: 'Add Component',
+    removeComponent: 'Remove Component',
+    selectComponent: 'Select Component',
+    searchPlaceholder: 'Search components...',
+    addSuccess: 'Component added successfully',
+    removeSuccess: 'Component removed successfully',
+    noResults: 'No matching components found'
   }
 } 
