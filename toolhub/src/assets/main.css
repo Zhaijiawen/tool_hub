@@ -357,7 +357,7 @@ body {
   max-width: 1200px !important;
   margin: 0 auto !important;
   padding: 8px 20px 8px 20px !important;
-  text-align: left !important;
+  text-align: center !important;
   display: block !important;
 }
 
@@ -371,7 +371,7 @@ body {
   line-height: 1.6 !important;
   margin: 0 !important;
   padding: 0 !important;
-  text-align: left !important;
+  text-align: center !important;
 }
 
 .n-layout-footer .footer-simple-v3 a,
