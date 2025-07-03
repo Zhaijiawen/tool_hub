@@ -68,41 +68,18 @@
       <router-view></router-view>
     </n-layout-content>
     <n-layout-footer v-if="route.path !== '/composer'" bordered>
-      <div class="footer-content">
-        <!-- 页脚内容区域 -->
-        <div class="footer-sections">
-          <!-- 关于我们 -->
-          <div class="footer-section">
-            <h3>{{ $t('footer.about') }}</h3>
-            <p>{{ $t('footer.description') }}</p>
-          </div>
-          <!-- 相关链接 -->
-          <div class="footer-section">
-            <h3>{{ $t('footer.links') }}</h3>
-            <div class="footer-links">
-              <a href="https://github.com/yourusername/toolhub" target="_blank">GitHub</a>
-              <a href="https://gitee.com/yourusername/toolhub" target="_blank">Gitee</a>
-              <a href="mailto:your.email@example.com">{{ $t('footer.contact') }}</a>
-            </div>
-          </div>
-          <!-- 社交媒体链接 -->
-          <div class="footer-section">
-            <h3>{{ $t('footer.follow') }}</h3>
-            <div class="social-links">
-              <a href="#" target="_blank"><n-icon><github-icon /></n-icon></a>
-              <a href="#" target="_blank"><n-icon><twitter-icon /></n-icon></a>
-              <a href="#" target="_blank"><n-icon><wechat-icon /></n-icon></a>
-            </div>
-          </div>
+      <div class="footer-simple-v3">
+        <div class="footer-line-v3 footer-desc-v3">
+          {{ $t('footer.description') }}
         </div>
-        <!-- 页脚底部信息 -->
-        <div class="footer-bottom">
-          <div class="copyright">
-            © 2024 ToolHub. {{ $t('footer.rights') }}
-          </div>
-          <div class="icp">
-            <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备XXXXXXXX号-1</a>
-          </div>
+        <div class="footer-line-v3 footer-contact-v3">
+          {{ $t('footer.contactPrefix') }}
+          <a class="footer-email-link-v3" href="mailto:pinkmaaaaan03@2925.com">{{ $t('footer.emailText') }}</a>
+          {{ $t('footer.contactSuffix') }}
+        </div>
+        <div class="footer-line-v3 footer-meta-v3">
+          {{ $t('footer.copyright') }} |
+          <a class="footer-icp-link-v3" href="https://beian.miit.gov.cn/" target="_blank">京ICP备XXXXXXXX号-1</a>
         </div>
       </div>
     </n-layout-footer>
@@ -798,7 +775,10 @@ const goToComposer = () => {
   border-color: var(--border-color);
 }
 
-.footer-content {
+.footer-simple-v3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
@@ -806,65 +786,29 @@ const goToComposer = () => {
   color: var(--text-color);
 }
 
-.footer-sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  margin-bottom: 40px;
-}
-
-.footer-section h3 {
-  margin-bottom: 16px;
+.footer-line-v3 {
+  margin-bottom: 20px;
   font-size: 18px;
   color: var(--text-color);
 }
 
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-links a {
+.footer-email-link-v3 {
   color: var(--text-color-secondary);
   text-decoration: none;
   transition: color 0.3s;
 }
 
-.footer-links a:hover {
+.footer-email-link-v3:hover {
   color: var(--primary-color);
 }
 
-.social-links {
-  display: flex;
-  gap: 16px;
-}
-
-.social-links a {
-  color: var(--text-color-secondary);
-  font-size: 24px;
-  transition: color 0.3s;
-}
-
-.social-links a:hover {
-  color: var(--primary-color);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-color);
-}
-
-.copyright {
-  color: var(--text-color-secondary);
-}
-
-.icp a {
+.footer-icp-link-v3 {
   color: var(--text-color-secondary);
   text-decoration: none;
+}
+
+.footer-icp-link-v3:hover {
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -884,15 +828,8 @@ const goToComposer = () => {
     justify-content: space-between;
   }
 
-  .footer-sections {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+  .footer-simple-v3 {
+    padding: 20px;
   }
 }
 

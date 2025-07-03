@@ -149,13 +149,11 @@ export default {
     clear: '清空'
   },
   footer: {
-    about: '关于',
-    description: 'ToolHub 是一个在线工具集合，提供各种实用的开发工具。',
-    links: '链接',
-    contact: '联系我们',
-    follow: '关注我们',
-    rights: '保留所有权利',
-    icp: '京ICP备XXXXXXXX号-1'
+    description: "简单、快速的在线工具集合，助你高效开发与生活。",
+    contactPrefix: "如有问题或功能需求，欢迎通过",
+    contactSuffix: "联系。",
+    emailText: "邮箱",
+    copyright: "© 2024 ToolHub. 保留所有权利"
   },
   format: {
     formatTools: '格式化工具',

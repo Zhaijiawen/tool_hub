@@ -4,6 +4,8 @@
   --warning-color: #f0a020;
   --success-color: #18a058;
   --info-color: #2080f0;
+  --header-height: 64px;
+  --footer-height: 73px;
 }
 
 body {
@@ -14,6 +16,8 @@ body {
   font-size: 14px;
   line-height: 1.5;
   color: #333;
+  margin: 0;
+  min-height: calc(100vh - var(--footer-height)) !important;
 }
 
 .dark body {
@@ -50,4 +54,341 @@ body {
 .info-message {
   color: var(--info-color);
   margin-top: 8px;
+}
+
+/* Sticky Footer 样式 - 计算高度版 */
+html, body {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body {
+  min-height: calc(100vh - var(--footer-height)) !important;
+}
+
+#app {
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.n-layout {
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.n-layout-header {
+  flex-shrink: 0 !important;
+}
+
+.n-layout-content {
+  flex: 1 !important;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 2px) !important;
+}
+
+.n-layout-footer {
+  flex-shrink: 0 !important;
+  margin-top: auto !important;
+}
+
+.footer-simple {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 8px 8px 8px;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  text-align: center;
+}
+
+.footer-simple.footer-left {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px 8px 24px;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  text-align: left;
+}
+
+.footer-desc {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.footer-email-link {
+  color: var(--primary-color);
+  font-weight: 500;
+  margin: 0 4px;
+  text-decoration: none;
+}
+
+.footer-email-link:hover {
+  text-decoration: underline;
+}
+
+.footer-tip {
+  font-size: 13px;
+  color: var(--text-color-secondary);
+  margin-left: 8px;
+}
+
+.footer-meta {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  align-items: flex-start;
+}
+
+.footer-copyright,
+.footer-icp {
+  color: var(--text-color-secondary);
+}
+
+.footer-icp a {
+  color: var(--text-color-secondary);
+  text-decoration: none;
+}
+
+.footer-bar {
+  width: 100%;
+  background: #333;
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 32px 16px 32px;
+  box-sizing: border-box;
+  min-height: 80px;
+}
+
+.footer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer-desc {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.footer-email-link {
+  color: #4fc08d;
+  font-weight: 500;
+  margin: 0 4px;
+  text-decoration: none;
+}
+
+.footer-email-link:hover {
+  text-decoration: underline;
+}
+
+.footer-tip {
+  font-size: 13px;
+  color: #ccc;
+  margin-left: 8px;
+}
+
+.footer-meta {
+  font-size: 12px;
+  color: #ccc;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.footer-copyright,
+.footer-icp {
+  color: #ccc;
+}
+
+.footer-icp a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  margin-left: 32px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #4fc08d;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 12px;
+  }
+  .footer-brand {
+    margin-left: 0;
+    margin-top: 12px;
+    font-size: 18px;
+  }
+}
+
+.footer-bar-v2 {
+  width: 100%;
+  background: #222;
+  color: #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 18px 32px 12px 32px;
+  box-sizing: border-box;
+  min-height: 70px;
+  border-top: 1px solid #e0e0e0;
+}
+.footer-info-v2 {
+  flex: 1;
+  min-width: 0;
+}
+.footer-desc-v2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.footer-email-link-v2 {
+  color: #4fc08d;
+  font-weight: 500;
+  margin: 0 4px;
+  text-decoration: none;
+}
+.footer-email-link-v2:hover {
+  text-decoration: underline;
+}
+.footer-tip-v2 {
+  font-size: 13px;
+  color: #bbb;
+  margin-left: 8px;
+}
+.footer-meta-v2 {
+  font-size: 12px;
+  color: #aaa;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  align-items: center;
+}
+.footer-copyright-v2,
+.footer-icp-v2 {
+  color: #aaa;
+}
+.footer-icp-v2 a {
+  color: #aaa;
+  text-decoration: none;
+}
+.footer-brand-v2 {
+  display: flex;
+  align-items: flex-end;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4fc08d;
+  letter-spacing: 2px;
+  margin-left: 32px;
+  opacity: 0.7;
+}
+@media (max-width: 700px) {
+  .footer-bar-v2 {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 8px;
+  }
+  .footer-brand-v2 {
+    margin-left: 0;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+}
+
+.footer-simple-v3 {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 8px 24px 8px 24px;
+  text-align: left;
+}
+
+.footer-line-v3,
+.footer-desc-v3,
+.footer-contact-v3,
+.footer-meta-v3 {
+  color: #aaa;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-simple-v3 a,
+.footer-email-link-v3,
+.footer-icp-link-v3 {
+  color: #aaa;
+  font-size: 12px;
+  text-decoration: underline;
+  font-weight: 400;
+  margin: 0 2px;
+}
+
+.footer-simple-v3 a:hover {
+  color: #409eff;
+}
+
+.n-layout-footer .footer-simple-v3 {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 8px 20px 8px 20px !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+.n-layout-footer .footer-line-v3,
+.n-layout-footer .footer-desc-v3,
+.n-layout-footer .footer-contact-v3,
+.n-layout-footer .footer-meta-v3 {
+  color: #aaa !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.n-layout-footer .footer-simple-v3 a,
+.n-layout-footer .footer-email-link-v3,
+.n-layout-footer .footer-icp-link-v3 {
+  color: #aaa !important;
+  font-size: 12px !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+  margin: 0 2px !important;
+}
+
+.n-layout-footer .footer-simple-v3 a:hover {
+  color: #409eff !important;
+}
+
+/* 覆盖Naive UI默认居中样式 */
+.n-layout-footer {
+  text-align: left !important;
+  display: block !important;
 } 

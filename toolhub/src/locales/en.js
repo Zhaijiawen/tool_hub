@@ -150,7 +150,12 @@ export default {
   },
   footer: {
     about: 'About',
-    description: 'ToolHub is an online tool collection providing various practical development tools.',
+    description: "A simple and fast online tool collection for efficient work and life.",
+    contactPrefix: "For questions or feature requests, feel free to contact us by",
+    contactSuffix: ".",
+    emailText: "email",
+    contactTip: "For questions or feature requests, feel free to contact us by email.",
+    copyright: "© 2024 ToolHub. All rights reserved",
     links: 'Links',
     contact: 'Contact Us',
     follow: 'Follow Us',
