@@ -172,7 +172,8 @@ export default {
     contact: 'Contact Us',
     follow: 'Follow Us',
     rights: 'All rights reserved',
-    icp: 'ICP License XXXXXXXX-1'
+    icp: 'ICP License XXXXXXXX-1',
+    icpPlaceholder: 'ICP filing pending'
   },
   format: {
     formatTools: 'Format Tools',
