@@ -65,7 +65,15 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', // 允许外部访问
     port: 5173, // 开发环境端口
-    open: true // 自动打开浏览器
+    open: true, // 自动打开浏览器
+    proxy: {
+      // 代理 API 请求到后端服务器
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
   },
   
   // 预览服务器配置（生产环境）

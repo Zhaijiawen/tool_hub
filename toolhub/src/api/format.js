@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+// 使用相对路径，生产环境中会自动使用当前域名
+const API_BASE_URL = '/api'
 
 /**
  * 格式化代码
