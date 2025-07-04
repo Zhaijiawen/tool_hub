@@ -3,9 +3,21 @@
 import { NConfigProvider, NMessageProvider, NDialogProvider, NNotificationProvider } from 'naive-ui'
 // 导入主题管理composable
 import { useTheme } from '@/composables/useTheme'
+// 导入SEO管理composable
+import { useSeo } from '@/composables/useSeo'
+// 导入Vue组合式API
+import { onMounted, watch } from 'vue'
+// 导入国际化
+import { useI18n } from 'vue-i18n'
 
 // 获取当前主题
 const { theme } = useTheme()
+
+// 获取SEO功能
+const { updateSeoTags } = useSeo()
+
+// 获取国际化功能
+const { locale } = useI18n()
 
 // 主题覆盖配置
 const themeOverrides = {
@@ -13,6 +25,16 @@ const themeOverrides = {
     primaryColor: '#18a058' // 设置主题色
   }
 }
+
+// 组件挂载时初始化SEO
+onMounted(() => {
+  updateSeoTags()
+})
+
+// 监听语言切换，更新SEO标签
+watch(locale, () => {
+  updateSeoTags()
+})
 </script>
 
 <template>

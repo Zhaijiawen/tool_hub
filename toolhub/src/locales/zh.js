@@ -2,6 +2,18 @@ export default {
   home: {
     welcome: '欢迎使用 ToolHub'
   },
+  seo: {
+    title: 'ToolHub - 开发者工具集合 | 在线工具箱',
+    description: 'ToolHub 是一个专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。免费、快速、安全的开发辅助工具。',
+    keywords: '开发者工具,在线工具,代码格式化,加密解密,数据转换,JSON格式化,Base64编码,时间戳转换,二维码生成,图像处理,文本处理,开发辅助',
+    ogTitle: 'ToolHub - 开发者工具集合',
+    ogDescription: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换等多种在线工具',
+    twitterTitle: 'ToolHub - 开发者工具集合',
+    twitterDescription: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换等多种在线工具',
+    schemaName: 'ToolHub',
+    schemaDescription: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换等多种在线工具',
+    schemaAuthor: 'ToolHub'
+  },
   common: {
     format: '格式化',
     encrypt: '加密',

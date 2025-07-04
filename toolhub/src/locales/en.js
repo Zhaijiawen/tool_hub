@@ -2,6 +2,18 @@ export default {
   home: {
     welcome: 'Welcome to ToolHub'
   },
+  seo: {
+    title: 'ToolHub - Developer Tools Collection | Online Toolbox',
+    description: 'ToolHub is a professional developer tools collection providing code formatting, encryption/decryption, data conversion, image processing and various online tools. Free, fast, and secure development assistance tools.',
+    keywords: 'developer tools,online tools,code formatting,encryption decryption,data conversion,JSON formatter,Base64 encoding,timestamp conversion,QR code generator,image processing,text processing,development assistance',
+    ogTitle: 'ToolHub - Developer Tools Collection',
+    ogDescription: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion and various online tools',
+    twitterTitle: 'ToolHub - Developer Tools Collection',
+    twitterDescription: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion and various online tools',
+    schemaName: 'ToolHub',
+    schemaDescription: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion and various online tools',
+    schemaAuthor: 'ToolHub'
+  },
   common: {
     format: 'Format',
     encrypt: 'Encrypt',
