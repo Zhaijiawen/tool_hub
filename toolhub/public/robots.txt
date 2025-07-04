@@ -1,18 +1,13 @@
 User-agent: *
 Allow: /
 
-# 允许所有搜索引擎爬取所有页面
-# 禁止爬取特定目录（如果有的话）
 # Disallow: /admin/
 # Disallow: /private/
 
-# 网站地图位置
 Sitemap: https://toolhub.studio/sitemap.xml
 
-# 爬取延迟（可选，避免过于频繁的请求）
 Crawl-delay: 1
 
-# 特定搜索引擎的配置
 User-agent: Googlebot
 Allow: /
 
