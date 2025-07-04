@@ -72,6 +72,12 @@ export default defineConfig({
   preview: {
     host: '0.0.0.0', // 允许外部访问
     port: 4173, // 生产环境端口
-    open: true // 自动打开浏览器
+    open: true, // 自动打开浏览器
+    allowedHosts: [
+      'toolhub.studio',
+      'www.toolhub.studio',
+      'localhost',
+      '127.0.0.1'
+    ]
   }
 })
