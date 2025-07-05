@@ -31,13 +31,15 @@ export default defineConfig({
           // 将 Vue 相关库分离
           vue: ['vue', 'vue-router', 'pinia'],
           // 将 UI 库分离
-          ui: ['naive-ui', '@vicons/antd', '@vicons/ionicons5'],
+          ui: ['naive-ui'],
+          // 将图标库分离
+          icons: ['@vicons/antd', '@vicons/ionicons5'],
           // 将工具库分离
           utils: ['lodash-es', 'dayjs', 'axios'],
           // 将加密库分离
           crypto: ['crypto-js', 'bcryptjs', 'argon2', 'tweetnacl', 'elliptic'],
           // 将编辑器库分离
-          editor: ['codemirror', '@codemirror/lang-css', '@codemirror/lang-html', '@codemirror/lang-javascript', '@codemirror/lang-json'],
+          editor: ['codemirror'],
           // 将其他大型库分离
           vendors: ['markdown-it', 'marked', 'mathjs', 'prettier', 'qrcode']
         }

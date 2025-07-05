@@ -15,24 +15,6 @@ import { EditorState } from '@codemirror/state'
 import { basicSetup } from 'codemirror'
 import { oneDark } from '@codemirror/theme-one-dark'
 
-// 语言支持
-import { java } from '@codemirror/lang-java'
-import { javascript } from '@codemirror/lang-javascript'
-import { html } from '@codemirror/lang-html'
-import { css } from '@codemirror/lang-css'
-import { json } from '@codemirror/lang-json'
-import { xml } from '@codemirror/lang-xml'
-import { sql } from '@codemirror/lang-sql'
-import { markdown } from '@codemirror/lang-markdown'
-import { php } from '@codemirror/lang-php'
-import { vue } from '@codemirror/lang-vue'
-
-// Legacy modes 支持
-import { StreamLanguage } from '@codemirror/language'
-import { ruby } from '@codemirror/legacy-modes/mode/ruby'
-import { shell } from '@codemirror/legacy-modes/mode/shell'
-import { yaml } from '@codemirror/legacy-modes/mode/yaml'
-
 // 初始化国际化
 const { t } = useI18n()
 
@@ -59,23 +41,66 @@ const emit = defineEmits(['update:modelValue'])
 const editorRef = ref(null)
 let editorView = null
 
-// 语言映射
-const languageMap = {
-  java: java(),
-  javascript: javascript(),
-  html: html(),
-  css: css(),
-  json: json(),
-  js: javascript(),
-  xml: xml(),
-  sql: sql(),
-  yaml: StreamLanguage.define(yaml),
-  markdown: markdown(),
-  shell: StreamLanguage.define(shell),
-  php: php(),
-  ruby: StreamLanguage.define(ruby),
-  vue: vue(), // Vue 官方语言支持
+// 动态语言加载器
+const loadLanguage = async (lang) => {
+  switch (lang) {
+    case 'java':
+      const { java } = await import('@codemirror/lang-java')
+      return java()
+    case 'javascript':
+    case 'js':
+      const { javascript } = await import('@codemirror/lang-javascript')
+      return javascript()
+    case 'html':
+      const { html } = await import('@codemirror/lang-html')
+      return html()
+    case 'css':
+      const { css } = await import('@codemirror/lang-css')
+      return css()
+    case 'json':
+      const { json } = await import('@codemirror/lang-json')
+      return json()
+    case 'xml':
+      const { xml } = await import('@codemirror/lang-xml')
+      return xml()
+    case 'sql':
+      const { sql } = await import('@codemirror/lang-sql')
+      return sql()
+    case 'markdown':
+      const { markdown } = await import('@codemirror/lang-markdown')
+      return markdown()
+    case 'php':
+      const { php } = await import('@codemirror/lang-php')
+      return php()
+    case 'vue':
+      const { vue } = await import('@codemirror/lang-vue')
+      return vue()
+    case 'yaml':
+      const [{ StreamLanguage }, { yaml }] = await Promise.all([
+        import('@codemirror/language'),
+        import('@codemirror/legacy-modes/mode/yaml')
+      ])
+      return StreamLanguage.define(yaml)
+    case 'shell':
+      const [{ StreamLanguage: SL1 }, { shell }] = await Promise.all([
+        import('@codemirror/language'),
+        import('@codemirror/legacy-modes/mode/shell')
+      ])
+      return SL1.define(shell)
+    case 'ruby':
+      const [{ StreamLanguage: SL2 }, { ruby }] = await Promise.all([
+        import('@codemirror/language'),
+        import('@codemirror/legacy-modes/mode/ruby')
+      ])
+      return SL2.define(ruby)
+    default:
+      const { javascript: defaultLang } = await import('@codemirror/lang-javascript')
+      return defaultLang()
+  }
 }
+
+// 当前加载的语言扩展
+let currentLanguageExtension = null
 
 // 获取当前主题
 const isDark = ref(document.documentElement.classList.contains('dark'))
@@ -84,7 +109,6 @@ const isDark = ref(document.documentElement.classList.contains('dark'))
 const createExtensions = () => {
   const extensions = [
     basicSetup,
-    languageMap[props.language] || javascript(),
     EditorView.updateListener.of((update) => {
       if (update.docChanged) {
         const newValue = update.state.doc.toString()
@@ -156,6 +180,11 @@ const createExtensions = () => {
     })
   ]
 
+  // 添加当前语言扩展（如果已加载）
+  if (currentLanguageExtension) {
+    extensions.push(currentLanguageExtension)
+  }
+
   // 根据主题添加暗色主题
   if (isDark.value) {
     extensions.push(oneDark)
@@ -165,8 +194,11 @@ const createExtensions = () => {
 }
 
 // 初始化编辑器
-const initEditor = () => {
+const initEditor = async () => {
   if (!editorRef.value) return
+
+  // 加载当前语言扩展
+  currentLanguageExtension = await loadLanguage(props.language)
 
   const state = EditorState.create({
     doc: props.modelValue,
@@ -196,8 +228,11 @@ const updateEditorContent = (newValue) => {
 }
 
 // 更新编辑器语言
-const updateEditorLanguage = () => {
+const updateEditorLanguage = async () => {
   if (!editorView) return
+
+  // 加载新语言扩展
+  currentLanguageExtension = await loadLanguage(props.language)
 
   const newExtensions = createExtensions()
   editorView.dispatch({
