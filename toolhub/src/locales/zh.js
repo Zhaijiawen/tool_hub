@@ -165,8 +165,8 @@ export default {
     contactPrefix: "如有问题或功能需求，欢迎通过",
     contactSuffix: "联系。",
     emailText: "邮箱",
-    copyright: "© 2024 ToolHub. 保留所有权利",
-    icp: "京ICP备XXXXXXXX号-1",
+    copyright: "© 2025 ToolHub. 保留所有权利",
+    icp: "京ICP备2025134446号",
     icpPlaceholder: "备案号待申请"
   },
   format: {

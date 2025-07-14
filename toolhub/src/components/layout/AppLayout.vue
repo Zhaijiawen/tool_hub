@@ -79,7 +79,7 @@
         </div>
         <div class="footer-line-v3 footer-meta-v3">
           {{ $t('footer.copyright') }} |
-          <a class="footer-icp-link-v3" href="https://beian.miit.gov.cn/" target="_blank">{{ $t('footer.icpPlaceholder') }}</a>
+          <a class="footer-icp-link-v3" href="https://beian.miit.gov.cn/" target="_blank">{{ $t('footer.icp') }}</a>
         </div>
       </div>
     </n-layout-footer>

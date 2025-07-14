@@ -167,12 +167,12 @@ export default {
     contactSuffix: ".",
     emailText: "email",
     contactTip: "For questions or feature requests, feel free to contact us by email.",
-    copyright: "© 2024 ToolHub. All rights reserved",
+    copyright: "© 2025 ToolHub. All rights reserved",
     links: 'Links',
     contact: 'Contact Us',
     follow: 'Follow Us',
     rights: 'All rights reserved',
-    icp: 'ICP License XXXXXXXX-1',
+    icp: '京ICP备2025134446号',
     icpPlaceholder: 'ICP filing pending'
   },
   format: {
