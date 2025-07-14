@@ -1,7 +1,9 @@
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export function useSeo() {
   const { t, locale } = useI18n()
+  const route = useRoute()
 
   const updateSeoTags = (customTitle = '', customDescription = '') => {
     const title = customTitle || t('seo.title')
@@ -34,6 +36,20 @@ export function useSeo() {
       meta.setAttribute('content', content)
     }
 
+    // 更新 canonical URL
+    const updateCanonicalUrl = () => {
+      const baseUrl = 'https://toolhub.studio'
+      const canonicalUrl = baseUrl + route.path
+      
+      let canonical = document.querySelector('link[rel="canonical"]')
+      if (!canonical) {
+        canonical = document.createElement('link')
+        canonical.setAttribute('rel', 'canonical')
+        document.head.appendChild(canonical)
+      }
+      canonical.setAttribute('href', canonicalUrl)
+    }
+
     // 判断是否为中文
     const isChinese = locale.value === 'zh'
 
@@ -50,6 +66,9 @@ export function useSeo() {
     // 更新 Twitter Card 标签
     updateMetaTag('twitter:title', twitterTitle)
     updateMetaTag('twitter:description', twitterDescription)
+
+    // 更新 canonical URL (已有静态canonical，注释避免冲突)
+    // updateCanonicalUrl()
 
     // 更新结构化数据
     updateStructuredData(schemaName, schemaDescription, schemaAuthor)
