@@ -301,7 +301,7 @@ const loadExample = () => {
     {
       name: t('convert.regex.examples.date'),
       pattern: '\\d{4}-\\d{2}-\\d{2}',
-      testString: '2024-01-15\n2023-12-31\ninvalid-date\n2024/01/15',
+      testString: '2015-07-14\n2015-07-14\ninvalid-date\n2025/07/14',
       flags: { global: true, ignoreCase: false, multiline: false, sticky: false, unicode: false }
     }
   ]
