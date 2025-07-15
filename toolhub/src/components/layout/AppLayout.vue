@@ -35,26 +35,26 @@
           </div>
 
           <!-- 主题切换按钮 -->
-          <n-button @click="toggleTheme">
+          <n-button @click="toggleTheme" class="header-button">
             <template #icon>
               <n-icon>
                 <sun-icon v-if="isDark" />
                 <moon-icon v-else />
               </n-icon>
             </template>
-            {{ isDark ? t('common.theme.light') : t('common.theme.dark') }}
+            <span class="button-text">{{ isDark ? t('common.theme.light') : t('common.theme.dark') }}</span>
           </n-button>
           <!-- 组件编排按钮 -->
-          <n-button @click="goToComposer">
+          <n-button @click="goToComposer" class="header-button">
             <template #icon>
               <n-icon><puzzle-icon /></n-icon>
             </template>
-            {{ t('common.composer') }}
+            <span class="button-text">{{ t('common.composer') }}</span>
           </n-button>
           <!-- 语言切换下拉菜单 -->
           <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
-            <n-button>
-              {{ currentLanguage }}
+            <n-button class="header-button">
+              <span class="button-text">{{ currentLanguage }}</span>
               <template #icon>
                 <n-icon><language-icon /></n-icon>
               </template>
@@ -616,6 +616,7 @@ const goToComposer = () => {
   font-size: 1.5rem;
   font-weight: bold;
   margin-right: 24px;
+  flex-shrink: 0;
 }
 
 .logo a {
@@ -639,11 +640,15 @@ const goToComposer = () => {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .search-container {
-  width: 300px;
+  width: min(280px, 20vw);
+  min-width: 200px;
+  flex-shrink: 1;
 }
 
 :deep(.n-menu) {
@@ -811,6 +816,32 @@ const goToComposer = () => {
   color: var(--primary-color);
 }
 
+/* 头部按钮响应式样式 */
+.header-button {
+  transition: all 0.2s ease;
+}
+
+.button-text {
+  transition: all 0.2s ease;
+}
+
+/* 中等屏幕：隐藏按钮文字，只显示图标 */
+@media (max-width: 1024px) {
+  .header-button .button-text {
+    display: none;
+  }
+  
+  .search-container {
+    width: min(220px, 18vw);
+    min-width: 180px;
+  }
+  
+  .header-right {
+    gap: 4px;
+  }
+}
+
+/* 小屏幕：进一步压缩 */
 @media (max-width: 768px) {
   .header-content {
     flex-wrap: wrap;
@@ -827,9 +858,20 @@ const goToComposer = () => {
     margin-top: 16px;
     justify-content: space-between;
   }
+  
+  .search-container {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 12px;
+  }
 
   .footer-simple-v3 {
     padding: 20px;
+  }
+  
+  /* 小屏幕下恢复显示按钮文字 */
+  .header-button .button-text {
+    display: inline;
   }
 }
 
