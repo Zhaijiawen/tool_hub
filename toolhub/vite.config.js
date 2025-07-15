@@ -2,6 +2,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+// TODO: 可安装 vite-plugin-compression 用于预压缩
+// import { createGzipPlugin } from 'vite-plugin-compression'
 
 // Vite 配置 - https://vite.dev/config/
 export default defineConfig({
@@ -21,8 +23,8 @@ export default defineConfig({
     outDir: 'dist',
     // 生成 source map（可选，调试用）
     sourcemap: false,
-    // 代码分割阈值
-    chunkSizeWarningLimit: 1000,
+    // 代码分割阈值（调大以减少小文件数量）
+    chunkSizeWarningLimit: 2000,
     // Rollup 配置
     rollupOptions: {
       output: {
@@ -42,7 +44,11 @@ export default defineConfig({
           editor: ['codemirror'],
           // 将其他大型库分离
           vendors: ['markdown-it', 'marked', 'mathjs', 'prettier', 'qrcode']
-        }
+        },
+        // 优化文件名（便于缓存）
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
       }
     },
     // 压缩配置
@@ -54,13 +60,24 @@ export default defineConfig({
         // 移除 debugger
         drop_debugger: true,
         // 移除无用代码
-        pure_funcs: ['console.log']
+        pure_funcs: ['console.log'],
+        // 优化常量折叠
+        passes: 3
+      },
+      mangle: {
+        // 保留类名（避免某些库出错）
+        keep_classnames: false,
+        keep_fnames: false
       }
     },
     // 启用 CSS 代码分割
     cssCodeSplit: true,
     // 构建后清理输出目录
-    emptyOutDir: true
+    emptyOutDir: true,
+    // 并行构建
+    reportCompressedSize: false,  // 关闭压缩报告提升构建速度
+    // 资源内联阈值（小于4KB的资源会被内联）
+    assetsInlineLimit: 4096
   },
   
   // 开发服务器配置
