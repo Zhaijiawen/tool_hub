@@ -21,4 +21,17 @@ const route = useRoute()
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  .tool-view {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tool-view {
+    padding: 8px;
+  }
+}
 </style>

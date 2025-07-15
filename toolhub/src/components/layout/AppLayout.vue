@@ -29,37 +29,43 @@
           :collapsed-width="64" :collapsed-icon-size="22" :indent="18" />
         <!-- 头部右侧功能区 -->
         <div class="header-right">
-          <!-- 工具搜索框 -->
-          <div class="search-container">
-            <tool-search />
+          <!-- 搜索和按钮容器 -->
+          <div class="search-and-buttons">
+            <!-- 工具搜索框 -->
+            <div class="search-container">
+              <tool-search />
+            </div>
+            
+            <!-- 按钮组 -->
+            <div class="button-group">
+              <!-- 主题切换按钮 -->
+              <n-button @click="toggleTheme" class="header-button">
+                <template #icon>
+                  <n-icon>
+                    <sun-icon v-if="isDark" />
+                    <moon-icon v-else />
+                  </n-icon>
+                </template>
+                <span class="button-text">{{ isDark ? t('common.theme.light') : t('common.theme.dark') }}</span>
+              </n-button>
+              <!-- 组件编排按钮 -->
+              <n-button @click="goToComposer" class="header-button">
+                <template #icon>
+                  <n-icon><puzzle-icon /></n-icon>
+                </template>
+                <span class="button-text">{{ t('common.composer') }}</span>
+              </n-button>
+              <!-- 语言切换下拉菜单 -->
+              <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
+                <n-button class="header-button">
+                  <span class="button-text">{{ currentLanguage }}</span>
+                  <template #icon>
+                    <n-icon><language-icon /></n-icon>
+                  </template>
+                </n-button>
+              </n-dropdown>
+            </div>
           </div>
-
-          <!-- 主题切换按钮 -->
-          <n-button @click="toggleTheme" class="header-button">
-            <template #icon>
-              <n-icon>
-                <sun-icon v-if="isDark" />
-                <moon-icon v-else />
-              </n-icon>
-            </template>
-            <span class="button-text">{{ isDark ? t('common.theme.light') : t('common.theme.dark') }}</span>
-          </n-button>
-          <!-- 组件编排按钮 -->
-          <n-button @click="goToComposer" class="header-button">
-            <template #icon>
-              <n-icon><puzzle-icon /></n-icon>
-            </template>
-            <span class="button-text">{{ t('common.composer') }}</span>
-          </n-button>
-          <!-- 语言切换下拉菜单 -->
-          <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
-            <n-button class="header-button">
-              <span class="button-text">{{ currentLanguage }}</span>
-              <template #icon>
-                <n-icon><language-icon /></n-icon>
-              </template>
-            </n-button>
-          </n-dropdown>
         </div>
       </div>
     </n-layout-header>
@@ -645,6 +651,18 @@ const goToComposer = () => {
   min-width: 0;
 }
 
+/* 桌面端：搜索和按钮在同一行 */
+.search-and-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.button-group {
+  display: flex;
+  gap: 6px;
+}
+
 .search-container {
   width: min(280px, 20vw);
   min-width: 200px;
@@ -841,28 +859,49 @@ const goToComposer = () => {
   }
 }
 
-/* 小屏幕：进一步压缩 */
+/* 小屏幕：优化布局对齐 */
 @media (max-width: 768px) {
   .header-content {
     flex-wrap: wrap;
     height: auto;
     padding: 16px;
+    gap: 12px;
   }
 
   .logo {
     margin-right: 20px;
+    flex: 1;
+    min-width: 0;
   }
 
   .header-right {
     width: 100%;
-    margin-top: 16px;
-    justify-content: space-between;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  /* 搜索和按钮容器 */
+  .search-and-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
   }
   
   .search-container {
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 12px;
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+  }
+  
+  /* 按钮组 */
+  .button-group {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
   }
 
   .footer-simple-v3 {
@@ -872,6 +911,47 @@ const goToComposer = () => {
   /* 小屏幕下恢复显示按钮文字 */
   .header-button .button-text {
     display: inline;
+  }
+}
+
+/* 超小屏幕：进一步优化（<480px） */
+@media (max-width: 480px) {
+  .header-content {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .search-and-buttons {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  
+  .button-group {
+    justify-content: center;
+    gap: 4px;
+  }
+  
+  .header-button {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .header-button .button-text {
+    display: none; /* 超小屏幕只显示图标 */
+  }
+  
+  /* 超小屏幕下logo优化 */
+  .logo {
+    margin-right: 12px;
+  }
+  
+  .logo-text {
+    font-size: 1.25rem;
+  }
+  
+  .logo-domain {
+    font-size: 0.4em;
   }
 }
 
