@@ -7,6 +7,22 @@
   --header-height: 64px;
   --footer-height: 73px;
   --border-width: 2px;
+  
+  /* ContextualTips组件专用变量 */
+  --card-color: #ffffff;
+  --border-color: #e0e0e6;
+  --text-color: #18181c;
+  --text-color-2: #646479;
+  --code-color: #f6f6f7;
+}
+
+/* 深色主题下的变量覆盖 */
+.dark {
+  --card-color: #1e1e1e;
+  --border-color: #3a3a3a;
+  --text-color: #ffffff;
+  --text-color-2: #c7c7c7;
+  --code-color: #2a2a2a;
 }
 
 body {

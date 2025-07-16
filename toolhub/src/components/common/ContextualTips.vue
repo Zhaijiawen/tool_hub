@@ -90,8 +90,9 @@ const props = defineProps({
 const { t } = useI18n()
 const router = useRouter()
 
-// 响应式窗口宽度
-const windowWidth = ref(1200)
+// 响应式窗口宽度和挂载状态
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1400)
+const isMounted = ref(false)
 
 // 更新窗口宽度
 const updateWindowWidth = () => {
@@ -102,17 +103,32 @@ const updateWindowWidth = () => {
 
 // 组件挂载时监听窗口变化
 onMounted(() => {
+  isMounted.value = true
   updateWindowWidth()
-  window.addEventListener('resize', updateWindowWidth)
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', updateWindowWidth)
+  }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', updateWindowWidth)
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('resize', updateWindowWidth)
+  }
 })
 
-// 控制显示
+// 控制显示 - 只在客户端挂载后才显示
 const shouldShow = computed(() => {
-  return windowWidth.value >= 1400 // 只在大屏幕显示
+  const show = isMounted.value && windowWidth.value >= 1200
+  // 开发环境下输出调试信息
+  if (process.env.NODE_ENV === 'development') {
+    console.log('ContextualTips Debug:', {
+      isMounted: isMounted.value,
+      windowWidth: windowWidth.value,
+      shouldShow: show,
+      currentPath: props.currentPath
+    })
+  }
+  return show
 })
 
 // 根据路径获取知识提示
@@ -1182,7 +1198,7 @@ const handleAction = (action) => {
 }
 
 /* 响应式隐藏 */
-@media (max-width: 1399px) {
+@media (max-width: 1199px) {
   .contextual-tips {
     display: none;
   }
