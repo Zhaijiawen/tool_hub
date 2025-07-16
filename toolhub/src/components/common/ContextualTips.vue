@@ -63,6 +63,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { examples, examplesEn } from '@/utils/examples'
 import {
   CodeOutline as CodeIcon,
   LockClosedOutline as LockIcon,
@@ -87,8 +88,14 @@ const props = defineProps({
   }
 })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
+
+// 获取示例代码的helper函数
+const getExample = (key) => {
+  const currentExamples = locale.value === 'zh' ? examples : examplesEn
+  return currentExamples[key] || ''
+}
 
 // 响应式窗口宽度和挂载状态
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1400)
@@ -156,7 +163,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.jsonCommonDesc'),
-          example: t('sidebar.tips.examples.json'),
+          example: getExample('json'),
           actions: [
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' },
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' }
@@ -181,7 +188,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.xmlCommonDesc'),
-          example: t('sidebar.tips.examples.xml'),
+          example: getExample('xml'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' }
@@ -206,7 +213,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.cssAdvancedDesc'),
-          example: t('sidebar.tips.examples.css'),
+          example: getExample('css'),
           actions: [
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -231,7 +238,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.htmlTipsDesc'),
-          example: t('sidebar.tips.examples.html'),
+          example: getExample('html'),
           actions: [
             { text: t('sidebar.tips.tryCSS'), path: '/format/css' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -256,7 +263,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.jsModernDesc'),
-          example: t('sidebar.tips.examples.js'),
+          example: getExample('js'),
           actions: [
             { text: t('sidebar.tips.tryVue'), path: '/format/vue' },
             { text: t('sidebar.tips.tryCSS'), path: '/format/css' }
@@ -281,7 +288,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.yamlUsageDesc'),
-          example: t('sidebar.tips.examples.yaml'),
+          example: getExample('yaml'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' }
@@ -306,7 +313,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.sqlTipsDesc'),
-          example: t('sidebar.tips.examples.sql'),
+          example: getExample('sql'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' }
@@ -331,7 +338,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#41b883',
           description: t('sidebar.tips.vueEcosystemDesc'),
-          example: t('sidebar.tips.examples.vue'),
+          example: getExample('vue'),
           actions: [
             { text: t('sidebar.tips.tryJS'), path: '/format/js' },
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' }
@@ -356,7 +363,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#8892bf',
           description: t('sidebar.tips.phpModernDesc'),
-          example: t('sidebar.tips.examples.php'),
+          example: getExample('php'),
           actions: [
             { text: t('sidebar.tips.trySQL'), path: '/format/sql' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -381,7 +388,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#d91a1c',
           description: t('sidebar.tips.rubyPhilosophyDesc'),
-          example: t('sidebar.tips.examples.ruby'),
+          example: getExample('ruby'),
           actions: [
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -406,7 +413,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#34495e',
           description: t('sidebar.tips.shellPowerDesc'),
-          example: t('sidebar.tips.examples.shell'),
+          example: getExample('shell'),
           actions: [
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -431,7 +438,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#666666',
           description: t('sidebar.tips.markdownUsageDesc'),
-          example: t('sidebar.tips.examples.markdown'),
+          example: getExample('markdown'),
           actions: [
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -456,7 +463,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#ed8b00',
           description: t('sidebar.tips.javaEcosystemDesc'),
-          example: t('sidebar.tips.examples.java'),
+          example: getExample('java'),
           actions: [
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -483,7 +490,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.base64CommonDesc'),
-          example: t('sidebar.tips.examples.base64'),
+          example: getExample('base64'),
           actions: [
             { text: t('sidebar.tips.tryHex'), path: '/encrypt/hex' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
@@ -508,7 +515,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.aesSecurityDesc'),
-          example: t('sidebar.tips.examples.aes'),
+          example: getExample('aes'),
           actions: [
             { text: t('sidebar.tips.tryDES'), path: '/encrypt/des' },
             { text: t('sidebar.tips.tryRSA'), path: '/encrypt/rsa' }
@@ -533,7 +540,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.hexUsageDesc'),
-          example: t('sidebar.tips.examples.hex'),
+          example: getExample('hex'),
           actions: [
             { text: t('sidebar.tips.tryBase64'), path: '/encrypt/base64' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
@@ -558,7 +565,7 @@ const getTipsForPath = (path) => {
           icon: LockIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.rsaSecurityDesc'),
-          example: t('sidebar.tips.examples.rsa'),
+          example: getExample('rsa'),
           actions: [
             { text: t('sidebar.tips.tryAES'), path: '/encrypt/aes' },
             { text: t('sidebar.tips.tryECC'), path: '/encrypt/ecc' }
@@ -583,7 +590,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.shaApplicationsDesc'),
-          example: t('sidebar.tips.examples.sha'),
+          example: getExample('sha'),
           actions: [
             { text: t('sidebar.tips.tryBcrypt'), path: '/encrypt/bcrypt' },
             { text: t('sidebar.tips.tryArgon2'), path: '/encrypt/argon2' }
@@ -608,7 +615,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.jwtUsageDesc'),
-          example: t('sidebar.tips.examples.jwt'),
+          example: getExample('jwt'),
           actions: [
             { text: t('sidebar.tips.tryBase64'), path: '/encrypt/base64' },
             { text: t('sidebar.tips.tryRSA'), path: '/encrypt/rsa' }
@@ -635,7 +642,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.timestampCommonDesc'),
-          example: t('sidebar.tips.examples.timestamp'),
+          example: getExample('timestamp'),
           actions: [
             { text: t('sidebar.tips.tryDateCalc'), path: '/convert/date-calc' },
             { text: t('sidebar.tips.tryDateDiff'), path: '/convert/date-diff' }
@@ -660,7 +667,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.colorDesignDesc'),
-          example: t('sidebar.tips.examples.color'),
+          example: getExample('color'),
           actions: [
             { text: t('sidebar.tips.tryUnit'), path: '/convert/unit' },
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' }
@@ -685,7 +692,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.regexExamplesDesc'),
-          example: t('sidebar.tips.examples.regex'),
+          example: getExample('regex'),
           actions: [
             { text: t('sidebar.tips.tryReplace'), path: '/text/replace' },
             { text: t('sidebar.tips.tryCase'), path: '/text/case' }
@@ -710,7 +717,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.numberUsageDesc'),
-          example: t('sidebar.tips.examples.number'),
+          example: getExample('number'),
           actions: [
             { text: t('sidebar.tips.tryHex'), path: '/encrypt/hex' },
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' }
@@ -735,7 +742,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.unitPrecisionDesc'),
-          example: t('sidebar.tips.examples.unit'),
+          example: getExample('unit'),
           actions: [
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' },
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' }
@@ -762,7 +769,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.caseUsageDesc'),
-          example: t('sidebar.tips.examples.textCase'),
+          example: getExample('textCase'),
           actions: [
             { text: t('sidebar.tips.tryReplace'), path: '/text/replace' },
             { text: t('sidebar.tips.tryReverse'), path: '/text/reverse' }
@@ -787,7 +794,7 @@ const getTipsForPath = (path) => {
           icon: CodeIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.replaceAdvancedDesc'),
-          example: t('sidebar.tips.examples.textReplace'),
+          example: getExample('textReplace'),
           actions: [
             { text: t('sidebar.tips.tryRegex'), path: '/convert/regex' },
             { text: t('sidebar.tips.tryCase'), path: '/text/case' }
@@ -814,7 +821,7 @@ const getTipsForPath = (path) => {
           icon: SpeedIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.imageOptimizeDesc'),
-          example: t('sidebar.tips.examples.imageConvert'),
+          example: getExample('imageConvert'),
           actions: [
             { text: t('sidebar.tips.tryCrop'), path: '/image/crop' },
             { text: t('sidebar.tips.tryWatermark'), path: '/image/watermark' }
@@ -839,7 +846,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#1890ff',
           description: t('sidebar.tips.cropTipsDesc'),
-          example: t('sidebar.tips.examples.imageCrop'),
+          example: getExample('imageCrop'),
           actions: [
             { text: t('sidebar.tips.tryRotate'), path: '/image/rotate' },
             { text: t('sidebar.tips.tryConvert'), path: '/image/convert' }
@@ -866,7 +873,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.qrcodeTipsDesc'),
-          example: t('sidebar.tips.examples.qrcode'),
+          example: getExample('qrcode'),
           actions: [
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' },
             { text: t('sidebar.tips.tryRegex'), path: '/convert/regex' }
@@ -891,7 +898,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.calcAdvancedDesc'),
-          example: t('sidebar.tips.examples.calculator'),
+          example: getExample('calculator'),
           actions: [
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' },
             { text: t('sidebar.tips.tryUnit'), path: '/convert/unit' }
@@ -916,7 +923,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.ipUsageDesc'),
-          example: t('sidebar.tips.examples.iptools'),
+          example: getExample('iptools'),
           actions: [
             { text: t('sidebar.tips.tryShortUrl'), path: '/other/shorturl' },
             { text: t('sidebar.tips.tryUserAgent'), path: '/convert/user-agent' }
@@ -941,7 +948,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.urlBenefitsDesc'),
-          example: t('sidebar.tips.examples.shorturl'),
+          example: getExample('shorturl'),
           actions: [
             { text: t('sidebar.tips.tryQR'), path: '/other/qrcode' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
