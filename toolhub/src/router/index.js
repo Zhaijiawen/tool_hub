@@ -9,11 +9,11 @@ const router = createRouter({
       path: '/',
       component: AppLayout,
       children: [
-        // ===== 组件编排页面 =====
-        {
-          path: 'composer',
-          component: () => import('@/views/ComponentComposer.vue')
-        },
+        // ===== 组件编排页面 (临时隐藏) =====
+        // {
+        //   path: 'composer',
+        //   component: () => import('@/views/ComponentComposer.vue')
+        // },
 
         // ===== 内容页面 =====
         {

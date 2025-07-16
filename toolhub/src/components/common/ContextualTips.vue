@@ -140,11 +140,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.jsonCommonDesc'),
-          example: `{
-  "name": "ToolHub",
-  "version": "1.0.0",
-  "features": ["format", "encrypt"]
-}`,
+          example: t('sidebar.tips.examples.json'),
           actions: [
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' },
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' }
@@ -169,13 +165,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.xmlCommonDesc'),
-          example: `<?xml version="1.0" encoding="UTF-8"?>
-<config>
-  <database>
-    <host>localhost</host>
-    <port>3306</port>
-  </database>
-</config>`,
+          example: t('sidebar.tips.examples.xml'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' }
@@ -200,11 +190,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.cssAdvancedDesc'),
-          example: `.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}`,
+          example: t('sidebar.tips.examples.css'),
           actions: [
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -229,12 +215,7 @@ const getTipsForPath = (path) => {
           icon: StarIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.htmlTipsDesc'),
-          example: `<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <title>ToolHub</title>
-</head>`,
+          example: t('sidebar.tips.examples.html'),
           actions: [
             { text: t('sidebar.tips.tryCSS'), path: '/format/css' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -259,12 +240,7 @@ const getTipsForPath = (path) => {
           icon: BulbIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.jsModernDesc'),
-          example: `const formatCode = (code) => {
-  return prettier.format(code, {
-    parser: 'babel',
-    singleQuote: true
-  });
-};`,
+          example: t('sidebar.tips.examples.js'),
           actions: [
             { text: t('sidebar.tips.tryVue'), path: '/format/vue' },
             { text: t('sidebar.tips.tryCSS'), path: '/format/css' }
@@ -289,11 +265,7 @@ const getTipsForPath = (path) => {
           icon: BookIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.yamlUsageDesc'),
-          example: `name: ToolHub
-version: 1.0.0
-dependencies:
-  - vue: ^3.0.0
-  - naive-ui: ^2.0.0`,
+          example: t('sidebar.tips.examples.yaml'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' }
@@ -318,11 +290,7 @@ dependencies:
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.sqlTipsDesc'),
-          example: `SELECT u.name, COUNT(o.id) as order_count
-FROM users u
-LEFT JOIN orders o ON u.id = o.user_id
-GROUP BY u.id
-ORDER BY order_count DESC;`,
+          example: t('sidebar.tips.examples.sql'),
           actions: [
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' },
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' }
@@ -347,10 +315,7 @@ ORDER BY order_count DESC;`,
           icon: BulbIcon,
           iconColor: '#41b883',
           description: t('sidebar.tips.vueEcosystemDesc'),
-          example: `// Vue Component Structure
-template: container with title
-script: reactive data binding
-style: scoped CSS styles`,
+          example: t('sidebar.tips.examples.vue'),
           actions: [
             { text: t('sidebar.tips.tryJS'), path: '/format/js' },
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' }
@@ -375,13 +340,7 @@ style: scoped CSS styles`,
           icon: BulbIcon,
           iconColor: '#8892bf',
           description: t('sidebar.tips.phpModernDesc'),
-          example: `namespace App\\Services;
-
-class ToolService {
-    public function format(string $code): string {
-        return trim($code);
-    }
-}`,
+          example: t('sidebar.tips.examples.php'),
           actions: [
             { text: t('sidebar.tips.trySQL'), path: '/format/sql' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -406,13 +365,7 @@ class ToolService {
           icon: StarIcon,
           iconColor: '#d91a1c',
           description: t('sidebar.tips.rubyPhilosophyDesc'),
-          example: `class ToolFormatter
-  def self.beautify(code)
-    code.split("\\n")
-        .map(&:strip)
-        .join("\\n")
-  end
-end`,
+          example: t('sidebar.tips.examples.ruby'),
           actions: [
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
             { text: t('sidebar.tips.tryJS'), path: '/format/js' }
@@ -437,14 +390,7 @@ end`,
           icon: BulbIcon,
           iconColor: '#34495e',
           description: t('sidebar.tips.shellPowerDesc'),
-          example: `#!/bin/bash
-format_code() {
-    local file="$1"
-    prettier --write "$file"
-    echo "Formatted: $file"
-}
-
-format_code "app.js"`,
+          example: t('sidebar.tips.examples.shell'),
           actions: [
             { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -469,15 +415,7 @@ format_code "app.js"`,
           icon: BookIcon,
           iconColor: '#666666',
           description: t('sidebar.tips.markdownUsageDesc'),
-          example: `# ToolHub
-## 功能特色
-- **格式化工具**：代码美化
-- **加密工具**：数据安全
-- **转换工具**：格式转换
-
-\`\`\`javascript
-console.log('Hello ToolHub');
-\`\`\``,
+          example: t('sidebar.tips.examples.markdown'),
           actions: [
             { text: t('sidebar.tips.tryHTML'), path: '/format/html' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -502,16 +440,7 @@ console.log('Hello ToolHub');
           icon: BulbIcon,
           iconColor: '#ed8b00',
           description: t('sidebar.tips.javaEcosystemDesc'),
-          example: `public class ToolFormatter {
-    public static String format(String code) {
-        return code.trim()
-                   .replaceAll("\\s+", " ");
-    }
-    
-    public static void main(String[] args) {
-        System.out.println("ToolHub");
-    }
-}`,
+          example: t('sidebar.tips.examples.java'),
           actions: [
             { text: t('sidebar.tips.tryXML'), path: '/format/xml' },
             { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
@@ -538,11 +467,7 @@ console.log('Hello ToolHub');
           icon: StarIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.base64CommonDesc'),
-          example: `// 原文本
-Hello World!
-
-// Base64编码
-SGVsbG8gV29ybGQh`,
+          example: t('sidebar.tips.examples.base64'),
           actions: [
             { text: t('sidebar.tips.tryHex'), path: '/encrypt/hex' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
@@ -567,9 +492,7 @@ SGVsbG8gV29ybGQh`,
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.aesSecurityDesc'),
-          example: `密钥长度: 128/192/256位
-模式: CBC, ECB, CFB, OFB
-填充: PKCS7, NoPadding`,
+          example: t('sidebar.tips.examples.aes'),
           actions: [
             { text: t('sidebar.tips.tryDES'), path: '/encrypt/des' },
             { text: t('sidebar.tips.tryRSA'), path: '/encrypt/rsa' }
@@ -594,9 +517,7 @@ SGVsbG8gV29ybGQh`,
           icon: BulbIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.hexUsageDesc'),
-          example: `文本: Hello
-十六进制: 48656c6c6f
-颜色: #FF6B6B`,
+          example: t('sidebar.tips.examples.hex'),
           actions: [
             { text: t('sidebar.tips.tryBase64'), path: '/encrypt/base64' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
@@ -621,9 +542,7 @@ SGVsbG8gV29ybGQh`,
           icon: LockIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.rsaSecurityDesc'),
-          example: `密钥长度: 1024/2048/4096位
-填充方式: PKCS1, OAEP
-用途: 加密小数据, 数字签名`,
+          example: t('sidebar.tips.examples.rsa'),
           actions: [
             { text: t('sidebar.tips.tryAES'), path: '/encrypt/aes' },
             { text: t('sidebar.tips.tryECC'), path: '/encrypt/ecc' }
@@ -648,11 +567,7 @@ SGVsbG8gV29ybGQh`,
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.shaApplicationsDesc'),
-          example: `SHA-256: 
-e3b0c44298fc1c149afbf4c8996fb924
-27ae41e4649b934ca495991b7852b855
-
-用途: 密码存储, 文件校验`,
+          example: t('sidebar.tips.examples.sha'),
           actions: [
             { text: t('sidebar.tips.tryBcrypt'), path: '/encrypt/bcrypt' },
             { text: t('sidebar.tips.tryArgon2'), path: '/encrypt/argon2' }
@@ -677,10 +592,7 @@ e3b0c44298fc1c149afbf4c8996fb924
           icon: BookIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.jwtUsageDesc'),
-          example: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
-eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6
-IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
-SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`,
+          example: t('sidebar.tips.examples.jwt'),
           actions: [
             { text: t('sidebar.tips.tryBase64'), path: '/encrypt/base64' },
             { text: t('sidebar.tips.tryRSA'), path: '/encrypt/rsa' }
@@ -707,9 +619,7 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`,
           icon: BookIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.timestampCommonDesc'),
-          example: `当前时间戳: 1702889856
-毫秒时间戳: 1702889856789
-日期格式: 2023/12/18 15:10:56`,
+          example: t('sidebar.tips.examples.timestamp'),
           actions: [
             { text: t('sidebar.tips.tryDateCalc'), path: '/convert/date-calc' },
             { text: t('sidebar.tips.tryDateDiff'), path: '/convert/date-diff' }
@@ -734,9 +644,7 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`,
           icon: StarIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.colorDesignDesc'),
-          example: `HEX: #FF6B6B
-RGB: rgb(255, 107, 107)
-HSL: hsl(0, 100%, 71%)`,
+          example: t('sidebar.tips.examples.color'),
           actions: [
             { text: t('sidebar.tips.tryUnit'), path: '/convert/unit' },
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' }
@@ -761,9 +669,7 @@ HSL: hsl(0, 100%, 71%)`,
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.regexExamplesDesc'),
-          example: `邮箱: ^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$
-手机: ^1[3-9]\\d{9}$
-URL: https?://[\\w.-]+`,
+          example: t('sidebar.tips.examples.regex'),
           actions: [
             { text: t('sidebar.tips.tryReplace'), path: '/text/replace' },
             { text: t('sidebar.tips.tryCase'), path: '/text/case' }
@@ -788,10 +694,7 @@ URL: https?://[\\w.-]+`,
           icon: BookIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.numberUsageDesc'),
-          example: `十进制: 255
-二进制: 11111111
-八进制: 377
-十六进制: FF`,
+          example: t('sidebar.tips.examples.number'),
           actions: [
             { text: t('sidebar.tips.tryHex'), path: '/encrypt/hex' },
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' }
@@ -816,9 +719,7 @@ URL: https?://[\\w.-]+`,
           icon: BulbIcon,
           iconColor: '#eb2f96',
           description: t('sidebar.tips.unitPrecisionDesc'),
-          example: `1米 = 100厘米 = 1000毫米
-1公斤 = 1000克 = 2.205磅
-1平方米 = 10.764平方英尺`,
+          example: t('sidebar.tips.examples.unit'),
           actions: [
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' },
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' }
@@ -845,10 +746,7 @@ URL: https?://[\\w.-]+`,
           icon: BulbIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.caseUsageDesc'),
-          example: `原文本: hello world
-大写: HELLO WORLD
-小写: hello world
-驼峰: helloWorld`,
+          example: t('sidebar.tips.examples.textCase'),
           actions: [
             { text: t('sidebar.tips.tryReplace'), path: '/text/replace' },
             { text: t('sidebar.tips.tryReverse'), path: '/text/reverse' }
@@ -873,9 +771,7 @@ URL: https?://[\\w.-]+`,
           icon: CodeIcon,
           iconColor: '#13c2c2',
           description: t('sidebar.tips.replaceAdvancedDesc'),
-          example: `查找: \\d{4}-\\d{2}-\\d{2}
-替换: $1年$2月$3日
-结果: 2024-01-15 → 2024年01月15日`,
+          example: t('sidebar.tips.examples.textReplace'),
           actions: [
             { text: t('sidebar.tips.tryRegex'), path: '/convert/regex' },
             { text: t('sidebar.tips.tryCase'), path: '/text/case' }
@@ -902,10 +798,7 @@ URL: https?://[\\w.-]+`,
           icon: SpeedIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.imageOptimizeDesc'),
-          example: `支持格式:
-JPG ↔ PNG ↔ WebP
-GIF ↔ BMP ↔ SVG
-质量调节: 1-100%`,
+          example: t('sidebar.tips.examples.imageConvert'),
           actions: [
             { text: t('sidebar.tips.tryCrop'), path: '/image/crop' },
             { text: t('sidebar.tips.tryWatermark'), path: '/image/watermark' }
@@ -930,11 +823,7 @@ GIF ↔ BMP ↔ SVG
           icon: BulbIcon,
           iconColor: '#1890ff',
           description: t('sidebar.tips.cropTipsDesc'),
-          example: `常用比例:
-1:1 (正方形)
-4:3 (标准)
-16:9 (宽屏)
-自定义尺寸`,
+          example: t('sidebar.tips.examples.imageCrop'),
           actions: [
             { text: t('sidebar.tips.tryRotate'), path: '/image/rotate' },
             { text: t('sidebar.tips.tryConvert'), path: '/image/convert' }
@@ -961,9 +850,7 @@ GIF ↔ BMP ↔ SVG
           icon: BulbIcon,
           iconColor: '#fa8c16',
           description: t('sidebar.tips.qrcodeTipsDesc'),
-          example: `文本: Hello World
-网址: https://toolhub.com
-WiFi: WIFI:T:WPA;S:MyNetwork;P:password;;`,
+          example: t('sidebar.tips.examples.qrcode'),
           actions: [
             { text: t('sidebar.tips.tryCalc'), path: '/other/calculator' },
             { text: t('sidebar.tips.tryRegex'), path: '/convert/regex' }
@@ -988,10 +875,7 @@ WiFi: WIFI:T:WPA;S:MyNetwork;P:password;;`,
           icon: BulbIcon,
           iconColor: '#52c41a',
           description: t('sidebar.tips.calcAdvancedDesc'),
-          example: `基础运算: +, -, ×, ÷
-科学计算: sin, cos, log, √
-常数: π, e
-进制转换: 2, 8, 10, 16`,
+          example: t('sidebar.tips.examples.calculator'),
           actions: [
             { text: t('sidebar.tips.tryNumber'), path: '/convert/number' },
             { text: t('sidebar.tips.tryUnit'), path: '/convert/unit' }
@@ -1016,10 +900,7 @@ WiFi: WIFI:T:WPA;S:MyNetwork;P:password;;`,
           icon: BookIcon,
           iconColor: '#722ed1',
           description: t('sidebar.tips.ipUsageDesc'),
-          example: `IPv4: 192.168.1.1
-IPv6: 2001:db8::1
-子网: 192.168.1.0/24
-域名解析: example.com`,
+          example: t('sidebar.tips.examples.iptools'),
           actions: [
             { text: t('sidebar.tips.tryShortUrl'), path: '/other/shorturl' },
             { text: t('sidebar.tips.tryUserAgent'), path: '/convert/user-agent' }
@@ -1044,11 +925,7 @@ IPv6: 2001:db8::1
           icon: StarIcon,
           iconColor: '#f39c12',
           description: t('sidebar.tips.urlBenefitsDesc'),
-          example: `长链接:
-https://example.com/very/long/path?param=value
-
-短链接:
-https://short.ly/abc123`,
+          example: t('sidebar.tips.examples.shorturl'),
           actions: [
             { text: t('sidebar.tips.tryQR'), path: '/other/qrcode' },
             { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }

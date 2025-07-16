@@ -48,8 +48,8 @@
                 </template>
                 <span class="button-text">{{ isDark ? t('common.theme.light') : t('common.theme.dark') }}</span>
               </n-button>
-              <!-- 组件编排按钮 -->
-              <n-button @click="goToComposer" class="header-button">
+              <!-- 组件编排按钮 (临时隐藏) -->
+              <n-button v-if="false" @click="goToComposer" class="header-button">
                 <template #icon>
                   <n-icon><puzzle-icon /></n-icon>
                 </template>

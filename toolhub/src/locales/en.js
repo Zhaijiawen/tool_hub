@@ -620,7 +620,166 @@ export default {
       javaSpring: 'Spring framework ecosystem',
       javaPerformance: 'Java performance optimization',
       javaEcosystem: 'Java Ecosystem',
-      javaEcosystemDesc: 'Java has a huge ecosystem including mature development tools and frameworks like Spring, Maven, Gradle.'
+      javaEcosystemDesc: 'Java has a huge ecosystem including mature development tools and frameworks like Spring, Maven, Gradle.',
+      
+      // Code Examples
+      examples: {
+        base64: `// Original text
+Hello World!
+
+// Base64 encoded
+SGVsbG8gV29ybGQh`,
+        aes: `Key length: 128/192/256 bits
+Mode: CBC, ECB, CFB, OFB
+Padding: PKCS7, NoPadding`,
+        hex: `Text: Hello
+Hex: 48656c6c6f
+Color: #FF6B6B`,
+        rsa: `Key length: 1024/2048/4096 bits
+Padding: PKCS1, OAEP
+Usage: Encrypt small data, digital signature`,
+        sha: `SHA-256: 
+e3b0c44298fc1c149afbf4c8996fb924
+27ae41e4649b934ca495991b7852b855
+
+Usage: Password storage, file verification`,
+        jwt: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6
+IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`,
+        timestamp: `Current timestamp: 1702889856
+Millisecond timestamp: 1702889856789
+Date format: 2023/12/18 15:10:56`,
+        color: `HEX: #FF6B6B
+RGB: rgb(255, 107, 107)
+HSL: hsl(0, 100%, 71%)`,
+        regex: `Email: ^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$
+Phone: ^1[3-9]\\d{9}$
+URL: https?://[\\w.-]+`,
+        number: `Decimal: 255
+Binary: 11111111
+Octal: 377
+Hexadecimal: FF`,
+        unit: `1 meter = 100 centimeters = 1000 millimeters
+1 kilogram = 1000 grams = 2.205 pounds
+1 square meter = 10.764 square feet`,
+        textCase: `Original: hello world
+UPPERCASE: HELLO WORLD
+lowercase: hello world
+camelCase: helloWorld`,
+        textReplace: `Find: \\d{4}-\\d{2}-\\d{2}
+Replace: $1年$2月$3日
+Result: 2024-01-15 → 2024年01月15日`,
+        imageConvert: `Supported formats:
+JPG ↔ PNG ↔ WebP
+GIF ↔ BMP ↔ SVG
+Quality adjustment: 1-100%`,
+        imageCrop: `Common ratios:
+1:1 (Square)
+4:3 (Standard)
+16:9 (Widescreen)
+Custom size`,
+        qrcode: `Text: Hello World
+URL: https://toolhub.com
+WiFi: WIFI:T:WPA;S:MyNetwork;P:password;;`,
+        calculator: `Basic operations: +, -, ×, ÷
+Scientific: sin, cos, log, √
+Constants: π, e
+Base conversion: 2, 8, 10, 16`,
+        iptools: `IPv4: 192.168.1.1
+IPv6: 2001:db8::1
+Subnet: 192.168.1.0/24
+Domain resolution: example.com`,
+        shorturl: `Long URL:
+https://example.com/very/long/path?param=value
+
+Short URL:
+https://short.ly/abc123`,
+        json: `{
+  "name": "ToolHub",
+  "version": "1.0.0",
+  "features": ["format", "encrypt"]
+}`,
+        xml: `<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <database>
+    <host>localhost</host>
+    <port>3306</port>
+  </database>
+</config>`,
+        css: `.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}`,
+        html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ToolHub</title>
+</head>`,
+        js: `const formatCode = (code) => {
+  return prettier.format(code, {
+    parser: 'babel',
+    singleQuote: true
+  });
+};`,
+        yaml: `name: ToolHub
+version: 1.0.0
+dependencies:
+  - vue: ^3.0.0
+  - naive-ui: ^2.0.0`,
+        sql: `SELECT u.name, COUNT(o.id) as order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+GROUP BY u.id
+ORDER BY order_count DESC;`,
+        vue: `// Vue Component Structure
+template: container with title
+script: reactive data binding
+style: scoped CSS styles`,
+        php: `namespace App\\Services;
+
+class ToolService {
+    public function format(string $code): string {
+        return trim($code);
+    }
+}`,
+        ruby: `class ToolFormatter
+  def self.beautify(code)
+    code.split("\\n")
+        .map(&:strip)
+        .join("\\n")
+  end
+end`,
+        shell: `#!/bin/bash
+format_code() {
+    local file="$1"
+    prettier --write "$file"
+    echo "Formatted: $file"
+}
+
+format_code "app.js"`,
+        markdown: `# ToolHub
+## Features
+- **Format Tools**: Code beautification
+- **Encrypt Tools**: Data security
+- **Convert Tools**: Format conversion
+
+\`\`\`javascript
+console.log('Hello ToolHub');
+\`\`\``,
+        java: `public class ToolFormatter {
+    public static String format(String code) {
+        return code.trim()
+                   .replaceAll("\\s+", " ");
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("ToolHub");
+    }
+}`
+      }
     }
   },
   format: {
