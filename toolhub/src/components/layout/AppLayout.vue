@@ -70,8 +70,13 @@
       </div>
     </n-layout-header>
     <!-- 主要内容区域 -->
-    <n-layout-content>
-      <router-view></router-view>
+    <n-layout-content class="main-content" :data-composer="route.path === '/composer'">
+      <div class="content-wrapper">
+        <!-- 动态知识提示 -->
+        <ContextualTips v-if="shouldShowTips" :currentPath="route.path" />
+        
+        <router-view></router-view>
+      </div>
     </n-layout-content>
     <n-layout-footer v-if="route.path !== '/composer'" bordered>
       <div class="footer-simple-v3">
@@ -115,6 +120,8 @@ import { useTheme } from '@/composables/useTheme'
 import { useRouter, useRoute } from 'vue-router'
 // 导入工具搜索组件
 import ToolSearch from '@/components/common/ToolSearch.vue'
+// 导入动态知识提示组件
+import ContextualTips from '@/components/common/ContextualTips.vue'
 // 导入图标组件
 import {
   SearchOutline as SearchIcon,
@@ -614,15 +621,22 @@ const handleMenuClick = (key) => {
 const goToComposer = () => {
   router.push('/composer')
 }
+
+// 控制知识提示显示
+const shouldShowTips = computed(() => {
+  // 排除首页、composer页面和静态页面
+  const excludedPaths = ['/', '/composer', '/about', '/blog', '/privacy', '/terms']
+  return !excludedPaths.includes(route.path)
+})
 </script>
 
 <style scoped>
 .header-content {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 clamp(20px, 4vw, 60px);
   height: 64px;
-  max-width: 1200px;
+  max-width: min(95vw, 1600px);
   margin: 0 auto;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -814,8 +828,8 @@ const goToComposer = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
-  max-width: 1200px;
+  padding: 40px clamp(20px, 4vw, 60px);
+  max-width: min(95vw, 1600px);
   margin: 0 auto;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -902,7 +916,7 @@ const goToComposer = () => {
   .header-content {
     flex-wrap: wrap;
     height: auto;
-    padding: 16px;
+    padding: 16px 20px;
     gap: 12px;
   }
 
@@ -944,6 +958,10 @@ const goToComposer = () => {
 
   .footer-simple-v3 {
     padding: 20px;
+  }
+  
+  .content-wrapper {
+    padding: 0 20px;
   }
   
   /* 小屏幕下恢复显示按钮文字 */
@@ -991,6 +1009,10 @@ const goToComposer = () => {
   .logo-domain {
     font-size: 0.4em;
   }
+  
+  .content-wrapper {
+    padding: 0 12px;
+  }
 }
 
 .logo-text {
@@ -1006,5 +1028,28 @@ const goToComposer = () => {
   margin-left: 2px;
   letter-spacing: 0;
   font-weight: normal;
+}
+
+/* 主要内容区域样式 */
+.main-content {
+  min-height: calc(100vh - 64px);
+  background-color: var(--background-color);
+}
+
+.content-wrapper {
+  max-width: min(95vw, 1600px);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px);
+}
+
+/* 为composer页面提供全宽布局 */
+:deep(.n-layout-content) {
+  background-color: var(--background-color);
+}
+
+/* 当路由是composer时，使用全宽布局 */
+.main-content[data-composer="true"] .content-wrapper {
+  max-width: 100%;
+  padding: 0;
 }
 </style>

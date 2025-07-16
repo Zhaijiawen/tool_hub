@@ -202,7 +202,8 @@ export default {
     copySuccess: '复制成功',
     copyError: '复制失败',
     composer: '编排',
-    clear: '清空'
+    clear: '清空',
+    example: '示例'
   },
   footer: {
     description: "简单、快速的在线工具集合，助你高效开发与生活。",
@@ -212,6 +213,142 @@ export default {
     copyright: "© 2025 ToolHub. 保留所有权利",
     icp: "京ICP备2025134446号",
     icpPlaceholder: "备案号待申请"
+  },
+  sidebar: {
+    quickTools: '快捷工具',
+    relatedTools: '相关工具',
+    feedback: '反馈建议',
+    feedbackDesc: '有问题或建议？欢迎联系我们！',
+    submitFeedback: '提交反馈',
+    timestamp: '时间戳',
+    qrCode: '二维码',
+    tips: {
+      localProcessing: '本地处理，数据安全',
+      noRegistration: '无需注册，即开即用',
+      crossPlatform: '跨平台兼容，随时可用',
+      
+      // 通用
+      commonUse: '常见用法',
+      securityTips: '安全提示',
+      designTips: '设计技巧',
+      
+      // JSON格式化
+      jsonFormat: 'JSON 格式化',
+      jsonFormatDesc: 'JSON是一种轻量级的数据交换格式，广泛用于Web开发和API通信。',
+      jsonValidation: '验证JSON语法正确性',
+      jsonBeautify: '美化JSON结构，增强可读性',
+      jsonCompress: '压缩JSON，减少数据传输量',
+      jsonEscape: '转义特殊字符，确保数据安全',
+      jsonCommonDesc: 'JSON格式化工具可以帮助您验证、美化和优化JSON数据，提升开发效率。',
+      
+      // XML格式化
+      xmlFormat: 'XML 格式化',
+      xmlFormatDesc: 'XML是一种可扩展标记语言，常用于配置文件和数据存储。',
+      xmlValidation: '验证XML语法和结构',
+      xmlBeautify: '美化XML布局和缩进',
+      xmlNamespace: '支持命名空间处理',
+      xmlStructure: '保持原有标签结构',
+      xmlCommonDesc: 'XML格式化帮助您处理配置文件、数据交换和文档结构化。',
+      
+      // Base64编码
+      base64Encoding: 'Base64 编码',
+      base64Desc: 'Base64是一种用于数据传输和存储的编码方式，可以安全地传输二进制数据。',
+      base64Text: '文本内容编码和解码',
+      base64Image: '图片文件Base64转换',
+      base64Safe: '安全的数据传输编码',
+      base64URL: 'URL安全的Base64编码',
+      base64CommonDesc: 'Base64编码常用于邮件传输、Web数据交换和API接口中的二进制数据处理。',
+      
+      // AES加密
+      aesEncryption: 'AES 加密',
+      aesDesc: 'AES是一种对称加密算法，具有高安全性和高效率，广泛应用于数据保护。',
+      aesSecure: '高强度加密保护',
+      aesKey: '支持多种密钥长度',
+      aesModes: '多种加密模式选择',
+      aesPadding: '灵活的填充方式',
+      aesSecurityDesc: '使用AES加密时，请确保密钥的安全性，建议使用256位密钥和CBC模式。',
+      
+      // 时间戳转换
+      timestampConvert: '时间戳转换',
+      timestampDesc: '时间戳是计算机中表示时间的一种方式，便于程序处理和数据存储。',
+      timestampUnix: 'Unix时间戳处理',
+      timestampMs: '毫秒级精度转换',
+      timestampTimezone: '时区自动识别',
+      timestampFormat: '多种日期格式支持',
+      timestampCommonDesc: '时间戳转换广泛用于日志分析、数据统计和系统开发中的时间处理。',
+      
+      // 颜色转换
+      colorConvert: '颜色转换',
+      colorDesc: '颜色转换工具帮助设计师和开发者在不同颜色格式之间进行转换。',
+      colorHex: 'HEX十六进制颜色',
+      colorRGB: 'RGB红绿蓝颜色',
+      colorHSL: 'HSL色相饱和度亮度',
+      colorPicker: '可视化颜色选择器',
+      colorDesignDesc: '在设计和开发中，不同的颜色格式适用于不同的场景和需求。',
+      
+      // 二维码生成
+      qrcodeGenerate: '二维码生成',
+      qrcodeDesc: '二维码是一种矩阵条码，可以存储文本、网址、联系信息等多种数据。',
+      qrcodeText: '纯文本二维码生成',
+      qrcodeURL: '网址链接二维码',
+      qrcodeContact: '联系人名片二维码',
+      qrcodeWifi: 'WiFi连接二维码',
+      qrcodeTips: '使用技巧',
+      qrcodeTipsDesc: '调整纠错级别可以在二维码复杂度和容错性之间找到平衡。',
+      
+      // 工具分类提示
+      formatTools: '格式化工具',
+      formatToolsDesc: '代码和数据格式化工具，让您的代码更规范、数据更清晰。',
+      formatBeautify: '代码美化和格式优化',
+      formatValidate: '语法验证和错误检查',
+      formatCompress: '数据压缩和空间优化',
+      formatHighlight: '语法高亮和可读性提升',
+      formatAdvanced: '高级功能',
+      formatAdvancedDesc: '探索更多格式化工具，满足不同编程语言和数据格式的需求。',
+      
+      encryptTools: '加密工具',
+      encryptToolsDesc: '数据安全和隐私保护工具，确保您的信息安全传输和存储。',
+      encryptSecure: '多种加密算法保护',
+      encryptLocal: '本地加密，数据不上传',
+      encryptAlgorithms: '支持对称和非对称加密',
+      encryptKeys: '密钥管理和生成',
+      encryptTypes: '加密类型',
+      encryptTypesDesc: '选择适合您需求的加密方式，从简单编码到高级加密算法。',
+      
+      convertTools: '转换工具',
+      convertToolsDesc: '数据格式转换和单位换算工具，简化您的计算和转换需求。',
+      convertTime: '时间和日期转换',
+      convertNumber: '数字进制转换',
+      convertUnit: '单位换算计算',
+      convertColor: '颜色格式转换',
+      convertQuick: '快速转换',
+      convertQuickDesc: '常用的转换工具，帮助您快速完成日常的数据转换任务。',
+      
+      utilityTools: '实用工具',
+      utilityToolsDesc: '日常开发和办公中的实用小工具，提升工作效率。',
+      utilityQR: '二维码生成和识别',
+      utilityCalc: '科学计算器功能',
+      utilityText: '文本处理和编辑',
+      utilityImage: '图片处理和转换',
+      utilityQuick: '常用工具',
+      utilityQuickDesc: '精选的实用工具，覆盖开发、设计和办公的常见需求。',
+      
+      // 快速跳转
+      tryXML: '试试 XML',
+      tryYAML: '试试 YAML',
+      tryJSON: '试试 JSON',
+      tryHTML: '试试 HTML',
+      tryHex: '试试 Hex',
+      tryURL: '试试 URL',
+      tryDES: '试试 DES',
+      tryRSA: '试试 RSA',
+      tryDateCalc: '日期计算',
+      tryDateDiff: '日期差值',
+      tryUnit: '单位转换',
+      tryNumber: '数字转换',
+      tryCalc: '计算器',
+      tryRegex: '正则表达式'
+    }
   },
   format: {
     formatTools: '格式化工具',

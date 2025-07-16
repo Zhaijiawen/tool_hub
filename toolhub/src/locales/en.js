@@ -202,7 +202,8 @@ export default {
     copySuccess: 'Copy Success',
     copyError: 'Copy Failed',
     composer: 'Composer',
-    clear: 'Clear'
+    clear: 'Clear',
+    example: 'Example'
   },
   footer: {
     about: 'About',
@@ -218,6 +219,142 @@ export default {
     rights: 'All rights reserved',
     icp: '京ICP备2025134446号',
     icpPlaceholder: 'ICP filing pending'
+  },
+  sidebar: {
+    quickTools: 'Quick Tools',
+    relatedTools: 'Related Tools',
+    feedback: 'Feedback',
+    feedbackDesc: 'Have questions or suggestions? Feel free to contact us!',
+    submitFeedback: 'Submit Feedback',
+    timestamp: 'Timestamp',
+    qrCode: 'QR Code',
+    tips: {
+      localProcessing: 'Local processing, data secure',
+      noRegistration: 'No registration required',
+      crossPlatform: 'Cross-platform compatible',
+      
+      // Common
+      commonUse: 'Common Usage',
+      securityTips: 'Security Tips',
+      designTips: 'Design Tips',
+      
+      // JSON formatting
+      jsonFormat: 'JSON Formatting',
+      jsonFormatDesc: 'JSON is a lightweight data interchange format widely used in Web development and API communication.',
+      jsonValidation: 'Validate JSON syntax correctness',
+      jsonBeautify: 'Beautify JSON structure for readability',
+      jsonCompress: 'Compress JSON to reduce data transmission',
+      jsonEscape: 'Escape special characters for data safety',
+      jsonCommonDesc: 'JSON formatting tools help you validate, beautify and optimize JSON data to improve development efficiency.',
+      
+      // XML formatting
+      xmlFormat: 'XML Formatting',
+      xmlFormatDesc: 'XML is an extensible markup language commonly used for configuration files and data storage.',
+      xmlValidation: 'Validate XML syntax and structure',
+      xmlBeautify: 'Beautify XML layout and indentation',
+      xmlNamespace: 'Support namespace processing',
+      xmlStructure: 'Preserve original tag structure',
+      xmlCommonDesc: 'XML formatting helps you handle configuration files, data exchange and document structuring.',
+      
+      // Base64 encoding
+      base64Encoding: 'Base64 Encoding',
+      base64Desc: 'Base64 is an encoding method for data transmission and storage that can safely transmit binary data.',
+      base64Text: 'Text content encoding and decoding',
+      base64Image: 'Image file Base64 conversion',
+      base64Safe: 'Safe data transmission encoding',
+      base64URL: 'URL-safe Base64 encoding',
+      base64CommonDesc: 'Base64 encoding is commonly used in email transmission, web data exchange, and binary data processing in API interfaces.',
+      
+      // AES encryption
+      aesEncryption: 'AES Encryption',
+      aesDesc: 'AES is a symmetric encryption algorithm with high security and efficiency, widely used in data protection.',
+      aesSecure: 'High-strength encryption protection',
+      aesKey: 'Support multiple key lengths',
+      aesModes: 'Multiple encryption mode options',
+      aesPadding: 'Flexible padding methods',
+      aesSecurityDesc: 'When using AES encryption, ensure key security. It is recommended to use 256-bit keys and CBC mode.',
+      
+      // Timestamp conversion
+      timestampConvert: 'Timestamp Conversion',
+      timestampDesc: 'Timestamp is a way of representing time in computers, convenient for program processing and data storage.',
+      timestampUnix: 'Unix timestamp processing',
+      timestampMs: 'Millisecond precision conversion',
+      timestampTimezone: 'Automatic timezone recognition',
+      timestampFormat: 'Multiple date format support',
+      timestampCommonDesc: 'Timestamp conversion is widely used in log analysis, data statistics and time processing in system development.',
+      
+      // Color conversion
+      colorConvert: 'Color Conversion',
+      colorDesc: 'Color conversion tools help designers and developers convert between different color formats.',
+      colorHex: 'HEX hexadecimal color',
+      colorRGB: 'RGB red green blue color',
+      colorHSL: 'HSL hue saturation lightness',
+      colorPicker: 'Visual color picker',
+      colorDesignDesc: 'In design and development, different color formats are suitable for different scenarios and needs.',
+      
+      // QR code generation
+      qrcodeGenerate: 'QR Code Generation',
+      qrcodeDesc: 'QR code is a matrix barcode that can store various data such as text, URLs, contact information.',
+      qrcodeText: 'Plain text QR code generation',
+      qrcodeURL: 'URL link QR code',
+      qrcodeContact: 'Contact card QR code',
+      qrcodeWifi: 'WiFi connection QR code',
+      qrcodeTips: 'Usage Tips',
+      qrcodeTipsDesc: 'Adjusting error correction level can balance QR code complexity and fault tolerance.',
+      
+      // Tool category tips
+      formatTools: 'Format Tools',
+      formatToolsDesc: 'Code and data formatting tools make your code more standardized and data clearer.',
+      formatBeautify: 'Code beautification and format optimization',
+      formatValidate: 'Syntax validation and error checking',
+      formatCompress: 'Data compression and space optimization',
+      formatHighlight: 'Syntax highlighting and readability improvement',
+      formatAdvanced: 'Advanced Features',
+      formatAdvancedDesc: 'Explore more formatting tools to meet the needs of different programming languages and data formats.',
+      
+      encryptTools: 'Encryption Tools',
+      encryptToolsDesc: 'Data security and privacy protection tools ensure your information is transmitted and stored securely.',
+      encryptSecure: 'Multiple encryption algorithm protection',
+      encryptLocal: 'Local encryption, data not uploaded',
+      encryptAlgorithms: 'Support symmetric and asymmetric encryption',
+      encryptKeys: 'Key management and generation',
+      encryptTypes: 'Encryption Types',
+      encryptTypesDesc: 'Choose the encryption method that suits your needs, from simple encoding to advanced encryption algorithms.',
+      
+      convertTools: 'Conversion Tools',
+      convertToolsDesc: 'Data format conversion and unit conversion tools simplify your calculation and conversion needs.',
+      convertTime: 'Time and date conversion',
+      convertNumber: 'Number base conversion',
+      convertUnit: 'Unit conversion calculation',
+      convertColor: 'Color format conversion',
+      convertQuick: 'Quick Conversion',
+      convertQuickDesc: 'Common conversion tools help you quickly complete daily data conversion tasks.',
+      
+      utilityTools: 'Utility Tools',
+      utilityToolsDesc: 'Practical small tools for daily development and office work to improve work efficiency.',
+      utilityQR: 'QR code generation and recognition',
+      utilityCalc: 'Scientific calculator functions',
+      utilityText: 'Text processing and editing',
+      utilityImage: 'Image processing and conversion',
+      utilityQuick: 'Common Tools',
+      utilityQuickDesc: 'Selected utility tools covering common needs in development, design and office work.',
+      
+      // Quick jump
+      tryXML: 'Try XML',
+      tryYAML: 'Try YAML',
+      tryJSON: 'Try JSON',
+      tryHTML: 'Try HTML',
+      tryHex: 'Try Hex',
+      tryURL: 'Try URL',
+      tryDES: 'Try DES',
+      tryRSA: 'Try RSA',
+      tryDateCalc: 'Date Calc',
+      tryDateDiff: 'Date Diff',
+      tryUnit: 'Unit Convert',
+      tryNumber: 'Number Convert',
+      tryCalc: 'Calculator',
+      tryRegex: 'Regex'
+    }
   },
   format: {
     formatTools: 'Format Tools',
