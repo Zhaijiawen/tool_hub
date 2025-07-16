@@ -83,6 +83,18 @@
           <a class="footer-email-link-v3" href="mailto:pinkmaaaaan03@2925.com">{{ $t('footer.emailText') }}</a>
           {{ $t('footer.contactSuffix') }}
         </div>
+        
+        <!-- 网站导航链接 -->
+        <div class="footer-line-v3 footer-links-v3">
+          <router-link to="/about" class="footer-link-v3">关于我们</router-link>
+          <span class="footer-separator-v3">|</span>
+          <router-link to="/blog" class="footer-link-v3">开发教程</router-link>
+          <span class="footer-separator-v3">|</span>
+          <router-link to="/privacy" class="footer-link-v3">隐私政策</router-link>
+          <span class="footer-separator-v3">|</span>
+          <router-link to="/terms" class="footer-link-v3">使用条款</router-link>
+        </div>
+        
         <div class="footer-line-v3 footer-meta-v3">
           {{ $t('footer.copyright') }} |
           <a class="footer-icp-link-v3" href="https://beian.miit.gov.cn/" target="_blank">{{ $t('footer.icp') }}</a>
@@ -832,6 +844,32 @@ const goToComposer = () => {
 
 .footer-icp-link-v3:hover {
   color: var(--primary-color);
+}
+
+.footer-links-v3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-link-v3 {
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.footer-link-v3:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.footer-separator-v3 {
+  color: var(--text-color-3);
+  margin: 0 4px;
+  font-size: 12px;
 }
 
 /* 头部按钮响应式样式 */

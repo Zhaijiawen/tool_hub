@@ -14,6 +14,24 @@ const router = createRouter({
           path: 'composer',
           component: () => import('@/views/ComponentComposer.vue')
         },
+
+        // ===== 内容页面 =====
+        {
+          path: 'privacy',
+          component: () => import('@/views/PrivacyPolicy.vue')
+        },
+        {
+          path: 'terms',
+          component: () => import('@/views/TermsOfService.vue')
+        },
+        {
+          path: 'about',
+          component: () => import('@/views/About.vue')
+        },
+        {
+          path: 'blog',
+          component: () => import('@/views/Blog.vue')
+        },
         
         // ===== 格式化工具路由 =====
         {

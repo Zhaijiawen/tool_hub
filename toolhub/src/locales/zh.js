@@ -1,6 +1,50 @@
 export default {
   home: {
-    welcome: '欢迎使用 ToolHub'
+    welcome: '欢迎使用 ToolHub',
+    intro: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。简单、快速、安全，让开发更高效。',
+    features: {
+      privacy: '隐私保护',
+      fast: '快速便捷', 
+      free: '完全免费'
+    },
+    usageGuide: '使用指南',
+    guide: {
+      quickStart: {
+        title: '🚀 快速开始',
+        desc: '无需注册或安装，选择需要的工具即可开始使用。所有工具都经过精心设计，操作简单直观。'
+      },
+      dataSecurity: {
+        title: '🔒 数据安全',
+        desc: '大部分工具在您的浏览器本地运行，数据不会上传到服务器。您的隐私和数据安全得到最大保护。'
+      },
+      mobileFriendly: {
+        title: '📱 移动友好',
+        desc: '所有工具都经过移动端优化，在手机和平板上也能获得良好的使用体验。'
+      },
+      professionalDesign: {
+        title: '🎯 专业设计',
+        desc: '每个工具都专为开发者设计，支持语法高亮、错误检测等专业功能。'
+      }
+         },
+     devTips: '开发技巧分享',
+     viewAll: '查看全部',
+     featuredArticles: {
+       jsonAdvanced: {
+         title: 'JSON 格式化工具的高级用法',
+         summary: '掌握 JSON 格式化技巧，提高开发调试效率',
+         tags: ['JSON', '格式化']
+       },
+       base64Guide: {
+         title: 'Base64 编码解码详解',
+         summary: '了解 Base64 编码原理和常见应用场景',
+         tags: ['Base64', '编码']
+       },
+       timestampScenarios: {
+         title: '时间戳转换的常见场景',
+         summary: '时间戳处理技巧和最佳实践分享',
+         tags: ['时间戳', '日期']
+       }
+     }
   },
   seo: {
     title: 'ToolHub - 开发者工具集合 | 在线工具箱',
@@ -1908,5 +1952,561 @@ export default {
     addSuccess: '组件添加成功',
     removeSuccess: '组件移除成功',
     noResults: '未找到匹配的组件'
+  },
+
+  // 隐私政策相关文本
+  privacy: {
+    title: '隐私政策',
+    seo: {
+      title: '隐私政策 - ToolHub',
+      description: 'ToolHub 隐私政策，了解我们如何收集、使用和保护您的个人信息。',
+      keywords: '隐私政策,数据保护,个人信息,ToolHub'
+    },
+    lastUpdated: '最后更新时间：{date}',
+    sections: {
+      collection: {
+        title: '1. 信息收集',
+        intro: 'ToolHub 致力于保护您的隐私。我们收集的信息类型包括：',
+        usage: {
+          title: '使用数据',
+          desc: '您访问的工具页面、使用频率等匿名统计信息'
+        },
+        technical: {
+          title: '技术信息',
+          desc: '浏览器类型、操作系统、IP地址等基本技术信息'
+        },
+        cookies: {
+          title: 'Cookie',
+          desc: '用于改善用户体验的必要cookie'
+        }
+      },
+      usage: {
+        title: '2. 信息使用',
+        intro: '我们使用收集的信息用于：',
+        provide: '提供和维护我们的服务',
+        improve: '改进用户体验和网站功能',
+        analyze: '分析网站使用情况以优化性能',
+        security: '确保网站安全和防止滥用'
+      },
+      processing: {
+        title: '3. 数据处理',
+        important: '重要说明',
+        description: '您在我们工具中输入的所有数据（如需要格式化的代码、需要加密的文本等）均在您的浏览器本地处理，不会上传到我们的服务器。',
+        local: '所有工具操作均在客户端执行',
+        noLeave: '您的敏感数据不会离开您的设备',
+        noAccess: '我们无法访问您的输入内容'
+      },
+      thirdParty: {
+        title: '4. 第三方服务',
+        intro: '我们的网站可能使用以下第三方服务：',
+        analytics: {
+          title: 'Google Analytics',
+          desc: '用于网站访问统计分析'
+        },
+        adsense: {
+          title: 'Google AdSense',
+          desc: '用于显示相关广告'
+        },
+        cdn: {
+          title: 'CDN服务',
+          desc: '用于提升网站加载速度'
+        },
+        disclaimer: '这些服务有各自的隐私政策，我们建议您查阅相关条款。'
+      },
+      security: {
+        title: '5. 数据安全',
+        intro: '我们采取合理的技术和管理措施保护您的个人信息：',
+        https: '使用HTTPS加密传输',
+        audit: '定期安全审查和更新',
+        access: '访问控制和权限管理',
+        backup: '数据备份和恢复机制'
+      },
+      rights: {
+        title: '6. 您的权利',
+        intro: '您有权：',
+        know: '了解我们收集和处理您个人信息的情况',
+        correct: '请求更正或删除您的个人信息',
+        restrict: '拒绝或限制某些数据处理活动',
+        contact: '随时联系我们关于隐私问题'
+      },
+      contact: {
+        title: '7. 联系我们',
+        intro: '如果您对本隐私政策有任何疑问或需要行使您的权利，请通过以下方式联系我们：',
+        email: '邮箱：privacy@toolhub.com',
+        address: '地址：中国北京市'
+      },
+      updates: {
+        title: '8. 政策更新',
+        description: '我们可能会不定期更新本隐私政策。重大变更时，我们会在网站上发布通知。建议您定期查看本页面以了解最新信息。'
+      }
+    }
+  },
+
+  // 使用条款相关文本
+  terms: {
+    title: '使用条款',
+    seo: {
+      title: '使用条款 - ToolHub',
+      description: 'ToolHub 使用条款，了解使用我们服务时的权利和义务。',
+      keywords: '使用条款,服务条款,用户协议,ToolHub'
+    },
+    lastUpdated: '最后更新时间：{date}',
+    sections: {
+      intro: {
+        title: '1. 服务简介',
+        welcome: '欢迎使用 ToolHub（以下简称"本服务"）。ToolHub 是一个免费的在线开发者工具集合，提供代码格式化、数据转换、加密解密、图像处理等多种实用工具。',
+        agreement: '通过访问和使用本网站，您同意遵守以下使用条款。如果您不同意这些条款，请停止使用本服务。'
+      },
+      usage: {
+        title: '2. 服务使用',
+        freeUse: {
+          title: '2.1 免费使用',
+          intro: 'ToolHub 向用户免费提供在线工具服务。您可以：',
+          tools: '使用所有提供的开发工具',
+          features: '享受工具的完整功能',
+          local: '在本地浏览器中处理您的数据',
+          noRegistration: '无需注册即可使用大部分功能'
+        },
+        limitations: {
+          title: '2.2 使用限制',
+          intro: '为了维护服务质量，我们可能对以下行为进行限制：',
+          excessive: '过度频繁的请求（超过合理使用范围）',
+          attack: '尝试破坏或攻击网站的行为',
+          automation: '使用自动化脚本大量访问',
+          interference: '任何可能影响其他用户正常使用的行为'
+        }
+      },
+      responsibility: {
+        title: '3. 用户责任',
+        legal: {
+          title: '3.1 合法使用',
+          intro: '您承诺：',
+          lawful: '仅将本服务用于合法目的',
+          noHarm: '不使用本服务处理违法、有害或不当的内容',
+          noAccess: '不尝试获取其他用户的数据或破坏系统安全',
+          comply: '遵守当地法律法规和本使用条款'
+        },
+        data: {
+          title: '3.2 数据责任',
+          reminder: '重要提醒：',
+          backup: '请自行备份重要数据，我们不承担数据丢失责任',
+          sensitive: '不要在工具中输入极度敏感或机密信息',
+          risk: '虽然数据在本地处理，但网络传输仍存在风险',
+          localBackup: '建议对重要数据先进行本地备份'
+        }
+      },
+      intellectualProperty: {
+        title: '4. 知识产权',
+        intro: '本网站的所有内容，包括但不限于：',
+        design: '网站设计、布局和用户界面',
+        code: '源代码和算法实现',
+        content: '文本内容和说明文档',
+        brand: '商标、标识和品牌元素',
+        disclaimer: '均为 ToolHub 所有或经授权使用。用户不得未经许可复制、分发或用于商业用途。'
+      },
+      serviceChanges: {
+        title: '5. 服务变更与中断',
+        updates: {
+          title: '5.1 服务更新',
+          intro: '我们保留随时修改、更新或改进服务的权利：',
+          tools: '添加新的工具和功能',
+          performance: '改进现有工具的性能',
+          interface: '调整用户界面和体验',
+          bugs: '修复错误和安全问题'
+        },
+        interruption: {
+          title: '5.2 服务中断',
+          intro: '以下情况可能导致服务临时中断：',
+          maintenance: '系统维护和升级',
+          technical: '技术故障或网络问题',
+          force: '不可抗力因素',
+          legal: '法律法规要求'
+        }
+      },
+      disclaimer: {
+        title: '6. 免责声明',
+        intro: '本服务按"现状"提供，我们不承担以下责任：',
+        accuracy: '工具处理结果的准确性（请您自行验证）',
+        availability: '服务的连续性和可用性',
+        damages: '因使用本服务而产生的任何直接或间接损失',
+        thirdParty: '第三方服务或链接内容的责任',
+        suggestion: '建议：对于重要的生产环境，请在使用工具结果前进行充分测试。'
+      },
+      privacy: {
+        title: '7. 隐私保护',
+        intro: '我们高度重视您的隐私保护：',
+        local: '大部分工具在您的浏览器本地运行',
+        noCollection: '我们不会主动收集您的工具使用数据',
+        policy: '详细信息请查看我们的',
+        policyLink: '隐私政策'
+      },
+      changes: {
+        title: '8. 条款变更',
+        description: '我们可能会根据法律要求、业务发展或服务改进的需要更新本使用条款。重大变更时，我们会在网站上发布通知。',
+        acceptance: '继续使用本服务即表示您接受更新后的条款。'
+      },
+      contact: {
+        title: '9. 联系我们',
+        intro: '如果您对本使用条款有任何疑问或建议，请联系我们：',
+        email: '邮箱：support@toolhub.com',
+        address: '地址：中国北京市',
+        response: '我们将在收到您的询问后尽快回复。'
+      }
+    }
+  },
+
+  // 关于我们相关文本
+  about: {
+    title: '关于 ToolHub',
+    seo: {
+      title: '关于我们 - ToolHub',
+      description: '了解 ToolHub 的使命、功能特色、技术架构和发展规划。我们致力于为开发者提供最好的在线工具体验。',
+      keywords: '关于我们,ToolHub团队,开发者工具,技术架构,产品规划'
+    },
+    sections: {
+      mission: {
+        title: '我们的使命',
+        description: 'ToolHub 致力于为开发者和技术工作者提供简单、快速、安全的在线工具集合。我们相信好的工具能够提高工作效率，让技术工作变得更加轻松愉快。',
+        highlights: {
+          developer: {
+            title: '开发者友好',
+            desc: '专为开发者设计，支持各种编程语言和数据格式'
+          },
+          privacy: {
+            title: '隐私保护',
+            desc: '大部分工具在本地浏览器运行，确保数据安全'
+          },
+          fast: {
+            title: '快速便捷',
+            desc: '无需下载安装，打开浏览器即可使用'
+          }
+        }
+      },
+      features: {
+        title: '功能特色',
+        categories: {
+          format: {
+            title: '🔧 格式化工具',
+            desc: '支持 JSON、XML、YAML、JavaScript、HTML、CSS、SQL 等多种格式的美化和压缩',
+            features: {
+              highlight: '智能语法高亮',
+              error: '错误检测和提示',
+              indent: '自定义缩进和样式',
+              copy: '一键复制和下载'
+            }
+          },
+          encrypt: {
+            title: '🔐 加密解密',
+            desc: '提供多种加密算法和编码方式，满足不同安全需求',
+            features: {
+              symmetric: '对称加密：AES、DES、ChaCha20',
+              asymmetric: '非对称加密：RSA、ECC',
+              hash: '哈希算法：SHA、MD5、Argon2',
+              encoding: '编码转换：Base64、Hex、URL'
+            }
+          },
+          convert: {
+            title: '🔄 数据转换',
+            desc: '各种数据格式之间的转换和计算工具',
+            features: {
+              timestamp: '时间戳转换和计算',
+              number: '数字进制转换',
+              color: '颜色格式转换',
+              unit: '单位换算'
+            }
+          },
+          image: {
+            title: '🖼️ 图像工具',
+            desc: '基础的图像处理和编辑功能',
+            features: {
+              format: '格式转换',
+              resize: '尺寸调整和裁剪',
+              rotate: '旋转和翻转',
+              watermark: '水印添加'
+            }
+          },
+          text: {
+            title: '📝 文本工具',
+            desc: '文本处理和编辑相关工具',
+            features: {
+              case: '大小写转换',
+              replace: '查找替换',
+              whitespace: '空白字符处理',
+              reverse: '文本反转和排序'
+            }
+          },
+          other: {
+            title: '🔍 其他工具',
+            desc: '实用的辅助工具和计算器',
+            features: {
+              qr: '二维码生成',
+              shortUrl: '短链接生成',
+              ip: 'IP地址查询',
+              calculator: '计算器'
+            }
+          }
+        }
+      },
+      technology: {
+        title: '技术架构',
+        intro: 'ToolHub 采用现代化的 Web 技术栈构建：',
+        frontend: {
+          title: '前端技术',
+          vue: '响应式用户界面框架',
+          naiveui: '优雅的组件库',
+          vite: '快速的构建工具',
+          router: '客户端路由',
+          i18n: '国际化支持'
+        },
+        backend: {
+          title: '后端支持',
+          node: '服务器运行环境',
+          express: 'Web 应用框架',
+          nginx: '反向代理和负载均衡',
+          pm2: '进程管理'
+        },
+        security: {
+          title: '安全特性',
+          https: '加密传输',
+          csp: '内容安全策略',
+          client: {
+            title: '客户端处理',
+            desc: '数据不离开浏览器'
+          },
+          validation: {
+            title: '输入验证',
+            desc: '防止恶意输入'
+          }
+        }
+      },
+      contact: {
+        title: '联系我们',
+        intro: '我们重视每一位用户的反馈和建议。如果您有任何问题、建议或合作意向，欢迎通过以下方式联系我们：',
+        methods: {
+          email: {
+            title: '邮箱联系',
+            support: 'support@toolhub.com',
+            business: 'business@toolhub.com'
+          },
+          github: {
+            title: '开源社区',
+            repo: 'GitHub: github.com/toolhub',
+            contribute: '欢迎提交 Issue 和 PR'
+          },
+          address: {
+            title: '公司地址',
+            country: '中国北京市',
+            district: '海淀区中关村软件园'
+          }
+        }
+      },
+      thanks: {
+        title: '致谢',
+        intro: 'ToolHub 的发展离不开以下开源项目和社区的支持：',
+        list: {
+          vue: 'Vue.js 团队和社区贡献者',
+          naiveui: 'Naive UI 组件库开发者',
+          crypto: '各种加密算法库的维护者',
+          users: '所有提供反馈和建议的用户'
+        },
+        support: '感谢每一位使用 ToolHub 的开发者，您的支持是我们前进的动力！'
+      }
+    }
+  },
+
+  // 博客相关文本
+  blog: {
+    title: '开发技巧与教程',
+    subtitle: '分享实用的开发技巧、工具使用方法和最佳实践',
+    seo: {
+      title: '开发技巧与教程 - ToolHub',
+      description: '分享实用的开发技巧、工具使用方法和最佳实践。学习如何更高效地使用各种开发工具。',
+      keywords: '开发技巧,编程教程,工具使用,最佳实践,代码示例,开发指南'
+    },
+    highlights: '要点',
+    codeExample: '示例代码',
+    readTime: '{minutes} 分钟阅读',
+    categories: {
+      format: '格式化',
+      encrypt: '加密',
+      convert: '转换',
+      security: '安全',
+      text: '文本',
+      other: '其他',
+      image: '图像'
+    },
+    articles: {
+      jsonAdvanced: {
+        title: 'JSON 格式化工具的高级用法',
+        summary: 'JSON 是现代 Web 开发中最常用的数据格式之一。掌握 JSON 格式化工具的使用技巧，可以大大提高开发效率。本文介绍 JSON 工具的各种功能和使用场景。',
+        highlights: {
+          0: '支持多层嵌套 JSON 的格式化',
+          1: '错误检测和语法高亮',
+          2: '压缩和美化功能',
+          3: '转义和反转义处理'
+        },
+        codeExample: `// 格式化前
+{"name":"张三","age":25,"skills":["JavaScript","Vue","React"]}
+
+// 格式化后
+{
+  "name": "张三",
+  "age": 25,
+  "skills": [
+    "JavaScript",
+    "Vue",
+    "React"
+  ]
+}`
+      },
+      base64Guide: {
+        title: 'Base64 编码解码详解',
+        summary: 'Base64 是一种基于64个可打印字符来表示二进制数据的方法。在 Web 开发中，Base64 常用于数据传输、图片嵌入和 API 认证等场景。',
+        highlights: {
+          0: '理解 Base64 编码原理',
+          1: '常见应用场景介绍',
+          2: '编码安全性注意事项',
+          3: '与其他编码方式的比较'
+        },
+        codeExample: `// 原始文本
+Hello, 世界!
+
+// Base64 编码
+SGVsbG8sIOS4lueVjCE=
+
+// JavaScript 中的使用
+btoa('Hello, World!') // 编码
+atob('SGVsbG8sIFdvcmxkIQ==') // 解码`
+      },
+      timestampScenarios: {
+        title: '时间戳转换的常见场景',
+        summary: '时间戳是计算机中表示时间的一种方式，在后端开发、数据分析、日志处理等场景中广泛使用。掌握时间戳的转换和计算对开发者非常重要。',
+        highlights: {
+          0: 'Unix 时间戳基本概念',
+          1: '毫秒和秒级时间戳区别',
+          2: '时区处理注意事项',
+          3: '常见格式转换方法'
+        },
+        codeExample: `// 获取当前时间戳
+Date.now() // 毫秒级
+Math.floor(Date.now() / 1000) // 秒级
+
+// 时间戳转日期
+new Date(1642147200000) // 2022-01-14T08:00:00.000Z
+
+// 日期转时间戳
+new Date('2022-01-14').getTime() // 1642118400000`
+      },
+      aesSecurity: {
+        title: 'AES 加密在前端的安全实践',
+        summary: '虽然前端加密无法完全保证数据安全，但在某些场景下仍然很有用。了解 AES 加密的正确使用方法，可以为数据传输提供额外的保护层。',
+        highlights: {
+          0: 'AES 加密基本原理',
+          1: '前端加密的局限性',
+          2: '密钥管理最佳实践',
+          3: '与后端加密配合使用'
+        },
+        codeExample: `// 注意：这只是示例，实际应用需要考虑更多安全因素
+// 生成随机密钥（仅用于演示）
+const key = crypto.getRandomValues(new Uint8Array(32));
+
+// 加密数据
+const encrypted = await crypto.subtle.encrypt(
+  { name: "AES-GCM", iv: new Uint8Array(12) },
+  cryptoKey,
+  textData
+);`
+      },
+      regexDebugging: {
+        title: '正则表达式调试技巧',
+        summary: '正则表达式是文本处理的强大工具，但调试起来往往比较困难。掌握正确的调试方法和工具，可以让正则表达式的编写和优化变得更加高效。',
+        highlights: {
+          0: '正则表达式基础语法回顾',
+          1: '常见匹配模式和示例',
+          2: '性能优化技巧',
+          3: '调试工具的使用方法'
+        },
+        codeExample: `// 邮箱验证正则
+const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+// 手机号验证（中国）
+const phoneRegex = /^1[3-9]\\d{9}$/;
+
+// IP 地址匹配
+const ipRegex = /^(\\d{1,3}\\.){3}\\d{1,3}$/;
+
+// 测试
+emailRegex.test('user@example.com') // true`
+      },
+      qrCodeTech: {
+        title: '二维码生成的技术原理与应用',
+        summary: '二维码（QR Code）在现代生活中无处不在。了解二维码的生成原理和技术实现，可以帮助开发者更好地在项目中集成二维码功能。',
+        highlights: {
+          0: 'QR Code 的编码原理',
+          1: '错误纠正机制',
+          2: '容量和密度优化',
+          3: '样式自定义技巧'
+        },
+        codeExample: `// 使用 qrcode 库生成二维码
+import QRCode from 'qrcode'
+
+// 生成二维码数据 URL
+const qrDataURL = await QRCode.toDataURL('https://toolhub.com')
+
+// 生成 SVG 格式
+const qrSVG = await QRCode.toString('Hello World', { type: 'svg' })`
+      },
+      codeFormatting: {
+        title: '代码格式化工具的选择与配置',
+        summary: '良好的代码格式不仅提高代码可读性，还能减少团队协作中的冲突。本文介绍各种代码格式化工具的特点和配置方法。',
+        highlights: {
+          0: '主流格式化工具对比',
+          1: '团队编码规范制定',
+          2: '自动化格式化配置',
+          3: 'IDE 集成最佳实践'
+        },
+        codeExample: `// .prettierrc 配置示例
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false
+}
+
+// package.json scripts
+{
+  "format": "prettier --write .",
+  "lint": "eslint . --fix"
+}`
+      },
+      imageOptimization: {
+        title: '图像处理在 Web 中的优化策略',
+        summary: '图像是 Web 应用中重要的组成部分，也是影响页面性能的关键因素。掌握图像处理和优化技术，可以显著提升用户体验。',
+        highlights: {
+          0: '图像格式选择指南',
+          1: '压缩算法与质量平衡',
+          2: '响应式图像实现',
+          3: '懒加载和预加载策略'
+        },
+        codeExample: `// Canvas 图像处理示例
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+
+// 绘制图像
+ctx.drawImage(image, 0, 0, 800, 600);
+
+// 获取处理后的数据
+const processedImage = canvas.toDataURL('image/webp', 0.8);
+
+// 响应式图像
+<picture>
+  <source media="(min-width: 800px)" srcset="large.webp">
+  <source media="(min-width: 400px)" srcset="medium.webp">
+  <img src="small.webp" alt="描述">
+</picture>`
+      }
+    }
   }
 } 
