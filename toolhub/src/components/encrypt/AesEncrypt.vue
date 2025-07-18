@@ -1,8 +1,6 @@
 <template>
   <div class="aes-encrypt">
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="aes" />
-    
+
     <n-card :title="t('encrypt.aes.title')">
       <n-space vertical>
         <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.aes.inputPlaceholder')"
@@ -87,6 +85,9 @@
         </n-alert>
       </n-space>
     </n-card>
+        <!-- 工具描述组件 -->
+    <ToolDescription tool-key="aes" />
+    
   </div>
 </template>
 

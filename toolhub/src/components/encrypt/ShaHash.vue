@@ -1,8 +1,5 @@
 <template>
   <div class="sha-hash">
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="sha" />
-    
     <n-card :title="t('encrypt.sha.title')">
       <!-- 输入区域 -->
       <div class="input-section">
@@ -72,6 +69,9 @@
         {{ error }}
       </n-alert>
     </n-card>
+    
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="sha" />
   </div>
 </template>
 
