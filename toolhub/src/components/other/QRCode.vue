@@ -1,281 +1,286 @@
 <template>
-  <n-card :title="$t('other.qrcode.title')">
-    <n-tabs type="line" animated>
-      <!-- 生成二维码 -->
-      <n-tab-pane name="generate" :tab="$t('other.qrcode.generate')">
-        <n-form>
-          <n-form-item :label="$t('other.qrcode.content')">
-            <n-input 
-              v-model:value="generateForm.content" 
-              type="textarea"
-              :placeholder="$t('other.qrcode.contentPlaceholder')" 
-              :autosize="{ minRows: 3, maxRows: 8 }" 
-              @input="onContentChange"
-            />
-          </n-form-item>
+  <div class="qrcode-container">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="qrcode" />
+    
+    <n-card :title="$t('other.qrcode.title')">
+      <n-tabs type="line" animated>
+        <!-- 生成二维码 -->
+        <n-tab-pane name="generate" :tab="$t('other.qrcode.generate')">
+          <n-form>
+            <n-form-item :label="$t('other.qrcode.content')">
+              <n-input 
+                v-model:value="generateForm.content" 
+                type="textarea"
+                :placeholder="$t('other.qrcode.contentPlaceholder')" 
+                :autosize="{ minRows: 3, maxRows: 8 }" 
+                @input="onContentChange"
+              />
+            </n-form-item>
 
-          <n-form-item :label="$t('other.qrcode.size')">
-            <n-slider 
-              v-model:value="generateForm.size" 
-              :min="100" 
-              :max="500" 
-              :step="10" 
-              @update:value="onSizeChange"
-            />
-            <div class="text-right mt-2">{{ generateForm.size }}px</div>
-          </n-form-item>
+            <n-form-item :label="$t('other.qrcode.size')">
+              <n-slider 
+                v-model:value="generateForm.size" 
+                :min="100" 
+                :max="500" 
+                :step="10" 
+                @update:value="onSizeChange"
+              />
+              <div class="text-right mt-2">{{ generateForm.size }}px</div>
+            </n-form-item>
 
-          <n-form-item :label="$t('other.qrcode.level')">
-            <n-select 
-              v-model:value="generateForm.level" 
-              :options="errorCorrectionLevels" 
-              @update:value="onLevelChange"
-            />
-          </n-form-item>
+            <n-form-item :label="$t('other.qrcode.level')">
+              <n-select 
+                v-model:value="generateForm.level" 
+                :options="errorCorrectionLevels" 
+                @update:value="onLevelChange"
+              />
+            </n-form-item>
 
-          <!-- 高级定制选项 -->
-          <n-collapse>
-            <n-collapse-item :title="$t('other.qrcode.advancedOptions')" name="advanced">
-              <!-- 颜色设置 -->
-              <n-card :title="$t('other.qrcode.colors')" size="small" class="mb-4">
-                <n-space vertical>
-                  <n-space>
-                    <n-form-item :label="$t('other.qrcode.foregroundColor')">
-                      <n-color-picker 
-                        v-model:value="generateForm.foregroundColor" 
-                        @update:value="onColorChange"
-                        :show-alpha="false"
-                      />
-                    </n-form-item>
-                    <n-form-item :label="$t('other.qrcode.backgroundColor')">
-                      <n-color-picker 
-                        v-model:value="generateForm.backgroundColor" 
-                        @update:value="onColorChange"
-                        :show-alpha="false"
-                      />
-                    </n-form-item>
-                    <n-button size="small" @click="resetColors">
-                      {{ $t('other.qrcode.resetColors') }}
-                    </n-button>
-                  </n-space>
-
-                  <!-- 预设主题 -->
-                  <div>
-                    <n-text depth="3">{{ $t('other.qrcode.colorPresets') }}:</n-text>
-                    <n-space class="mt-2">
-                      <n-button 
-                        v-for="preset in colorPresets" 
-                        :key="preset.name"
-                        size="small" 
-                        @click="applyColorPreset(preset)"
-                        :style="{ backgroundColor: preset.foreground, color: preset.background }"
-                      >
-                        {{ $t(`other.qrcode.preset${preset.name}`) }}
+            <!-- 高级定制选项 -->
+            <n-collapse>
+              <n-collapse-item :title="$t('other.qrcode.advancedOptions')" name="advanced">
+                <!-- 颜色设置 -->
+                <n-card :title="$t('other.qrcode.colors')" size="small" class="mb-4">
+                  <n-space vertical>
+                    <n-space>
+                      <n-form-item :label="$t('other.qrcode.foregroundColor')">
+                        <n-color-picker 
+                          v-model:value="generateForm.foregroundColor" 
+                          @update:value="onColorChange"
+                          :show-alpha="false"
+                        />
+                      </n-form-item>
+                      <n-form-item :label="$t('other.qrcode.backgroundColor')">
+                        <n-color-picker 
+                          v-model:value="generateForm.backgroundColor" 
+                          @update:value="onColorChange"
+                          :show-alpha="false"
+                        />
+                      </n-form-item>
+                      <n-button size="small" @click="resetColors">
+                        {{ $t('other.qrcode.resetColors') }}
                       </n-button>
                     </n-space>
-                  </div>
-                </n-space>
-              </n-card>
 
-              <!-- Logo设置 -->
-              <n-card :title="$t('other.qrcode.logo')" size="small">
-                <n-alert 
-                  v-if="logoFile" 
-                  type="warning" 
-                  size="small" 
-                  :title="$t('other.qrcode.logoTips')"
-                  class="mb-3"
-                />
-                <n-space vertical>
-                  <!-- Logo上传 -->
-                  <n-upload 
-                    accept="image/*" 
-                    :max="1" 
-                    :show-file-list="false" 
-                    @change="handleLogoUpload"
-                    :custom-request="() => {}"
-                  >
-                    <n-upload-dragger v-if="!logoFile">
-                      <div class="logo-upload-trigger">
-                        <n-icon size="24" :depth="3">
-                          <upload-outlined />
-                        </n-icon>
-                        <n-text style="margin-top: 8px; font-size: 12px;">
-                          {{ $t('other.qrcode.logoUploadTip') }}
-                        </n-text>
-                      </div>
-                    </n-upload-dragger>
-                  </n-upload>
-
-                  <!-- Logo预览和控制 -->
-                  <div v-if="logoFile" class="logo-controls">
-                    <n-space vertical>
-                      <div class="logo-preview">
-                        <n-image 
-                          :src="logoUrl" 
-                          width="60" 
-                          height="60" 
-                          object-fit="cover"
-                          :preview-disabled="false"
-                        />
-                        <n-button size="tiny" @click="removeLogo" type="error" class="remove-logo-btn">
-                          {{ $t('other.qrcode.removeLogo') }}
+                    <!-- 预设主题 -->
+                    <div>
+                      <n-text depth="3">{{ $t('other.qrcode.colorPresets') }}:</n-text>
+                      <n-space class="mt-2">
+                        <n-button 
+                          v-for="preset in colorPresets" 
+                          :key="preset.name"
+                          size="small" 
+                          @click="applyColorPreset(preset)"
+                          :style="{ backgroundColor: preset.foreground, color: preset.background }"
+                        >
+                          {{ $t(`other.qrcode.preset${preset.name}`) }}
                         </n-button>
-                      </div>
+                      </n-space>
+                    </div>
+                  </n-space>
+                </n-card>
 
-                      <n-form-item :label="$t('other.qrcode.logoSizePercent')">
-                        <n-slider 
-                          v-model:value="generateForm.logoSize" 
-                          :min="8" 
-                          :max="20" 
-                          :step="1" 
-                          @update:value="onLogoSettingChange"
-                        />
-                        <div class="text-right mt-1">{{ generateForm.logoSize }}%</div>
-                        <n-text depth="3" style="font-size: 12px;">
-                          {{ $t('other.qrcode.logoSizeWarning') }}
-                        </n-text>
-                      </n-form-item>
+                <!-- Logo设置 -->
+                <n-card :title="$t('other.qrcode.logo')" size="small">
+                  <n-alert 
+                    v-if="logoFile" 
+                    type="warning" 
+                    size="small" 
+                    :title="$t('other.qrcode.logoTips')"
+                    class="mb-3"
+                  />
+                  <n-space vertical>
+                    <!-- Logo上传 -->
+                    <n-upload 
+                      accept="image/*" 
+                      :max="1" 
+                      :show-file-list="false" 
+                      @change="handleLogoUpload"
+                      :custom-request="() => {}"
+                    >
+                      <n-upload-dragger v-if="!logoFile">
+                        <div class="logo-upload-trigger">
+                          <n-icon size="24" :depth="3">
+                            <upload-outlined />
+                          </n-icon>
+                          <n-text style="margin-top: 8px; font-size: 12px;">
+                            {{ $t('other.qrcode.logoUploadTip') }}
+                          </n-text>
+                        </div>
+                      </n-upload-dragger>
+                    </n-upload>
 
-                      <n-form-item :label="$t('other.qrcode.logoOpacity')">
-                        <n-slider 
-                          v-model:value="generateForm.logoOpacity" 
-                          :min="50" 
-                          :max="100" 
-                          :step="5" 
-                          @update:value="onLogoSettingChange"
-                        />
-                        <div class="text-right mt-1">{{ generateForm.logoOpacity }}%</div>
-                      </n-form-item>
+                    <!-- Logo预览和控制 -->
+                    <div v-if="logoFile" class="logo-controls">
+                      <n-space vertical>
+                        <div class="logo-preview">
+                          <n-image 
+                            :src="logoUrl" 
+                            width="60" 
+                            height="60" 
+                            object-fit="cover"
+                            :preview-disabled="false"
+                          />
+                          <n-button size="tiny" @click="removeLogo" type="error" class="remove-logo-btn">
+                            {{ $t('other.qrcode.removeLogo') }}
+                          </n-button>
+                        </div>
 
-                      <n-form-item :label="$t('other.qrcode.logoRadius')">
-                        <n-slider 
-                          v-model:value="generateForm.logoRadius" 
-                          :min="0" 
-                          :max="50" 
-                          :step="5" 
-                          @update:value="onLogoSettingChange"
-                        />
-                        <div class="text-right mt-1">{{ generateForm.logoRadius }}%</div>
-                      </n-form-item>
+                        <n-form-item :label="$t('other.qrcode.logoSizePercent')">
+                          <n-slider 
+                            v-model:value="generateForm.logoSize" 
+                            :min="8" 
+                            :max="20" 
+                            :step="1" 
+                            @update:value="onLogoSettingChange"
+                          />
+                          <div class="text-right mt-1">{{ generateForm.logoSize }}%</div>
+                          <n-text depth="3" style="font-size: 12px;">
+                            {{ $t('other.qrcode.logoSizeWarning') }}
+                          </n-text>
+                        </n-form-item>
+
+                        <n-form-item :label="$t('other.qrcode.logoOpacity')">
+                          <n-slider 
+                            v-model:value="generateForm.logoOpacity" 
+                            :min="50" 
+                            :max="100" 
+                            :step="5" 
+                            @update:value="onLogoSettingChange"
+                          />
+                          <div class="text-right mt-1">{{ generateForm.logoOpacity }}%</div>
+                        </n-form-item>
+
+                        <n-form-item :label="$t('other.qrcode.logoRadius')">
+                          <n-slider 
+                            v-model:value="generateForm.logoRadius" 
+                            :min="0" 
+                            :max="50" 
+                            :step="5" 
+                            @update:value="onLogoSettingChange"
+                          />
+                          <div class="text-right mt-1">{{ generateForm.logoRadius }}%</div>
+                        </n-form-item>
+                      </n-space>
+                    </div>
+                  </n-space>
+                </n-card>
+              </n-collapse-item>
+            </n-collapse>
+
+            <n-space class="mt-4" v-if="qrCodeUrl">
+              <n-button @click="downloadQRCode">
+                {{ $t('common.download') }}
+              </n-button>
+              <n-button @click="copyQRCodeToClipboard">
+                {{ $t('common.copy') }}
+              </n-button>
+            </n-space>
+
+            <!-- QR码预览区域 -->
+            <div v-if="qrCodeUrl" class="qr-preview mt-4">
+              <n-card embedded>
+                <div class="qr-display">
+                  <img :src="qrCodeUrl" :alt="$t('other.qrcode.title')" class="qr-image" />
+                  <div class="qr-info">
+                    <n-space vertical size="small">
+                      <n-text depth="3">{{ $t('other.qrcode.size') }}: {{ generateForm.size }}px</n-text>
+                      <n-text depth="3">{{ $t('other.qrcode.level') }}: {{ getCurrentLevelText() }}</n-text>
+                      <n-text depth="3">{{ $t('other.qrcode.characterCount') }}: {{ generateForm.content.length }}</n-text>
                     </n-space>
                   </div>
-                </n-space>
-              </n-card>
-            </n-collapse-item>
-          </n-collapse>
-
-          <n-space class="mt-4" v-if="qrCodeUrl">
-            <n-button @click="downloadQRCode">
-              {{ $t('common.download') }}
-            </n-button>
-            <n-button @click="copyQRCodeToClipboard">
-              {{ $t('common.copy') }}
-            </n-button>
-          </n-space>
-
-          <!-- QR码预览区域 -->
-          <div v-if="qrCodeUrl" class="qr-preview mt-4">
-            <n-card embedded>
-              <div class="qr-display">
-                <img :src="qrCodeUrl" :alt="$t('other.qrcode.title')" class="qr-image" />
-                <div class="qr-info">
-                  <n-space vertical size="small">
-                    <n-text depth="3">{{ $t('other.qrcode.size') }}: {{ generateForm.size }}px</n-text>
-                    <n-text depth="3">{{ $t('other.qrcode.level') }}: {{ getCurrentLevelText() }}</n-text>
-                    <n-text depth="3">{{ $t('other.qrcode.characterCount') }}: {{ generateForm.content.length }}</n-text>
-                  </n-space>
                 </div>
+              </n-card>
+            </div>
+
+            <!-- 快速模板 -->
+            <n-card :title="$t('other.qrcode.quickTemplates')" size="small" class="mt-4">
+              <n-space>
+                <n-button size="small" @click="fillTemplate('wifi')">{{ $t('other.qrcode.templateWifi') }}</n-button>
+                <n-button size="small" @click="fillTemplate('email')">{{ $t('other.qrcode.templateEmail') }}</n-button>
+                <n-button size="small" @click="fillTemplate('phone')">{{ $t('other.qrcode.templatePhone') }}</n-button>
+                <n-button size="small" @click="fillTemplate('sms')">{{ $t('other.qrcode.templateSms') }}</n-button>
+                <n-button size="small" @click="fillTemplate('vcard')">{{ $t('other.qrcode.templateVcard') }}</n-button>
+              </n-space>
+            </n-card>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 解码二维码 -->
+        <n-tab-pane name="decode" :tab="$t('other.qrcode.decode')">
+          <n-upload 
+            accept="image/*" 
+            :max="1" 
+            :show-file-list="false" 
+            @change="handleFileChange"
+            :custom-request="() => {}"
+            ref="uploadRef"
+          >
+            <n-upload-dragger>
+              <div class="upload-trigger">
+                <n-icon size="48" :depth="3">
+                  <upload-outlined />
+                </n-icon>
+                <n-text style="margin-top: 8px">
+                  {{ $t('other.qrcode.uploadTip') }}
+                </n-text>
+              </div>
+            </n-upload-dragger>
+          </n-upload>
+
+          <!-- 图片预览 -->
+          <div v-if="previewUrl" class="preview-section mt-4">
+            <n-card embedded>
+              <div class="preview-display">
+                <n-image 
+                  :src="previewUrl" 
+                  :alt="$t('other.qrcode.preview')" 
+                  width="300"
+                  :preview-disabled="false"
+                />
               </div>
             </n-card>
           </div>
 
-          <!-- 快速模板 -->
-          <n-card :title="$t('other.qrcode.quickTemplates')" size="small" class="mt-4">
-            <n-space>
-              <n-button size="small" @click="fillTemplate('wifi')">{{ $t('other.qrcode.templateWifi') }}</n-button>
-              <n-button size="small" @click="fillTemplate('email')">{{ $t('other.qrcode.templateEmail') }}</n-button>
-              <n-button size="small" @click="fillTemplate('phone')">{{ $t('other.qrcode.templatePhone') }}</n-button>
-              <n-button size="small" @click="fillTemplate('sms')">{{ $t('other.qrcode.templateSms') }}</n-button>
-              <n-button size="small" @click="fillTemplate('vcard')">{{ $t('other.qrcode.templateVcard') }}</n-button>
-            </n-space>
-          </n-card>
-        </n-form>
-      </n-tab-pane>
-
-      <!-- 解码二维码 -->
-      <n-tab-pane name="decode" :tab="$t('other.qrcode.decode')">
-        <n-upload 
-          accept="image/*" 
-          :max="1" 
-          :show-file-list="false" 
-          @change="handleFileChange"
-          :custom-request="() => {}"
-          ref="uploadRef"
-        >
-          <n-upload-dragger>
-            <div class="upload-trigger">
-              <n-icon size="48" :depth="3">
-                <upload-outlined />
-              </n-icon>
-              <n-text style="margin-top: 8px">
-                {{ $t('other.qrcode.uploadTip') }}
-              </n-text>
+          <!-- 解码结果 -->
+          <n-alert 
+            v-if="decodeResult" 
+            type="success" 
+            :title="$t('other.qrcode.decodeResult')" 
+            class="mt-4"
+          >
+            <div class="decode-result">
+              <n-text>{{ decodeResult }}</n-text>
+              <n-space class="mt-3">
+                <n-button size="small" @click="copyDecodeResult">
+                  {{ $t('common.copy') }}
+                </n-button>
+                <n-button size="small" @click="openAsUrl" v-if="isValidUrl(decodeResult)">
+                  {{ $t('other.qrcode.openLink') }}
+                </n-button>
+              </n-space>
             </div>
-          </n-upload-dragger>
-        </n-upload>
+          </n-alert>
 
-        <!-- 图片预览 -->
-        <div v-if="previewUrl" class="preview-section mt-4">
-          <n-card embedded>
-            <div class="preview-display">
-              <n-image 
-                :src="previewUrl" 
-                :alt="$t('other.qrcode.preview')" 
-                width="300"
-                :preview-disabled="false"
-              />
-            </div>
-          </n-card>
-        </div>
+          <!-- 错误提示 -->
+          <n-alert 
+            v-if="decodeError" 
+            type="error" 
+            :title="$t('common.error')" 
+            class="mt-4"
+          >
+            {{ decodeError }}
+          </n-alert>
+        </n-tab-pane>
+      </n-tabs>
 
-        <!-- 解码结果 -->
-        <n-alert 
-          v-if="decodeResult" 
-          type="success" 
-          :title="$t('other.qrcode.decodeResult')" 
-          class="mt-4"
-        >
-          <div class="decode-result">
-            <n-text>{{ decodeResult }}</n-text>
-            <n-space class="mt-3">
-              <n-button size="small" @click="copyDecodeResult">
-                {{ $t('common.copy') }}
-              </n-button>
-              <n-button size="small" @click="openAsUrl" v-if="isValidUrl(decodeResult)">
-                {{ $t('other.qrcode.openLink') }}
-              </n-button>
-            </n-space>
-          </div>
-        </n-alert>
-
-        <!-- 错误提示 -->
-        <n-alert 
-          v-if="decodeError" 
-          type="error" 
-          :title="$t('common.error')" 
-          class="mt-4"
-        >
-          {{ decodeError }}
-        </n-alert>
-      </n-tab-pane>
-    </n-tabs>
-
-    <!-- 使用说明 -->
-    <n-alert type="info" :title="$t('other.qrcode.infoTitle')" class="info-section">
-      {{ $t('other.qrcode.infoContent') }}
-    </n-alert>
-  </n-card>
+      <!-- 使用说明 -->
+      <n-alert type="info" :title="$t('other.qrcode.infoTitle')" class="info-section">
+        {{ $t('other.qrcode.infoContent') }}
+      </n-alert>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
@@ -285,6 +290,7 @@ import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

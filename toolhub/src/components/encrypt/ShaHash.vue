@@ -1,5 +1,8 @@
 <template>
   <div class="sha-hash">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="sha" />
+    
     <n-card :title="t('encrypt.sha.title')">
       <!-- 输入区域 -->
       <div class="input-section">
@@ -77,6 +80,7 @@ import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CryptoJS from 'crypto-js'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

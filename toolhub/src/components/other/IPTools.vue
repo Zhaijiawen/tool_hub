@@ -1,157 +1,163 @@
 <template>
-  <n-card :title="$t('other.ip.title')">
-    <!-- 演示模式提示 -->
-    <n-alert type="warning" :title="$t('other.ip.demoMode')" class="mb-4">
-      {{ $t('other.ip.demoModeDesc') }}
-    </n-alert>
+  <div class="iptools-container">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="ipTools" />
+    
+    <n-card :title="$t('other.ip.title')">
+      <!-- 演示模式提示 -->
+      <n-alert type="warning" :title="$t('other.ip.demoMode')" class="mb-4">
+        {{ $t('other.ip.demoModeDesc') }}
+      </n-alert>
 
-    <n-tabs type="line" animated>
-      <!-- IP查询 -->
-      <n-tab-pane name="lookup" :tab="$t('other.ip.lookup')">
-        <n-form>
-          <n-form-item :label="$t('other.ip.ip')">
-            <n-input 
-              v-model:value="lookupForm.ip" 
-              :placeholder="$t('other.ip.ipPlaceholder')" 
-              @keyup.enter="lookupIP"
-            />
-          </n-form-item>
+      <n-tabs type="line" animated>
+        <!-- IP查询 -->
+        <n-tab-pane name="lookup" :tab="$t('other.ip.lookup')">
+          <n-form>
+            <n-form-item :label="$t('other.ip.ip')">
+              <n-input 
+                v-model:value="lookupForm.ip" 
+                :placeholder="$t('other.ip.ipPlaceholder')" 
+                @keyup.enter="lookupIP"
+              />
+            </n-form-item>
 
-          <n-space>
-            <n-button type="primary" @click="lookupIP" :loading="lookupLoading">
-              {{ $t('other.ip.lookup') }}
-            </n-button>
-            <n-button @click="copyResult" :disabled="!lookupResult">
-              {{ $t('common.copy') }}
-            </n-button>
-            <n-button @click="getMyIP" secondary>
+            <n-space>
+              <n-button type="primary" @click="lookupIP" :loading="lookupLoading">
+                {{ $t('other.ip.lookup') }}
+              </n-button>
+              <n-button @click="copyResult" :disabled="!lookupResult">
+                {{ $t('common.copy') }}
+              </n-button>
+              <n-button @click="getMyIP" secondary>
+                {{ $t('other.ip.getMyIP') }}
+              </n-button>
+            </n-space>
+
+            <n-result v-if="lookupResult" :status="'success'" :title="$t('other.ip.lookupResult')">
+              <template #footer>
+                <n-descriptions bordered>
+                  <n-descriptions-item :label="$t('other.ip.ip')">
+                    {{ lookupResult.ip }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.country')">
+                    {{ lookupResult.country || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.region')">
+                    {{ lookupResult.region || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.city')">
+                    {{ lookupResult.city || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.isp')">
+                    {{ lookupResult.isp || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.asn')">
+                    {{ lookupResult.asn || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.location')">
+                    {{ lookupResult.latitude && lookupResult.longitude ? 
+                        `${lookupResult.latitude}, ${lookupResult.longitude}` : 
+                        $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.timezone')">
+                    {{ lookupResult.timezone || $t('common.unknown') }}
+                  </n-descriptions-item>
+                </n-descriptions>
+              </template>
+            </n-result>
+
+            <!-- 错误提示 -->
+            <n-alert v-if="lookupError" type="error" :title="$t('common.error')" class="mt-4">
+              {{ lookupError }}
+            </n-alert>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- IP反查 -->
+        <n-tab-pane name="reverse" :tab="$t('other.ip.reverse')">
+          <n-form>
+            <n-form-item :label="$t('other.ip.domain')">
+              <n-input 
+                v-model:value="reverseForm.domain" 
+                :placeholder="$t('other.ip.domainPlaceholder')" 
+                @keyup.enter="reverseLookup"
+              />
+            </n-form-item>
+
+            <n-space>
+              <n-button type="primary" @click="reverseLookup" :loading="reverseLoading">
+                {{ $t('other.ip.reverse') }}
+              </n-button>
+              <n-button @click="copyReverseResult" :disabled="!reverseResult.length">
+                {{ $t('common.copy') }}
+              </n-button>
+            </n-space>
+
+            <n-result v-if="reverseResult.length" :status="'success'" :title="$t('other.ip.reverseResult')">
+              <template #footer>
+                <n-list>
+                  <n-list-item v-for="(ip, index) in reverseResult" :key="index">
+                    <n-text copyable>{{ ip }}</n-text>
+                  </n-list-item>
+                </n-list>
+              </template>
+            </n-result>
+
+            <n-alert v-if="reverseError" type="error" :title="$t('common.error')" class="mt-4">
+              {{ reverseError }}
+            </n-alert>
+          </n-form>
+        </n-tab-pane>
+
+        <!-- 本机IP -->
+        <n-tab-pane name="myip" :tab="$t('other.ip.myIP')">
+          <n-space vertical>
+            <n-button type="primary" @click="getMyIP" :loading="myIPLoading">
               {{ $t('other.ip.getMyIP') }}
             </n-button>
+            
+            <n-result v-if="myIPResult" :status="'success'" :title="$t('other.ip.myIPResult')">
+              <template #footer>
+                <n-descriptions bordered>
+                  <n-descriptions-item :label="$t('other.ip.publicIP')">
+                    <n-text copyable>{{ myIPResult.ip }}</n-text>
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.country')">
+                    {{ myIPResult.country || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.region')">
+                    {{ myIPResult.region || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.city')">
+                    {{ myIPResult.city || $t('common.unknown') }}
+                  </n-descriptions-item>
+                  <n-descriptions-item :label="$t('other.ip.isp')">
+                    {{ myIPResult.isp || $t('common.unknown') }}
+                  </n-descriptions-item>
+                </n-descriptions>
+              </template>
+            </n-result>
+
+            <n-alert v-if="myIPError" type="error" :title="$t('common.error')" class="mt-4">
+              {{ myIPError }}
+            </n-alert>
           </n-space>
+        </n-tab-pane>
+      </n-tabs>
 
-          <n-result v-if="lookupResult" :status="'success'" :title="$t('other.ip.lookupResult')">
-            <template #footer>
-              <n-descriptions bordered>
-                <n-descriptions-item :label="$t('other.ip.ip')">
-                  {{ lookupResult.ip }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.country')">
-                  {{ lookupResult.country || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.region')">
-                  {{ lookupResult.region || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.city')">
-                  {{ lookupResult.city || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.isp')">
-                  {{ lookupResult.isp || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.asn')">
-                  {{ lookupResult.asn || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.location')">
-                  {{ lookupResult.latitude && lookupResult.longitude ? 
-                      `${lookupResult.latitude}, ${lookupResult.longitude}` : 
-                      $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.timezone')">
-                  {{ lookupResult.timezone || $t('common.unknown') }}
-                </n-descriptions-item>
-              </n-descriptions>
-            </template>
-          </n-result>
-
-          <!-- 错误提示 -->
-          <n-alert v-if="lookupError" type="error" :title="$t('common.error')" class="mt-4">
-            {{ lookupError }}
-          </n-alert>
-        </n-form>
-      </n-tab-pane>
-
-      <!-- IP反查 -->
-      <n-tab-pane name="reverse" :tab="$t('other.ip.reverse')">
-        <n-form>
-          <n-form-item :label="$t('other.ip.domain')">
-            <n-input 
-              v-model:value="reverseForm.domain" 
-              :placeholder="$t('other.ip.domainPlaceholder')" 
-              @keyup.enter="reverseLookup"
-            />
-          </n-form-item>
-
-          <n-space>
-            <n-button type="primary" @click="reverseLookup" :loading="reverseLoading">
-              {{ $t('other.ip.reverse') }}
-            </n-button>
-            <n-button @click="copyReverseResult" :disabled="!reverseResult.length">
-              {{ $t('common.copy') }}
-            </n-button>
-          </n-space>
-
-          <n-result v-if="reverseResult.length" :status="'success'" :title="$t('other.ip.reverseResult')">
-            <template #footer>
-              <n-list>
-                <n-list-item v-for="(ip, index) in reverseResult" :key="index">
-                  <n-text copyable>{{ ip }}</n-text>
-                </n-list-item>
-              </n-list>
-            </template>
-          </n-result>
-
-          <n-alert v-if="reverseError" type="error" :title="$t('common.error')" class="mt-4">
-            {{ reverseError }}
-          </n-alert>
-        </n-form>
-      </n-tab-pane>
-
-      <!-- 本机IP -->
-      <n-tab-pane name="myip" :tab="$t('other.ip.myIP')">
-        <n-space vertical>
-          <n-button type="primary" @click="getMyIP" :loading="myIPLoading">
-            {{ $t('other.ip.getMyIP') }}
-          </n-button>
-          
-          <n-result v-if="myIPResult" :status="'success'" :title="$t('other.ip.myIPResult')">
-            <template #footer>
-              <n-descriptions bordered>
-                <n-descriptions-item :label="$t('other.ip.publicIP')">
-                  <n-text copyable>{{ myIPResult.ip }}</n-text>
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.country')">
-                  {{ myIPResult.country || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.region')">
-                  {{ myIPResult.region || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.city')">
-                  {{ myIPResult.city || $t('common.unknown') }}
-                </n-descriptions-item>
-                <n-descriptions-item :label="$t('other.ip.isp')">
-                  {{ myIPResult.isp || $t('common.unknown') }}
-                </n-descriptions-item>
-              </n-descriptions>
-            </template>
-          </n-result>
-
-          <n-alert v-if="myIPError" type="error" :title="$t('common.error')" class="mt-4">
-            {{ myIPError }}
-          </n-alert>
-        </n-space>
-      </n-tab-pane>
-    </n-tabs>
-
-    <!-- 使用说明 -->
-    <n-alert type="info" :title="$t('other.ip.infoTitle')" class="mt-4">
-      {{ $t('other.ip.infoContent') }}
-    </n-alert>
-  </n-card>
+      <!-- 使用说明 -->
+      <n-alert type="info" :title="$t('other.ip.infoTitle')" class="mt-4">
+        {{ $t('other.ip.infoContent') }}
+      </n-alert>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -379,6 +385,12 @@ function copyReverseResult() {
 </script>
 
 <style scoped>
+.iptools-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 .n-card {
   max-width: 1200px;
   margin: 0 auto;

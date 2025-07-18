@@ -1,399 +1,404 @@
 <template>
-  <n-card :title="$t('other.calculator.title')">
-    <div class="calculator">
-      <!-- 模式切换 -->
-      <n-tabs v-model:value="currentMode" type="line" animated class="mode-tabs">
-        <n-tab-pane name="basic" :tab="$t('other.calculator.basicMode')">
-          <!-- 基础计算器 -->
-          <div class="calculator-content">
-            <div class="display">
-              <div class="expression">{{ displayExpression }}</div>
-              <div class="result">{{ displayResult }}</div>
-            </div>
-
-            <div class="keypad basic-keypad">
-              <!-- 第一行 -->
-              <div class="row">
-                <n-button @click="clear" type="error" class="action-btn">{{ $t('other.calculator.clear') }}</n-button>
-                <n-button @click="clearEntry" class="action-btn">CE</n-button>
-                <n-button @click="backspace" class="action-btn">←</n-button>
-                <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
+  <div class="calculator-container">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="calculator" />
+    
+    <n-card :title="$t('other.calculator.title')">
+      <div class="calculator">
+        <!-- 模式切换 -->
+        <n-tabs v-model:value="currentMode" type="line" animated class="mode-tabs">
+          <n-tab-pane name="basic" :tab="$t('other.calculator.basicMode')">
+            <!-- 基础计算器 -->
+            <div class="calculator-content">
+              <div class="display">
+                <div class="expression">{{ displayExpression }}</div>
+                <div class="result">{{ displayResult }}</div>
               </div>
 
-              <!-- 第二行 -->
-              <div class="row">
-                <n-button @click="appendNumber('7')" class="number-btn">7</n-button>
-                <n-button @click="appendNumber('8')" class="number-btn">8</n-button>
-                <n-button @click="appendNumber('9')" class="number-btn">9</n-button>
-                <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
-              </div>
-
-              <!-- 第三行 -->
-              <div class="row">
-                <n-button @click="appendNumber('4')" class="number-btn">4</n-button>
-                <n-button @click="appendNumber('5')" class="number-btn">5</n-button>
-                <n-button @click="appendNumber('6')" class="number-btn">6</n-button>
-                <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
-              </div>
-
-              <!-- 第四行 -->
-              <div class="row">
-                <n-button @click="appendNumber('1')" class="number-btn">1</n-button>
-                <n-button @click="appendNumber('2')" class="number-btn">2</n-button>
-                <n-button @click="appendNumber('3')" class="number-btn">3</n-button>
-                <n-button @click="appendOperator('+')" class="operator-btn">+</n-button>
-              </div>
-
-              <!-- 第五行 -->
-              <div class="row">
-                <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
-                <n-button @click="appendDecimal" class="number-btn">.</n-button>
-                <n-button @click="calculate" type="primary" class="equals-btn">=</n-button>
-              </div>
-            </div>
-          </div>
-        </n-tab-pane>
-
-        <n-tab-pane name="scientific" :tab="$t('other.calculator.scientificMode')">
-          <!-- 科学计算器 -->
-          <div class="calculator-content">
-            <div class="display">
-              <div class="expression">{{ displayExpression }}</div>
-              <div class="result">{{ displayResult }}</div>
-            </div>
-
-            <div class="keypad scientific-keypad">
-              <!-- 第1行：二级函数 -->
-              <div class="row">
-                <n-button @click="appendFunction('sin')" class="function-btn">sin</n-button>
-                <n-button @click="appendFunction('cos')" class="function-btn">cos</n-button>
-                <n-button @click="appendFunction('tan')" class="function-btn">tan</n-button>
-                <n-button @click="appendParenthesis('(')" class="function-btn">(</n-button>
-                <n-button @click="appendParenthesis(')')" class="function-btn">)</n-button>
-              </div>
-
-              <!-- 第2行：高级函数 -->
-              <div class="row">
-                <n-button @click="appendFunction('log')" class="function-btn">log</n-button>
-                <n-button @click="appendFunction('ln')" class="function-btn">ln</n-button>
-                <n-button @click="appendFunction('sqrt')" class="function-btn">√</n-button>
-                <n-button @click="appendOperator('^')" class="function-btn">x^y</n-button>
-                <n-button @click="appendOperator('!')" class="function-btn">n!</n-button>
-              </div>
-
-              <!-- 第3行：常量和清除 -->
-              <div class="row">
-                <n-button @click="appendConstant('pi')" class="function-btn">π</n-button>
-                <n-button @click="appendConstant('e')" class="function-btn">e</n-button>
-                <n-button @click="clear" type="error" class="action-btn">{{ $t('other.calculator.clear') }}</n-button>
-                <n-button @click="clearEntry" class="action-btn">CE</n-button>
-                <n-button @click="backspace" class="action-btn">←</n-button>
-              </div>
-
-              <!-- 第4行：数字区域开始 -->
-              <div class="row number-area">
-                <n-button @click="appendNumber('7')" class="number-btn">7</n-button>
-                <n-button @click="appendNumber('8')" class="number-btn">8</n-button>
-                <n-button @click="appendNumber('9')" class="number-btn">9</n-button>
-                <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
-              </div>
-
-              <div class="row number-area">
-                <n-button @click="appendNumber('4')" class="number-btn">4</n-button>
-                <n-button @click="appendNumber('5')" class="number-btn">5</n-button>
-                <n-button @click="appendNumber('6')" class="number-btn">6</n-button>
-                <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
-              </div>
-
-              <div class="row number-area">
-                <n-button @click="appendNumber('1')" class="number-btn">1</n-button>
-                <n-button @click="appendNumber('2')" class="number-btn">2</n-button>
-                <n-button @click="appendNumber('3')" class="number-btn">3</n-button>
-                <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
-              </div>
-
-              <div class="row number-area">
-                <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
-                <n-button @click="appendDecimal" class="number-btn">.</n-button>
-                <n-button @click="appendOperator('+')" class="operator-btn">+</n-button>
-              </div>
-
-              <!-- 等号单独一行，跨越整个宽度 -->
-              <div class="row equals-row">
-                <n-button @click="calculate" type="primary" class="equals-btn-full">=</n-button>
-              </div>
-            </div>
-          </div>
-        </n-tab-pane>
-
-        <n-tab-pane name="expression" :tab="$t('other.calculator.expressionMode')">
-          <!-- 表达式计算器 -->
-          <div class="expression-calculator">
-            <n-input 
-              v-model:value="expressionInput" 
-              :placeholder="$t('other.calculator.expressionPlaceholder')"
-              type="textarea"
-              :autosize="{ minRows: 3, maxRows: 6 }"
-              @keyup.enter="calculateExpression"
-              class="expression-input"
-            />
-            
-            <n-space class="expression-actions">
-              <n-button @click="calculateExpression" type="primary">
-                {{ $t('other.calculator.calculate') }}
-              </n-button>
-              <n-button @click="clearExpression">
-                {{ $t('other.calculator.clear') }}
-              </n-button>
-              <n-button @click="copyResult" :disabled="!expressionResult">
-                {{ $t('common.copy') }}
-              </n-button>
-            </n-space>
-
-            <div v-if="expressionResult" class="expression-result">
-              <n-result status="success" :title="$t('other.calculator.result')">
-                <template #footer>
-                  <n-text copyable class="result-text">{{ expressionResult }}</n-text>
-                </template>
-              </n-result>
-            </div>
-
-            <div v-if="expressionError" class="expression-error">
-              <n-alert type="error" :title="$t('common.error')">
-                {{ expressionError }}
-              </n-alert>
-            </div>
-
-            <!-- 示例和帮助 -->
-            <n-collapse class="help-section">
-              <!-- 基础示例 -->
-              <n-collapse-item :title="$t('other.calculator.examples.basic')" name="basic-examples">
-                <div class="examples">
-                  <n-space vertical>
-                    <div v-for="example in basicExamples" :key="example">
-                      <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                    </div>
-                  </n-space>
+              <div class="keypad basic-keypad">
+                <!-- 第一行 -->
+                <div class="row">
+                  <n-button @click="clear" type="error" class="action-btn">{{ $t('other.calculator.clear') }}</n-button>
+                  <n-button @click="clearEntry" class="action-btn">CE</n-button>
+                  <n-button @click="backspace" class="action-btn">←</n-button>
+                  <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
                 </div>
-              </n-collapse-item>
 
-              <!-- 科学计算示例 -->
-              <n-collapse-item :title="$t('other.calculator.examples.scientific')" name="scientific-examples">
-                <div class="examples">
-                  <n-space vertical>
-                    <div v-for="example in scientificExamples" :key="example">
-                      <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                    </div>
-                  </n-space>
+                <!-- 第二行 -->
+                <div class="row">
+                  <n-button @click="appendNumber('7')" class="number-btn">7</n-button>
+                  <n-button @click="appendNumber('8')" class="number-btn">8</n-button>
+                  <n-button @click="appendNumber('9')" class="number-btn">9</n-button>
+                  <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
                 </div>
-              </n-collapse-item>
 
-              <!-- 表达式计算示例 -->
-              <n-collapse-item :title="$t('other.calculator.examples.expression')" name="expression-examples">
-                <div class="examples">
-                  <n-space vertical>
-                    <div v-for="example in expressionExamples" :key="example">
-                      <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                    </div>
-                  </n-space>
+                <!-- 第三行 -->
+                <div class="row">
+                  <n-button @click="appendNumber('4')" class="number-btn">4</n-button>
+                  <n-button @click="appendNumber('5')" class="number-btn">5</n-button>
+                  <n-button @click="appendNumber('6')" class="number-btn">6</n-button>
+                  <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
                 </div>
-              </n-collapse-item>
+
+                <!-- 第四行 -->
+                <div class="row">
+                  <n-button @click="appendNumber('1')" class="number-btn">1</n-button>
+                  <n-button @click="appendNumber('2')" class="number-btn">2</n-button>
+                  <n-button @click="appendNumber('3')" class="number-btn">3</n-button>
+                  <n-button @click="appendOperator('+')" class="operator-btn">+</n-button>
+                </div>
+
+                <!-- 第五行 -->
+                <div class="row">
+                  <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
+                  <n-button @click="appendDecimal" class="number-btn">.</n-button>
+                  <n-button @click="calculate" type="primary" class="equals-btn">=</n-button>
+                </div>
+              </div>
+            </div>
+          </n-tab-pane>
+
+          <n-tab-pane name="scientific" :tab="$t('other.calculator.scientificMode')">
+            <!-- 科学计算器 -->
+            <div class="calculator-content">
+              <div class="display">
+                <div class="expression">{{ displayExpression }}</div>
+                <div class="result">{{ displayResult }}</div>
+              </div>
+
+              <div class="keypad scientific-keypad">
+                <!-- 第1行：二级函数 -->
+                <div class="row">
+                  <n-button @click="appendFunction('sin')" class="function-btn">sin</n-button>
+                  <n-button @click="appendFunction('cos')" class="function-btn">cos</n-button>
+                  <n-button @click="appendFunction('tan')" class="function-btn">tan</n-button>
+                  <n-button @click="appendParenthesis('(')" class="function-btn">(</n-button>
+                  <n-button @click="appendParenthesis(')')" class="function-btn">)</n-button>
+                </div>
+
+                <!-- 第2行：高级函数 -->
+                <div class="row">
+                  <n-button @click="appendFunction('log')" class="function-btn">log</n-button>
+                  <n-button @click="appendFunction('ln')" class="function-btn">ln</n-button>
+                  <n-button @click="appendFunction('sqrt')" class="function-btn">√</n-button>
+                  <n-button @click="appendOperator('^')" class="function-btn">x^y</n-button>
+                  <n-button @click="appendOperator('!')" class="function-btn">n!</n-button>
+                </div>
+
+                <!-- 第3行：常量和清除 -->
+                <div class="row">
+                  <n-button @click="appendConstant('pi')" class="function-btn">π</n-button>
+                  <n-button @click="appendConstant('e')" class="function-btn">e</n-button>
+                  <n-button @click="clear" type="error" class="action-btn">{{ $t('other.calculator.clear') }}</n-button>
+                  <n-button @click="clearEntry" class="action-btn">CE</n-button>
+                  <n-button @click="backspace" class="action-btn">←</n-button>
+                </div>
+
+                <!-- 第4行：数字区域开始 -->
+                <div class="row number-area">
+                  <n-button @click="appendNumber('7')" class="number-btn">7</n-button>
+                  <n-button @click="appendNumber('8')" class="number-btn">8</n-button>
+                  <n-button @click="appendNumber('9')" class="number-btn">9</n-button>
+                  <n-button @click="appendOperator('/')" class="operator-btn">÷</n-button>
+                </div>
+
+                <div class="row number-area">
+                  <n-button @click="appendNumber('4')" class="number-btn">4</n-button>
+                  <n-button @click="appendNumber('5')" class="number-btn">5</n-button>
+                  <n-button @click="appendNumber('6')" class="number-btn">6</n-button>
+                  <n-button @click="appendOperator('*')" class="operator-btn">×</n-button>
+                </div>
+
+                <div class="row number-area">
+                  <n-button @click="appendNumber('1')" class="number-btn">1</n-button>
+                  <n-button @click="appendNumber('2')" class="number-btn">2</n-button>
+                  <n-button @click="appendNumber('3')" class="number-btn">3</n-button>
+                  <n-button @click="appendOperator('-')" class="operator-btn">-</n-button>
+                </div>
+
+                <div class="row number-area">
+                  <n-button @click="appendNumber('0')" class="number-btn zero-btn">0</n-button>
+                  <n-button @click="appendDecimal" class="number-btn">.</n-button>
+                  <n-button @click="appendOperator('+')" class="operator-btn">+</n-button>
+                </div>
+
+                <!-- 等号单独一行，跨越整个宽度 -->
+                <div class="row equals-row">
+                  <n-button @click="calculate" type="primary" class="equals-btn-full">=</n-button>
+                </div>
+              </div>
+            </div>
+          </n-tab-pane>
+
+          <n-tab-pane name="expression" :tab="$t('other.calculator.expressionMode')">
+            <!-- 表达式计算器 -->
+            <div class="expression-calculator">
+              <n-input 
+                v-model:value="expressionInput" 
+                :placeholder="$t('other.calculator.expressionPlaceholder')"
+                type="textarea"
+                :autosize="{ minRows: 3, maxRows: 6 }"
+                @keyup.enter="calculateExpression"
+                class="expression-input"
+              />
               
-              <!-- 详细帮助文档 -->
-              <n-collapse-item :title="$t('other.calculator.help.title')" name="help">
-                <div class="help-content">
-                  <n-tabs type="line" placement="left">
-                    <!-- 基础运算符 -->
-                    <n-tab-pane name="basic" :tab="$t('other.calculator.help.basic.title')">
-                      <n-space vertical>
-                        <div v-for="op in helpData.operators" :key="op">
-                          <n-text>{{ op }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+              <n-space class="expression-actions">
+                <n-button @click="calculateExpression" type="primary">
+                  {{ $t('other.calculator.calculate') }}
+                </n-button>
+                <n-button @click="clearExpression">
+                  {{ $t('other.calculator.clear') }}
+                </n-button>
+                <n-button @click="copyResult" :disabled="!expressionResult">
+                  {{ $t('common.copy') }}
+                </n-button>
+              </n-space>
 
-                    <!-- 常量 -->
-                    <n-tab-pane name="constants" :tab="$t('other.calculator.help.constants.title')">
-                      <n-space vertical>
-                        <div v-for="constant in helpData.constants" :key="constant">
-                          <n-text>{{ constant }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+              <div v-if="expressionResult" class="expression-result">
+                <n-result status="success" :title="$t('other.calculator.result')">
+                  <template #footer>
+                    <n-text copyable class="result-text">{{ expressionResult }}</n-text>
+                  </template>
+                </n-result>
+              </div>
 
-                    <!-- 基础函数 -->
-                    <n-tab-pane name="basic-functions" :tab="$t('other.calculator.help.functions.basic.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.basicFunctions" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+              <div v-if="expressionError" class="expression-error">
+                <n-alert type="error" :title="$t('common.error')">
+                  {{ expressionError }}
+                </n-alert>
+              </div>
 
-                    <!-- 三角函数 -->
-                    <n-tab-pane name="trigonometric" :tab="$t('other.calculator.help.functions.trigonometric.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.trigonometric" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+              <!-- 示例和帮助 -->
+              <n-collapse class="help-section">
+                <!-- 基础示例 -->
+                <n-collapse-item :title="$t('other.calculator.examples.basic')" name="basic-examples">
+                  <div class="examples">
+                    <n-space vertical>
+                      <div v-for="example in basicExamples" :key="example">
+                        <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                      </div>
+                    </n-space>
+                  </div>
+                </n-collapse-item>
 
-                    <!-- 双曲函数 -->
-                    <n-tab-pane name="hyperbolic" :tab="$t('other.calculator.help.functions.hyperbolic.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.hyperbolic" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                <!-- 科学计算示例 -->
+                <n-collapse-item :title="$t('other.calculator.examples.scientific')" name="scientific-examples">
+                  <div class="examples">
+                    <n-space vertical>
+                      <div v-for="example in scientificExamples" :key="example">
+                        <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                      </div>
+                    </n-space>
+                  </div>
+                </n-collapse-item>
 
-                    <!-- 对数和指数函数 -->
-                    <n-tab-pane name="logarithmic" :tab="$t('other.calculator.help.functions.logarithmic.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.logarithmic" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                <!-- 表达式计算示例 -->
+                <n-collapse-item :title="$t('other.calculator.examples.expression')" name="expression-examples">
+                  <div class="examples">
+                    <n-space vertical>
+                      <div v-for="example in expressionExamples" :key="example">
+                        <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                      </div>
+                    </n-space>
+                  </div>
+                </n-collapse-item>
+                
+                <!-- 详细帮助文档 -->
+                <n-collapse-item :title="$t('other.calculator.help.title')" name="help">
+                  <div class="help-content">
+                    <n-tabs type="line" placement="left">
+                      <!-- 基础运算符 -->
+                      <n-tab-pane name="basic" :tab="$t('other.calculator.help.basic.title')">
+                        <n-space vertical>
+                          <div v-for="op in helpData.operators" :key="op">
+                            <n-text>{{ op }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 复数函数 -->
-                    <n-tab-pane name="complex" :tab="$t('other.calculator.help.functions.complex.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.complex" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 常量 -->
+                      <n-tab-pane name="constants" :tab="$t('other.calculator.help.constants.title')">
+                        <n-space vertical>
+                          <div v-for="constant in helpData.constants" :key="constant">
+                            <n-text>{{ constant }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 矩阵函数 -->
-                    <n-tab-pane name="matrix" :tab="$t('other.calculator.help.functions.matrix.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.matrix" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 基础函数 -->
+                      <n-tab-pane name="basic-functions" :tab="$t('other.calculator.help.functions.basic.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.basicFunctions" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 统计函数 -->
-                    <n-tab-pane name="statistical" :tab="$t('other.calculator.help.functions.statistical.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.statistical" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 三角函数 -->
+                      <n-tab-pane name="trigonometric" :tab="$t('other.calculator.help.functions.trigonometric.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.trigonometric" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 概率和组合数学 -->
-                    <n-tab-pane name="probability" :tab="$t('other.calculator.help.functions.probability.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.probability" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 双曲函数 -->
+                      <n-tab-pane name="hyperbolic" :tab="$t('other.calculator.help.functions.hyperbolic.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.hyperbolic" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 位运算 -->
-                    <n-tab-pane name="bitwise" :tab="$t('other.calculator.help.functions.bitwise.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.bitwise" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 对数和指数函数 -->
+                      <n-tab-pane name="logarithmic" :tab="$t('other.calculator.help.functions.logarithmic.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.logarithmic" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 逻辑函数 -->
-                    <n-tab-pane name="logical" :tab="$t('other.calculator.help.functions.logical.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.logical" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 复数函数 -->
+                      <n-tab-pane name="complex" :tab="$t('other.calculator.help.functions.complex.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.complex" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 比较函数 -->
-                    <n-tab-pane name="comparison" :tab="$t('other.calculator.help.functions.comparison.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.comparison" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 矩阵函数 -->
+                      <n-tab-pane name="matrix" :tab="$t('other.calculator.help.functions.matrix.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.matrix" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 字符串和类型转换 -->
-                    <n-tab-pane name="string" :tab="$t('other.calculator.help.functions.string.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.stringUtils" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 统计函数 -->
+                      <n-tab-pane name="statistical" :tab="$t('other.calculator.help.functions.statistical.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.statistical" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 实用函数 -->
-                    <n-tab-pane name="utils" :tab="$t('other.calculator.help.functions.utils.title')">
-                      <n-space vertical>
-                        <div v-for="func in helpData.utils" :key="func">
-                          <n-text>{{ func }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 概率和组合数学 -->
+                      <n-tab-pane name="probability" :tab="$t('other.calculator.help.functions.probability.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.probability" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 变量和函数定义 -->
-                    <n-tab-pane name="variables" :tab="$t('other.calculator.help.variables.title')">
-                      <n-space vertical>
-                        <n-text>{{ $t('other.calculator.help.variables.description') }}</n-text>
-                        <div v-for="example in helpData.variableExamples" :key="example">
-                          <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 位运算 -->
+                      <n-tab-pane name="bitwise" :tab="$t('other.calculator.help.functions.bitwise.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.bitwise" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 单位转换 -->
-                    <n-tab-pane name="units" :tab="$t('other.calculator.help.units.title')">
-                      <n-space vertical>
-                        <n-text>{{ $t('other.calculator.help.units.description') }}</n-text>
-                        <div v-for="example in helpData.unitExamples" :key="example">
-                          <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
+                      <!-- 逻辑函数 -->
+                      <n-tab-pane name="logical" :tab="$t('other.calculator.help.functions.logical.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.logical" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-                    <!-- 表达式示例 -->
-                    <n-tab-pane name="expressions" :tab="$t('other.calculator.help.expressions.title')">
-                      <n-space vertical>
-                        <n-text>{{ $t('other.calculator.help.expressions.description') }}</n-text>
-                        <div v-for="example in helpData.expressionHelpExamples" :key="example">
-                          <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
-                        </div>
-                      </n-space>
-                    </n-tab-pane>
-                  </n-tabs>
-                </div>
-              </n-collapse-item>
-            </n-collapse>
-          </div>
-        </n-tab-pane>
-      </n-tabs>
+                      <!-- 比较函数 -->
+                      <n-tab-pane name="comparison" :tab="$t('other.calculator.help.functions.comparison.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.comparison" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
 
-      <!-- 历史记录 -->
-      <div v-if="history.length > 0" class="history">
-        <n-divider>{{ $t('other.calculator.history') }}</n-divider>
-        <div class="history-controls">
-          <n-button @click="clearHistory" size="small" type="error">
-            {{ $t('other.calculator.clearHistory') }}
-          </n-button>
-        </div>
-        <n-list>
-          <n-list-item v-for="(item, index) in history" :key="index" class="history-item">
-            <div class="history-content">
-              <span class="expression" @click="loadFromHistory(item.expression)">{{ item.expression }}</span>
-              <span class="result">= {{ item.result }}</span>
+                      <!-- 字符串和类型转换 -->
+                      <n-tab-pane name="string" :tab="$t('other.calculator.help.functions.string.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.stringUtils" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
+
+                      <!-- 实用函数 -->
+                      <n-tab-pane name="utils" :tab="$t('other.calculator.help.functions.utils.title')">
+                        <n-space vertical>
+                          <div v-for="func in helpData.utils" :key="func">
+                            <n-text>{{ func }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
+
+                      <!-- 变量和函数定义 -->
+                      <n-tab-pane name="variables" :tab="$t('other.calculator.help.variables.title')">
+                        <n-space vertical>
+                          <n-text>{{ $t('other.calculator.help.variables.description') }}</n-text>
+                          <div v-for="example in helpData.variableExamples" :key="example">
+                            <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
+
+                      <!-- 单位转换 -->
+                      <n-tab-pane name="units" :tab="$t('other.calculator.help.units.title')">
+                        <n-space vertical>
+                          <n-text>{{ $t('other.calculator.help.units.description') }}</n-text>
+                          <div v-for="example in helpData.unitExamples" :key="example">
+                            <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
+
+                      <!-- 表达式示例 -->
+                      <n-tab-pane name="expressions" :tab="$t('other.calculator.help.expressions.title')">
+                        <n-space vertical>
+                          <n-text>{{ $t('other.calculator.help.expressions.description') }}</n-text>
+                          <div v-for="example in helpData.expressionHelpExamples" :key="example">
+                            <n-text code @click="loadExample(example)" style="cursor: pointer;">{{ example }}</n-text>
+                          </div>
+                        </n-space>
+                      </n-tab-pane>
+                    </n-tabs>
+                  </div>
+                </n-collapse-item>
+              </n-collapse>
             </div>
-          </n-list-item>
-        </n-list>
+          </n-tab-pane>
+        </n-tabs>
+
+        <!-- 历史记录 -->
+        <div v-if="history.length > 0" class="history">
+          <n-divider>{{ $t('other.calculator.history') }}</n-divider>
+          <div class="history-controls">
+            <n-button @click="clearHistory" size="small" type="error">
+              {{ $t('other.calculator.clearHistory') }}
+            </n-button>
+          </div>
+          <n-list>
+            <n-list-item v-for="(item, index) in history" :key="index" class="history-item">
+              <div class="history-content">
+                <span class="expression" @click="loadFromHistory(item.expression)">{{ item.expression }}</span>
+                <span class="result">= {{ item.result }}</span>
+              </div>
+            </n-list-item>
+          </n-list>
+        </div>
       </div>
-    </div>
-  </n-card>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
@@ -401,6 +406,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { evaluate, format } from 'mathjs'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

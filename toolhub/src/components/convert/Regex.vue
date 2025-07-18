@@ -1,5 +1,8 @@
 <template>
   <div class="regex-tool">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="regex" />
+    
     <n-card :title="t('convert.regex.title')" :bordered="false">
       <n-space vertical size="large">
         <!-- 正则表达式输入 -->
@@ -147,6 +150,7 @@
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

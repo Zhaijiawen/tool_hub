@@ -1,101 +1,107 @@
 <template>
-  <n-card :title="$t('text.replace.title')">
-    <n-form>
-      <n-form-item :label="$t('text.replace.input')">
-        <n-input 
-          v-model:value="input" 
-          type="textarea" 
-          :placeholder="$t('text.replace.inputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }" 
-          @keydown="handleInputKeydown"
-        />
-      </n-form-item>
-
-      <n-form-item :label="$t('text.replace.find')">
-        <n-input-group>
+  <div class="text-replace">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="replace" />
+    
+    <n-card :title="$t('text.replace.title')">
+      <n-form>
+        <n-form-item :label="$t('text.replace.input')">
           <n-input 
-            v-model:value="find" 
-            ref="findInputRef"
-            :placeholder="$t('text.replace.findPlaceholder')" 
-            style="flex: 1"
-            @focus="onFindInputFocus"
+            v-model:value="input" 
+            type="textarea" 
+            :placeholder="$t('text.replace.inputPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+            @keydown="handleInputKeydown"
           />
-          <n-select
-            v-model:value="selectedFindSpecial"
-            :options="specialOptions"
-            style="width: 140px"
-            :placeholder="$t('text.replace.special')"
-            @update:value="insertToFind"
-            clearable
-          />
-        </n-input-group>
-      </n-form-item>
+        </n-form-item>
 
-      <n-form-item :label="$t('text.replace.replace')">
-        <n-input-group>
+        <n-form-item :label="$t('text.replace.find')">
+          <n-input-group>
+            <n-input 
+              v-model:value="find" 
+              ref="findInputRef"
+              :placeholder="$t('text.replace.findPlaceholder')" 
+              style="flex: 1"
+              @focus="onFindInputFocus"
+            />
+            <n-select
+              v-model:value="selectedFindSpecial"
+              :options="specialOptions"
+              style="width: 140px"
+              :placeholder="$t('text.replace.special')"
+              @update:value="insertToFind"
+              clearable
+            />
+          </n-input-group>
+        </n-form-item>
+
+        <n-form-item :label="$t('text.replace.replace')">
+          <n-input-group>
+            <n-input 
+              v-model:value="replace" 
+              ref="replaceInputRef"
+              :placeholder="$t('text.replace.replacePlaceholder')" 
+              style="flex: 1"
+              @focus="onReplaceInputFocus"
+            />
+            <n-select
+              v-model:value="selectedReplaceSpecial"
+              :options="specialOptions"
+              style="width: 140px"
+              :placeholder="$t('text.replace.special')"
+              @update:value="insertToReplace"
+              clearable
+            />
+          </n-input-group>
+        </n-form-item>
+
+        <n-space>
+          <n-checkbox v-model:checked="caseSensitive">
+            {{ $t('text.replace.caseSensitive') }}
+          </n-checkbox>
+          <n-checkbox v-model:checked="useRegex">
+            {{ $t('text.replace.useRegex') }}
+          </n-checkbox>
+        </n-space>
+
+        <n-space class="mt-4">
+          <n-button type="primary" @click="replaceAll">
+            {{ $t('text.replace.replace') }}
+          </n-button>
+        </n-space>
+
+        <n-form-item :label="$t('text.replace.output')" class="mt-4">
           <n-input 
-            v-model:value="replace" 
-            ref="replaceInputRef"
-            :placeholder="$t('text.replace.replacePlaceholder')" 
-            style="flex: 1"
-            @focus="onReplaceInputFocus"
+            v-model:value="output" 
+            type="textarea" 
+            :placeholder="$t('text.replace.outputPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 10 }" 
+            readonly 
           />
-          <n-select
-            v-model:value="selectedReplaceSpecial"
-            :options="specialOptions"
-            style="width: 140px"
-            :placeholder="$t('text.replace.special')"
-            @update:value="insertToReplace"
-            clearable
-          />
-        </n-input-group>
-      </n-form-item>
+        </n-form-item>
 
-      <n-space>
-        <n-checkbox v-model:checked="caseSensitive">
-          {{ $t('text.replace.caseSensitive') }}
-        </n-checkbox>
-        <n-checkbox v-model:checked="useRegex">
-          {{ $t('text.replace.useRegex') }}
-        </n-checkbox>
-      </n-space>
-
-      <n-space class="mt-4">
-        <n-button type="primary" @click="replaceAll">
-          {{ $t('text.replace.replace') }}
-        </n-button>
-      </n-space>
-
-      <n-form-item :label="$t('text.replace.output')" class="mt-4">
-        <n-input 
-          v-model:value="output" 
-          type="textarea" 
-          :placeholder="$t('text.replace.outputPlaceholder')"
-          :autosize="{ minRows: 3, maxRows: 10 }" 
-          readonly 
-        />
-      </n-form-item>
-
-      <n-space>
-        <n-button @click="copyOutput" :disabled="!output">
-          {{ $t('text.replace.copy') }}
-        </n-button>
-        <n-button @click="clearAll">
-          {{ $t('text.replace.clear') }}
-        </n-button>
-      </n-space>
-      
-      <n-alert type="info" :title="$t('text.replace.infoTitle')" class="info-section">
-        {{ $t('text.replace.infoContent') }}
-      </n-alert>
-    </n-form>
-  </n-card>
+        <n-space>
+          <n-button @click="copyOutput" :disabled="!output">
+            {{ $t('text.replace.copy') }}
+          </n-button>
+          <n-button @click="clearAll">
+            {{ $t('text.replace.clear') }}
+          </n-button>
+        </n-space>
+        
+        <n-alert type="info" :title="$t('text.replace.infoTitle')" class="info-section">
+          {{ $t('text.replace.infoContent') }}
+        </n-alert>
+      </n-form>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

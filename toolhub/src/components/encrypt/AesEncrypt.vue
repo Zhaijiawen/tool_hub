@@ -1,5 +1,8 @@
 <template>
   <div class="aes-encrypt">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="aes" />
+    
     <n-card :title="t('encrypt.aes.title')">
       <n-space vertical>
         <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.aes.inputPlaceholder')"
@@ -92,6 +95,7 @@ import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CryptoJS from 'crypto-js'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

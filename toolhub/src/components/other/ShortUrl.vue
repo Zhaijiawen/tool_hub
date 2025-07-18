@@ -1,110 +1,116 @@
 <template>
-  <n-card :title="$t('other.shortUrl.title')">
-    <!-- 演示模式提示 -->
-    <n-alert type="warning" :title="$t('other.shortUrl.demoMode')" class="mb-4">
-      {{ $t('other.shortUrl.demoModeDesc') }}
-    </n-alert>
+  <div class="shorturl-container">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="shortUrl" />
+    
+    <n-card :title="$t('other.shortUrl.title')">
+      <!-- 演示模式提示 -->
+      <n-alert type="warning" :title="$t('other.shortUrl.demoMode')" class="mb-4">
+        {{ $t('other.shortUrl.demoModeDesc') }}
+      </n-alert>
 
-    <n-tabs type="line" animated>
-      <!-- 生成短网址 -->
-      <n-tab-pane name="generate" :tab="$t('other.shortUrl.generate')">
-        <n-form>
-          <n-form-item :label="$t('other.shortUrl.url')">
-            <n-input 
-              v-model:value="generateForm.url" 
-              :placeholder="$t('other.shortUrl.urlPlaceholder')" 
-              @keyup.enter="generateShortUrl"
-            />
-          </n-form-item>
+      <n-tabs type="line" animated>
+        <!-- 生成短网址 -->
+        <n-tab-pane name="generate" :tab="$t('other.shortUrl.generate')">
+          <n-form>
+            <n-form-item :label="$t('other.shortUrl.url')">
+              <n-input 
+                v-model:value="generateForm.url" 
+                :placeholder="$t('other.shortUrl.urlPlaceholder')" 
+                @keyup.enter="generateShortUrl"
+              />
+            </n-form-item>
 
-          <n-form-item :label="$t('other.shortUrl.expires')">
-            <n-select v-model:value="generateForm.expires" :options="expireOptions" />
-          </n-form-item>
+            <n-form-item :label="$t('other.shortUrl.expires')">
+              <n-select v-model:value="generateForm.expires" :options="expireOptions" />
+            </n-form-item>
 
-          <n-space>
-            <n-button type="primary" @click="generateShortUrl" :loading="generating">
-              {{ $t('other.shortUrl.generate') }}
-            </n-button>
-            <n-button @click="copyShortUrl" :disabled="!shortUrl">
-              {{ $t('common.copy') }}
-            </n-button>
-          </n-space>
-
-          <n-alert v-if="shortUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
-            <n-space vertical size="small">
-              <n-text copyable>{{ shortUrl }}</n-text>
-              <n-text depth="3" style="font-size: 12px;">
-                {{ getExpirationText() }}
-              </n-text>
+            <n-space>
+              <n-button type="primary" @click="generateShortUrl" :loading="generating">
+                {{ $t('other.shortUrl.generate') }}
+              </n-button>
+              <n-button @click="copyShortUrl" :disabled="!shortUrl">
+                {{ $t('common.copy') }}
+              </n-button>
             </n-space>
-          </n-alert>
-        </n-form>
-      </n-tab-pane>
 
-      <!-- 解码短网址 -->
-      <n-tab-pane name="decode" :tab="$t('other.shortUrl.decode')">
-        <n-form>
-          <n-form-item :label="$t('other.shortUrl.shortUrl')">
-            <n-input 
-              v-model:value="decodeForm.shortUrl" 
-              :placeholder="$t('other.shortUrl.shortUrlPlaceholder')"
-              @keyup.enter="decodeShortUrl"
-            />
-          </n-form-item>
+            <n-alert v-if="shortUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
+              <n-space vertical size="small">
+                <n-text copyable>{{ shortUrl }}</n-text>
+                <n-text depth="3" style="font-size: 12px;">
+                  {{ getExpirationText() }}
+                </n-text>
+              </n-space>
+            </n-alert>
+          </n-form>
+        </n-tab-pane>
 
-          <n-space>
-            <n-button type="primary" @click="decodeShortUrl" :loading="decoding">
-              {{ $t('other.shortUrl.decode') }}
-            </n-button>
-            <n-button @click="copyLongUrl" :disabled="!longUrl">
-              {{ $t('common.copy') }}
-            </n-button>
-            <n-button @click="openOriginalUrl" :disabled="!longUrl" secondary>
-              {{ $t('common.open') }}
-            </n-button>
-          </n-space>
+        <!-- 解码短网址 -->
+        <n-tab-pane name="decode" :tab="$t('other.shortUrl.decode')">
+          <n-form>
+            <n-form-item :label="$t('other.shortUrl.shortUrl')">
+              <n-input 
+                v-model:value="decodeForm.shortUrl" 
+                :placeholder="$t('other.shortUrl.shortUrlPlaceholder')"
+                @keyup.enter="decodeShortUrl"
+              />
+            </n-form-item>
 
-          <n-alert v-if="longUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
-            <n-space vertical size="small">
-              <n-text copyable>{{ longUrl }}</n-text>
-              <n-text depth="3" style="font-size: 12px;">
-                {{ getDecodedInfo() }}
-              </n-text>
+            <n-space>
+              <n-button type="primary" @click="decodeShortUrl" :loading="decoding">
+                {{ $t('other.shortUrl.decode') }}
+              </n-button>
+              <n-button @click="copyLongUrl" :disabled="!longUrl">
+                {{ $t('common.copy') }}
+              </n-button>
+              <n-button @click="openOriginalUrl" :disabled="!longUrl" secondary>
+                {{ $t('common.open') }}
+              </n-button>
             </n-space>
-          </n-alert>
 
-          <!-- 错误提示 -->
-          <n-alert v-if="decodeError" type="error" :title="$t('common.error')" class="mt-4">
-            {{ decodeError }}
-          </n-alert>
-        </n-form>
-      </n-tab-pane>
+            <n-alert v-if="longUrl" type="success" :title="$t('other.shortUrl.result')" class="mt-4">
+              <n-space vertical size="small">
+                <n-text copyable>{{ longUrl }}</n-text>
+                <n-text depth="3" style="font-size: 12px;">
+                  {{ getDecodedInfo() }}
+                </n-text>
+              </n-space>
+            </n-alert>
 
-      <!-- 管理短链接 -->
-      <n-tab-pane name="manage" tab="管理">
-        <n-data-table
-          :columns="tableColumns"
-          :data="savedUrls"
-          :pagination="false"
-          size="small"
-        />
-        <n-button @click="clearAllUrls" type="error" size="small" class="mt-4" v-if="savedUrls.length > 0">
-          清空所有
-        </n-button>
-      </n-tab-pane>
-    </n-tabs>
+            <!-- 错误提示 -->
+            <n-alert v-if="decodeError" type="error" :title="$t('common.error')" class="mt-4">
+              {{ decodeError }}
+            </n-alert>
+          </n-form>
+        </n-tab-pane>
 
-    <!-- 使用说明 -->
-    <n-alert type="info" :title="$t('other.shortUrl.infoTitle')" class="mt-4">
-      {{ $t('other.shortUrl.infoContent') }}
-    </n-alert>
-  </n-card>
+        <!-- 管理短链接 -->
+        <n-tab-pane name="manage" tab="管理">
+          <n-data-table
+            :columns="tableColumns"
+            :data="savedUrls"
+            :pagination="false"
+            size="small"
+          />
+          <n-button @click="clearAllUrls" type="error" size="small" class="mt-4" v-if="savedUrls.length > 0">
+            清空所有
+          </n-button>
+        </n-tab-pane>
+      </n-tabs>
+
+      <!-- 使用说明 -->
+      <n-alert type="info" :title="$t('other.shortUrl.infoTitle')" class="mt-4">
+        {{ $t('other.shortUrl.infoContent') }}
+      </n-alert>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

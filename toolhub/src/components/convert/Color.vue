@@ -1,5 +1,8 @@
 <template>
   <div class="color-convert">
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="color" />
+    
     <n-card :title="t('convert.color.title')" :bordered="false">
       <n-space vertical size="large">
         <!-- 操作类型选择 -->
@@ -148,6 +151,7 @@
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '../common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

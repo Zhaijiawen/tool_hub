@@ -25,6 +25,9 @@
         {{ error }}
       </n-alert>
     </n-card>
+    
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="php" />
   </div>
 </template>
 
@@ -34,6 +37,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+// 导入工具描述组件
+import ToolDescription from '@/components/common/ToolDescription.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标

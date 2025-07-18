@@ -1,6 +1,7 @@
 <template>
   <!-- YAML格式化工具容器 -->
   <div class="yaml-format">
+
     <!-- 工具卡片 -->
     <n-card>
       <template #header>
@@ -29,6 +30,9 @@
         {{ error }}
       </n-alert>
     </n-card>
+        <!-- 工具描述组件 -->
+    <ToolDescription tool-key="yaml" />
+    
   </div>
 </template>
 
@@ -46,6 +50,8 @@ import CodeEditor from '@/components/common/CodeEditor.vue'
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标
 import { ListOutline as DocumentOutline } from '@vicons/ionicons5'
+// 导入工具描述组件
+import ToolDescription from '../common/ToolDescription.vue'
 
 // 初始化国际化
 const { t } = useI18n()
