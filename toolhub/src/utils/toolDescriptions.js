@@ -3488,42 +3488,42 @@ Application areas:
       'Status code classification management'
     ],
     useCases: [
-      'Web 开发调试',
-      'API 设计和开发',
-      '网络问题诊断',
-      '系统监控和运维'
+      'Web development debugging',
+      'API design and development',
+      'Network problem diagnosis',
+      'System monitoring and operations'
     ],
-    technicalBackground: `HTTP 状态码是 HTTP 协议中用于表示请求处理结果的数字代码。
+    technicalBackground: `HTTP status codes are numeric codes used in the HTTP protocol to indicate the result of request processing.
 
-状态码分类：
-• 1xx：信息性状态码
-• 2xx：成功状态码
-• 3xx：重定向状态码
-• 4xx：客户端错误状态码
-• 5xx：服务器错误状态码
+Status code categories:
+• 1xx: Informational status codes
+• 2xx: Success status codes
+• 3xx: Redirection status codes
+• 4xx: Client error status codes
+• 5xx: Server error status codes
 
-常见状态码：
-• 200：OK，请求成功
-• 404：Not Found，资源未找到
-• 500：Internal Server Error，服务器内部错误
-• 301：Moved Permanently，永久重定向
+Common status codes:
+• 200: OK, request successful
+• 404: Not Found, resource not found
+• 500: Internal Server Error, server internal error
+• 301: Moved Permanently, permanent redirect
 
-应用场景：
-• Web 开发
-• API 设计
-• 网络调试
-• 系统监控`,
+Application scenarios:
+• Web development
+• API design
+• Network debugging
+• System monitoring`,
     usageSteps: [
-      '输入状态码或搜索关键词',
-      '查看详细说明',
-      '了解使用场景',
-      '参考最佳实践'
+      'Enter status code or search keywords',
+      'View detailed explanations',
+      'Understand usage scenarios',
+      'Reference best practices'
     ],
     bestPractices: [
-      '使用标准状态码',
-      '提供有意义的错误信息',
-      '合理使用重定向',
-      '监控错误状态码'
+      'Use standard status codes',
+      'Provide meaningful error messages',
+      'Use redirects appropriately',
+      'Monitor error status codes'
     ]
   },
 
@@ -3537,41 +3537,41 @@ Application areas:
       'Encoding problem diagnosis'
     ],
     useCases: [
-      '文本编码处理',
-      '国际化应用开发',
-      '数据导入导出',
-      '编码问题排查'
+      'Text encoding processing',
+      'Internationalization application development',
+      'Data import and export',
+      'Encoding problem troubleshooting'
     ],
-    technicalBackground: `字符编码是计算机中表示字符的标准方式，不同的编码格式适用于不同场景。
+    technicalBackground: `Character encoding is the standard way computers represent characters, with different encoding formats suitable for different scenarios.
 
-常用编码格式：
-• ASCII：7位编码，支持英文字符
-• UTF-8：变长编码，支持全球字符
-• UTF-16：16位编码，支持 Unicode
-• ISO-8859：欧洲语言编码
+Common encoding formats:
+• ASCII: 7-bit encoding, supports English characters
+• UTF-8: Variable-length encoding, supports global characters
+• UTF-16: 16-bit encoding, supports Unicode
+• ISO-8859: European language encoding
 
-编码特点：
-• ASCII：简单高效，仅支持英文
-• UTF-8：向后兼容，广泛使用
-• UTF-16：固定长度，处理效率高
-• Unicode：统一字符集标准
+Encoding characteristics:
+• ASCII: Simple and efficient, supports English only
+• UTF-8: Backward compatible, widely used
+• UTF-16: Fixed length, high processing efficiency
+• Unicode: Unified character set standard
 
-应用场景：
-• 文本处理
-• 国际化开发
-• 数据交换
-• 系统集成`,
+Application scenarios:
+• Text processing
+• Internationalization development
+• Data exchange
+• System integration`,
     usageSteps: [
-      '输入要转换的文本',
-      '选择源编码和目标编码',
-      '执行编码转换',
-      '查看转换结果'
+      'Enter text to convert',
+      'Select source and target encoding',
+      'Execute encoding conversion',
+      'View conversion results'
     ],
     bestPractices: [
-      '统一使用 UTF-8 编码',
-      '注意编码兼容性',
-      '处理特殊字符',
-      '验证转换结果'
+      'Use UTF-8 encoding consistently',
+      'Pay attention to encoding compatibility',
+      'Handle special characters',
+      'Verify conversion results'
     ]
   },
 
@@ -3625,869 +3625,869 @@ Application areas:
 
   // 更多加密工具
   rsa: {
-    title: 'RSA 加密解密工具',
-    description: '专业的 RSA 非对称加密工具，支持公钥加密和私钥解密',
+    title: 'RSA Encryption/Decryption Tool',
+    description: 'Professional RSA asymmetric encryption tool supporting public key encryption and private key decryption',
     features: [
-      'RSA 密钥生成',
-      '公钥加密私钥解密',
-      '数字签名验证',
-      '多种密钥长度支持'
+      'RSA key pair generation',
+      'Public key encryption and private key decryption',
+      'Digital signature verification',
+      'Multiple key length support'
     ],
     useCases: [
-      '安全通信加密',
-      '数字证书管理',
-      'API 安全认证',
-      '文件加密保护'
+      'Secure communication encryption',
+      'Digital certificate management',
+      'API security authentication',
+      'File encryption protection'
     ],
-    technicalBackground: `RSA 是一种非对称加密算法，基于大数分解的数学难题。
+    technicalBackground: `RSA is an asymmetric encryption algorithm based on the mathematical problem of large integer factorization.
 
-RSA 原理：
-• 公钥加密，私钥解密
-• 基于大素数分解难题
-• 支持数字签名
-• 密钥长度影响安全性
+RSA Principle:
+• Public key encryption, private key decryption
+• Based on large prime factorization
+• Supports digital signatures
+• Key length affects security
 
-密钥长度：
-• 1024 位：基本安全
-• 2048 位：推荐使用
-• 4096 位：高安全要求
+Key lengths:
+• 1024 bits: basic security
+• 2048 bits: recommended
+• 4096 bits: high security
 
-应用场景：
-• SSL/TLS 协议
-• 数字证书
-• 安全通信
-• 身份认证`,
+Application scenarios:
+• SSL/TLS protocol
+• Digital certificates
+• Secure communication
+• Identity authentication`,
     usageSteps: [
-      '生成 RSA 密钥对',
-      '使用公钥加密数据',
-      '使用私钥解密数据',
-      '验证数字签名'
+      'Generate RSA key pair',
+      'Encrypt data with public key',
+      'Decrypt data with private key',
+      'Verify digital signature'
     ],
     bestPractices: [
-      '使用足够长的密钥',
-      '安全保存私钥',
-      '定期更换密钥',
-      '验证密钥有效性'
+      'Use sufficiently long keys',
+      'Store private keys securely',
+      'Rotate keys regularly',
+      'Verify key validity'
     ]
   },
 
   sha: {
-    title: 'SHA 哈希计算工具',
-    description: '专业的 SHA 哈希算法工具，支持 SHA-1、SHA-256、SHA-512 等多种算法',
+    title: 'SHA Hash Calculation Tool',
+    description: 'Professional SHA hash algorithm tool supporting SHA-1, SHA-256, SHA-512 and more',
     features: [
-      '多种 SHA 算法支持',
-      '文件哈希计算',
-      '哈希值验证',
-      '批量哈希处理'
+      'Multiple SHA algorithm support',
+      'File hash calculation',
+      'Hash value verification',
+      'Batch hash processing'
     ],
     useCases: [
-      '文件完整性验证',
-      '密码哈希存储',
-      '数字签名',
-      '数据去重'
+      'File integrity verification',
+      'Password hash storage',
+      'Digital signature',
+      'Data deduplication'
     ],
-    technicalBackground: `SHA（Secure Hash Algorithm）是一系列密码学哈希函数，用于生成数据的数字指纹。
+    technicalBackground: `SHA (Secure Hash Algorithm) is a series of cryptographic hash functions used to generate digital fingerprints of data.
 
-SHA 算法：
-• SHA-1：160 位哈希值
-• SHA-256：256 位哈希值
-• SHA-512：512 位哈希值
-• SHA-3：新一代哈希算法
+SHA algorithms:
+• SHA-1: 160-bit hash value
+• SHA-256: 256-bit hash value
+• SHA-512: 512-bit hash value
+• SHA-3: next-generation hash algorithm
 
-哈希特点：
-• 确定性：相同输入产生相同输出
-• 雪崩效应：输入微小变化导致输出巨大变化
-• 单向性：无法从哈希值反推原始数据
-• 抗碰撞性：难以找到相同哈希值的不同输入
+Hash characteristics:
+• Deterministic: same input produces same output
+• Avalanche effect: small input changes cause large output changes
+• One-way: cannot deduce original data from hash
+• Collision resistance: hard to find different inputs with same hash
 
-应用场景：
-• 文件完整性检查
-• 密码安全存储
-• 数字签名
-• 区块链技术`,
+Application scenarios:
+• File integrity check
+• Password secure storage
+• Digital signature
+• Blockchain technology`,
     usageSteps: [
-      '选择 SHA 算法',
-      '输入要哈希的数据',
-      '计算哈希值',
-      '验证哈希结果'
+      'Select SHA algorithm',
+      'Enter data to hash',
+      'Calculate hash value',
+      'Verify hash result'
     ],
     bestPractices: [
-      '使用 SHA-256 或更高版本',
-      '加盐处理密码哈希',
-      '验证文件完整性',
-      '安全存储哈希值'
+      'Use SHA-256 or higher',
+      'Salt password hashes',
+      'Verify file integrity',
+      'Store hash values securely'
     ]
   },
 
   jwt: {
-    title: 'JWT 编码解码工具',
-    description: '专业的 JWT（JSON Web Token）编码解码工具，支持令牌生成和验证',
+    title: 'JWT Encode/Decode Tool',
+    description: 'Professional JWT (JSON Web Token) encode/decode tool supporting token generation and verification',
     features: [
-      'JWT 令牌生成',
-      '令牌解码和验证',
-      '多种签名算法',
-      '令牌过期时间设置'
+      'JWT token generation',
+      'Token decoding and verification',
+      'Multiple signature algorithms',
+      'Token expiration time setting'
     ],
     useCases: [
-      '用户身份认证',
-      'API 访问控制',
-      '单点登录系统',
-      '微服务通信'
+      'User authentication',
+      'API access control',
+      'Single sign-on system',
+      'Microservice communication'
     ],
-    technicalBackground: `JWT 是一种开放标准，用于在各方之间安全地传输信息作为 JSON 对象。
+    technicalBackground: `JWT is an open standard for securely transmitting information as a JSON object between parties.
 
-JWT 结构：
-• Header：算法和令牌类型
-• Payload：声明和数据
-• Signature：签名验证
+JWT structure:
+• Header: algorithm and token type
+• Payload: claims and data
+• Signature: signature verification
 
-JWT 特点：
-• 自包含：包含所有必要信息
-• 无状态：服务器无需存储会话
-• 可扩展：支持自定义声明
-• 标准化：RFC 7519 标准
+JWT characteristics:
+• Self-contained: contains all necessary information
+• Stateless: server does not need to store session
+• Extensible: supports custom claims
+• Standardized: RFC 7519
 
-签名算法：
-• HMAC：对称密钥签名
-• RSA：非对称密钥签名
-• ECDSA：椭圆曲线签名
+Signature algorithms:
+• HMAC: symmetric key signature
+• RSA: asymmetric key signature
+• ECDSA: elliptic curve signature
 
-应用场景：
-• 身份认证
-• 信息交换
-• 授权控制
-• 会话管理`,
+Application scenarios:
+• Authentication
+• Information exchange
+• Authorization control
+• Session management`,
     usageSteps: [
-      '设置 JWT 参数',
-      '生成 JWT 令牌',
-      '解码和验证令牌',
-      '查看令牌内容'
+      'Set JWT parameters',
+      'Generate JWT token',
+      'Decode and verify token',
+      'View token content'
     ],
     bestPractices: [
-      '使用强密钥签名',
-      '设置合理的过期时间',
-      '验证令牌签名',
-      '保护敏感信息'
+      'Use strong key signatures',
+      'Set reasonable expiration time',
+      'Verify token signature',
+      'Protect sensitive information'
     ]
   },
 
   shortUrl: {
-    title: '短链接生成工具',
-    description: '专业的短链接生成和管理工具，支持自定义短链接和访问统计',
+    title: 'Short URL Generator',
+    description: 'Professional short URL generation and management tool supporting custom short URLs and access statistics',
     features: [
-      '短链接生成',
-      '自定义短链接',
-      '访问统计',
-      '链接有效期设置'
+      'Short URL generation',
+      'Custom short URL creation',
+      'Access statistics',
+      'Link expiration setting'
     ],
     useCases: [
-      '社交媒体分享',
-      '营销活动推广',
-      '链接追踪分析',
-      '长链接简化'
+      'Social media sharing',
+      'Marketing campaign promotion',
+      'Link tracking analysis',
+      'Long URL simplification'
     ],
-    technicalBackground: `短链接是一种将长 URL 转换为短 URL 的服务，便于分享和传播。
+    technicalBackground: `Short URL is a service that converts a long URL into a short URL for easier sharing and dissemination.
 
-短链接原理：
-• 长 URL 映射到短标识符
-• 重定向机制实现访问
-• 数据库存储映射关系
-• 统计访问数据
+Short URL principle:
+• Long URL is mapped to a short identifier
+• Redirect mechanism implements access
+• Data is stored in a database to maintain mapping relationships
+• Statistics on access data are collected
 
-生成算法：
-• 随机字符串生成
-• 哈希算法生成
-• 自增 ID 编码
-• 自定义标识符
+Generation algorithm:
+• Random string generation
+• Hash algorithm generation
+• Incrementing ID encoding
+• Custom identifier
 
-应用场景：
-• 社交媒体
-• 电子邮件营销
-• 短信营销
-• 二维码链接`,
+Application scenarios:
+• Social media
+• Email marketing
+• SMS marketing
+• QR code link`,
     usageSteps: [
-      '输入长链接',
-      '选择生成方式',
-      '生成短链接',
-      '分享和追踪'
+      'Enter long URL',
+      'Select generation method',
+      'Generate short URL',
+      'Share and track'
     ],
     bestPractices: [
-      '使用 HTTPS 协议',
-      '设置合理的过期时间',
-      '监控链接访问',
-      '保护用户隐私'
+      'Use HTTPS protocol',
+      'Set reasonable expiration time',
+      'Monitor link access',
+      'Protect user privacy'
     ]
   },
 
   ipTools: {
-    title: 'IP 地址工具',
-    description: '专业的 IP 地址查询和分析工具，支持 IP 信息查询、地理位置定位等功能',
+    title: 'IP Address Tool',
+    description: 'Professional IP address query and analysis tool supporting IP information query, geolocation, and more',
     features: [
-      'IP 地址信息查询',
-      '地理位置定位',
-      'IP 地址转换',
-      '网络诊断工具'
+      'IP address information query',
+      'Geolocation',
+      'IP address conversion',
+      'Network diagnostic tool'
     ],
     useCases: [
-      '网络故障排查',
-      '地理位置分析',
-      '网络安全监控',
-      '网络配置管理'
+      'Network troubleshooting',
+      'Geolocation analysis',
+      'Network security monitoring',
+      'Network configuration management'
     ],
-    technicalBackground: `IP 地址是互联网协议中用于标识网络设备的数字地址。
+    technicalBackground: `IP address is a digital address used in the Internet Protocol to identify network devices.
 
-IP 地址类型：
-• IPv4：32 位地址，如 192.168.1.1
-• IPv6：128 位地址，如 2001:db8::1
-• 公网 IP：互联网可访问
-• 私网 IP：局域网使用
+IP address types:
+• IPv4: 32-bit address, e.g., 192.168.1.1
+• IPv6: 128-bit address, e.g., 2001:db8::1
+• Public IP: accessible from the internet
+• Private IP: used in local networks
 
-IP 地址分类：
-• A 类：1.0.0.0 - 126.255.255.255
-• B 类：128.0.0.0 - 191.255.255.255
-• C 类：192.0.0.0 - 223.255.255.255
-• D 类：224.0.0.0 - 239.255.255.255
+IP address classification:
+• Class A: 1.0.0.0 - 126.255.255.255
+• Class B: 128.0.0.0 - 191.255.255.255
+• Class C: 192.0.0.0 - 223.255.255.255
+• Class D: 224.0.0.0 - 239.255.255.255
 
-应用场景：
-• 网络配置
-• 安全监控
-• 地理位置服务
-• 网络诊断`,
+Application scenarios:
+• Network configuration
+• Security monitoring
+• Geolocation services
+• Network diagnostics`,
     usageSteps: [
-      '输入 IP 地址',
-      '查询详细信息',
-      '查看地理位置',
-      '进行网络诊断'
+      'Enter IP address',
+      'Query detailed information',
+      'View geolocation',
+      'Perform network diagnostics'
     ],
     bestPractices: [
-      '验证 IP 地址格式',
-      '注意隐私保护',
-      '使用可靠的查询服务',
-      '定期更新 IP 数据库'
+      'Verify IP address format',
+      'Pay attention to privacy',
+      'Use reliable query services',
+      'Regularly update IP database'
     ]
   },
 
   markdownFormat: {
-    title: 'Markdown 格式化工具',
-    description: '专业的 Markdown 文档格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'Markdown Formatter',
+    description: 'Professional Markdown document formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'Markdown 语法高亮显示',
-      '自动缩进和格式化',
-      '语法错误检测',
-      '多种格式化选项'
+      'Markdown syntax highlighting',
+      'Automatic indentation and formatting',
+      'Syntax error detection',
+      'Multiple formatting options'
     ],
     useCases: [
-      '文档格式化和美化',
-      '技术文档编写',
-      '博客文章编辑',
-      'README 文件优化'
+      'Document formatting and beautification',
+      'Technical document writing',
+      'Blog post editing',
+      'README file optimization'
     ],
-    technicalBackground: `Markdown 是一种轻量级标记语言，由 John Gruber 于 2004 年创建，旨在让写作变得简单易读。
+    technicalBackground: `Markdown is a lightweight markup language created by John Gruber in 2004 with the goal of making writing simple and readable.
 
-Markdown 特点：
-• 易读易写：语法简单直观
-• 纯文本格式：不依赖特定编辑器
-• 可转换为多种格式：HTML、PDF、Word 等
-• 广泛支持：GitHub、GitLab、Stack Overflow 等平台
+Markdown characteristics:
+• Pure text format
+• Easy to learn and use
+• Can be converted to multiple formats: HTML, PDF, Word, etc.
+• Widely supported: GitHub, GitLab, Stack Overflow, etc.
 
-Markdown 语法：
-• 标题：使用 # 符号
-• 列表：使用 - 或 * 符号
-• 链接：使用 [文本](URL) 格式
-• 代码：使用 \`代码\` 或 \`\`\`代码块\`\`\` 格式
-• 表格：使用 | 分隔列，- 分隔表头
+Markdown syntax:
+• Headings: use # symbols
+• Lists: use - or * symbols
+• Links: use [text](URL) format
+• Code: use \`code\` or \`\`\`code block\`\`\` format
+• Tables: use | to separate columns, - to separate header
 
-应用场景：
-• 技术文档编写
-• 博客文章创作
-• 项目说明文档
-• 学术论文写作`,
+Application scenarios:
+• Technical document writing
+• Blog post creation
+• Project description document
+• Academic paper writing`,
     usageSteps: [
-      '将 Markdown 内容粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste Markdown content into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '使用标准的 Markdown 语法',
-      '保持文档结构清晰',
-      '适当使用标题层级',
-      '注意代码块的语法高亮'
+      'Use standard Markdown syntax',
+      'Keep document structure clear',
+      'Use appropriate heading levels',
+      'Pay attention to syntax highlighting for code blocks'
     ]
   },
 
   javaFormat: {
-    title: 'Java 代码格式化工具',
-    description: '专业的 Java 代码格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'Java Code Formatter',
+    description: 'Professional Java code formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'Java 语法高亮显示',
-      '自动缩进和格式化',
-      '代码风格统一',
-      '多种格式化选项'
+      'Java syntax highlighting',
+      'Automatic indentation and formatting',
+      'Code style unification',
+      'Multiple formatting options'
     ],
     useCases: [
-      'Java 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
+      'Java code formatting and beautification',
+      'Team collaboration development',
+      'Code review and refactoring',
+      'Project code standardization'
     ],
-    technicalBackground: `Java 是一种面向对象的编程语言，由 Sun Microsystems 于 1995 年发布，具有跨平台、安全性高等特点。
+    technicalBackground: `Java is an object-oriented programming language developed by Sun Microsystems in 1995 with features such as cross-platform, high security, etc.
 
-Java 语言特点：
-• 面向对象：支持封装、继承、多态
-• 跨平台：一次编写，到处运行
-• 强类型：编译时类型检查
-• 自动内存管理：垃圾回收机制
+Java language features:
+• Object-oriented: supports encapsulation, inheritance, polymorphism
+• Cross-platform: one code, everywhere run
+• Strong typing: type checking at compile time
+• Automatic memory management: garbage collection mechanism
 
-Java 代码规范：
-• 类名：使用 PascalCase（如 MyClass）
-• 方法名：使用 camelCase（如 myMethod）
-• 常量：使用 UPPER_SNAKE_CASE（如 MAX_SIZE）
-• 包名：使用小写字母（如 com.example）
+Java coding standards:
+• Class name: use PascalCase (e.g., MyClass)
+• Method name: use camelCase (e.g., myMethod)
+• Constant: use UPPER_SNAKE_CASE (e.g., MAX_SIZE)
+• Package name: use lowercase letters (e.g., com.example)
 
-应用场景：
-• 企业级应用开发
-• Android 移动应用开发
-• Web 后端服务开发
-• 大数据处理应用`,
+Application scenarios:
+• Enterprise application development
+• Android mobile application development
+• Web backend service development
+• Big data processing application`,
     usageSteps: [
-      '将 Java 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste Java code into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '遵循 Java 编码规范',
-      '保持代码结构清晰',
-      '适当添加注释说明',
-      '使用有意义的变量和方法名'
+      'Follow Java coding standards',
+      'Keep code structure clear',
+      'Add appropriate comments',
+      'Use meaningful variable and method names'
     ]
   },
 
   php: {
-    title: 'PHP 代码格式化工具',
-    description: '专业的 PHP 代码格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'PHP Code Formatter',
+    description: 'Professional PHP code formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'PHP 语法高亮显示',
-      '自动缩进和格式化',
-      'PSR 标准支持',
-      '多种格式化选项'
+      'PHP syntax highlighting',
+      'Automatic indentation and formatting',
+      'PSR standard support',
+      'Multiple formatting options'
     ],
     useCases: [
-      'PHP 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
+      'PHP code formatting and beautification',
+      'Team collaboration development',
+      'Code review and refactoring',
+      'Project code standardization'
     ],
-    technicalBackground: `PHP 是一种服务器端脚本语言，主要用于 Web 开发，具有简单易学、功能强大等特点。
+    technicalBackground: `PHP is a server-side scripting language primarily used for web development with features such as simplicity, ease of use, etc.
 
-PHP 语言特点：
-• 服务器端执行：在服务器上运行，生成 HTML
-• 跨平台：支持 Windows、Linux、macOS
-• 开源免费：社区活跃，资源丰富
-• 数据库支持：支持多种数据库系统
+PHP language features:
+• Server-side execution: runs on the server, generates HTML
+• Cross-platform: supports Windows, Linux, macOS
+• Open source and free: active community, rich resources
+• Database support: supports multiple database systems
 
-PHP 代码规范（PSR）：
-• PSR-1：基础编码标准
-• PSR-2：编码风格指南
-• PSR-4：自动加载标准
-• PSR-12：扩展编码风格
+PHP coding standards (PSR):
+• PSR-1: basic coding standards
+• PSR-2: coding style guidelines
+• PSR-4: automatic loading standards
+• PSR-12: extended coding style
 
-应用场景：
-• Web 网站开发
-• API 接口开发
-• CMS 系统开发
-• 企业级应用开发`,
+Application scenarios:
+• Web site development
+• API development
+• CMS system development
+• Enterprise application development`,
     usageSteps: [
-      '将 PHP 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste PHP code into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '遵循 PSR 编码规范',
-      '使用有意义的变量名',
-      '适当添加注释说明',
-      '保持代码结构清晰'
+      'Follow PHP coding standards',
+      'Use meaningful variable names',
+      'Add appropriate comments',
+      'Keep code structure clear'
     ]
   },
 
   ruby: {
-    title: 'Ruby 代码格式化工具',
-    description: '专业的 Ruby 代码格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'Ruby Code Formatter',
+    description: 'Professional Ruby code formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'Ruby 语法高亮显示',
-      '自动缩进和格式化',
-      'Ruby 风格指南支持',
-      '多种格式化选项'
+      'Ruby syntax highlighting',
+      'Automatic indentation and formatting',
+      'Ruby style guide support',
+      'Multiple formatting options'
     ],
     useCases: [
-      'Ruby 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
+      'Ruby code formatting and beautification',
+      'Team collaboration development',
+      'Code review and refactoring',
+      'Project code standardization'
     ],
-    technicalBackground: `Ruby 是一种动态、面向对象的编程语言，由松本行弘于 1995 年创建，以简洁优雅的语法著称。
+    technicalBackground: `Ruby is a dynamic, object-oriented programming language created by Yukihiro Matsumoto in 1995 with a concise and elegant syntax.
 
-Ruby 语言特点：
-• 面向对象：一切都是对象
-• 动态类型：运行时类型检查
-• 简洁语法：优雅的代码风格
-• 元编程：强大的反射能力
+Ruby language features:
+• Object-oriented: everything is an object
+• Dynamic typing: runtime type checking
+• Concise syntax: elegant code style
+• Metaprogramming: powerful reflection capabilities
 
-Ruby 代码风格：
-• 使用 2 个空格缩进
-• 方法名使用 snake_case
-• 类名使用 CamelCase
-• 常量使用 UPPER_SNAKE_CASE
+Ruby coding style:
+• Use 2 spaces for indentation
+• Method names use snake_case
+• Class names use CamelCase
+• Constants use UPPER_SNAKE_CASE
 
-应用场景：
-• Web 应用开发（Ruby on Rails）
-• 脚本自动化
-• 系统管理工具
-• 原型开发`,
+Application scenarios:
+• Web application development (Ruby on Rails)
+• Script automation
+• System management tools
+• Prototype development`,
     usageSteps: [
-      '将 Ruby 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste Ruby code into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '遵循 Ruby 风格指南',
-      '使用有意义的变量名',
-      '保持代码简洁优雅',
-      '适当添加注释说明'
+      'Follow Ruby style guide',
+      'Use meaningful variable names',
+      'Keep code concise and elegant',
+      'Add appropriate comments'
     ]
   },
 
   shell: {
-    title: 'Shell 脚本格式化工具',
-    description: '专业的 Shell 脚本格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'Shell Script Formatter',
+    description: 'Professional Shell script formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'Shell 语法高亮显示',
-      '自动缩进和格式化',
-      '多种 Shell 方言支持',
-      '多种格式化选项'
+      'Shell syntax highlighting',
+      'Automatic indentation and formatting',
+      'Multiple Shell dialects support',
+      'Multiple formatting options'
     ],
     useCases: [
-      'Shell 脚本格式化和美化',
-      '系统管理脚本编写',
-      '自动化脚本开发',
-      '脚本代码规范统一'
+      'Shell script formatting and beautification',
+      'System management script writing',
+      'Automated script development',
+      'Standardized script code'
     ],
-    technicalBackground: `Shell 脚本是一种用于自动化系统管理任务的脚本语言，在 Unix/Linux 系统中广泛使用。
+    technicalBackground: `Shell script is a scripting language used for automating system management tasks in Unix/Linux systems.
 
-Shell 脚本特点：
-• 解释执行：无需编译，直接运行
-• 系统集成：与操作系统紧密集成
-• 文本处理：强大的文本处理能力
-• 管道操作：支持命令管道和重定向
+Shell script features:
+• Interpreted execution: no compilation, direct execution
+• System integration: closely integrated with the operating system
+• Text processing: powerful text processing capabilities
+• Pipeline operations: support command pipelines and redirection
 
-常见 Shell 类型：
-• Bash：最常用的 Shell，功能强大
-• Zsh：增强的 Shell，支持插件
-• Fish：用户友好的 Shell
-• Dash：轻量级 Shell
+Common Shell types:
+• Bash: the most commonly used Shell, powerful
+• Zsh: enhanced Shell, supports plugins
+• Fish: user-friendly Shell
+• Dash: lightweight Shell
 
-应用场景：
-• 系统管理自动化
-• 部署脚本编写
-• 日志处理和分析
-• 批量文件操作`,
+Application scenarios:
+• System automation
+• Deployment script writing
+• Log processing and analysis
+• Batch file operations`,
     usageSteps: [
-      '将 Shell 脚本粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste Shell script into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '使用有意义的变量名',
-      '添加适当的注释说明',
-      '处理错误和异常情况',
-      '遵循 Shell 脚本最佳实践'
+      'Use meaningful variable names',
+      'Add appropriate comments',
+      'Handle errors and exceptions',
+      'Follow Shell script best practices'
     ]
   },
 
   vue: {
-    title: 'Vue 代码格式化工具',
-    description: '专业的 Vue 代码格式化工具，支持美化、压缩、语法检查等功能',
+    title: 'Vue Code Formatter',
+    description: 'Professional Vue code formatting tool supporting beautification, compression, and syntax checking',
     features: [
-      'Vue 语法高亮显示',
-      '自动缩进和格式化',
-      'Vue 风格指南支持',
-      '多种格式化选项'
+      'Vue syntax highlighting',
+      'Automatic indentation and formatting',
+      'Vue style guide support',
+      'Multiple formatting options'
     ],
     useCases: [
-      'Vue 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
+      'Vue code formatting and beautification',
+      'Team collaboration development',
+      'Code review and refactoring',
+      'Project code standardization'
     ],
-    technicalBackground: `Vue.js 是一个渐进式 JavaScript 框架，用于构建用户界面，具有易学易用、功能强大等特点。
+    technicalBackground: `Vue.js is a progressive JavaScript framework used for building user interfaces with features such as ease of use, powerful functionality, etc.
 
-Vue 框架特点：
-• 渐进式：可以逐步采用，从简单到复杂
-• 响应式：数据变化自动更新视图
-• 组件化：可复用的组件系统
-• 轻量级：体积小，性能优秀
+Vue framework features:
+• Progressive: can be adopted step-by-step, from simple to complex
+• Responsive: data changes automatically update views
+• Componentized: reusable component system
+• Lightweight: small size, excellent performance
 
-Vue 代码风格：
-• 使用 2 个空格缩进
-• 组件名使用 PascalCase
-• 属性名使用 kebab-case
-• 方法名使用 camelCase
+Vue coding style:
+• Use 2 spaces for indentation
+• Component names use PascalCase
+• Attribute names use kebab-case
+• Method names use camelCase
 
-应用场景：
-• 单页应用开发
-• 组件库开发
-• 企业级应用开发
-• 移动端应用开发`,
+Application scenarios:
+• Single-page application development
+• Component library development
+• Enterprise application development
+• Mobile application development`,
     usageSteps: [
-      '将 Vue 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
+      'Paste Vue code into input box',
+      'Select formatting options (beautify/compress)',
+      'Click format button',
+      'View formatted result'
     ],
     bestPractices: [
-      '遵循 Vue 风格指南',
-      '使用有意义的组件名',
-      '保持代码结构清晰',
-      '适当添加注释说明'
+      'Follow Vue style guide',
+      'Use meaningful component names',
+      'Keep code structure clear',
+      'Add appropriate comments'
     ]
   },
 
   ed25519: {
-    title: 'Ed25519 数字签名工具',
-    description: '专业的 Ed25519 数字签名工具，支持密钥生成、签名和验证功能',
+    title: 'Ed25519 Digital Signature Tool',
+    description: 'Professional Ed25519 digital signature tool supporting key generation, signing, and verification',
     features: [
-      'Ed25519 密钥对生成',
-      '数字签名生成',
-      '签名验证',
-      '高性能椭圆曲线算法'
+      'Ed25519 key pair generation',
+      'Digital signature generation',
+      'Signature verification',
+      'High-performance elliptic curve algorithm'
     ],
     useCases: [
-      '数字签名和验证',
-      '身份认证',
-      '软件包签名',
-      '区块链应用'
+      'Digital signature and verification',
+      'Identity authentication',
+      'Software package signing',
+      'Blockchain application'
     ],
-    technicalBackground: `Ed25519 是一种基于 Edwards25519 椭圆曲线的数字签名算法，由 Daniel J. Bernstein 等人设计。
+    technicalBackground: `Ed25519 is a digital signature algorithm based on the Edwards25519 elliptic curve designed by Daniel J. Bernstein et al.
 
-Ed25519 特点：
-• 高性能：签名和验证速度快
-• 安全性高：基于椭圆曲线密码学
-• 密钥长度短：公钥和私钥都是 32 字节
-• 抗量子攻击：比 RSA 更安全
+Ed25519 features:
+• High performance: fast signing and verification speed
+• High security: based on elliptic curve cryptography
+• Short key length: both public and private keys are 32 bytes
+• Quantum-resistant: more secure than RSA
 
-算法优势：
-• 签名速度快：比 RSA 快 10-100 倍
-• 密钥生成快：比 RSA 快 1000 倍
-• 密钥长度短：公钥和私钥都是 256 位
-• 安全性高：基于椭圆曲线离散对数问题
+Algorithm advantages:
+• Fast signing speed: 10-100 times faster than RSA
+• Key generation speed: 1000 times faster than RSA
+• Short key length: both public and private keys are 256 bits
+• High security: based on the discrete logarithm problem on elliptic curves
 
-应用场景：
-• 软件包签名验证
-• 身份认证系统
-• 区块链和加密货币
-• 安全通信协议`,
+Application scenarios:
+• Software package signature verification
+• Identity authentication system
+• Blockchain and cryptocurrency
+• Secure communication protocol`,
     usageSteps: [
-      '生成 Ed25519 密钥对',
-      '使用私钥对数据进行签名',
-      '使用公钥验证签名',
-      '查看签名结果'
+      'Generate Ed25519 key pair',
+      'Sign data with private key',
+      'Verify signature with public key',
+      'View signature result'
     ],
     bestPractices: [
-      '安全保存私钥',
-      '定期更换密钥对',
-      '验证公钥的真实性',
-      '使用安全的随机数生成器'
+      'Securely store private keys',
+      'Rotate keys regularly',
+      'Verify public key authenticity',
+      'Use secure random number generator'
     ]
   },
 
   rsaSign: {
-    title: 'RSA 数字签名工具',
-    description: '专业的 RSA 数字签名工具，支持密钥生成、签名和验证功能',
+    title: 'RSA Digital Signature Tool',
+    description: 'Professional RSA digital signature tool supporting key generation, signing, and verification',
     features: [
-      'RSA 密钥对生成',
-      '数字签名生成',
-      '签名验证',
-      '多种哈希算法支持'
+      'RSA key pair generation',
+      'Digital signature generation',
+      'Signature verification',
+      'Multiple hash algorithms support'
     ],
     useCases: [
-      '数字签名和验证',
-      '身份认证',
-      '软件包签名',
-      '安全通信'
+      'Digital signature and verification',
+      'Identity authentication',
+      'Software package signing',
+      'Secure communication'
     ],
-    technicalBackground: `RSA 数字签名是一种基于 RSA 公钥密码体制的数字签名算法，广泛用于身份认证和数据完整性验证。
+    technicalBackground: `RSA digital signature is a digital signature algorithm based on the RSA public key cryptosystem used for identity authentication and data integrity verification.
 
-RSA 签名特点：
-• 非对称加密：使用公钥验证，私钥签名
-• 安全性高：基于大整数分解问题
-• 标准化：广泛支持的标准算法
-• 兼容性好：与多种系统兼容
+RSA signature features:
+• Asymmetric encryption: public key verification, private key signing
+• High security: based on the large integer factorization problem
+• Standardization: widely supported standard algorithm
+• Good compatibility: compatible with multiple systems
 
-签名过程：
-• 使用私钥对消息哈希进行加密
-• 生成数字签名
-• 使用公钥验证签名
-• 确保消息完整性和身份认证
+Signing process:
+• Encrypt message hash with private key
+• Generate digital signature
+• Verify signature with public key
+• Ensure message integrity and source authentication
 
-应用场景：
-• 软件包签名验证
-• SSL/TLS 证书
-• 身份认证系统
-• 安全通信协议`,
+Application scenarios:
+• Software package signature verification
+• SSL/TLS certificate
+• Identity authentication system
+• Secure communication protocol`,
     usageSteps: [
-      '生成 RSA 密钥对',
-      '使用私钥对数据进行签名',
-      '使用公钥验证签名',
-      '查看签名结果'
+      'Generate RSA key pair',
+      'Sign data with private key',
+      'Verify signature with public key',
+      'View signature result'
     ],
     bestPractices: [
-      '安全保存私钥',
-      '使用强密钥长度（2048位以上）',
-      '定期更换密钥对',
-      '验证公钥的真实性'
+      'Securely store private keys',
+      'Use strong key length (2048 bits or above)',
+      'Rotate keys regularly',
+      'Verify public key authenticity'
     ]
   },
 
   url: {
-    title: 'URL 编码解码工具',
-    description: '专业的 URL 编码解码工具，支持 URL 安全字符转换',
+    title: 'URL Encode/Decode Tool',
+    description: 'Professional URL encode/decode tool supporting URL-safe character conversion',
     features: [
-      'URL 编码和解码',
-      '特殊字符处理',
-      '批量处理功能',
-      '多种编码标准支持'
+      'URL encoding and decoding',
+      'Special character handling',
+      'Batch processing functionality',
+      'Multiple encoding standards support'
     ],
     useCases: [
-      'URL 参数编码',
-      'Web 开发调试',
-      'API 接口开发',
-      '数据传输安全'
+      'URL parameter encoding',
+      'Web development debugging',
+      'API development',
+      'Secure data transmission'
     ],
-    technicalBackground: `URL 编码是一种将特殊字符转换为 URL 安全格式的方法，确保数据在 URL 中正确传输。
+    technicalBackground: `URL encoding is a method to convert special characters into URL-safe format to ensure data is correctly transmitted in URLs.
 
-URL 编码原理：
-• 将非 ASCII 字符转换为 %XX 格式
-• 保留字母、数字和部分特殊字符
-• 空格转换为 %20 或 +
-• 确保 URL 的兼容性
+URL encoding principle:
+• Convert non-ASCII characters into %XX format
+• Preserve letters, numbers, and some special characters
+• Space is converted to %20 or +
+• Ensure URL compatibility
 
-编码规则：
-• 字母 A-Z, a-z 保持不变
-• 数字 0-9 保持不变
-• 特殊字符 -_.~ 保持不变
-• 其他字符转换为 %XX 格式
+Encoding rules:
+• Letters A-Z, a-z remain unchanged
+• Numbers 0-9 remain unchanged
+• Special characters -_.~ remain unchanged
+• Other characters are converted to %XX format
 
-应用场景：
-• Web 表单提交
-• API 参数传递
-• 文件下载链接
-• 跨平台数据交换`,
+Application scenarios:
+• Web form submission
+• API parameter passing
+• File download link
+• Cross-platform data exchange`,
     usageSteps: [
-      '输入要编码或解码的文本',
-      '选择编码或解码操作',
-      '点击相应按钮进行处理',
-      '复制或下载结果'
+      'Enter text to encode or decode',
+      'Select encode or decode operation',
+      'Click the corresponding button to process',
+      'Copy or download the result'
     ],
     bestPractices: [
-      '注意字符编码的一致性',
-      '验证解码结果的正确性',
-      '处理特殊字符时要小心',
-      '在 URL 中使用编码后的数据'
+      'Ensure consistent character encoding',
+      'Verify decoding results correctly',
+      'Be careful with special characters',
+      'Use URL-encoded data in URLs'
     ]
   },
 
   x25519: {
-    title: 'X25519 密钥交换工具',
-    description: '专业的 X25519 密钥交换工具，支持安全密钥协商',
+    title: 'X25519 Key Exchange Tool',
+    description: 'Professional X25519 key exchange tool supporting secure key negotiation',
     features: [
-      'X25519 密钥对生成',
-      '密钥交换计算',
-      '共享密钥生成',
-      '高性能椭圆曲线算法'
+      'X25519 key pair generation',
+      'Key exchange calculation',
+      'Shared key generation',
+      'High-performance elliptic curve algorithm'
     ],
     useCases: [
-      '密钥协商和交换',
-      '安全通信协议',
-      '端到端加密',
-      '密钥派生'
+      'Key negotiation and exchange',
+      'Secure communication protocol',
+      'End-to-end encryption',
+      'Key derivation'
     ],
-    technicalBackground: `X25519 是一种基于 Curve25519 椭圆曲线的密钥交换算法，用于安全地协商共享密钥。
+    technicalBackground: `X25519 is a key exchange algorithm based on the Curve25519 elliptic curve used for securely negotiating shared keys.
 
-X25519 特点：
-• 高性能：密钥交换速度快
-• 安全性高：基于椭圆曲线密码学
-• 密钥长度短：公钥和私钥都是 32 字节
-• 抗量子攻击：比传统算法更安全
+X25519 features:
+• High performance: fast key exchange speed
+• High security: based on elliptic curve cryptography
+• Short key length: both public and private keys are 32 bytes
+• Quantum-resistant: more secure than traditional algorithms
 
-密钥交换过程：
-• 双方生成各自的密钥对
-• 交换公钥
-• 使用自己的私钥和对方的公钥计算共享密钥
-• 生成相同的共享密钥用于加密
+Key exchange process:
+• Both parties generate their own key pairs
+• Exchange public keys
+• Calculate shared key using own private key and other party's public key
+• Generate the same shared key for encryption
 
-应用场景：
-• TLS/SSL 协议
-• 端到端加密通信
-• 密钥协商协议
-• 安全消息传递`,
+Application scenarios:
+• TLS/SSL protocol
+• End-to-end encrypted communication
+• Key negotiation protocol
+• Secure message transmission`,
     usageSteps: [
-      '生成 X25519 密钥对',
-      '输入对方的公钥',
-      '计算共享密钥',
-      '查看密钥交换结果'
+      'Generate X25519 key pair',
+      'Enter the other party\'s public key',
+      'Calculate shared key',
+      'View key exchange result'
     ],
     bestPractices: [
-      '安全保存私钥',
-      '验证公钥的真实性',
-      '定期更换密钥对',
-      '使用安全的随机数生成器'
+      'Securely store private keys',
+      'Verify public key authenticity',
+      'Rotate keys regularly',
+      'Use secure random number generator'
     ]
   },
 
   argon2: {
-    title: 'Argon2 密码哈希工具',
-    description: '专业的 Argon2 密码哈希工具，支持多种变体和参数配置',
+    title: 'Argon2 Password Hash Tool',
+    description: 'Professional Argon2 password hash tool supporting multiple variants and parameter configuration',
     features: [
-      'Argon2d/Argon2i/Argon2id 支持',
-      '可调节内存和时间成本',
-      '抗侧信道攻击',
-      '密码哈希验证'
+      'Support for Argon2d/Argon2i/Argon2id',
+      'Adjustable memory and time costs',
+      'Resistant to side-channel attacks',
+      'Password hash verification'
     ],
     useCases: [
-      '密码安全存储',
-      '用户认证系统',
-      '密钥派生',
-      '安全哈希计算'
+      'Secure password storage',
+      'User authentication system',
+      'Key derivation',
+      'Secure hash calculation'
     ],
-    technicalBackground: `Argon2 是一种密码哈希函数，在 2015 年密码哈希竞赛中获胜，被设计为抗 GPU 和专用硬件攻击。
+    technicalBackground: `Argon2 is a password hash function that won in the 2015 password hashing competition and is designed to resist GPU and specialized hardware attacks.
 
-Argon2 特点：
-• 内存硬性：需要大量内存，抗硬件攻击
-• 可调节参数：内存成本、时间成本、并行度
-• 三种变体：Argon2d、Argon2i、Argon2id
-• 抗侧信道攻击：保护敏感信息
+Argon2 features:
+• Memory-hard: requires a lot of memory, resistant to hardware attacks
+• Adjustable parameters: memory cost, time cost, parallelism
+• Three variants: Argon2d, Argon2i, Argon2id
+• Resistant to side-channel attacks: protecting sensitive information
 
-算法变体：
-• Argon2d：数据依赖的内存访问
-• Argon2i：数据独立的内存访问
-• Argon2id：混合模式，推荐使用
+Algorithm variants:
+• Argon2d: memory-dependent access
+• Argon2i: memory-independent access
+• Argon2id: hybrid mode, recommended use
 
-应用场景：
-• 密码存储和验证
-• 密钥派生函数
-• 区块链挖矿算法
-• 安全系统设计`,
+Application scenarios:
+• Password storage and verification
+• Key derivation function
+• Blockchain mining algorithm
+• Secure system design`,
     usageSteps: [
-      '选择 Argon2 变体',
-      '设置哈希参数',
-      '输入密码进行哈希',
-      '验证哈希结果'
+      'Select Argon2 variant',
+      'Set hash parameters',
+      'Enter password for hashing',
+      'Verify hashed result'
     ],
     bestPractices: [
-      '使用 Argon2id 变体',
-      '设置足够的内存成本',
-      '定期更新哈希参数',
-      '安全存储哈希结果'
+      'Use Argon2id variant',
+      'Set sufficient memory cost',
+      'Regularly update hash parameters',
+      'Securely store hashed results'
     ]
   },
 
   bcrypt: {
-    title: 'Bcrypt 密码哈希工具',
-    description: '专业的 Bcrypt 密码哈希工具，支持自适应成本因子',
+    title: 'Bcrypt Password Hash Tool',
+    description: 'Professional Bcrypt password hash tool supporting adaptive cost factor',
     features: [
-      '自适应成本因子',
-      '盐值自动生成',
-      '密码验证功能',
-      '抗暴力破解'
+      'Adaptive cost factor',
+      'Salt value auto-generation',
+      'Password verification functionality',
+      'Resistant to brute force attacks'
     ],
     useCases: [
-      '密码安全存储',
-      '用户认证系统',
-      '密码强度验证',
-      '安全哈希计算'
+      'Secure password storage',
+      'User authentication system',
+      'Password strength verification',
+      'Secure hash calculation'
     ],
-    technicalBackground: `Bcrypt 是一种基于 Blowfish 密码的密码哈希函数，由 Niels Provos 和 David Mazières 设计。
+    technicalBackground: `Bcrypt is a password hash function based on the Blowfish cipher designed by Niels Provos and David Mazières.
 
-Bcrypt 特点：
-• 自适应成本：可调节计算复杂度
-• 内置盐值：自动生成随机盐值
-• 抗暴力破解：计算密集型算法
-• 时间可调：根据硬件性能调整
+Bcrypt features:
+• Adaptive cost: adjustable computational complexity
+• Built-in salt value: automatically generates a random salt value
+• Resistant to brute force attacks: computationally intensive algorithm
+• Adjustable time: adjusted according to hardware performance
 
-工作原理：
-• 使用 Blowfish 密码算法
-• 自动生成随机盐值
-• 可调节轮数（成本因子）
-• 输出固定长度哈希值
+Working principle:
+• Use Blowfish cipher algorithm
+• Automatically generates a random salt value
+• Adjustable number of rounds (cost factor)
+• Outputs fixed-length hash value
 
-应用场景：
-• 用户密码存储
-• 身份认证系统
-• 密码强度评估
-• 安全系统设计`,
+Application scenarios:
+• User password storage
+• Identity authentication system
+• Password strength evaluation
+• Secure system design`,
     usageSteps: [
-      '设置成本因子',
-      '输入密码进行哈希',
-      '生成哈希结果',
-      '验证密码哈希'
+      'Set cost factor',
+      'Enter password for hashing',
+      'Generate hashed result',
+      'Verify password hash'
     ],
     bestPractices: [
-      '使用成本因子 12 或更高',
-      '定期更新成本因子',
-      '安全存储哈希结果',
-      '验证密码强度'
+      'Use cost factor 12 or higher',
+      'Regularly update cost factor',
+      'Securely store hashed results',
+      'Verify password strength'
     ]
   },
 
   chacha20: {
-    title: 'ChaCha20 加密工具',
-    description: '专业的 ChaCha20 流密码加密工具，支持高速加密',
+    title: 'ChaCha20 Encryption Tool',
+    description: 'Professional ChaCha20 stream cipher encryption tool supporting high-speed encryption',
     features: [
-      'ChaCha20 流密码加密',
-      '多种密钥长度支持',
-      '高速加密解密',
-      '抗侧信道攻击'
+      'ChaCha20 stream cipher encryption',
+      'Multiple key length support',
+      'High-speed encryption and decryption',
+      'Resistant to side-channel attacks'
     ],
     useCases: [
-      '数据加密保护',
-      '安全通信协议',
-      '文件加密',
-      '流媒体加密'
+      'Data encryption protection',
+      'Secure communication protocol',
+      'File encryption',
+      'Streaming media encryption'
     ],
-    technicalBackground: `ChaCha20 是一种流密码算法，由 Daniel J. Bernstein 设计，被广泛用于 TLS 协议和移动设备。
+    technicalBackground: `ChaCha20 is a stream cipher algorithm designed by Daniel J. Bernstein and is widely used in TLS protocol and mobile devices.
 
-ChaCha20 特点：
-• 高速加密：比 AES 在某些平台上更快
-• 简单实现：易于软件实现
-• 抗侧信道攻击：时序攻击防护
-• 标准化：RFC 8439 标准
+ChaCha20 features:
+• High speed: faster than AES on some platforms
+• Easy implementation: easy to implement in software
+• Resistant to side-channel attacks: timing attack protection
+• Standardized: RFC 8439
 
-算法优势：
-• 无专利限制：开源算法
-• 硬件友好：适合移动设备
-• 安全性高：经过广泛分析
-• 性能优秀：在 ARM 处理器上表现优异
+Algorithm advantages:
+• Non-patent-encumbered: open source algorithm
+• Hardware-friendly: suitable for mobile devices
+• High security: widely analyzed
+• Excellent performance: excellent on ARM processors
 
-应用场景：
-• TLS/SSL 协议
-• 移动应用加密
-• 实时通信加密
-• 文件系统加密`,
+Application scenarios:
+• TLS/SSL protocol
+• Mobile application encryption
+• Real-time communication encryption
+• File system encryption`,
     usageSteps: [
-      '生成或输入密钥',
-      '设置随机数（nonce）',
-      '输入数据进行加密',
-      '查看加密结果'
+      'Generate or enter key',
+      'Set random number (nonce)',
+      'Input data for encryption',
+      'View encryption result'
     ],
     bestPractices: [
-      '使用强随机密钥',
-      '每次使用不同的 nonce',
-      '安全传输密钥',
-      '验证加密结果'
+      'Use strong random key',
+      'Use different nonce each time',
+      'Securely transmit key',
+      'Verify encryption result'
     ]
   },
 
