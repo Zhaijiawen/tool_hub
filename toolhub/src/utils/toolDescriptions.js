@@ -4725,6 +4725,55 @@ Main characteristics:
     ]
   },
 
+  dateDiff: {
+    title: 'Date Difference Calculator',
+    description: 'Professional date difference calculation tool supporting multiple time unit calculations',
+    features: [
+      'Multiple time unit support',
+      'Precise difference calculation',
+      'Timezone handling',
+      'Real-time calculation'
+    ],
+    useCases: [
+      'Project time calculation',
+      'Duration estimation',
+      'Time interval analysis',
+      'Schedule planning'
+    ],
+    technicalBackground: `Date difference calculation is a fundamental function in time management, requiring consideration of multiple time units and precision requirements.
+
+Calculation units:
+• Year: considering leap year rules
+• Month: considering month day differences
+• Day: standard 24-hour calculation
+• Hour, minute, second: precise to second level
+• Millisecond: highest precision calculation
+
+Calculation features:
+• Precise calculation: considering month day differences
+• Timezone handling: supporting local and UTC time
+• Boundary handling: correctly processing date boundaries
+• Precision control: adjusting precision based on requirements
+
+Application scenarios:
+• Project management
+• Time statistics
+• Data analysis
+• System development`,
+    usageSteps: [
+      'Select start date',
+      'Select end date',
+      'Choose calculation unit',
+      'View calculation result'
+    ],
+    bestPractices: [
+      'Pay attention to timezone settings',
+      'Validate date ranges',
+      'Choose appropriate precision',
+      'Handle boundary cases'
+    ]
+  },
+
   numberBase: {
     title: 'Number Base Converter',
     description: 'Professional number base conversion tool supporting conversion between binary, octal, decimal, and hexadecimal',
