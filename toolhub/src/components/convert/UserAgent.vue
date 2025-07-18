@@ -1,5 +1,6 @@
 <template>
   <div class="user-agent">
+
     <n-card :title="t('convert.userAgent.title')" :bordered="false">
       <n-space vertical size="large">
         <!-- 输入区域 -->
@@ -74,6 +75,9 @@
         </div>
       </n-space>
     </n-card>
+        <!-- 工具描述组件 -->
+        <ToolDescription tool-key="userAgent" />
+    
   </div>
 </template>
 
@@ -82,6 +86,7 @@ import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UAParser } from 'ua-parser-js'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

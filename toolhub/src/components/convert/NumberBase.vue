@@ -1,5 +1,6 @@
 <template>
   <div class="number-base-convert">
+
     <n-card :title="t('convert.numberBase.title')" :bordered="false">
       <n-space vertical size="large">
         <!-- 输入区域 -->
@@ -64,6 +65,9 @@
         </div>
       </n-space>
     </n-card>
+        <!-- 工具描述组件 -->
+        <ToolDescription tool-key="numberBase" />
+    
   </div>
 </template>
 
@@ -71,6 +75,7 @@
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

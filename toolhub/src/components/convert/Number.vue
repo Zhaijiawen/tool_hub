@@ -1,8 +1,6 @@
 <template>
   <div class="number-convert">
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="number" />
-    
+
     <n-card :title="t('convert.number.title')">
       <!-- 输入区域 -->
       <div class="input-section">
@@ -63,6 +61,9 @@
         {{ error }}
       </n-alert>
     </n-card>
+        <!-- 工具描述组件 -->
+        <ToolDescription tool-key="number" />
+    
   </div>
 </template>
 
@@ -70,7 +71,7 @@
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import ToolDescription from '../common/ToolDescription.vue'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

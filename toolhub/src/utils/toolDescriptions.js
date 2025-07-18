@@ -2237,6 +2237,203 @@ ChaCha20 特点：
       '优先考虑更安全的算法（如AES）',
       '验证加密结果'
     ]
+  },
+
+  dateDiff: {
+    title: '日期差值计算工具',
+    description: '专业的日期差值计算工具，支持多种时间单位的差值计算',
+    features: [
+      '多种时间单位支持',
+      '精确的差值计算',
+      '时区处理',
+      '实时计算'
+    ],
+    useCases: [
+      '项目时间计算',
+      '工期估算',
+      '时间间隔分析',
+      '日程安排'
+    ],
+    technicalBackground: `日期差值计算是时间管理中的基础功能，需要考虑多种时间单位和精度要求。
+
+计算单位：
+• 年：考虑闰年规则
+• 月：考虑月份天数差异
+• 日：标准24小时计算
+• 时、分、秒：精确到秒级
+• 毫秒：最高精度计算
+
+计算特点：
+• 精确计算：考虑月份天数差异
+• 时区处理：支持本地和UTC时间
+• 边界处理：正确处理日期边界
+• 精度控制：根据需求调整精度
+
+应用场景：
+• 项目管理
+• 时间统计
+• 数据分析
+• 系统开发`,
+    usageSteps: [
+      '选择开始日期',
+      '选择结束日期',
+      '选择计算单位',
+      '查看计算结果'
+    ],
+    bestPractices: [
+      '注意时区设置',
+      '验证日期范围',
+      '选择合适的精度',
+      '处理边界情况'
+    ]
+  },
+
+  numberBase: {
+    title: '进制转换工具',
+    description: '专业的进制转换工具，支持二进制、八进制、十进制、十六进制之间的转换',
+    features: [
+      '多种进制支持',
+      '实时转换',
+      '输入验证',
+      '结果复制'
+    ],
+    useCases: [
+      '编程开发',
+      '计算机科学学习',
+      '数字系统分析',
+      '数据处理'
+    ],
+    technicalBackground: `进制转换是计算机科学的基础知识，不同进制适用于不同场景。
+
+进制系统：
+• 二进制：计算机内部表示
+• 八进制：Unix权限表示
+• 十进制：人类常用计数
+• 十六进制：内存地址表示
+
+转换原理：
+• 基于位权展开
+• 除法和乘法运算
+• 字符映射转换
+• 精度保持
+
+应用场景：
+• 编程开发
+• 系统分析
+• 数据编码
+• 网络协议`,
+    usageSteps: [
+      '输入源进制数字',
+      '选择源进制',
+      '选择目标进制',
+      '查看转换结果'
+    ],
+    bestPractices: [
+      '验证输入格式',
+      '注意数值范围',
+      '保持转换精度',
+      '检查转换结果'
+    ]
+  },
+
+  storageTime: {
+    title: '存储时间转换工具',
+    description: '专业的存储容量和时间单位转换工具，支持多种单位间的精确转换',
+    features: [
+      '存储容量转换',
+      '时间单位转换',
+      '实时计算',
+      '精度控制'
+    ],
+    useCases: [
+      '存储容量计算',
+      '时间单位换算',
+      '性能分析',
+      '系统设计'
+    ],
+    technicalBackground: `存储和时间单位转换在系统设计和性能分析中经常使用。
+
+存储单位：
+• 字节：基本存储单位
+• KB、MB、GB：常用容量单位
+• TB、PB：大容量存储单位
+
+时间单位：
+• 毫秒：精确时间测量
+• 秒、分、时：常用时间单位
+• 天：长期时间计算
+
+转换特点：
+• 二进制存储单位
+• 十进制时间单位
+• 精度自动调整
+• 科学计数法支持
+
+应用场景：
+• 存储系统设计
+• 性能基准测试
+• 容量规划
+• 时间计算`,
+    usageSteps: [
+      '选择转换类型',
+      '输入数值',
+      '选择源单位',
+      '选择目标单位'
+    ],
+    bestPractices: [
+      '注意单位类型',
+      '验证输入数值',
+      '选择合适的精度',
+      '检查转换结果'
+    ]
+  },
+
+  userAgent: {
+    title: 'User Agent 解析工具',
+    description: '专业的 User Agent 字符串解析工具，支持浏览器、操作系统、设备信息提取',
+    features: [
+      '浏览器信息解析',
+      '操作系统识别',
+      '设备类型检测',
+      '引擎信息提取'
+    ],
+    useCases: [
+      'Web 开发调试',
+      '用户行为分析',
+      '兼容性测试',
+      '统计分析'
+    ],
+    technicalBackground: `User Agent 是浏览器发送给服务器的标识字符串，包含丰富的设备和软件信息。
+
+解析内容：
+• 浏览器：Chrome、Firefox、Safari等
+• 操作系统：Windows、macOS、Linux等
+• 设备类型：桌面、移动、平板等
+• 渲染引擎：WebKit、Gecko、Blink等
+
+解析技术：
+• 正则表达式匹配
+• 特征字符串识别
+• 版本号提取
+• 设备类型判断
+
+应用场景：
+• Web 开发
+• 移动端适配
+• 用户统计
+• 安全分析`,
+    usageSteps: [
+      '输入 User Agent 字符串',
+      '自动解析信息',
+      '查看解析结果',
+      '复制相关信息'
+    ],
+    bestPractices: [
+      '使用真实 User Agent',
+      '注意隐私保护',
+      '验证解析结果',
+      '处理异常情况'
+    ]
   }
 }
 
@@ -3576,50 +3773,51 @@ Application scenarios:
   },
 
   dateCalc: {
-    title: '日期计算工具',
-    description: '专业的日期计算工具，支持日期加减、工作日计算、时区转换等功能',
+    title: 'Date Difference Calculator',
+    description: 'Professional date difference calculation tool supporting multiple time unit calculations',
     features: [
-      '日期加减计算',
-      '工作日计算',
-      '时区转换',
-      '日期格式转换'
+      'Multiple time unit support',
+      'Precise difference calculation',
+      'Timezone handling',
+      'Real-time calculation'
     ],
     useCases: [
-      '项目计划制定',
-      '财务计算',
-      '日程安排',
-      '数据分析'
+      'Project time calculation',
+      'Duration estimation',
+      'Time interval analysis',
+      'Schedule planning'
     ],
-    technicalBackground: `日期计算涉及复杂的历法规则和时区处理，需要考虑多种因素。
+    technicalBackground: `Date difference calculation is a fundamental function in time management, requiring consideration of multiple time units and precision requirements.
 
-计算类型：
-• 日期加减：天、周、月、年
-• 工作日计算：排除周末和节假日
-• 时区转换：考虑夏令时
-• 日期差值：计算两个日期之间的间隔
+Calculation units:
+• Year: considering leap year rules
+• Month: considering month day differences
+• Day: standard 24-hour calculation
+• Hour, minute, second: precise to second level
+• Millisecond: highest precision calculation
 
-历法系统：
-• 公历（格里高利历）
-• 农历（中国传统历法）
-• 伊斯兰历
-• 犹太历
+Calculation features:
+• Precise calculation: considering month day differences
+• Timezone handling: supporting local and UTC time
+• Boundary handling: correctly processing date boundaries
+• Precision control: adjusting precision based on requirements
 
-时区处理：
-• UTC 协调世界时
-• 时区偏移量
-• 夏令时规则
-• 时区数据库`,
+Application scenarios:
+• Project management
+• Time statistics
+• Data analysis
+• System development`,
     usageSteps: [
-      '选择计算类型',
-      '输入日期参数',
-      '设置计算规则',
-      '查看计算结果'
+      'Select start date',
+      'Select end date',
+      'Choose calculation unit',
+      'View calculation result'
     ],
     bestPractices: [
-      '注意时区差异',
-      '考虑闰年规则',
-      '处理边界情况',
-      '验证计算结果'
+      'Pay attention to timezone settings',
+      'Validate date ranges',
+      'Choose appropriate precision',
+      'Handle boundary cases'
     ]
   },
 
@@ -4524,6 +4722,154 @@ Main characteristics:
       'Keep the key safe',
       'Prefer more secure algorithms (such as AES)',
       'Verify encryption result'
+    ]
+  },
+
+  numberBase: {
+    title: 'Number Base Converter',
+    description: 'Professional number base conversion tool supporting conversion between binary, octal, decimal, and hexadecimal',
+    features: [
+      'Multiple base support',
+      'Real-time conversion',
+      'Input validation',
+      'Result copying'
+    ],
+    useCases: [
+      'Programming development',
+      'Computer science learning',
+      'Number system analysis',
+      'Data processing'
+    ],
+    technicalBackground: `Number base conversion is fundamental knowledge in computer science, with different bases suitable for different scenarios.
+
+Number systems:
+• Binary: computer internal representation
+• Octal: Unix permission representation
+• Decimal: human common counting
+• Hexadecimal: memory address representation
+
+Conversion principles:
+• Based on positional notation
+• Division and multiplication operations
+• Character mapping conversion
+• Precision preservation
+
+Application scenarios:
+• Programming development
+• System analysis
+• Data encoding
+• Network protocols`,
+    usageSteps: [
+      'Enter source base number',
+      'Select source base',
+      'Select target base',
+      'View conversion result'
+    ],
+    bestPractices: [
+      'Validate input format',
+      'Pay attention to number ranges',
+      'Maintain conversion precision',
+      'Check conversion results'
+    ]
+  },
+
+  storageTime: {
+    title: 'Storage and Time Unit Converter',
+    description: 'Professional storage capacity and time unit conversion tool supporting precise conversion between multiple units',
+    features: [
+      'Storage capacity conversion',
+      'Time unit conversion',
+      'Real-time calculation',
+      'Precision control'
+    ],
+    useCases: [
+      'Storage capacity calculation',
+      'Time unit conversion',
+      'Performance analysis',
+      'System design'
+    ],
+    technicalBackground: `Storage and time unit conversion is frequently used in system design and performance analysis.
+
+Storage units:
+• Byte: basic storage unit
+• KB, MB, GB: common capacity units
+• TB, PB: large capacity storage units
+
+Time units:
+• Millisecond: precise time measurement
+• Second, minute, hour: common time units
+• Day: long-term time calculation
+
+Conversion features:
+• Binary storage units
+• Decimal time units
+• Automatic precision adjustment
+• Scientific notation support
+
+Application scenarios:
+• Storage system design
+• Performance benchmarking
+• Capacity planning
+• Time calculation`,
+    usageSteps: [
+      'Select conversion type',
+      'Enter value',
+      'Select source unit',
+      'Select target unit'
+    ],
+    bestPractices: [
+      'Pay attention to unit types',
+      'Validate input values',
+      'Choose appropriate precision',
+      'Check conversion results'
+    ]
+  },
+
+  userAgent: {
+    title: 'User Agent Parser',
+    description: 'Professional User Agent string parsing tool supporting browser, operating system, and device information extraction',
+    features: [
+      'Browser information parsing',
+      'Operating system identification',
+      'Device type detection',
+      'Engine information extraction'
+    ],
+    useCases: [
+      'Web development debugging',
+      'User behavior analysis',
+      'Compatibility testing',
+      'Statistical analysis'
+    ],
+    technicalBackground: `User Agent is an identification string sent by browsers to servers, containing rich device and software information.
+
+Parsing content:
+• Browser: Chrome, Firefox, Safari, etc.
+• Operating system: Windows, macOS, Linux, etc.
+• Device type: desktop, mobile, tablet, etc.
+• Rendering engine: WebKit, Gecko, Blink, etc.
+
+Parsing technology:
+• Regular expression matching
+• Feature string recognition
+• Version number extraction
+• Device type determination
+
+Application scenarios:
+• Web development
+• Mobile adaptation
+• User statistics
+• Security analysis`,
+    usageSteps: [
+      'Enter User Agent string',
+      'Automatically parse information',
+      'View parsing results',
+      'Copy relevant information'
+    ],
+    bestPractices: [
+      'Use real User Agent',
+      'Pay attention to privacy protection',
+      'Verify parsing results',
+      'Handle exceptional cases'
     ]
   }
 }

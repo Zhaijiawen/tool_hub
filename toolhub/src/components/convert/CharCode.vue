@@ -1,5 +1,6 @@
 <template>
   <div class="char-codec">
+
     <n-card :title="t('convert.charCode.title')" :description="t('convert.charCode.description')">
       <!-- 输入区 -->
       <div class="input-section">
@@ -65,6 +66,9 @@
         </n-alert>
       </div>
     </n-card>
+     <!-- 工具描述组件 -->
+    <ToolDescription tool-key="charCode" />
+    
   </div>
 </template>
 
@@ -72,6 +76,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

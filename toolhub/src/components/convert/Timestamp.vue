@@ -1,8 +1,6 @@
 <template>
   <div class="timestamp-convert">
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="timestamp" />
-    
+
     <n-card :title="t('convert.timestamp.title')">
       <!-- 时间戳格式选择 -->
       <div class="format-section">
@@ -90,6 +88,9 @@
         {{ error }}
       </n-alert>
     </n-card>
+        <!-- 工具描述组件 -->
+        <ToolDescription tool-key="timestamp" />
+    
   </div>
 </template>
 
@@ -97,7 +98,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import ToolDescription from '../common/ToolDescription.vue'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()
