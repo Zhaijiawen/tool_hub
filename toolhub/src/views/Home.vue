@@ -148,7 +148,7 @@ const featuredArticles = computed(() => [
     id: 1,
     title: t('home.featuredArticles.jsonAdvanced.title'),
     summary: t('home.featuredArticles.jsonAdvanced.summary'),
-    tags: t('home.featuredArticles.jsonAdvanced.tags'),
+    tags: locale.value === 'zh-CN' ? ['JSON', '格式化'] : ['JSON', 'Formatting'],
     icon: CodeIcon,
     iconColor: '#18a058'
   },
@@ -156,7 +156,7 @@ const featuredArticles = computed(() => [
     id: 2,
     title: t('home.featuredArticles.base64Guide.title'),
     summary: t('home.featuredArticles.base64Guide.summary'),
-    tags: t('home.featuredArticles.base64Guide.tags'),
+    tags: locale.value === 'zh-CN' ? ['Base64', '编码'] : ['Base64', 'Encoding'],
     icon: LockIcon,
     iconColor: '#f39c12'
   },
@@ -164,7 +164,7 @@ const featuredArticles = computed(() => [
     id: 3,
     title: t('home.featuredArticles.timestampScenarios.title'),
     summary: t('home.featuredArticles.timestampScenarios.summary'),
-    tags: t('home.featuredArticles.timestampScenarios.tags'),
+    tags: locale.value === 'zh-CN' ? ['时间戳', '日期'] : ['Timestamp', 'Date'],
     icon: TimeIcon,
     iconColor: '#3498db'
   }
