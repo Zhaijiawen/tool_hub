@@ -1294,7 +1294,7 @@ export default {
       description: 'URL encoding and decoding',
       paramDescription: 'URL parameter value encode/decode tool. Supports full URL input, automatically identifies and only encodes/decodes parameter values.',
       paramTip: 'You can input a full URL or individual parameter values. When inputting a full URL, only parameter values are encoded/decoded while URL structure remains unchanged.',
-      paramInputPlaceholder: 'Enter full URL or parameter value, e.g. https://example.com?name=john&data={"type":"test"} or hello world&= ',
+      paramInputPlaceholder: 'Enter full URL or parameter value, e.g. https://example.com?name=john&data=test or hello world&= ',
       textInput: 'URL or Parameter Value Input',
       textOutputPlaceholder: 'Encoded/decoded result will appear here',
       encode: 'Encode',
