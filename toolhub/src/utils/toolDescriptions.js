@@ -2782,6 +2782,60 @@ ChaCha20 特点：
       '考虑编码问题',
       '验证处理结果'
     ]
+  },
+
+  textReplace: {
+    title: '文本替换工具',
+    description: '专业的文本查找和替换工具，支持正则表达式和批量处理',
+    features: [
+      '精确查找替换',
+      '正则表达式支持',
+      '大小写敏感选项',
+      '批量处理功能'
+    ],
+    useCases: [
+      '文本编辑和修改',
+      '数据清理和转换',
+      '代码重构',
+      '文档格式化'
+    ],
+    technicalBackground: `文本替换是文本处理中的核心功能，支持多种查找和替换模式。
+
+查找模式：
+• 精确匹配：完全匹配指定文本
+• 正则表达式：使用正则模式匹配
+• 大小写敏感：区分大小写匹配
+• 全局替换：替换所有匹配项
+
+替换功能：
+• 简单文本替换
+• 正则表达式替换
+• 特殊字符处理
+• 格式化替换
+
+技术实现：
+• 字符串搜索算法
+• 正则表达式引擎
+• 模式匹配优化
+• 批量处理机制
+
+应用场景：
+• 文本编辑和修改
+• 数据清理和标准化
+• 代码重构和维护
+• 文档格式转换`,
+    usageSteps: [
+      '输入要处理的文本',
+      '设置查找条件',
+      '输入替换内容',
+      '执行替换操作'
+    ],
+    bestPractices: [
+      '使用精确的查找条件',
+      '测试正则表达式',
+      '备份原始数据',
+      '验证替换结果'
+    ]
   }
 }
 
@@ -5646,6 +5700,60 @@ Application scenarios:
       'Test with various text types',
       'Consider encoding requirements',
       'Verify processing accuracy'
+    ]
+  },
+
+  textReplace: {
+    title: 'Text Replace Tool',
+    description: 'Professional text search and replace tool supporting regular expressions and batch processing',
+    features: [
+      'Exact text replacement',
+      'Regular expression support',
+      'Case-sensitive option',
+      'Batch processing functionality'
+    ],
+    useCases: [
+      'Text editing and modification',
+      'Data cleaning and conversion',
+      'Code refactoring',
+      'Document formatting'
+    ],
+    technicalBackground: `Text replacement is a core function in text processing, supporting various search and replace modes.
+
+Search modes:
+• Exact match: Match specified text exactly
+• Regular expression: Use regular expression matching
+• Case-sensitive: Match case-sensitive text
+• Global replacement: Replace all matches
+
+Replacement features:
+• Simple text replacement
+• Regular expression replacement
+• Special character handling
+• Formatting replacement
+
+Technical implementation:
+• String search algorithm
+• Regular expression engine
+• Pattern matching optimization
+• Batch processing mechanism
+
+Application scenarios:
+• Text editing and modification
+• Data cleaning and standardization
+• Code refactoring and maintenance
+• Document formatting`,
+    usageSteps: [
+      'Enter text to process',
+      'Set search conditions',
+      'Enter replacement content',
+      'Execute replacement operation'
+    ],
+    bestPractices: [
+      'Use precise search conditions',
+      'Test regular expressions',
+      'Backup original data',
+      'Verify replacement results'
     ]
   }
 }
