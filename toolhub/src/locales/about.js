@@ -10,7 +10,21 @@ export const aboutText = {
     mission: {
       title: '我们的使命',
       description: '为全球开发者提供高效、安全、易用的在线工具集合，让开发工作更加便捷和高效。',
-      vision: '成为最受欢迎的开发者工具平台'
+      vision: '成为最受欢迎的开发者工具平台',
+      highlights: {
+        developer: {
+          title: '开发者友好',
+          desc: '专为开发者设计，提供专业级的工具和功能'
+        },
+        privacy: {
+          title: '隐私保护',
+          desc: '数据本地处理，确保您的隐私和数据安全'
+        },
+        fast: {
+          title: '快速高效',
+          desc: '无需注册，即开即用，提升开发效率'
+        }
+      }
     },
     features: {
       title: '功能特色',
@@ -115,7 +129,21 @@ export const aboutText = {
     mission: {
       title: 'Our Mission',
       description: 'Provide efficient, secure, and easy-to-use online tool collections for global developers, making development work more convenient and efficient.',
-      vision: 'Become the most popular developer tool platform'
+      vision: 'Become the most popular developer tool platform',
+      highlights: {
+        developer: {
+          title: 'Developer Friendly',
+          desc: 'Designed specifically for developers, providing professional-level tools and features'
+        },
+        privacy: {
+          title: 'Privacy Protection',
+          desc: 'Local data processing ensures your privacy and data security'
+        },
+        fast: {
+          title: 'Fast & Efficient',
+          desc: 'No registration required, ready to use, improving development efficiency'
+        }
+      }
     },
     features: {
       title: 'Features',
@@ -213,6 +241,8 @@ export const aboutText = {
 }
 
 export const getAboutText = (key, locale = 'zh-CN') => {
-  const texts = aboutText[locale] || aboutText['zh-CN']
+  // 支持多种中文 locale 格式
+  const isChinese = locale === 'zh-CN' || locale === 'zh' || locale.startsWith('zh')
+  const texts = isChinese ? aboutText['zh-CN'] : aboutText['en-US']
   return key.split('.').reduce((obj, k) => obj?.[k], texts) || key
 } 

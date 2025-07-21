@@ -11,6 +11,7 @@ export const privacyText = {
     intro: 'ToolHub 致力于保护您的隐私。我们收集的信息类型包括：',
     collection: {
       title: '信息收集',
+      intro: '我们收集以下类型的信息来提供和改进我们的服务：',
       usage: {
         title: '使用数据',
         desc: '我们收集您使用工具时的基本使用数据，包括工具使用频率、错误日志等，用于改进服务质量。'
@@ -26,6 +27,7 @@ export const privacyText = {
     },
     usage: {
       title: '信息使用',
+      intro: '我们使用收集的信息用于以下目的：',
       service: {
         title: '服务提供',
         desc: '使用收集的信息提供和改进我们的工具服务。'
@@ -85,6 +87,7 @@ export const privacyText = {
     intro: 'ToolHub is committed to protecting your privacy. The types of information we collect include:',
     collection: {
       title: 'Information Collection',
+      intro: 'We collect the following types of information to provide and improve our services:',
       usage: {
         title: 'Usage Data',
         desc: 'We collect basic usage data when you use our tools, including tool usage frequency, error logs, etc., to improve service quality.'
@@ -100,6 +103,7 @@ export const privacyText = {
     },
     usage: {
       title: 'Information Usage',
+      intro: 'We use the collected information for the following purposes:',
       service: {
         title: 'Service Provision',
         desc: 'Use collected information to provide and improve our tool services.'
@@ -151,6 +155,8 @@ export const privacyText = {
 }
 
 export const getPrivacyText = (key, locale = 'zh-CN') => {
-  const texts = privacyText[locale] || privacyText['zh-CN']
+  // 支持多种中文 locale 格式
+  const isChinese = locale === 'zh-CN' || locale === 'zh' || locale.startsWith('zh')
+  const texts = isChinese ? privacyText['zh-CN'] : privacyText['en-US']
   return key.split('.').reduce((obj, k) => obj?.[k], texts) || key
 } 

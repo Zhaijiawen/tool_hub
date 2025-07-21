@@ -169,6 +169,56 @@ const urlQR = await QRCode.toDataURL('https://toolhub.com');
 
 // 生成 WiFi 二维码
 const wifiQR = await QRCode.toDataURL('WIFI:T:WPA;S:MyNetwork;P:password;;');`
+    },
+    codeFormatting: {
+      title: '代码格式化最佳实践',
+      summary: '代码格式化是保持代码质量和团队协作效率的重要手段。掌握正确的格式化工具和配置，可以让代码更加规范和易读。',
+      highlights: {
+        0: '选择合适的格式化工具',
+        1: '配置统一的格式化规则',
+        2: '集成到开发工作流',
+        3: '处理团队协作中的冲突'
+      },
+      codeExample: `// Prettier 配置示例
+{
+  &quot;semi&quot;: true,
+  &quot;singleQuote&quot;: true,
+  &quot;tabWidth&quot;: 2,
+  &quot;trailingComma&quot;: &quot;es5&quot;
+}
+
+// ESLint 规则配置
+{
+  &quot;rules&quot;: {
+    &quot;indent&quot;: [&quot;error&quot;, 2],
+    &quot;quotes&quot;: [&quot;error&quot;, &quot;single&quot;],
+    &quot;semi&quot;: [&quot;error&quot;, &quot;always&quot;]
+  }
+}`
+    },
+    imageOptimization: {
+      title: 'Web 图像优化技巧',
+      summary: '图像优化是提升网站性能的关键因素。通过合理的图像格式选择、压缩和加载策略，可以显著改善用户体验。',
+      highlights: {
+        0: '选择合适的图像格式',
+        1: '图像压缩和优化技术',
+        2: '响应式图像实现',
+        3: '懒加载和预加载策略'
+      },
+      codeExample: `// 响应式图像示例
+&lt;picture&gt;
+  &lt;source media=&quot;(min-width: 800px)&quot; srcset=&quot;large.jpg&quot;&gt;
+  &lt;source media=&quot;(min-width: 400px)&quot; srcset=&quot;medium.jpg&quot;&gt;
+  &lt;img src=&quot;small.jpg&quot; alt=&quot;响应式图像&quot;&gt;
+&lt;/picture&gt;
+
+// WebP 格式检测
+const supportsWebP = () =&gt; {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1;
+  canvas.height = 1;
+  return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+};`
     }
   },
   'en-US': {
@@ -294,16 +344,70 @@ const urlQR = await QRCode.toDataURL('https://toolhub.com');
 
 // Generate WiFi QR code
 const wifiQR = await QRCode.toDataURL('WIFI:T:WPA;S:MyNetwork;P:password;;');`
+    },
+    codeFormatting: {
+      title: 'Code Formatting Best Practices',
+      summary: 'Code formatting is an important means of maintaining code quality and team collaboration efficiency. Mastering the correct formatting tools and configurations can make code more standardized and readable.',
+      highlights: {
+        0: 'Choose appropriate formatting tools',
+        1: 'Configure unified formatting rules',
+        2: 'Integrate into development workflow',
+        3: 'Handle conflicts in team collaboration'
+      },
+      codeExample: `// Prettier configuration example
+{
+  &quot;semi&quot;: true,
+  &quot;singleQuote&quot;: true,
+  &quot;tabWidth&quot;: 2,
+  &quot;trailingComma&quot;: &quot;es5&quot;
+}
+
+// ESLint rules configuration
+{
+  &quot;rules&quot;: {
+    &quot;indent&quot;: [&quot;error&quot;, 2],
+    &quot;quotes&quot;: [&quot;error&quot;, &quot;single&quot;],
+    &quot;semi&quot;: [&quot;error&quot;, &quot;always&quot;]
+  }
+}`
+    },
+    imageOptimization: {
+      title: 'Web Image Optimization Techniques',
+      summary: 'Image optimization is a key factor in improving website performance. Through reasonable image format selection, compression and loading strategies, user experience can be significantly improved.',
+      highlights: {
+        0: 'Choose appropriate image formats',
+        1: 'Image compression and optimization techniques',
+        2: 'Responsive image implementation',
+        3: 'Lazy loading and preloading strategies'
+      },
+      codeExample: `// Responsive image example
+&lt;picture&gt;
+  &lt;source media=&quot;(min-width: 800px)&quot; srcset=&quot;large.jpg&quot;&gt;
+  &lt;source media=&quot;(min-width: 400px)&quot; srcset=&quot;medium.jpg&quot;&gt;
+  &lt;img src=&quot;small.jpg&quot; alt=&quot;Responsive image&quot;&gt;
+&lt;/picture&gt;
+
+// WebP format detection
+const supportsWebP = () =&gt; {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1;
+  canvas.height = 1;
+  return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+};`
     }
   }
 }
 
 export const getBlogText = (key, locale = 'zh-CN') => {
-  const texts = blogText[locale] || blogText['zh-CN']
+  // 支持多种中文 locale 格式
+  const isChinese = locale === 'zh-CN' || locale === 'zh' || locale.startsWith('zh')
+  const texts = isChinese ? blogText['zh-CN'] : blogText['en-US']
   return key.split('.').reduce((obj, k) => obj?.[k], texts) || key
 }
 
 export const getBlogArticle = (articleKey, locale = 'zh-CN') => {
-  const articles = blogArticles[locale] || blogArticles['zh-CN']
+  // 支持多种中文 locale 格式
+  const isChinese = locale === 'zh-CN' || locale === 'zh' || locale.startsWith('zh')
+  const articles = isChinese ? blogArticles['zh-CN'] : blogArticles['en-US']
   return articles[articleKey] || null
 } 

@@ -113,6 +113,8 @@ export const termsText = {
 }
 
 export const getTermsText = (key, locale = 'zh-CN') => {
-  const texts = termsText[locale] || termsText['zh-CN']
+  // 支持多种中文 locale 格式
+  const isChinese = locale === 'zh-CN' || locale === 'zh' || locale.startsWith('zh')
+  const texts = isChinese ? termsText['zh-CN'] : termsText['en-US']
   return key.split('.').reduce((obj, k) => obj?.[k], texts) || key
 } 
