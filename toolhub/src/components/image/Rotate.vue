@@ -50,7 +50,7 @@
         <!-- 使用说明 -->
         <div class="info-section">
           <n-alert type="info" :title="t('image.rotate.infoTitle')">
-            <div v-html="t('image.rotate.infoContent')"></div>
+            <div>{{ t('image.rotate.infoContent') }}</div>
           </n-alert>
         </div>
       </n-space>

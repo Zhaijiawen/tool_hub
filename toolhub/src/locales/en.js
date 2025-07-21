@@ -1879,7 +1879,7 @@ export default {
       noImage: 'Please upload an image first',
       invalidFileType: 'Only image files are supported',
       infoTitle: 'Usage Instructions',
-      infoContent: 'Rotation is triggered automatically after uploading an image or changing the angle.<br/>The output is a lossless PNG file. Due to recalculating boundaries, the dimensions and file size may change.'
+      infoContent: 'Rotation is triggered automatically after uploading an image or changing the angle. The output is a lossless PNG file. Due to recalculating boundaries, the dimensions and file size may change.'
     },
     crop: {
       title: 'Image Cropping',

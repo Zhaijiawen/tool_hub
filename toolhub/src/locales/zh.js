@@ -1833,7 +1833,7 @@ export default {
       noImage: '请先上传图片',
       invalidFileType: '仅支持图片文件',
       infoTitle: '使用说明',
-      infoContent: '上传图片或调整角度后会自动旋转。<br/>输出为无损的PNG格式，因重新计算边界，尺寸和文件大小可能发生变化。'
+      infoContent: '上传图片或调整角度后会自动旋转。输出为无损的PNG格式，因重新计算边界，尺寸和文件大小可能发生变化。'
     },
     crop: {
       title: '图片裁剪',
