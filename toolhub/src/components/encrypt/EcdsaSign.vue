@@ -34,7 +34,7 @@
             :autosize="{ minRows: 3, maxRows: 10 }" 
           />
           <div class="input-info" v-if="privateKey">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}：{{ privateKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ privateKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
           </div>
         </n-form-item>
         
@@ -46,7 +46,7 @@
             :autosize="{ minRows: 3, maxRows: 10 }" 
           />
           <div class="input-info" v-if="publicKey">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}：{{ publicKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ publicKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
           </div>
         </n-form-item>
         
@@ -58,7 +58,7 @@
             :autosize="{ minRows: 3, maxRows: 10 }" 
           />
           <div class="input-info" v-if="signature">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}：{{ signature.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ signature.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
           </div>
         </n-form-item>
         
@@ -98,7 +98,6 @@
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import { ec as EC } from 'elliptic'
 // 导入工具描述组件
 import ToolDescription from '@/components/common/ToolDescription.vue'
 
@@ -114,16 +113,14 @@ const error = ref('')
 const isGenerating = ref(false)
 const isSigning = ref(false)
 const isVerifying = ref(false)
-const selectedCurve = ref('secp256k1')
+const selectedCurve = ref('P-256')
 const selectedHashAlgorithm = ref('SHA-256')
 const verificationResult = ref(null)
 
-// 椭圆曲线选项
+// 椭圆曲线选项 - 使用 Web Crypto API 支持的曲线
 const curveOptions = [
-  { label: 'secp256k1 (Bitcoin)', value: 'secp256k1' },
-  { label: 'secp256r1 (P-256)', value: 'p256' },
-  { label: 'secp384r1 (P-384)', value: 'p384' },
-  { label: 'secp521r1 (P-521)', value: 'p521' }
+  { label: 'P-256 (secp256r1)', value: 'P-256' },
+  { label: 'P-384 (secp384r1)', value: 'P-384' }
 ]
 
 // 哈希算法选项
@@ -133,17 +130,27 @@ const hashAlgorithmOptions = [
   { label: 'SHA-512', value: 'SHA-512' }
 ]
 
-// 获取椭圆曲线实例
-const getEC = () => {
-  return new EC(selectedCurve.value)
-}
-
 // 计算消息哈希
 const calculateHash = async (message) => {
   const encoder = new TextEncoder()
   const data = encoder.encode(message)
   const hashBuffer = await crypto.subtle.digest(selectedHashAlgorithm.value, data)
   return Array.from(new Uint8Array(hashBuffer)).map(x => x.toString(16).padStart(2, '0')).join('')
+}
+
+// 将十六进制字符串转换为 ArrayBuffer
+const hexToArrayBuffer = (hex) => {
+  const bytes = new Uint8Array(hex.length / 2)
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = parseInt(hex.substr(i, 2), 16)
+  }
+  return bytes.buffer
+}
+
+// 将 ArrayBuffer 转换为十六进制字符串
+const arrayBufferToHex = (buffer) => {
+  const bytes = new Uint8Array(buffer)
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('')
 }
 
 // 生成密钥对
@@ -153,10 +160,23 @@ const generateKeyPair = async () => {
     error.value = ''
     verificationResult.value = null
 
-    const ec = getEC()
-    const key = ec.genKeyPair()
-    privateKey.value = key.getPrivate('hex')
-    publicKey.value = key.getPublic('hex')
+    // 使用 Web Crypto API 生成 ECDSA 密钥对
+    const keyPair = await crypto.subtle.generateKey(
+      {
+        name: 'ECDSA',
+        namedCurve: selectedCurve.value
+      },
+      true, // extractable
+      ['sign', 'verify']
+    )
+
+    // 导出私钥
+    const privateKeyBuffer = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey)
+    privateKey.value = arrayBufferToHex(privateKeyBuffer)
+
+    // 导出公钥
+    const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey)
+    publicKey.value = arrayBufferToHex(publicKeyBuffer)
     
     message.success(t('encrypt.ecdsaSign.keyPairGenerated'))
   } catch (e) {
@@ -183,11 +203,35 @@ const sign = async () => {
       throw new Error(t('encrypt.ecdsaSign.invalidPrivateKeyFormat'))
     }
 
-    const ec = getEC()
-    const key = ec.keyFromPrivate(privateKey.value, 'hex')
-    const msgHash = await calculateHash(messageText.value)
-    const sig = key.sign(msgHash)
-    signature.value = sig.toDER('hex')
+    // 导入私钥
+    const privateKeyBuffer = hexToArrayBuffer(privateKey.value)
+    const privateKeyObj = await crypto.subtle.importKey(
+      'pkcs8',
+      privateKeyBuffer,
+      {
+        name: 'ECDSA',
+        namedCurve: selectedCurve.value
+      },
+      false,
+      ['sign']
+    )
+
+    // 计算消息哈希
+    const encoder = new TextEncoder()
+    const messageBuffer = encoder.encode(messageText.value)
+    const hashBuffer = await crypto.subtle.digest(selectedHashAlgorithm.value, messageBuffer)
+
+    // 签名
+    const signatureBuffer = await crypto.subtle.sign(
+      {
+        name: 'ECDSA',
+        hash: { name: selectedHashAlgorithm.value }
+      },
+      privateKeyObj,
+      hashBuffer
+    )
+
+    signature.value = arrayBufferToHex(signatureBuffer)
     
     message.success(t('encrypt.ecdsaSign.signatureCreated'))
   } catch (e) {
@@ -217,12 +261,35 @@ const verify = async () => {
       throw new Error(t('encrypt.ecdsaSign.invalidSignatureFormat'))
     }
 
-    const ec = getEC()
-    const key = ec.keyFromPublic(publicKey.value, 'hex')
-    const msgHash = await calculateHash(messageText.value)
-    
-    // 使用elliptic库的verify方法，直接传递DER格式的十六进制字符串
-    const isValid = key.verify(msgHash, signature.value)
+    // 导入公钥
+    const publicKeyBuffer = hexToArrayBuffer(publicKey.value)
+    const publicKeyObj = await crypto.subtle.importKey(
+      'spki',
+      publicKeyBuffer,
+      {
+        name: 'ECDSA',
+        namedCurve: selectedCurve.value
+      },
+      false,
+      ['verify']
+    )
+
+    // 计算消息哈希
+    const encoder = new TextEncoder()
+    const messageBuffer = encoder.encode(messageText.value)
+    const hashBuffer = await crypto.subtle.digest(selectedHashAlgorithm.value, messageBuffer)
+
+    // 验证签名
+    const signatureBuffer = hexToArrayBuffer(signature.value)
+    const isValid = await crypto.subtle.verify(
+      {
+        name: 'ECDSA',
+        hash: { name: selectedHashAlgorithm.value }
+      },
+      publicKeyObj,
+      signatureBuffer,
+      hashBuffer
+    )
     
     verificationResult.value = isValid
     if (isValid) {
@@ -231,12 +298,7 @@ const verify = async () => {
       message.error(t('encrypt.ecdsaSign.verificationFailed'))
     }
   } catch (e) {
-    // 优化错误提示
-    if (e.message && (e.message.includes('without r or s') || e.message.includes('Invalid signature'))) {
-      error.value = t('encrypt.ecdsaSign.invalidSignatureFormat')
-    } else {
-      error.value = e.message
-    }
+    error.value = e.message
     verificationResult.value = false
     message.error(t('common.error'))
   } finally {
