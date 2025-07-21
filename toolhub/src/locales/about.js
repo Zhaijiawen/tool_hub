@@ -88,22 +88,11 @@ export const aboutText = {
     },
     contact: {
       title: '联系我们',
-      intro: '我们重视每一位用户的反馈和建议。如果您有任何疑问、建议或合作意向，请通过以下方式联系我们：',
+      intro: '我们重视每一位用户的反馈和建议。如果您有任何疑问、建议或合作意向，请通过邮箱联系我们：',
       methods: {
         email: {
           title: '邮箱联系',
-          support: 'support@toolhub.com',
-          business: 'business@toolhub.com'
-        },
-        github: {
-          title: '开源社区',
-          repo: 'GitHub: github.com/toolhub',
-          contribute: '欢迎提交 Issues 和 PR'
-        },
-        address: {
-          title: '公司地址',
-          country: '中国北京',
-          district: '海淀区中关村软件园'
+          support: 'pinkmaaaaan03@2925.com'
         }
       }
     },
@@ -207,22 +196,11 @@ export const aboutText = {
     },
     contact: {
       title: 'Contact Us',
-      intro: 'We value feedback and suggestions from every user. If you have any questions, suggestions or cooperation intentions, please contact us through the following ways:',
+      intro: 'We value feedback and suggestions from every user. If you have any questions, suggestions or cooperation intentions, please contact us via email:',
       methods: {
         email: {
           title: 'Email Contact',
-          support: 'support@toolhub.com',
-          business: 'business@toolhub.com'
-        },
-        github: {
-          title: 'Open Source Community',
-          repo: 'GitHub: github.com/toolhub',
-          contribute: 'Welcome to submit Issues and PRs'
-        },
-        address: {
-          title: 'Company Address',
-          country: 'Beijing, China',
-          district: 'Haidian District, Zhongguancun Software Park'
+          support: 'pinkmaaaaan03@2925.com'
         }
       }
     },

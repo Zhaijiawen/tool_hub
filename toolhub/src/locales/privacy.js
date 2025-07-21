@@ -68,7 +68,7 @@ export const privacyText = {
     contact: {
       title: '联系我们',
       intro: '如果您对本隐私政策有任何疑问或需要行使您的权利，请通过以下方式联系我们：',
-      email: '邮箱：privacy@toolhub.com',
+              email: '邮箱：pinkmaaaaan03@2925.com',
       response: '我们将在收到请求后30天内回复您。'
     },
     updates: {
@@ -144,7 +144,7 @@ export const privacyText = {
     contact: {
       title: 'Contact Us',
       intro: 'If you have any questions about this privacy policy or need to exercise your rights, please contact us through the following ways:',
-      email: 'Email: privacy@toolhub.com',
+              email: 'Email: pinkmaaaaan03@2925.com',
       response: 'We will respond to your request within 30 days of receipt.'
     },
     updates: {

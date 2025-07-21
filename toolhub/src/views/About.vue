@@ -121,29 +121,6 @@
               <div>
                 <h4>{{ getAboutText('contact.methods.email.title', locale) }}</h4>
                 <p>{{ getAboutText('contact.methods.email.support', locale) }}</p>
-                <p>{{ getAboutText('contact.methods.email.business', locale) }}</p>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <n-icon size="20" color="#18a058">
-                <GithubIcon />
-              </n-icon>
-              <div>
-                <h4>{{ getAboutText('contact.methods.github.title', locale) }}</h4>
-                <p>{{ getAboutText('contact.methods.github.repo', locale) }}</p>
-                <p>{{ getAboutText('contact.methods.github.contribute', locale) }}</p>
-              </div>
-            </div>
-
-            <div class="contact-item">
-              <n-icon size="20" color="#18a058">
-                <LocationIcon />
-              </n-icon>
-              <div>
-                <h4>{{ getAboutText('contact.methods.address.title', locale) }}</h4>
-                <p>{{ getAboutText('contact.methods.address.country', locale) }}</p>
-                <p>{{ getAboutText('contact.methods.address.district', locale) }}</p>
               </div>
             </div>
           </div>
@@ -173,9 +150,7 @@ import {
   CodeOutline as CodeIcon,
   ShieldCheckmarkOutline as ShieldIcon,
   FlashOutline as FastIcon,
-  MailOutline as EmailIcon,
-  LogoGithub as GithubIcon,
-  LocationOutline as LocationIcon
+  MailOutline as EmailIcon
 } from '@vicons/ionicons5'
 
 const { locale } = useI18n()

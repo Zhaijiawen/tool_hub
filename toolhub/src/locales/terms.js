@@ -51,7 +51,7 @@ export const termsText = {
     contact: {
       title: '9. 联系我们',
       intro: '如果您对这些服务条款有任何疑问或建议，请联系我们：',
-      email: '邮箱：terms@toolhub.com',
+              email: '邮箱：pinkmaaaaan03@2925.com',
       response: '我们会在收到消息后尽快回复您。'
     }
   },
@@ -106,7 +106,7 @@ export const termsText = {
     contact: {
       title: '9. Contact Us',
       intro: 'If you have any questions or suggestions about these terms of service, please contact us:',
-      email: 'Email: terms@toolhub.com',
+              email: 'Email: pinkmaaaaan03@2925.com',
       response: 'We will respond to your message as soon as possible.'
     }
   }
