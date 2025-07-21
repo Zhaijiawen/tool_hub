@@ -2,151 +2,116 @@
   <div class="about-page">
     <n-card>
       <template #header>
-        <h1>{{ t('about.title') }}</h1>
+        <h1>{{ getAboutText('title', locale) }}</h1>
       </template>
       
       <div class="content">
         <section class="intro">
-          <h2>{{ t('about.sections.mission.title') }}</h2>
-          <p>{{ t('about.sections.mission.description') }}</p>
+          <h2>{{ getAboutText('mission.title', locale) }}</h2>
+          <p>{{ getAboutText('mission.description', locale) }}</p>
           
           <div class="highlights">
             <div class="highlight-item">
               <n-icon size="24" color="#18a058">
                 <CodeIcon />
               </n-icon>
-              <h3>{{ t('about.sections.mission.highlights.developer.title') }}</h3>
-              <p>{{ t('about.sections.mission.highlights.developer.desc') }}</p>
+              <h3>{{ getAboutText('mission.highlights.developer.title', locale) }}</h3>
+              <p>{{ getAboutText('mission.highlights.developer.desc', locale) }}</p>
             </div>
             <div class="highlight-item">
               <n-icon size="24" color="#18a058">
                 <ShieldIcon />
               </n-icon>
-              <h3>{{ t('about.sections.mission.highlights.privacy.title') }}</h3>
-              <p>{{ t('about.sections.mission.highlights.privacy.desc') }}</p>
+              <h3>{{ getAboutText('mission.highlights.privacy.title', locale) }}</h3>
+              <p>{{ getAboutText('mission.highlights.privacy.desc', locale) }}</p>
             </div>
             <div class="highlight-item">
               <n-icon size="24" color="#18a058">
                 <FastIcon />
               </n-icon>
-              <h3>{{ t('about.sections.mission.highlights.fast.title') }}</h3>
-              <p>{{ t('about.sections.mission.highlights.fast.desc') }}</p>
+              <h3>{{ getAboutText('mission.highlights.fast.title', locale) }}</h3>
+              <p>{{ getAboutText('mission.highlights.fast.desc', locale) }}</p>
             </div>
           </div>
         </section>
 
         <section class="features">
-          <h2>{{ t('about.sections.features.title') }}</h2>
+          <h2>{{ getAboutText('features.title', locale) }}</h2>
+          <p>{{ getAboutText('features.intro', locale) }}</p>
           <div class="feature-grid">
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.format.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.format.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.format.features.highlight') }}</li>
-                <li>{{ t('about.sections.features.categories.format.features.error') }}</li>
-                <li>{{ t('about.sections.features.categories.format.features.indent') }}</li>
-                <li>{{ t('about.sections.features.categories.format.features.copy') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.format.title', locale) }}</h3>
+              <p>{{ getAboutText('features.format.desc', locale) }}</p>
             </div>
 
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.encrypt.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.encrypt.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.encrypt.features.symmetric') }}</li>
-                <li>{{ t('about.sections.features.categories.encrypt.features.asymmetric') }}</li>
-                <li>{{ t('about.sections.features.categories.encrypt.features.hash') }}</li>
-                <li>{{ t('about.sections.features.categories.encrypt.features.encoding') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.encrypt.title', locale) }}</h3>
+              <p>{{ getAboutText('features.encrypt.desc', locale) }}</p>
             </div>
 
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.convert.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.convert.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.convert.features.timestamp') }}</li>
-                <li>{{ t('about.sections.features.categories.convert.features.number') }}</li>
-                <li>{{ t('about.sections.features.categories.convert.features.color') }}</li>
-                <li>{{ t('about.sections.features.categories.convert.features.unit') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.convert.title', locale) }}</h3>
+              <p>{{ getAboutText('features.convert.desc', locale) }}</p>
             </div>
 
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.image.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.image.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.image.features.format') }}</li>
-                <li>{{ t('about.sections.features.categories.image.features.resize') }}</li>
-                <li>{{ t('about.sections.features.categories.image.features.rotate') }}</li>
-                <li>{{ t('about.sections.features.categories.image.features.watermark') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.image.title', locale) }}</h3>
+              <p>{{ getAboutText('features.image.desc', locale) }}</p>
             </div>
 
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.text.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.text.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.text.features.case') }}</li>
-                <li>{{ t('about.sections.features.categories.text.features.replace') }}</li>
-                <li>{{ t('about.sections.features.categories.text.features.whitespace') }}</li>
-                <li>{{ t('about.sections.features.categories.text.features.reverse') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.text.title', locale) }}</h3>
+              <p>{{ getAboutText('features.text.desc', locale) }}</p>
             </div>
 
             <div class="feature-category">
-              <h3>{{ t('about.sections.features.categories.other.title') }}</h3>
-              <p>{{ t('about.sections.features.categories.other.desc') }}</p>
-              <ul>
-                <li>{{ t('about.sections.features.categories.other.features.qr') }}</li>
-                <li>{{ t('about.sections.features.categories.other.features.shortUrl') }}</li>
-                <li>{{ t('about.sections.features.categories.other.features.ip') }}</li>
-                <li>{{ t('about.sections.features.categories.other.features.calculator') }}</li>
-              </ul>
+              <h3>{{ getAboutText('features.other.title', locale) }}</h3>
+              <p>{{ getAboutText('features.other.desc', locale) }}</p>
             </div>
           </div>
         </section>
 
         <section class="technology">
-          <h2>{{ t('about.sections.technology.title') }}</h2>
-          <p>{{ t('about.sections.technology.intro') }}</p>
+          <h2>{{ getAboutText('technology.title', locale) }}</h2>
+          <p>{{ getAboutText('technology.intro', locale) }}</p>
           
           <div class="tech-stack">
             <div class="tech-item">
-              <h4>{{ t('about.sections.technology.frontend.title') }}</h4>
+              <h4>{{ getAboutText('technology.frontend.title', locale) }}</h4>
               <ul>
-                <li><strong>Vue 3:</strong> {{ t('about.sections.technology.frontend.vue') }}</li>
-                <li><strong>Naive UI:</strong> {{ t('about.sections.technology.frontend.naiveui') }}</li>
-                <li><strong>Vite:</strong> {{ t('about.sections.technology.frontend.vite') }}</li>
-                <li><strong>Vue Router:</strong> {{ t('about.sections.technology.frontend.router') }}</li>
-                <li><strong>Vue I18n:</strong> {{ t('about.sections.technology.frontend.i18n') }}</li>
+                <li><strong>Vue 3:</strong> {{ getAboutText('technology.frontend.vue', locale) }}</li>
+                <li><strong>Naive UI:</strong> {{ getAboutText('technology.frontend.naiveui', locale) }}</li>
+                <li><strong>Vite:</strong> {{ getAboutText('technology.frontend.vite', locale) }}</li>
+                <li><strong>Vue Router:</strong> {{ getAboutText('technology.frontend.router', locale) }}</li>
+                <li><strong>Vue I18n:</strong> {{ getAboutText('technology.frontend.i18n', locale) }}</li>
               </ul>
             </div>
 
             <div class="tech-item">
-              <h4>{{ t('about.sections.technology.backend.title') }}</h4>
+              <h4>{{ getAboutText('technology.backend.title', locale) }}</h4>
               <ul>
-                <li><strong>Node.js:</strong> {{ t('about.sections.technology.backend.node') }}</li>
-                <li><strong>Express:</strong> {{ t('about.sections.technology.backend.express') }}</li>
-                <li><strong>Nginx:</strong> {{ t('about.sections.technology.backend.nginx') }}</li>
-                <li><strong>PM2:</strong> {{ t('about.sections.technology.backend.pm2') }}</li>
+                <li><strong>Node.js:</strong> {{ getAboutText('technology.backend.node', locale) }}</li>
+                <li><strong>Express:</strong> {{ getAboutText('technology.backend.express', locale) }}</li>
+                <li><strong>Nginx:</strong> {{ getAboutText('technology.backend.nginx', locale) }}</li>
+                <li><strong>PM2:</strong> {{ getAboutText('technology.backend.pm2', locale) }}</li>
               </ul>
             </div>
 
             <div class="tech-item">
-              <h4>{{ t('about.sections.technology.security.title') }}</h4>
+              <h4>{{ getAboutText('technology.security.title', locale) }}</h4>
               <ul>
-                <li><strong>HTTPS:</strong> {{ t('about.sections.technology.security.https') }}</li>
-                <li><strong>CSP:</strong> {{ t('about.sections.technology.security.csp') }}</li>
-                <li><strong>{{ t('about.sections.technology.security.client.title') }}:</strong> {{ t('about.sections.technology.security.client.desc') }}</li>
-                <li><strong>{{ t('about.sections.technology.security.validation.title') }}:</strong> {{ t('about.sections.technology.security.validation.desc') }}</li>
+                <li><strong>HTTPS:</strong> {{ getAboutText('technology.security.https', locale) }}</li>
+                <li><strong>CSP:</strong> {{ getAboutText('technology.security.csp', locale) }}</li>
+                <li><strong>{{ getAboutText('technology.security.client.title', locale) }}:</strong> {{ getAboutText('technology.security.client.desc', locale) }}</li>
+                <li><strong>{{ getAboutText('technology.security.validation.title', locale) }}:</strong> {{ getAboutText('technology.security.validation.desc', locale) }}</li>
               </ul>
             </div>
           </div>
         </section>
 
         <section class="contact">
-          <h2>{{ t('about.sections.contact.title') }}</h2>
-          <p>{{ t('about.sections.contact.intro') }}</p>
+          <h2>{{ getAboutText('contact.title', locale) }}</h2>
+          <p>{{ getAboutText('contact.intro', locale) }}</p>
           
           <div class="contact-methods">
             <div class="contact-item">
@@ -154,9 +119,9 @@
                 <EmailIcon />
               </n-icon>
               <div>
-                <h4>{{ t('about.sections.contact.methods.email.title') }}</h4>
-                <p>{{ t('about.sections.contact.methods.email.support') }}</p>
-                <p>{{ t('about.sections.contact.methods.email.business') }}</p>
+                <h4>{{ getAboutText('contact.methods.email.title', locale) }}</h4>
+                <p>{{ getAboutText('contact.methods.email.support', locale) }}</p>
+                <p>{{ getAboutText('contact.methods.email.business', locale) }}</p>
               </div>
             </div>
 
@@ -165,9 +130,9 @@
                 <GithubIcon />
               </n-icon>
               <div>
-                <h4>{{ t('about.sections.contact.methods.github.title') }}</h4>
-                <p>{{ t('about.sections.contact.methods.github.repo') }}</p>
-                <p>{{ t('about.sections.contact.methods.github.contribute') }}</p>
+                <h4>{{ getAboutText('contact.methods.github.title', locale) }}</h4>
+                <p>{{ getAboutText('contact.methods.github.repo', locale) }}</p>
+                <p>{{ getAboutText('contact.methods.github.contribute', locale) }}</p>
               </div>
             </div>
 
@@ -176,24 +141,24 @@
                 <LocationIcon />
               </n-icon>
               <div>
-                <h4>{{ t('about.sections.contact.methods.address.title') }}</h4>
-                <p>{{ t('about.sections.contact.methods.address.country') }}</p>
-                <p>{{ t('about.sections.contact.methods.address.district') }}</p>
+                <h4>{{ getAboutText('contact.methods.address.title', locale) }}</h4>
+                <p>{{ getAboutText('contact.methods.address.country', locale) }}</p>
+                <p>{{ getAboutText('contact.methods.address.district', locale) }}</p>
               </div>
             </div>
           </div>
         </section>
 
         <section class="thanks">
-          <h2>{{ t('about.sections.thanks.title') }}</h2>
-          <p>{{ t('about.sections.thanks.intro') }}</p>
+          <h2>{{ getAboutText('thanks.title', locale) }}</h2>
+          <p>{{ getAboutText('thanks.intro', locale) }}</p>
           <ul>
-            <li>{{ t('about.sections.thanks.list.vue') }}</li>
-            <li>{{ t('about.sections.thanks.list.naiveui') }}</li>
-            <li>{{ t('about.sections.thanks.list.crypto') }}</li>
-            <li>{{ t('about.sections.thanks.list.users') }}</li>
+            <li>{{ getAboutText('thanks.list.vue', locale) }}</li>
+            <li>{{ getAboutText('thanks.list.naiveui', locale) }}</li>
+            <li>{{ getAboutText('thanks.list.crypto', locale) }}</li>
+            <li>{{ getAboutText('thanks.list.users', locale) }}</li>
           </ul>
-          <p>{{ t('about.sections.thanks.support') }}</p>
+          <p>{{ getAboutText('thanks.support', locale) }}</p>
         </section>
       </div>
     </n-card>
@@ -203,6 +168,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
+import { getAboutText } from '@/locales/about'
 import { 
   CodeOutline as CodeIcon,
   ShieldCheckmarkOutline as ShieldIcon,
@@ -212,13 +178,13 @@ import {
   LocationOutline as LocationIcon
 } from '@vicons/ionicons5'
 
-const { t } = useI18n()
+const { locale } = useI18n()
 
 // SEO设置
 useSeo({
-  title: t('about.seo.title'),
-  description: t('about.seo.description'),
-  keywords: t('about.seo.keywords')
+  title: getAboutText('seo.title', locale.value),
+  description: getAboutText('seo.description', locale.value),
+  keywords: getAboutText('seo.keywords', locale.value)
 })
 </script>
 

@@ -2,8 +2,8 @@
   <div class="blog-page">
     <n-card>
       <template #header>
-        <h1>{{ t('blog.title') }}</h1>
-        <p class="subtitle">{{ t('blog.subtitle') }}</p>
+        <h1>{{ getBlogText('title', locale) }}</h1>
+        <p class="subtitle">{{ getBlogText('subtitle', locale) }}</p>
       </template>
       
       <div class="content">
@@ -12,29 +12,29 @@
           <n-card v-for="article in articles" :key="article.id" hoverable>
             <template #header>
               <div class="article-header">
-                <h3>{{ t(`blog.articles.${article.key}.title`) }}</h3>
+                <h3>{{ getBlogArticle(article.key, locale)?.title }}</h3>
                 <div class="article-meta">
-                  <n-tag size="small" :type="article.category.type">{{ t(`blog.categories.${article.category.key}`) }}</n-tag>
+                  <n-tag size="small" :type="article.category.type">{{ getBlogText(`categories.${article.category.key}`, locale) }}</n-tag>
                   <span class="date">{{ article.date }}</span>
                 </div>
               </div>
             </template>
             
             <div class="article-content">
-              <p>{{ t(`blog.articles.${article.key}.summary`) }}</p>
+              <p>{{ getBlogArticle(article.key, locale)?.summary }}</p>
               
               <div class="article-highlights" v-if="article.highlights">
-                <h4>{{ t('blog.highlights') }}</h4>
+                <h4>{{ getBlogText('highlights', locale) }}</h4>
                 <ul>
                   <li v-for="(highlight, index) in article.highlights" :key="index">
-                    {{ t(`blog.articles.${article.key}.highlights.${index}`) }}
+                    {{ getBlogArticle(article.key, locale)?.highlights?.[index] }}
                   </li>
                 </ul>
               </div>
 
               <div class="code-example" v-if="article.codeExample">
-                <h4>{{ t('blog.codeExample') }}</h4>
-                <pre><code>{{ t(`blog.articles.${article.key}.codeExample`) }}</code></pre>
+                <h4>{{ getBlogText('codeExample', locale) }}</h4>
+                <pre><code v-html="getBlogArticle(article.key, locale)?.codeExample"></code></pre>
               </div>
             </div>
             
@@ -45,7 +45,7 @@
                 </div>
                 <div class="read-time">
                   <n-icon><TimeIcon /></n-icon>
-                  <span>{{ t('blog.readTime', { minutes: article.readTime }) }}</span>
+                  <span>{{ getBlogText('readTime', locale).replace('{minutes}', article.readTime) }}</span>
                 </div>
               </div>
             </template>
@@ -60,15 +60,16 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
+import { getBlogText, getBlogArticle } from '@/locales/blog'
 import { TimeOutline as TimeIcon } from '@vicons/ionicons5'
 
-const { t } = useI18n()
+const { locale } = useI18n()
 
 // SEO设置
 useSeo({
-  title: t('blog.seo.title'),
-  description: t('blog.seo.description'),
-  keywords: t('blog.seo.keywords')
+  title: getBlogText('seo.title', locale.value),
+  description: getBlogText('seo.description', locale.value),
+  keywords: getBlogText('seo.keywords', locale.value)
 })
 
 // 文章数据
@@ -80,7 +81,7 @@ const articles = ref([
     date: '2025-01-15',
     readTime: 5,
     tags: ['JSON', 'Format', 'Debug'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -90,7 +91,7 @@ const articles = ref([
     date: '2025-01-14',
     readTime: 7,
     tags: ['Base64', 'Encoding', 'Data Transfer'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -100,7 +101,7 @@ const articles = ref([
     date: '2025-01-13',
     readTime: 6,
     tags: ['Timestamp', 'Date', 'Time Processing'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -110,7 +111,7 @@ const articles = ref([
     date: '2025-01-12',
     readTime: 8,
     tags: ['AES', 'Encryption', 'Security', 'Frontend'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -120,7 +121,7 @@ const articles = ref([
     date: '2025-01-11',
     readTime: 6,
     tags: ['Regex', 'Text Processing', 'Debug'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -130,7 +131,7 @@ const articles = ref([
     date: '2025-01-10',
     readTime: 5,
     tags: ['QR Code', 'Mobile Development'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -140,7 +141,7 @@ const articles = ref([
     date: '2025-01-09',
     readTime: 7,
     tags: ['Code Formatting', 'Prettier', 'ESLint'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   },
   {
@@ -150,7 +151,7 @@ const articles = ref([
     date: '2025-01-08',
     readTime: 9,
     tags: ['Image Processing', 'Performance', 'WebP'],
-    highlights: true,
+    highlights: [0, 1, 2, 3],
     codeExample: true
   }
 ])

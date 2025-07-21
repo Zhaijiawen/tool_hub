@@ -2,132 +2,72 @@
   <div class="legal-page">
     <n-card>
       <template #header>
-        <h1>{{ t('terms.title') }}</h1>
+        <h1>{{ getTermsText('title', locale) }}</h1>
       </template>
       
       <div class="content">
-        <p class="last-updated">{{ t('terms.lastUpdated', { date: formatDate() }) }}</p>
+        <p class="last-updated">{{ getTermsText('lastUpdated', locale) }}</p>
         
         <section>
-          <h2>{{ t('terms.sections.intro.title') }}</h2>
-          <p>{{ t('terms.sections.intro.welcome') }}</p>
-          <p>{{ t('terms.sections.intro.agreement') }}</p>
+          <p>{{ getTermsText('agreement', locale) }}</p>
         </section>
 
         <section>
-          <h2>{{ t('terms.sections.usage.title') }}</h2>
-          <h3>{{ t('terms.sections.usage.freeUse.title') }}</h3>
-          <p>{{ t('terms.sections.usage.freeUse.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.usage.freeUse.tools') }}</li>
-            <li>{{ t('terms.sections.usage.freeUse.features') }}</li>
-            <li>{{ t('terms.sections.usage.freeUse.local') }}</li>
-            <li>{{ t('terms.sections.usage.freeUse.noRegistration') }}</li>
-          </ul>
+          <h2>{{ getTermsText('service.title', locale) }}</h2>
+          <p>{{ getTermsText('service.description', locale) }}</p>
+          <p>{{ getTermsText('service.availability', locale) }}</p>
+          <p>{{ getTermsText('service.changes', locale) }}</p>
+        </section>
 
-          <h3>{{ t('terms.sections.usage.limitations.title') }}</h3>
-          <p>{{ t('terms.sections.usage.limitations.intro') }}</p>
+        <section>
+          <h2>{{ getTermsText('usage.title', locale) }}</h2>
           <ul>
-            <li>{{ t('terms.sections.usage.limitations.excessive') }}</li>
-            <li>{{ t('terms.sections.usage.limitations.attack') }}</li>
-            <li>{{ t('terms.sections.usage.limitations.automation') }}</li>
-            <li>{{ t('terms.sections.usage.limitations.interference') }}</li>
+            <li>{{ getTermsText('usage.lawful', locale) }}</li>
+            <li>{{ getTermsText('usage.responsible', locale) }}</li>
+            <li>{{ getTermsText('usage.interference', locale) }}</li>
+            <li>{{ getTermsText('usage.security', locale) }}</li>
+            <li>{{ getTermsText('usage.content', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('terms.sections.responsibility.title') }}</h2>
-          <h3>{{ t('terms.sections.responsibility.legal.title') }}</h3>
-          <p>{{ t('terms.sections.responsibility.legal.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.responsibility.legal.lawful') }}</li>
-            <li>{{ t('terms.sections.responsibility.legal.noHarm') }}</li>
-            <li>{{ t('terms.sections.responsibility.legal.noAccess') }}</li>
-            <li>{{ t('terms.sections.responsibility.legal.comply') }}</li>
-          </ul>
+          <h2>{{ getTermsText('intellectual.title', locale) }}</h2>
+          <p>{{ getTermsText('intellectual.ownership', locale) }}</p>
+          <p>{{ getTermsText('intellectual.license', locale) }}</p>
+          <p>{{ getTermsText('intellectual.restrictions', locale) }}</p>
+          <p>{{ getTermsText('intellectual.userContent', locale) }}</p>
+        </section>
 
-          <h3>{{ t('terms.sections.responsibility.data.title') }}</h3>
-          <p>{{ t('terms.sections.responsibility.data.reminder') }}</p>
+        <section>
+          <h2>{{ getTermsText('liability.title', locale) }}</h2>
+          <p>{{ getTermsText('liability.disclaimer', locale) }}</p>
+          <p>{{ getTermsText('liability.damages', locale) }}</p>
+          <p>{{ getTermsText('liability.maximum', locale) }}</p>
+        </section>
+
+        <section>
+          <h2>{{ getTermsText('privacy.title', locale) }}</h2>
+          <p>{{ getTermsText('privacy.intro', locale) }}</p>
           <ul>
-            <li>{{ t('terms.sections.responsibility.data.backup') }}</li>
-            <li>{{ t('terms.sections.responsibility.data.sensitive') }}</li>
-            <li>{{ t('terms.sections.responsibility.data.risk') }}</li>
-            <li>{{ t('terms.sections.responsibility.data.localBackup') }}</li>
+            <li>{{ getTermsText('privacy.policy', locale) }}</li>
+            <li>{{ getTermsText('privacy.data', locale) }}</li>
+            <li>{{ getTermsText('privacy.policyLink', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('terms.sections.intellectualProperty.title') }}</h2>
-          <p>{{ t('terms.sections.intellectualProperty.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.intellectualProperty.design') }}</li>
-            <li>{{ t('terms.sections.intellectualProperty.code') }}</li>
-            <li>{{ t('terms.sections.intellectualProperty.content') }}</li>
-            <li>{{ t('terms.sections.intellectualProperty.brand') }}</li>
-          </ul>
-          <p>{{ t('terms.sections.intellectualProperty.disclaimer') }}</p>
+          <h2>{{ getTermsText('changes.title', locale) }}</h2>
+          <p>{{ getTermsText('changes.description', locale) }}</p>
+          <p>{{ getTermsText('changes.acceptance', locale) }}</p>
         </section>
 
         <section>
-          <h2>{{ t('terms.sections.serviceChanges.title') }}</h2>
-          <h3>{{ t('terms.sections.serviceChanges.updates.title') }}</h3>
-          <p>{{ t('terms.sections.serviceChanges.updates.intro') }}</p>
+          <h2>{{ getTermsText('contact.title', locale) }}</h2>
+          <p>{{ getTermsText('contact.intro', locale) }}</p>
           <ul>
-            <li>{{ t('terms.sections.serviceChanges.updates.tools') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.updates.performance') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.updates.interface') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.updates.bugs') }}</li>
+            <li>{{ getTermsText('contact.email', locale) }}</li>
           </ul>
-
-          <h3>{{ t('terms.sections.serviceChanges.interruption.title') }}</h3>
-          <p>{{ t('terms.sections.serviceChanges.interruption.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.serviceChanges.interruption.maintenance') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.interruption.technical') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.interruption.force') }}</li>
-            <li>{{ t('terms.sections.serviceChanges.interruption.legal') }}</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>{{ t('terms.sections.disclaimer.title') }}</h2>
-          <p>{{ t('terms.sections.disclaimer.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.disclaimer.accuracy') }}</li>
-            <li>{{ t('terms.sections.disclaimer.availability') }}</li>
-            <li>{{ t('terms.sections.disclaimer.damages') }}</li>
-            <li>{{ t('terms.sections.disclaimer.thirdParty') }}</li>
-          </ul>
-          <p><strong>{{ t('terms.sections.disclaimer.suggestion') }}</strong></p>
-        </section>
-
-        <section>
-          <h2>{{ t('terms.sections.privacy.title') }}</h2>
-          <p>{{ t('terms.sections.privacy.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.privacy.local') }}</li>
-            <li>{{ t('terms.sections.privacy.noCollection') }}</li>
-            <li>
-              {{ t('terms.sections.privacy.policy') }}
-              <router-link to="/privacy">{{ t('terms.sections.privacy.policyLink') }}</router-link>
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>{{ t('terms.sections.changes.title') }}</h2>
-          <p>{{ t('terms.sections.changes.description') }}</p>
-          <p>{{ t('terms.sections.changes.acceptance') }}</p>
-        </section>
-
-        <section>
-          <h2>{{ t('terms.sections.contact.title') }}</h2>
-          <p>{{ t('terms.sections.contact.intro') }}</p>
-          <ul>
-            <li>{{ t('terms.sections.contact.email') }}</li>
-            <li>{{ t('terms.sections.contact.address') }}</li>
-          </ul>
-          <p>{{ t('terms.sections.contact.response') }}</p>
+          <p>{{ getTermsText('contact.response', locale) }}</p>
         </section>
       </div>
     </n-card>
@@ -137,19 +77,16 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
+import { getTermsText } from '@/locales/terms'
 
-const { t } = useI18n()
+const { locale } = useI18n()
 
 // SEO设置
 useSeo({
-  title: t('terms.seo.title'),
-  description: t('terms.seo.description'),
-  keywords: t('terms.seo.keywords')
+  title: getTermsText('seo.title', locale.value),
+  description: getTermsText('seo.description', locale.value),
+  keywords: getTermsText('seo.keywords', locale.value)
 })
-
-const formatDate = () => {
-  return new Date().toLocaleDateString()
-}
 </script>
 
 <style scoped>

@@ -2,88 +2,77 @@
   <div class="legal-page">
     <n-card>
       <template #header>
-        <h1>{{ t('privacy.title') }}</h1>
+        <h1>{{ getPrivacyText('title', locale) }}</h1>
       </template>
       
       <div class="content">
-        <p class="last-updated">{{ t('privacy.lastUpdated', { date: formatDate() }) }}</p>
+        <p class="last-updated">{{ getPrivacyText('lastUpdated', locale) }}</p>
         
         <section>
-          <h2>{{ t('privacy.sections.collection.title') }}</h2>
-          <p>{{ t('privacy.sections.collection.intro') }}</p>
+          <h2>{{ getPrivacyText('collection.title', locale) }}</h2>
+          <p>{{ getPrivacyText('collection.intro', locale) }}</p>
           <ul>
-            <li><strong>{{ t('privacy.sections.collection.usage.title') }}：</strong>{{ t('privacy.sections.collection.usage.desc') }}</li>
-            <li><strong>{{ t('privacy.sections.collection.technical.title') }}：</strong>{{ t('privacy.sections.collection.technical.desc') }}</li>
-            <li><strong>{{ t('privacy.sections.collection.cookies.title') }}：</strong>{{ t('privacy.sections.collection.cookies.desc') }}</li>
+            <li><strong>{{ getPrivacyText('collection.usage.title', locale) }}：</strong>{{ getPrivacyText('collection.usage.desc', locale) }}</li>
+            <li><strong>{{ getPrivacyText('collection.technical.title', locale) }}：</strong>{{ getPrivacyText('collection.technical.desc', locale) }}</li>
+            <li><strong>{{ getPrivacyText('collection.cookies.title', locale) }}：</strong>{{ getPrivacyText('collection.cookies.desc', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('privacy.sections.usage.title') }}</h2>
-          <p>{{ t('privacy.sections.usage.intro') }}</p>
+          <h2>{{ getPrivacyText('usage.title', locale) }}</h2>
+          <p>{{ getPrivacyText('usage.intro', locale) }}</p>
           <ul>
-            <li>{{ t('privacy.sections.usage.provide') }}</li>
-            <li>{{ t('privacy.sections.usage.improve') }}</li>
-            <li>{{ t('privacy.sections.usage.analyze') }}</li>
-            <li>{{ t('privacy.sections.usage.security') }}</li>
+            <li>{{ getPrivacyText('usage.service.title', locale) }}</li>
+            <li>{{ getPrivacyText('usage.improvement.title', locale) }}</li>
+            <li>{{ getPrivacyText('usage.security.title', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('privacy.sections.processing.title') }}</h2>
-          <p><strong>{{ t('privacy.sections.processing.important') }}：</strong>{{ t('privacy.sections.processing.description') }}</p>
+          <h2>{{ getPrivacyText('sharing.title', locale) }}</h2>
+          <p>{{ getPrivacyText('sharing.intro', locale) }}</p>
           <ul>
-            <li>{{ t('privacy.sections.processing.local') }}</li>
-            <li>{{ t('privacy.sections.processing.noLeave') }}</li>
-            <li>{{ t('privacy.sections.processing.noAccess') }}</li>
+            <li>{{ getPrivacyText('sharing.legal', locale) }}</li>
+            <li>{{ getPrivacyText('sharing.service', locale) }}</li>
+            <li>{{ getPrivacyText('sharing.consent', locale) }}</li>
+          </ul>
+          <p>{{ getPrivacyText('sharing.disclaimer', locale) }}</p>
+        </section>
+
+        <section>
+          <h2>{{ getPrivacyText('security.title', locale) }}</h2>
+          <p>{{ getPrivacyText('security.measures', locale) }}</p>
+          <ul>
+            <li>{{ getPrivacyText('security.encryption', locale) }}</li>
+            <li>{{ getPrivacyText('security.access', locale) }}</li>
+            <li>{{ getPrivacyText('security.monitoring', locale) }}</li>
+            <li>{{ getPrivacyText('security.updates', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('privacy.sections.thirdParty.title') }}</h2>
-          <p>{{ t('privacy.sections.thirdParty.intro') }}</p>
+          <h2>{{ getPrivacyText('rights.title', locale) }}</h2>
           <ul>
-            <li><strong>{{ t('privacy.sections.thirdParty.analytics.title') }}：</strong>{{ t('privacy.sections.thirdParty.analytics.desc') }}</li>
-            <li><strong>{{ t('privacy.sections.thirdParty.adsense.title') }}：</strong>{{ t('privacy.sections.thirdParty.adsense.desc') }}</li>
-            <li><strong>{{ t('privacy.sections.thirdParty.cdn.title') }}：</strong>{{ t('privacy.sections.thirdParty.cdn.desc') }}</li>
-          </ul>
-          <p>{{ t('privacy.sections.thirdParty.disclaimer') }}</p>
-        </section>
-
-        <section>
-          <h2>{{ t('privacy.sections.security.title') }}</h2>
-          <p>{{ t('privacy.sections.security.intro') }}</p>
-          <ul>
-            <li>{{ t('privacy.sections.security.https') }}</li>
-            <li>{{ t('privacy.sections.security.audit') }}</li>
-            <li>{{ t('privacy.sections.security.access') }}</li>
-            <li>{{ t('privacy.sections.security.backup') }}</li>
+            <li>{{ getPrivacyText('rights.access', locale) }}</li>
+            <li>{{ getPrivacyText('rights.correction', locale) }}</li>
+            <li>{{ getPrivacyText('rights.deletion', locale) }}</li>
+            <li>{{ getPrivacyText('rights.portability', locale) }}</li>
+            <li>{{ getPrivacyText('rights.contact', locale) }}</li>
           </ul>
         </section>
 
         <section>
-          <h2>{{ t('privacy.sections.rights.title') }}</h2>
-          <p>{{ t('privacy.sections.rights.intro') }}</p>
+          <h2>{{ getPrivacyText('contact.title', locale) }}</h2>
+          <p>{{ getPrivacyText('contact.intro', locale) }}</p>
           <ul>
-            <li>{{ t('privacy.sections.rights.know') }}</li>
-            <li>{{ t('privacy.sections.rights.correct') }}</li>
-            <li>{{ t('privacy.sections.rights.restrict') }}</li>
-            <li>{{ t('privacy.sections.rights.contact') }}</li>
+            <li>{{ getPrivacyText('contact.email', locale) }}</li>
           </ul>
+          <p>{{ getPrivacyText('contact.response', locale) }}</p>
         </section>
 
         <section>
-          <h2>{{ t('privacy.sections.contact.title') }}</h2>
-          <p>{{ t('privacy.sections.contact.intro') }}</p>
-          <ul>
-            <li>{{ t('privacy.sections.contact.email') }}</li>
-            <li>{{ t('privacy.sections.contact.address') }}</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>{{ t('privacy.sections.updates.title') }}</h2>
-          <p>{{ t('privacy.sections.updates.description') }}</p>
+          <h2>{{ getPrivacyText('updates.title', locale) }}</h2>
+          <p>{{ getPrivacyText('updates.description', locale) }}</p>
         </section>
       </div>
     </n-card>
@@ -93,19 +82,16 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
+import { getPrivacyText } from '@/locales/privacy'
 
-const { t } = useI18n()
+const { locale } = useI18n()
 
 // SEO设置
 useSeo({
-  title: t('privacy.seo.title'),
-  description: t('privacy.seo.description'),
-  keywords: t('privacy.seo.keywords')
+  title: getPrivacyText('seo.title', locale.value),
+  description: getPrivacyText('seo.description', locale.value),
+  keywords: getPrivacyText('seo.keywords', locale.value)
 })
-
-const formatDate = () => {
-  return new Date().toLocaleDateString()
-}
 </script>
 
 <style scoped>
