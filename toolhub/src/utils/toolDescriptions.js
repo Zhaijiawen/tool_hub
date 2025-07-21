@@ -2434,6 +2434,222 @@ ChaCha20 特点：
       '验证解析结果',
       '处理异常情况'
     ]
+  },
+
+  imageConvert: {
+    title: '图片格式转换工具',
+    description: '专业的图片格式转换工具，支持JPEG、PNG、WebP、GIF格式转换和质量控制',
+    features: [
+      '多种格式支持',
+      '质量控制',
+      '实时预览',
+      '大小优化'
+    ],
+    useCases: [
+      '网页图片优化',
+      '格式兼容性',
+      '文件大小减少',
+      '图片处理工作流'
+    ],
+    technicalBackground: `图片格式转换对于网页优化和跨平台兼容性至关重要。
+
+支持的格式：
+• JPEG：有损压缩，适合照片
+• PNG：无损压缩，支持透明背景
+• WebP：现代格式，更好的压缩率
+• GIF：动画图片和简单图形
+
+转换特性：
+• 基于Canvas的处理
+• 质量参数控制
+• 文件大小计算
+• 格式特定优化
+
+技术实现：
+• HTML5 Canvas API
+• Base64编码/解码
+• Blob对象处理
+• 下载功能
+
+应用场景：
+• 网页开发
+• 内容管理
+• 数字资产优化
+• 跨平台兼容性`,
+    usageSteps: [
+      '上传源图片',
+      '选择目标格式',
+      '调整质量设置',
+      '下载转换后的图片'
+    ],
+    bestPractices: [
+      '根据用途选择合适的格式',
+      '平衡质量和文件大小',
+      '考虑浏览器兼容性',
+      '在不同设备上测试'
+    ]
+  },
+
+  imageCrop: {
+    title: '图片裁剪工具',
+    description: '专业的图片裁剪工具，支持宽高比控制和实时预览',
+    features: [
+      '交互式裁剪界面',
+      '宽高比控制',
+      '缩放和平移功能',
+      '实时预览'
+    ],
+    useCases: [
+      '照片编辑',
+      '社交媒体准备',
+      '缩略图创建',
+      '内容裁剪'
+    ],
+    technicalBackground: `图片裁剪是基础的图片编辑操作，允许精确控制图片构图。
+
+裁剪技术：
+• 基于Canvas的图片操作
+• 坐标系统处理
+• 宽高比计算
+• 图片缩放算法
+
+交互功能：
+• 拖拽选择
+• 缩放功能
+• 平移和移动操作
+• 实时预览生成
+
+宽高比选项：
+• 自由裁剪
+• 正方形（1:1）用于头像
+• 横向（4:3、16:9）用于媒体
+• 自定义比例满足特定需求
+
+应用场景：
+• 社交媒体内容创建
+• 电商产品图片
+• 头像编辑
+• 横幅和头部创建`,
+    usageSteps: [
+      '上传要裁剪的图片',
+      '调整裁剪区域',
+      '设置宽高比（如需要）',
+      '下载裁剪结果'
+    ],
+    bestPractices: [
+      '裁剪时保持图片质量',
+      '考虑最终用途的尺寸',
+      '使用合适的宽高比',
+      '最终确定前预览'
+    ]
+  },
+
+  imageRotate: {
+    title: '图片旋转工具',
+    description: '专业的图片旋转工具，支持精确角度控制和批量处理',
+    features: [
+      '精确角度控制',
+      '实时预览',
+      '多种旋转选项',
+      '质量保持'
+    ],
+    useCases: [
+      '照片方向校正',
+      '文档扫描',
+      '创意图片编辑',
+      '批量图片处理'
+    ],
+    technicalBackground: `图片旋转涉及数学变换来重新定向图片，同时保持质量。
+
+旋转技术：
+• 仿射变换矩阵
+• Canvas坐标系统操作
+• 平滑旋转的插值算法
+• 质量保持技术
+
+旋转角度：
+• 90°增量用于常见方向
+• 自定义角度用于创意效果
+• 顺时针和逆时针旋转
+• 自动Canvas尺寸调整
+
+技术实现：
+• HTML5 Canvas变换
+• 基于矩阵的计算
+• 像素插值方法
+• 内存高效处理
+
+应用场景：
+• 照片方向校正
+• 文档数字化
+• 创意设计工作
+• 图片预处理`,
+    usageSteps: [
+      '上传要旋转的图片',
+      '选择旋转角度',
+      '预览旋转结果',
+      '下载最终图片'
+    ],
+    bestPractices: [
+      '尽可能使用标准角度',
+      '旋转后检查图片质量',
+      '考虑最终显示方向',
+      '保持宽高比完整性'
+    ]
+  },
+
+  imageWatermark: {
+    title: '图片水印工具',
+    description: '专业的图片水印工具，支持自定义文本、定位和样式选项',
+    features: [
+      '自定义文本水印',
+      '字体大小和颜色控制',
+      '透明度和旋转设置',
+      '实时预览'
+    ],
+    useCases: [
+      '版权保护',
+      '品牌水印',
+      '照片标识',
+      '内容所有权标记'
+    ],
+    technicalBackground: `图片水印在保持视觉吸引力的同时添加识别信息。
+
+水印技术：
+• 基于Canvas的文本渲染
+• 字体样式和定位
+• Alpha通道操作
+• 坐标系统计算
+
+文本自定义：
+• 字体族和大小选择
+• 颜色和透明度控制
+• 旋转和定位
+• 抗锯齿平滑文本
+
+技术特性：
+• HTML5 Canvas文本API
+• RGBA颜色空间处理
+• 变换矩阵操作
+• 图片合成算法
+
+应用场景：
+• 版权保护
+• 品牌标识标记
+• 摄影工作室水印
+• 社交媒体内容保护`,
+    usageSteps: [
+      '上传源图片',
+      '输入水印文本',
+      '调整样式选项',
+      '下载带水印的图片'
+    ],
+    bestPractices: [
+      '使用可读但不突兀的文本',
+      '战略性地定位水印',
+      '平衡可见性和美观性',
+      '在不同背景上测试'
+    ]
   }
 }
 
@@ -4919,6 +5135,222 @@ Application scenarios:
       'Pay attention to privacy protection',
       'Verify parsing results',
       'Handle exceptional cases'
+    ]
+  },
+
+  imageConvert: {
+    title: 'Image Format Converter',
+    description: 'Professional image format conversion tool supporting JPEG, PNG, WebP, and GIF formats with quality control',
+    features: [
+      'Multiple format support',
+      'Quality control',
+      'Real-time preview',
+      'Size optimization'
+    ],
+    useCases: [
+      'Web image optimization',
+      'Format compatibility',
+      'File size reduction',
+      'Image processing workflow'
+    ],
+    technicalBackground: `Image format conversion is essential for web optimization and compatibility across different platforms.
+
+Supported formats:
+• JPEG: lossy compression for photos
+• PNG: lossless compression with transparency
+• WebP: modern format with better compression
+• GIF: animated images and simple graphics
+
+Conversion features:
+• Canvas-based processing
+• Quality parameter control
+• File size calculation
+• Format-specific optimization
+
+Technical implementation:
+• HTML5 Canvas API
+• Base64 encoding/decoding
+• Blob object handling
+• Download functionality
+
+Application scenarios:
+• Web development
+• Content management
+• Digital asset optimization
+• Cross-platform compatibility`,
+    usageSteps: [
+      'Upload source image',
+      'Select target format',
+      'Adjust quality settings',
+      'Download converted image'
+    ],
+    bestPractices: [
+      'Choose appropriate format for use case',
+      'Balance quality and file size',
+      'Consider browser compatibility',
+      'Test across different devices'
+    ]
+  },
+
+  imageCrop: {
+    title: 'Image Cropping Tool',
+    description: 'Professional image cropping tool with aspect ratio control and real-time preview',
+    features: [
+      'Interactive cropping interface',
+      'Aspect ratio control',
+      'Zoom and pan functionality',
+      'Real-time preview'
+    ],
+    useCases: [
+      'Photo editing',
+      'Social media preparation',
+      'Thumbnail creation',
+      'Content cropping'
+    ],
+    technicalBackground: `Image cropping is a fundamental image editing operation that allows precise control over image composition.
+
+Cropping technology:
+• Canvas-based image manipulation
+• Coordinate system handling
+• Aspect ratio calculations
+• Image scaling algorithms
+
+Interactive features:
+• Drag and drop selection
+• Zoom in/out functionality
+• Pan and move operations
+• Real-time preview generation
+
+Aspect ratio options:
+• Free form cropping
+• Square (1:1) for avatars
+• Landscape (4:3, 16:9) for media
+• Custom ratios for specific needs
+
+Application scenarios:
+• Social media content creation
+• E-commerce product images
+• Profile picture editing
+• Banner and header creation`,
+    usageSteps: [
+      'Upload image to crop',
+      'Adjust crop area',
+      'Set aspect ratio if needed',
+      'Download cropped result'
+    ],
+    bestPractices: [
+      'Maintain image quality during cropping',
+      'Consider final use case dimensions',
+      'Use appropriate aspect ratios',
+      'Preview before finalizing'
+    ]
+  },
+
+  imageRotate: {
+    title: 'Image Rotation Tool',
+    description: 'Professional image rotation tool supporting precise angle control and batch processing',
+    features: [
+      'Precise angle control',
+      'Real-time preview',
+      'Multiple rotation options',
+      'Quality preservation'
+    ],
+    useCases: [
+      'Photo orientation correction',
+      'Document scanning',
+      'Creative image editing',
+      'Batch image processing'
+    ],
+    technicalBackground: `Image rotation involves mathematical transformations to reorient images while maintaining quality.
+
+Rotation technology:
+• Affine transformation matrices
+• Canvas coordinate system manipulation
+• Interpolation algorithms for smooth rotation
+• Quality preservation techniques
+
+Rotation angles:
+• 90° increments for common orientations
+• Custom angles for creative effects
+• Clockwise and counterclockwise rotation
+• Automatic canvas size adjustment
+
+Technical implementation:
+• HTML5 Canvas transformation
+• Matrix-based calculations
+• Pixel interpolation methods
+• Memory-efficient processing
+
+Application scenarios:
+• Photo orientation correction
+• Document digitization
+• Creative design work
+• Image preprocessing`,
+    usageSteps: [
+      'Upload image to rotate',
+      'Select rotation angle',
+      'Preview rotated result',
+      'Download final image'
+    ],
+    bestPractices: [
+      'Use standard angles when possible',
+      'Check image quality after rotation',
+      'Consider final display orientation',
+      'Maintain aspect ratio integrity'
+    ]
+  },
+
+  imageWatermark: {
+    title: 'Image Watermark Tool',
+    description: 'Professional image watermarking tool with customizable text, positioning, and styling options',
+    features: [
+      'Customizable text watermarks',
+      'Font size and color control',
+      'Opacity and rotation settings',
+      'Real-time preview'
+    ],
+    useCases: [
+      'Copyright protection',
+      'Brand watermarking',
+      'Photo identification',
+      'Content ownership marking'
+    ],
+    technicalBackground: `Image watermarking adds identifying information to images while maintaining visual appeal.
+
+Watermark technology:
+• Canvas-based text rendering
+• Font styling and positioning
+• Alpha channel manipulation
+• Coordinate system calculations
+
+Text customization:
+• Font family and size selection
+• Color and opacity control
+• Rotation and positioning
+• Anti-aliasing for smooth text
+
+Technical features:
+• HTML5 Canvas text API
+• RGBA color space handling
+• Transform matrix operations
+• Image composition algorithms
+
+Application scenarios:
+• Copyright protection
+• Brand identity marking
+• Photo studio watermarking
+• Social media content protection`,
+    usageSteps: [
+      'Upload source image',
+      'Enter watermark text',
+      'Adjust styling options',
+      'Download watermarked image'
+    ],
+    bestPractices: [
+      'Use readable but unobtrusive text',
+      'Position watermarks strategically',
+      'Balance visibility and aesthetics',
+      'Test on different backgrounds'
     ]
   }
 }
