@@ -7,7 +7,7 @@ export const termsText = {
       description: 'ToolHub 服务条款，了解使用我们服务时的权利和义务。',
       keywords: '服务条款,服务协议,用户协议,ToolHub'
     },
-    lastUpdated: '最后更新时间：2024年1月15日',
+    lastUpdated: '最后更新时间：2025年7月21日',
     agreement: '通过访问和使用本网站，您同意遵守以下服务条款。如果您不同意这些条款，请停止使用本服务。',
     service: {
       title: '服务说明',
@@ -62,7 +62,7 @@ export const termsText = {
       description: 'ToolHub Terms of Service, understand your rights and obligations when using our service.',
       keywords: 'terms of service,service agreement,user agreement,ToolHub'
     },
-    lastUpdated: 'Last updated: January 15, 2024',
+    lastUpdated: 'Last updated: July 21, 2025',
     agreement: 'By accessing and using this website, you agree to abide by the following terms of service. If you do not agree to these terms, please stop using this service.',
     service: {
       title: 'Service Description',

@@ -7,7 +7,7 @@ export const privacyText = {
       description: 'ToolHub 隐私政策，了解我们如何收集、使用和保护您的个人信息。',
       keywords: '隐私政策,数据保护,个人信息,ToolHub'
     },
-    lastUpdated: '最后更新时间：2024年1月15日',
+    lastUpdated: '最后更新时间：2025年7月21日',
     intro: 'ToolHub 致力于保护您的隐私。我们收集的信息类型包括：',
     collection: {
       title: '信息收集',
@@ -83,7 +83,7 @@ export const privacyText = {
       description: 'ToolHub Privacy Policy, learn how we collect, use and protect your personal information.',
       keywords: 'privacy policy,data protection,personal information,ToolHub'
     },
-    lastUpdated: 'Last updated: January 15, 2024',
+    lastUpdated: 'Last updated: July 21, 2025',
     intro: 'ToolHub is committed to protecting your privacy. The types of information we collect include:',
     collection: {
       title: 'Information Collection',

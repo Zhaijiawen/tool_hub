@@ -213,6 +213,10 @@ export default {
     example: '示例'
   },
   footer: {
+    about: '关于我们',
+    blog: '开发教程',
+    privacy: '隐私政策',
+    terms: '使用条款',
     description: "简单、快速的在线工具集合，助你高效开发与生活。",
     contactPrefix: "如有问题或功能需求，欢迎通过",
     contactSuffix: "联系。",

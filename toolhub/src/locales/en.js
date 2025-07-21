@@ -214,6 +214,9 @@ export default {
   },
   footer: {
     about: 'About',
+    blog: 'Tutorials',
+    privacy: 'Privacy Policy',
+    terms: 'Terms of Service',
     description: "A simple and fast online tool collection for efficient work and life.",
     contactPrefix: "For questions or feature requests, feel free to contact us by",
     contactSuffix: ".",

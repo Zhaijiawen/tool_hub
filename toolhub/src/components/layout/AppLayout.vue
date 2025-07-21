@@ -91,13 +91,13 @@
         
         <!-- 网站导航链接 -->
         <div class="footer-line-v3 footer-links-v3">
-          <router-link to="/about" class="footer-link-v3">关于我们</router-link>
+          <router-link to="/about" class="footer-link-v3">{{ t('footer.about') }}</router-link>
           <span class="footer-separator-v3">|</span>
-          <router-link to="/blog" class="footer-link-v3">开发教程</router-link>
+          <router-link to="/blog" class="footer-link-v3">{{ t('footer.blog') }}</router-link>
           <span class="footer-separator-v3">|</span>
-          <router-link to="/privacy" class="footer-link-v3">隐私政策</router-link>
+          <router-link to="/privacy" class="footer-link-v3">{{ t('footer.privacy') }}</router-link>
           <span class="footer-separator-v3">|</span>
-          <router-link to="/terms" class="footer-link-v3">使用条款</router-link>
+          <router-link to="/terms" class="footer-link-v3">{{ t('footer.terms') }}</router-link>
         </div>
         
         <div class="footer-line-v3 footer-meta-v3">
