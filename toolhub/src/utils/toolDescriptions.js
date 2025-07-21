@@ -2650,6 +2650,138 @@ ChaCha20 特点：
       '平衡可见性和美观性',
       '在不同背景上测试'
     ]
+  },
+
+  textCase: {
+    title: '文本大小写转换工具',
+    description: '专业的文本大小写转换工具，支持多种命名规范',
+    features: [
+      '支持多种大小写格式',
+      '批量转换功能',
+      '实时预览效果',
+      '保持特殊字符'
+    ],
+    useCases: [
+      '编程变量命名',
+      '文档标题格式化',
+      '数据库字段命名',
+      'API 参数标准化'
+    ],
+    technicalBackground: `不同的编程语言和场景使用不同的大小写命名规范：
+
+命名规范：
+• camelCase：首单词小写，后续单词首字母大写（JavaScript 变量）
+• PascalCase：所有单词首字母大写（类名）
+• snake_case：单词间用下划线连接（Python 变量）
+• kebab-case：单词间用连字符连接（CSS 类名）
+• UPPER_SNAKE_CASE：全大写加下划线（常量）
+
+应用场景：
+• JavaScript：camelCase 用于变量，PascalCase 用于类
+• Python：snake_case 用于变量和函数
+• CSS：kebab-case 用于类名
+• 数据库：snake_case 用于字段名`,
+    usageSteps: [
+      '输入要转换的文本',
+      '选择目标格式',
+      '点击转换按钮',
+      '复制转换结果'
+    ],
+    bestPractices: [
+      '保持命名的一致性',
+      '遵循语言规范',
+      '使用有意义的名称',
+      '避免过长的名称'
+    ]
+  },
+
+  textReverse: {
+    title: '文本反转工具',
+    description: '专业的文本反转和排序工具，支持多种反转和排序方式',
+    features: [
+      '文本字符反转',
+      '行级反转排序',
+      '单词级反转',
+      '自定义排序规则'
+    ],
+    useCases: [
+      '数据处理和分析',
+      '文本加密和解密',
+      '代码混淆处理',
+      '文本格式转换'
+    ],
+    technicalBackground: `文本反转是字符串处理的基本操作，有多种反转方式和应用场景。
+
+反转类型：
+• 字符反转：逐字符反转
+• 单词反转：按单词反转
+• 行反转：按行反转
+• 部分反转：指定范围反转
+
+排序方式：
+• 字母顺序：A-Z 或 Z-A
+• 数字顺序：升序或降序
+• 长度排序：按字符串长度
+• 自定义排序：用户定义规则
+
+应用场景：
+• 数据验证和测试
+• 文本加密算法
+• 代码混淆技术
+• 数据处理流程`,
+    usageSteps: [
+      '输入要处理的文本',
+      '选择反转或排序方式',
+      '设置处理参数',
+      '查看处理结果'
+    ],
+    bestPractices: [
+      '理解反转规则',
+      '注意编码问题',
+      '验证处理结果',
+            '考虑性能影响'
+    ]
+  },
+
+  textWhitespace: {
+    title: '空白字符处理工具',
+    description: '专业的空白字符处理工具，支持去除多余空白和格式化文本',
+    features: [
+      '去除多余空白',
+      '去除行尾空白',
+      '去除重复空白',
+      '去除制表符'
+    ],
+    useCases: [
+      '文本清理和标准化',
+      '代码格式化',
+      '文档准备',
+      '数据导入'
+    ],
+    technicalBackground: `空白字符处理是文本处理中的常见操作，用于去除多余的空白字符，保持文本格式的一致性。
+
+处理方法：
+• 去除行尾空白：删除每行末尾的空白字符
+• 去除重复空白：删除连续出现的空白字符
+• 去除制表符：将制表符替换为空格
+
+应用场景：
+• 文本清理和标准化
+• 代码格式化
+• 文档准备
+• 数据导入`,
+    usageSteps: [
+      '输入要处理的文本',
+      '选择处理选项',
+      '点击处理按钮',
+      '复制处理后的文本'
+    ],
+    bestPractices: [
+      '保持文本格式的一致性',
+      '测试不同文本类型',
+      '考虑编码问题',
+      '验证处理结果'
+    ]
   }
 }
 
@@ -5351,6 +5483,169 @@ Application scenarios:
       'Position watermarks strategically',
       'Balance visibility and aesthetics',
       'Test on different backgrounds'
+    ]
+  },
+
+  textCase: {
+    title: 'Text Case Converter',
+    description: 'Professional text case conversion tool supporting multiple case formats and naming conventions',
+    features: [
+      'Multiple case format support',
+      'Real-time conversion',
+      'Batch processing',
+      'Special character preservation'
+    ],
+    useCases: [
+      'Programming variable naming',
+      'Document title formatting',
+      'Database field naming',
+      'API parameter standardization'
+    ],
+    technicalBackground: `Text case conversion is essential for maintaining consistent naming conventions across different programming languages and documentation standards.
+
+Case formats:
+• UPPERCASE: All characters in capital letters
+• lowercase: All characters in small letters
+• Title Case: First letter of each word capitalized
+• Sentence case: First letter of sentence capitalized
+• Alternating case: Alternating upper and lower case
+
+Conversion algorithms:
+• String manipulation techniques
+• Unicode character handling
+• Locale-aware conversion
+• Special character preservation
+
+Programming applications:
+• Variable naming conventions
+• Database field standardization
+• API parameter formatting
+• Code documentation
+
+Best practices:
+• Follow language-specific conventions
+• Maintain consistency across projects
+• Consider readability and clarity
+• Use appropriate case for context`,
+    usageSteps: [
+      'Enter text to convert',
+      'Select target case format',
+      'Click conversion button',
+      'Copy converted result'
+    ],
+    bestPractices: [
+      'Maintain naming consistency',
+      'Follow language conventions',
+      'Use meaningful names',
+      'Avoid overly long names'
+    ]
+  },
+
+  textReverse: {
+    title: 'Text Reversal Tool',
+    description: 'Professional text reversal tool supporting character, word, and line reversal operations',
+    features: [
+      'Character-level reversal',
+      'Word order reversal',
+      'Line order reversal',
+      'Real-time processing'
+    ],
+    useCases: [
+      'Text analysis and processing',
+      'Data transformation',
+      'Creative writing',
+      'Code obfuscation'
+    ],
+    technicalBackground: `Text reversal involves manipulating the order of characters, words, or lines in text content for various analytical and creative purposes.
+
+Reversal types:
+• Character reversal: Reverse individual characters
+• Word reversal: Reverse word order within lines
+• Line reversal: Reverse line order in multi-line text
+
+Technical implementation:
+• String manipulation algorithms
+• Array reversal techniques
+• Unicode character handling
+• Multi-line text processing
+
+Processing considerations:
+• Character encoding support
+• Whitespace preservation
+• Special character handling
+• Performance optimization
+
+Application scenarios:
+• Text analysis and research
+• Data preprocessing
+• Creative writing exercises
+• Code obfuscation techniques`,
+    usageSteps: [
+      'Enter text to reverse',
+      'Select reversal type',
+      'Click reverse button',
+      'Copy reversed result'
+    ],
+    bestPractices: [
+      'Verify reversal accuracy',
+      'Check for special characters',
+      'Test with various text types',
+      'Consider encoding issues'
+    ]
+  },
+
+  textWhitespace: {
+    title: 'Whitespace Handler',
+    description: 'Professional whitespace management tool for cleaning and formatting text content',
+    features: [
+      'Whitespace trimming',
+      'Whitespace compression',
+      'Real-time processing',
+      'Format preservation'
+    ],
+    useCases: [
+      'Text cleaning and formatting',
+      'Data preprocessing',
+      'Code formatting',
+      'Document preparation'
+    ],
+    technicalBackground: `Whitespace handling is crucial for text processing, data cleaning, and maintaining consistent formatting across different content sources.
+
+Whitespace types:
+• Leading spaces: Spaces at beginning of lines
+• Trailing spaces: Spaces at end of lines
+• Multiple spaces: Consecutive space characters
+• Tab characters: Tabulation characters
+• Line breaks: Newline characters
+
+Processing operations:
+• Trim: Remove leading and trailing whitespace
+• Compress: Reduce multiple spaces to single space
+• Normalize: Standardize line endings
+• Preserve: Maintain intentional formatting
+
+Technical considerations:
+• Unicode whitespace characters
+• Regular expression patterns
+• Performance optimization
+• Memory efficiency
+
+Application scenarios:
+• Data cleaning and preprocessing
+• Text formatting and standardization
+• Code beautification
+• Document preparation`,
+    usageSteps: [
+      'Enter text to process',
+      'Select whitespace operation',
+      'Click process button',
+      'Copy cleaned result'
+    ],
+    bestPractices: [
+      'Preserve intentional formatting',
+      'Test with various text types',
+      'Consider encoding requirements',
+      'Verify processing accuracy'
     ]
   }
 }
