@@ -1,8 +1,6 @@
 <template>
   <div class="calculator-container">
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="calculator" />
-    
+
     <n-card :title="$t('other.calculator.title')">
       <div class="calculator">
         <!-- 模式切换 -->
@@ -398,6 +396,9 @@
         </div>
       </div>
     </n-card>
+    <!-- 工具描述组件 -->
+    <ToolDescription tool-key="calculator" />
+    
   </div>
 </template>
 
@@ -406,7 +407,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { evaluate, format } from 'mathjs'
-import ToolDescription from '../common/ToolDescription.vue'
+import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()
