@@ -272,22 +272,23 @@ watch(() => props.language, () => {
   updateEditorLanguage()
 })
 
+// 主题观察器引用
+let themeObserver = null
+
 // 组件挂载
 onMounted(async () => {
   await nextTick()
   initEditor()
 
   // 开始监听主题变化
-  const themeObserver = observeThemeChange()
-
-  // 在组件卸载时清理观察器
-  onBeforeUnmount(() => {
-    themeObserver.disconnect()
-  })
+  themeObserver = observeThemeChange()
 })
 
 // 组件卸载
 onBeforeUnmount(() => {
+  if (themeObserver) {
+    themeObserver.disconnect()
+  }
   if (editorView) {
     editorView.destroy()
     editorView = null
