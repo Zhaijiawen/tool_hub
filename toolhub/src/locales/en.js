@@ -1883,7 +1883,7 @@ export default {
       description: 'Supports image format conversion and compression, flexibly adjust output quality and format.',
       losslessNotice: 'This is a lossless format, so quality cannot be adjusted.',
       infoTitle: 'Format Information',
-      infoContent: '<b>Lossy Formats (JPEG, WebP):</b> Smaller file size, ideal for photos, but with some quality loss.<br/><b>Lossless Formats (PNG, GIF):</b> Preserves all details perfectly, suitable for high-quality images, but with larger file sizes.<br/><br/><b>Note:</b> Due to browser re-encoding, the output file can sometimes be larger than the original, even at 100% quality.'
+      infoContent: 'Lossy Formats (JPEG, WebP): Smaller file size, ideal for photos, but with some quality loss. Lossless Formats (PNG, GIF): Preserves all details perfectly, suitable for high-quality images, but with larger file sizes. Note: Due to browser re-encoding, the output file can sometimes be larger than the original, even at 100% quality.'
     },
     rotate: {
       title: 'Image Rotate',

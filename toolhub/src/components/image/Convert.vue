@@ -70,7 +70,7 @@
         <!-- 使用说明 -->
         <div class="info-section">
           <n-alert type="info" :title="t('image.convert.infoTitle')">
-            <div v-html="t('image.convert.infoContent')"></div>
+            <div>{{ t('image.convert.infoContent') }}</div>
           </n-alert>
         </div>
       </n-space>
