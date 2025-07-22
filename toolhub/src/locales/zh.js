@@ -847,6 +847,7 @@ export default {
       notGenerated: '未生成',
       // 统一窗口模式
       inputLabel: '输入内容',
+      charCount: '字符数：{count}',
       encryptSuccess: '加密成功',
       decryptSuccess: '解密成功'
     },
@@ -886,6 +887,7 @@ export default {
       notGenerated: '未生成',
       // 统一窗口模式
       inputLabel: '输入内容',
+      charCount: '字符数：{count}',
       inputRequired: '请输入要加密的文本',
       decryptInputRequired: '请输入要解密的文本',
       encryptSuccess: '加密成功',
@@ -947,6 +949,7 @@ export default {
       noPaddingCorrect: '正确（8的倍数）',
       noPaddingError: '错误（NoPadding需要8的倍数）',
       pkcs7Support: 'PKCS7支持任意长度',
+      charCount: '字符数：{count}',
       decryptMode: '解密模式',
       // 提示信息
       keyLengthTip: '密钥长度：DES需要8字符（64位），TripleDES需要24字符（192位）',

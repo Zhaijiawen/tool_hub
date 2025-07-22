@@ -852,6 +852,7 @@ export default {
       notGenerated: 'Not Generated',
       // Unified window mode
       inputLabel: 'Input Content',
+      charCount: 'Character count: {count}',
       encryptSuccess: 'Encryption successful',
       decryptSuccess: 'Decryption successful'
     },
@@ -891,6 +892,7 @@ export default {
       notGenerated: 'Not Generated',
       // Unified window mode
       inputLabel: 'Input Content',
+      charCount: 'Character count: {count}',
       inputRequired: 'Please enter content to encrypt',
       decryptInputRequired: 'Please enter content to decrypt',
       encryptSuccess: 'Encryption successful',
@@ -935,6 +937,7 @@ export default {
       notGenerated: 'Not Generated',
       // Unified window mode
       inputLabel: 'Input Content',
+      charCount: 'Character count: {count}',
       inputRequired: 'Please enter content to encrypt',
       decryptInputRequired: 'Please enter content to decrypt',
       encryptSuccess: 'Encryption successful',
