@@ -992,7 +992,15 @@ export default {
       generateKeyPair: 'Generate Key Pair',
       encryptionFailed: 'Encryption failed',
       decryptionFailed: 'Decryption failed',
-      description: 'RSA asymmetric encryption algorithm'
+      description: 'RSA asymmetric encryption algorithm',
+      // Key Information
+      keyInfo: 'Key Information',
+      algorithm: 'Algorithm',
+      encryption: 'Encryption',
+      format: 'Format',
+      maxTextLength: 'Max Text Length',
+      generated: 'Generated',
+      notGenerated: 'Not Generated'
     },
     ecc: {
       title: 'ECC Encryption/Decryption',

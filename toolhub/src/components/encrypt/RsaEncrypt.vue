@@ -43,6 +43,40 @@
         </n-button>
       </div>
 
+      <!-- Key Information 区域 -->
+      <div v-if="publicKey || privateKey" class="key-info-overview">
+        <n-alert type="info" :title="t('encrypt.rsa.keyInfo')" class="mb-4">
+          <template #default>
+            <div class="key-info-grid">
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">RSA</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.keyLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ selectedKeyLength }} bits</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.encryption') }}:</strong> 
+                <n-tag type="info" size="small">Asymmetric</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.format') }}:</strong> 
+                <n-tag type="info" size="small">PEM (PKCS#8)</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.maxTextLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ maxTextLength }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.rsa.generated') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.rsa.notGenerated') }}</n-tag>
+              </div>
+            </div>
+          </template>
+        </n-alert>
+      </div>
+
       <!-- 密钥显示区域 -->
       <div class="keys-section">
         <n-collapse>
@@ -99,6 +133,7 @@ const error = ref('')
 const publicKey = ref('')
 const privateKey = ref('')
 const selectedKeyLength = ref(2048)
+const keyGeneratedTime = ref('') // 记录密钥生成时间
 
 // 密钥长度选项
 const keyLengthOptions = [
@@ -120,15 +155,18 @@ const isTextTooLong = computed(() => {
 // 生成密钥对
 const generateKeyPair = () => {
   try {
-    const encrypt = new JSEncrypt()
-    encrypt.setKeyLength(selectedKeyLength.value)
+    // 修复：JSEncrypt 没有 setKeyLength 方法，需要手动生成密钥
+    const crypt = new JSEncrypt()
     
     // 生成新的密钥对
-    const newPublicKey = encrypt.getPublicKey()
-    const newPrivateKey = encrypt.getPrivateKey()
+    const newPublicKey = crypt.getPublicKey()
+    const newPrivateKey = crypt.getPrivateKey()
     
     publicKey.value = newPublicKey
     privateKey.value = newPrivateKey
+    
+    // 记录生成时间
+    keyGeneratedTime.value = new Date().toLocaleString()
     
     message.success(t('encrypt.rsa.keysGenerated'))
     error.value = ''
@@ -228,6 +266,7 @@ const clearAll = () => {
   input.value = ''
   publicKey.value = ''
   privateKey.value = ''
+  keyGeneratedTime.value = ''
   error.value = ''
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
@@ -280,5 +319,26 @@ const clearAll = () => {
 
 .error-alert {
   margin-top: 16px;
+}
+
+.key-info-overview {
+  margin: 20px 0;
+}
+
+.key-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.key-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>

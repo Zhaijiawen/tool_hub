@@ -977,7 +977,15 @@ export default {
       decryptSuccess: '解密成功',
       decryptFailed: '解密失败',
       publicKeyCopied: '公钥已复制',
-      privateKeyCopied: '私钥已复制'
+      privateKeyCopied: '私钥已复制',
+      // Key Information
+      keyInfo: '密钥信息',
+      algorithm: '算法',
+      encryption: '加密方式',
+      format: '格式',
+      maxTextLength: '最大文本长度',
+      generated: '生成时间',
+      notGenerated: '未生成'
     },
     ecc: {
       title: 'ECC 加密/解密',
