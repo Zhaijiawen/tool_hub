@@ -881,7 +881,20 @@ export default {
       generateKeyNonce: 'Generate Key and Nonce',
       keyNonceGenerated: 'Generated 32-character key and 8-character nonce',
       generateFailed: 'Generation failed: {error}',
-      decryptFailed: 'Decryption failed: Key or nonce may be incorrect, or input format is wrong'
+      decryptFailed: 'Decryption failed: Key or nonce may be incorrect, or input format is wrong',
+      // Key Information
+      keyInfo: 'Key Information',
+      algorithm: 'Algorithm',
+      encryption: 'Encryption',
+      format: 'Format',
+      generated: 'Generated',
+      notGenerated: 'Not Generated',
+      // Unified window mode
+      inputLabel: 'Input Content',
+      inputRequired: 'Please enter content to encrypt',
+      decryptInputRequired: 'Please enter content to decrypt',
+      encryptSuccess: 'Encryption successful',
+      decryptSuccess: 'Decryption successful'
     },
     des: {
       title: 'DES Encryption/Decryption',

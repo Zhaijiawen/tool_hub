@@ -876,7 +876,20 @@ export default {
       generateKeyNonce: '生成密钥和Nonce',
       keyNonceGenerated: '已生成32字符密钥和8字符Nonce',
       generateFailed: '生成失败：{error}',
-      decryptFailed: '解密失败：密钥或Nonce可能不正确，或者输入格式有误'
+      decryptFailed: '解密失败：密钥或Nonce可能不正确，或者输入格式有误',
+      // Key Information
+      keyInfo: '密钥信息',
+      algorithm: '算法',
+      encryption: '加密方式',
+      format: '格式',
+      generated: '生成时间',
+      notGenerated: '未生成',
+      // 统一窗口模式
+      inputLabel: '输入内容',
+      inputRequired: '请输入要加密的文本',
+      decryptInputRequired: '请输入要解密的文本',
+      encryptSuccess: '加密成功',
+      decryptSuccess: '解密成功'
     },
     des: {
       title: 'DES 加密/解密',
