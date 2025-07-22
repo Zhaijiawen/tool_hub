@@ -3,8 +3,19 @@
 
     <n-card :title="t('encrypt.aes.title')">
       <n-space vertical>
-        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.aes.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" />
+        <!-- 统一的输入/输出窗口 -->
+        <div class="input-output-section">
+          <n-text>{{ t('encrypt.aes.inputLabel') }}</n-text>
+          <n-input 
+            v-model:value="input" 
+            type="textarea" 
+            :placeholder="t('encrypt.aes.inputPlaceholder')"
+            :autosize="{ minRows: 8, maxRows: 15 }" 
+          />
+          <div class="input-info">
+            <n-text depth="3">{{ t('encrypt.aes.charCount', { count: input.length }) }}</n-text>
+          </div>
+        </div>
 
         <n-form :model="formData" label-placement="left" label-width="200px">
           <n-form-item :label="t('encrypt.aes.key')">
@@ -53,10 +64,54 @@
           <n-button @click="copyToClipboard">
             {{ t('common.copy') }}
           </n-button>
+          <n-button @click="clearAll">
+            {{ t('common.clear') }}
+          </n-button>
         </n-space>
 
-        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.aes.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
+        <!-- Key Information 区域 -->
+        <div v-if="formData.key || formData.iv" class="key-info-overview">
+          <n-alert type="info" :title="t('encrypt.aes.keyInfo')" class="mb-4">
+            <template #default>
+              <div class="key-info-grid">
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.algorithm') }}:</strong> 
+                  <n-tag type="info" size="small">AES</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.keyLength') }}:</strong> 
+                  <n-tag :type="formData.key.length === 16 ? 'success' : 'error'" size="small">
+                    {{ formData.key.length }} {{ t('common.characters') }} ({{ formData.key.length * 8 }} bits)
+                  </n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.mode') }}:</strong> 
+                  <n-tag type="info" size="small">{{ formData.mode }}</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.padding') }}:</strong> 
+                  <n-tag type="info" size="small">{{ formData.padding }}</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.ivStatus') }}:</strong> 
+                  <n-tag v-if="formData.mode === 'ECB'" type="warning" size="small">
+                    {{ t('encrypt.aes.notRequired') }}
+                  </n-tag>
+                  <n-tag v-else-if="formData.iv.length === 16" type="success" size="small">
+                    {{ t('encrypt.aes.valid') }} ({{ formData.iv.length }} {{ t('common.characters') }})
+                  </n-tag>
+                  <n-tag v-else type="error" size="small">
+                    {{ t('encrypt.aes.invalid') }} ({{ formData.iv.length }} {{ t('common.characters') }})
+                  </n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.aes.generated') }}:</strong> 
+                  <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.aes.notGenerated') }}</n-tag>
+                </div>
+              </div>
+            </template>
+          </n-alert>
+        </div>
 
         <!-- 调试信息 -->
         <n-alert v-if="debugInfo" type="info" :title="t('encrypt.aes.debugTitle')" class="debug-alert">
@@ -72,9 +127,9 @@
             <span v-else style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.ivLengthError') }}）</span>
           </p>
           <p>{{ t('encrypt.aes.inputLength') }}: {{ input.length }} {{ t('common.characters') }}
-            <span v-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 16 === 0" style="color: green;">✓ {{ t('encrypt.aes.correct') }}（{{ t('encrypt.aes.noPaddingCorrect') }}）</span>
-            <span v-else-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 16 !== 0" style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.noPaddingError') }}）</span>
-            <span v-else-if="isEncrypting && formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.aes.pkcs7Support') }}）</span>
+            <span v-if="formData.padding === 'NoPadding' && input.length % 16 === 0" style="color: green;">✓ {{ t('encrypt.aes.correct') }}（{{ t('encrypt.aes.noPaddingCorrect') }}）</span>
+            <span v-else-if="formData.padding === 'NoPadding' && input.length % 16 !== 0" style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.noPaddingError') }}）</span>
+            <span v-else-if="formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.aes.pkcs7Support') }}）</span>
             <span v-else style="color: #999;">（{{ t('encrypt.aes.decryptMode') }}）</span>
           </p>
         </n-alert>
@@ -102,10 +157,9 @@ const { t } = useI18n()
 const message = useMessage()
 
 const input = ref('')
-const output = ref('')
 const error = ref('')
 const debugInfo = ref(true)
-const isEncrypting = ref(true)
+const keyGeneratedTime = ref('') // 记录密钥生成时间
 
 const formData = reactive({
   key: '',
@@ -131,8 +185,6 @@ const encrypt = () => {
   try {
     error.value = ''
 
-    isEncrypting.value = true // 设置为加密状态
-    
     if (!formData.key) {
       throw new Error(t('encrypt.aes.keyRequired'))
     }
@@ -184,10 +236,10 @@ const encrypt = () => {
 
     const encrypted = CryptoJS.AES.encrypt(input.value, key, config)
 
-    output.value = encrypted.toString()
+    input.value = encrypted.toString()
+    message.success(t('encrypt.aes.encryptSuccess'))
   } catch (e) {
     error.value = e.message
-    output.value = '' // 清空输出
   }
 }
 
@@ -195,8 +247,6 @@ const decrypt = () => {
   try {
     error.value = ''
 
-    isEncrypting.value = false // 设置为解密状态
-    
     if (!formData.key) {
       throw new Error(t('encrypt.aes.keyRequired'))
     }
@@ -273,21 +323,21 @@ const decrypt = () => {
       throw new Error(t('encrypt.aes.decryptFailed'))
     }
 
-    output.value = decryptedText
+    input.value = decryptedText
+    message.success(t('encrypt.aes.decryptSuccess'))
   } catch (e) {
     error.value = e.message
-    output.value = '' // 清空输出
   }
 }
 
 const copyToClipboard = async () => {
   try {
     error.value = ''
-    await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    await navigator.clipboard.writeText(input.value)
+    message.success(t('common.copySuccess'))
   } catch (e) {
     error.value = e.message
-    message.error(t('common.error'))
+    message.error(t('common.copyError'))
   }
 }
 
@@ -302,11 +352,23 @@ const generateKeyIV = () => {
     formData.key = keyBytes.toString(CryptoJS.enc.Hex).substring(0, 16)
     formData.iv = ivBytes.toString(CryptoJS.enc.Hex).substring(0, 16)
     
+    // 记录生成时间
+    keyGeneratedTime.value = new Date().toLocaleString()
+    
     message.success(t('encrypt.aes.keyIVGenerated'))
   } catch (e) {
     error.value = e.message
     message.error(t('encrypt.aes.generateFailed', { error: e.message }))
   }
+}
+
+const clearAll = () => {
+  input.value = ''
+  formData.key = ''
+  formData.iv = ''
+  keyGeneratedTime.value = ''
+  error.value = ''
+  message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
 
@@ -317,11 +379,48 @@ const generateKeyIV = () => {
   padding: 0 20px;
 }
 
+.input-output-section {
+  margin-bottom: 20px;
+}
+
+.input-output-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .error-alert {
   margin-top: 16px;
 }
 
 .debug-alert {
   margin-top: 16px;
+}
+
+.key-info-overview {
+  margin: 20px 0;
+}
+
+.key-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.key-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>

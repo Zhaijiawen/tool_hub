@@ -840,7 +840,20 @@ export default {
       keyLengthTip: 'Key length must be 16 characters (128 bits)',
       ivTip: 'CBC, CFB, CTR, OFB modes require IV, length must be 16 characters (128 bits)',
       ecbNoIV: 'ECB mode does not require IV',
-      noPaddingTip: 'NoPadding (data length must be multiple of 16 bytes)'
+      noPaddingTip: 'NoPadding (data length must be multiple of 16 bytes)',
+      // Key Information
+      keyInfo: 'Key Information',
+      algorithm: 'Algorithm',
+      ivStatus: 'IV Status',
+      notRequired: 'Not Required',
+      valid: 'Valid',
+      invalid: 'Invalid',
+      generated: 'Generated',
+      notGenerated: 'Not Generated',
+      // Unified window mode
+      inputLabel: 'Input Content',
+      encryptSuccess: 'Encryption successful',
+      decryptSuccess: 'Decryption successful'
     },
     chacha20: {
       title: 'ChaCha20 Encryption/Decryption',

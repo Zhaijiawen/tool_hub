@@ -835,7 +835,20 @@ export default {
       keyLengthTip: '密钥长度必须是16字符（128位）',
       ivTip: 'CBC、CFB、CTR、OFB 模式需要 IV，长度必须是16字符（128位）',
       ecbNoIV: 'ECB 模式不需要 IV',
-      noPaddingTip: 'NoPadding (数据长度需为16字节倍数)'
+      noPaddingTip: 'NoPadding (数据长度需为16字节倍数)',
+      // Key Information
+      keyInfo: '密钥信息',
+      algorithm: '算法',
+      ivStatus: 'IV状态',
+      notRequired: '不需要',
+      valid: '有效',
+      invalid: '无效',
+      generated: '生成时间',
+      notGenerated: '未生成',
+      // 统一窗口模式
+      inputLabel: '输入内容',
+      encryptSuccess: '加密成功',
+      decryptSuccess: '解密成功'
     },
     chacha20: {
       title: 'ChaCha20 加密/解密',
