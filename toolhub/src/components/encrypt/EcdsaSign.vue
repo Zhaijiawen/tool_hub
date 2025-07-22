@@ -1,92 +1,165 @@
 <template>
   <div class="ecdsa-sign">
     <n-card :title="t('encrypt.ecdsaSign.title')">
-      <!-- 椭圆曲线选择 -->
-      <div class="curve-section">
-        <n-text>{{ t('encrypt.ecdsaSign.curve') }}</n-text>
-        <n-select v-model:value="selectedCurve" :options="curveOptions" />
+      <!-- 参数配置区域 -->
+      <div class="parameters-section">
+        <n-form :model="formData" label-placement="left" label-width="120px">
+          <n-form-item :label="t('encrypt.ecdsaSign.curve')">
+            <n-select v-model:value="selectedCurve" :options="curveOptions" />
+          </n-form-item>
+          
+          <n-form-item :label="t('encrypt.ecdsaSign.hashAlgorithm')">
+            <n-select v-model:value="selectedHashAlgorithm" :options="hashAlgorithmOptions" />
+          </n-form-item>
+        </n-form>
       </div>
 
-      <!-- 哈希算法选择 -->
-      <div class="hash-algorithm-section">
-        <n-text>{{ t('encrypt.ecdsaSign.hashAlgorithm') }}</n-text>
-        <n-select v-model:value="selectedHashAlgorithm" :options="hashAlgorithmOptions" />
+      <!-- 消息输入 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.ecdsaSign.message') }}</n-text>
+        <n-input 
+          v-model:value="messageText" 
+          type="textarea" 
+          :placeholder="t('encrypt.ecdsaSign.messagePlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info">
+          <n-text depth="3">{{ t('encrypt.ecdsaSign.charCount', { count: messageText.length }) }}</n-text>
+        </div>
       </div>
 
-      <n-form>
-        <n-form-item :label="t('encrypt.ecdsaSign.message')">
-          <n-input 
-            v-model:value="messageText" 
-            type="textarea" 
-            :placeholder="t('encrypt.ecdsaSign.messagePlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.charCount', { count: messageText.length }) }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.ecdsaSign.privateKey')">
-          <n-input 
-            v-model:value="privateKey" 
-            type="textarea"
-            :placeholder="t('encrypt.ecdsaSign.privateKeyPlaceholder')" 
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="privateKey">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ privateKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.ecdsaSign.publicKey')">
-          <n-input 
-            v-model:value="publicKey" 
-            type="textarea" 
-            :placeholder="t('encrypt.ecdsaSign.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="publicKey">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ publicKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.ecdsaSign.signature')">
-          <n-input 
-            v-model:value="signature" 
-            type="textarea"
-            :placeholder="t('encrypt.ecdsaSign.signaturePlaceholder')" 
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="signature">
-            <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ signature.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-space>
-          <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
-            {{ t('encrypt.ecdsaSign.generateKeyPair') }}
-          </n-button>
-          <n-button @click="sign" :disabled="!messageText || !privateKey" :loading="isSigning">
-            {{ t('encrypt.ecdsaSign.sign') }}
-          </n-button>
-          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
-            {{ t('encrypt.ecdsaSign.verify') }}
-          </n-button>
-          <n-button @click="clearAll">
-            {{ t('common.clear') }}
-          </n-button>
-        </n-space>
-        
-        <!-- 验证结果显示 -->
-        <n-form-item v-if="verificationResult !== null" :label="t('encrypt.ecdsaSign.verificationResult')">
-          <n-alert :type="verificationResult ? 'success' : 'error'" :title="verificationResult ? t('encrypt.ecdsaSign.verificationSuccess') : t('encrypt.ecdsaSign.verificationFailed')" />
-        </n-form-item>
-        
-        <!-- 错误提示 -->
-        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
-          {{ error }}
+      <!-- 私钥区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.ecdsaSign.privateKey') }}</n-text>
+        <n-input 
+          v-model:value="privateKey" 
+          type="textarea"
+          :placeholder="t('encrypt.ecdsaSign.privateKeyPlaceholder')" 
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="privateKey">
+          <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ privateKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 公钥区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.ecdsaSign.publicKey') }}</n-text>
+        <n-input 
+          v-model:value="publicKey" 
+          type="textarea" 
+          :placeholder="t('encrypt.ecdsaSign.publicKeyPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="publicKey">
+          <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ publicKey.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 签名区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.ecdsaSign.signature') }}</n-text>
+        <n-input 
+          v-model:value="signature" 
+          type="textarea"
+          :placeholder="t('encrypt.ecdsaSign.signaturePlaceholder')" 
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="signature">
+          <n-text depth="3">{{ t('encrypt.ecdsaSign.length') }}: {{ signature.length }} {{ t('encrypt.ecdsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="button-group">
+        <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
+          {{ t('encrypt.ecdsaSign.generateKeyPair') }}
+        </n-button>
+        <n-button @click="sign" :disabled="!messageText || !privateKey" :loading="isSigning">
+          {{ t('encrypt.ecdsaSign.sign') }}
+        </n-button>
+        <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
+          {{ t('encrypt.ecdsaSign.verify') }}
+        </n-button>
+        <n-button @click="clearAll">
+          {{ t('common.clear') }}
+        </n-button>
+      </div>
+
+      <!-- Signature Information 区域 -->
+      <div v-if="publicKey || signature" class="signature-info-overview">
+        <n-alert type="info" :title="t('encrypt.ecdsaSign.signatureInfo')" class="mb-4">
+          <template #default>
+            <div class="signature-info-grid">
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.ecdsaSign.ecdsaAlgorithm') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.curve') }}:</strong> 
+                <n-tag type="info" size="small">{{ selectedCurve }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.hashAlgorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ selectedHashAlgorithm }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.security') }}:</strong> 
+                <n-tag :type="getSecurityType()" size="small">{{ getSecurityStatus() }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.signatureFormat') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.ecdsaSign.hexadecimal') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.keyStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ publicKey ? t('encrypt.ecdsaSign.generated') : t('encrypt.ecdsaSign.notGenerated') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.signatureStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ getSignatureStatus() }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.keyGenTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGenTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.signatureTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ signatureComputeTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.verificationTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ verificationTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.generated') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.ecdsaSign.notGenerated') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.ecdsaSign.signed') }}:</strong> 
+                <n-tag type="info" size="small">{{ signatureTime || t('encrypt.ecdsaSign.notSigned') }}</n-tag>
+              </div>
+            </div>
+            <!-- 安全性说明 -->
+            <div class="security-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.ecdsaSign.securityNote') }}:</strong> {{ t('encrypt.ecdsaSign.securityDescription') }}
+              </n-text>
+            </div>
+          </template>
         </n-alert>
-      </n-form>
+      </div>
+
+      <!-- 验证结果显示 -->
+      <div v-if="verificationResult !== null" class="verification-section">
+        <n-text>{{ t('encrypt.ecdsaSign.verificationResult') }}</n-text>
+        <n-alert :type="verificationResult ? 'success' : 'error'" :title="verificationResult ? t('encrypt.ecdsaSign.verificationSuccess') : t('encrypt.ecdsaSign.verificationFailed')" />
+      </div>
+
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
     </n-card>
     
     <!-- 工具描述组件 -->
@@ -116,6 +189,17 @@ const isVerifying = ref(false)
 const selectedCurve = ref('P-256')
 const selectedHashAlgorithm = ref('SHA-256')
 const verificationResult = ref(null)
+const keyGeneratedTime = ref('') // 密钥生成时间
+const signatureTime = ref('') // 签名时间
+const keyGenTime = ref(0) // 密钥生成耗时
+const signatureComputeTime = ref(0) // 签名计算耗时
+const verificationTime = ref(0) // 验证耗时
+
+// 表单数据
+const formData = reactive({
+  curve: selectedCurve,
+  hashAlgorithm: selectedHashAlgorithm
+})
 
 // 椭圆曲线选项 - 使用 Web Crypto API 支持的曲线
 const curveOptions = [
@@ -129,6 +213,41 @@ const hashAlgorithmOptions = [
   { label: 'SHA-384', value: 'SHA-384' },
   { label: 'SHA-512', value: 'SHA-512' }
 ]
+
+// 获取安全性状态
+const getSecurityStatus = () => {
+  if (selectedCurve.value === 'P-256') {
+    return t('encrypt.ecdsaSign.secure')
+  } else if (selectedCurve.value === 'P-384') {
+    return t('encrypt.ecdsaSign.highlySecure')
+  } else {
+    return t('encrypt.ecdsaSign.secure')
+  }
+}
+
+// 获取安全性类型（用于标签颜色）
+const getSecurityType = () => {
+  if (selectedCurve.value === 'P-256') {
+    return 'success'
+  } else if (selectedCurve.value === 'P-384') {
+    return 'success'
+  } else {
+    return 'success'
+  }
+}
+
+// 获取签名状态
+const getSignatureStatus = () => {
+  if (verificationResult.value === true) {
+    return t('encrypt.ecdsaSign.verified')
+  } else if (verificationResult.value === false) {
+    return t('encrypt.ecdsaSign.verificationFailed')
+  } else if (signature.value) {
+    return t('encrypt.ecdsaSign.signed')
+  } else {
+    return t('encrypt.ecdsaSign.notSigned')
+  }
+}
 
 // 计算消息哈希
 const calculateHash = async (message) => {
@@ -160,6 +279,8 @@ const generateKeyPair = async () => {
     error.value = ''
     verificationResult.value = null
 
+    const startTime = performance.now()
+
     // 使用 Web Crypto API 生成 ECDSA 密钥对
     const keyPair = await crypto.subtle.generateKey(
       {
@@ -177,6 +298,11 @@ const generateKeyPair = async () => {
     // 导出公钥
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey)
     publicKey.value = arrayBufferToHex(publicKeyBuffer)
+
+    // 记录生成时间和耗时
+    const endTime = performance.now()
+    keyGenTime.value = Math.round(endTime - startTime)
+    keyGeneratedTime.value = new Date().toLocaleString()
     
     message.success(t('encrypt.ecdsaSign.keyPairGenerated'))
   } catch (e) {
@@ -197,6 +323,8 @@ const sign = async () => {
     isSigning.value = true
     error.value = ''
     verificationResult.value = null
+
+    const startTime = performance.now()
 
     // 验证私钥格式
     if (!/^[0-9a-fA-F]+$/.test(privateKey.value)) {
@@ -232,6 +360,11 @@ const sign = async () => {
     )
 
     signature.value = arrayBufferToHex(signatureBuffer)
+
+    // 记录签名时间和耗时
+    const endTime = performance.now()
+    signatureComputeTime.value = Math.round(endTime - startTime)
+    signatureTime.value = new Date().toLocaleString()
     
     message.success(t('encrypt.ecdsaSign.signatureCreated'))
   } catch (e) {
@@ -252,6 +385,8 @@ const verify = async () => {
     isVerifying.value = true
     error.value = ''
     verificationResult.value = null
+
+    const startTime = performance.now()
 
     // 验证格式
     if (!/^[0-9a-fA-F]+$/.test(publicKey.value)) {
@@ -290,6 +425,10 @@ const verify = async () => {
       signatureBuffer,
       hashBuffer
     )
+
+    // 记录验证耗时
+    const endTime = performance.now()
+    verificationTime.value = Math.round(endTime - startTime)
     
     verificationResult.value = isValid
     if (isValid) {
@@ -314,6 +453,11 @@ const clearAll = () => {
   signature.value = ''
   error.value = ''
   verificationResult.value = null
+  keyGeneratedTime.value = ''
+  signatureTime.value = ''
+  keyGenTime.value = 0
+  signatureComputeTime.value = 0
+  verificationTime.value = 0
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -325,12 +469,17 @@ const clearAll = () => {
   padding: 0 20px;
 }
 
-.curve-section,
-.hash-algorithm-section {
+.parameters-section {
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.input-section .n-text {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .input-info {
@@ -340,7 +489,52 @@ const clearAll = () => {
   align-items: center;
 }
 
+.button-group {
+  margin: 20px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.verification-section {
+  margin: 20px 0;
+}
+
+.verification-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
 .error-alert {
   margin-top: 16px;
+}
+
+.signature-info-overview {
+  margin: 20px 0;
+}
+
+.signature-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.signature-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>
