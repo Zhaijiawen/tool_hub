@@ -1096,7 +1096,21 @@ export default {
       length: '长度',
       characters: '字符',
       saltRoundsInfo: '推荐值：10-12，数值越大安全性越高但计算时间越长',
-      description: 'Bcrypt 密码哈希算法'
+      description: 'Bcrypt 密码哈希算法',
+      // Hash Information
+      hashInfo: '哈希信息',
+      algorithm: '算法',
+      bcrypt: 'Bcrypt',
+      security: '安全性',
+      secure: '安全',
+      workFactor: '工作因子',
+      inputLength: '输入长度',
+      outputLength: '输出长度',
+      computeTime: '计算时间',
+      computed: '计算时间',
+      notComputed: '未计算',
+      securityNote: '安全性说明',
+      securityDescription: 'Bcrypt 是专为密码哈希设计的算法，具有自适应工作因子，能够抵抗暴力破解和彩虹表攻击'
     },
     argon2: {
       title: 'Argon2 哈希算法',

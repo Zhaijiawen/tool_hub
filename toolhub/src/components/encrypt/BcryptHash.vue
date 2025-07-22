@@ -48,6 +48,54 @@
         </n-button>
       </div>
 
+      <!-- Hash Information 区域 -->
+      <div v-if="output" class="hash-info-overview">
+        <n-alert type="info" :title="t('encrypt.bcrypt.hashInfo')" class="mb-4">
+          <template #default>
+            <div class="hash-info-grid">
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.bcrypt.bcrypt') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.saltRounds') }}:</strong> 
+                <n-tag type="info" size="small">{{ formData.saltRounds }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.security') }}:</strong> 
+                <n-tag type="success" size="small">{{ t('encrypt.bcrypt.secure') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.workFactor') }}:</strong> 
+                <n-tag type="info" size="small">2^{{ formData.saltRounds }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.inputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ input.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.outputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ output.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.computeTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ computeTime }}ms</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.bcrypt.computed') }}:</strong> 
+                <n-tag type="info" size="small">{{ hashGeneratedTime || t('encrypt.bcrypt.notComputed') }}</n-tag>
+              </div>
+            </div>
+            <!-- 安全性说明 -->
+            <div class="security-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.bcrypt.securityNote') }}:</strong> {{ t('encrypt.bcrypt.securityDescription') }}
+              </n-text>
+            </div>
+          </template>
+        </n-alert>
+      </div>
+
       <!-- 输出区域 -->
       <div class="output-section">
         <n-text>{{ t('encrypt.bcrypt.output') }}</n-text>
@@ -89,6 +137,8 @@ const message = useMessage()
 const input = ref('')
 const output = ref('')
 const error = ref('')
+const computeTime = ref(0) // 计算时间
+const hashGeneratedTime = ref('') // 哈希生成时间
 
 const formData = reactive({
   saltRounds: 10
@@ -102,11 +152,19 @@ const hash = () => {
       return
     }
 
+    const startTime = performance.now()
+    
     // 生成盐并计算哈希
     const salt = bcrypt.genSaltSync(formData.saltRounds)
     const hashedPassword = bcrypt.hashSync(input.value, salt)
     
     output.value = hashedPassword
+    
+    // 记录计算时间和生成时间
+    const endTime = performance.now()
+    computeTime.value = Math.round(endTime - startTime)
+    hashGeneratedTime.value = new Date().toLocaleString()
+    
     error.value = ''
     message.success(t('encrypt.bcrypt.hashSuccess'))
   } catch (e) {
@@ -154,6 +212,8 @@ const clearAll = () => {
   input.value = ''
   output.value = ''
   error.value = ''
+  computeTime.value = 0
+  hashGeneratedTime.value = ''
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -216,5 +276,34 @@ const clearAll = () => {
 
 .error-alert {
   margin-top: 16px;
+}
+
+.hash-info-overview {
+  margin: 20px 0;
+}
+
+.hash-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hash-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>

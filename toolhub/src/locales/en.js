@@ -1140,7 +1140,21 @@ export default {
       charCount: 'Characters: {count}',
       length: 'Length',
       saltRoundsInfo: 'Recommended: 10-12, higher values increase security but take longer to compute',
-      description: 'Bcrypt password hash algorithm'
+      description: 'Bcrypt password hash algorithm',
+      // Hash Information
+      hashInfo: 'Hash Information',
+      algorithm: 'Algorithm',
+      bcrypt: 'Bcrypt',
+      security: 'Security',
+      secure: 'Secure',
+      workFactor: 'Work Factor',
+      inputLength: 'Input Length',
+      outputLength: 'Output Length',
+      computeTime: 'Compute Time',
+      computed: 'Computed',
+      notComputed: 'Not Computed',
+      securityNote: 'Security Note',
+      securityDescription: 'Bcrypt is specifically designed for password hashing with adaptive work factor, resistant to brute force and rainbow table attacks'
     },
     argon2: {
       title: 'Argon2 Hash Algorithm',
