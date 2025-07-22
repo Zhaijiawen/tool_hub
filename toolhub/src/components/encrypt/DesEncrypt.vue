@@ -2,8 +2,19 @@
   <div class="des-encrypt">
     <n-card :title="t('encrypt.des.title')">
       <n-space vertical>
-        <n-input v-model:value="input" type="textarea" :placeholder="t('encrypt.des.inputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" />
+        <!-- 统一的输入/输出窗口 -->
+        <div class="input-output-section">
+          <n-text>{{ t('encrypt.des.inputLabel') }}</n-text>
+          <n-input 
+            v-model:value="input" 
+            type="textarea" 
+            :placeholder="t('encrypt.des.inputPlaceholder')"
+            :autosize="{ minRows: 8, maxRows: 15 }" 
+          />
+          <div class="input-info">
+            <n-text depth="3">{{ t('encrypt.des.charCount', { count: input.length }) }}</n-text>
+          </div>
+        </div>
 
         <n-form :model="formData" label-placement="left" label-width="200px">
           <n-form-item :label="t('encrypt.des.key')">
@@ -57,10 +68,54 @@
           <n-button @click="copyToClipboard">
             {{ t('common.copy') }}
           </n-button>
+          <n-button @click="clearAll">
+            {{ t('common.clear') }}
+          </n-button>
         </n-space>
 
-        <n-input v-model:value="output" type="textarea" :placeholder="t('encrypt.des.outputPlaceholder')"
-          :autosize="{ minRows: 5, maxRows: 10 }" readonly />
+        <!-- Key Information 区域 -->
+        <div v-if="formData.key || formData.iv" class="key-info-overview">
+          <n-alert type="info" :title="t('encrypt.des.keyInfo')" class="mb-4">
+            <template #default>
+              <div class="key-info-grid">
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.algorithm') }}:</strong> 
+                  <n-tag type="info" size="small">{{ formData.type }}</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.keyLength') }}:</strong> 
+                  <n-tag :type="formData.key.length === getKeyLength() ? 'success' : 'error'" size="small">
+                    {{ formData.key.length }} {{ t('common.characters') }} ({{ formData.key.length * 8 }} bits)
+                  </n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.mode') }}:</strong> 
+                  <n-tag type="info" size="small">{{ formData.mode }}</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.padding') }}:</strong> 
+                  <n-tag type="info" size="small">{{ formData.padding }}</n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.ivStatus') }}:</strong> 
+                  <n-tag v-if="formData.mode === 'ECB'" type="warning" size="small">
+                    {{ t('encrypt.des.notRequired') }}
+                  </n-tag>
+                  <n-tag v-else-if="formData.iv.length === 8" type="success" size="small">
+                    {{ t('encrypt.des.valid') }} ({{ formData.iv.length }} {{ t('common.characters') }})
+                  </n-tag>
+                  <n-tag v-else type="error" size="small">
+                    {{ t('encrypt.des.invalid') }} ({{ formData.iv.length }} {{ t('common.characters') }})
+                  </n-tag>
+                </div>
+                <div class="key-info-item">
+                  <strong>{{ t('encrypt.des.generated') }}:</strong> 
+                  <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.des.notGenerated') }}</n-tag>
+                </div>
+              </div>
+            </template>
+          </n-alert>
+        </div>
 
         <!-- 调试信息 -->
         <n-alert v-if="debugInfo" type="info" :title="t('encrypt.des.debugTitle')" class="debug-alert">
@@ -77,9 +132,9 @@
             <span v-else style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.ivLengthError') }}）</span>
           </p>
           <p>{{ t('encrypt.des.inputLength') }}: {{ input.length }} {{ t('common.characters') }}
-            <span v-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 8 === 0" style="color: green;">✓ {{ t('encrypt.des.correct') }}（{{ t('encrypt.des.noPaddingCorrect') }}）</span>
-            <span v-else-if="isEncrypting && formData.padding === 'NoPadding' && input.length % 8 !== 0" style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.noPaddingError') }}）</span>
-            <span v-else-if="isEncrypting && formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.des.pkcs7Support') }}）</span>
+            <span v-if="formData.padding === 'NoPadding' && input.length % 8 === 0" style="color: green;">✓ {{ t('encrypt.des.correct') }}（{{ t('encrypt.des.noPaddingCorrect') }}）</span>
+            <span v-else-if="formData.padding === 'NoPadding' && input.length % 8 !== 0" style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.noPaddingError') }}）</span>
+            <span v-else-if="formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.des.pkcs7Support') }}）</span>
             <span v-else style="color: #999;">（{{ t('encrypt.des.decryptMode') }}）</span>
           </p>
         </n-alert>
@@ -108,10 +163,9 @@ const { t } = useI18n()
 const message = useMessage()
 
 const input = ref('')
-const output = ref('')
 const error = ref('')
 const debugInfo = ref(true)
-const isEncrypting = ref(true)
+const keyGeneratedTime = ref('') // 记录密钥生成时间
 
 const formData = reactive({
   key: '',
@@ -152,7 +206,6 @@ const getBlockSize = () => {
 const encrypt = () => {
   try {
     error.value = ''
-    isEncrypting.value = true
 
     if (!formData.key) {
       throw new Error(t('encrypt.des.keyRequired'))
@@ -208,18 +261,16 @@ const encrypt = () => {
       ? CryptoJS.DES.encrypt(input.value, key, config)
       : CryptoJS.TripleDES.encrypt(input.value, key, config)
 
-    output.value = encrypted.toString()
-    error.value = ''
+    input.value = encrypted.toString()
+    message.success(t('encrypt.des.encryptSuccess'))
   } catch (e) {
     error.value = e.message
-    output.value = ''
   }
 }
 
 const decrypt = () => {
   try {
     error.value = ''
-    isEncrypting.value = false
 
     if (!formData.key) {
       throw new Error(t('encrypt.des.keyRequired'))
@@ -270,20 +321,21 @@ const decrypt = () => {
       ? CryptoJS.DES.decrypt(input.value, key, config)
       : CryptoJS.TripleDES.decrypt(input.value, key, config)
 
-    output.value = decrypted.toString(CryptoJS.enc.Utf8)
-    error.value = ''
+    input.value = decrypted.toString(CryptoJS.enc.Utf8)
+    message.success(t('encrypt.des.decryptSuccess'))
   } catch (e) {
     error.value = e.message
-    output.value = ''
   }
 }
 
 const copyToClipboard = async () => {
   try {
-    await navigator.clipboard.writeText(output.value)
-    message.success(t('common.success'))
+    error.value = ''
+    await navigator.clipboard.writeText(input.value)
+    message.success(t('common.copySuccess'))
   } catch (e) {
-    message.error(t('common.error'))
+    error.value = e.message
+    message.error(t('common.copyError'))
   }
 }
 
@@ -295,11 +347,24 @@ const generateKeyIV = () => {
     const iv = Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b => String.fromCharCode(97 + b % 26)).join('')
     formData.key = key
     formData.iv = iv
+    
+    // 记录生成时间
+    keyGeneratedTime.value = new Date().toLocaleString()
+    
     message.success(t('encrypt.des.keyIVGenerated'))
   } catch (e) {
     error.value = e.message
     message.error(t('encrypt.des.generateFailed', { error: e.message }))
   }
+}
+
+const clearAll = () => {
+  input.value = ''
+  formData.key = ''
+  formData.iv = ''
+  keyGeneratedTime.value = ''
+  error.value = ''
+  message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
 
@@ -310,11 +375,48 @@ const generateKeyIV = () => {
   padding: 0 20px;
 }
 
+.input-output-section {
+  margin-bottom: 20px;
+}
+
+.input-output-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.input-info {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .debug-alert {
   margin-top: 16px;
 }
 
 .error-alert {
   margin-top: 16px;
+}
+
+.key-info-overview {
+  margin: 20px 0;
+}
+
+.key-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.key-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>

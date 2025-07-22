@@ -924,6 +924,21 @@ export default {
       generateKeyIV: 'Generate Key and IV',
       keyIVGenerated: 'Generated key and IV',
       generateFailed: 'Generation failed: {error}',
+      // Key Information
+      keyInfo: 'Key Information',
+      algorithm: 'Algorithm',
+      ivStatus: 'IV Status',
+      notRequired: 'Not Required',
+      valid: 'Valid',
+      invalid: 'Invalid',
+      generated: 'Generated',
+      notGenerated: 'Not Generated',
+      // Unified window mode
+      inputLabel: 'Input Content',
+      inputRequired: 'Please enter content to encrypt',
+      decryptInputRequired: 'Please enter content to decrypt',
+      encryptSuccess: 'Encryption successful',
+      decryptSuccess: 'Decryption successful',
       // Debug information
       debugTitle: 'Current Configuration',
       keyLength: 'Key Length',

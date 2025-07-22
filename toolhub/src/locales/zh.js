@@ -919,6 +919,21 @@ export default {
       generateKeyIV: '生成密钥和IV',
       keyIVGenerated: '已生成密钥和IV',
       generateFailed: '生成失败：{error}',
+      // Key Information
+      keyInfo: '密钥信息',
+      algorithm: '算法',
+      ivStatus: 'IV状态',
+      notRequired: '不需要',
+      valid: '有效',
+      invalid: '无效',
+      generated: '生成时间',
+      notGenerated: '未生成',
+      // 统一窗口模式
+      inputLabel: '输入内容',
+      inputRequired: '请输入要加密的文本',
+      decryptInputRequired: '请输入要解密的文本',
+      encryptSuccess: '加密成功',
+      decryptSuccess: '解密成功',
       // 调试信息
       debugTitle: '当前配置',
       keyLength: '密钥长度',
