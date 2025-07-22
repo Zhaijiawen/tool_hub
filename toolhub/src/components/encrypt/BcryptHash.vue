@@ -37,9 +37,6 @@
         <n-button @click="hash" type="primary" :disabled="!input.trim()">
           {{ t('encrypt.bcrypt.hash') }}
         </n-button>
-        <n-button @click="verify" type="info" :disabled="!input.trim() || !output">
-          {{ t('encrypt.bcrypt.verify') }}
-        </n-button>
         <n-button @click="copyToClipboard" :disabled="!output">
           {{ t('common.copy') }}
         </n-button>
@@ -111,6 +108,22 @@
         </div>
       </div>
 
+      <!-- 验证区域 -->
+      <div class="verify-section">
+        <n-text>{{ t('encrypt.bcrypt.verify') }}</n-text>
+        <n-input 
+          v-model:value="verifyHash" 
+          type="textarea" 
+          :placeholder="t('encrypt.bcrypt.verifyPlaceholder')"
+          :autosize="{ minRows: 4, maxRows: 8 }" 
+        />
+        <div class="button-group">
+          <n-button @click="verify" type="info" :disabled="!input.trim() || !verifyHash.trim()" :loading="isVerifying">
+            {{ t('encrypt.bcrypt.verify') }}
+          </n-button>
+        </div>
+      </div>
+
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
         {{ error }}
@@ -136,7 +149,9 @@ const message = useMessage()
 // 响应式数据
 const input = ref('')
 const output = ref('')
+const verifyHash = ref('')
 const error = ref('')
+const isVerifying = ref(false)
 const computeTime = ref(0) // 计算时间
 const hashGeneratedTime = ref('') // 哈希生成时间
 
@@ -174,15 +189,18 @@ const hash = () => {
 }
 
 // 验证哈希
-const verify = () => {
+const verify = async () => {
   try {
-    if (!input.value.trim() || !output.value.trim()) {
+    if (!input.value.trim() || !verifyHash.value.trim()) {
       error.value = t('encrypt.bcrypt.bothInputsRequired')
       return
     }
 
+    isVerifying.value = true
+    error.value = ''
+
     // 验证密码是否匹配哈希值
-    const isValid = bcrypt.compareSync(input.value, output.value)
+    const isValid = bcrypt.compareSync(input.value, verifyHash.value)
     
     if (isValid) {
       message.success(t('encrypt.bcrypt.verificationSuccess'))
@@ -194,6 +212,8 @@ const verify = () => {
   } catch (e) {
     error.value = e.message
     message.error(t('common.error'))
+  } finally {
+    isVerifying.value = false
   }
 }
 
@@ -211,6 +231,7 @@ const copyToClipboard = async () => {
 const clearAll = () => {
   input.value = ''
   output.value = ''
+  verifyHash.value = ''
   error.value = ''
   computeTime.value = 0
   hashGeneratedTime.value = ''
@@ -272,6 +293,15 @@ const clearAll = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.verify-section {
+  margin: 20px 0;
+}
+
+.verify-section .n-text {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .error-alert {

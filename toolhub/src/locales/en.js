@@ -1140,6 +1140,7 @@ export default {
       charCount: 'Characters: {count}',
       length: 'Length',
       saltRoundsInfo: 'Recommended: 10-12, higher values increase security but take longer to compute',
+      verifyPlaceholder: 'Enter hash to verify',
       description: 'Bcrypt password hash algorithm',
       // Hash Information
       hashInfo: 'Hash Information',

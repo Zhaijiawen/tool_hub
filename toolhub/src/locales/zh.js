@@ -1096,6 +1096,7 @@ export default {
       length: '长度',
       characters: '字符',
       saltRoundsInfo: '推荐值：10-12，数值越大安全性越高但计算时间越长',
+      verifyPlaceholder: '请输入要验证的哈希值',
       description: 'Bcrypt 密码哈希算法',
       // Hash Information
       hashInfo: '哈希信息',
