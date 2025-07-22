@@ -1053,8 +1053,26 @@ export default {
       charCount: '字符数：{count}',
       bit: '位',
       hex: '十六进制',
+      hexadecimal: '十六进制',
+      base64: '标准Base64',
+      base64url: 'URL安全Base64',
       length: '长度',
-      description: 'SHA 系列哈希算法'
+      description: 'SHA 系列哈希算法',
+      // Hash Information
+      hashInfo: '哈希信息',
+      bitLength: '位数',
+      bits: '位',
+      security: '安全性',
+      insecure: '不安全',
+      deprecated: '已弃用',
+      secure: '安全',
+      inputLength: '输入长度',
+      outputLength: '输出长度',
+      computeTime: '计算时间',
+      computed: '计算时间',
+      notComputed: '未计算',
+      formatNote: '格式说明',
+      base64urlNote: 'Base64URL 使用 URL 安全的字符集，将 + 替换为 -，/ 替换为 _，适合在 URL 中使用'
     },
     bcrypt: {
       title: 'Bcrypt 哈希算法',

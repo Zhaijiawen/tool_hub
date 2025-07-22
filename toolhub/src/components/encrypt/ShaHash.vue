@@ -49,6 +49,54 @@
         </n-button>
       </div>
 
+      <!-- Hash Information 区域 -->
+      <div v-if="output" class="hash-info-overview">
+        <n-alert type="info" :title="t('encrypt.sha.hashInfo')" class="mb-4">
+          <template #default>
+            <div class="hash-info-grid">
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ formData.algorithm }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.bitLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ getBitLength() }} {{ t('encrypt.sha.bits') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.security') }}:</strong> 
+                <n-tag :type="getSecurityType()" size="small">{{ getSecurityStatus() }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.outputFormat') }}:</strong> 
+                <n-tag type="info" size="small">{{ getFormatDisplayName() }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.inputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ input.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.outputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ output.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.computeTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ computeTime }}ms</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.sha.computed') }}:</strong> 
+                <n-tag type="info" size="small">{{ hashGeneratedTime || t('encrypt.sha.notComputed') }}</n-tag>
+              </div>
+            </div>
+            <!-- 格式说明 -->
+            <div v-if="formData.outputFormat === 'base64url'" class="format-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.sha.formatNote') }}:</strong> {{ t('encrypt.sha.base64urlNote') }}
+              </n-text>
+            </div>
+          </template>
+        </n-alert>
+      </div>
+
       <!-- 输出区域 -->
       <div class="output-section">
         <n-text>{{ t('encrypt.sha.output') }}</n-text>
@@ -89,6 +137,8 @@ const message = useMessage()
 const input = ref('')
 const output = ref('')
 const error = ref('')
+const computeTime = ref(0) // 计算时间
+const hashGeneratedTime = ref('') // 哈希生成时间
 
 const formData = reactive({
   algorithm: 'SHA-256',
@@ -97,22 +147,77 @@ const formData = reactive({
 
 // 算法选项
 const algorithmOptions = [
-  { label: `SHA-1 (160${t('encrypt.sha.bit')})`, value: 'SHA-1' },
-  { label: `SHA-224 (224${t('encrypt.sha.bit')})`, value: 'SHA-224' },
-  { label: `SHA-256 (256${t('encrypt.sha.bit')})`, value: 'SHA-256' },
-  { label: `SHA-384 (384${t('encrypt.sha.bit')})`, value: 'SHA-384' },
-  { label: `SHA-512 (512${t('encrypt.sha.bit')})`, value: 'SHA-512' },
-  { label: `SHA-512/224 (224${t('encrypt.sha.bit')})`, value: 'SHA-512/224' },
-  { label: `SHA-512/256 (256${t('encrypt.sha.bit')})`, value: 'SHA-512/256' },
-  { label: `MD5 (128${t('encrypt.sha.bit')})`, value: 'MD5' }
+  { label: `SHA-1 (160${t('encrypt.sha.bits')})`, value: 'SHA-1' },
+  { label: `SHA-224 (224${t('encrypt.sha.bits')})`, value: 'SHA-224' },
+  { label: `SHA-256 (256${t('encrypt.sha.bits')})`, value: 'SHA-256' },
+  { label: `SHA-384 (384${t('encrypt.sha.bits')})`, value: 'SHA-384' },
+  { label: `SHA-512 (512${t('encrypt.sha.bits')})`, value: 'SHA-512' },
+  { label: `SHA-512/224 (224${t('encrypt.sha.bits')})`, value: 'SHA-512/224' },
+  { label: `SHA-512/256 (256${t('encrypt.sha.bits')})`, value: 'SHA-512/256' },
+  { label: `MD5 (128${t('encrypt.sha.bits')})`, value: 'MD5' }
 ]
 
 // 输出格式选项
 const outputFormatOptions = [
-  { label: `HEX (${t('encrypt.sha.hex')})`, value: 'hex' },
-  { label: 'Base64', value: 'base64' },
-  { label: 'Base64URL', value: 'base64url' }
+  { label: `HEX (${t('encrypt.sha.hexadecimal')})`, value: 'hex' },
+  { label: `Base64 (${t('encrypt.sha.base64')})`, value: 'base64' },
+  { label: `Base64URL (${t('encrypt.sha.base64url')})`, value: 'base64url' }
 ]
+
+// 获取位数
+const getBitLength = () => {
+  const bitMap = {
+    'MD5': 128,
+    'SHA-1': 160,
+    'SHA-224': 224,
+    'SHA-256': 256,
+    'SHA-384': 384,
+    'SHA-512': 512,
+    'SHA-512/224': 224,
+    'SHA-512/256': 256
+  }
+  return bitMap[formData.algorithm] || 256
+}
+
+// 获取安全性状态
+const getSecurityStatus = () => {
+  const securityMap = {
+    'MD5': t('encrypt.sha.insecure'),
+    'SHA-1': t('encrypt.sha.deprecated'),
+    'SHA-224': t('encrypt.sha.secure'),
+    'SHA-256': t('encrypt.sha.secure'),
+    'SHA-384': t('encrypt.sha.secure'),
+    'SHA-512': t('encrypt.sha.secure'),
+    'SHA-512/224': t('encrypt.sha.secure'),
+    'SHA-512/256': t('encrypt.sha.secure')
+  }
+  return securityMap[formData.algorithm] || t('encrypt.sha.secure')
+}
+
+// 获取安全性类型（用于标签颜色）
+const getSecurityType = () => {
+  const typeMap = {
+    'MD5': 'error',
+    'SHA-1': 'warning',
+    'SHA-224': 'success',
+    'SHA-256': 'success',
+    'SHA-384': 'success',
+    'SHA-512': 'success',
+    'SHA-512/224': 'success',
+    'SHA-512/256': 'success'
+  }
+  return typeMap[formData.algorithm] || 'success'
+}
+
+// 获取格式显示名称
+const getFormatDisplayName = () => {
+  const formatMap = {
+    'hex': 'HEX',
+    'base64': t('encrypt.sha.base64'),
+    'base64url': t('encrypt.sha.base64url')
+  }
+  return formatMap[formData.outputFormat] || 'HEX'
+}
 
 // 计算哈希
 const hash = () => {
@@ -122,6 +227,7 @@ const hash = () => {
       return
     }
 
+    const startTime = performance.now()
     let hashed
     switch (formData.algorithm) {
       case 'SHA-1':
@@ -168,6 +274,11 @@ const hash = () => {
         output.value = hashed.toString(CryptoJS.enc.Hex)
     }
 
+    // 记录计算时间和生成时间
+    const endTime = performance.now()
+    computeTime.value = Math.round(endTime - startTime)
+    hashGeneratedTime.value = new Date().toLocaleString()
+
     error.value = ''
     message.success(t('encrypt.sha.hashSuccess'))
   } catch (e) {
@@ -191,6 +302,8 @@ const clearAll = () => {
   input.value = ''
   output.value = ''
   error.value = ''
+  computeTime.value = 0
+  hashGeneratedTime.value = ''
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -247,5 +360,34 @@ const clearAll = () => {
 
 .error-alert {
   margin-top: 16px;
+}
+
+.hash-info-overview {
+  margin: 20px 0;
+}
+
+.hash-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hash-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.format-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(0, 123, 255, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #007bff;
 }
 </style>

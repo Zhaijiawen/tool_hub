@@ -1098,8 +1098,26 @@ export default {
       charCount: 'Characters: {count}',
       bit: 'bits',
       hex: 'Hexadecimal',
+      hexadecimal: 'Hexadecimal',
+      base64: 'Standard Base64',
+      base64url: 'URL-Safe Base64',
       length: 'Length',
-      description: 'SHA series hash algorithms'
+      description: 'SHA series hash algorithms',
+      // Hash Information
+      hashInfo: 'Hash Information',
+      bitLength: 'Bit Length',
+      bits: 'bits',
+      security: 'Security',
+      insecure: 'Insecure',
+      deprecated: 'Deprecated',
+      secure: 'Secure',
+      inputLength: 'Input Length',
+      outputLength: 'Output Length',
+      computeTime: 'Compute Time',
+      computed: 'Computed',
+      notComputed: 'Not Computed',
+      formatNote: 'Format Note',
+      base64urlNote: 'Base64URL uses URL-safe character set, replacing + with - and / with _, suitable for use in URLs'
     },
     bcrypt: {
       title: 'Bcrypt Hash Algorithm',
