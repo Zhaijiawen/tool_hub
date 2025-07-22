@@ -69,6 +69,66 @@
         </n-button>
       </div>
 
+      <!-- Key Information 区域 -->
+      <div v-if="publicKey || sharedSecret" class="key-info-overview">
+        <n-alert type="info" :title="t('encrypt.ecdh-key-exchange.keyInfo')" class="mb-4">
+          <template #default>
+            <div class="key-info-grid">
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.ecdh-key-exchange.ecdh') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.curve') }}:</strong> 
+                <n-tag type="info" size="small">P-256</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.keyLength') }}:</strong> 
+                <n-tag type="info" size="small">256 {{ t('encrypt.ecdh-key-exchange.bits') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.security') }}:</strong> 
+                <n-tag type="success" size="small">{{ t('encrypt.ecdh-key-exchange.secure') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.keyFormat') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.ecdh-key-exchange.hexadecimal') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.keyStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ publicKey ? t('encrypt.ecdh-key-exchange.generated') : t('encrypt.ecdh-key-exchange.notGenerated') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.exchangeStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ sharedSecret ? t('encrypt.ecdh-key-exchange.completed') : t('encrypt.ecdh-key-exchange.notCompleted') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.keyGenTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGenTime }}ms</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.exchangeTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ exchangeComputeTime }}ms</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.generated') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.ecdh-key-exchange.notGenerated') }}</n-tag>
+              </div>
+              <div class="key-info-item">
+                <strong>{{ t('encrypt.ecdh-key-exchange.exchanged') }}:</strong> 
+                <n-tag type="info" size="small">{{ exchangeTime || t('encrypt.ecdh-key-exchange.notExchanged') }}</n-tag>
+              </div>
+            </div>
+            <!-- 安全性说明 -->
+            <div class="security-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.ecdh-key-exchange.securityNote') }}:</strong> {{ t('encrypt.ecdh-key-exchange.securityDescription') }}
+              </n-text>
+            </div>
+          </template>
+        </n-alert>
+      </div>
+
       <!-- 共享密钥区域 -->
       <div class="output-section" v-if="sharedSecret">
         <n-text>{{ t('encrypt.ecdh-key-exchange.sharedSecret') }}</n-text>
@@ -113,6 +173,10 @@ const sharedSecret = ref('')
 const error = ref('')
 const isGenerating = ref(false)
 const isComputing = ref(false)
+const keyGeneratedTime = ref('') // 密钥生成时间
+const exchangeTime = ref('') // 交换时间
+const keyGenTime = ref(0) // 密钥生成耗时
+const exchangeComputeTime = ref(0) // 交换计算耗时
 
 // 将ArrayBuffer转换为十六进制字符串
 const arrayBufferToHex = (buffer) => {
@@ -134,6 +198,8 @@ const generateKeyPair = async () => {
     isGenerating.value = true
     error.value = ''
 
+    const startTime = performance.now()
+
     // 使用Web Crypto API生成ECDH密钥对
     const keyPair = await crypto.subtle.generateKey(
       {
@@ -151,6 +217,11 @@ const generateKeyPair = async () => {
     // 导出公钥
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
     publicKey.value = arrayBufferToHex(publicKeyBuffer);
+
+    // 记录生成时间和耗时
+    const endTime = performance.now()
+    keyGenTime.value = Math.round(endTime - startTime)
+    keyGeneratedTime.value = new Date().toLocaleString()
 
     message.success(t('encrypt.ecdh-key-exchange.keyPairGenerated'))
   } catch (e) {
@@ -171,6 +242,8 @@ const computeSharedSecret = async () => {
 
     isComputing.value = true
     error.value = ''
+
+    const startTime = performance.now()
 
     // 验证密钥格式
     if (!/^[0-9a-fA-F]+$/.test(privateKey.value) || !/^[0-9a-fA-F]+$/.test(peerPublicKey.value)) {
@@ -214,6 +287,12 @@ const computeSharedSecret = async () => {
     );
 
     sharedSecret.value = arrayBufferToHex(sharedSecretBuffer);
+
+    // 记录交换时间和耗时
+    const endTime = performance.now()
+    exchangeComputeTime.value = Math.round(endTime - startTime)
+    exchangeTime.value = new Date().toLocaleString()
+
     message.success(t('encrypt.ecdh-key-exchange.sharedSecretComputed'))
   } catch (e) {
     error.value = e.message
@@ -274,6 +353,10 @@ const clearAll = () => {
   peerPublicKey.value = ''
   sharedSecret.value = ''
   error.value = ''
+  keyGeneratedTime.value = ''
+  exchangeTime.value = ''
+  keyGenTime.value = 0
+  exchangeComputeTime.value = 0
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -332,5 +415,34 @@ const clearAll = () => {
   margin-top: 8px;
   display: flex;
   gap: 8px;
+}
+
+.key-info-overview {
+  margin: 20px 0;
+}
+
+.key-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.key-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style> 
