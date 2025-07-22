@@ -1,92 +1,165 @@
 <template>
   <div class="rsa-sign">
     <n-card :title="t('encrypt.rsaSign.title')">
-      <!-- 密钥长度选择 -->
-      <div class="key-length-section">
-        <n-text>{{ t('encrypt.rsaSign.keyLength') }}</n-text>
-        <n-select v-model:value="selectedKeyLength" :options="keyLengthOptions" />
+      <!-- 参数配置区域 -->
+      <div class="parameters-section">
+        <n-form :model="formData" label-placement="left" label-width="120px">
+          <n-form-item :label="t('encrypt.rsaSign.keyLength')">
+            <n-select v-model:value="selectedKeyLength" :options="keyLengthOptions" />
+          </n-form-item>
+          
+          <n-form-item :label="t('encrypt.rsaSign.hashAlgorithm')">
+            <n-select v-model:value="selectedHashAlgorithm" :options="hashAlgorithmOptions" />
+          </n-form-item>
+        </n-form>
       </div>
 
-      <!-- 哈希算法选择 -->
-      <div class="hash-algorithm-section">
-        <n-text>{{ t('encrypt.rsaSign.hashAlgorithm') }}</n-text>
-        <n-select v-model:value="selectedHashAlgorithm" :options="hashAlgorithmOptions" />
+      <!-- 消息输入 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.rsaSign.message') }}</n-text>
+        <n-input 
+          v-model:value="messageText" 
+          type="textarea" 
+          :placeholder="t('encrypt.rsaSign.messagePlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info">
+          <n-text depth="3">{{ t('encrypt.rsaSign.charCount', { count: messageText.length }) }}</n-text>
+        </div>
       </div>
 
-      <n-form>
-        <n-form-item :label="t('encrypt.rsaSign.message')">
-          <n-input 
-            v-model:value="messageText" 
-            type="textarea" 
-            :placeholder="t('encrypt.rsaSign.messagePlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info">
-            <n-text depth="3">{{ t('encrypt.rsaSign.charCount', { count: messageText.length }) }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.rsaSign.privateKey')">
-          <n-input 
-            v-model:value="privateKey" 
-            type="textarea" 
-            :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="privateKey">
-            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ privateKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.rsaSign.publicKey')">
-          <n-input 
-            v-model:value="publicKey" 
-            type="textarea" 
-            :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="publicKey">
-            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ publicKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-form-item :label="t('encrypt.rsaSign.signature')">
-          <n-input 
-            v-model:value="signature" 
-            type="textarea" 
-            :placeholder="t('encrypt.rsaSign.signaturePlaceholder')"
-            :autosize="{ minRows: 3, maxRows: 10 }" 
-          />
-          <div class="input-info" v-if="signature">
-            <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ signature.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
-          </div>
-        </n-form-item>
-        
-        <n-space>
-          <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
-            {{ t('encrypt.rsaSign.generateKeyPair') }}
-          </n-button>
-          <n-button @click="sign" :disabled="!messageText || !privateKey" :loading="isSigning">
-            {{ t('encrypt.rsaSign.sign') }}
-          </n-button>
-          <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
-            {{ t('encrypt.rsaSign.verify') }}
-          </n-button>
-          <n-button @click="clearAll">
-            {{ t('common.clear') }}
-          </n-button>
-        </n-space>
-        
-        <!-- 验证结果显示 -->
-        <n-form-item v-if="verificationResult !== null" :label="t('encrypt.rsaSign.verificationResult')">
-          <n-alert :type="verificationResult ? 'success' : 'error'" :title="verificationResult ? t('encrypt.rsaSign.verificationSuccess') : t('encrypt.rsaSign.verificationFailed')" />
-        </n-form-item>
-        
-        <!-- 错误提示 -->
-        <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
-          {{ error }}
+      <!-- 私钥区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.rsaSign.privateKey') }}</n-text>
+        <n-input 
+          v-model:value="privateKey" 
+          type="textarea" 
+          :placeholder="t('encrypt.rsaSign.privateKeyPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="privateKey">
+          <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ privateKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 公钥区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.rsaSign.publicKey') }}</n-text>
+        <n-input 
+          v-model:value="publicKey" 
+          type="textarea" 
+          :placeholder="t('encrypt.rsaSign.publicKeyPlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="publicKey">
+          <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ publicKey.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 签名区域 -->
+      <div class="input-section">
+        <n-text>{{ t('encrypt.rsaSign.signature') }}</n-text>
+        <n-input 
+          v-model:value="signature" 
+          type="textarea" 
+          :placeholder="t('encrypt.rsaSign.signaturePlaceholder')"
+          :autosize="{ minRows: 3, maxRows: 10 }" 
+        />
+        <div class="input-info" v-if="signature">
+          <n-text depth="3">{{ t('encrypt.rsaSign.length') }}：{{ signature.length }} {{ t('encrypt.rsaSign.characters') }}</n-text>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="button-group">
+        <n-button @click="generateKeyPair" type="primary" :loading="isGenerating">
+          {{ t('encrypt.rsaSign.generateKeyPair') }}
+        </n-button>
+        <n-button @click="sign" :disabled="!messageText || !privateKey" :loading="isSigning">
+          {{ t('encrypt.rsaSign.sign') }}
+        </n-button>
+        <n-button @click="verify" :disabled="!messageText || !signature || !publicKey" :loading="isVerifying">
+          {{ t('encrypt.rsaSign.verify') }}
+        </n-button>
+        <n-button @click="clearAll">
+          {{ t('common.clear') }}
+        </n-button>
+      </div>
+
+      <!-- Signature Information 区域 -->
+      <div v-if="publicKey || signature" class="signature-info-overview">
+        <n-alert type="info" :title="t('encrypt.rsaSign.signatureInfo')" class="mb-4">
+          <template #default>
+            <div class="signature-info-grid">
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.rsaSign.rsaAlgorithm') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.keyLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ selectedKeyLength }} {{ t('encrypt.rsaSign.bits') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.hashAlgorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ selectedHashAlgorithm }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.security') }}:</strong> 
+                <n-tag :type="getSecurityType()" size="small">{{ getSecurityStatus() }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.signatureFormat') }}:</strong> 
+                <n-tag type="info" size="small">{{ t('encrypt.rsaSign.base64') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.keyStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ publicKey ? t('encrypt.rsaSign.generated') : t('encrypt.rsaSign.notGenerated') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.signatureStatus') }}:</strong> 
+                <n-tag type="info" size="small">{{ getSignatureStatus() }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.keyGenTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGenTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.signatureTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ signatureComputeTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.verificationTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ verificationTime }}ms</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.generated') }}:</strong> 
+                <n-tag type="info" size="small">{{ keyGeneratedTime || t('encrypt.rsaSign.notGenerated') }}</n-tag>
+              </div>
+              <div class="signature-info-item">
+                <strong>{{ t('encrypt.rsaSign.signed') }}:</strong> 
+                <n-tag type="info" size="small">{{ signatureTime || t('encrypt.rsaSign.notSigned') }}</n-tag>
+              </div>
+            </div>
+            <!-- 安全性说明 -->
+            <div class="security-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.rsaSign.securityNote') }}:</strong> {{ t('encrypt.rsaSign.securityDescription') }}
+              </n-text>
+            </div>
+          </template>
         </n-alert>
-      </n-form>
+      </div>
+
+      <!-- 验证结果显示 -->
+      <div v-if="verificationResult !== null" class="verification-section">
+        <n-text>{{ t('encrypt.rsaSign.verificationResult') }}</n-text>
+        <n-alert :type="verificationResult ? 'success' : 'error'" :title="verificationResult ? t('encrypt.rsaSign.verificationSuccess') : t('encrypt.rsaSign.verificationFailed')" />
+      </div>
+
+      <!-- 错误提示 -->
+      <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
+        {{ error }}
+      </n-alert>
     </n-card>
     
     <!-- 工具描述组件 -->
@@ -116,6 +189,17 @@ const isVerifying = ref(false)
 const selectedKeyLength = ref(2048)
 const selectedHashAlgorithm = ref('SHA-256')
 const verificationResult = ref(null)
+const keyGeneratedTime = ref('') // 密钥生成时间
+const signatureTime = ref('') // 签名时间
+const keyGenTime = ref(0) // 密钥生成耗时
+const signatureComputeTime = ref(0) // 签名计算耗时
+const verificationTime = ref(0) // 验证耗时
+
+// 表单数据
+const formData = reactive({
+  keyLength: selectedKeyLength,
+  hashAlgorithm: selectedHashAlgorithm
+})
 
 // 密钥长度选项
 const keyLengthOptions = [
@@ -130,6 +214,41 @@ const hashAlgorithmOptions = [
   { label: 'SHA-384', value: 'SHA-384' },
   { label: 'SHA-512', value: 'SHA-512' }
 ]
+
+// 获取安全性状态
+const getSecurityStatus = () => {
+  if (selectedKeyLength.value === 1024) {
+    return t('encrypt.rsaSign.insecure')
+  } else if (selectedKeyLength.value === 2048) {
+    return t('encrypt.rsaSign.secure')
+  } else {
+    return t('encrypt.rsaSign.highlySecure')
+  }
+}
+
+// 获取安全性类型（用于标签颜色）
+const getSecurityType = () => {
+  if (selectedKeyLength.value === 1024) {
+    return 'error'
+  } else if (selectedKeyLength.value === 2048) {
+    return 'success'
+  } else {
+    return 'success'
+  }
+}
+
+// 获取签名状态
+const getSignatureStatus = () => {
+  if (verificationResult.value === true) {
+    return t('encrypt.rsaSign.verified')
+  } else if (verificationResult.value === false) {
+    return t('encrypt.rsaSign.verificationFailed')
+  } else if (signature.value) {
+    return t('encrypt.rsaSign.signed')
+  } else {
+    return t('encrypt.rsaSign.notSigned')
+  }
+}
 
 // 将ArrayBuffer转换为Base64字符串
 const arrayBufferToBase64 = (buffer) => {
@@ -161,6 +280,8 @@ const generateKeyPair = async () => {
     isGenerating.value = true
     error.value = ''
 
+    const startTime = performance.now()
+
     const keyPair = await crypto.subtle.generateKey(
       {
         name: 'RSASSA-PKCS1-v1_5',
@@ -179,6 +300,11 @@ const generateKeyPair = async () => {
     // 导出公钥
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey)
     publicKey.value = arrayBufferToBase64(publicKeyBuffer)
+
+    // 记录生成时间和耗时
+    const endTime = performance.now()
+    keyGenTime.value = Math.round(endTime - startTime)
+    keyGeneratedTime.value = new Date().toLocaleString()
 
     message.success(t('encrypt.rsaSign.keyPairGenerated'))
   } catch (e) {
@@ -199,6 +325,8 @@ const sign = async () => {
     isSigning.value = true
     error.value = ''
     verificationResult.value = null
+
+    const startTime = performance.now()
 
     // 导入私钥
     const privateKeyBuffer = base64ToArrayBuffer(privateKey.value)
@@ -227,6 +355,12 @@ const sign = async () => {
     )
 
     signature.value = arrayBufferToBase64(signatureBuffer)
+
+    // 记录签名时间和耗时
+    const endTime = performance.now()
+    signatureComputeTime.value = Math.round(endTime - startTime)
+    signatureTime.value = new Date().toLocaleString()
+
     message.success(t('encrypt.rsaSign.signatureCreated'))
   } catch (e) {
     error.value = e.message
@@ -246,6 +380,8 @@ const verify = async () => {
     isVerifying.value = true
     error.value = ''
     verificationResult.value = null
+
+    const startTime = performance.now()
 
     // 导入公钥
     const publicKeyBuffer = base64ToArrayBuffer(publicKey.value)
@@ -275,6 +411,10 @@ const verify = async () => {
       hashBuffer
     )
 
+    // 记录验证耗时
+    const endTime = performance.now()
+    verificationTime.value = Math.round(endTime - startTime)
+
     verificationResult.value = isValid
     if (isValid) {
       message.success(t('encrypt.rsaSign.verificationSuccess'))
@@ -298,6 +438,11 @@ const clearAll = () => {
   signature.value = ''
   error.value = ''
   verificationResult.value = null
+  keyGeneratedTime.value = ''
+  signatureTime.value = ''
+  keyGenTime.value = 0
+  signatureComputeTime.value = 0
+  verificationTime.value = 0
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -309,12 +454,17 @@ const clearAll = () => {
   padding: 0 20px;
 }
 
-.key-length-section,
-.hash-algorithm-section {
+.parameters-section {
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.input-section .n-text {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .input-info {
@@ -322,5 +472,54 @@ const clearAll = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.button-group {
+  margin: 20px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.verification-section {
+  margin: 20px 0;
+}
+
+.verification-section .n-text {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.error-alert {
+  margin-top: 16px;
+}
+
+.signature-info-overview {
+  margin: 20px 0;
+}
+
+.signature-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.signature-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>
