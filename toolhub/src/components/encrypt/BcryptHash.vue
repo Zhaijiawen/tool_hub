@@ -17,7 +17,7 @@
 
       <!-- 盐轮数选择 -->
       <div class="options-section">
-        <n-form :model="formData" label-placement="left" label-width="auto">
+        <n-form :model="formData" label-placement="left" label-width="120px">
           <n-form-item :label="t('encrypt.bcrypt.saltRounds')">
             <n-input-number 
               v-model:value="formData.saltRounds" 

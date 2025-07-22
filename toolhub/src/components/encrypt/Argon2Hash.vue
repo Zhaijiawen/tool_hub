@@ -17,7 +17,7 @@
 
       <!-- 参数配置 -->
       <div class="options-section">
-        <n-form :model="formData" label-placement="left" label-width="auto">
+        <n-form :model="formData" label-placement="left" label-width="120px">
           <n-form-item :label="t('encrypt.argon2.type')">
             <n-select 
               v-model:value="formData.type" 
@@ -79,6 +79,58 @@
         </n-button>
       </div>
 
+      <!-- Hash Information 区域 -->
+      <div v-if="output" class="hash-info-overview">
+        <n-alert type="info" :title="t('encrypt.argon2.hashInfo')" class="mb-4">
+          <template #default>
+            <div class="hash-info-grid">
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.algorithm') }}:</strong> 
+                <n-tag type="info" size="small">{{ getAlgorithmDisplayName() }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.type') }}:</strong> 
+                <n-tag type="info" size="small">{{ getTypeDisplayName() }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.security') }}:</strong> 
+                <n-tag type="success" size="small">{{ t('encrypt.argon2.secure') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.iterations') }}:</strong> 
+                <n-tag type="info" size="small">{{ formData.iterations.toLocaleString() }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.keyLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ formData.keyLength }} {{ t('encrypt.argon2.bytes') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.inputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ input.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.outputLength') }}:</strong> 
+                <n-tag type="info" size="small">{{ output.length }} {{ t('common.characters') }}</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.computeTime') }}:</strong> 
+                <n-tag type="info" size="small">{{ computeTime }}ms</n-tag>
+              </div>
+              <div class="hash-info-item">
+                <strong>{{ t('encrypt.argon2.computed') }}:</strong> 
+                <n-tag type="info" size="small">{{ hashGeneratedTime || t('encrypt.argon2.notComputed') }}</n-tag>
+              </div>
+            </div>
+            <!-- 安全性说明 -->
+            <div class="security-note">
+              <n-text depth="3">
+                <strong>{{ t('encrypt.argon2.securityNote') }}:</strong> {{ t('encrypt.argon2.securityDescription') }}
+              </n-text>
+            </div>
+          </template>
+        </n-alert>
+      </div>
+
       <!-- 输出区域 -->
       <div class="output-section">
         <n-text>{{ t('encrypt.argon2.output') }}</n-text>
@@ -138,6 +190,8 @@ const verifyHash = ref('')
 const error = ref('')
 const isHashing = ref(false)
 const isVerifying = ref(false)
+const computeTime = ref(0) // 计算时间
+const hashGeneratedTime = ref('') // 哈希生成时间
 
 const formData = reactive({
   type: 'pbkdf2',
@@ -158,6 +212,21 @@ const algorithmOptions = [
   { label: 'SHA-256', value: 'SHA-256' },
   { label: 'SHA-512', value: 'SHA-512' }
 ]
+
+// 获取算法显示名称
+const getAlgorithmDisplayName = () => {
+  return formData.algorithm
+}
+
+// 获取类型显示名称
+const getTypeDisplayName = () => {
+  const typeMap = {
+    'pbkdf2': 'PBKDF2',
+    'sha256': 'SHA-256',
+    'sha512': 'SHA-512'
+  }
+  return typeMap[formData.type] || formData.type.toUpperCase()
+}
 
 // 生成随机盐值
 const generateSalt = () => {
@@ -197,6 +266,8 @@ const hash = async () => {
     isHashing.value = true
     error.value = ''
 
+    const startTime = performance.now()
+
     const password = input.value;
     const salt = generateSalt();
     let hashResult = '';
@@ -234,6 +305,12 @@ const hash = async () => {
 
     // 格式：algorithm:iterations:salt:hash
     output.value = `${formData.type}:${formData.iterations}:${salt}:${hashResult}`;
+    
+    // 记录计算时间和生成时间
+    const endTime = performance.now()
+    computeTime.value = Math.round(endTime - startTime)
+    hashGeneratedTime.value = new Date().toLocaleString()
+    
     message.success(t('encrypt.argon2.hashSuccess'));
   } catch (e) {
     error.value = e.message
@@ -325,6 +402,8 @@ const clearAll = () => {
   output.value = ''
   verifyHash.value = ''
   error.value = ''
+  computeTime.value = 0
+  hashGeneratedTime.value = ''
   message.success(t('common.clear') + ' ' + t('common.success'))
 }
 </script>
@@ -396,5 +475,34 @@ const clearAll = () => {
 
 .error-alert {
   margin-top: 16px;
+}
+
+.hash-info-overview {
+  margin: 20px 0;
+}
+
+.hash-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hash-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
 </style>
