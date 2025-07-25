@@ -9,7 +9,7 @@
         <loc>https://toolhub.studio/</loc>
         <lastmod>2025-07-23</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>1.1</priority>
+        <priority>1.0</priority>
     </url>
     
     <!-- 工具分类页面 -->
@@ -17,7 +17,7 @@
         <loc>https://toolhub.studio/format</loc>
         <lastmod>2025-07-23</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>1.1</priority>
+        <priority>1.0</priority>
     </url>
     
     <url>
