@@ -165,7 +165,9 @@ watch([currentToolKey, locale], async () => {
 
 .tab-content {
   min-height: 300px;
+  max-height: 600px;
   padding: 16px 0;
+  overflow-y: auto;
 }
 
 .markdown-content {
@@ -343,6 +345,7 @@ watch([currentToolKey, locale], async () => {
   
   .tab-content {
     min-height: 250px;
+    max-height: 400px;
     padding: 12px 0;
   }
   
