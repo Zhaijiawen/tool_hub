@@ -93,11 +93,9 @@
         
         <!-- 网站导航链接 -->
         <div class="footer-line-v3 footer-links-v3">
-          <router-link to="/about" class="footer-link-v3">{{ t('footer.about') }}</router-link>
-          <span class="footer-separator-v3">|</span>
-          <router-link to="/blog" class="footer-link-v3">{{ t('footer.blog') }}</router-link>
-          <span class="footer-separator-v3">|</span>
-          <router-link to="/privacy" class="footer-link-v3">{{ t('footer.privacy') }}</router-link>
+            <router-link to="/about" class="footer-link-v3">{{ t('footer.about') }}</router-link>
+            <span class="footer-separator-v3">|</span>
+            <router-link to="/privacy" class="footer-link-v3">{{ t('footer.privacy') }}</router-link>
           <span class="footer-separator-v3">|</span>
           <router-link to="/terms" class="footer-link-v3">{{ t('footer.terms') }}</router-link>
         </div>
@@ -629,7 +627,7 @@ const goToComposer = () => {
 // 控制知识提示显示
 const shouldShowTips = computed(() => {
   // 排除composer页面和静态页面
-  const excludedPaths = ['/composer', '/about', '/blog', '/privacy', '/terms']
+  const excludedPaths = ['/composer', '/about', '/privacy', '/terms']
   return !excludedPaths.includes(route.path)
 })
 

@@ -212,7 +212,7 @@ export default {
   },
   footer: {
     about: '关于我们',
-    blog: '开发教程',
+
     privacy: '隐私政策',
     terms: '使用条款',
     description: "简单、快速的在线工具集合，助你高效开发与生活。",

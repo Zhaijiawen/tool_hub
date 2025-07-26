@@ -22,10 +22,7 @@ const router = createRouter({
           path: 'about',
           component: () => import('@/views/About.vue')
         },
-        {
-          path: 'blog',
-          component: () => import('@/views/Blog.vue')
-        },
+        
         
         // ===== 格式化工具路由 =====
         {

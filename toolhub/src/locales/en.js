@@ -212,7 +212,7 @@ export default {
   },
   footer: {
     about: 'About',
-    blog: 'Tutorials',
+
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
     description: "A simple and fast online tool collection for efficient work and life.",

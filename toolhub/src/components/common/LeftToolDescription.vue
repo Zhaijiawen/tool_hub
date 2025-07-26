@@ -74,7 +74,7 @@ const { t, locale } = useI18n()
 
 // 控制显示逻辑
 const shouldShow = computed(() => {
-  const excludedPaths = ['/composer', '/about', '/blog', '/privacy', '/terms']
+  const excludedPaths = ['/composer', '/about', '/privacy', '/terms']
   return !excludedPaths.includes(route.path) && window.innerWidth >= 1200
 })
 
