@@ -74,6 +74,8 @@
       <div class="content-wrapper">
         <!-- 动态知识提示 -->
         <ContextualTips v-if="shouldShowTips" :currentPath="route.path" />
+        <!-- 左侧工具描述 -->
+        <LeftToolDescription v-if="shouldShowTips" :toolKey="getToolKeyFromPath(route.path)" />
         
         <router-view></router-view>
       </div>
@@ -122,6 +124,8 @@ import { useRouter, useRoute } from 'vue-router'
 import ToolSearch from '@/components/common/ToolSearch.vue'
 // 导入动态知识提示组件
 import ContextualTips from '@/components/common/ContextualTips.vue'
+// 导入左侧工具描述组件
+import LeftToolDescription from '@/components/common/LeftToolDescription.vue'
 // 导入图标组件
 import {
   SearchOutline as SearchIcon,
@@ -628,6 +632,15 @@ const shouldShowTips = computed(() => {
   const excludedPaths = ['/composer', '/about', '/blog', '/privacy', '/terms']
   return !excludedPaths.includes(route.path)
 })
+
+// 从路径中提取工具键
+const getToolKeyFromPath = (path) => {
+  const pathParts = path.split('/')
+  if (pathParts.length >= 3) {
+    return pathParts[2] // 例如 /format/json -> json
+  }
+  return 'default'
+}
 </script>
 
 <style scoped>
