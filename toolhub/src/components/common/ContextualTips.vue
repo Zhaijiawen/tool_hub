@@ -58,6 +58,32 @@
           </div>
         </n-card>
       </div>
+
+      <!-- 学习资源提示 -->
+      <div class="tip-card learning-tip">
+        <n-card size="small" :title="t('tutorial.hintTitle')" class="tip-card-inner learning-card">
+          <div class="tip-content">
+            <div class="tip-icon">
+              <n-icon size="24" color="#1890ff">
+                <BookIcon />
+              </n-icon>
+            </div>
+            <div class="tip-text">
+              <p class="tip-description">{{ t('tutorial.hintContent') }}</p>
+              <div class="tip-actions">
+                <n-button 
+                  size="small" 
+                  type="primary"
+                  @click="scrollToTutorial"
+                  class="action-btn"
+                >
+                  {{ t('tutorial.viewTutorial') }}
+                </n-button>
+              </div>
+            </div>
+          </div>
+        </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -1142,6 +1168,17 @@ const handleAction = (action) => {
     window.open(action.url, '_blank')
   }
 }
+
+// 滚动到教程区域
+const scrollToTutorial = () => {
+  const tutorialElement = document.querySelector('.tutorial-and-docs')
+  if (tutorialElement) {
+    tutorialElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    })
+  }
+}
 </script>
 
 <style scoped>
@@ -1198,6 +1235,15 @@ const handleAction = (action) => {
 
 .bottom-tip {
   order: 2;
+}
+
+.learning-tip {
+  order: 3;
+}
+
+.learning-card {
+  border: 1px solid #1890ff !important;
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.05) 0%, rgba(24, 144, 255, 0.02) 100%) !important;
 }
 
 .tip-content {

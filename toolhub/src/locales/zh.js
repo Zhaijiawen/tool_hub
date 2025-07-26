@@ -213,7 +213,10 @@ export default {
   tutorial: {
     technicalBackground: '📚 技术背景',
     usageTutorial: '🎓 使用教程',
-    codeExamples: '💻 示例代码'
+    codeExamples: '💻 示例代码',
+    hintTitle: '更多学习资源',
+    hintContent: '下方提供了详细的技术背景、使用教程和代码示例，帮助您更好地理解和使用此工具。',
+    viewTutorial: '查看教程'
   },
   footer: {
     about: '关于我们',

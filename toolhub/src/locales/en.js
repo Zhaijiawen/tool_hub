@@ -213,7 +213,10 @@ export default {
   tutorial: {
     technicalBackground: '📚 Technical Background',
     usageTutorial: '🎓 Usage Tutorial',
-    codeExamples: '💻 Code Examples'
+    codeExamples: '💻 Code Examples',
+    hintTitle: 'More Learning Resources',
+    hintContent: 'Below you will find detailed technical background, usage tutorials, and code examples to help you better understand and use this tool.',
+    viewTutorial: 'View Tutorial'
   },
   footer: {
     about: 'About',
