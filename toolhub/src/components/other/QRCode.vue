@@ -278,8 +278,6 @@
         {{ $t('other.qrcode.infoContent') }}
       </n-alert>
     </n-card>
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="qrcode" />
     
   </div>
 </template>
@@ -291,7 +289,6 @@ import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

@@ -67,8 +67,6 @@
       </n-space>
     </n-card>
 
-    <!-- 工具描述 -->
-    <ToolDescription tool-key="imageCrop" />
   </div>
 </template>
 
@@ -82,7 +80,6 @@ import {
   NRadioGroup, NRadioButton, NFormItem, NButtonGroup, NAlert
 } from 'naive-ui'
 import { UploadOutlined, ZoomInOutlined, ZoomOutOutlined, ReloadOutlined } from '@vicons/antd'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 

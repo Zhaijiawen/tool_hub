@@ -199,10 +199,8 @@ export default {
       comfortable: '舒适'
     },
     // 工具描述相关文本
-    toolDescription: '工具详细说明',
     features: '功能特色',
     useCases: '使用场景',
-    technicalBackground: '技术背景',
     usageSteps: '使用步骤',
     bestPractices: '最佳实践',
     enableHighlight: '启用代码高亮',

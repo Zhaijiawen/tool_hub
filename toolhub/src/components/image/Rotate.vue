@@ -56,8 +56,6 @@
       </n-space>
   </n-card>
   
-  <!-- 工具描述 -->
-  <ToolDescription tool-key="imageRotate" />
   </div>
 </template>
 
@@ -66,7 +64,6 @@ import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

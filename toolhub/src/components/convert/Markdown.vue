@@ -51,9 +51,7 @@
         </div>
       </n-space>
     </n-card>
-        <!-- 工具描述组件 -->
-        <ToolDescription tool-key="markdown" />
-    
+
   </div>
 </template>
 
@@ -63,7 +61,6 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

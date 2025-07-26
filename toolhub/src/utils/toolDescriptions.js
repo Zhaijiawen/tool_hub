@@ -2,8 +2,6 @@
 export const toolDescriptions = {
   // 格式化工具
   json: {
-    title: 'JSON 格式化工具',
-    description: '专业的 JSON 数据格式化工具，支持美化、压缩、转义等多种操作',
     features: [
       '智能语法高亮显示',
       '自动错误检测和提示',
@@ -16,19 +14,6 @@ export const toolDescriptions = {
       '代码审查和文档编写',
       '数据交换格式处理'
     ],
-    technicalBackground: `JSON（JavaScript Object Notation）是一种轻量级的数据交换格式，基于 JavaScript 编程语言的一个子集。它采用完全独立于编程语言的文本格式，但也使用了类似于 C 语言家族的习惯。
-
-JSON 具有以下特点：
-• 易于人阅读和编写
-• 易于机器解析和生成
-• 支持嵌套数据结构
-• 支持数组和对象类型
-
-JSON 广泛应用于：
-• Web API 数据交换
-• 配置文件存储
-• 数据库数据序列化
-• 跨平台数据通信`,
     usageSteps: [
       '将 JSON 数据粘贴到输入框',
       '选择格式化选项（美化/压缩/转义）',
@@ -44,8 +29,6 @@ JSON 广泛应用于：
   },
 
   xml: {
-    title: 'XML 格式化工具',
-    description: '专业的 XML 文档格式化工具，支持美化、压缩、验证等功能',
     features: [
       'XML 语法高亮显示',
       '自动缩进和格式化',
@@ -58,19 +41,6 @@ JSON 广泛应用于：
       '文档结构优化',
       'XML 文档编辑和调试'
     ],
-    technicalBackground: `XML（Extensible Markup Language）是一种标记语言，用于存储和传输数据。它被设计为具有自我描述性，并且是 W3C 的推荐标准。
-
-XML 的主要特点：
-• 可扩展的标记语言
-• 严格的语法规则
-• 支持命名空间
-• 支持 DTD 和 Schema 验证
-
-XML 广泛应用于：
-• 配置文件格式
-• Web 服务数据交换
-• 文档存储和传输
-• 数据序列化`,
     usageSteps: [
       '将 XML 内容粘贴到输入框',
       '选择格式化选项',
@@ -87,8 +57,6 @@ XML 广泛应用于：
 
   // 加密工具
   base64: {
-    title: 'Base64 编码解码工具',
-    description: '专业的 Base64 编码解码工具，支持文本和图片的编码转换',
     features: [
       '支持文本和图片编码',
       '智能内容类型检测',
@@ -101,19 +69,6 @@ XML 广泛应用于：
       'API 认证信息编码',
       '文件附件编码'
     ],
-    technicalBackground: `Base64 是一种基于 64 个可打印字符来表示二进制数据的编码方法。它使用 A-Z、a-z、0-9、+、/ 这 64 个字符来表示二进制数据。
-
-Base64 编码原理：
-• 将二进制数据按 6 位分组
-• 每组转换为对应的可打印字符
-• 不足 6 位时用 = 填充
-• 编码后数据量增加约 33%
-
-应用场景：
-• 图片内嵌到网页
-• 二进制数据在文本协议中传输
-• 简单的数据混淆
-• 文件附件编码`,
     usageSteps: [
       '输入要编码的文本或上传图片',
       '选择编码或解码操作',
@@ -129,8 +84,6 @@ Base64 编码原理：
   },
 
   aes: {
-    title: 'AES 加密解密工具',
-    description: '高级加密标准（AES）工具，提供强大的数据加密保护',
     features: [
       '支持 128/192/256 位密钥',
       '多种加密模式（CBC、ECB、CFB、OFB）',
@@ -143,19 +96,6 @@ Base64 编码原理：
       '文件内容加密',
       '密码和密钥管理'
     ],
-    technicalBackground: `AES（Advanced Encryption Standard）是一种对称加密算法，被美国国家标准与技术研究院（NIST）采用为联邦信息处理标准。
-
-AES 特点：
-• 对称加密算法
-• 支持 128、192、256 位密钥长度
-• 分组密码，块大小为 128 位
-• 经过广泛的安全验证
-
-加密模式：
-• ECB：电子密码本模式
-• CBC：密码分组链接模式
-• CFB：密文反馈模式
-• OFB：输出反馈模式`,
     usageSteps: [
       '输入要加密的文本',
       '设置密钥和加密参数',
@@ -171,8 +111,6 @@ AES 特点：
   },
 
   ecc: {
-    title: 'ECC 椭圆曲线加密工具',
-    description: '专业的椭圆曲线密码学工具，提供高效的公钥加密和数字签名',
     features: [
       '支持多种椭圆曲线（secp256k1、P-256等）',
       '公钥加密和数字签名',
@@ -185,25 +123,6 @@ AES 特点：
       '数字证书和身份验证',
       '移动设备安全'
     ],
-    technicalBackground: `ECC（Elliptic Curve Cryptography）是一种基于椭圆曲线数学的公钥密码学方法。
-
-ECC 优势：
-• 相比 RSA，在相同安全级别下密钥更短
-• 计算效率更高，适合资源受限环境
-• 支持多种椭圆曲线标准
-• 广泛应用于现代密码学
-
-常用椭圆曲线：
-• secp256k1：比特币使用的曲线
-• P-256：NIST 标准曲线
-• P-384：高安全级别曲线
-• P-521：最高安全级别曲线
-
-应用场景：
-• 数字签名算法（ECDSA）
-• 密钥交换协议（ECDH）
-• 加密算法（ECIES）
-• 身份验证和证书`,
     usageSteps: [
       '选择椭圆曲线类型',
       '生成密钥对',
@@ -219,8 +138,6 @@ ECC 优势：
   },
 
   ecdh: {
-    title: 'ECDH 椭圆曲线密钥交换工具',
-    description: '专业的椭圆曲线 Diffie-Hellman 密钥交换工具，用于安全生成共享密钥',
     features: [
       '支持多种椭圆曲线标准',
       '安全的密钥交换协议',
@@ -233,31 +150,6 @@ ECC 优势：
       '移动应用安全',
       'IoT 设备通信'
     ],
-    technicalBackground: `ECDH（Elliptic Curve Diffie-Hellman）是一种基于椭圆曲线的密钥交换协议，是传统 DH 算法的椭圆曲线版本。
-
-ECDH 工作原理：
-• 双方各自生成私钥和公钥
-• 交换公钥信息
-• 使用自己的私钥和对方的公钥计算共享密钥
-• 双方得到相同的共享密钥
-
-安全优势：
-• 基于椭圆曲线离散对数问题
-• 相比传统 DH，密钥更短但安全性更高
-• 计算效率更高
-• 适合资源受限环境
-
-常用椭圆曲线：
-• secp256k1：比特币标准
-• P-256：NIST 标准
-• P-384：高安全级别
-• Curve25519：现代高性能曲线
-
-应用场景：
-• TLS/SSL 握手协议
-• 安全消息传递
-• 端到端加密
-• 密钥派生基础`,
     usageSteps: [
       '选择椭圆曲线类型',
       '生成本地密钥对',
@@ -272,9 +164,7 @@ ECDH 工作原理：
     ]
   },
 
-  ecdsa: {
-    title: 'ECDSA 椭圆曲线数字签名工具',
-    description: '专业的椭圆曲线数字签名算法工具，提供高效的数字签名和验证',
+  "ecdsa-sign": {
     features: [
       '支持多种椭圆曲线标准',
       '数字签名生成和验证',
@@ -287,34 +177,6 @@ ECDH 工作原理：
       '数字证书签名',
       '安全通信认证'
     ],
-    technicalBackground: `ECDSA（Elliptic Curve Digital Signature Algorithm）是一种基于椭圆曲线的数字签名算法，是 DSA 算法的椭圆曲线版本。
-
-ECDSA 工作原理：
-• 使用私钥对消息哈希进行签名
-• 生成两个数值（r, s）作为签名
-• 使用公钥验证签名的有效性
-• 确保消息的完整性和来源认证
-
-安全优势：
-• 基于椭圆曲线离散对数问题
-• 相比 RSA 签名，密钥更短但安全性更高
-• 计算效率更高
-• 广泛用于现代密码学应用
-
-签名过程：
-• 计算消息的哈希值
-• 生成随机数 k
-• 计算椭圆曲线点 R = k * G
-• 计算 r = R.x mod n
-• 计算 s = k^(-1) * (hash + r * privateKey) mod n
-
-验证过程：
-• 计算消息哈希值
-• 计算 w = s^(-1) mod n
-• 计算 u1 = hash * w mod n
-• 计算 u2 = r * w mod n
-• 计算点 P = u1 * G + u2 * publicKey
-• 验证 r == P.x mod n`,
     usageSteps: [
       '选择椭圆曲线类型',
       '生成或导入密钥对',
@@ -331,8 +193,6 @@ ECDSA 工作原理：
 
   // 转换工具
   timestamp: {
-    title: '时间戳转换工具',
-    description: '专业的时间戳转换工具，支持多种时间格式和时区转换',
     features: [
       '支持秒级和毫秒级时间戳',
       '多种日期格式转换',
@@ -345,17 +205,6 @@ ECDSA 工作原理：
       '数据库时间字段处理',
       '跨时区应用开发'
     ],
-    technicalBackground: `时间戳是表示特定时间点的数字，通常是从某个固定时间点（如 Unix 纪元）开始计算的秒数或毫秒数。
-
-时间戳类型：
-• Unix 时间戳：从 1970-01-01 00:00:00 UTC 开始的秒数
-• 毫秒时间戳：从 1970-01-01 00:00:00 UTC 开始的毫秒数
-• JavaScript 时间戳：与毫秒时间戳相同
-
-常见格式：
-• ISO 8601：2023-12-18T15:10:56Z
-• RFC 2822：Mon, 18 Dec 2023 15:10:56 GMT
-• 自定义格式：2023/12/18 15:10:56`,
     usageSteps: [
       '输入时间戳或日期时间',
       '选择转换方向',
@@ -371,9 +220,7 @@ ECDSA 工作原理：
   },
 
   // 图像工具
-  imageConvert: {
-    title: '图像格式转换工具',
-    description: '专业的图像格式转换工具，支持多种格式间的无损转换',
+  convert: {
     features: [
       '支持 JPG、PNG、WebP、GIF 等格式',
       '质量参数可调节',
@@ -386,27 +233,6 @@ ECDSA 工作原理：
       '图片格式标准化',
       '存储空间优化'
     ],
-    technicalBackground: `不同的图像格式具有不同的特点和适用场景：
-
-JPG（JPEG）：
-• 有损压缩，文件小
-• 适合照片和复杂图像
-• 不支持透明背景
-
-PNG：
-• 无损压缩，质量高
-• 支持透明背景
-• 适合图标和简单图像
-
-WebP：
-• Google 开发的现代格式
-• 更好的压缩率
-• 支持动画和透明
-
-GIF：
-• 支持动画
-• 颜色数量有限
-• 适合简单动画`,
     usageSteps: [
       '上传要转换的图像',
       '选择目标格式',
@@ -423,8 +249,6 @@ GIF：
 
   // 文本工具
   textCase: {
-    title: '文本大小写转换工具',
-    description: '专业的文本大小写转换工具，支持多种命名规范',
     features: [
       '支持多种大小写格式',
       '批量转换功能',
@@ -437,20 +261,6 @@ GIF：
       '数据库字段命名',
       'API 参数标准化'
     ],
-    technicalBackground: `不同的编程语言和场景使用不同的大小写命名规范：
-
-命名规范：
-• camelCase：首单词小写，后续单词首字母大写（JavaScript 变量）
-• PascalCase：所有单词首字母大写（类名）
-• snake_case：单词间用下划线连接（Python 变量）
-• kebab-case：单词间用连字符连接（CSS 类名）
-• UPPER_SNAKE_CASE：全大写加下划线（常量）
-
-应用场景：
-• JavaScript：camelCase 用于变量，PascalCase 用于类
-• Python：snake_case 用于变量和函数
-• CSS：kebab-case 用于类名
-• 数据库：snake_case 用于字段名`,
     usageSteps: [
       '输入要转换的文本',
       '选择目标格式',
@@ -467,8 +277,6 @@ GIF：
 
   // 其他工具
   qrcode: {
-    title: '二维码生成工具',
-    description: '专业的二维码生成和解析工具，支持多种数据类型',
     features: [
       '支持文本、URL、WiFi 等多种内容',
       '可调节二维码大小和纠错级别',
@@ -481,26 +289,6 @@ GIF：
       '网址快速访问',
       '联系方式交换'
     ],
-    technicalBackground: `二维码（QR Code）是一种矩阵式二维条码，能够存储比传统条码更多的信息。
-
-二维码特点：
-• 高密度编码
-• 支持多种数据类型
-• 具有纠错能力
-• 支持中文等字符
-
-纠错级别：
-• L（Low）：7% 纠错能力
-• M（Medium）：15% 纠错能力
-• Q（Quartile）：25% 纠错能力
-• H（High）：30% 纠错能力
-
-支持的数据类型：
-• 文本信息
-• URL 链接
-• 电子邮件
-• 电话号码
-• WiFi 配置`,
     usageSteps: [
       '输入要编码的内容',
       '选择二维码类型',
@@ -517,8 +305,6 @@ GIF：
 
   // 更多格式化工具
   yaml: {
-    title: 'YAML 格式化工具',
-    description: '专业的 YAML 数据序列化格式化工具，支持配置文件和数据结构格式化',
     features: [
       'YAML 语法高亮显示',
       '自动缩进和格式化',
@@ -531,25 +317,6 @@ GIF：
       'CI/CD 配置文件处理',
       'API 文档格式化'
     ],
-    technicalBackground: `YAML（YAML Ain't Markup Language）是一种人类可读的数据序列化语言，常用于配置文件和数据交换。
-
-YAML 特点：
-• 人类可读的格式
-• 支持复杂数据结构
-• 支持注释和文档
-• 与 JSON 兼容
-
-数据结构支持：
-• 标量：字符串、数字、布尔值
-• 序列：数组和列表
-• 映射：键值对和对象
-• 锚点和别名：引用和复用
-
-应用场景：
-• 配置文件格式
-• 数据交换格式
-• API 文档
-• 系统配置管理`,
     usageSteps: [
       '将 YAML 内容粘贴到输入框',
       '选择格式化选项',
@@ -565,8 +332,6 @@ YAML 特点：
   },
 
   js: {
-    title: 'JavaScript 格式化工具',
-    description: '专业的 JavaScript 代码格式化工具，支持 ES6+ 语法和现代开发规范',
     features: [
       'JavaScript 语法高亮',
       'ES6+ 语法支持',
@@ -579,25 +344,6 @@ YAML 特点：
       '开源项目贡献',
       '代码质量提升'
     ],
-    technicalBackground: `JavaScript 是一种动态类型、解释型的编程语言，广泛应用于 Web 开发和服务器端开发。
-
-现代 JavaScript 特点：
-• ES6+ 语法支持
-• 模块化开发
-• 异步编程支持
-• 函数式编程特性
-
-代码格式化标准：
-• 缩进：2 或 4 个空格
-• 分号：可选，建议使用
-• 引号：单引号或双引号
-• 行长度：80-120 字符
-
-工具生态：
-• ESLint：代码质量检查
-• Prettier：代码格式化
-• Babel：语法转换
-• TypeScript：类型检查`,
     usageSteps: [
       '粘贴 JavaScript 代码',
       '选择格式化选项',
@@ -613,8 +359,6 @@ YAML 特点：
   },
 
   html: {
-    title: 'HTML 格式化工具',
-    description: '专业的 HTML 标记语言格式化工具，规范文档结构和提升代码质量',
     features: [
       'HTML 语法高亮',
       '标签自动缩进',
@@ -627,25 +371,6 @@ YAML 特点：
       'HTML 文档优化',
       'SEO 友好格式化'
     ],
-    technicalBackground: `HTML（HyperText Markup Language）是用于创建网页的标准标记语言，是 Web 开发的基础。
-
-HTML 特点：
-• 语义化标记
-• 结构化文档
-• 可访问性支持
-• SEO 友好
-
-HTML5 新特性：
-• 语义化标签
-• 多媒体支持
-• 表单增强
-• Canvas 和 WebGL
-
-最佳实践：
-• 使用语义化标签
-• 保持文档结构清晰
-• 确保可访问性
-• 优化 SEO 效果`,
     usageSteps: [
       '粘贴 HTML 代码',
       '选择格式化选项',
@@ -661,8 +386,6 @@ HTML5 新特性：
   },
 
   css: {
-    title: 'CSS 格式化工具',
-    description: '专业的 CSS 样式表格式化工具，美化代码结构并提升可维护性',
     features: [
       'CSS 语法高亮',
       '属性自动排序',
@@ -675,25 +398,6 @@ HTML5 新特性：
       '团队协作开发',
       '样式维护和重构'
     ],
-    technicalBackground: `CSS（Cascading Style Sheets）是用于描述网页样式的样式表语言，控制页面的外观和布局。
-
-CSS 特点：
-• 层叠样式规则
-• 选择器系统
-• 盒模型布局
-• 响应式设计
-
-CSS3 新特性：
-• Flexbox 布局
-• Grid 布局
-• 动画和过渡
-• 媒体查询
-
-代码组织：
-• 模块化 CSS
-• BEM 命名规范
-• CSS 预处理器
-• 后处理器工具`,
     usageSteps: [
       '粘贴 CSS 代码',
       '选择格式化选项',
@@ -709,8 +413,6 @@ CSS3 新特性：
   },
 
   sql: {
-    title: 'SQL 格式化工具',
-    description: '专业的 SQL 查询语句格式化工具，规范数据库查询代码并提升可读性',
     features: [
       'SQL 语法高亮',
       '关键字大写处理',
@@ -723,25 +425,6 @@ CSS3 新特性：
       '数据库文档编写',
       '查询性能分析'
     ],
-    technicalBackground: `SQL（Structured Query Language）是用于管理关系数据库的标准语言，支持数据查询、插入、更新和删除。
-
-SQL 特点：
-• 声明式语言
-• 关系代数基础
-• 事务处理支持
-• 数据完整性约束
-
-主要操作：
-• SELECT：数据查询
-• INSERT：数据插入
-• UPDATE：数据更新
-• DELETE：数据删除
-
-性能优化：
-• 索引使用
-• 查询计划优化
-• 连接查询优化
-• 子查询优化`,
     usageSteps: [
       '粘贴 SQL 查询语句',
       '选择格式化选项',
@@ -758,8 +441,6 @@ SQL 特点：
 
   // 更多加密工具
   hex: {
-    title: '十六进制编码工具',
-    description: '专业的十六进制编码解码工具，支持二进制数据转换和颜色值处理',
     features: [
       '十六进制编码解码',
       '二进制数据转换',
@@ -772,24 +453,6 @@ SQL 特点：
       '网络协议分析',
       '数据调试和验证'
     ],
-    technicalBackground: `十六进制（Hexadecimal）是一种基于 16 的计数系统，在计算机科学中广泛应用。
-
-十六进制特点：
-• 每个数字表示 4 位二进制
-• 使用 0-9 和 A-F 表示
-• 便于表示二进制数据
-• 在编程中常用
-
-应用场景：
-• 内存地址表示
-• 颜色值编码
-• 二进制数据查看
-• 网络协议分析
-
-转换关系：
-• 1 个十六进制位 = 4 个二进制位
-• 2 个十六进制位 = 1 个字节
-• 6 个十六进制位 = 24 位颜色值`,
     usageSteps: [
       '输入要转换的数据',
       '选择转换方向',
@@ -806,8 +469,6 @@ SQL 特点：
 
   // 更多转换工具
   color: {
-    title: '颜色格式转换工具',
-    description: '专业的颜色格式转换工具，支持 HEX、RGB、HSL 等多种颜色格式',
     features: [
       '多种颜色格式支持',
       '实时颜色预览',
@@ -820,25 +481,6 @@ SQL 特点：
       '图像处理颜色调整',
       '品牌色彩管理'
     ],
-    technicalBackground: `颜色是视觉设计的重要元素，不同的颜色格式适用于不同的应用场景。
-
-颜色格式：
-• HEX：十六进制颜色值
-• RGB：红绿蓝三原色
-• HSL：色相饱和度亮度
-• CMYK：印刷四色模式
-
-颜色空间：
-• sRGB：标准 RGB 色彩空间
-• Adobe RGB：专业色彩空间
-• P3：广色域显示色彩空间
-• LAB：设备无关色彩空间
-
-应用场景：
-• Web 开发：HEX、RGB
-• 设计软件：HSL、CMYK
-• 移动开发：ARGB
-• 印刷设计：CMYK`,
     usageSteps: [
       '输入颜色值或使用选择器',
       '选择目标格式',
@@ -855,8 +497,6 @@ SQL 特点：
 
   // 更多文本工具
   replace: {
-    title: '文本替换工具',
-    description: '强大的文本替换工具，支持简单替换和正则表达式替换',
     features: [
       '简单文本替换',
       '正则表达式支持',
@@ -869,25 +509,6 @@ SQL 特点：
       '文档批量处理',
       '文本清理和标准化'
     ],
-    technicalBackground: `文本替换是文本处理的基础操作，支持多种替换模式和规则。
-
-替换模式：
-• 简单替换：直接字符串替换
-• 正则替换：模式匹配替换
-• 条件替换：基于条件的替换
-• 批量替换：多规则同时替换
-
-正则表达式：
-• 字符类：匹配特定字符
-• 量词：控制匹配次数
-• 分组：捕获和引用
-• 断言：位置匹配
-
-应用技巧：
-• 使用非贪婪匹配
-• 合理使用分组
-• 注意转义字符
-• 测试替换效果`,
     usageSteps: [
       '输入要处理的文本',
       '设置查找和替换规则',
@@ -903,8 +524,6 @@ SQL 特点：
   },
 
   reverse: {
-    title: '文本反转工具',
-    description: '专业的文本反转和排序工具，支持多种反转和排序方式',
     features: [
       '文本字符反转',
       '行级反转排序',
@@ -917,25 +536,6 @@ SQL 特点：
       '代码混淆处理',
       '文本格式转换'
     ],
-    technicalBackground: `文本反转是字符串处理的基本操作，有多种反转方式和应用场景。
-
-反转类型：
-• 字符反转：逐字符反转
-• 单词反转：按单词反转
-• 行反转：按行反转
-• 部分反转：指定范围反转
-
-排序方式：
-• 字母顺序：A-Z 或 Z-A
-• 数字顺序：升序或降序
-• 长度排序：按字符串长度
-• 自定义排序：用户定义规则
-
-应用场景：
-• 数据验证和测试
-• 文本加密算法
-• 代码混淆技术
-• 数据处理流程`,
     usageSteps: [
       '输入要处理的文本',
       '选择反转或排序方式',
@@ -946,13 +546,11 @@ SQL 特点：
       '理解反转规则',
       '注意编码问题',
       '验证处理结果',
-            '考虑性能影响'
+      '考虑性能影响'
     ]
   },
 
   calculator: {
-    title: '科学计算器',
-    description: '功能强大的在线科学计算器，支持基础运算和高级数学函数',
     features: [
       '基础四则运算',
       '科学计算函数',
@@ -965,23 +563,6 @@ SQL 特点：
       '编程中的数值计算',
       '学习和教学辅助'
     ],
-    technicalBackground: `科学计算器提供多种数学运算功能，满足不同场景的计算需求。
-
-基础运算：
-• 加减乘除四则运算
-• 百分比计算
-• 正负号转换
-
-科学函数：
-• 三角函数：sin、cos、tan
-• 反三角函数：asin、acos、atan
-• 对数函数：log、ln
-• 指数函数：exp、pow
-
-进制转换：
-• 二进制、八进制、十进制、十六进制
-• 支持整数和小数转换
-• 保持数值精度`,
     usageSteps: [
       '选择计算模式',
       '输入数学表达式',
@@ -998,8 +579,6 @@ SQL 特点：
 
   // 更多转换工具
   regex: {
-    title: '正则表达式工具',
-    description: '专业的正则表达式测试和生成工具，支持多种正则语法和实时匹配测试',
     features: [
       '正则表达式测试',
       '实时匹配预览',
@@ -1012,25 +591,6 @@ SQL 特点：
       '字符串搜索替换',
       '编程中的文本处理'
     ],
-    technicalBackground: `正则表达式是一种强大的文本模式匹配工具，广泛应用于编程和文本处理。
-
-正则表达式特点：
-• 模式匹配和搜索
-• 字符串替换和验证
-• 支持复杂匹配规则
-• 跨语言通用性
-
-常用语法：
-• 字符类：\\d（数字）、\\w（单词字符）
-• 量词：*（0或多）、+（1或多）、?（0或1）
-• 分组：() 捕获组、(?:) 非捕获组
-• 断言：^（行首）、$（行尾）、\\b（词边界）
-
-应用场景：
-• 表单验证
-• 日志分析
-• 文本搜索
-• 数据清洗`,
     usageSteps: [
       '输入正则表达式',
       '提供测试文本',
@@ -1046,8 +606,6 @@ SQL 特点：
   },
 
   markdown: {
-    title: 'Markdown 编辑器',
-    description: '专业的 Markdown 编辑和预览工具，支持实时预览和多种 Markdown 语法',
     features: [
       '实时 Markdown 预览',
       '语法高亮显示',
@@ -1060,26 +618,6 @@ SQL 特点：
       '项目文档维护',
       '笔记整理和分享'
     ],
-    technicalBackground: `Markdown 是一种轻量级标记语言，设计目标是让文档易于阅读和编写。
-
-Markdown 特点：
-• 纯文本格式
-• 易于学习和使用
-• 可转换为多种格式
-• 专注于内容而非格式
-
-基础语法：
-• 标题：# 一级标题
-• 列表：- 无序列表、1. 有序列表
-• 链接：[文本](URL)
-• 图片：![alt](图片URL)
-• 代码：\`行内代码\`、\`\`\`代码块
-
-扩展功能：
-• 表格支持
-• 任务列表
-• 数学公式
-• 图表支持`,
     usageSteps: [
       '在编辑区输入 Markdown 文本',
       '实时查看预览效果',
@@ -1095,8 +633,6 @@ Markdown 特点：
   },
 
   number: {
-    title: '数字转换工具',
-    description: '专业的数字格式转换工具，支持科学计数法、货币格式等多种数字表示',
     features: [
       '科学计数法转换',
       '货币格式处理',
@@ -1109,25 +645,6 @@ Markdown 特点：
       '数据分析和统计',
       '编程中的数值处理'
     ],
-    technicalBackground: `数字在不同场景下需要不同的表示格式，数字转换工具提供多种格式支持。
-
-数字格式：
-• 科学计数法：1.23e+10
-• 货币格式：$1,234.56
-• 百分比：12.34%
-• 分数：1/3
-
-精度控制：
-• 固定小数位数
-• 有效数字控制
-• 舍入规则设置
-• 零值处理
-
-应用场景：
-• 科学计算
-• 财务数据处理
-• 统计分析
-• 数据可视化`,
     usageSteps: [
       '输入要转换的数字',
       '选择目标格式',
@@ -1143,8 +660,6 @@ Markdown 特点：
   },
 
   unit: {
-    title: '单位转换工具',
-    description: '专业的物理单位转换工具，支持长度、重量、温度等多种单位转换',
     features: [
       '多种物理单位支持',
       '实时转换计算',
@@ -1157,25 +672,6 @@ Markdown 特点：
       '国际贸易和物流',
       '日常生活计算'
     ],
-    technicalBackground: `单位转换是科学计算和工程应用中的基础需求，涉及多种物理量。
-
-常用单位类型：
-• 长度：米、英尺、英寸、公里
-• 重量：千克、磅、盎司、吨
-• 温度：摄氏度、华氏度、开尔文
-• 面积：平方米、平方英尺、公顷
-
-转换原理：
-• 基于标准单位定义
-• 使用转换系数
-• 保持物理量不变
-• 考虑精度和误差
-
-应用领域：
-• 工程计算
-• 科学研究
-• 国际贸易
-• 日常生活`,
     usageSteps: [
       '选择单位类型',
       '输入数值和原单位',
@@ -1190,9 +686,7 @@ Markdown 特点：
     ]
   },
 
-  httpStatus: {
-    title: 'HTTP 状态码查询工具',
-    description: '专业的 HTTP 状态码查询和解释工具，提供详细的状态码说明和最佳实践',
+  "http-status": {
     features: [
       '完整的状态码数据库',
       '详细的状态码说明',
@@ -1205,26 +699,6 @@ Markdown 特点：
       '网络问题诊断',
       '系统监控和运维'
     ],
-    technicalBackground: `HTTP 状态码是 HTTP 协议中用于表示请求处理结果的数字代码。
-
-状态码分类：
-• 1xx：信息性状态码
-• 2xx：成功状态码
-• 3xx：重定向状态码
-• 4xx：客户端错误状态码
-• 5xx：服务器错误状态码
-
-常见状态码：
-• 200：OK，请求成功
-• 404：Not Found，资源未找到
-• 500：Internal Server Error，服务器内部错误
-• 301：Moved Permanently，永久重定向
-
-应用场景：
-• Web 开发
-• API 设计
-• 网络调试
-• 系统监控`,
     usageSteps: [
       '输入状态码或搜索关键词',
       '查看详细说明',
@@ -1239,9 +713,7 @@ Markdown 特点：
     ]
   },
 
-  charCode: {
-    title: '字符编码转换工具',
-    description: '专业的字符编码转换工具，支持 ASCII、Unicode、UTF-8 等多种编码格式',
+  "char-code": {
     features: [
       '多种编码格式支持',
       '字符编码表查询',
@@ -1254,25 +726,6 @@ Markdown 特点：
       '数据导入导出',
       '编码问题排查'
     ],
-    technicalBackground: `字符编码是计算机中表示字符的标准方式，不同的编码格式适用于不同场景。
-
-常用编码格式：
-• ASCII：7位编码，支持英文字符
-• UTF-8：变长编码，支持全球字符
-• UTF-16：16位编码，支持 Unicode
-• ISO-8859：欧洲语言编码
-
-编码特点：
-• ASCII：简单高效，仅支持英文
-• UTF-8：向后兼容，广泛使用
-• UTF-16：固定长度，处理效率高
-• Unicode：统一字符集标准
-
-应用场景：
-• 文本处理
-• 国际化开发
-• 数据交换
-• 系统集成`,
     usageSteps: [
       '输入要转换的文本',
       '选择源编码和目标编码',
@@ -1287,9 +740,7 @@ Markdown 特点：
     ]
   },
 
-  dateCalc: {
-    title: '日期计算工具',
-    description: '专业的日期计算工具，支持日期加减、工作日计算、时区转换等功能',
+  "date-calc": {
     features: [
       '日期加减计算',
       '工作日计算',
@@ -1302,25 +753,6 @@ Markdown 特点：
       '日程安排',
       '数据分析'
     ],
-    technicalBackground: `日期计算涉及复杂的历法规则和时区处理，需要考虑多种因素。
-
-计算类型：
-• 日期加减：天、周、月、年
-• 工作日计算：排除周末和节假日
-• 时区转换：考虑夏令时
-• 日期差值：计算两个日期之间的间隔
-
-历法系统：
-• 公历（格里高利历）
-• 农历（中国传统历法）
-• 伊斯兰历
-• 犹太历
-
-时区处理：
-• UTC 协调世界时
-• 时区偏移量
-• 夏令时规则
-• 时区数据库`,
     usageSteps: [
       '选择计算类型',
       '输入日期参数',
@@ -1337,8 +769,6 @@ Markdown 特点：
 
   // 更多加密工具
   rsa: {
-    title: 'RSA 加密解密工具',
-    description: '专业的 RSA 非对称加密工具，支持公钥加密和私钥解密',
     features: [
       'RSA 密钥生成',
       '公钥加密私钥解密',
@@ -1351,24 +781,6 @@ Markdown 特点：
       'API 安全认证',
       '文件加密保护'
     ],
-    technicalBackground: `RSA 是一种非对称加密算法，基于大数分解的数学难题。
-
-RSA 原理：
-• 公钥加密，私钥解密
-• 基于大素数分解难题
-• 支持数字签名
-• 密钥长度影响安全性
-
-密钥长度：
-• 1024 位：基本安全
-• 2048 位：推荐使用
-• 4096 位：高安全要求
-
-应用场景：
-• SSL/TLS 协议
-• 数字证书
-• 安全通信
-• 身份认证`,
     usageSteps: [
       '生成 RSA 密钥对',
       '使用公钥加密数据',
@@ -1384,8 +796,6 @@ RSA 原理：
   },
 
   sha: {
-    title: 'SHA 哈希计算工具',
-    description: '专业的 SHA 哈希算法工具，支持 SHA-1、SHA-256、SHA-512 等多种算法',
     features: [
       '多种 SHA 算法支持',
       '文件哈希计算',
@@ -1398,25 +808,6 @@ RSA 原理：
       '数字签名',
       '数据去重'
     ],
-    technicalBackground: `SHA（Secure Hash Algorithm）是一系列密码学哈希函数，用于生成数据的数字指纹。
-
-SHA 算法：
-• SHA-1：160 位哈希值
-• SHA-256：256 位哈希值
-• SHA-512：512 位哈希值
-• SHA-3：新一代哈希算法
-
-哈希特点：
-• 确定性：相同输入产生相同输出
-• 雪崩效应：输入微小变化导致输出巨大变化
-• 单向性：无法从哈希值反推原始数据
-• 抗碰撞性：难以找到相同哈希值的不同输入
-
-应用场景：
-• 文件完整性检查
-• 密码安全存储
-• 数字签名
-• 区块链技术`,
     usageSteps: [
       '选择 SHA 算法',
       '输入要哈希的数据',
@@ -1432,8 +823,6 @@ SHA 算法：
   },
 
   jwt: {
-    title: 'JWT 编码解码工具',
-    description: '专业的 JWT（JSON Web Token）编码解码工具，支持令牌生成和验证',
     features: [
       'JWT 令牌生成',
       '令牌解码和验证',
@@ -1446,29 +835,6 @@ SHA 算法：
       '单点登录系统',
       '微服务通信'
     ],
-    technicalBackground: `JWT 是一种开放标准，用于在各方之间安全地传输信息作为 JSON 对象。
-
-JWT 结构：
-• Header：算法和令牌类型
-• Payload：声明和数据
-• Signature：签名验证
-
-JWT 特点：
-• 自包含：包含所有必要信息
-• 无状态：服务器无需存储会话
-• 可扩展：支持自定义声明
-• 标准化：RFC 7519 标准
-
-签名算法：
-• HMAC：对称密钥签名
-• RSA：非对称密钥签名
-• ECDSA：椭圆曲线签名
-
-应用场景：
-• 身份认证
-• 信息交换
-• 授权控制
-• 会话管理`,
     usageSteps: [
       '设置 JWT 参数',
       '生成 JWT 令牌',
@@ -1484,8 +850,6 @@ JWT 特点：
   },
 
   markdownFormat: {
-    title: 'Markdown 格式化工具',
-    description: '专业的 Markdown 文档格式化工具，支持美化、压缩、语法检查等功能',
     features: [
       'Markdown 语法高亮显示',
       '自动缩进和格式化',
@@ -1498,26 +862,6 @@ JWT 特点：
       '博客文章编辑',
       'README 文件优化'
     ],
-    technicalBackground: `Markdown 是一种轻量级标记语言，由 John Gruber 于 2004 年创建，旨在让写作变得简单易读。
-
-Markdown 特点：
-• 易读易写：语法简单直观
-• 纯文本格式：不依赖特定编辑器
-• 可转换为多种格式：HTML、PDF、Word 等
-• 广泛支持：GitHub、GitLab、Stack Overflow 等平台
-
-Markdown 语法：
-• 标题：使用 # 符号
-• 列表：使用 - 或 * 符号
-• 链接：使用 [文本](URL) 格式
-• 代码：使用 \`代码\` 或 \`\`\`代码块\`\`\` 格式
-• 表格：使用 | 分隔列，- 分隔表头
-
-应用场景：
-• 技术文档编写
-• 博客文章创作
-• 项目说明文档
-• 学术论文写作`,
     usageSteps: [
       '将 Markdown 内容粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1532,9 +876,7 @@ Markdown 语法：
     ]
   },
 
-  javaFormat: {
-    title: 'Java 代码格式化工具',
-    description: '专业的 Java 代码格式化工具，支持美化、压缩、语法检查等功能',
+  java: {
     features: [
       'Java 语法高亮显示',
       '自动缩进和格式化',
@@ -1547,25 +889,6 @@ Markdown 语法：
       '代码审查和重构',
       '项目代码规范统一'
     ],
-    technicalBackground: `Java 是一种面向对象的编程语言，由 Sun Microsystems 于 1995 年发布，具有跨平台、安全性高等特点。
-
-Java 语言特点：
-• 面向对象：支持封装、继承、多态
-• 跨平台：一次编写，到处运行
-• 强类型：编译时类型检查
-• 自动内存管理：垃圾回收机制
-
-Java 代码规范：
-• 类名：使用 PascalCase（如 MyClass）
-• 方法名：使用 camelCase（如 myMethod）
-• 常量：使用 UPPER_SNAKE_CASE（如 MAX_SIZE）
-• 包名：使用小写字母（如 com.example）
-
-应用场景：
-• 企业级应用开发
-• Android 移动应用开发
-• Web 后端服务开发
-• 大数据处理应用`,
     usageSteps: [
       '将 Java 代码粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1581,8 +904,6 @@ Java 代码规范：
   },
 
   php: {
-    title: 'PHP 代码格式化工具',
-    description: '专业的 PHP 代码格式化工具，支持美化、压缩、语法检查等功能',
     features: [
       'PHP 语法高亮显示',
       '自动缩进和格式化',
@@ -1595,25 +916,6 @@ Java 代码规范：
       '代码审查和重构',
       '项目代码规范统一'
     ],
-    technicalBackground: `PHP 是一种服务器端脚本语言，主要用于 Web 开发，具有简单易学、功能强大等特点。
-
-PHP 语言特点：
-• 服务器端执行：在服务器上运行，生成 HTML
-• 跨平台：支持 Windows、Linux、macOS
-• 开源免费：社区活跃，资源丰富
-• 数据库支持：支持多种数据库系统
-
-PHP 代码规范（PSR）：
-• PSR-1：基础编码标准
-• PSR-2：编码风格指南
-• PSR-4：自动加载标准
-• PSR-12：扩展编码风格
-
-应用场景：
-• Web 网站开发
-• API 接口开发
-• CMS 系统开发
-• 企业级应用开发`,
     usageSteps: [
       '将 PHP 代码粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1629,8 +931,6 @@ PHP 代码规范（PSR）：
   },
 
   ruby: {
-    title: 'Ruby 代码格式化工具',
-    description: '专业的 Ruby 代码格式化工具，支持美化、压缩、语法检查等功能',
     features: [
       'Ruby 语法高亮显示',
       '自动缩进和格式化',
@@ -1643,25 +943,6 @@ PHP 代码规范（PSR）：
       '代码审查和重构',
       '项目代码规范统一'
     ],
-    technicalBackground: `Ruby 是一种动态、面向对象的编程语言，由松本行弘于 1995 年创建，以简洁优雅的语法著称。
-
-Ruby 语言特点：
-• 面向对象：一切都是对象
-• 动态类型：运行时类型检查
-• 简洁语法：优雅的代码风格
-• 元编程：强大的反射能力
-
-Ruby 代码风格：
-• 使用 2 个空格缩进
-• 方法名使用 snake_case
-• 类名使用 CamelCase
-• 常量使用 UPPER_SNAKE_CASE
-
-应用场景：
-• Web 应用开发（Ruby on Rails）
-• 脚本自动化
-• 系统管理工具
-• 原型开发`,
     usageSteps: [
       '将 Ruby 代码粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1677,8 +958,6 @@ Ruby 代码风格：
   },
 
   shell: {
-    title: 'Shell 脚本格式化工具',
-    description: '专业的 Shell 脚本格式化工具，支持美化、压缩、语法检查等功能',
     features: [
       'Shell 语法高亮显示',
       '自动缩进和格式化',
@@ -1691,25 +970,6 @@ Ruby 代码风格：
       '自动化脚本开发',
       '脚本代码规范统一'
     ],
-    technicalBackground: `Shell 脚本是一种用于自动化系统管理任务的脚本语言，在 Unix/Linux 系统中广泛使用。
-
-Shell 脚本特点：
-• 解释执行：无需编译，直接运行
-• 系统集成：与操作系统紧密集成
-• 文本处理：强大的文本处理能力
-• 管道操作：支持命令管道和重定向
-
-常见 Shell 类型：
-• Bash：最常用的 Shell，功能强大
-• Zsh：增强的 Shell，支持插件
-• Fish：用户友好的 Shell
-• Dash：轻量级 Shell
-
-应用场景：
-• 系统管理自动化
-• 部署脚本编写
-• 日志处理和分析
-• 批量文件操作`,
     usageSteps: [
       '将 Shell 脚本粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1725,8 +985,6 @@ Shell 脚本特点：
   },
 
   vue: {
-    title: 'Vue 代码格式化工具',
-    description: '专业的 Vue 代码格式化工具，支持美化、压缩、语法检查等功能',
     features: [
       'Vue 语法高亮显示',
       '自动缩进和格式化',
@@ -1739,25 +997,6 @@ Shell 脚本特点：
       '代码审查和重构',
       '项目代码规范统一'
     ],
-    technicalBackground: `Vue.js 是一个渐进式 JavaScript 框架，用于构建用户界面，具有易学易用、功能强大等特点。
-
-Vue 框架特点：
-• 渐进式：可以逐步采用，从简单到复杂
-• 响应式：数据变化自动更新视图
-• 组件化：可复用的组件系统
-• 轻量级：体积小，性能优秀
-
-Vue 代码风格：
-• 使用 2 个空格缩进
-• 组件名使用 PascalCase
-• 属性名使用 kebab-case
-• 方法名使用 camelCase
-
-应用场景：
-• 单页应用开发
-• 组件库开发
-• 企业级应用开发
-• 移动端应用开发`,
     usageSteps: [
       '将 Vue 代码粘贴到输入框',
       '选择格式化选项（美化/压缩）',
@@ -1772,9 +1011,7 @@ Vue 代码风格：
     ]
   },
 
-  ed25519: {
-    title: 'Ed25519 数字签名工具',
-    description: '专业的 Ed25519 数字签名工具，支持密钥生成、签名和验证功能',
+  "ed25519-sign": {
     features: [
       'Ed25519 密钥对生成',
       '数字签名生成',
@@ -1787,25 +1024,6 @@ Vue 代码风格：
       '软件包签名',
       '区块链应用'
     ],
-    technicalBackground: `Ed25519 是一种基于 Edwards25519 椭圆曲线的数字签名算法，由 Daniel J. Bernstein 等人设计。
-
-Ed25519 特点：
-• 高性能：签名和验证速度快
-• 安全性高：基于椭圆曲线密码学
-• 密钥长度短：公钥和私钥都是 32 字节
-• 抗量子攻击：比 RSA 更安全
-
-算法优势：
-• 签名速度快：比 RSA 快 10-100 倍
-• 密钥生成快：比 RSA 快 1000 倍
-• 密钥长度短：公钥和私钥都是 256 位
-• 安全性高：基于椭圆曲线离散对数问题
-
-应用场景：
-• 软件包签名验证
-• 身份认证系统
-• 区块链和加密货币
-• 安全通信协议`,
     usageSteps: [
       '生成 Ed25519 密钥对',
       '使用私钥对数据进行签名',
@@ -1820,9 +1038,7 @@ Ed25519 特点：
     ]
   },
 
-  rsaSign: {
-    title: 'RSA 数字签名工具',
-    description: '专业的 RSA 数字签名工具，支持密钥生成、签名和验证功能',
+  "rsa-sign": {
     features: [
       'RSA 密钥对生成',
       '数字签名生成',
@@ -1835,25 +1051,6 @@ Ed25519 特点：
       '软件包签名',
       '安全通信'
     ],
-    technicalBackground: `RSA 数字签名是一种基于 RSA 公钥密码体制的数字签名算法，广泛用于身份认证和数据完整性验证。
-
-RSA 签名特点：
-• 非对称加密：使用公钥验证，私钥签名
-• 安全性高：基于大整数分解问题
-• 标准化：广泛支持的标准算法
-• 兼容性好：与多种系统兼容
-
-签名过程：
-• 使用私钥对消息哈希进行加密
-• 生成数字签名
-• 使用公钥验证签名
-• 确保消息完整性和身份认证
-
-应用场景：
-• 软件包签名验证
-• SSL/TLS 证书
-• 身份认证系统
-• 安全通信协议`,
     usageSteps: [
       '生成 RSA 密钥对',
       '使用私钥对数据进行签名',
@@ -1869,8 +1066,6 @@ RSA 签名特点：
   },
 
   url: {
-    title: 'URL 编码解码工具',
-    description: '专业的 URL 编码解码工具，支持 URL 安全字符转换',
     features: [
       'URL 编码和解码',
       '特殊字符处理',
@@ -1883,25 +1078,6 @@ RSA 签名特点：
       'API 接口开发',
       '数据传输安全'
     ],
-    technicalBackground: `URL 编码是一种将特殊字符转换为 URL 安全格式的方法，确保数据在 URL 中正确传输。
-
-URL 编码原理：
-• 将非 ASCII 字符转换为 %XX 格式
-• 保留字母、数字和部分特殊字符
-• 空格转换为 %20 或 +
-• 确保 URL 的兼容性
-
-编码规则：
-• 字母 A-Z, a-z 保持不变
-• 数字 0-9 保持不变
-• 特殊字符 -_.~ 保持不变
-• 其他字符转换为 %XX 格式
-
-应用场景：
-• Web 表单提交
-• API 参数传递
-• 文件下载链接
-• 跨平台数据交换`,
     usageSteps: [
       '输入要编码或解码的文本',
       '选择编码或解码操作',
@@ -1917,8 +1093,6 @@ URL 编码原理：
   },
 
   x25519: {
-    title: 'X25519 密钥交换工具',
-    description: '专业的 X25519 密钥交换工具，支持安全密钥协商',
     features: [
       'X25519 密钥对生成',
       '密钥交换计算',
@@ -1931,25 +1105,6 @@ URL 编码原理：
       '端到端加密',
       '密钥派生'
     ],
-    technicalBackground: `X25519 是一种基于 Curve25519 椭圆曲线的密钥交换算法，用于安全地协商共享密钥。
-
-X25519 特点：
-• 高性能：密钥交换速度快
-• 安全性高：基于椭圆曲线密码学
-• 密钥长度短：公钥和私钥都是 32 字节
-• 抗量子攻击：比传统算法更安全
-
-密钥交换过程：
-• 双方生成各自的密钥对
-• 交换公钥
-• 使用自己的私钥和对方的公钥计算共享密钥
-• 生成相同的共享密钥用于加密
-
-应用场景：
-• TLS/SSL 协议
-• 端到端加密通信
-• 密钥协商协议
-• 安全消息传递`,
     usageSteps: [
       '生成 X25519 密钥对',
       '输入对方的公钥',
@@ -1965,8 +1120,6 @@ X25519 特点：
   },
 
   argon2: {
-    title: 'Argon2 密码哈希工具',
-    description: '专业的 Argon2 密码哈希工具，支持多种变体和参数配置',
     features: [
       'Argon2d/Argon2i/Argon2id 支持',
       '可调节内存和时间成本',
@@ -1979,24 +1132,6 @@ X25519 特点：
       '密钥派生',
       '安全哈希计算'
     ],
-    technicalBackground: `Argon2 是一种密码哈希函数，在 2015 年密码哈希竞赛中获胜，被设计为抗 GPU 和专用硬件攻击。
-
-Argon2 特点：
-• 内存硬性：需要大量内存，抗硬件攻击
-• 可调节参数：内存成本、时间成本、并行度
-• 三种变体：Argon2d、Argon2i、Argon2id
-• 抗侧信道攻击：保护敏感信息
-
-算法变体：
-• Argon2d：数据依赖的内存访问
-• Argon2i：数据独立的内存访问
-• Argon2id：混合模式，推荐使用
-
-应用场景：
-• 密码存储和验证
-• 密钥派生函数
-• 区块链挖矿算法
-• 安全系统设计`,
     usageSteps: [
       '选择 Argon2 变体',
       '设置哈希参数',
@@ -2012,8 +1147,6 @@ Argon2 特点：
   },
 
   bcrypt: {
-    title: 'Bcrypt 密码哈希工具',
-    description: '专业的 Bcrypt 密码哈希工具，支持自适应成本因子',
     features: [
       '自适应成本因子',
       '盐值自动生成',
@@ -2026,25 +1159,6 @@ Argon2 特点：
       '密码强度验证',
       '安全哈希计算'
     ],
-    technicalBackground: `Bcrypt 是一种基于 Blowfish 密码的密码哈希函数，由 Niels Provos 和 David Mazières 设计。
-
-Bcrypt 特点：
-• 自适应成本：可调节计算复杂度
-• 内置盐值：自动生成随机盐值
-• 抗暴力破解：计算密集型算法
-• 时间可调：根据硬件性能调整
-
-工作原理：
-• 使用 Blowfish 密码算法
-• 自动生成随机盐值
-• 可调节轮数（成本因子）
-• 输出固定长度哈希值
-
-应用场景：
-• 用户密码存储
-• 身份认证系统
-• 密码强度评估
-• 安全系统设计`,
     usageSteps: [
       '设置成本因子',
       '输入密码进行哈希',
@@ -2060,8 +1174,6 @@ Bcrypt 特点：
   },
 
   chacha20: {
-    title: 'ChaCha20 加密工具',
-    description: '专业的 ChaCha20 流密码加密工具，支持高速加密',
     features: [
       'ChaCha20 流密码加密',
       '多种密钥长度支持',
@@ -2074,25 +1186,6 @@ Bcrypt 特点：
       '文件加密',
       '流媒体加密'
     ],
-    technicalBackground: `ChaCha20 是一种流密码算法，由 Daniel J. Bernstein 设计，被广泛用于 TLS 协议和移动设备。
-
-ChaCha20 特点：
-• 高速加密：比 AES 在某些平台上更快
-• 简单实现：易于软件实现
-• 抗侧信道攻击：时序攻击防护
-• 标准化：RFC 8439 标准
-
-算法优势：
-• 无专利限制：开源算法
-• 硬件友好：适合移动设备
-• 安全性高：经过广泛分析
-• 性能优秀：在 ARM 处理器上表现优异
-
-应用场景：
-• TLS/SSL 协议
-• 移动应用加密
-• 实时通信加密
-• 文件系统加密`,
     usageSteps: [
       '生成或输入密钥',
       '设置随机数（nonce）',
@@ -2108,8 +1201,6 @@ ChaCha20 特点：
   },
 
   des: {
-    title: 'DES 加密解密工具',
-    description: '专业的 DES 对称加密工具，支持多种加密模式和密钥长度',
     features: [
       '支持 ECB、CBC 等多种加密模式',
       '密钥长度可选',
@@ -2122,13 +1213,6 @@ ChaCha20 特点：
       '安全通信',
       '文件加密'
     ],
-    technicalBackground: `DES（Data Encryption Standard）是一种对称加密算法，广泛应用于早期数据加密场景。
-    
-主要特点：
-• 对称加密，密钥长度56位
-• 支持多种加密模式（ECB、CBC等）
-• 现已被更安全的算法（如AES）取代，但在部分场景仍有兼容需求
-`,
     usageSteps: [
       '输入要加密/解密的数据',
       '设置密钥和加密模式',
@@ -2143,9 +1227,7 @@ ChaCha20 特点：
     ]
   },
 
-  dateDiff: {
-    title: '日期差值计算工具',
-    description: '专业的日期差值计算工具，支持多种时间单位的差值计算',
+  "date-diff": {
     features: [
       '多种时间单位支持',
       '精确的差值计算',
@@ -2158,26 +1240,6 @@ ChaCha20 特点：
       '时间间隔分析',
       '日程安排'
     ],
-    technicalBackground: `日期差值计算是时间管理中的基础功能，需要考虑多种时间单位和精度要求。
-
-计算单位：
-• 年：考虑闰年规则
-• 月：考虑月份天数差异
-• 日：标准24小时计算
-• 时、分、秒：精确到秒级
-• 毫秒：最高精度计算
-
-计算特点：
-• 精确计算：考虑月份天数差异
-• 时区处理：支持本地和UTC时间
-• 边界处理：正确处理日期边界
-• 精度控制：根据需求调整精度
-
-应用场景：
-• 项目管理
-• 时间统计
-• 数据分析
-• 系统开发`,
     usageSteps: [
       '选择开始日期',
       '选择结束日期',
@@ -2192,9 +1254,7 @@ ChaCha20 特点：
     ]
   },
 
-  numberBase: {
-    title: '进制转换工具',
-    description: '专业的进制转换工具，支持二进制、八进制、十进制、十六进制之间的转换',
+  "number-base": {
     features: [
       '多种进制支持',
       '实时转换',
@@ -2207,25 +1267,6 @@ ChaCha20 特点：
       '数字系统分析',
       '数据处理'
     ],
-    technicalBackground: `进制转换是计算机科学的基础知识，不同进制适用于不同场景。
-
-进制系统：
-• 二进制：计算机内部表示
-• 八进制：Unix权限表示
-• 十进制：人类常用计数
-• 十六进制：内存地址表示
-
-转换原理：
-• 基于位权展开
-• 除法和乘法运算
-• 字符映射转换
-• 精度保持
-
-应用场景：
-• 编程开发
-• 系统分析
-• 数据编码
-• 网络协议`,
     usageSteps: [
       '输入源进制数字',
       '选择源进制',
@@ -2240,9 +1281,7 @@ ChaCha20 特点：
     ]
   },
 
-  storageTime: {
-    title: '存储时间转换工具',
-    description: '专业的存储容量和时间单位转换工具，支持多种单位间的精确转换',
+  "storage-time": {
     features: [
       '存储容量转换',
       '时间单位转换',
@@ -2255,29 +1294,6 @@ ChaCha20 特点：
       '性能分析',
       '系统设计'
     ],
-    technicalBackground: `存储和时间单位转换在系统设计和性能分析中经常使用。
-
-存储单位：
-• 字节：基本存储单位
-• KB、MB、GB：常用容量单位
-• TB、PB：大容量存储单位
-
-时间单位：
-• 毫秒：精确时间测量
-• 秒、分、时：常用时间单位
-• 天：长期时间计算
-
-转换特点：
-• 二进制存储单位
-• 十进制时间单位
-• 精度自动调整
-• 科学计数法支持
-
-应用场景：
-• 存储系统设计
-• 性能基准测试
-• 容量规划
-• 时间计算`,
     usageSteps: [
       '选择转换类型',
       '输入数值',
@@ -2292,9 +1308,7 @@ ChaCha20 特点：
     ]
   },
 
-  userAgent: {
-    title: 'User Agent 解析工具',
-    description: '专业的 User Agent 字符串解析工具，支持浏览器、操作系统、设备信息提取',
+  "user-agent": {
     features: [
       '浏览器信息解析',
       '操作系统识别',
@@ -2307,25 +1321,6 @@ ChaCha20 特点：
       '兼容性测试',
       '统计分析'
     ],
-    technicalBackground: `User Agent 是浏览器发送给服务器的标识字符串，包含丰富的设备和软件信息。
-
-解析内容：
-• 浏览器：Chrome、Firefox、Safari等
-• 操作系统：Windows、macOS、Linux等
-• 设备类型：桌面、移动、平板等
-• 渲染引擎：WebKit、Gecko、Blink等
-
-解析技术：
-• 正则表达式匹配
-• 特征字符串识别
-• 版本号提取
-• 设备类型判断
-
-应用场景：
-• Web 开发
-• 移动端适配
-• 用户统计
-• 安全分析`,
     usageSteps: [
       '输入 User Agent 字符串',
       '自动解析信息',
@@ -2341,8 +1336,6 @@ ChaCha20 特点：
   },
 
   imageConvert: {
-    title: '图片格式转换工具',
-    description: '专业的图片格式转换工具，支持JPEG、PNG、WebP、GIF格式转换和质量控制',
     features: [
       '多种格式支持',
       '质量控制',
@@ -2355,31 +1348,6 @@ ChaCha20 特点：
       '文件大小减少',
       '图片处理工作流'
     ],
-    technicalBackground: `图片格式转换对于网页优化和跨平台兼容性至关重要。
-
-支持的格式：
-• JPEG：有损压缩，适合照片
-• PNG：无损压缩，支持透明背景
-• WebP：现代格式，更好的压缩率
-• GIF：动画图片和简单图形
-
-转换特性：
-• 基于Canvas的处理
-• 质量参数控制
-• 文件大小计算
-• 格式特定优化
-
-技术实现：
-• HTML5 Canvas API
-• Base64编码/解码
-• Blob对象处理
-• 下载功能
-
-应用场景：
-• 网页开发
-• 内容管理
-• 数字资产优化
-• 跨平台兼容性`,
     usageSteps: [
       '上传源图片',
       '选择目标格式',
@@ -2394,9 +1362,7 @@ ChaCha20 特点：
     ]
   },
 
-  imageCrop: {
-    title: '图片裁剪工具',
-    description: '专业的图片裁剪工具，支持宽高比控制和实时预览',
+  crop: {
     features: [
       '交互式裁剪界面',
       '宽高比控制',
@@ -2409,31 +1375,6 @@ ChaCha20 特点：
       '缩略图创建',
       '内容裁剪'
     ],
-    technicalBackground: `图片裁剪是基础的图片编辑操作，允许精确控制图片构图。
-
-裁剪技术：
-• 基于Canvas的图片操作
-• 坐标系统处理
-• 宽高比计算
-• 图片缩放算法
-
-交互功能：
-• 拖拽选择
-• 缩放功能
-• 平移和移动操作
-• 实时预览生成
-
-宽高比选项：
-• 自由裁剪
-• 正方形（1:1）用于头像
-• 横向（4:3、16:9）用于媒体
-• 自定义比例满足特定需求
-
-应用场景：
-• 社交媒体内容创建
-• 电商产品图片
-• 头像编辑
-• 横幅和头部创建`,
     usageSteps: [
       '上传要裁剪的图片',
       '调整裁剪区域',
@@ -2448,9 +1389,7 @@ ChaCha20 特点：
     ]
   },
 
-  imageRotate: {
-    title: '图片旋转工具',
-    description: '专业的图片旋转工具，支持精确角度控制和批量处理',
+  rotate: {
     features: [
       '精确角度控制',
       '实时预览',
@@ -2463,31 +1402,6 @@ ChaCha20 特点：
       '创意图片编辑',
       '批量图片处理'
     ],
-    technicalBackground: `图片旋转涉及数学变换来重新定向图片，同时保持质量。
-
-旋转技术：
-• 仿射变换矩阵
-• Canvas坐标系统操作
-• 平滑旋转的插值算法
-• 质量保持技术
-
-旋转角度：
-• 90°增量用于常见方向
-• 自定义角度用于创意效果
-• 顺时针和逆时针旋转
-• 自动Canvas尺寸调整
-
-技术实现：
-• HTML5 Canvas变换
-• 基于矩阵的计算
-• 像素插值方法
-• 内存高效处理
-
-应用场景：
-• 照片方向校正
-• 文档数字化
-• 创意设计工作
-• 图片预处理`,
     usageSteps: [
       '上传要旋转的图片',
       '选择旋转角度',
@@ -2502,9 +1416,7 @@ ChaCha20 特点：
     ]
   },
 
-  imageWatermark: {
-    title: '图片水印工具',
-    description: '专业的图片水印工具，支持自定义文本、定位和样式选项',
+  watermark: {
     features: [
       '自定义文本水印',
       '字体大小和颜色控制',
@@ -2517,31 +1429,6 @@ ChaCha20 特点：
       '照片标识',
       '内容所有权标记'
     ],
-    technicalBackground: `图片水印在保持视觉吸引力的同时添加识别信息。
-
-水印技术：
-• 基于Canvas的文本渲染
-• 字体样式和定位
-• Alpha通道操作
-• 坐标系统计算
-
-文本自定义：
-• 字体族和大小选择
-• 颜色和透明度控制
-• 旋转和定位
-• 抗锯齿平滑文本
-
-技术特性：
-• HTML5 Canvas文本API
-• RGBA颜色空间处理
-• 变换矩阵操作
-• 图片合成算法
-
-应用场景：
-• 版权保护
-• 品牌标识标记
-• 摄影工作室水印
-• 社交媒体内容保护`,
     usageSteps: [
       '上传源图片',
       '输入水印文本',
@@ -2556,9 +1443,7 @@ ChaCha20 特点：
     ]
   },
 
-  textCase: {
-    title: '文本大小写转换工具',
-    description: '专业的文本大小写转换工具，支持多种命名规范',
+  case: {
     features: [
       '支持多种大小写格式',
       '批量转换功能',
@@ -2571,20 +1456,6 @@ ChaCha20 特点：
       '数据库字段命名',
       'API 参数标准化'
     ],
-    technicalBackground: `不同的编程语言和场景使用不同的大小写命名规范：
-
-命名规范：
-• camelCase：首单词小写，后续单词首字母大写（JavaScript 变量）
-• PascalCase：所有单词首字母大写（类名）
-• snake_case：单词间用下划线连接（Python 变量）
-• kebab-case：单词间用连字符连接（CSS 类名）
-• UPPER_SNAKE_CASE：全大写加下划线（常量）
-
-应用场景：
-• JavaScript：camelCase 用于变量，PascalCase 用于类
-• Python：snake_case 用于变量和函数
-• CSS：kebab-case 用于类名
-• 数据库：snake_case 用于字段名`,
     usageSteps: [
       '输入要转换的文本',
       '选择目标格式',
@@ -2600,8 +1471,6 @@ ChaCha20 特点：
   },
 
   textReverse: {
-    title: '文本反转工具',
-    description: '专业的文本反转和排序工具，支持多种反转和排序方式',
     features: [
       '文本字符反转',
       '行级反转排序',
@@ -2614,25 +1483,6 @@ ChaCha20 特点：
       '代码混淆处理',
       '文本格式转换'
     ],
-    technicalBackground: `文本反转是字符串处理的基本操作，有多种反转方式和应用场景。
-
-反转类型：
-• 字符反转：逐字符反转
-• 单词反转：按单词反转
-• 行反转：按行反转
-• 部分反转：指定范围反转
-
-排序方式：
-• 字母顺序：A-Z 或 Z-A
-• 数字顺序：升序或降序
-• 长度排序：按字符串长度
-• 自定义排序：用户定义规则
-
-应用场景：
-• 数据验证和测试
-• 文本加密算法
-• 代码混淆技术
-• 数据处理流程`,
     usageSteps: [
       '输入要处理的文本',
       '选择反转或排序方式',
@@ -2647,9 +1497,7 @@ ChaCha20 特点：
     ]
   },
 
-  textWhitespace: {
-    title: '空白字符处理工具',
-    description: '专业的空白字符处理工具，支持去除多余空白和格式化文本',
+  whitespace: {
     features: [
       '去除多余空白',
       '去除行尾空白',
@@ -2662,18 +1510,6 @@ ChaCha20 特点：
       '文档准备',
       '数据导入'
     ],
-    technicalBackground: `空白字符处理是文本处理中的常见操作，用于去除多余的空白字符，保持文本格式的一致性。
-
-处理方法：
-• 去除行尾空白：删除每行末尾的空白字符
-• 去除重复空白：删除连续出现的空白字符
-• 去除制表符：将制表符替换为空格
-
-应用场景：
-• 文本清理和标准化
-• 代码格式化
-• 文档准备
-• 数据导入`,
     usageSteps: [
       '输入要处理的文本',
       '选择处理选项',
@@ -2689,8 +1525,6 @@ ChaCha20 特点：
   },
 
   textReplace: {
-    title: '文本替换工具',
-    description: '专业的文本查找和替换工具，支持正则表达式和批量处理',
     features: [
       '精确查找替换',
       '正则表达式支持',
@@ -2703,31 +1537,6 @@ ChaCha20 特点：
       '代码重构',
       '文档格式化'
     ],
-    technicalBackground: `文本替换是文本处理中的核心功能，支持多种查找和替换模式。
-
-查找模式：
-• 精确匹配：完全匹配指定文本
-• 正则表达式：使用正则模式匹配
-• 大小写敏感：区分大小写匹配
-• 全局替换：替换所有匹配项
-
-替换功能：
-• 简单文本替换
-• 正则表达式替换
-• 特殊字符处理
-• 格式化替换
-
-技术实现：
-• 字符串搜索算法
-• 正则表达式引擎
-• 模式匹配优化
-• 批量处理机制
-
-应用场景：
-• 文本编辑和修改
-• 数据清理和标准化
-• 代码重构和维护
-• 文档格式转换`,
     usageSteps: [
       '输入要处理的文本',
       '设置查找条件',
@@ -2747,8 +1556,6 @@ ChaCha20 特点：
 export const toolDescriptionsEn = {
   // 格式化工具
   json: {
-    title: 'JSON Formatter',
-    description: 'Professional JSON data formatting tool supporting beautification, compression, and escaping operations',
     features: [
       'Smart syntax highlighting',
       'Automatic error detection and prompts',
@@ -2761,19 +1568,6 @@ export const toolDescriptionsEn = {
       'Code review and documentation',
       'Data exchange format processing'
     ],
-    technicalBackground: `JSON (JavaScript Object Notation) is a lightweight data exchange format based on a subset of the JavaScript programming language. It uses a text format that is completely independent of programming languages but also uses conventions similar to the C language family.
-
-JSON characteristics:
-• Easy to read and write for humans
-• Easy to parse and generate for machines
-• Supports nested data structures
-• Supports array and object types
-
-JSON is widely used in:
-• Web API data exchange
-• Configuration file storage
-• Database data serialization
-• Cross-platform data communication`,
     usageSteps: [
       'Paste JSON data into the input box',
       'Select formatting options (beautify/compress/escape)',
@@ -2789,8 +1583,6 @@ JSON is widely used in:
   },
 
   xml: {
-    title: 'XML Formatter',
-    description: 'Professional XML document formatting tool supporting beautification, compression, and validation',
     features: [
       'XML syntax highlighting',
       'Automatic indentation and formatting',
@@ -2803,19 +1595,6 @@ JSON is widely used in:
       'Document structure optimization',
       'XML document editing and debugging'
     ],
-    technicalBackground: `XML (Extensible Markup Language) is a markup language used for storing and transmitting data. It is designed to be self-descriptive and is a W3C recommendation.
-
-Main characteristics of XML:
-• Extensible markup language
-• Strict syntax rules
-• Namespace support
-• DTD and Schema validation support
-
-XML is widely used in:
-• Configuration file formats
-• Web service data exchange
-• Document storage and transmission
-• Data serialization`,
     usageSteps: [
       'Paste XML content into the input box',
       'Select formatting options',
@@ -2832,8 +1611,6 @@ XML is widely used in:
 
   // 加密工具
   base64: {
-    title: 'Base64 Encoder/Decoder',
-    description: 'Professional Base64 encoding and decoding tool supporting text and image encoding conversion',
     features: [
       'Text and image encoding support',
       'Intelligent content type detection',
@@ -2846,19 +1623,6 @@ XML is widely used in:
       'API authentication information encoding',
       'File attachment encoding'
     ],
-    technicalBackground: `Base64 is an encoding method based on 64 printable characters to represent binary data. It uses A-Z, a-z, 0-9, +, / to represent binary data.
-
-Base64 encoding principle:
-• Group binary data by 6 bits
-• Convert each group to corresponding printable characters
-• Pad with = when less than 6 bits
-• Encoded data increases by about 33%
-
-Application scenarios:
-• Image embedding in web pages
-• Binary data transmission in text protocols
-• Simple data obfuscation
-• File attachment encoding`,
     usageSteps: [
       'Enter text to encode or upload image',
       'Select encode or decode operation',
@@ -2874,8 +1638,6 @@ Application scenarios:
   },
 
   aes: {
-    title: 'AES Encryption/Decryption',
-    description: 'Advanced Encryption Standard (AES) tool providing powerful data encryption protection',
     features: [
       '128/192/256 bit key support',
       'Multiple encryption modes (CBC, ECB, CFB, OFB)',
@@ -2888,19 +1650,6 @@ Application scenarios:
       'File content encryption',
       'Password and key management'
     ],
-    technicalBackground: `AES (Advanced Encryption Standard) is a symmetric encryption algorithm adopted by the National Institute of Standards and Technology (NIST) as a Federal Information Processing Standard.
-
-AES characteristics:
-• Symmetric encryption algorithm
-• Supports 128, 192, 256 bit key lengths
-• Block cipher with 128-bit block size
-• Widely validated for security
-
-Encryption modes:
-• ECB: Electronic Codebook mode
-• CBC: Cipher Block Chaining mode
-• CFB: Cipher Feedback mode
-• OFB: Output Feedback mode`,
     usageSteps: [
       'Enter text to encrypt',
       'Set key and encryption parameters',
@@ -2916,8 +1665,6 @@ Encryption modes:
   },
 
   ecc: {
-    title: 'ECC Elliptic Curve Encryption',
-    description: 'Professional elliptic curve cryptography tool providing efficient public key encryption and digital signatures',
     features: [
       'Support for multiple elliptic curves (secp256k1, P-256, etc.)',
       'Public key encryption and digital signatures',
@@ -2930,25 +1677,6 @@ Encryption modes:
       'Digital certificates and authentication',
       'Mobile device security'
     ],
-    technicalBackground: `ECC (Elliptic Curve Cryptography) is a public key cryptography method based on elliptic curve mathematics.
-
-ECC advantages:
-• Shorter keys compared to RSA at the same security level
-• Higher computational efficiency, suitable for resource-constrained environments
-• Support for multiple elliptic curve standards
-• Widely used in modern cryptography
-
-Common elliptic curves:
-• secp256k1: Curve used by Bitcoin
-• P-256: NIST standard curve
-• P-384: High security level curve
-• P-521: Highest security level curve
-
-Application scenarios:
-• Digital signature algorithms (ECDSA)
-• Key exchange protocols (ECDH)
-• Encryption algorithms (ECIES)
-• Authentication and certificates`,
     usageSteps: [
       'Select elliptic curve type',
       'Generate key pair',
@@ -2964,8 +1692,6 @@ Application scenarios:
   },
 
   ecdh: {
-    title: 'ECDH Elliptic Curve Key Exchange',
-    description: 'Professional Elliptic Curve Diffie-Hellman key exchange tool for secure shared key generation',
     features: [
       'Support for multiple elliptic curve standards',
       'Secure key exchange protocol',
@@ -2978,31 +1704,6 @@ Application scenarios:
       'Mobile app security',
       'IoT device communication'
     ],
-    technicalBackground: `ECDH (Elliptic Curve Diffie-Hellman) is a key exchange protocol based on elliptic curves, the elliptic curve version of the traditional DH algorithm.
-
-ECDH working principle:
-• Both parties generate their own private and public keys
-• Exchange public key information
-• Calculate shared key using own private key and other party\'s public key
-• Both parties obtain the same shared key
-
-Security advantages:
-• Based on elliptic curve discrete logarithm problem
-• Shorter keys but higher security compared to traditional DH
-• Higher computational efficiency
-• Suitable for resource-constrained environments
-
-Common elliptic curves:
-• secp256k1: Bitcoin standard
-• P-256: NIST standard
-• P-384: High security level
-• Curve25519: Modern high-performance curve
-
-Application scenarios:
-• TLS/SSL handshake protocols
-• Secure message transmission
-• End-to-end encryption
-• Key derivation foundation`,
     usageSteps: [
       'Select elliptic curve type',
       'Generate local key pair',
@@ -3017,9 +1718,7 @@ Application scenarios:
     ]
   },
 
-  ecdsa: {
-    title: 'ECDSA Elliptic Curve Digital Signature',
-    description: 'Professional Elliptic Curve Digital Signature Algorithm tool providing efficient digital signature and verification',
+  "ecdsa-sign": {
     features: [
       'Support for multiple elliptic curve standards',
       'Digital signature generation and verification',
@@ -3032,34 +1731,6 @@ Application scenarios:
       'Digital certificate signing',
       'Secure communication authentication'
     ],
-    technicalBackground: `ECDSA (Elliptic Curve Digital Signature Algorithm) is a digital signature algorithm based on elliptic curves, the elliptic curve version of the DSA algorithm.
-
-ECDSA working principle:
-• Use private key to sign message hash
-• Generate two values (r, s) as signature
-• Use public key to verify signature validity
-• Ensure message integrity and source authentication
-
-Security advantages:
-• Based on elliptic curve discrete logarithm problem
-• Shorter keys but higher security compared to RSA signatures
-• Higher computational efficiency
-• Widely used in modern cryptography applications
-
-Signature process:
-• Calculate message hash value
-• Generate random number k
-• Calculate elliptic curve point R = k * G
-• Calculate r = R.x mod n
-• Calculate s = k^(-1) * (hash + r * privateKey) mod n
-
-Verification process:
-• Calculate message hash value
-• Calculate w = s^(-1) mod n
-• Calculate u1 = hash * w mod n
-• Calculate u2 = r * w mod n
-• Calculate point P = u1 * G + u2 * publicKey
-• Verify r == P.x mod n`,
     usageSteps: [
       'Select elliptic curve type',
       'Generate or import key pair',
@@ -3076,8 +1747,6 @@ Verification process:
 
   // 转换工具
   timestamp: {
-    title: 'Timestamp Converter',
-    description: 'Professional timestamp conversion tool supporting multiple time formats and timezone conversion',
     features: [
       'Second and millisecond timestamp support',
       'Multiple date format conversion',
@@ -3090,17 +1759,6 @@ Verification process:
       'Database time field processing',
       'Cross-timezone application development'
     ],
-    technicalBackground: `A timestamp is a number representing a specific point in time, usually calculated in seconds or milliseconds from a fixed point in time (such as the Unix epoch).
-
-Timestamp types:
-• Unix timestamp: Seconds from 1970-01-01 00:00:00 UTC
-• Millisecond timestamp: Milliseconds from 1970-01-01 00:00:00 UTC
-• JavaScript timestamp: Same as millisecond timestamp
-
-Common formats:
-• ISO 8601: 2023-12-18T15:10:56Z
-• RFC 2822: Mon, 18 Dec 2023 15:10:56 GMT
-• Custom format: 2023/12/18 15:10:56`,
     usageSteps: [
       'Enter timestamp or date time',
       'Select conversion direction',
@@ -3117,8 +1775,6 @@ Common formats:
 
   // 图像工具
   imageConvert: {
-    title: 'Image Format Converter',
-    description: 'Professional image format conversion tool supporting lossless conversion between multiple formats',
     features: [
       'Support for JPG, PNG, WebP, GIF formats',
       'Adjustable quality parameters',
@@ -3131,27 +1787,6 @@ Common formats:
       'Image format standardization',
       'Storage space optimization'
     ],
-    technicalBackground: `Different image formats have different characteristics and application scenarios:
-
-JPG (JPEG):
-• Lossy compression, small file size
-• Suitable for photos and complex images
-• No transparent background support
-
-PNG:
-• Lossless compression, high quality
-• Supports transparent background
-• Suitable for icons and simple images
-
-WebP:
-• Modern format developed by Google
-• Better compression ratio
-• Supports animation and transparency
-
-GIF:
-• Animation support
-• Limited color count
-• Suitable for simple animations`,
     usageSteps: [
       'Upload image to convert',
       'Select target format',
@@ -3167,9 +1802,7 @@ GIF:
   },
 
   // 文本工具
-  textCase: {
-    title: 'Text Case Converter',
-    description: 'Professional text case conversion tool supporting multiple naming conventions',
+  case: {
     features: [
       'Multiple case format support',
       'Batch conversion functionality',
@@ -3182,20 +1815,6 @@ GIF:
       'Database field naming',
       'API parameter standardization'
     ],
-    technicalBackground: `Different programming languages and scenarios use different case naming conventions:
-
-Naming conventions:
-• camelCase: First word lowercase, subsequent words capitalized (JavaScript variables)
-• PascalCase: All words capitalized (class names)
-• snake_case: Words connected with underscores (Python variables)
-• kebab-case: Words connected with hyphens (CSS class names)
-• UPPER_SNAKE_CASE: All uppercase with underscores (constants)
-
-Application scenarios:
-• JavaScript: camelCase for variables, PascalCase for classes
-• Python: snake_case for variables and functions
-• CSS: kebab-case for class names
-• Database: snake_case for field names`,
     usageSteps: [
       'Enter text to convert',
       'Select target format',
@@ -3212,8 +1831,6 @@ Application scenarios:
 
   // 其他工具
   qrcode: {
-    title: 'QR Code Generator',
-    description: 'Professional QR code generation and parsing tool supporting multiple data types',
     features: [
       'Support for text, URL, WiFi and other content',
       'Adjustable QR code size and error correction level',
@@ -3226,26 +1843,6 @@ Application scenarios:
       'Quick URL access',
       'Contact information exchange'
     ],
-    technicalBackground: `QR Code is a matrix-type two-dimensional barcode that can store more information than traditional barcodes.
-
-QR Code characteristics:
-• High-density encoding
-• Supports multiple data types
-• Error correction capability
-• Supports Chinese and other characters
-
-Error correction levels:
-• L (Low): 7% error correction capability
-• M (Medium): 15% error correction capability
-• Q (Quartile): 25% error correction capability
-• H (High): 30% error correction capability
-
-Supported data types:
-• Text information
-• URL links
-• Email addresses
-• Phone numbers
-• WiFi configuration`,
     usageSteps: [
       'Enter content to encode',
       'Select QR code type',
@@ -3261,8 +1858,6 @@ Supported data types:
   },
 
   calculator: {
-    title: 'Scientific Calculator',
-    description: 'Powerful online scientific calculator supporting basic operations and advanced mathematical functions',
     features: [
       'Basic arithmetic operations',
       'Scientific calculation functions',
@@ -3275,23 +1870,6 @@ Supported data types:
       'Numerical calculations in programming',
       'Learning and teaching assistance'
     ],
-    technicalBackground: `Scientific calculators provide various mathematical operations to meet calculation needs in different scenarios.
-
-Basic operations:
-• Addition, subtraction, multiplication, division
-• Percentage calculations
-• Sign conversion
-
-Scientific functions:
-• Trigonometric functions: sin, cos, tan
-• Inverse trigonometric functions: asin, acos, atan
-• Logarithmic functions: log, ln
-• Exponential functions: exp, pow
-
-Base conversion:
-• Binary, octal, decimal, hexadecimal
-• Supports integer and decimal conversion
-• Maintains numerical precision`,
     usageSteps: [
       'Select calculation mode',
       'Enter mathematical expression',
@@ -3308,8 +1886,6 @@ Base conversion:
 
   // More formatting tools
   yaml: {
-    title: 'YAML Formatter',
-    description: 'Professional YAML data serialization formatting tool supporting configuration files and data structure formatting',
     features: [
       'YAML syntax highlighting',
       'Automatic indentation and formatting',
@@ -3322,25 +1898,6 @@ Base conversion:
       'CI/CD configuration file processing',
       'API documentation formatting'
     ],
-    technicalBackground: `YAML (YAML Ain't Markup Language) is a human-readable data serialization language commonly used for configuration files and data exchange.
-
-YAML characteristics:
-• Human-readable format
-• Complex data structure support
-• Comment and documentation support
-• JSON compatibility
-
-Data structure support:
-• Scalars: strings, numbers, booleans
-• Sequences: arrays and lists
-• Mappings: key-value pairs and objects
-• Anchors and aliases: references and reuse
-
-Application scenarios:
-• Configuration file formats
-• Data exchange formats
-• API documentation
-• System configuration management`,
     usageSteps: [
       'Paste YAML content into input box',
       'Select formatting options',
@@ -3356,8 +1913,6 @@ Application scenarios:
   },
 
   js: {
-    title: 'JavaScript Formatter',
-    description: 'Professional JavaScript code formatting tool supporting ES6+ syntax and modern development standards',
     features: [
       'JavaScript syntax highlighting',
       'ES6+ syntax support',
@@ -3370,25 +1925,6 @@ Application scenarios:
       'Open source project contribution',
       'Code quality improvement'
     ],
-    technicalBackground: `JavaScript is a dynamic, interpreted programming language widely used in web development and server-side development.
-
-Modern JavaScript characteristics:
-• ES6+ syntax support
-• Modular development
-• Asynchronous programming support
-• Functional programming features
-
-Code formatting standards:
-• Indentation: 2 or 4 spaces
-• Semicolons: optional, recommended
-• Quotes: single or double quotes
-• Line length: 80-120 characters
-
-Tool ecosystem:
-• ESLint: code quality checking
-• Prettier: code formatting
-• Babel: syntax transformation
-• TypeScript: type checking`,
     usageSteps: [
       'Paste JavaScript code',
       'Select formatting options',
@@ -3404,8 +1940,6 @@ Tool ecosystem:
   },
 
   html: {
-    title: 'HTML Formatter',
-    description: 'Professional HTML markup language formatting tool to standardize document structure and improve code quality',
     features: [
       'HTML syntax highlighting',
       'Tag auto-indentation',
@@ -3418,25 +1952,6 @@ Tool ecosystem:
       'HTML document optimization',
       'SEO-friendly formatting'
     ],
-    technicalBackground: `HTML (HyperText Markup Language) is the standard markup language for creating web pages and is the foundation of web development.
-
-HTML characteristics:
-• Semantic markup
-• Structured documents
-• Accessibility support
-• SEO friendly
-
-HTML5 new features:
-• Semantic tags
-• Multimedia support
-• Form enhancements
-• Canvas and WebGL
-
-Best practices:
-• Use semantic tags
-• Keep document structure clear
-• Ensure accessibility
-• Optimize SEO effects`,
     usageSteps: [
       'Paste HTML code',
       'Select formatting options',
@@ -3452,8 +1967,6 @@ Best practices:
   },
 
   css: {
-    title: 'CSS Formatter',
-    description: 'Professional CSS stylesheet formatting tool to beautify code structure and improve maintainability',
     features: [
       'CSS syntax highlighting',
       'Property auto-sorting',
@@ -3466,25 +1979,6 @@ Best practices:
       'Team collaboration development',
       'Style maintenance and refactoring'
     ],
-    technicalBackground: `CSS (Cascading Style Sheets) is a stylesheet language used to describe the appearance and layout of web pages.
-
-CSS characteristics:
-• Cascading style rules
-• Selector system
-• Box model layout
-• Responsive design
-
-CSS3 new features:
-• Flexbox layout
-• Grid layout
-• Animations and transitions
-• Media queries
-
-Code organization:
-• Modular CSS
-• BEM naming convention
-• CSS preprocessors
-• Post-processor tools`,
     usageSteps: [
       'Paste CSS code',
       'Select formatting options',
@@ -3500,8 +1994,6 @@ Code organization:
   },
 
   sql: {
-    title: 'SQL Formatter',
-    description: 'Professional SQL query statement formatting tool to standardize database query code and improve readability',
     features: [
       'SQL syntax highlighting',
       'Keyword capitalization',
@@ -3514,25 +2006,6 @@ Code organization:
       'Database documentation writing',
       'Query performance analysis'
     ],
-    technicalBackground: `SQL (Structured Query Language) is the standard language for managing relational databases, supporting data query, insert, update and delete operations.
-
-SQL characteristics:
-• Declarative language
-• Relational algebra foundation
-• Transaction processing support
-• Data integrity constraints
-
-Main operations:
-• SELECT: data query
-• INSERT: data insertion
-• UPDATE: data update
-• DELETE: data deletion
-
-Performance optimization:
-• Index usage
-• Query plan optimization
-• Join query optimization
-• Subquery optimization`,
     usageSteps: [
       'Paste SQL query statement',
       'Select formatting options',
@@ -3549,8 +2022,6 @@ Performance optimization:
 
   // More encryption tools
   hex: {
-    title: 'Hexadecimal Encoder',
-    description: 'Professional hexadecimal encoding and decoding tool supporting binary data conversion and color value processing',
     features: [
       'Hexadecimal encoding and decoding',
       'Binary data conversion',
@@ -3563,24 +2034,6 @@ Performance optimization:
       'Network protocol analysis',
       'Data debugging and validation'
     ],
-    technicalBackground: `Hexadecimal is a base-16 number system widely used in computer science.
-
-Hexadecimal characteristics:
-• Each digit represents 4 binary bits
-• Uses 0-9 and A-F representation
-• Convenient for binary data representation
-• Commonly used in programming
-
-Application scenarios:
-• Memory address representation
-• Color value encoding
-• Binary data viewing
-• Network protocol analysis
-
-Conversion relationships:
-• 1 hexadecimal digit = 4 binary bits
-• 2 hexadecimal digits = 1 byte
-• 6 hexadecimal digits = 24-bit color value`,
     usageSteps: [
       'Enter data to convert',
       'Select conversion direction',
@@ -3597,8 +2050,6 @@ Conversion relationships:
 
   // More conversion tools
   color: {
-    title: 'Color Format Converter',
-    description: 'Professional color format conversion tool supporting HEX, RGB, HSL and other color formats',
     features: [
       'Multiple color format support',
       'Real-time color preview',
@@ -3611,25 +2062,6 @@ Conversion relationships:
       'Image processing color adjustment',
       'Brand color management'
     ],
-    technicalBackground: `Color is an important element in visual design, with different color formats suitable for different application scenarios.
-
-Color formats:
-• HEX: hexadecimal color values
-• RGB: red green blue primary colors
-• HSL: hue saturation lightness
-• CMYK: printing four-color mode
-
-Color spaces:
-• sRGB: standard RGB color space
-• Adobe RGB: professional color space
-• P3: wide color gamut display color space
-• LAB: device-independent color space
-
-Application scenarios:
-• Web development: HEX, RGB
-• Design software: HSL, CMYK
-• Mobile development: ARGB
-• Print design: CMYK`,
     usageSteps: [
       'Enter color value or use picker',
       'Select target format',
@@ -3646,8 +2078,6 @@ Application scenarios:
 
   // More text tools
   replace: {
-    title: 'Text Replace Tool',
-    description: 'Powerful text replacement tool supporting simple replacement and regular expression replacement',
     features: [
       'Simple text replacement',
       'Regular expression support',
@@ -3660,25 +2090,6 @@ Application scenarios:
       'Document batch processing',
       'Text cleaning and standardization'
     ],
-    technicalBackground: `Text replacement is a fundamental operation in text processing, supporting various replacement modes and rules.
-
-Replacement modes:
-• Simple replacement: direct string replacement
-• Regular replacement: pattern matching replacement
-• Conditional replacement: condition-based replacement
-• Batch replacement: multiple rules simultaneously
-
-Regular expressions:
-• Character classes: match specific characters
-• Quantifiers: control match frequency
-• Groups: capture and reference
-• Assertions: position matching
-
-Application techniques:
-• Use non-greedy matching
-• Use groups appropriately
-• Pay attention to escape characters
-• Test replacement effects`,
     usageSteps: [
       'Enter text to process',
       'Set find and replace rules',
@@ -3694,8 +2105,6 @@ Application techniques:
   },
 
   reverse: {
-    title: 'Text Reverse Tool',
-    description: 'Professional text reversal and sorting tool supporting various reversal and sorting methods',
     features: [
       'Text character reversal',
       'Line-level reversal sorting',
@@ -3708,25 +2117,6 @@ Application techniques:
       'Code obfuscation processing',
       'Text format conversion'
     ],
-    technicalBackground: `Text reversal is a basic operation in string processing with various reversal methods and application scenarios.
-
-Reversal types:
-• Character reversal: character-by-character reversal
-• Word reversal: word-by-word reversal
-• Line reversal: line-by-line reversal
-• Partial reversal: specified range reversal
-
-Sorting methods:
-• Alphabetical order: A-Z or Z-A
-• Numerical order: ascending or descending
-• Length sorting: by string length
-• Custom sorting: user-defined rules
-
-Application scenarios:
-• Data validation and testing
-• Text encryption algorithms
-• Code obfuscation techniques
-• Data processing workflows`,
     usageSteps: [
       'Enter text to process',
       'Select reversal or sorting method',
@@ -3742,8 +2132,6 @@ Application scenarios:
   },
 
   calculator: {
-    title: 'Scientific Calculator',
-    description: 'Powerful online scientific calculator supporting basic operations and advanced mathematical functions',
     features: [
       'Basic arithmetic operations',
       'Scientific calculation functions',
@@ -3756,23 +2144,6 @@ Application scenarios:
       'Numerical calculations in programming',
       'Learning and teaching assistance'
     ],
-    technicalBackground: `Scientific calculators provide various mathematical operations to meet calculation needs in different scenarios.
-
-Basic operations:
-• Addition, subtraction, multiplication, division
-• Percentage calculations
-• Sign conversion
-
-Scientific functions:
-• Trigonometric functions: sin, cos, tan
-• Inverse trigonometric functions: asin, acos, atan
-• Logarithmic functions: log, ln
-• Exponential functions: exp, pow
-
-Base conversion:
-• Binary, octal, decimal, hexadecimal
-• Supports integer and decimal conversion
-• Maintains numerical precision`,
     usageSteps: [
       'Select calculation mode',
       'Enter mathematical expression',
@@ -3789,8 +2160,6 @@ Base conversion:
 
   // More conversion tools
   regex: {
-    title: 'Regex Tool',
-    description: 'Professional regex testing and generation tool supporting multiple regex syntax and real-time matching test',
     features: [
       'Regex testing',
       'Real-time matching preview',
@@ -3803,25 +2172,6 @@ Base conversion:
       'String search and replace',
       'Text processing in programming'
     ],
-    technicalBackground: `Regex is a powerful text pattern matching tool widely used in programming and text processing.
-
-Regex characteristics:
-• Pattern matching and search
-• String replacement and validation
-• Supports complex matching rules
-• Cross-language universality
-
-Common syntax:
-• Character classes: \\d (digit), \\w (word character)
-• Quantifiers: * (0 or more), + (1 or more), ? (0 or 1)
-• Groups: () capture group, (?:) non-capturing group
-• Assertions: ^ (line start), $ (line end), \\b (word boundary)
-
-Application scenarios:
-• Form validation
-• Log analysis
-• Text search
-• Data cleaning`,
     usageSteps: [
       'Enter regex expression',
       'Provide test text',
@@ -3837,8 +2187,6 @@ Application scenarios:
   },
 
   markdown: {
-    title: 'Markdown Editor',
-    description: 'Professional Markdown editing and preview tool supporting real-time preview and multiple Markdown syntax',
     features: [
       'Real-time Markdown preview',
       'Syntax highlighting',
@@ -3851,26 +2199,6 @@ Application scenarios:
       'Project document maintenance',
       'Note taking and sharing'
     ],
-    technicalBackground: `Markdown is a lightweight markup language designed to make documents easy to read and write.
-
-Markdown characteristics:
-• Pure text format
-• Easy to learn and use
-• Can be converted to multiple formats
-• Focuses on content rather than format
-
-Basic syntax:
-• Headings: # Level 1 heading
-• Lists: - Unordered list, 1. Ordered list
-• Links: [Text](URL)
-• Images: ![alt](image URL)
-• Code: \`inline code\`,\`\`\`code block
-
-Extended features:
-• Table support
-• Task lists
-• Mathematical formulas
-• Chart support`,
     usageSteps: [
       'Enter Markdown text in the editing area',
       'Real-time preview effect',
@@ -3886,8 +2214,6 @@ Extended features:
   },
 
   number: {
-    title: 'Number Conversion Tool',
-    description: 'Professional number format conversion tool supporting scientific notation, currency format, and multiple number representations',
     features: [
       'Scientific notation conversion',
       'Currency format handling',
@@ -3900,25 +2226,6 @@ Extended features:
       'Data analysis and statistics',
       'Numerical processing in programming'
     ],
-    technicalBackground: `Numbers need different representations in different scenarios, and number conversion tools provide multiple format support.
-
-Number formats:
-• Scientific notation: 1.23e+10
-• Currency format: $1,234.56
-• Percentage: 12.34%
-• Fraction: 1/3
-
-Precision control:
-• Fixed decimal places
-• Effective digits control
-• Rounding rule setting
-• Zero value handling
-
-Application scenarios:
-• Scientific calculation
-• Financial data processing
-• Statistical analysis
-• Data visualization`,
     usageSteps: [
       'Enter the number to convert',
       'Select target format',
@@ -3934,8 +2241,6 @@ Application scenarios:
   },
 
   unit: {
-    title: 'Unit Conversion Tool',
-    description: 'Professional physical unit conversion tool supporting length, weight, temperature, and other unit conversions',
     features: [
       'Multiple physical units support',
       'Real-time conversion calculation',
@@ -3948,25 +2253,6 @@ Application scenarios:
       'International trade and logistics',
       'Daily life calculation'
     ],
-    technicalBackground: `Unit conversion is a basic requirement in scientific calculation and engineering applications, involving various physical quantities.
-
-Common unit types:
-• Length: meter, foot, inch, kilometer
-• Weight: kilogram, pound, ounce, ton
-• Temperature: Celsius, Fahrenheit, Kelvin
-• Area: square meter, square foot, hectare
-
-Conversion principle:
-• Based on standard unit definitions
-• Using conversion factors
-• Maintaining physical quantity
-• Considering accuracy and error
-
-Application areas:
-• Engineering calculation
-• Scientific research
-• International trade
-• Daily life`,
     usageSteps: [
       'Select unit type',
       'Enter value and original unit',
@@ -3981,9 +2267,7 @@ Application areas:
     ]
   },
 
-  httpStatus: {
-    title: 'HTTP Status Code Query Tool',
-    description: 'Professional HTTP status code query and explanation tool providing detailed status code explanations and best practices',
+  "http-status": {
     features: [
       'Complete status code database',
       'Detailed status code explanations',
@@ -3996,26 +2280,6 @@ Application areas:
       'Network problem diagnosis',
       'System monitoring and operations'
     ],
-    technicalBackground: `HTTP status codes are numeric codes used in the HTTP protocol to indicate the result of request processing.
-
-Status code categories:
-• 1xx: Informational status codes
-• 2xx: Success status codes
-• 3xx: Redirection status codes
-• 4xx: Client error status codes
-• 5xx: Server error status codes
-
-Common status codes:
-• 200: OK, request successful
-• 404: Not Found, resource not found
-• 500: Internal Server Error, server internal error
-• 301: Moved Permanently, permanent redirect
-
-Application scenarios:
-• Web development
-• API design
-• Network debugging
-• System monitoring`,
     usageSteps: [
       'Enter status code or search keywords',
       'View detailed explanations',
@@ -4030,9 +2294,7 @@ Application scenarios:
     ]
   },
 
-  charCode: {
-    title: 'Character Encoding Conversion Tool',
-    description: 'Professional character encoding conversion tool supporting ASCII, Unicode, UTF-8, and other encoding formats',
+  "char-code": {
     features: [
       'Multiple encoding formats support',
       'Character encoding table query',
@@ -4045,25 +2307,6 @@ Application scenarios:
       'Data import and export',
       'Encoding problem troubleshooting'
     ],
-    technicalBackground: `Character encoding is the standard way computers represent characters, with different encoding formats suitable for different scenarios.
-
-Common encoding formats:
-• ASCII: 7-bit encoding, supports English characters
-• UTF-8: Variable-length encoding, supports global characters
-• UTF-16: 16-bit encoding, supports Unicode
-• ISO-8859: European language encoding
-
-Encoding characteristics:
-• ASCII: Simple and efficient, supports English only
-• UTF-8: Backward compatible, widely used
-• UTF-16: Fixed length, high processing efficiency
-• Unicode: Unified character set standard
-
-Application scenarios:
-• Text processing
-• Internationalization development
-• Data exchange
-• System integration`,
     usageSteps: [
       'Enter text to convert',
       'Select source and target encoding',
@@ -4078,9 +2321,7 @@ Application scenarios:
     ]
   },
 
-  dateCalc: {
-    title: 'Date Difference Calculator',
-    description: 'Professional date difference calculation tool supporting multiple time unit calculations',
+  "date-calc": {
     features: [
       'Multiple time unit support',
       'Precise difference calculation',
@@ -4093,26 +2334,6 @@ Application scenarios:
       'Time interval analysis',
       'Schedule planning'
     ],
-    technicalBackground: `Date difference calculation is a fundamental function in time management, requiring consideration of multiple time units and precision requirements.
-
-Calculation units:
-• Year: considering leap year rules
-• Month: considering month day differences
-• Day: standard 24-hour calculation
-• Hour, minute, second: precise to second level
-• Millisecond: highest precision calculation
-
-Calculation features:
-• Precise calculation: considering month day differences
-• Timezone handling: supporting local and UTC time
-• Boundary handling: correctly processing date boundaries
-• Precision control: adjusting precision based on requirements
-
-Application scenarios:
-• Project management
-• Time statistics
-• Data analysis
-• System development`,
     usageSteps: [
       'Select start date',
       'Select end date',
@@ -4129,8 +2350,6 @@ Application scenarios:
 
   // 更多加密工具
   rsa: {
-    title: 'RSA Encryption/Decryption Tool',
-    description: 'Professional RSA asymmetric encryption tool supporting public key encryption and private key decryption',
     features: [
       'RSA key pair generation',
       'Public key encryption and private key decryption',
@@ -4143,24 +2362,6 @@ Application scenarios:
       'API security authentication',
       'File encryption protection'
     ],
-    technicalBackground: `RSA is an asymmetric encryption algorithm based on the mathematical problem of large integer factorization.
-
-RSA Principle:
-• Public key encryption, private key decryption
-• Based on large prime factorization
-• Supports digital signatures
-• Key length affects security
-
-Key lengths:
-• 1024 bits: basic security
-• 2048 bits: recommended
-• 4096 bits: high security
-
-Application scenarios:
-• SSL/TLS protocol
-• Digital certificates
-• Secure communication
-• Identity authentication`,
     usageSteps: [
       'Generate RSA key pair',
       'Encrypt data with public key',
@@ -4176,8 +2377,6 @@ Application scenarios:
   },
 
   sha: {
-    title: 'SHA Hash Calculation Tool',
-    description: 'Professional SHA hash algorithm tool supporting SHA-1, SHA-256, SHA-512 and more',
     features: [
       'Multiple SHA algorithm support',
       'File hash calculation',
@@ -4190,25 +2389,6 @@ Application scenarios:
       'Digital signature',
       'Data deduplication'
     ],
-    technicalBackground: `SHA (Secure Hash Algorithm) is a series of cryptographic hash functions used to generate digital fingerprints of data.
-
-SHA algorithms:
-• SHA-1: 160-bit hash value
-• SHA-256: 256-bit hash value
-• SHA-512: 512-bit hash value
-• SHA-3: next-generation hash algorithm
-
-Hash characteristics:
-• Deterministic: same input produces same output
-• Avalanche effect: small input changes cause large output changes
-• One-way: cannot deduce original data from hash
-• Collision resistance: hard to find different inputs with same hash
-
-Application scenarios:
-• File integrity check
-• Password secure storage
-• Digital signature
-• Blockchain technology`,
     usageSteps: [
       'Select SHA algorithm',
       'Enter data to hash',
@@ -4224,8 +2404,6 @@ Application scenarios:
   },
 
   jwt: {
-    title: 'JWT Encode/Decode Tool',
-    description: 'Professional JWT (JSON Web Token) encode/decode tool supporting token generation and verification',
     features: [
       'JWT token generation',
       'Token decoding and verification',
@@ -4238,29 +2416,6 @@ Application scenarios:
       'Single sign-on system',
       'Microservice communication'
     ],
-    technicalBackground: `JWT is an open standard for securely transmitting information as a JSON object between parties.
-
-JWT structure:
-• Header: algorithm and token type
-• Payload: claims and data
-• Signature: signature verification
-
-JWT characteristics:
-• Self-contained: contains all necessary information
-• Stateless: server does not need to store session
-• Extensible: supports custom claims
-• Standardized: RFC 7519
-
-Signature algorithms:
-• HMAC: symmetric key signature
-• RSA: asymmetric key signature
-• ECDSA: elliptic curve signature
-
-Application scenarios:
-• Authentication
-• Information exchange
-• Authorization control
-• Session management`,
     usageSteps: [
       'Set JWT parameters',
       'Generate JWT token',
@@ -4276,8 +2431,6 @@ Application scenarios:
   },
 
   markdownFormat: {
-    title: 'Markdown Formatter',
-    description: 'Professional Markdown document formatting tool supporting beautification, compression, and syntax checking',
     features: [
       'Markdown syntax highlighting',
       'Automatic indentation and formatting',
@@ -4290,26 +2443,6 @@ Application scenarios:
       'Blog post editing',
       'README file optimization'
     ],
-    technicalBackground: `Markdown is a lightweight markup language created by John Gruber in 2004 with the goal of making writing simple and readable.
-
-Markdown characteristics:
-• Pure text format
-• Easy to learn and use
-• Can be converted to multiple formats: HTML, PDF, Word, etc.
-• Widely supported: GitHub, GitLab, Stack Overflow, etc.
-
-Markdown syntax:
-• Headings: use # symbols
-• Lists: use - or * symbols
-• Links: use [text](URL) format
-• Code: use \`code\` or \`\`\`code block\`\`\` format
-• Tables: use | to separate columns, - to separate header
-
-Application scenarios:
-• Technical document writing
-• Blog post creation
-• Project description document
-• Academic paper writing`,
     usageSteps: [
       'Paste Markdown content into input box',
       'Select formatting options (beautify/compress)',
@@ -4324,9 +2457,7 @@ Application scenarios:
     ]
   },
 
-  javaFormat: {
-    title: 'Java Code Formatter',
-    description: 'Professional Java code formatting tool supporting beautification, compression, and syntax checking',
+  java: {
     features: [
       'Java syntax highlighting',
       'Automatic indentation and formatting',
@@ -4339,25 +2470,6 @@ Application scenarios:
       'Code review and refactoring',
       'Project code standardization'
     ],
-    technicalBackground: `Java is an object-oriented programming language developed by Sun Microsystems in 1995 with features such as cross-platform, high security, etc.
-
-Java language features:
-• Object-oriented: supports encapsulation, inheritance, polymorphism
-• Cross-platform: one code, everywhere run
-• Strong typing: type checking at compile time
-• Automatic memory management: garbage collection mechanism
-
-Java coding standards:
-• Class name: use PascalCase (e.g., MyClass)
-• Method name: use camelCase (e.g., myMethod)
-• Constant: use UPPER_SNAKE_CASE (e.g., MAX_SIZE)
-• Package name: use lowercase letters (e.g., com.example)
-
-Application scenarios:
-• Enterprise application development
-• Android mobile application development
-• Web backend service development
-• Big data processing application`,
     usageSteps: [
       'Paste Java code into input box',
       'Select formatting options (beautify/compress)',
@@ -4373,8 +2485,6 @@ Application scenarios:
   },
 
   php: {
-    title: 'PHP Code Formatter',
-    description: 'Professional PHP code formatting tool supporting beautification, compression, and syntax checking',
     features: [
       'PHP syntax highlighting',
       'Automatic indentation and formatting',
@@ -4387,25 +2497,6 @@ Application scenarios:
       'Code review and refactoring',
       'Project code standardization'
     ],
-    technicalBackground: `PHP is a server-side scripting language primarily used for web development with features such as simplicity, ease of use, etc.
-
-PHP language features:
-• Server-side execution: runs on the server, generates HTML
-• Cross-platform: supports Windows, Linux, macOS
-• Open source and free: active community, rich resources
-• Database support: supports multiple database systems
-
-PHP coding standards (PSR):
-• PSR-1: basic coding standards
-• PSR-2: coding style guidelines
-• PSR-4: automatic loading standards
-• PSR-12: extended coding style
-
-Application scenarios:
-• Web site development
-• API development
-• CMS system development
-• Enterprise application development`,
     usageSteps: [
       'Paste PHP code into input box',
       'Select formatting options (beautify/compress)',
@@ -4421,8 +2512,6 @@ Application scenarios:
   },
 
   ruby: {
-    title: 'Ruby Code Formatter',
-    description: 'Professional Ruby code formatting tool supporting beautification, compression, and syntax checking',
     features: [
       'Ruby syntax highlighting',
       'Automatic indentation and formatting',
@@ -4435,25 +2524,6 @@ Application scenarios:
       'Code review and refactoring',
       'Project code standardization'
     ],
-    technicalBackground: `Ruby is a dynamic, object-oriented programming language created by Yukihiro Matsumoto in 1995 with a concise and elegant syntax.
-
-Ruby language features:
-• Object-oriented: everything is an object
-• Dynamic typing: runtime type checking
-• Concise syntax: elegant code style
-• Metaprogramming: powerful reflection capabilities
-
-Ruby coding style:
-• Use 2 spaces for indentation
-• Method names use snake_case
-• Class names use CamelCase
-• Constants use UPPER_SNAKE_CASE
-
-Application scenarios:
-• Web application development (Ruby on Rails)
-• Script automation
-• System management tools
-• Prototype development`,
     usageSteps: [
       'Paste Ruby code into input box',
       'Select formatting options (beautify/compress)',
@@ -4469,8 +2539,6 @@ Application scenarios:
   },
 
   shell: {
-    title: 'Shell Script Formatter',
-    description: 'Professional Shell script formatting tool supporting beautification, compression, and syntax checking',
     features: [
       'Shell syntax highlighting',
       'Automatic indentation and formatting',
@@ -4483,25 +2551,6 @@ Application scenarios:
       'Automated script development',
       'Standardized script code'
     ],
-    technicalBackground: `Shell script is a scripting language used for automating system management tasks in Unix/Linux systems.
-
-Shell script features:
-• Interpreted execution: no compilation, direct execution
-• System integration: closely integrated with the operating system
-• Text processing: powerful text processing capabilities
-• Pipeline operations: support command pipelines and redirection
-
-Common Shell types:
-• Bash: the most commonly used Shell, powerful
-• Zsh: enhanced Shell, supports plugins
-• Fish: user-friendly Shell
-• Dash: lightweight Shell
-
-Application scenarios:
-• System automation
-• Deployment script writing
-• Log processing and analysis
-• Batch file operations`,
     usageSteps: [
       'Paste Shell script into input box',
       'Select formatting options (beautify/compress)',
@@ -4517,8 +2566,6 @@ Application scenarios:
   },
 
   vue: {
-    title: 'Vue Code Formatter',
-    description: 'Professional Vue code formatting tool supporting beautification, compression, and syntax checking',
     features: [
       'Vue syntax highlighting',
       'Automatic indentation and formatting',
@@ -4531,25 +2578,6 @@ Application scenarios:
       'Code review and refactoring',
       'Project code standardization'
     ],
-    technicalBackground: `Vue.js is a progressive JavaScript framework used for building user interfaces with features such as ease of use, powerful functionality, etc.
-
-Vue framework features:
-• Progressive: can be adopted step-by-step, from simple to complex
-• Responsive: data changes automatically update views
-• Componentized: reusable component system
-• Lightweight: small size, excellent performance
-
-Vue coding style:
-• Use 2 spaces for indentation
-• Component names use PascalCase
-• Attribute names use kebab-case
-• Method names use camelCase
-
-Application scenarios:
-• Single-page application development
-• Component library development
-• Enterprise application development
-• Mobile application development`,
     usageSteps: [
       'Paste Vue code into input box',
       'Select formatting options (beautify/compress)',
@@ -4564,9 +2592,7 @@ Application scenarios:
     ]
   },
 
-  ed25519: {
-    title: 'Ed25519 Digital Signature Tool',
-    description: 'Professional Ed25519 digital signature tool supporting key generation, signing, and verification',
+  "ed25519-sign": {
     features: [
       'Ed25519 key pair generation',
       'Digital signature generation',
@@ -4579,25 +2605,6 @@ Application scenarios:
       'Software package signing',
       'Blockchain application'
     ],
-    technicalBackground: `Ed25519 is a digital signature algorithm based on the Edwards25519 elliptic curve designed by Daniel J. Bernstein et al.
-
-Ed25519 features:
-• High performance: fast signing and verification speed
-• High security: based on elliptic curve cryptography
-• Short key length: both public and private keys are 32 bytes
-• Quantum-resistant: more secure than RSA
-
-Algorithm advantages:
-• Fast signing speed: 10-100 times faster than RSA
-• Key generation speed: 1000 times faster than RSA
-• Short key length: both public and private keys are 256 bits
-• High security: based on the discrete logarithm problem on elliptic curves
-
-Application scenarios:
-• Software package signature verification
-• Identity authentication system
-• Blockchain and cryptocurrency
-• Secure communication protocol`,
     usageSteps: [
       'Generate Ed25519 key pair',
       'Sign data with private key',
@@ -4612,9 +2619,7 @@ Application scenarios:
     ]
   },
 
-  rsaSign: {
-    title: 'RSA Digital Signature Tool',
-    description: 'Professional RSA digital signature tool supporting key generation, signing, and verification',
+  "rsa-sign": {
     features: [
       'RSA key pair generation',
       'Digital signature generation',
@@ -4627,25 +2632,6 @@ Application scenarios:
       'Software package signing',
       'Secure communication'
     ],
-    technicalBackground: `RSA digital signature is a digital signature algorithm based on the RSA public key cryptosystem used for identity authentication and data integrity verification.
-
-RSA signature features:
-• Asymmetric encryption: public key verification, private key signing
-• High security: based on the large integer factorization problem
-• Standardization: widely supported standard algorithm
-• Good compatibility: compatible with multiple systems
-
-Signing process:
-• Encrypt message hash with private key
-• Generate digital signature
-• Verify signature with public key
-• Ensure message integrity and source authentication
-
-Application scenarios:
-• Software package signature verification
-• SSL/TLS certificate
-• Identity authentication system
-• Secure communication protocol`,
     usageSteps: [
       'Generate RSA key pair',
       'Sign data with private key',
@@ -4661,8 +2647,6 @@ Application scenarios:
   },
 
   url: {
-    title: 'URL Encode/Decode Tool',
-    description: 'Professional URL encode/decode tool supporting URL-safe character conversion',
     features: [
       'URL encoding and decoding',
       'Special character handling',
@@ -4675,25 +2659,6 @@ Application scenarios:
       'API development',
       'Secure data transmission'
     ],
-    technicalBackground: `URL encoding is a method to convert special characters into URL-safe format to ensure data is correctly transmitted in URLs.
-
-URL encoding principle:
-• Convert non-ASCII characters into %XX format
-• Preserve letters, numbers, and some special characters
-• Space is converted to %20 or +
-• Ensure URL compatibility
-
-Encoding rules:
-• Letters A-Z, a-z remain unchanged
-• Numbers 0-9 remain unchanged
-• Special characters -_.~ remain unchanged
-• Other characters are converted to %XX format
-
-Application scenarios:
-• Web form submission
-• API parameter passing
-• File download link
-• Cross-platform data exchange`,
     usageSteps: [
       'Enter text to encode or decode',
       'Select encode or decode operation',
@@ -4709,8 +2674,6 @@ Application scenarios:
   },
 
   x25519: {
-    title: 'X25519 Key Exchange Tool',
-    description: 'Professional X25519 key exchange tool supporting secure key negotiation',
     features: [
       'X25519 key pair generation',
       'Key exchange calculation',
@@ -4723,25 +2686,6 @@ Application scenarios:
       'End-to-end encryption',
       'Key derivation'
     ],
-    technicalBackground: `X25519 is a key exchange algorithm based on the Curve25519 elliptic curve used for securely negotiating shared keys.
-
-X25519 features:
-• High performance: fast key exchange speed
-• High security: based on elliptic curve cryptography
-• Short key length: both public and private keys are 32 bytes
-• Quantum-resistant: more secure than traditional algorithms
-
-Key exchange process:
-• Both parties generate their own key pairs
-• Exchange public keys
-• Calculate shared key using own private key and other party's public key
-• Generate the same shared key for encryption
-
-Application scenarios:
-• TLS/SSL protocol
-• End-to-end encrypted communication
-• Key negotiation protocol
-• Secure message transmission`,
     usageSteps: [
       'Generate X25519 key pair',
       'Enter the other party\'s public key',
@@ -4757,8 +2701,6 @@ Application scenarios:
   },
 
   argon2: {
-    title: 'Argon2 Password Hash Tool',
-    description: 'Professional Argon2 password hash tool supporting multiple variants and parameter configuration',
     features: [
       'Support for Argon2d/Argon2i/Argon2id',
       'Adjustable memory and time costs',
@@ -4771,24 +2713,6 @@ Application scenarios:
       'Key derivation',
       'Secure hash calculation'
     ],
-    technicalBackground: `Argon2 is a password hash function that won in the 2015 password hashing competition and is designed to resist GPU and specialized hardware attacks.
-
-Argon2 features:
-• Memory-hard: requires a lot of memory, resistant to hardware attacks
-• Adjustable parameters: memory cost, time cost, parallelism
-• Three variants: Argon2d, Argon2i, Argon2id
-• Resistant to side-channel attacks: protecting sensitive information
-
-Algorithm variants:
-• Argon2d: memory-dependent access
-• Argon2i: memory-independent access
-• Argon2id: hybrid mode, recommended use
-
-Application scenarios:
-• Password storage and verification
-• Key derivation function
-• Blockchain mining algorithm
-• Secure system design`,
     usageSteps: [
       'Select Argon2 variant',
       'Set hash parameters',
@@ -4804,8 +2728,6 @@ Application scenarios:
   },
 
   bcrypt: {
-    title: 'Bcrypt Password Hash Tool',
-    description: 'Professional Bcrypt password hash tool supporting adaptive cost factor',
     features: [
       'Adaptive cost factor',
       'Salt value auto-generation',
@@ -4818,25 +2740,6 @@ Application scenarios:
       'Password strength verification',
       'Secure hash calculation'
     ],
-    technicalBackground: `Bcrypt is a password hash function based on the Blowfish cipher designed by Niels Provos and David Mazières.
-
-Bcrypt features:
-• Adaptive cost: adjustable computational complexity
-• Built-in salt value: automatically generates a random salt value
-• Resistant to brute force attacks: computationally intensive algorithm
-• Adjustable time: adjusted according to hardware performance
-
-Working principle:
-• Use Blowfish cipher algorithm
-• Automatically generates a random salt value
-• Adjustable number of rounds (cost factor)
-• Outputs fixed-length hash value
-
-Application scenarios:
-• User password storage
-• Identity authentication system
-• Password strength evaluation
-• Secure system design`,
     usageSteps: [
       'Set cost factor',
       'Enter password for hashing',
@@ -4852,8 +2755,6 @@ Application scenarios:
   },
 
   chacha20: {
-    title: 'ChaCha20 Encryption Tool',
-    description: 'Professional ChaCha20 stream cipher encryption tool supporting high-speed encryption',
     features: [
       'ChaCha20 stream cipher encryption',
       'Multiple key length support',
@@ -4866,25 +2767,6 @@ Application scenarios:
       'File encryption',
       'Streaming media encryption'
     ],
-    technicalBackground: `ChaCha20 is a stream cipher algorithm designed by Daniel J. Bernstein and is widely used in TLS protocol and mobile devices.
-
-ChaCha20 features:
-• High speed: faster than AES on some platforms
-• Easy implementation: easy to implement in software
-• Resistant to side-channel attacks: timing attack protection
-• Standardized: RFC 8439
-
-Algorithm advantages:
-• Non-patent-encumbered: open source algorithm
-• Hardware-friendly: suitable for mobile devices
-• High security: widely analyzed
-• Excellent performance: excellent on ARM processors
-
-Application scenarios:
-• TLS/SSL protocol
-• Mobile application encryption
-• Real-time communication encryption
-• File system encryption`,
     usageSteps: [
       'Generate or enter key',
       'Set random number (nonce)',
@@ -4900,8 +2782,6 @@ Application scenarios:
   },
 
   des: {
-    title: 'DES Encryption/Decryption Tool',
-    description: 'Professional DES symmetric encryption tool supporting multiple modes and key lengths',
     features: [
       'Supports ECB, CBC and other modes',
       'Configurable key length',
@@ -4914,13 +2794,6 @@ Application scenarios:
       'Secure communication',
       'File encryption'
     ],
-    technicalBackground: `DES (Data Encryption Standard) is a symmetric encryption algorithm widely used in early data encryption scenarios.
-    
-Main characteristics:
-• Symmetric encryption, 56-bit key length
-• Supports multiple modes (ECB, CBC, etc.)
-• Now replaced by more secure algorithms (such as AES), but still used for compatibility in some cases
-`,
     usageSteps: [
       'Enter data to encrypt/decrypt',
       'Set key and encryption mode',
@@ -4935,9 +2808,7 @@ Main characteristics:
     ]
   },
 
-  dateDiff: {
-    title: 'Date Difference Calculator',
-    description: 'Professional date difference calculation tool supporting multiple time unit calculations',
+  "date-diff": {
     features: [
       'Multiple time unit support',
       'Precise difference calculation',
@@ -4950,26 +2821,6 @@ Main characteristics:
       'Time interval analysis',
       'Schedule planning'
     ],
-    technicalBackground: `Date difference calculation is a fundamental function in time management, requiring consideration of multiple time units and precision requirements.
-
-Calculation units:
-• Year: considering leap year rules
-• Month: considering month day differences
-• Day: standard 24-hour calculation
-• Hour, minute, second: precise to second level
-• Millisecond: highest precision calculation
-
-Calculation features:
-• Precise calculation: considering month day differences
-• Timezone handling: supporting local and UTC time
-• Boundary handling: correctly processing date boundaries
-• Precision control: adjusting precision based on requirements
-
-Application scenarios:
-• Project management
-• Time statistics
-• Data analysis
-• System development`,
     usageSteps: [
       'Select start date',
       'Select end date',
@@ -4984,9 +2835,7 @@ Application scenarios:
     ]
   },
 
-  numberBase: {
-    title: 'Number Base Converter',
-    description: 'Professional number base conversion tool supporting conversion between binary, octal, decimal, and hexadecimal',
+  "number-base": {
     features: [
       'Multiple base support',
       'Real-time conversion',
@@ -4999,25 +2848,6 @@ Application scenarios:
       'Number system analysis',
       'Data processing'
     ],
-    technicalBackground: `Number base conversion is fundamental knowledge in computer science, with different bases suitable for different scenarios.
-
-Number systems:
-• Binary: computer internal representation
-• Octal: Unix permission representation
-• Decimal: human common counting
-• Hexadecimal: memory address representation
-
-Conversion principles:
-• Based on positional notation
-• Division and multiplication operations
-• Character mapping conversion
-• Precision preservation
-
-Application scenarios:
-• Programming development
-• System analysis
-• Data encoding
-• Network protocols`,
     usageSteps: [
       'Enter source base number',
       'Select source base',
@@ -5032,9 +2862,7 @@ Application scenarios:
     ]
   },
 
-  storageTime: {
-    title: 'Storage and Time Unit Converter',
-    description: 'Professional storage capacity and time unit conversion tool supporting precise conversion between multiple units',
+  "storage-time": {
     features: [
       'Storage capacity conversion',
       'Time unit conversion',
@@ -5047,29 +2875,6 @@ Application scenarios:
       'Performance analysis',
       'System design'
     ],
-    technicalBackground: `Storage and time unit conversion is frequently used in system design and performance analysis.
-
-Storage units:
-• Byte: basic storage unit
-• KB, MB, GB: common capacity units
-• TB, PB: large capacity storage units
-
-Time units:
-• Millisecond: precise time measurement
-• Second, minute, hour: common time units
-• Day: long-term time calculation
-
-Conversion features:
-• Binary storage units
-• Decimal time units
-• Automatic precision adjustment
-• Scientific notation support
-
-Application scenarios:
-• Storage system design
-• Performance benchmarking
-• Capacity planning
-• Time calculation`,
     usageSteps: [
       'Select conversion type',
       'Enter value',
@@ -5084,9 +2889,7 @@ Application scenarios:
     ]
   },
 
-  userAgent: {
-    title: 'User Agent Parser',
-    description: 'Professional User Agent string parsing tool supporting browser, operating system, and device information extraction',
+  "user-agent": {
     features: [
       'Browser information parsing',
       'Operating system identification',
@@ -5099,25 +2902,6 @@ Application scenarios:
       'Compatibility testing',
       'Statistical analysis'
     ],
-    technicalBackground: `User Agent is an identification string sent by browsers to servers, containing rich device and software information.
-
-Parsing content:
-• Browser: Chrome, Firefox, Safari, etc.
-• Operating system: Windows, macOS, Linux, etc.
-• Device type: desktop, mobile, tablet, etc.
-• Rendering engine: WebKit, Gecko, Blink, etc.
-
-Parsing technology:
-• Regular expression matching
-• Feature string recognition
-• Version number extraction
-• Device type determination
-
-Application scenarios:
-• Web development
-• Mobile adaptation
-• User statistics
-• Security analysis`,
     usageSteps: [
       'Enter User Agent string',
       'Automatically parse information',
@@ -5132,9 +2916,7 @@ Application scenarios:
     ]
   },
 
-  imageConvert: {
-    title: 'Image Format Converter',
-    description: 'Professional image format conversion tool supporting JPEG, PNG, WebP, and GIF formats with quality control',
+  convert: {
     features: [
       'Multiple format support',
       'Quality control',
@@ -5147,31 +2929,6 @@ Application scenarios:
       'File size reduction',
       'Image processing workflow'
     ],
-    technicalBackground: `Image format conversion is essential for web optimization and compatibility across different platforms.
-
-Supported formats:
-• JPEG: lossy compression for photos
-• PNG: lossless compression with transparency
-• WebP: modern format with better compression
-• GIF: animated images and simple graphics
-
-Conversion features:
-• Canvas-based processing
-• Quality parameter control
-• File size calculation
-• Format-specific optimization
-
-Technical implementation:
-• HTML5 Canvas API
-• Base64 encoding/decoding
-• Blob object handling
-• Download functionality
-
-Application scenarios:
-• Web development
-• Content management
-• Digital asset optimization
-• Cross-platform compatibility`,
     usageSteps: [
       'Upload source image',
       'Select target format',
@@ -5186,9 +2943,7 @@ Application scenarios:
     ]
   },
 
-  imageCrop: {
-    title: 'Image Cropping Tool',
-    description: 'Professional image cropping tool with aspect ratio control and real-time preview',
+  crop: {
     features: [
       'Interactive cropping interface',
       'Aspect ratio control',
@@ -5201,31 +2956,6 @@ Application scenarios:
       'Thumbnail creation',
       'Content cropping'
     ],
-    technicalBackground: `Image cropping is a fundamental image editing operation that allows precise control over image composition.
-
-Cropping technology:
-• Canvas-based image manipulation
-• Coordinate system handling
-• Aspect ratio calculations
-• Image scaling algorithms
-
-Interactive features:
-• Drag and drop selection
-• Zoom in/out functionality
-• Pan and move operations
-• Real-time preview generation
-
-Aspect ratio options:
-• Free form cropping
-• Square (1:1) for avatars
-• Landscape (4:3, 16:9) for media
-• Custom ratios for specific needs
-
-Application scenarios:
-• Social media content creation
-• E-commerce product images
-• Profile picture editing
-• Banner and header creation`,
     usageSteps: [
       'Upload image to crop',
       'Adjust crop area',
@@ -5240,9 +2970,7 @@ Application scenarios:
     ]
   },
 
-  imageRotate: {
-    title: 'Image Rotation Tool',
-    description: 'Professional image rotation tool supporting precise angle control and batch processing',
+  rotate: {
     features: [
       'Precise angle control',
       'Real-time preview',
@@ -5255,31 +2983,6 @@ Application scenarios:
       'Creative image editing',
       'Batch image processing'
     ],
-    technicalBackground: `Image rotation involves mathematical transformations to reorient images while maintaining quality.
-
-Rotation technology:
-• Affine transformation matrices
-• Canvas coordinate system manipulation
-• Interpolation algorithms for smooth rotation
-• Quality preservation techniques
-
-Rotation angles:
-• 90° increments for common orientations
-• Custom angles for creative effects
-• Clockwise and counterclockwise rotation
-• Automatic canvas size adjustment
-
-Technical implementation:
-• HTML5 Canvas transformation
-• Matrix-based calculations
-• Pixel interpolation methods
-• Memory-efficient processing
-
-Application scenarios:
-• Photo orientation correction
-• Document digitization
-• Creative design work
-• Image preprocessing`,
     usageSteps: [
       'Upload image to rotate',
       'Select rotation angle',
@@ -5294,9 +2997,7 @@ Application scenarios:
     ]
   },
 
-  imageWatermark: {
-    title: 'Image Watermark Tool',
-    description: 'Professional image watermarking tool with customizable text, positioning, and styling options',
+  watermark: {
     features: [
       'Customizable text watermarks',
       'Font size and color control',
@@ -5309,31 +3010,6 @@ Application scenarios:
       'Photo identification',
       'Content ownership marking'
     ],
-    technicalBackground: `Image watermarking adds identifying information to images while maintaining visual appeal.
-
-Watermark technology:
-• Canvas-based text rendering
-• Font styling and positioning
-• Alpha channel manipulation
-• Coordinate system calculations
-
-Text customization:
-• Font family and size selection
-• Color and opacity control
-• Rotation and positioning
-• Anti-aliasing for smooth text
-
-Technical features:
-• HTML5 Canvas text API
-• RGBA color space handling
-• Transform matrix operations
-• Image composition algorithms
-
-Application scenarios:
-• Copyright protection
-• Brand identity marking
-• Photo studio watermarking
-• Social media content protection`,
     usageSteps: [
       'Upload source image',
       'Enter watermark text',
@@ -5349,8 +3025,6 @@ Application scenarios:
   },
 
   textCase: {
-    title: 'Text Case Converter',
-    description: 'Professional text case conversion tool supporting multiple case formats and naming conventions',
     features: [
       'Multiple case format support',
       'Real-time conversion',
@@ -5363,32 +3037,6 @@ Application scenarios:
       'Database field naming',
       'API parameter standardization'
     ],
-    technicalBackground: `Text case conversion is essential for maintaining consistent naming conventions across different programming languages and documentation standards.
-
-Case formats:
-• UPPERCASE: All characters in capital letters
-• lowercase: All characters in small letters
-• Title Case: First letter of each word capitalized
-• Sentence case: First letter of sentence capitalized
-• Alternating case: Alternating upper and lower case
-
-Conversion algorithms:
-• String manipulation techniques
-• Unicode character handling
-• Locale-aware conversion
-• Special character preservation
-
-Programming applications:
-• Variable naming conventions
-• Database field standardization
-• API parameter formatting
-• Code documentation
-
-Best practices:
-• Follow language-specific conventions
-• Maintain consistency across projects
-• Consider readability and clarity
-• Use appropriate case for context`,
     usageSteps: [
       'Enter text to convert',
       'Select target case format',
@@ -5404,8 +3052,6 @@ Best practices:
   },
 
   textReverse: {
-    title: 'Text Reversal Tool',
-    description: 'Professional text reversal tool supporting character, word, and line reversal operations',
     features: [
       'Character-level reversal',
       'Word order reversal',
@@ -5418,30 +3064,6 @@ Best practices:
       'Creative writing',
       'Code obfuscation'
     ],
-    technicalBackground: `Text reversal involves manipulating the order of characters, words, or lines in text content for various analytical and creative purposes.
-
-Reversal types:
-• Character reversal: Reverse individual characters
-• Word reversal: Reverse word order within lines
-• Line reversal: Reverse line order in multi-line text
-
-Technical implementation:
-• String manipulation algorithms
-• Array reversal techniques
-• Unicode character handling
-• Multi-line text processing
-
-Processing considerations:
-• Character encoding support
-• Whitespace preservation
-• Special character handling
-• Performance optimization
-
-Application scenarios:
-• Text analysis and research
-• Data preprocessing
-• Creative writing exercises
-• Code obfuscation techniques`,
     usageSteps: [
       'Enter text to reverse',
       'Select reversal type',
@@ -5456,9 +3078,7 @@ Application scenarios:
     ]
   },
 
-  textWhitespace: {
-    title: 'Whitespace Handler',
-    description: 'Professional whitespace management tool for cleaning and formatting text content',
+  whitespace: {
     features: [
       'Whitespace trimming',
       'Whitespace compression',
@@ -5471,32 +3091,6 @@ Application scenarios:
       'Code formatting',
       'Document preparation'
     ],
-    technicalBackground: `Whitespace handling is crucial for text processing, data cleaning, and maintaining consistent formatting across different content sources.
-
-Whitespace types:
-• Leading spaces: Spaces at beginning of lines
-• Trailing spaces: Spaces at end of lines
-• Multiple spaces: Consecutive space characters
-• Tab characters: Tabulation characters
-• Line breaks: Newline characters
-
-Processing operations:
-• Trim: Remove leading and trailing whitespace
-• Compress: Reduce multiple spaces to single space
-• Normalize: Standardize line endings
-• Preserve: Maintain intentional formatting
-
-Technical considerations:
-• Unicode whitespace characters
-• Regular expression patterns
-• Performance optimization
-• Memory efficiency
-
-Application scenarios:
-• Data cleaning and preprocessing
-• Text formatting and standardization
-• Code beautification
-• Document preparation`,
     usageSteps: [
       'Enter text to process',
       'Select whitespace operation',
@@ -5512,8 +3106,6 @@ Application scenarios:
   },
 
   textReplace: {
-    title: 'Text Replace Tool',
-    description: 'Professional text search and replace tool supporting regular expressions and batch processing',
     features: [
       'Exact text replacement',
       'Regular expression support',
@@ -5526,31 +3118,6 @@ Application scenarios:
       'Code refactoring',
       'Document formatting'
     ],
-    technicalBackground: `Text replacement is a core function in text processing, supporting various search and replace modes.
-
-Search modes:
-• Exact match: Match specified text exactly
-• Regular expression: Use regular expression matching
-• Case-sensitive: Match case-sensitive text
-• Global replacement: Replace all matches
-
-Replacement features:
-• Simple text replacement
-• Regular expression replacement
-• Special character handling
-• Formatting replacement
-
-Technical implementation:
-• String search algorithm
-• Regular expression engine
-• Pattern matching optimization
-• Batch processing mechanism
-
-Application scenarios:
-• Text editing and modification
-• Data cleaning and standardization
-• Code refactoring and maintenance
-• Document formatting`,
     usageSteps: [
       'Enter text to process',
       'Set search conditions',

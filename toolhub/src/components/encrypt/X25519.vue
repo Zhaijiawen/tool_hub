@@ -150,8 +150,6 @@
       </n-alert>
     </n-card>
     
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="x25519" />
   </div>
 </template>
 
@@ -161,8 +159,6 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import * as nacl from 'tweetnacl'
 import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
-// 导入工具描述组件
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

@@ -199,10 +199,8 @@ export default {
       comfortable: 'Comfortable'
     },
     // Tool description related text
-    toolDescription: 'Tool Description',
     features: 'Features',
     useCases: 'Use Cases',
-    technicalBackground: 'Technical Background',
     usageSteps: 'Usage Steps',
     bestPractices: 'Best Practices',
     enableHighlight: 'Enable Code Highlighting',

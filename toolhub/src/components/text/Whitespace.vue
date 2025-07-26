@@ -31,8 +31,6 @@
       </n-space>
     </n-card>
 
-    <!-- 工具描述 -->
-    <ToolDescription tool-key="textWhitespace" />
   </div>
 </template>
 
@@ -40,7 +38,6 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

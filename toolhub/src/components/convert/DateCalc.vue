@@ -65,8 +65,6 @@
         {{ error }}
       </n-alert>
     </n-card>
-        <!-- 工具描述组件 -->
-        <ToolDescription tool-key="dateCalc" />
     
   </div>
 </template>
@@ -75,7 +73,6 @@
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

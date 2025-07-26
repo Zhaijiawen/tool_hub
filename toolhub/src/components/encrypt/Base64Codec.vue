@@ -113,8 +113,6 @@
       </n-alert>
     </n-card>
 
-    <!-- 工具详细描述 -->
-    <ToolDescription tool-key="base64" />
   </div>
 </template>
 
@@ -122,7 +120,6 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()

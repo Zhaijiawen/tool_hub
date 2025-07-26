@@ -149,9 +149,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    
-    <!-- 工具描述组件 -->
-    <ToolDescription tool-key="ecdh" />
+  
   </div>
 </template>
 
@@ -159,8 +157,6 @@
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
-// 导入工具描述组件
-import ToolDescription from '@/components/common/ToolDescription.vue'
 
 const { t } = useI18n()
 const message = useMessage()
