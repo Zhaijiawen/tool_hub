@@ -4,55 +4,33 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
-    <!-- 首页 -->
+    <!-- 内容页面 -->
     <url>
-        <loc>https://toolhub.studio/</loc>
+        <loc>https://toolhub.studio/about</loc>
+        <lastmod>2025-07-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://toolhub.studio/blog</loc>
         <lastmod>2025-07-23</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    
-    <!-- 工具分类页面 -->
-    <url>
-        <loc>https://toolhub.studio/format</loc>
-        <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>1.0</priority>
+        <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://toolhub.studio/encrypt</loc>
+        <loc>https://toolhub.studio/privacy</loc>
         <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
     </url>
     
     <url>
-        <loc>https://toolhub.studio/convert</loc>
+        <loc>https://toolhub.studio/terms</loc>
         <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <url>
-        <loc>https://toolhub.studio/image</loc>
-        <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <url>
-        <loc>https://toolhub.studio/text</loc>
-        <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <url>
-        <loc>https://toolhub.studio/other</loc>
-        <lastmod>2025-07-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
     </url>
     
     <!-- 格式化工具 (13个) -->
@@ -60,7 +38,7 @@
         <loc>https://toolhub.studio/format/json</loc>
         <lastmod>2025-07-23</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.9</priority>
     </url>
     
     <url>
@@ -438,13 +416,5 @@
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-    
-    <!-- 组件编辑器 -->
-    <!-- <url>
-        <loc>https://toolhub.studio/composer</loc>
-        <lastmod>2025-07-23</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url> -->
     
 </urlset> 

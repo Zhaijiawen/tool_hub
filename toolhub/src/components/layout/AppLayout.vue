@@ -624,8 +624,8 @@ const goToComposer = () => {
 
 // 控制知识提示显示
 const shouldShowTips = computed(() => {
-  // 排除首页、composer页面和静态页面
-  const excludedPaths = ['/', '/composer', '/about', '/blog', '/privacy', '/terms']
+  // 排除composer页面和静态页面
+  const excludedPaths = ['/composer', '/about', '/blog', '/privacy', '/terms']
   return !excludedPaths.includes(route.path)
 })
 </script>

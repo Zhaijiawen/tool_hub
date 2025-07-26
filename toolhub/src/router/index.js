@@ -9,12 +9,6 @@ const router = createRouter({
       path: '/',
       component: AppLayout,
       children: [
-        // ===== 组件编排页面 (临时隐藏) =====
-        // {
-        //   path: 'composer',
-        //   component: () => import('@/views/ComponentComposer.vue')
-        // },
-
         // ===== 内容页面 =====
         {
           path: 'privacy',
@@ -38,10 +32,6 @@ const router = createRouter({
           path: 'format',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // JSON格式化
             {
               path: 'json',
@@ -115,10 +105,6 @@ const router = createRouter({
           path: 'encrypt',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // AES加密
             {
               path: 'aes',
@@ -218,10 +204,6 @@ const router = createRouter({
           path: 'convert',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // 时间戳转换
             {
               path: 'timestamp',
@@ -295,10 +277,6 @@ const router = createRouter({
           path: 'image',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // 图片格式转换
             {
               path: 'convert',
@@ -327,10 +305,6 @@ const router = createRouter({
           path: 'text',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // 文本工具
             {
               path: 'case',
@@ -356,34 +330,22 @@ const router = createRouter({
           path: 'other',
           component: BaseView,
           children: [
-            {
-              path: '',
-              component: () => import('@/views/CategoryHome.vue')
-            },
             // 其他工具
             {
               path: 'qrcode',
               component: () => import('@/components/other/QRCode.vue')
             },
-            // 短链接功能暂时屏蔽
-            // {
-            //   path: 'short-url',
-            //   component: () => import('@/components/other/ShortUrl.vue')
-            // },
-            // IP工具功能暂时屏蔽
-            // {
-            //   path: 'ip',
-            //   component: () => import('@/components/other/IPTools.vue')
-            // },
             {
               path: 'calculator',
               component: () => import('@/components/other/Calculator.vue')
             }
           ]
         },
+        
+        // 默认重定向到JSON格式化工具
         {
           path: '',
-          component: () => import('@/views/Home.vue')
+          redirect: '/format/json'
         }
       ]
     }
