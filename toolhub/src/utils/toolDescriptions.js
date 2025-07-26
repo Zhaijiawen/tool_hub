@@ -137,7 +137,7 @@ export const toolDescriptions = {
     ]
   },
 
-  ecdh: {
+  "ecdh-key-exchange": {
     features: [
       '支持多种椭圆曲线标准',
       '安全的密钥交换协议',
@@ -492,34 +492,6 @@ export const toolDescriptions = {
       '注意透明度处理',
       '验证颜色准确性',
       '考虑可访问性'
-    ]
-  },
-
-  // 更多文本工具
-  replace: {
-    features: [
-      '简单文本替换',
-      '正则表达式支持',
-      '批量替换功能',
-      '实时预览效果'
-    ],
-    useCases: [
-      '代码重构和修改',
-      '数据格式转换',
-      '文档批量处理',
-      '文本清理和标准化'
-    ],
-    usageSteps: [
-      '输入要处理的文本',
-      '设置查找和替换规则',
-      '选择替换模式',
-      '执行替换操作'
-    ],
-    bestPractices: [
-      '备份原始数据',
-      '测试替换规则',
-      '使用非贪婪匹配',
-      '验证替换结果'
     ]
   },
 
@@ -1470,33 +1442,6 @@ export const toolDescriptions = {
     ]
   },
 
-  textReverse: {
-    features: [
-      '文本字符反转',
-      '行级反转排序',
-      '单词级反转',
-      '自定义排序规则'
-    ],
-    useCases: [
-      '数据处理和分析',
-      '文本加密和解密',
-      '代码混淆处理',
-      '文本格式转换'
-    ],
-    usageSteps: [
-      '输入要处理的文本',
-      '选择反转或排序方式',
-      '设置处理参数',
-      '查看处理结果'
-    ],
-    bestPractices: [
-      '理解反转规则',
-      '注意编码问题',
-      '验证处理结果',
-            '考虑性能影响'
-    ]
-  },
-
   whitespace: {
     features: [
       '去除多余空白',
@@ -1524,7 +1469,7 @@ export const toolDescriptions = {
     ]
   },
 
-  textReplace: {
+  replace: {
     features: [
       '精确查找替换',
       '正则表达式支持',
@@ -1691,7 +1636,7 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  ecdh: {
+  "ecdh-key-exchange": {
     features: [
       'Support for multiple elliptic curve standards',
       'Secure key exchange protocol',
@@ -3051,33 +2996,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  textReverse: {
-    features: [
-      'Character-level reversal',
-      'Word order reversal',
-      'Line order reversal',
-      'Real-time processing'
-    ],
-    useCases: [
-      'Text analysis and processing',
-      'Data transformation',
-      'Creative writing',
-      'Code obfuscation'
-    ],
-    usageSteps: [
-      'Enter text to reverse',
-      'Select reversal type',
-      'Click reverse button',
-      'Copy reversed result'
-    ],
-    bestPractices: [
-      'Verify reversal accuracy',
-      'Check for special characters',
-      'Test with various text types',
-      'Consider encoding issues'
-    ]
-  },
-
   whitespace: {
     features: [
       'Whitespace trimming',
@@ -3102,33 +3020,6 @@ export const toolDescriptionsEn = {
       'Test with various text types',
       'Consider encoding requirements',
       'Verify processing accuracy'
-    ]
-  },
-
-  textReplace: {
-    features: [
-      'Exact text replacement',
-      'Regular expression support',
-      'Case-sensitive option',
-      'Batch processing functionality'
-    ],
-    useCases: [
-      'Text editing and modification',
-      'Data cleaning and conversion',
-      'Code refactoring',
-      'Document formatting'
-    ],
-    usageSteps: [
-      'Enter text to process',
-      'Set search conditions',
-      'Enter replacement content',
-      'Execute replacement operation'
-    ],
-    bestPractices: [
-      'Use precise search conditions',
-      'Test regular expressions',
-      'Backup original data',
-      'Verify replacement results'
     ]
   }
 }
