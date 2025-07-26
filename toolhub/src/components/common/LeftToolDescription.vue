@@ -55,7 +55,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { getToolDescription } from '@/utils/toolDescriptions'
+import { getToolDescription } from '@/locales/toolDescriptions'
 import {
   CheckmarkOutline as CheckmarkIcon,
   BulbOutline as BulbIcon,

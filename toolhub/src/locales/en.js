@@ -669,7 +669,7 @@ export default {
       javaEcosystem: 'Java Ecosystem',
       javaEcosystemDesc: 'Java has a huge ecosystem including mature development tools and frameworks like Spring, Maven, Gradle.',
       
-      // Code examples moved to /utils/examples.js to avoid i18n escaping issues
+      // Code examples moved to /locales/examples.js to avoid i18n escaping issues
     }
   },
   format: {

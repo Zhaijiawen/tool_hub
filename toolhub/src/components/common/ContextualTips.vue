@@ -66,7 +66,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { examples, examplesEn } from '@/utils/examples'
+import { examples, examplesEn } from '@/locales/toolExamples'
 import {
   CodeOutline as CodeIcon,
   LockClosedOutline as LockIcon,

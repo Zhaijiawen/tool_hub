@@ -664,7 +664,7 @@ export default {
       watermarkUsage: '使用技巧',
       watermarkUsageDesc: '水印位置建议选择不影响主要内容的位置。透明度建议设置在30%-70%之间。',
       
-      // 示例代码已移动到 /utils/examples.js 文件中
+      // 示例代码已移动到 /locales/examples.js 文件中
     }
   },
   format: {
