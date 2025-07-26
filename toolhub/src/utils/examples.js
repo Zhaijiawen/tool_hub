@@ -185,7 +185,27 @@ console.log('Hello ToolHub');
     public static void main(String[] args) {
         System.out.println("ToolHub");
     }
-}`
+}`,
+  
+  rotate: `旋转角度: 90°, 180°, 270°
+自动调整: 保持宽高比
+批量处理: 支持多张图片
+预览功能: 实时查看效果`,
+  
+  watermark: `文字水印: ToolHub Studio
+位置选择: 左上、右上、左下、右下、中心
+透明度: 10%-100%可调
+字体样式: 大小、颜色、字体`,
+  
+  reverse: `字符反转: Hello → olleH
+单词反转: Hello World → World Hello
+行反转: 多行文本行序颠倒
+保留格式: 空格和换行符`,
+  
+  whitespace: `去除首尾: "  text  " → "text"
+压缩空白: "a   b" → "a b"
+保留换行: 多行文本处理
+批量处理: 支持大量文本`
 }
 
 // 英文版本
@@ -375,5 +395,25 @@ console.log('Hello ToolHub');
     public static void main(String[] args) {
         System.out.println("ToolHub");
     }
-}`
+}`,
+  
+  rotate: `Rotation angles: 90°, 180°, 270°
+Auto adjust: Maintain aspect ratio
+Batch processing: Support multiple images
+Preview: Real-time effect viewing`,
+  
+  watermark: `Text watermark: ToolHub Studio
+Position: Top-left, Top-right, Bottom-left, Bottom-right, Center
+Opacity: 10%-100% adjustable
+Font style: Size, color, font family`,
+  
+  reverse: `Character reverse: Hello → olleH
+Word reverse: Hello World → World Hello
+Line reverse: Multi-line text line order reversal
+Preserve format: Spaces and line breaks`,
+  
+  whitespace: `Trim ends: "  text  " → "text"
+Compress whitespace: "a   b" → "a b"
+Preserve line breaks: Multi-line text processing
+Batch processing: Support large text volumes`
 } 

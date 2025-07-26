@@ -569,6 +569,45 @@ export default {
       tryShell: 'Shell',
       tryMarkdown: 'Markdown',
       tryJava: 'Java',
+      tryWhitespace: 'Whitespace Handler',
+      
+      // Text Tools
+      textReverse: 'Text Reverse',
+      textReverseDesc: 'Text reverse tool can reverse characters, words or lines order, suitable for special text processing needs.',
+      reverseChar: 'Character reverse',
+      reverseWord: 'Word reverse',
+      reverseLine: 'Line reverse',
+      reverseFormat: 'Preserve format',
+      reverseUsage: 'Usage Tips',
+      reverseUsageDesc: 'Character reverse is suitable for password generation and text encryption. Word and line reverse are commonly used for text analysis and processing.',
+      
+      textWhitespace: 'Whitespace Handler',
+      textWhitespaceDesc: 'Whitespace handler tool can remove or compress whitespace in text, making text cleaner.',
+      whitespaceTrim: 'Trim whitespace',
+      whitespaceCompress: 'Compress whitespace',
+      whitespacePreserve: 'Preserve line breaks',
+      whitespaceBatch: 'Batch processing',
+      whitespaceUsage: 'Usage Tips',
+      whitespaceUsageDesc: 'Trim whitespace is suitable for cleaning user input. Compress whitespace can optimize text storage and transmission.',
+      
+      // Image Tools
+      imageRotate: 'Image Rotate',
+      imageRotateDesc: 'Image rotate tool can rotate images by specified angles, supporting batch processing and real-time preview.',
+      rotateAngle: 'Angle rotation',
+      rotateAuto: 'Auto adjust',
+      rotateBatch: 'Batch processing',
+      rotatePreview: 'Real-time preview',
+      rotateUsage: 'Usage Tips',
+      rotateUsageDesc: '90-degree rotation is commonly used to adjust image orientation. 180-degree and 270-degree rotations are suitable for special effects.',
+      
+      imageWatermark: 'Image Watermark',
+      imageWatermarkDesc: 'Image watermark tool can add text watermarks to images, supporting custom position, opacity and style.',
+      watermarkText: 'Text watermark',
+      watermarkPosition: 'Position selection',
+      watermarkOpacity: 'Opacity adjustment',
+      watermarkStyle: 'Font style',
+      watermarkUsage: 'Usage Tips',
+      watermarkUsageDesc: 'Watermark position should be chosen to avoid affecting main content. Opacity is recommended to be set between 30%-70%.',
       
       // Vue.js Framework
       vueFormat: 'Vue Formatting',

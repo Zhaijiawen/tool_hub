@@ -803,6 +803,56 @@ const getTipsForPath = (path) => {
             { text: t('sidebar.tips.tryCase'), path: '/text/case' }
           ]
         }
+      },
+      reverse: {
+        left: {
+          title: t('sidebar.tips.textReverse'),
+          icon: TextIcon,
+          iconColor: '#eb2f96',
+          description: t('sidebar.tips.textReverseDesc'),
+          items: [
+            t('sidebar.tips.reverseChar'),
+            t('sidebar.tips.reverseWord'),
+            t('sidebar.tips.reverseLine'),
+            t('sidebar.tips.reverseFormat')
+          ]
+        },
+        right: {
+          title: t('sidebar.tips.reverseUsage'),
+          icon: BulbIcon,
+          iconColor: '#13c2c2',
+          description: t('sidebar.tips.reverseUsageDesc'),
+          example: getExample('reverse'),
+          actions: [
+            { text: t('sidebar.tips.tryCase'), path: '/text/case' },
+            { text: t('sidebar.tips.tryWhitespace'), path: '/text/whitespace' }
+          ]
+        }
+      },
+      whitespace: {
+        left: {
+          title: t('sidebar.tips.textWhitespace'),
+          icon: TextIcon,
+          iconColor: '#fa8c16',
+          description: t('sidebar.tips.textWhitespaceDesc'),
+          items: [
+            t('sidebar.tips.whitespaceTrim'),
+            t('sidebar.tips.whitespaceCompress'),
+            t('sidebar.tips.whitespacePreserve'),
+            t('sidebar.tips.whitespaceBatch')
+          ]
+        },
+        right: {
+          title: t('sidebar.tips.whitespaceUsage'),
+          icon: BookIcon,
+          iconColor: '#722ed1',
+          description: t('sidebar.tips.whitespaceUsageDesc'),
+          example: getExample('whitespace'),
+          actions: [
+            { text: t('sidebar.tips.tryReplace'), path: '/text/replace' },
+            { text: t('sidebar.tips.tryReverse'), path: '/text/reverse' }
+          ]
+        }
       }
     },
     image: {
@@ -850,6 +900,56 @@ const getTipsForPath = (path) => {
           iconColor: '#1890ff',
           description: t('sidebar.tips.cropTipsDesc'),
           example: getExample('imageCrop'),
+          actions: [
+            { text: t('sidebar.tips.tryRotate'), path: '/image/rotate' },
+            { text: t('sidebar.tips.tryConvert'), path: '/image/convert' }
+          ]
+        }
+      },
+      rotate: {
+        left: {
+          title: t('sidebar.tips.imageRotate'),
+          icon: ImageIcon,
+          iconColor: '#13c2c2',
+          description: t('sidebar.tips.imageRotateDesc'),
+          items: [
+            t('sidebar.tips.rotateAngle'),
+            t('sidebar.tips.rotateAuto'),
+            t('sidebar.tips.rotateBatch'),
+            t('sidebar.tips.rotatePreview')
+          ]
+        },
+        right: {
+          title: t('sidebar.tips.rotateUsage'),
+          icon: BulbIcon,
+          iconColor: '#eb2f96',
+          description: t('sidebar.tips.rotateUsageDesc'),
+          example: getExample('rotate'),
+          actions: [
+            { text: t('sidebar.tips.tryWatermark'), path: '/image/watermark' },
+            { text: t('sidebar.tips.tryCrop'), path: '/image/crop' }
+          ]
+        }
+      },
+      watermark: {
+        left: {
+          title: t('sidebar.tips.imageWatermark'),
+          icon: ImageIcon,
+          iconColor: '#722ed1',
+          description: t('sidebar.tips.imageWatermarkDesc'),
+          items: [
+            t('sidebar.tips.watermarkText'),
+            t('sidebar.tips.watermarkPosition'),
+            t('sidebar.tips.watermarkOpacity'),
+            t('sidebar.tips.watermarkStyle')
+          ]
+        },
+        right: {
+          title: t('sidebar.tips.watermarkUsage'),
+          icon: StarIcon,
+          iconColor: '#fa8c16',
+          description: t('sidebar.tips.watermarkUsageDesc'),
+          example: getExample('watermark'),
           actions: [
             { text: t('sidebar.tips.tryRotate'), path: '/image/rotate' },
             { text: t('sidebar.tips.tryConvert'), path: '/image/convert' }

@@ -624,6 +624,45 @@ export default {
       tryShell: 'Shell脚本',
       tryMarkdown: 'Markdown',
       tryJava: 'Java格式化',
+      tryWhitespace: '空白字符处理',
+      
+      // 文本工具相关
+      textReverse: '文本反转',
+      textReverseDesc: '文本反转工具可以反转字符、单词或行的顺序，适用于特殊文本处理需求。',
+      reverseChar: '字符反转',
+      reverseWord: '单词反转',
+      reverseLine: '行反转',
+      reverseFormat: '保留格式',
+      reverseUsage: '使用技巧',
+      reverseUsageDesc: '字符反转适用于密码生成、文本加密等场景。单词和行反转常用于文本分析和处理。',
+      
+      textWhitespace: '空白字符处理',
+      textWhitespaceDesc: '空白字符处理工具可以去除或压缩文本中的空白字符，让文本更整洁。',
+      whitespaceTrim: '去除首尾空白',
+      whitespaceCompress: '压缩空白字符',
+      whitespacePreserve: '保留换行符',
+      whitespaceBatch: '批量处理',
+      whitespaceUsage: '使用技巧',
+      whitespaceUsageDesc: '去除首尾空白适用于清理用户输入。压缩空白字符可以优化文本存储和传输。',
+      
+      // 图像工具相关
+      imageRotate: '图像旋转',
+      imageRotateDesc: '图像旋转工具可以按指定角度旋转图片，支持批量处理和实时预览。',
+      rotateAngle: '角度旋转',
+      rotateAuto: '自动调整',
+      rotateBatch: '批量处理',
+      rotatePreview: '实时预览',
+      rotateUsage: '使用技巧',
+      rotateUsageDesc: '90度旋转常用于调整图片方向。180度和270度旋转适用于特殊效果制作。',
+      
+      imageWatermark: '图像水印',
+      imageWatermarkDesc: '图像水印工具可以为图片添加文字水印，支持自定义位置、透明度和样式。',
+      watermarkText: '文字水印',
+      watermarkPosition: '位置选择',
+      watermarkOpacity: '透明度调节',
+      watermarkStyle: '字体样式',
+      watermarkUsage: '使用技巧',
+      watermarkUsageDesc: '水印位置建议选择不影响主要内容的位置。透明度建议设置在30%-70%之间。',
       
       // 示例代码已移动到 /utils/examples.js 文件中
     }
