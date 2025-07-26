@@ -1,60 +1,63 @@
 <template>
   <div class="contextual-tips" v-if="shouldShow">
-    <!-- 左侧提示 -->
-    <div class="tip-panel left-panel" v-if="leftTip">
-      <n-card size="small" :title="leftTip.title" class="tip-card">
-        <div class="tip-content">
-          <div class="tip-icon">
-            <n-icon size="24" :color="leftTip.iconColor">
-              <component :is="leftTip.icon" />
-            </n-icon>
-          </div>
-          <div class="tip-text">
-            <p class="tip-description">{{ leftTip.description }}</p>
-            <div class="tip-items">
-              <div class="tip-item" v-for="item in leftTip.items" :key="item">
-                <n-icon size="14" color="#18a058">
-                  <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm3.5 4L6.75 9.75 4.5 7.5l-1 1 3.25 3.25L12.5 6l-1-1z"/>
-                  </svg>
-                </n-icon>
-                <span>{{ item }}</span>
+    <!-- 右侧知识提示面板 -->
+    <div class="tip-panel right-panel" v-if="leftTip || rightTip">
+      <!-- 上方提示（介绍类） -->
+      <div v-if="leftTip" class="tip-card top-tip">
+        <n-card size="small" :title="leftTip.title" class="tip-card-inner">
+          <div class="tip-content">
+            <div class="tip-icon">
+              <n-icon size="24" :color="leftTip.iconColor">
+                <component :is="leftTip.icon" />
+              </n-icon>
+            </div>
+            <div class="tip-text">
+              <p class="tip-description">{{ leftTip.description }}</p>
+              <div class="tip-items">
+                <div class="tip-item" v-for="item in leftTip.items" :key="item">
+                  <n-icon size="14" color="#18a058">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm3.5 4L6.75 9.75 4.5 7.5l-1 1 3.25 3.25L12.5 6l-1-1z"/>
+                    </svg>
+                  </n-icon>
+                  <span>{{ item }}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </n-card>
-    </div>
+        </n-card>
+      </div>
 
-    <!-- 右侧提示 -->
-    <div class="tip-panel right-panel" v-if="rightTip">
-      <n-card size="small" :title="rightTip.title" class="tip-card">
-        <div class="tip-content">
-          <div class="tip-icon">
-            <n-icon size="24" :color="rightTip.iconColor">
-              <component :is="rightTip.icon" />
-            </n-icon>
-          </div>
-          <div class="tip-text">
-            <p class="tip-description">{{ rightTip.description }}</p>
-            <div class="tip-example" v-if="rightTip.example">
-              <h4>{{ t('common.example') }}:</h4>
-              <pre class="example-code">{{ rightTip.example }}</pre>
+      <!-- 下方提示（安全建议或常见用法） -->
+      <div v-if="rightTip" class="tip-card bottom-tip">
+        <n-card size="small" :title="rightTip.title" class="tip-card-inner">
+          <div class="tip-content">
+            <div class="tip-icon">
+              <n-icon size="24" :color="rightTip.iconColor">
+                <component :is="rightTip.icon" />
+              </n-icon>
             </div>
-            <div class="tip-actions" v-if="rightTip.actions">
-              <n-button 
-                v-for="action in rightTip.actions" 
-                :key="action.text"
-                size="small" 
-                @click="handleAction(action)"
-                class="action-btn"
-              >
-                {{ action.text }}
-              </n-button>
+            <div class="tip-text">
+              <p class="tip-description">{{ rightTip.description }}</p>
+              <div class="tip-example" v-if="rightTip.example">
+                <h4>{{ t('common.example') }}:</h4>
+                <pre class="example-code">{{ rightTip.example }}</pre>
+              </div>
+              <div class="tip-actions" v-if="rightTip.actions">
+                <n-button 
+                  v-for="action in rightTip.actions" 
+                  :key="action.text"
+                  size="small" 
+                  @click="handleAction(action)"
+                  class="action-btn"
+                >
+                  {{ action.text }}
+                </n-button>
+              </div>
             </div>
           </div>
-        </div>
-      </n-card>
+        </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -1105,10 +1108,9 @@ const handleAction = (action) => {
   position: fixed;
   width: 280px;
   pointer-events: auto;
-}
-
-.left-panel {
-  left: calc((100vw - 1200px) / 2 - 300px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .right-panel {
@@ -1127,6 +1129,25 @@ const handleAction = (action) => {
 .tip-card:hover {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+}
+
+.tip-card-inner {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.tip-card-inner:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.top-tip {
+  order: 1;
+}
+
+.bottom-tip {
+  order: 2;
 }
 
 .tip-content {
@@ -1213,10 +1234,6 @@ const handleAction = (action) => {
 
 /* 确保在超大屏幕上有足够空间 */
 @media (min-width: 1800px) {
-  .left-panel {
-    left: calc((100vw - 1200px) / 2 - 320px);
-  }
-  
   .right-panel {
     right: calc((100vw - 1200px) / 2 - 320px);
   }
