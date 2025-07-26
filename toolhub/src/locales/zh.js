@@ -210,6 +210,11 @@ export default {
     clear: '清空',
     example: '示例'
   },
+  tutorial: {
+    technicalBackground: '📚 技术背景',
+    usageTutorial: '🎓 使用教程',
+    codeExamples: '💻 示例代码'
+  },
   footer: {
     about: '关于我们',
 

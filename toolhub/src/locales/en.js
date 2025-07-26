@@ -210,6 +210,11 @@ export default {
     clear: 'Clear',
     example: 'Example'
   },
+  tutorial: {
+    technicalBackground: '📚 Technical Background',
+    usageTutorial: '🎓 Usage Tutorial',
+    codeExamples: '💻 Code Examples'
+  },
   footer: {
     about: 'About',
 
