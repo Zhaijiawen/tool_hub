@@ -907,56 +907,6 @@ const getTipsForPath = (path) => {
             { text: t('sidebar.tips.tryUnit'), path: '/convert/unit' }
           ]
         }
-      },
-      iptools: {
-        left: {
-          title: t('sidebar.tips.ipTools'),
-          icon: SpeedIcon,
-          iconColor: '#1890ff',
-          description: t('sidebar.tips.ipToolsDesc'),
-          items: [
-            t('sidebar.tips.ipInfo'),
-            t('sidebar.tips.ipLocation'),
-            t('sidebar.tips.ipSubnet'),
-            t('sidebar.tips.ipPing')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.ipUsage'),
-          icon: BookIcon,
-          iconColor: '#722ed1',
-          description: t('sidebar.tips.ipUsageDesc'),
-          example: getExample('iptools'),
-          actions: [
-            { text: t('sidebar.tips.tryShortUrl'), path: '/other/shorturl' },
-            { text: t('sidebar.tips.tryUserAgent'), path: '/convert/user-agent' }
-          ]
-        }
-      },
-      shorturl: {
-        left: {
-          title: t('sidebar.tips.shortUrl'),
-          icon: LockIcon,
-          iconColor: '#eb2f96',
-          description: t('sidebar.tips.shortUrlDesc'),
-          items: [
-            t('sidebar.tips.urlShorten'),
-            t('sidebar.tips.urlCustom'),
-            t('sidebar.tips.urlAnalytics'),
-            t('sidebar.tips.urlExpiry')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.urlBenefits'),
-          icon: StarIcon,
-          iconColor: '#f39c12',
-          description: t('sidebar.tips.urlBenefitsDesc'),
-          example: getExample('shorturl'),
-          actions: [
-            { text: t('sidebar.tips.tryQR'), path: '/other/qrcode' },
-            { text: t('sidebar.tips.tryURL'), path: '/encrypt/url' }
-          ]
-        }
       }
     }
   }
