@@ -44,6 +44,7 @@
         </div>
       </n-alert>
     </n-card>
+    <TutorialAndDocs toolKey="xml" />
 
   </div>
 </template>
@@ -61,6 +62,7 @@ import CodeEditor from '@/components/common/CodeEditor.vue'
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标
 import { DocumentTextOutline } from '@vicons/ionicons5'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 // 初始化国际化
 const { t } = useI18n()
