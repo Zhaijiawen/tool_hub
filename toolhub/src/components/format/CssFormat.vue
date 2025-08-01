@@ -29,6 +29,7 @@
         {{ error }}
       </n-alert>
     </n-card>
+    <TutorialAndDocs toolKey="css" />
   </div>
 </template>
 
@@ -46,6 +47,7 @@ import CodeEditor from '@/components/common/CodeEditor.vue'
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标
 import { BrushOutline as LogoCss3 } from '@vicons/ionicons5'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 // 初始化国际化
 const { t } = useI18n()
