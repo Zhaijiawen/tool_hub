@@ -85,7 +85,7 @@ const loadMarkdownContent = async (type) => {
     const fileName = `${currentToolKey.value}_${type}_${lang}.md`
         
     // 使用 fetch 加载 Markdown 文件
-    const response = await fetch(`/src/locales/md/${fileName}`)
+    const response = await fetch(`/docs/${fileName}`)
     
     // 检查响应的 Content-Type，如果是 HTML 说明文件不存在
     const contentType = response.headers.get('content-type')
@@ -93,7 +93,7 @@ const loadMarkdownContent = async (type) => {
       console.log(`File ${fileName} not found (returned HTML), using empty template`)
       // 加载空白模板
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
-      const emptyResponse = await fetch(`/src/locales/md/${emptyFileName}`)
+      const emptyResponse = await fetch(`/docs/${emptyFileName}`)
       if (emptyResponse.ok) {
         const emptyText = await emptyResponse.text()
         return marked(emptyText)
@@ -105,7 +105,7 @@ const loadMarkdownContent = async (type) => {
       console.log(`No ${type} content found for ${currentToolKey.value}, using empty template`)
       // 加载空白模板
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
-      const emptyResponse = await fetch(`/src/locales/md/${emptyFileName}`)
+      const emptyResponse = await fetch(`/docs/${emptyFileName}`)
       if (emptyResponse.ok) {
         const emptyText = await emptyResponse.text()
         return marked(emptyText)
@@ -119,7 +119,7 @@ const loadMarkdownContent = async (type) => {
     if (!markdownText || markdownText.trim().length === 0) {
       console.log(`File ${fileName} is empty, using empty template`)
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
-      const emptyResponse = await fetch(`/src/locales/md/${emptyFileName}`)
+      const emptyResponse = await fetch(`/docs/${emptyFileName}`)
       if (emptyResponse.ok) {
         const emptyText = await emptyResponse.text()
         return marked(emptyText)
