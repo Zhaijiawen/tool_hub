@@ -110,7 +110,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    
+    <TutorialAndDocs toolKey="rsa" />
   </div>
 </template>
 
@@ -119,7 +119,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import JSEncrypt from 'jsencrypt'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

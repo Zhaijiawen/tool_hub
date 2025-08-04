@@ -110,7 +110,7 @@
         </n-alert>
       </n-space>
     </n-card>
-    
+    <TutorialAndDocs toolKey="chacha20" />
   </div>
 </template>
 
@@ -119,7 +119,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { streamXOR } from '@stablelib/chacha'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

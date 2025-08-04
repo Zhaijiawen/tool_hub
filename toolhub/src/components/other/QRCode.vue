@@ -278,7 +278,7 @@
         {{ $t('other.qrcode.infoContent') }}
       </n-alert>
     </n-card>
-    
+    <TutorialAndDocs toolKey="qrcode" />
   </div>
 </template>
 
@@ -289,7 +289,7 @@ import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

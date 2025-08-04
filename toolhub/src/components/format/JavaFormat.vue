@@ -25,6 +25,7 @@
         {{ error }}
       </n-alert>
     </n-card>
+    <TutorialAndDocs toolKey="java" />
   </div>
 </template>
 
@@ -38,7 +39,7 @@ import CodeEditor from '@/components/common/CodeEditor.vue'
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标
 import { CafeOutline } from '@vicons/ionicons5'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

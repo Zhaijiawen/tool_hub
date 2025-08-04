@@ -149,7 +149,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    
+    <TutorialAndDocs toolKey="x25519" />
   </div>
 </template>
 
@@ -159,7 +159,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import * as nacl from 'tweetnacl'
 import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

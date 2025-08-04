@@ -26,7 +26,7 @@
               :placeholder="t('encrypt.bcrypt.saltRoundsPlaceholder')"
             />
             <n-text depth="3" class="salt-info">
-              {{ t('encrypt.bcrypt.saltRoundsInfo') }}
+              {{ t('encrypt.bcrypt.saltRoundsInfo') }}  
             </n-text>
           </n-form-item>
         </n-form>
@@ -129,7 +129,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    
+    <TutorialAndDocs toolKey="bcrypt" />
   </div>
 </template>
 
@@ -138,7 +138,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import bcrypt from 'bcryptjs'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

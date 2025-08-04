@@ -66,7 +66,7 @@
         </div>
       </n-space>
     </n-card>
-
+    <TutorialAndDocs toolKey="image" />
   </div>
 </template>
 
@@ -80,7 +80,7 @@ import {
   NRadioGroup, NRadioButton, NFormItem, NButtonGroup, NAlert
 } from 'naive-ui'
 import { UploadOutlined, ZoomInOutlined, ZoomOutOutlined, ReloadOutlined } from '@vicons/antd'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 
 const imgSrc = ref('')

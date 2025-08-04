@@ -68,7 +68,7 @@
         </n-alert>
       </n-space>
     </n-card>
-    
+    <TutorialAndDocs toolKey="image" />
   </div>
 </template>
 
@@ -77,7 +77,7 @@ import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 

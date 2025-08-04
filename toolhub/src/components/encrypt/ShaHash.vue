@@ -117,7 +117,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-  
+    <TutorialAndDocs toolKey="sha" />
   </div>
 </template>
 
@@ -126,7 +126,7 @@ import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CryptoJS from 'crypto-js'
-
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 
