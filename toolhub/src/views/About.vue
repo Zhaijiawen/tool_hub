@@ -156,10 +156,27 @@ import {
 const { locale } = useI18n()
 
 // SEO设置
-useSeo({
-  title: getAboutText('seo.title', locale.value),
-  description: getAboutText('seo.description', locale.value),
-  keywords: getAboutText('seo.keywords', locale.value)
+const { updatePageMeta } = useSeo()
+
+// 手动设置页面元数据
+onMounted(() => {
+  document.title = getAboutText('seo.title', locale.value)
+  
+  let metaDescription = document.querySelector('meta[name="description"]')
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta')
+    metaDescription.name = 'description'
+    document.head.appendChild(metaDescription)
+  }
+  metaDescription.content = getAboutText('seo.description', locale.value)
+  
+  let metaKeywords = document.querySelector('meta[name="keywords"]')
+  if (!metaKeywords) {
+    metaKeywords = document.createElement('meta')
+    metaKeywords.name = 'keywords'
+    document.head.appendChild(metaKeywords)
+  }
+  metaKeywords.content = getAboutText('seo.keywords', locale.value)
 })
 </script>
 

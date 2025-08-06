@@ -14,7 +14,7 @@ import { useI18n } from 'vue-i18n'
 const { theme } = useTheme()
 
 // 获取SEO功能
-const { updateSeoTags } = useSeo()
+const { updatePageMeta } = useSeo()
 
 // 获取国际化功能
 const { locale } = useI18n()
@@ -28,12 +28,12 @@ const themeOverrides = {
 
 // 组件挂载时初始化SEO
 onMounted(() => {
-  updateSeoTags()
+  updatePageMeta()
 })
 
 // 监听语言切换，更新SEO标签
 watch(locale, () => {
-  updateSeoTags()
+  updatePageMeta()
 })
 </script>
 

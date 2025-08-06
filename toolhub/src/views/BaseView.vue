@@ -8,10 +8,22 @@
 <script setup>
 // 导入路由相关功能
 import { useRouter, useRoute } from 'vue-router'
+import { useSeo } from '@/composables/useSeo'
+import { watch, nextTick } from 'vue'
 
 // 初始化路由
 const router = useRouter()
 const route = useRoute()
+
+// SEO优化
+const { updatePageMeta } = useSeo()
+
+// 监听路由变化，更新页面元数据
+watch(() => route.path, () => {
+  nextTick(() => {
+    updatePageMeta()
+  })
+}, { immediate: true })
 </script>
 
 <style scoped>

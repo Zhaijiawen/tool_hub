@@ -78,14 +78,32 @@
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
 import { getTermsText } from '@/locales/terms'
+import { onMounted } from 'vue'
 
 const { locale } = useI18n()
 
 // SEO设置
-useSeo({
-  title: getTermsText('seo.title', locale.value),
-  description: getTermsText('seo.description', locale.value),
-  keywords: getTermsText('seo.keywords', locale.value)
+const { updatePageMeta } = useSeo()
+
+// 手动设置页面元数据
+onMounted(() => {
+  document.title = getTermsText('seo.title', locale.value)
+  
+  let metaDescription = document.querySelector('meta[name="description"]')
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta')
+    metaDescription.name = 'description'
+    document.head.appendChild(metaDescription)
+  }
+  metaDescription.content = getTermsText('seo.description', locale.value)
+  
+  let metaKeywords = document.querySelector('meta[name="keywords"]')
+  if (!metaKeywords) {
+    metaKeywords = document.createElement('meta')
+    metaKeywords.name = 'keywords'
+    document.head.appendChild(metaKeywords)
+  }
+  metaKeywords.content = getTermsText('seo.keywords', locale.value)
 })
 </script>
 

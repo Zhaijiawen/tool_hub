@@ -83,14 +83,32 @@
 import { useI18n } from 'vue-i18n'
 import { useSeo } from '@/composables/useSeo'
 import { getPrivacyText } from '@/locales/privacy'
+import { onMounted } from 'vue'
 
 const { locale } = useI18n()
 
 // SEO设置
-useSeo({
-  title: getPrivacyText('seo.title', locale.value),
-  description: getPrivacyText('seo.description', locale.value),
-  keywords: getPrivacyText('seo.keywords', locale.value)
+const { updatePageMeta } = useSeo()
+
+// 手动设置页面元数据
+onMounted(() => {
+  document.title = getPrivacyText('seo.title', locale.value)
+  
+  let metaDescription = document.querySelector('meta[name="description"]')
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta')
+    metaDescription.name = 'description'
+    document.head.appendChild(metaDescription)
+  }
+  metaDescription.content = getPrivacyText('seo.description', locale.value)
+  
+  let metaKeywords = document.querySelector('meta[name="keywords"]')
+  if (!metaKeywords) {
+    metaKeywords = document.createElement('meta')
+    metaKeywords.name = 'keywords'
+    document.head.appendChild(metaKeywords)
+  }
+  metaKeywords.content = getPrivacyText('seo.keywords', locale.value)
 })
 </script>
 
