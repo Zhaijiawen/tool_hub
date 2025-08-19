@@ -6,6 +6,40 @@ import { seoConfig, defaultSeo } from '@/locales/seo'
 export function useSeo() {
   const route = useRoute()
   const { t, locale } = useI18n()
+  
+  // 强制更新标题的备用方法
+  const forceUpdateTitle = (newTitle) => {
+    try {
+      // 方法1: 直接设置document.title
+      document.title = newTitle
+      
+      // 方法2: 更新或创建title标签
+      let titleTag = document.querySelector('title')
+      if (!titleTag) {
+        titleTag = document.createElement('title')
+        document.head.appendChild(titleTag)
+      }
+      titleTag.textContent = newTitle
+      
+      // 方法3: 使用document.head.innerHTML (谨慎使用)
+      // const headContent = document.head.innerHTML
+      // if (!headContent.includes(`<title>${newTitle}</title>`)) {
+      //   document.head.innerHTML = headContent.replace(
+      //     /<title>.*?<\/title>/,
+      //     `<title>${newTitle}</title>`
+      //   )
+      // }
+      
+      // 方法4: 触发自定义事件
+      window.dispatchEvent(new CustomEvent('titlechange', { 
+        detail: { title: newTitle } 
+      }))
+      
+      console.log('Title force updated:', newTitle)
+    } catch (error) {
+      console.error('Force update title error:', error)
+    }
+  }
 
   // 根据当前语言获取工具详细信息
   const toolDetails = computed(() => {
@@ -117,35 +151,67 @@ export function useSeo() {
   // 更新页面元数据
   const updatePageMeta = () => {
     if (typeof document !== 'undefined') {
-      // 更新标题
-      document.title = pageTitle.value
-      
-      // 更新描述
-      let metaDescription = document.querySelector('meta[name="description"]')
-      if (!metaDescription) {
-        metaDescription = document.createElement('meta')
-        metaDescription.name = 'description'
-        document.head.appendChild(metaDescription)
+      // 延迟执行，确保DOM完全加载
+      const updateMeta = () => {
+        try {
+          // 更新标题 - 使用强制更新方法
+          const newTitle = pageTitle.value
+          forceUpdateTitle(newTitle)
+          
+          // 验证标题是否真的更新了
+          setTimeout(() => {
+            if (document.title !== newTitle) {
+              console.warn('Title not updated, retrying...')
+              forceUpdateTitle(newTitle)
+            }
+          }, 100)
+          
+          // 更新描述
+          let metaDescription = document.querySelector('meta[name="description"]')
+          if (!metaDescription) {
+            metaDescription = document.createElement('meta')
+            metaDescription.name = 'description'
+            document.head.appendChild(metaDescription)
+          }
+          metaDescription.content = pageDescription.value
+          
+          // 更新关键词
+          let metaKeywords = document.querySelector('meta[name="keywords"]')
+          if (!metaKeywords) {
+            metaKeywords = document.createElement('meta')
+            metaKeywords.name = 'keywords'
+            document.head.appendChild(metaKeywords)
+          }
+          metaKeywords.content = pageKeywords.value
+          
+          // 更新结构化数据
+          let structuredDataScript = document.querySelector('script[type="application/ld+json"]')
+          if (!structuredDataScript) {
+            structuredDataScript = document.createElement('script')
+            structuredDataScript.type = 'application/ld+json'
+            document.head.appendChild(structuredDataScript)
+          }
+          structuredDataScript.textContent = JSON.stringify(structuredData.value)
+          
+          // 调试信息
+          console.log('SEO Meta updated:', {
+            title: newTitle,
+            description: pageDescription.value,
+            keywords: pageKeywords.value
+          })
+        } catch (error) {
+          console.error('Error updating SEO meta:', error)
+        }
       }
-      metaDescription.content = pageDescription.value
       
-      // 更新关键词
-      let metaKeywords = document.querySelector('meta[name="keywords"]')
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta')
-        metaKeywords.name = 'keywords'
-        document.head.appendChild(metaKeywords)
+      // 如果DOM已经加载完成，立即执行；否则等待
+      if (document.readyState === 'complete') {
+        updateMeta()
+      } else {
+        window.addEventListener('load', updateMeta)
+        // 备用：如果load事件没有触发，延迟执行
+        setTimeout(updateMeta, 1000)
       }
-      metaKeywords.content = pageKeywords.value
-      
-      // 更新结构化数据
-      let structuredDataScript = document.querySelector('script[type="application/ld+json"]')
-      if (!structuredDataScript) {
-        structuredDataScript = document.createElement('script')
-        structuredDataScript.type = 'application/ld+json'
-        document.head.appendChild(structuredDataScript)
-      }
-      structuredDataScript.textContent = JSON.stringify(structuredData.value)
     }
   }
 
@@ -155,6 +221,7 @@ export function useSeo() {
     pageDescription,
     pageKeywords,
     structuredData,
-    updatePageMeta
+    updatePageMeta,
+    forceUpdateTitle
   }
 } 
