@@ -216,7 +216,11 @@ export default {
     codeExamples: '💻 Code Examples',
     hintTitle: 'More Learning Resources',
     hintContent: 'Below you will find detailed technical background, usage tutorials, and code examples to help you better understand and use this tool.',
-    viewTutorial: 'View Tutorial'
+    viewTutorial: 'View Tutorial',
+    clickToLoad: 'Click the button below to load learning resources',
+    loadContent: 'Load Content',
+    loading: 'Loading...',
+    autoLoading: 'Content will load automatically when you scroll here'
   },
   footer: {
     about: 'About',

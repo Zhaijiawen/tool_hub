@@ -1,39 +1,65 @@
 <template>
-  <div v-if="shouldShow" class="tutorial-and-docs">
+  <div v-if="shouldShow" class="tutorial-and-docs" ref="tutorialRef">
     <n-card class="docs-card">
-      <n-tabs type="line" animated>
-                    <!-- 技术背景 Tab -->
-                    <n-tab-pane name="background" :tab="t('tutorial.technicalBackground')">
-                      <div class="tab-content">
-                        <div v-html="backgroundContent" class="markdown-content"></div>
-                      </div>
-                    </n-tab-pane>
-            
-                    <!-- 教程 Tab -->
-                    <n-tab-pane name="tutorial" :tab="t('tutorial.usageTutorial')">
-                      <div class="tab-content">
-                        <div v-html="tutorialContent" class="markdown-content"></div>
-                      </div>
-                    </n-tab-pane>
-            
-                    <!-- 示例代码 Tab -->
-                    <n-tab-pane name="examples" :tab="t('tutorial.codeExamples')">
-                      <div class="tab-content">
-                        <div v-html="examplesContent" class="markdown-content"></div>
-                      </div>
-                    </n-tab-pane>
-      </n-tabs>
+      <!-- 未加载状态 -->
+      <div v-if="!isLoaded" class="loading-state">
+        <div class="loading-content">
+          <n-icon size="48" color="#1890ff" class="loading-icon">
+            <BookIcon />
+          </n-icon>
+          <p class="loading-text">{{ t('tutorial.autoLoading') }}</p>
+        </div>
+      </div>
+      
+      <!-- 已加载状态 -->
+      <div v-else>
+        <n-tabs type="line" animated v-model:value="activeTab" @update:value="handleTabChange">
+          <!-- 技术背景 Tab -->
+          <n-tab-pane name="background" :tab="t('tutorial.technicalBackground')">
+            <div class="tab-content">
+              <div v-if="backgroundContent && !tabLoadingStates.background" v-html="backgroundContent" class="markdown-content"></div>
+              <div v-else class="empty-content">
+                <n-spin size="medium" />
+                <span class="loading-text">{{ t('tutorial.loading') }}</span>
+              </div>
+            </div>
+          </n-tab-pane>
+          
+          <!-- 教程 Tab -->
+          <n-tab-pane name="tutorial" :tab="t('tutorial.usageTutorial')">
+            <div class="tab-content">
+              <div v-if="tutorialContent && !tabLoadingStates.tutorial" v-html="tutorialContent" class="markdown-content"></div>
+              <div v-else class="empty-content">
+                <n-spin size="medium" />
+                <span class="loading-text">{{ t('tutorial.loading') }}</span>
+              </div>
+            </div>
+          </n-tab-pane>
+          
+          <!-- 示例代码 Tab -->
+          <n-tab-pane name="examples" :tab="t('tutorial.codeExamples')">
+            <div class="tab-content">
+              <div v-if="examplesContent && !tabLoadingStates.examples" v-html="examplesContent" class="markdown-content"></div>
+              <div v-else class="empty-content">
+                <n-spin size="medium" />
+                <span class="loading-text">{{ t('tutorial.loading') }}</span>
+              </div>
+            </div>
+          </n-tab-pane>
+        </n-tabs>
+      </div>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
+import { BookOutline as BookIcon } from '@vicons/ionicons5'
 
 // 配置 marked 的渲染器
 const renderer = new marked.Renderer()
@@ -42,8 +68,6 @@ renderer.code = function(code, language) {
   const highlighted = hljs.highlight(code, { language: validLanguage }).value
   return `<pre><code class="hljs ${validLanguage}">${highlighted}</code></pre>`
 }
-
-// 移除 import.meta.glob，使用 fetch 方式
 
 const props = defineProps({
   toolKey: {
@@ -60,6 +84,27 @@ marked.setOptions({
   renderer: renderer,
   breaks: true,
   gfm: true
+})
+
+// 懒加载相关状态
+const tutorialRef = ref(null)
+const isLoaded = ref(false)
+const isLoading = ref(false)
+const activeTab = ref('background')
+const observer = ref(null)
+
+// 各页签的加载状态
+const tabLoadingStates = ref({
+  background: false,
+  tutorial: false,
+  examples: false
+})
+
+// 各页签的内容缓存
+const tabContentCache = ref({
+  background: null,
+  tutorial: null,
+  examples: null
 })
 
 // 控制显示逻辑
@@ -134,19 +179,135 @@ const loadMarkdownContent = async (type) => {
   }
 }
 
-// 监听工具键和语言变化，重新加载内容
-watch([currentToolKey, locale], async () => {
-  // 并行加载所有内容
-  const [background, tutorial, examples] = await Promise.all([
-    loadMarkdownContent('background'),
-    loadMarkdownContent('tutorial'),
-    loadMarkdownContent('examples')
-  ])
+// 加载指定页签的内容
+const loadTabContent = async (tabName) => {
+  // 如果已经加载过，直接返回
+  if (tabContentCache.value[tabName]) {
+    return tabContentCache.value[tabName]
+  }
   
-  backgroundContent.value = background || ''
-  tutorialContent.value = tutorial || ''
-  examplesContent.value = examples || ''
+  // 如果正在加载，等待加载完成
+  if (tabLoadingStates.value[tabName]) {
+    return new Promise((resolve) => {
+      const checkLoaded = () => {
+        if (tabContentCache.value[tabName]) {
+          resolve(tabContentCache.value[tabName])
+        } else if (!tabLoadingStates.value[tabName]) {
+          resolve(null)
+        } else {
+          setTimeout(checkLoaded, 100)
+        }
+      }
+      checkLoaded()
+    })
+  }
+  
+  // 开始加载
+  tabLoadingStates.value[tabName] = true
+  try {
+    console.log(`Loading ${tabName} content...`)
+    
+    const content = await loadMarkdownContent(tabName)
+    
+    // 缓存内容
+    tabContentCache.value[tabName] = content
+    
+    // 更新对应的响应式变量
+    if (tabName === 'background') {
+      backgroundContent.value = content || ''
+    } else if (tabName === 'tutorial') {
+      tutorialContent.value = content || ''
+    } else if (tabName === 'examples') {
+      examplesContent.value = content || ''
+    }
+    
+    console.log(`${tabName} content loaded successfully`)
+    return content
+  } catch (error) {
+    console.error(`Error loading ${tabName} content:`, error)
+    return null
+  } finally {
+    tabLoadingStates.value[tabName] = false
+  }
+}
+
+// 页签切换处理
+const handleTabChange = async (tabName) => {
+  activeTab.value = tabName
+  
+  // 如果该页签内容未加载，则加载
+  if (!tabContentCache.value[tabName]) {
+    await loadTabContent(tabName)
+  }
+}
+
+// 初始化加载（当组件进入视口时）
+const initializeContent = async () => {
+  if (isLoaded.value) return
+  
+  isLoaded.value = true
+  // 只加载当前激活的页签
+  await loadTabContent(activeTab.value)
+}
+
+// 设置 Intersection Observer
+const setupIntersectionObserver = () => {
+  if (!tutorialRef.value) return
+  
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !isLoaded.value) {
+        // 当组件进入视口时，初始化内容（只加载当前页签）
+        console.log('Tutorial component is now visible, initializing content...')
+        initializeContent()
+      }
+    })
+  }, {
+    threshold: 0.1, // 当10%的内容可见时触发
+    rootMargin: '100px' // 提前100px触发，让用户感觉更流畅
+  })
+  
+  observer.value.observe(tutorialRef.value)
+}
+
+// 监听工具键和语言变化，重置状态
+watch([currentToolKey, locale], () => {
+  // 重置状态
+  isLoaded.value = false
+  isLoading.value = false
+  activeTab.value = 'background'
+  
+  // 重置各页签状态
+  tabLoadingStates.value = {
+    background: false,
+    tutorial: false,
+    examples: false
+  }
+  
+  // 清空内容缓存
+  tabContentCache.value = {
+    background: null,
+    tutorial: null,
+    examples: null
+  }
+  
+  // 清空显示内容
+  backgroundContent.value = ''
+  tutorialContent.value = ''
+  examplesContent.value = ''
 }, { immediate: true })
+
+// 组件挂载时设置观察器
+onMounted(() => {
+  setupIntersectionObserver()
+})
+
+// 组件卸载时清理观察器
+onUnmounted(() => {
+  if (observer.value) {
+    observer.value.disconnect()
+  }
+})
 </script>
 
 <style scoped>
@@ -334,6 +495,73 @@ watch([currentToolKey, locale], async () => {
   justify-content: center;
   align-items: center;
   min-height: 200px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* 懒加载状态样式 */
+.loading-state {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loading-icon {
+  opacity: 0.7;
+  animation: pulse 2s infinite;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: var(--text-color-2);
+  margin: 0;
+}
+
+/* 页签加载状态指示器 */
+.tab-loading-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+/* 空内容状态样式 */
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  color: var(--text-color-2);
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 /* 响应式设计 */

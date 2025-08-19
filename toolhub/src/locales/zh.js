@@ -216,7 +216,11 @@ export default {
     codeExamples: '💻 示例代码',
     hintTitle: '更多学习资源',
     hintContent: '下方提供了详细的技术背景、使用教程和代码示例，帮助您更好地理解和使用此工具。',
-    viewTutorial: '查看教程'
+    viewTutorial: '查看教程',
+    clickToLoad: '点击下方按钮加载学习资源',
+    loadContent: '加载内容',
+    loading: '加载中...',
+    autoLoading: '滑动到这里时内容将自动加载'
   },
   footer: {
     about: '关于我们',
