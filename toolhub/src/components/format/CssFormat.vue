@@ -23,6 +23,10 @@
         <n-button @click="copyToClipboard">
           {{ t('common.copy') }}
         </n-button>
+        <!-- 下载按钮 -->
+        <n-button @click="downloadCss" :disabled="!input.trim()">
+          {{ t('format.css.download') }}
+        </n-button>
       </div>
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
@@ -96,6 +100,38 @@ const copyToClipboard = async () => {
   } catch (e) {
     error.value = e.message
     message.error(t('common.copyError'))
+  }
+}
+
+/**
+ * 下载CSS文件
+ * 将当前CSS内容下载为.css文件
+ */
+const downloadCss = () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.css.empty'))
+    return
+  }
+  
+  try {
+    error.value = ''
+    // 创建Blob对象
+    const blob = new Blob([input.value], { type: 'text/css;charset=utf-8' })
+    // 创建下载链接
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `formatted-styles.css`
+    // 触发下载
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // 清理URL对象
+    URL.revokeObjectURL(url)
+    message.success(t('format.css.downloadSuccess'))
+  } catch (e) {
+    error.value = e.message
+    message.error(t('common.error'))
   }
 }
 </script>

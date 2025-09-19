@@ -60,8 +60,6 @@ export const formatWithBeautify = (code, language) => {
     case 'css':
       return beautify.css(code, beautifyOptions);
     case 'json':
-      // 先校验 JSON 合法性，不合法直接抛出异常
-      JSON.parse(code);
       return beautify.js(code, beautifyOptions);
     default:
       return null;

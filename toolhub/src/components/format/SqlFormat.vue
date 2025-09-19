@@ -23,6 +23,10 @@
         <n-button @click="copyToClipboard">
           {{ t('common.copy') }}
         </n-button>
+        <!-- 下载按钮 -->
+        <n-button @click="downloadSql" :disabled="!input.trim()">
+          {{ t('format.sql.download') }}
+        </n-button>
       </div>
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
@@ -93,6 +97,38 @@ const copyToClipboard = async () => {
   } catch (e) {
     error.value = e.message
     message.error(t('common.copyError'))
+  }
+}
+
+/**
+ * 下载SQL文件
+ * 将当前SQL内容下载为.sql文件
+ */
+const downloadSql = () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.sql.empty'))
+    return
+  }
+  
+  try {
+    error.value = ''
+    // 创建Blob对象
+    const blob = new Blob([input.value], { type: 'text/x-sql;charset=utf-8' })
+    // 创建下载链接
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `formatted-query.sql`
+    // 触发下载
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // 清理URL对象
+    URL.revokeObjectURL(url)
+    message.success(t('format.sql.downloadSuccess'))
+  } catch (e) {
+    error.value = e.message
+    message.error(t('common.error'))
   }
 }
 </script>

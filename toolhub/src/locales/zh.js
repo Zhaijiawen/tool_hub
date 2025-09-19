@@ -701,6 +701,8 @@ export default {
       escapeError: 'JSON转义失败',
       unescapeSuccess: 'JSON反转义成功',
       unescapeError: 'JSON反转义失败',
+      download: '下载JSON',
+      downloadSuccess: 'JSON文件下载成功',
       description: '格式化、压缩和验证 JSON 数据',
       info: {
         title: '功能说明',
@@ -721,6 +723,8 @@ export default {
       compressSuccess: 'XML压缩成功',
       compressError: 'XML压缩失败',
       description: '格式化 XML 文档',
+      download: '下载XML',
+      downloadSuccess: 'XML文件下载成功',
       info: {
         title: '功能说明',
         formatDesc: '将XML文档格式化为易读的缩进格式',
@@ -734,7 +738,9 @@ export default {
       empty: '请输入要格式化的YAML数据',
       success: 'YAML格式化成功',
       error: 'YAML格式化失败',
-      description: '格式化 YAML 文档'
+      description: '格式化 YAML 文档',
+      download: '下载YAML',
+      downloadSuccess: 'YAML文件下载成功'
     },
     js: {
       title: 'JavaScript 格式化',
@@ -744,6 +750,8 @@ export default {
       success: 'JavaScript格式化成功',
       error: 'JavaScript格式化失败',
       description: '格式化 JavaScript 代码',
+      download: '下载JS',
+      downloadSuccess: 'JavaScript文件下载成功',
       info: {
         title: '功能说明',
         description: '使用js-beautify格式化JavaScript代码，自动调整缩进、空格和换行，使代码更易读和规范。支持ES6+语法和各种JavaScript方言。'
@@ -756,7 +764,9 @@ export default {
       empty: '请输入要格式化的HTML代码',
       success: 'HTML格式化成功',
       error: 'HTML格式化失败',
-      description: '格式化 HTML 文档'
+      description: '格式化 HTML 文档',
+      download: '下载HTML',
+      downloadSuccess: 'HTML文件下载成功'
     },
     css: {
       title: 'CSS 格式化',
@@ -765,7 +775,9 @@ export default {
       empty: '请输入要格式化的CSS代码',
       success: 'CSS格式化成功',
       error: 'CSS格式化失败',
-      description: '格式化 CSS 样式'
+      description: '格式化 CSS 样式',
+      download: '下载CSS',
+      downloadSuccess: 'CSS文件下载成功'
     },
     java: {
       title: 'Java 格式化',
@@ -774,7 +786,9 @@ export default {
       empty: '请输入要格式化的Java代码',
       success: 'Java代码格式化成功',
       error: 'Java代码格式化失败',
-      description: '格式化 Java 代码'
+      description: '格式化 Java 代码',
+      download: '下载Java',
+      downloadSuccess: 'Java文件下载成功'
     },
     php: {
       title: 'PHP 格式化',
@@ -783,7 +797,9 @@ export default {
       empty: '请输入要格式化的PHP代码',
       success: 'PHP代码格式化成功',
       error: 'PHP代码格式化失败',
-      description: '格式化 PHP 代码'
+      description: '格式化 PHP 代码',
+      download: '下载PHP',
+      downloadSuccess: 'PHP文件下载成功'
     },
     ruby: {
       title: 'Ruby 格式化',
@@ -792,7 +808,9 @@ export default {
       empty: '请输入要格式化的Ruby代码',
       success: 'Ruby代码格式化成功',
       error: 'Ruby代码格式化失败',
-      description: '格式化 Ruby 代码'
+      description: '格式化 Ruby 代码',
+      download: '下载Ruby',
+      downloadSuccess: 'Ruby文件下载成功'
     },
     shell: {
       title: 'Shell 格式化',
@@ -801,7 +819,9 @@ export default {
       empty: '请输入要格式化的Shell脚本',
       success: 'Shell脚本格式化成功',
       error: 'Shell脚本格式化失败',
-      description: '格式化 Shell 脚本'
+      description: '格式化 Shell 脚本',
+      download: '下载Shell',
+      downloadSuccess: 'Shell脚本下载成功'
     },
     sql: {
       title: 'SQL 格式化',
@@ -810,7 +830,9 @@ export default {
       empty: '请输入要格式化的SQL查询语句',
       success: 'SQL格式化成功',
       error: 'SQL格式化失败',
-      description: '格式化 SQL 查询'
+      description: '格式化 SQL 查询',
+      download: '下载SQL',
+      downloadSuccess: 'SQL文件下载成功'
     },
     markdown: {
       title: 'Markdown 格式化',
@@ -819,7 +841,9 @@ export default {
       empty: '请输入要格式化的Markdown文本',
       success: 'Markdown格式化成功',
       error: 'Markdown格式化失败',
-      description: '格式化 Markdown 文档'
+      description: '格式化 Markdown 文档',
+      download: '下载MD',
+      downloadSuccess: 'Markdown文件下载成功'
     },
     vue: {
       title: 'Vue 格式化',
@@ -828,7 +852,9 @@ export default {
       empty: '请输入要格式化的Vue组件代码',
       success: 'Vue代码格式化成功',
       error: 'Vue代码格式化失败',
-      description: '格式化 .vue 单文件组件代码'
+      description: '格式化 .vue 单文件组件代码',
+      download: '下载Vue',
+      downloadSuccess: 'Vue文件下载成功'
     }
   },
   encrypt: {

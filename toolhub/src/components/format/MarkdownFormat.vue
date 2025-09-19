@@ -23,6 +23,10 @@
         <n-button @click="copyToClipboard">
           {{ t('common.copy') }}
         </n-button>
+        <!-- 下载按钮 -->
+        <n-button @click="downloadMarkdown" :disabled="!input.trim()">
+          {{ t('format.markdown.download') }}
+        </n-button>
       </div>
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
@@ -98,6 +102,38 @@ const copyToClipboard = async () => {
   } catch (e) {
     error.value = e.message
     message.error(t('common.copyError'))
+  }
+}
+
+/**
+ * 下载Markdown文件
+ * 将当前Markdown内容下载为.md文件
+ */
+const downloadMarkdown = () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.markdown.empty'))
+    return
+  }
+  
+  try {
+    error.value = ''
+    // 创建Blob对象
+    const blob = new Blob([input.value], { type: 'text/markdown;charset=utf-8' })
+    // 创建下载链接
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `formatted-document.md`
+    // 触发下载
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // 清理URL对象
+    URL.revokeObjectURL(url)
+    message.success(t('format.markdown.downloadSuccess'))
+  } catch (e) {
+    error.value = e.message
+    message.error(t('common.error'))
   }
 }
 </script>

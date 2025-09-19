@@ -23,6 +23,10 @@
         <n-button @click="copyToClipboard">
           {{ t('common.copy') }}
         </n-button>
+        <!-- 下载按钮 -->
+        <n-button @click="downloadRuby" :disabled="!input.trim()">
+          {{ t('format.ruby.download') }}
+        </n-button>
       </div>
       <!-- 错误提示 -->
       <n-alert v-if="error" type="error" :title="t('common.error')" class="error-alert">
@@ -93,6 +97,38 @@ const copyToClipboard = async () => {
   } catch (e) {
     error.value = e.message
     message.error(t('common.copyError'))
+  }
+}
+
+/**
+ * 下载Ruby文件
+ * 将当前Ruby内容下载为.rb文件
+ */
+const downloadRuby = () => {
+  if (!input.value.trim()) {
+    message.warning(t('format.ruby.empty'))
+    return
+  }
+  
+  try {
+    error.value = ''
+    // 创建Blob对象
+    const blob = new Blob([input.value], { type: 'text/x-ruby;charset=utf-8' })
+    // 创建下载链接
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `formatted-script.rb`
+    // 触发下载
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    // 清理URL对象
+    URL.revokeObjectURL(url)
+    message.success(t('format.ruby.downloadSuccess'))
+  } catch (e) {
+    error.value = e.message
+    message.error(t('common.error'))
   }
 }
 </script>

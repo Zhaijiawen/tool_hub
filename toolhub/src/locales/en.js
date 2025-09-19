@@ -706,6 +706,8 @@ export default {
       escapeError: 'JSON escape failed',
       unescapeSuccess: 'JSON unescaped successfully',
       unescapeError: 'JSON unescape failed',
+      download: 'Download JSON',
+      downloadSuccess: 'JSON file downloaded successfully',
       description: 'Format, compress and validate JSON data',
       info: {
         title: 'Feature Description',
@@ -726,6 +728,8 @@ export default {
       compressSuccess: 'XML compressed successfully',
       compressError: 'XML compression failed',
       description: 'Format XML documents',
+      download: 'Download XML',
+      downloadSuccess: 'XML file downloaded successfully',
       info: {
         title: 'Feature Description',
         formatDesc: 'Format XML document with proper indentation for readability',
@@ -739,7 +743,9 @@ export default {
       empty: 'Please enter YAML data to format',
       success: 'YAML formatted successfully',
       error: 'YAML formatting failed',
-      description: 'Format YAML documents'
+      description: 'Format YAML documents',
+      download: 'Download YAML',
+      downloadSuccess: 'YAML file downloaded successfully'
     },
     js: {
       title: 'JavaScript Formatter',
@@ -749,6 +755,8 @@ export default {
       success: 'JavaScript formatted successfully',
       error: 'JavaScript formatting failed',
       description: 'Format JavaScript code',
+      download: 'Download JS',
+      downloadSuccess: 'JavaScript file downloaded successfully',
       info: {
         title: 'Feature Description',
         description: 'Use js-beautify to format JavaScript code, automatically adjusting indentation, spacing, and line breaks to make code more readable and standardized. Supports ES6+ syntax and various JavaScript dialects.'
@@ -761,7 +769,9 @@ export default {
       empty: 'Please enter HTML code to format',
       success: 'HTML formatted successfully',
       error: 'HTML formatting failed',
-      description: 'Format HTML documents'
+      description: 'Format HTML documents',
+      download: 'Download HTML',
+      downloadSuccess: 'HTML file downloaded successfully'
     },
     css: {
       title: 'CSS Formatter',
@@ -770,7 +780,9 @@ export default {
       empty: 'Please enter CSS code to format',
       success: 'CSS formatted successfully',
       error: 'CSS formatting failed',
-      description: 'Format CSS styles'
+      description: 'Format CSS styles',
+      download: 'Download CSS',
+      downloadSuccess: 'CSS file downloaded successfully'
     },
     java: {
       title: 'Java Formatter',
@@ -779,7 +791,9 @@ export default {
       empty: 'Please enter Java code to format',
       success: 'Java code formatted successfully',
       error: 'Java code formatting failed',
-      description: 'Format Java code'
+      description: 'Format Java code',
+      download: 'Download Java',
+      downloadSuccess: 'Java file downloaded successfully'
     },
     php: {
       title: 'PHP Formatter',
@@ -788,7 +802,9 @@ export default {
       empty: 'Please enter PHP code to format',
       success: 'PHP code formatted successfully',
       error: 'PHP code formatting failed',
-      description: 'Format PHP code'
+      description: 'Format PHP code',
+      download: 'Download PHP',
+      downloadSuccess: 'PHP file downloaded successfully'
     },
     ruby: {
       title: 'Ruby Formatter',
@@ -797,7 +813,9 @@ export default {
       empty: 'Please enter Ruby code to format',
       success: 'Ruby code formatted successfully',
       error: 'Ruby code formatting failed',
-      description: 'Format Ruby code'
+      description: 'Format Ruby code',
+      download: 'Download Ruby',
+      downloadSuccess: 'Ruby file downloaded successfully'
     },
     shell: {
       title: 'Shell/Bash Formatter',
@@ -806,7 +824,9 @@ export default {
       empty: 'Please enter Shell script to format',
       success: 'Shell script formatted successfully',
       error: 'Shell script formatting failed',
-      description: 'Format Shell scripts'
+      description: 'Format Shell scripts',
+      download: 'Download Shell',
+      downloadSuccess: 'Shell script downloaded successfully'
     },
     sql: {
       title: 'SQL Formatter',
@@ -815,7 +835,9 @@ export default {
       empty: 'Please enter SQL query to format',
       success: 'SQL formatted successfully',
       error: 'SQL formatting failed',
-      description: 'Format SQL queries'
+      description: 'Format SQL queries',
+      download: 'Download SQL',
+      downloadSuccess: 'SQL file downloaded successfully'
     },
     markdown: {
       title: 'Markdown Formatter',
@@ -824,7 +846,9 @@ export default {
       empty: 'Please enter Markdown text to format',
       success: 'Markdown formatted successfully',
       error: 'Markdown formatting failed',
-      description: 'Format Markdown documents'
+      description: 'Format Markdown documents',
+      download: 'Download MD',
+      downloadSuccess: 'Markdown file downloaded successfully'
     },
     vue: {
       title: 'Vue Formatter',
@@ -833,7 +857,9 @@ export default {
       empty: 'Please enter Vue component code to format',
       success: 'Vue code formatted successfully',
       error: 'Vue code formatting failed',
-      description: 'Format .vue single file component code'
+      description: 'Format .vue single file component code',
+      download: 'Download Vue',
+      downloadSuccess: 'Vue file downloaded successfully'
     }
   },
   encrypt: {
