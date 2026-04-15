@@ -120,6 +120,8 @@ import { useRouter, useRoute } from 'vue-router'
 import ToolSearch from '@/components/common/ToolSearch.vue'
 // 导入简化的右侧导航组件
 import SimpleRightNav from '@/components/common/SimpleRightNav.vue'
+// 导入语言切换工具函数（支持按需动态加载语言包）
+import { setLocale } from '@/locales/index.js'
 // 导入图标组件
 import {
   SearchOutline as SearchIcon,
@@ -179,9 +181,9 @@ const languageOptions = [
   }
 ]
 
-// 处理语言切换
-const handleLanguageSelect = (key) => {
-  locale.value = key
+// 处理语言切换（动态加载语言包，按需导入减少首屏体积）
+const handleLanguageSelect = async (key) => {
+  await setLocale(key)
   document.documentElement.lang = key
   localStorage.setItem('language', key)
 }

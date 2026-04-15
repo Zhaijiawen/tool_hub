@@ -44,10 +44,10 @@ if [ -f /etc/lsb-release ] || grep -qi ubuntu /etc/os-release 2>/dev/null; then
   echo "[信息] 安装 PM2..."
   npm install pm2 -g || { echo "[错误] PM2 安装失败"; exit 1; }
   
-  # 安装 nginx
-  echo "[信息] 安装 nginx..."
-  sudo apt install nginx -y || { echo "[错误] nginx 安装失败"; exit 1; }
-  
+  # 安装 nginx 及 Brotli 压缩模块
+  echo "[信息] 安装 nginx 及 ngx_brotli 模块..."
+  sudo apt install nginx libnginx-mod-brotli -y || { echo "[错误] nginx 安装失败"; exit 1; }
+
 else
   echo "[错误] 此脚本仅支持 Ubuntu/Debian 系统。请手动安装所需依赖。"
   exit 1
@@ -97,6 +97,11 @@ echo "  - Node.js: $(node -v)"
 echo "  - npm: $(npm -v)"
 echo "  - PM2: $(pm2 -v)"
 echo "  - nginx: $(nginx -v 2>&1)"
+if nginx -V 2>&1 | grep -q 'brotli' || [ -f /usr/lib/nginx/modules/ngx_http_brotli_filter_module.so ]; then
+  echo "  - ngx_brotli: 已安装 ✅（Brotli 静态预压缩已启用）"
+else
+  echo "  - ngx_brotli: 未安装 ⚠️（Brotli 压缩已自动禁用，使用 Gzip 压缩）"
+fi
 echo "  - Ruby: $(ruby -v)"
 
 echo ""
@@ -152,6 +157,16 @@ echo "[信息] 配置 Nginx..."
 sudo cp nginx.conf /etc/nginx/sites-available/toolhub
 sudo ln -sf /etc/nginx/sites-available/toolhub /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
+
+# 检测 ngx_brotli 模块是否可用，不可用则注释掉相关指令避免启动失败
+echo "[信息] 检测 Brotli 模块可用性..."
+if ! nginx -V 2>&1 | grep -q 'brotli' && [ ! -f /usr/lib/nginx/modules/ngx_http_brotli_filter_module.so ]; then
+    echo "[警告] ngx_brotli 模块未安装，自动禁用 nginx.conf 中的 Brotli 指令..."
+    sudo sed -i 's/^\(\s*brotli_static\)/#\1/' /etc/nginx/sites-available/toolhub
+    sudo sed -i 's/^\(\s*brotli on\)/#\1/' /etc/nginx/sites-available/toolhub
+else
+    echo "[信息] ngx_brotli 模块可用，Brotli 压缩已启用"
+fi
 
 # 测试 Nginx 配置
 echo "[信息] 测试 Nginx 配置..."

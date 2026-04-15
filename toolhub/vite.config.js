@@ -2,14 +2,45 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
-// TODO: 可安装 vite-plugin-compression 用于预压缩
-// import { createGzipPlugin } from 'vite-plugin-compression'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import viteCompression from 'vite-plugin-compression'
 
 // Vite 配置 - https://vite.dev/config/
 export default defineConfig({
   // 插件配置
-  plugins: [vue()], // Vue 3 插件
+  plugins: [
+    vue(),
   
+    // Naive UI 按需自动导入组件（无需在 main.js 全量注册）
+    Components({
+      resolvers: [NaiveUiResolver()]
+    }),
+
+    // 自动导入 Vue/Vue Router API，无需手动 import
+    AutoImport({
+      imports: ['vue', 'vue-router', 'vue-i18n', '@vueuse/core'],
+      dts: false // 不生成类型声明文件
+    }),
+
+    // Gzip 预压缩（服务器需开启静态文件 gzip 支持）
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 10240, // 大于 10KB 才压缩
+      deleteOriginFile: false
+    }),
+
+    // Brotli 压缩（现代浏览器优先使用，压缩率更高）
+    viteCompression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+      threshold: 10240,
+      deleteOriginFile: false
+    })
+  ],
+
   // 路径解析配置
   resolve: {
     alias: {
@@ -29,21 +60,65 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // 手动分割代码块
-        manualChunks: {
-          // 将 Vue 相关库分离
-          vue: ['vue', 'vue-router', 'pinia'],
-          // 将 UI 库分离
-          ui: ['naive-ui'],
-          // 将图标库分离
-          icons: ['@vicons/antd', '@vicons/ionicons5'],
-          // 将工具库分离
-          utils: ['lodash-es', 'dayjs', 'axios'],
-          // 将加密库分离
-          crypto: ['crypto-js', 'bcryptjs', 'argon2', 'tweetnacl', 'elliptic'],
-          // 将编辑器库分离
-          editor: ['codemirror'],
-          // 将其他大型库分离
-          vendors: ['markdown-it', 'marked', 'mathjs', 'prettier', 'qrcode']
+        manualChunks(id) {
+          // Vue 核心库（最高优先级，几乎所有页面都需要）
+          if (id.includes('node_modules/vue/') || id.includes('node_modules/vue-router/') || id.includes('node_modules/pinia/')) {
+            return 'vue'
+          }
+          // vue-i18n 单独分离
+          if (id.includes('node_modules/vue-i18n/') || id.includes('node_modules/@intlify/')) {
+            return 'vue-i18n'
+          }
+          // Naive UI（按需加载插件会自动只引入使用到的组件，但 vueuc/css-render 等基础模块仍集中打包）
+          if (id.includes('node_modules/naive-ui/') || id.includes('node_modules/vueuc/') ||
+              id.includes('node_modules/css-render/') || id.includes('node_modules/@css-render/') ||
+              id.includes('node_modules/seemly/') || id.includes('node_modules/treemate/') ||
+              id.includes('node_modules/@juggle/')) {
+            return 'ui'
+          }
+          // 图标库
+          if (id.includes('node_modules/@vicons/')) {
+            return 'icons'
+          }
+          // 工具库
+          if (id.includes('node_modules/lodash-es/') || id.includes('node_modules/dayjs/') || id.includes('node_modules/axios/')) {
+            return 'utils'
+          }
+          // 加密库（轻量）
+          if (id.includes('node_modules/crypto-js/') || id.includes('node_modules/tweetnacl/') || id.includes('node_modules/elliptic/')) {
+            return 'crypto'
+          }
+          // argon2（WASM 大库，单独分割）
+          if (id.includes('node_modules/argon2/') || id.includes('node_modules/hash-wasm/')) {
+            return 'argon2'
+          }
+          // bcrypt
+          if (id.includes('node_modules/bcryptjs/')) {
+            return 'bcrypt'
+          }
+          // CodeMirror 编辑器核心
+          if (id.includes('node_modules/codemirror/') || id.includes('node_modules/@codemirror/view') ||
+              id.includes('node_modules/@codemirror/state') || id.includes('node_modules/@codemirror/language') ||
+              id.includes('node_modules/@codemirror/theme')) {
+            return 'editor'
+          }
+          // CodeMirror 各语言包（懒加载，不集中打包）
+          // markdown 和文档处理库
+          if (id.includes('node_modules/markdown-it/') || id.includes('node_modules/marked/') || id.includes('node_modules/dompurify/')) {
+            return 'markdown'
+          }
+          // 数学库
+          if (id.includes('node_modules/mathjs/')) {
+            return 'mathjs'
+          }
+          // 格式化库
+          if (id.includes('node_modules/prettier/') || id.includes('node_modules/js-beautify/')) {
+            return 'formatter'
+          }
+          // 二维码
+          if (id.includes('node_modules/qrcode/') || id.includes('node_modules/qrcode.vue/')) {
+            return 'qrcode'
+          }
         },
         // 优化文件名（便于缓存）
         entryFileNames: 'assets/[name]-[hash].js',
@@ -62,7 +137,7 @@ export default defineConfig({
         // 移除无用代码
         pure_funcs: ['console.log'],
         // 优化常量折叠
-        passes: 3
+        passes: 2
       },
       mangle: {
         // 保留类名（避免某些库出错）
@@ -74,8 +149,8 @@ export default defineConfig({
     cssCodeSplit: true,
     // 构建后清理输出目录
     emptyOutDir: true,
-    // 并行构建
-    reportCompressedSize: false,  // 关闭压缩报告提升构建速度
+    // 关闭压缩报告提升构建速度
+    reportCompressedSize: false,
     // 资源内联阈值（小于4KB的资源会被内联）
     assetsInlineLimit: 4096
   },

@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# unplugin-vue-components / unplugin-auto-import 自动生成的类型声明文件
+# 每次 dev/build 时自动重新生成，无需纳入版本控制
+components.d.ts
+auto-imports.d.ts
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

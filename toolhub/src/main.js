@@ -12,9 +12,6 @@ import i18n from './locales'
 // 导入全局样式
 import './assets/main.css'
 
-// 导入Naive UI
-import naive from 'naive-ui'
-
 // 创建Vue应用实例
 const app = createApp(App)
 
@@ -24,8 +21,9 @@ app.use(createPinia())
 app.use(router)
 // 使用国际化
 app.use(i18n)
-// 使用Naive UI
-app.use(naive)
+
+// 注意：Naive UI 组件已通过 unplugin-vue-components 自动按需引入
+// 无需在此处全量注册 naive-ui，减少首屏包体积
 
 // 挂载应用到DOM
 app.mount('#app')

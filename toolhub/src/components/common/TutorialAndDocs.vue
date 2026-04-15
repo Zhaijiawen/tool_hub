@@ -57,16 +57,75 @@ import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
 
-// 配置 marked 的渲染器
-const renderer = new marked.Renderer()
-renderer.code = function(code, language) {
-  const validLanguage = hljs.getLanguage(language) ? language : 'plaintext'
-  const highlighted = hljs.highlight(code, { language: validLanguage }).value
-  return `<pre><code class="hljs ${validLanguage}">${highlighted}</code></pre>`
+// highlight.js 延迟加载（仅在内容渲染时才导入，避免打入首屏包）
+let hljs = null
+const loadHljs = async () => {
+  if (hljs) return hljs
+  // 动态导入 highlight.js 核心 + 常用语言（按需注册，减少体积）
+  const [hljsCore, langJs, langTs, langJson, langXml, langSql, langPython,
+    langJava, langShell, langCss, langMarkdown, langYaml] = await Promise.all([
+    import('highlight.js/lib/core'),
+    import('highlight.js/lib/languages/javascript'),
+    import('highlight.js/lib/languages/typescript'),
+    import('highlight.js/lib/languages/json'),
+    import('highlight.js/lib/languages/xml'),
+    import('highlight.js/lib/languages/sql'),
+    import('highlight.js/lib/languages/python'),
+    import('highlight.js/lib/languages/java'),
+    import('highlight.js/lib/languages/shell'),
+    import('highlight.js/lib/languages/css'),
+    import('highlight.js/lib/languages/markdown'),
+    import('highlight.js/lib/languages/yaml')
+  ])
+  const instance = hljsCore.default
+  instance.registerLanguage('javascript', langJs.default)
+  instance.registerLanguage('js', langJs.default)
+  instance.registerLanguage('typescript', langTs.default)
+  instance.registerLanguage('ts', langTs.default)
+  instance.registerLanguage('json', langJson.default)
+  instance.registerLanguage('xml', langXml.default)
+  instance.registerLanguage('html', langXml.default)
+  instance.registerLanguage('sql', langSql.default)
+  instance.registerLanguage('python', langPython.default)
+  instance.registerLanguage('java', langJava.default)
+  instance.registerLanguage('shell', langShell.default)
+  instance.registerLanguage('bash', langShell.default)
+  instance.registerLanguage('css', langCss.default)
+  instance.registerLanguage('markdown', langMarkdown.default)
+  instance.registerLanguage('yaml', langYaml.default)
+  hljs = instance
+
+  // 动态注入 highlight.js 的 CSS 样式（只注入一次）
+  if (!document.getElementById('hljs-theme-css')) {
+    await import('highlight.js/styles/github.css')
+  }
+
+  return hljs
+}
+
+// 动态配置 marked 渲染器（在首次渲染内容时初始化）
+let markedConfigured = false
+const ensureMarkedConfig = async () => {
+  if (markedConfigured) return
+  const hljsInstance = await loadHljs()
+  const renderer = new marked.Renderer()
+  renderer.code = function(code, language) {
+    const validLanguage = hljsInstance.getLanguage(language) ? language : 'plaintext'
+    try {
+      const highlighted = hljsInstance.highlight(code, { language: validLanguage }).value
+      return `<pre><code class="hljs ${validLanguage}">${highlighted}</code></pre>`
+    } catch {
+      return `<pre><code class="hljs plaintext">${code}</code></pre>`
+    }
+  }
+  marked.setOptions({
+    renderer: renderer,
+    breaks: true,
+    gfm: true
+  })
+  markedConfigured = true
 }
 
 const props = defineProps({
@@ -78,13 +137,6 @@ const props = defineProps({
 
 const route = useRoute()
 const { locale, t } = useI18n()
-
-// 配置marked以支持代码高亮
-marked.setOptions({
-  renderer: renderer,
-  breaks: true,
-  gfm: true
-})
 
 // 懒加载相关状态
 const tutorialRef = ref(null)
@@ -126,6 +178,9 @@ const examplesContent = ref('')
 // 加载Markdown内容的函数
 const loadMarkdownContent = async (type) => {
   try {
+    // 确保 hljs 和 marked 已配置（首次调用时动态加载）
+    await ensureMarkedConfig()
+
     const lang = locale.value === 'zh' ? 'zh' : 'en'
     const fileName = `${currentToolKey.value}_${type}_${lang}.md`
         
@@ -135,7 +190,6 @@ const loadMarkdownContent = async (type) => {
     // 检查响应的 Content-Type，如果是 HTML 说明文件不存在
     const contentType = response.headers.get('content-type')
     if (contentType && contentType.includes('text/html')) {
-      console.log(`File ${fileName} not found (returned HTML), using empty template`)
       // 加载空白模板
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
       const emptyResponse = await fetch(`/docs/${emptyFileName}`)
@@ -147,7 +201,6 @@ const loadMarkdownContent = async (type) => {
     }
     
     if (!response.ok) {
-      console.log(`No ${type} content found for ${currentToolKey.value}, using empty template`)
       // 加载空白模板
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
       const emptyResponse = await fetch(`/docs/${emptyFileName}`)
@@ -162,7 +215,6 @@ const loadMarkdownContent = async (type) => {
     
     // 简单检查内容是否为空或无效
     if (!markdownText || markdownText.trim().length === 0) {
-      console.log(`File ${fileName} is empty, using empty template`)
       const emptyFileName = lang === 'zh' ? 'empty_zh.md' : 'empty_en.md'
       const emptyResponse = await fetch(`/docs/${emptyFileName}`)
       if (emptyResponse.ok) {
@@ -205,8 +257,6 @@ const loadTabContent = async (tabName) => {
   // 开始加载
   tabLoadingStates.value[tabName] = true
   try {
-    console.log(`Loading ${tabName} content...`)
-    
     const content = await loadMarkdownContent(tabName)
     
     // 缓存内容
@@ -221,7 +271,6 @@ const loadTabContent = async (tabName) => {
       examplesContent.value = content || ''
     }
     
-    console.log(`${tabName} content loaded successfully`)
     return content
   } catch (error) {
     console.error(`Error loading ${tabName} content:`, error)
@@ -257,8 +306,6 @@ const setupIntersectionObserver = () => {
   observer.value = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting && !isLoaded.value) {
-        // 当组件进入视口时，初始化内容（只加载当前页签）
-        console.log('Tutorial component is now visible, initializing content...')
         initializeContent()
       }
     })
