@@ -2076,33 +2076,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  calculator: {
-    features: [
-      'Basic arithmetic operations',
-      'Scientific calculation functions',
-      'Base conversion functionality',
-      'Calculation history'
-    ],
-    useCases: [
-      'Daily mathematical calculations',
-      'Scientific research and engineering calculations',
-      'Numerical calculations in programming',
-      'Learning and teaching assistance'
-    ],
-    usageSteps: [
-      'Select calculation mode',
-      'Enter mathematical expression',
-      'Click calculate button',
-      'View calculation result'
-    ],
-    bestPractices: [
-      'Pay attention to operator precedence',
-      'Use parentheses to clarify operation order',
-      'Verify calculation result reasonableness',
-      'Save important calculation history'
-    ]
-  },
-
   // More conversion tools
   regex: {
     features: [
