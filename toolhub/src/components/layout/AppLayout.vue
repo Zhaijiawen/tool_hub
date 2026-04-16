@@ -508,6 +508,26 @@ const menuOptions = computed(() => [
             label: t('convert.charCode.title'),
             key: 'char-code',
             path: '/convert/char-code'
+          },
+          {
+            label: t('convert.diff.title'),
+            key: 'diff',
+            path: '/convert/diff'
+          },
+          {
+            label: t('convert.cron.title'),
+            key: 'cron',
+            path: '/convert/cron'
+          },
+          {
+            label: t('convert.jsonConvert.title'),
+            key: 'json-convert',
+            path: '/convert/json-convert'
+          },
+          {
+            label: t('convert.gradient.title'),
+            key: 'gradient',
+            path: '/convert/gradient'
           }
         ]
       }
@@ -536,6 +556,11 @@ const menuOptions = computed(() => [
         label: t('image.watermark.title'),
         key: 'image-watermark',
         path: '/image/watermark'
+      },
+      {
+        label: t('image.compress.title'),
+        key: 'image-compress',
+        path: '/image/compress'
       }
     ]
   },
@@ -580,16 +605,25 @@ const menuOptions = computed(() => [
       //   key: 'short-url',
       //   path: '/other/short-url'
       // },
-      // IP工具功能暂时屏蔽
-      // {
-      //   label: t('other.ip.title'),
-      //   key: 'ip',
-      //   path: '/other/ip'
-      // },
       {
         label: t('other.calculator.title'),
         key: 'calculator',
         path: '/other/calculator'
+      },
+      {
+        label: t('other.ip.title'),
+        key: 'ip',
+        path: '/other/ip'
+      },
+      {
+        label: t('other.fileHash.title'),
+        key: 'file-hash',
+        path: '/other/file-hash'
+      },
+      {
+        label: t('other.dns.title'),
+        key: 'dns',
+        path: '/other/dns'
       }
     ]
   }

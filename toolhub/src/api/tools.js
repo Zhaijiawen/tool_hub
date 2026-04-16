@@ -315,6 +315,34 @@ const tools = [
     description: 'convert.charCode.description',
     category: 'convert'
   },
+  {
+    id: 'diff',
+    name: 'convert.diff.title',
+    path: '/convert/diff',
+    description: 'convert.diff.description',
+    category: 'convert'
+  },
+  {
+    id: 'cron',
+    name: 'convert.cron.title',
+    path: '/convert/cron',
+    description: 'convert.cron.description',
+    category: 'convert'
+  },
+  {
+    id: 'jsonConvert',
+    name: 'convert.jsonConvert.title',
+    path: '/convert/json-convert',
+    description: 'convert.jsonConvert.description',
+    category: 'convert'
+  },
+  {
+    id: 'gradient',
+    name: 'convert.gradient.title',
+    path: '/convert/gradient',
+    description: 'convert.gradient.description',
+    category: 'convert'
+  },
 
   // 图片工具
   {
@@ -343,6 +371,13 @@ const tools = [
     name: 'image.watermark.title',
     path: '/image/watermark',
     description: 'image.watermark.description',
+    category: 'image'
+  },
+  {
+    id: 'compress',
+    name: 'image.compress.title',
+    path: '/image/compress',
+    description: 'image.compress.description',
     category: 'image'
   },
 
@@ -389,6 +424,27 @@ const tools = [
     name: 'other.calculator.title',
     path: '/other/calculator',
     description: 'other.calculator.description',
+    category: 'other'
+  },
+  {
+    id: 'ip',
+    name: 'other.ip.title',
+    path: '/other/ip',
+    description: 'other.ip.description',
+    category: 'other'
+  },
+  {
+    id: 'fileHash',
+    name: 'other.fileHash.title',
+    path: '/other/file-hash',
+    description: 'other.fileHash.description',
+    category: 'other'
+  },
+  {
+    id: 'dns',
+    name: 'other.dns.title',
+    path: '/other/dns',
+    description: 'other.dns.description',
     category: 'other'
   }
 ]

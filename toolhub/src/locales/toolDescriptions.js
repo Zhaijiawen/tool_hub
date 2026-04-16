@@ -1494,6 +1494,248 @@ export const toolDescriptions = {
       '备份原始数据',
       '验证替换结果'
     ]
+  },
+
+  // 新增工具 - 转换类
+  diff: {
+    features: [
+      '支持字符级和行级两种对比模式',
+      '绿色高亮新增内容，红色高亮删除内容',
+      '顶部统计新增/删除行数',
+      '左右双栏对比，一目了然',
+      '支持互换左右内容'
+    ],
+    useCases: [
+      '代码版本对比和审查',
+      '文档修改记录追踪',
+      '配置文件差异分析',
+      '文本合并冲突解决',
+      '测试结果比对验证'
+    ],
+    usageSteps: [
+      '在左侧输入原始文本',
+      '在右侧输入修改后文本',
+      '选择对比模式（行级/字符级）',
+      '点击"对比"按钮查看差异',
+      '查看高亮差异结果并复制'
+    ],
+    bestPractices: [
+      '行级对比适合代码文件对比',
+      '字符级对比适合短文本精确比对',
+      '利用互换功能快速反向对比',
+      '统计数字帮助快速了解改动规模'
+    ]
+  },
+
+  cron: {
+    features: [
+      '支持标准5位和Quartz 6位Cron格式',
+      '实时将Cron表达式翻译为人话描述',
+      '展示未来5次执行时间',
+      '可视化反向生成Cron表达式',
+      '非法表达式实时错误提示'
+    ],
+    useCases: [
+      '定时任务调度配置',
+      '理解第三方服务的Cron计划',
+      '验证定时规则是否符合预期',
+      '快速生成复杂的Cron表达式',
+      '运维定时任务排查'
+    ],
+    usageSteps: [
+      '在输入框粘贴Cron表达式',
+      '查看实时人话描述和下次执行时间',
+      '或使用可视化面板选择时间规则',
+      '自动生成对应的Cron表达式',
+      '复制结果到项目配置中'
+    ],
+    bestPractices: [
+      '先用人话描述验证表达式含义是否正确',
+      '检查下次执行时间列表确认频率无误',
+      '注意区分标准5位和含秒的6位格式',
+      '避免高频率任务（如每秒）造成系统负担'
+    ]
+  },
+
+  jsonConvert: {
+    features: [
+      '支持JSON、YAML、CSV、TOML、XML五种格式互转',
+      '智能格式自动检测',
+      '保留数据结构的完整性',
+      '支持下载转换结果文件',
+      '一键互换输入输出格式'
+    ],
+    useCases: [
+      '将API返回的JSON转为YAML配置文件',
+      '解析CSV表格数据为JSON对象',
+      '转换不同系统间的配置格式',
+      'XML数据结构迁移到JSON',
+      '多格式数据标准化处理'
+    ],
+    usageSteps: [
+      '在左侧输入区粘贴源数据',
+      '选择输入格式（可自动检测）',
+      '在右侧选择目标输出格式',
+      '点击"转换"按钮执行',
+      '复制或下载转换结果'
+    ],
+    bestPractices: [
+      'CSV转JSON时确保表头行完整',
+      'YAML转JSON注意缩进一致性',
+      '转换前验证源数据格式正确',
+      'XML转JSON时注意属性和文本节点的处理'
+    ]
+  },
+
+  gradient: {
+    features: [
+      '支持2到5个颜色节点',
+      '线性、径向、锥形三种渐变类型',
+      '0到360度方向自由调节',
+      '实时大色块预览',
+      '一键复制CSS代码'
+    ],
+    useCases: [
+      '网页背景渐变设计',
+      'UI按钮和卡片样式',
+      '品牌色渐变方案制作',
+      'CSS动画渐变效果',
+      '图表颜色方案设计'
+    ],
+    usageSteps: [
+      '选择渐变类型（线性/径向/锥形）',
+      '点击颜色拾取器添加色点',
+      '拖动色点调整渐变分布',
+      '调整角度或方向',
+      '复制生成的CSS代码到项目中'
+    ],
+    bestPractices: [
+      '相邻颜色使用相近色相保证自然过渡',
+      '2色渐变简洁大方，4色以上慎用',
+      '注意保证文字在渐变背景上的可读性',
+      '测试不同屏幕亮度下的视觉效果'
+    ]
+  },
+
+  // 新增工具 - 其他类
+  ip: {
+    features: [
+      '自动检测并展示当前公网IP',
+      '查询任意IPv4和IPv6地址信息',
+      '展示国家/地区、城市、运营商',
+      '提供经纬度地图链接',
+      '显示时区和货币信息'
+    ],
+    useCases: [
+      '查看本机公网IP和归属地',
+      '验证VPN或代理是否生效',
+      '排查网络访问地理限制问题',
+      '用户行为分析前置验证',
+      '服务器IP归属地确认'
+    ],
+    usageSteps: [
+      '打开工具自动显示当前IP信息',
+      '在输入框输入要查询的IP地址',
+      '点击"查询"按钮获取详情',
+      '查看IP的地理位置和网络信息',
+      '点击坐标链接在地图中定位'
+    ],
+    bestPractices: [
+      '免费接口每天有查询次数限制',
+      'IPv6地址可直接输入查询',
+      '内网IP无法查询到归属地信息',
+      '结果仅供参考，实际位置可能有偏差'
+    ]
+  },
+
+  fileHash: {
+    features: [
+      '支持MD5、SHA-1、SHA-256、SHA-512',
+      'SHA系列使用浏览器原生Web Crypto API',
+      '大文件分片处理并显示进度条',
+      '输入预期哈希值进行校验比对',
+      '绿色✓/红色✗直观显示校验结果'
+    ],
+    useCases: [
+      '下载文件完整性验证',
+      '文件去重和指纹识别',
+      '软件包安全校验',
+      '数据传输完整性检验',
+      '数字版权保护'
+    ],
+    usageSteps: [
+      '拖拽或点击选择要计算的文件',
+      '等待进度条显示计算完成',
+      '查看各算法的哈希值',
+      '可选：输入预期哈希值进行对比',
+      '绿色表示匹配，红色表示不匹配'
+    ],
+    bestPractices: [
+      'SHA-256是目前最常用的安全哈希算法',
+      'MD5和SHA-1已不推荐用于安全场景',
+      '文件超过500MB时计算时间较长请耐心等待',
+      '所有计算在浏览器本地完成，文件不会上传'
+    ]
+  },
+
+  dns: {
+    features: [
+      '支持A、AAAA、MX、TXT、CNAME、NS、SOA记录类型',
+      '使用Cloudflare DoH接口，结果准确可靠',
+      '表格形式展示TTL和记录值',
+      '纯前端实现，无需后端服务',
+      '支持国际化域名（IDN）'
+    ],
+    useCases: [
+      '域名解析记录验证',
+      '邮件服务器MX记录查询',
+      'CDN和DNS传播状态检查',
+      'SSL证书域名验证记录查询',
+      '域名所有权TXT记录确认'
+    ],
+    usageSteps: [
+      '输入要查询的域名（不含http://）',
+      '选择要查询的DNS记录类型',
+      '点击"查询"按钮',
+      '查看返回的DNS记录表格',
+      '关注TTL值了解缓存时长'
+    ],
+    bestPractices: [
+      '输入纯域名不要加协议前缀',
+      'TTL值越小表示缓存更新越快',
+      'DNS传播通常需要24-48小时',
+      'TXT记录常用于SPF、DKIM等邮件验证'
+    ]
+  },
+
+  compress: {
+    features: [
+      '支持JPG、PNG、WebP格式图片压缩',
+      '质量滑块10%到100%自由调节',
+      '显示原始大小与压缩后大小及压缩率',
+      '批量上传最多10张图片',
+      '一键下载所有压缩结果'
+    ],
+    useCases: [
+      '网页图片加载速度优化',
+      '邮件附件图片压缩',
+      '移动端上传前图片预处理',
+      '博客和电商产品图优化',
+      '批量处理摄影作品用于网络分享'
+    ],
+    usageSteps: [
+      '拖拽或点击选择1到10张图片',
+      '调整质量滑块设置压缩程度',
+      '等待自动压缩完成',
+      '对比查看压缩前后大小和压缩率',
+      '点击下载保存压缩后的图片'
+    ],
+    bestPractices: [
+      '80%质量通常能在质量和体积间取得好平衡',
+      'PNG图片压缩效果不如JPG/WebP',
+      '批量压缩时统一设置质量滑块更高效',
+      '压缩操作在浏览器本地完成，图片不会上传'
+    ]
   }
 }
 
@@ -2993,6 +3235,248 @@ export const toolDescriptionsEn = {
       'Test with various text types',
       'Consider encoding requirements',
       'Verify processing accuracy'
+    ]
+  },
+
+  // New tools - Convert category
+  diff: {
+    features: [
+      'Supports character-level and line-level diff modes',
+      'Green highlights for additions, red for deletions',
+      'Top stats showing added/removed line counts',
+      'Side-by-side dual-pane comparison view',
+      'Swap left and right content with one click'
+    ],
+    useCases: [
+      'Code version comparison and review',
+      'Document change tracking',
+      'Configuration file diff analysis',
+      'Text merge conflict resolution',
+      'Test result validation'
+    ],
+    usageSteps: [
+      'Enter original text in the left pane',
+      'Enter modified text in the right pane',
+      'Select diff mode (line-level or character-level)',
+      'Click the Compare button to see differences',
+      'Review highlighted diffs and copy results'
+    ],
+    bestPractices: [
+      'Line-level diff works best for code files',
+      'Character-level diff is ideal for precise short-text comparison',
+      'Use the swap button to quickly reverse the comparison',
+      'Check statistics to understand the scale of changes'
+    ]
+  },
+
+  cron: {
+    features: [
+      'Supports standard 5-field and Quartz 6-field Cron format',
+      'Real-time translation of Cron expressions to plain English',
+      'Shows next 5 execution times',
+      'Visual builder for reverse-generating Cron expressions',
+      'Real-time error messages for invalid expressions'
+    ],
+    useCases: [
+      'Scheduled task configuration',
+      'Understanding third-party service Cron schedules',
+      'Verifying scheduling rules match expectations',
+      'Quickly generating complex Cron expressions',
+      'Troubleshooting cron jobs in production'
+    ],
+    usageSteps: [
+      'Paste a Cron expression in the input box',
+      'View real-time description and next execution times',
+      'Or use the visual panel to select time rules',
+      'The Cron expression is auto-generated',
+      'Copy the result to your project config'
+    ],
+    bestPractices: [
+      'Verify expression meaning with plain-text description first',
+      'Check next execution list to confirm frequency is correct',
+      'Note the difference between 5-field and 6-field (with seconds) format',
+      'Avoid very high-frequency jobs (e.g. every second) to prevent system overload'
+    ]
+  },
+
+  jsonConvert: {
+    features: [
+      'Supports mutual conversion among JSON, YAML, CSV, TOML, and XML',
+      'Smart automatic format detection',
+      'Preserves full data structure integrity',
+      'Download converted result as file',
+      'One-click swap of input and output formats'
+    ],
+    useCases: [
+      'Converting API JSON responses to YAML config files',
+      'Parsing CSV table data into JSON objects',
+      'Transforming config formats between different systems',
+      'Migrating XML data structures to JSON',
+      'Normalizing multi-format data'
+    ],
+    usageSteps: [
+      'Paste source data into the left input area',
+      'Select input format (or auto-detect)',
+      'Select the target output format on the right',
+      'Click the Convert button',
+      'Copy or download the converted result'
+    ],
+    bestPractices: [
+      'Ensure header row is complete when converting CSV to JSON',
+      'Maintain consistent indentation when converting YAML to JSON',
+      'Validate source data format before converting',
+      'Handle XML attributes and text nodes carefully when converting to JSON'
+    ]
+  },
+
+  gradient: {
+    features: [
+      'Supports 2 to 5 color stops',
+      'Three gradient types: linear, radial, conic',
+      'Free angle adjustment from 0 to 360 degrees',
+      'Real-time large preview block',
+      'One-click CSS code copy'
+    ],
+    useCases: [
+      'Web page background gradient design',
+      'UI button and card styling',
+      'Brand color gradient scheme creation',
+      'CSS animation gradient effects',
+      'Chart color scheme design'
+    ],
+    usageSteps: [
+      'Select gradient type (linear / radial / conic)',
+      'Use the color picker to add color stops',
+      'Drag color stops to adjust gradient distribution',
+      'Adjust angle or direction',
+      'Copy the generated CSS code to your project'
+    ],
+    bestPractices: [
+      'Use similar hues for adjacent colors to ensure smooth transitions',
+      '2-color gradients are clean; use 4+ colors sparingly',
+      'Ensure text remains readable on gradient backgrounds',
+      'Test visual effect under different screen brightness levels'
+    ]
+  },
+
+  // New tools - Other category
+  ip: {
+    features: [
+      'Automatically detects and displays current public IP',
+      'Query any IPv4 and IPv6 address information',
+      'Shows country/region, city, and ISP',
+      'Provides latitude/longitude map link',
+      'Displays timezone and currency information'
+    ],
+    useCases: [
+      'View your public IP address and location',
+      'Verify VPN or proxy is working correctly',
+      'Troubleshoot geo-restriction issues',
+      'Pre-validation for user behavior analysis',
+      'Confirm server IP geolocation'
+    ],
+    usageSteps: [
+      'Open the tool to auto-display current IP info',
+      'Enter any IP address in the input box',
+      'Click the Query button for details',
+      'View geographic location and network information',
+      'Click the coordinates link to locate on a map'
+    ],
+    bestPractices: [
+      'Free APIs have daily query limits',
+      'IPv6 addresses can be queried directly',
+      'Private/LAN IPs cannot return geolocation data',
+      'Results are for reference only; actual location may differ'
+    ]
+  },
+
+  fileHash: {
+    features: [
+      'Supports MD5, SHA-1, SHA-256, SHA-512',
+      'SHA series uses browser-native Web Crypto API',
+      'Large file chunked processing with progress bar',
+      'Enter expected hash value for verification',
+      'Green ✓ / Red ✗ for intuitive match results'
+    ],
+    useCases: [
+      'Verifying downloaded file integrity',
+      'File deduplication and fingerprinting',
+      'Software package security verification',
+      'Data transmission integrity check',
+      'Digital rights protection'
+    ],
+    usageSteps: [
+      'Drag and drop or click to select a file',
+      'Wait for the progress bar to complete',
+      'View hash values for each algorithm',
+      'Optional: enter expected hash to compare',
+      'Green means match, red means mismatch'
+    ],
+    bestPractices: [
+      'SHA-256 is the most commonly used secure hash algorithm',
+      'MD5 and SHA-1 are not recommended for security purposes',
+      'Files over 500MB may take longer to compute',
+      'All computations are local; no files are uploaded'
+    ]
+  },
+
+  dns: {
+    features: [
+      'Supports A, AAAA, MX, TXT, CNAME, NS, SOA record types',
+      'Uses Cloudflare DoH API for accurate and reliable results',
+      'Table format displaying TTL and record values',
+      'Pure frontend implementation, no backend needed',
+      'Supports Internationalized Domain Names (IDN)'
+    ],
+    useCases: [
+      'Verifying domain name resolution records',
+      'Querying mail server MX records',
+      'Checking CDN and DNS propagation status',
+      'Looking up SSL certificate domain validation records',
+      'Confirming domain ownership via TXT records'
+    ],
+    usageSteps: [
+      'Enter the domain name (without http://)',
+      'Select the DNS record type to query',
+      'Click the Query button',
+      'View the returned DNS records table',
+      'Check TTL values to understand caching duration'
+    ],
+    bestPractices: [
+      'Enter a bare domain without protocol prefix',
+      'Lower TTL means faster cache refresh',
+      'DNS propagation typically takes 24-48 hours',
+      'TXT records are commonly used for SPF, DKIM email verification'
+    ]
+  },
+
+  compress: {
+    features: [
+      'Supports JPG, PNG, and WebP image compression',
+      'Quality slider freely adjustable from 10% to 100%',
+      'Displays original size, compressed size, and compression ratio',
+      'Batch upload up to 10 images at once',
+      'Download all compressed results with one click'
+    ],
+    useCases: [
+      'Optimizing web page image loading speed',
+      'Compressing email attachment images',
+      'Pre-processing images before mobile upload',
+      'Optimizing blog and e-commerce product images',
+      'Batch processing photos for web sharing'
+    ],
+    usageSteps: [
+      'Drag and drop or click to select 1-10 images',
+      'Adjust the quality slider to set compression level',
+      'Wait for automatic compression to complete',
+      'Compare sizes before and after with compression ratio',
+      'Click download to save compressed images'
+    ],
+    bestPractices: [
+      '80% quality usually achieves a good balance between quality and size',
+      'PNG compression is less effective than JPG/WebP',
+      'Setting one quality slider for batch compression is more efficient',
+      'All compression is done locally; images are not uploaded'
     ]
   }
 }

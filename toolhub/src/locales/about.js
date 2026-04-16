@@ -39,11 +39,11 @@ export const aboutText = {
       },
       convert: {
         title: '转换工具',
-        desc: '时间戳、进制转换、单位换算等实用转换工具'
+        desc: '时间戳、进制转换、单位换算、Diff文本对比、Cron表达式解析、JSON多格式互转、渐变色生成器等实用转换工具'
       },
       image: {
         title: '图像处理',
-        desc: '图片格式转换、裁剪、旋转、水印等图像处理工具'
+        desc: '图片格式转换、裁剪、旋转、水印、图片压缩等图像处理工具'
       },
       text: {
         title: '文本处理',
@@ -51,7 +51,7 @@ export const aboutText = {
       },
       other: {
         title: '其他工具',
-        desc: '二维码生成、短链接、IP查询、计算器等实用工具'
+        desc: '二维码生成、IP查询、文件哈希校验、DNS查询、计算器等实用工具'
       }
     },
     technology: {
@@ -147,11 +147,11 @@ export const aboutText = {
       },
       convert: {
         title: 'Conversion Tools',
-        desc: 'Practical conversion tools such as timestamp, base conversion, unit conversion'
+        desc: 'Practical conversion tools such as timestamp, base conversion, unit conversion, Diff text comparison, Cron expression parser, JSON multi-format converter, and gradient color generator'
       },
       image: {
         title: 'Image Processing',
-        desc: 'Image processing tools such as format conversion, cropping, rotation, watermarking'
+        desc: 'Image processing tools such as format conversion, cropping, rotation, watermarking, and image compression'
       },
       text: {
         title: 'Text Processing',
@@ -159,7 +159,7 @@ export const aboutText = {
       },
       other: {
         title: 'Other Tools',
-        desc: 'Practical tools such as QR code generation, short links, IP queries, calculators'
+        desc: 'Practical tools such as QR code generation, IP query, file hash verification, DNS lookup, and calculators'
       }
     },
     technology: {

@@ -265,6 +265,26 @@ const router = createRouter({
             {
               path: 'char-code',
               component: () => import('@/components/convert/CharCode.vue')
+            },
+            // Diff 文本对比
+            {
+              path: 'diff',
+              component: () => import('@/components/convert/Diff.vue')
+            },
+            // Cron 表达式解析
+            {
+              path: 'cron',
+              component: () => import('@/components/convert/Cron.vue')
+            },
+            // JSON ↔ 其他格式互转
+            {
+              path: 'json-convert',
+              component: () => import('@/components/convert/JsonConvert.vue')
+            },
+            // 渐变色生成器
+            {
+              path: 'gradient',
+              component: () => import('@/components/convert/Gradient.vue')
             }
           ]
         },
@@ -293,6 +313,11 @@ const router = createRouter({
             {
               path: 'watermark',
               component: () => import('@/components/image/Watermark.vue')
+            },
+            // 图片压缩
+            {
+              path: 'compress',
+              component: () => import('@/components/image/Compress.vue')
             }
           ]
         },
@@ -335,6 +360,21 @@ const router = createRouter({
             {
               path: 'calculator',
               component: () => import('@/components/other/Calculator.vue')
+            },
+            // IP 查询
+            {
+              path: 'ip',
+              component: () => import('@/components/other/IpQuery.vue')
+            },
+            // 文件哈希校验
+            {
+              path: 'file-hash',
+              component: () => import('@/components/other/FileHash.vue')
+            },
+            // DNS 查询
+            {
+              path: 'dns',
+              component: () => import('@/components/other/DnsQuery.vue')
             }
           ]
         },
