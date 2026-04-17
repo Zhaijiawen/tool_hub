@@ -209,7 +209,7 @@ const tools = [
     category: 'encrypt'
   },
   {
-    id: 'html',
+    id: 'htmlCodec',
     name: 'encrypt.html.title',
     path: '/encrypt/html',
     description: 'encrypt.html.description',
@@ -288,7 +288,7 @@ const tools = [
     category: 'convert'
   },
   {
-    id: 'markdown',
+    id: 'markdownPreview',
     name: 'convert.markdown.title',
     path: '/convert/markdown',
     description: 'convert.markdown.description',
