@@ -374,10 +374,10 @@ const downloadImage = () => {
   margin-top: 8px;
 }
 .upload-container {
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--border-color);
   border-radius: 8px;
   padding: 20px;
-  background-color: white;
+  background-color: var(--card-color);
   text-align: center;
 }
 .upload-area {
@@ -427,9 +427,9 @@ const downloadImage = () => {
 .output-placeholder {
   text-align: center;
   padding: 40px;
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--border-color);
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: var(--card-color);
 }
 .error-alert {
   margin-top: 16px;
