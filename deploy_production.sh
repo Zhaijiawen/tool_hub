@@ -95,6 +95,11 @@ npm config set registry https://registry.npmmirror.com
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+echo "[信息] 清理旧的 node_modules（避免残留文件导致 ENOTEMPTY 错误）..."
+rm -rf "$SCRIPT_DIR/node_modules"
+rm -rf "$SCRIPT_DIR/toolhub-server/node_modules"
+rm -rf "$SCRIPT_DIR/toolhub/node_modules"
+
 echo "[信息] 安装根目录依赖..."
 npm install --legacy-peer-deps || { echo "[错误] 根目录 npm install 失败"; exit 1; }
 
