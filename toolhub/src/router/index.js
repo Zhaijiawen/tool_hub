@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseView from '@/views/BaseView.vue'
+import Home from '@/views/Home.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -404,10 +405,10 @@ const router = createRouter({
           ]
         },
         
-        // 默认重定向到JSON格式化工具
+        // 首页：工具导航 + 网站介绍（独立 SEO 页面）
         {
           path: '',
-          redirect: '/format/json'
+          component: Home
         }
       ]
     }

@@ -739,10 +739,9 @@ const goToComposer = () => {
   router.push('/composer')
 }
 
-// 控制知识提示显示
+// 控制知识提示显示（首页、composer、静态页面均不显示侧边栏/收藏栏）
 const shouldShowTips = computed(() => {
-  // 排除composer页面和静态页面
-  const excludedPaths = ['/composer', '/about', '/privacy', '/terms']
+  const excludedPaths = ['/', '/composer', '/about', '/privacy', '/terms']
   return !excludedPaths.includes(route.path)
 })
 

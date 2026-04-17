@@ -485,6 +485,14 @@ const tools = [
 ]
 
 /**
+ * 同步获取所有工具（供首页等不需要异步的场景使用）
+ * @returns {Array} 工具列表
+ */
+export function getAllToolsSync() {
+  return tools
+}
+
+/**
  * 获取所有工具
  * @param {string} locale - 语言环境 (保持接口兼容性)
  * @returns {Promise<Array>} 工具列表

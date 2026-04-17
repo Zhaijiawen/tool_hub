@@ -1,7 +1,7 @@
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { seoConfig, defaultSeo } from '@/locales/seo'
+import {computed} from 'vue'
+import {useRoute} from 'vue-router'
+import {useI18n} from 'vue-i18n'
+import {defaultSeo, seoConfig} from '@/locales/seo'
 
 export function useSeo() {
   const route = useRoute()
@@ -57,8 +57,25 @@ export function useSeo() {
     return details
   })
 
+  // 首页专属 SEO 配置
+  const homeSeo = {
+    en: {
+      title: 'ToolHub — Developer Tools, All in One Place | Free Online Toolbox',
+      description: 'ToolHub is a free online developer toolbox: JSON/XML/YAML formatter, AES/RSA encryption, Base64/URL codec, timestamp converter, QR code generator, image tools and more. No registration, runs locally in your browser.',
+      keywords: 'developer tools, online toolbox, json formatter, xml formatter, yaml formatter, aes encryption, rsa encryption, base64 encoder, url encoder, timestamp converter, qr code generator, image converter, code formatter, free tools'
+    },
+    zh: {
+      title: 'ToolHub — 开发者工具，一站搞定 | 免费在线工具箱',
+      description: 'ToolHub 是面向开发者的免费在线工具箱：JSON/XML/YAML 格式化、AES/RSA 加密解密、Base64/URL 编解码、时间戳转换、二维码生成、图片处理等 60+ 工具，无需注册，数据本地处理，安全可靠。',
+      keywords: '开发者工具,在线工具箱,JSON格式化,XML格式化,YAML格式化,AES加密,RSA加密,Base64编码,URL编码,时间戳转换,二维码生成,图片工具,代码格式化,免费工具'
+    }
+  }
+
   // 获取当前工具信息
   const currentTool = computed(() => {
+    // 首页路径（/）单独处理，不匹配工具路由
+    if (route.path === '/') return null
+
     const pathParts = route.path.split('/')
     if (pathParts.length >= 3) {
       const category = pathParts[1]
@@ -72,40 +89,60 @@ export function useSeo() {
     return null
   })
 
+  // 是否当前为首页
+  const isHomePage = computed(() => route.path === '/')
+
   // 生成页面标题
   const pageTitle = computed(() => {
-    if (!currentTool.value) {
-      const lang = locale.value === 'zh' ? 'zh' : 'en'
-      return defaultSeo[lang].title
-    }
+    const lang = locale.value === 'zh' ? 'zh' : 'en'
+    if (isHomePage.value) return homeSeo[lang].title
+    if (!currentTool.value) return defaultSeo[lang].title
     const { details } = currentTool.value
     return `${details.name} - ToolHub`
   })
 
   // 生成页面描述
   const pageDescription = computed(() => {
-    if (!currentTool.value) {
-      const lang = locale.value === 'zh' ? 'zh' : 'en'
-      return defaultSeo[lang].description
-    }
+    const lang = locale.value === 'zh' ? 'zh' : 'en'
+    if (isHomePage.value) return homeSeo[lang].description
+    if (!currentTool.value) return defaultSeo[lang].description
     const { details } = currentTool.value
     return details.description || 'Professional online tool for developers'
   })
 
   // 生成关键词
   const pageKeywords = computed(() => {
-    if (!currentTool.value) {
-      const lang = locale.value === 'zh' ? 'zh' : 'en'
-      return defaultSeo[lang].keywords
-    }
+    const lang = locale.value === 'zh' ? 'zh' : 'en'
+    if (isHomePage.value) return homeSeo[lang].keywords
+    if (!currentTool.value) return defaultSeo[lang].keywords
     const { details } = currentTool.value
     return details.keywords ? details.keywords.join(', ') : 'online tool, developer tool'
   })
 
   // 生成结构化数据
   const structuredData = computed(() => {
+    const lang = locale.value === 'zh' ? 'zh' : 'en'
     if (!currentTool.value) {
-      const lang = locale.value === 'zh' ? 'zh' : 'en'
+      // 首页使用 WebSite 类型，对 SEO 更有利
+      if (isHomePage.value) {
+        return {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "ToolHub",
+          "url": "https://toolhub.studio",
+          "description": homeSeo[lang].description,
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://toolhub.studio/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "author": {
+            "@type": "Organization",
+            "name": "ToolHub",
+            "url": "https://toolhub.studio"
+          }
+        }
+      }
       return {
         "@context": "https://schema.org",
         "@type": "WebApplication",

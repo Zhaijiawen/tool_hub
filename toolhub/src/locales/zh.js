@@ -2,6 +2,11 @@ export default {
   home: {
     welcome: '欢迎使用 ToolHub',
     intro: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。简单、快速、安全，让开发更高效。',
+    hero: {
+      title: 'ToolHub — 开发者工具，一站搞定',
+      subtitle: '面向开发者的免费在线工具箱：代码格式化、加密解密、数据转换、图像处理等，无需注册，数据本地处理，安全可靠。'
+    },
+    toolCount: '个工具',
     features: {
       privacy: '隐私保护',
       fast: '快速便捷', 

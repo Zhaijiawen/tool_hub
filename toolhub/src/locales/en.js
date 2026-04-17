@@ -2,6 +2,11 @@ export default {
   home: {
     welcome: 'Welcome to ToolHub',
     intro: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion, image processing and various online tools. Simple, fast, and secure for efficient development.',
+    hero: {
+      title: 'ToolHub — Developer Tools, All in One Place',
+      subtitle: 'Free online toolbox for developers: code formatting, encryption, data conversion, image processing, and more. No registration needed, runs locally in your browser.'
+    },
+    toolCount: 'tools',
     features: {
       privacy: 'Privacy Protection',
       fast: 'Fast & Convenient', 
