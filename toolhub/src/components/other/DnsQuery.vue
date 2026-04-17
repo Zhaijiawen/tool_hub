@@ -145,6 +145,28 @@ const loadDomain = (d) => {
   domain.value = d
 }
 
+// DoH 端点列表：并发请求，取最快成功的结果
+// Cloudflare 在海外快，阿里 DoH 在国内快，互为兜底
+const DOH_ENDPOINTS = [
+  'https://cloudflare-dns.com/dns-query',
+  'https://dns.alidns.com/resolve',
+  'https://doh.pub/dns-query',
+]
+
+const fetchDoh = (endpoint, name, type, signal) => {
+  const url = `${endpoint}?name=${encodeURIComponent(name)}&type=${type}`
+  return fetch(url, {
+    headers: { Accept: 'application/dns-json' },
+    signal
+  }).then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  }).then(data => {
+    if (data.Status !== 0) throw new Error(`DNS Status: ${data.Status}`)
+    return data
+  })
+}
+
 const query = async () => {
   const d = domain.value.trim()
   if (!d) {
@@ -157,23 +179,15 @@ const query = async () => {
   records.value = []
   queried.value = false
 
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 10000)
+
   try {
-    const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(d)}&type=${recordType.value}`
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), 10000)
-    const res = await fetch(url, {
-      headers: { Accept: 'application/dns-json' },
-      signal: controller.signal
-    })
+    // 并发请求所有端点，取最快成功的结果
+    const data = await Promise.any(
+      DOH_ENDPOINTS.map(ep => fetchDoh(ep, d, recordType.value, controller.signal))
+    )
     clearTimeout(timer)
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = await res.json()
-
-    if (data.Status !== 0) {
-      queryError.value = t('other.dns.queryFailed') + ' (Status: ' + data.Status + ')'
-      return
-    }
 
     records.value = (data.Answer || []).map(record => ({
       name: record.name,
@@ -182,9 +196,10 @@ const query = async () => {
       data: record.data
     }))
   } catch (e) {
+    clearTimeout(timer)
     queryError.value = e.name === 'AbortError'
       ? t('other.dns.timeout')
-      : (e.message || t('other.dns.queryFailed'))
+      : t('other.dns.queryFailed')
   } finally {
     loading.value = false
     queried.value = true
