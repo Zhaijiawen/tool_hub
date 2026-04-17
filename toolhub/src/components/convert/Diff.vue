@@ -85,6 +85,7 @@
 
       </n-space>
     </n-card>
+    <TutorialAndDocs toolKey="diff" />
   </div>
 </template>
 
@@ -93,6 +94,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import * as Diff from 'diff'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t } = useI18n()
 const message = useMessage()

@@ -97,12 +97,14 @@
 
       </n-space>
     </n-card>
+    <TutorialAndDocs toolKey="cron" />
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 import { useMessage } from 'naive-ui'
 
 const { t } = useI18n()
