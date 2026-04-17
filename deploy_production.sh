@@ -131,6 +131,14 @@ echo "  - 代码分割和懒加载"
 echo "  - CSS 分离和压缩"
 npm run build:prod || { echo "[错误] 前端构建失败"; exit 1; }
 
+# 修复 dist 目录权限（nginx 以 www-data 用户运行，必须有读取权限）
+echo "[信息] 修复静态文件权限..."
+chmod -R 755 "$SCRIPT_DIR/toolhub/dist"
+chown -R www-data:www-data "$SCRIPT_DIR/toolhub/dist" 2>/dev/null || true
+# 确保父目录可被 nginx 穿透访问
+chmod 755 "$SCRIPT_DIR/toolhub"
+chmod 755 "$SCRIPT_DIR"
+
 echo "[信息] 所有依赖安装完成！"
 echo "[信息] 已安装的组件："
 echo "  - Node.js: $(node -v)"
