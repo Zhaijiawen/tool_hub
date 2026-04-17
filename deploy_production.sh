@@ -89,10 +89,24 @@ echo "         环境检查完成，开始构建"
 echo "=========================================="
 
 # 安装 Node 依赖
-if [ -f package.json ]; then
-  echo "[信息] 安装 Node 依赖..."
-  npm run install-all || { echo "[错误] npm install 失败"; exit 1; }
-fi
+# 切换国内镜像（避免服务器访问 npmjs.org 超时）
+echo "[信息] 切换 npm 镜像为淘宝源..."
+npm config set registry https://registry.npmmirror.com
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "[信息] 安装根目录依赖..."
+npm install --legacy-peer-deps || { echo "[错误] 根目录 npm install 失败"; exit 1; }
+
+echo "[信息] 安装 toolhub-server 依赖..."
+npm install --legacy-peer-deps --prefix "$SCRIPT_DIR/toolhub-server" || { echo "[错误] toolhub-server npm install 失败"; exit 1; }
+
+echo "[信息] 安装 toolhub 依赖..."
+npm install --legacy-peer-deps --prefix "$SCRIPT_DIR/toolhub" || { echo "[错误] toolhub npm install 失败"; exit 1; }
+
+# 恢复官方源（不影响系统其他用途）
+npm config set registry https://registry.npmjs.org
+echo "[信息] 已恢复 npm 官方源"
 
 # 构建前端项目（生产环境优化）
 echo "[信息] 构建前端项目（生产环境优化）..."
