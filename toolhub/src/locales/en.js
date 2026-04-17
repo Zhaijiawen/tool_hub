@@ -70,7 +70,6 @@ export default {
     error: 'Error',
     input: 'Input',
     output: 'Output',
-    convert: 'Convert',
     required: 'Required',
     more: 'More',
     go: 'Go',
@@ -897,16 +896,13 @@ export default {
       generateFailed: 'Generation failed: {error}',
       // Debug information
       debugTitle: 'Current Configuration',
-      mode: 'Mode',
-      padding: 'Padding',
       keyLength: 'Key Length',
       ivLength: 'IV Length',
       inputLength: 'Input Length',
       correct: 'Correct',
-      error: 'Error',
-      keyLengthError: 'Requires 16 characters',
+      keyLengthErrorShort: 'Requires 16 characters',
       ivNotRequired: 'ECB mode does not require IV',
-      ivLengthError: 'Requires 16 characters',
+      ivLengthErrorShort: 'Requires 16 characters',
       noPaddingCorrect: 'Correct (multiple of 16)',
       noPaddingError: 'Error (NoPadding requires multiple of 16)',
       pkcs7Support: 'PKCS7 supports any length',
@@ -1013,8 +1009,6 @@ export default {
       // Unified window mode
       inputLabel: 'Input Content',
       charCount: 'Character count: {count}',
-      inputRequired: 'Please enter content to encrypt',
-      decryptInputRequired: 'Please enter content to decrypt',
       encryptSuccess: 'Encryption successful',
       decryptSuccess: 'Decryption successful',
       // Debug information
@@ -1023,10 +1017,9 @@ export default {
       ivLength: 'IV Length',
       inputLength: 'Input Length',
       correct: 'Correct',
-      error: 'Error',
-      keyLengthError: 'Requires 8 chars (DES) or 24 chars (TripleDES)',
+      keyLengthErrorShort: 'Requires 8 chars (DES) or 24 chars (TripleDES)',
       ivNotRequired: 'ECB mode does not require IV',
-      ivLengthError: 'Requires 8 characters',
+      ivLengthErrorShort: 'Requires 8 characters',
       noPaddingCorrect: 'Correct (multiple of 8)',
       noPaddingError: 'Error (NoPadding requires multiple of 8)',
       pkcs7Support: 'PKCS7 supports any length',
@@ -1070,7 +1063,6 @@ export default {
       generateKeyPair: 'Generate Key Pair',
       encryptionFailed: 'Encryption failed',
       decryptionFailed: 'Decryption failed',
-      description: 'RSA asymmetric encryption algorithm',
       // Key Information
       keyInfo: 'Key Information',
       algorithm: 'Algorithm',
@@ -1128,8 +1120,7 @@ export default {
       privateKeyHidden: 'Private key hidden',
       privateKeyShown: 'Private key shown',
       curveMismatch: 'Key pair uses {keyCurve} curve, but current selection is {selectedCurve} curve. Please regenerate key pair or select the correct curve.',
-      curveSwitchWarning: 'Detected curve switch from {oldCurve} to {newCurve}, but existing key pair uses {keyCurve} curve. It is recommended to regenerate key pair to ensure compatibility.',
-      description: 'Elliptic Curve Cryptography'
+      curveSwitchWarning: 'Detected curve switch from {oldCurve} to {newCurve}, but existing key pair uses {keyCurve} curve. It is recommended to regenerate key pair to ensure compatibility.'
     },
     ed25519Sign: {
       title: 'Ed25519 Signature',
@@ -1836,7 +1827,7 @@ export default {
       code: 'Code',
       name: 'Name',
       category: 'Category',
-      description: 'Description',
+      descriptionLabel: 'Description',
       scenarios: 'Scenarios',
       solutions: 'Solutions',
       inputRequired: 'Please enter HTTP status code',
@@ -2200,21 +2191,25 @@ export default {
   },
   image: {
     convert: {
-      title: 'Image Convert/Compress',
-      upload: 'Upload Image',
+      title: 'Image Convert & Compress',
+      upload: 'Drag images here, or click to upload',
+      uploadHint: 'JPG / PNG / WebP / GIF supported, up to 10 images',
       format: 'Output Format',
       quality: 'Quality',
       size: 'File Size',
       convert: 'Convert',
       download: 'Download',
+      downloadAll: 'Download All',
       original: 'Original',
       converted: 'Converted',
+      processing: 'Processing...',
       noImage: 'Please upload an image first',
       invalidFileType: 'Only image files are supported',
-      description: 'Supports image format conversion and compression, flexibly adjust output quality and format.',
-      losslessNotice: 'This is a lossless format, so quality cannot be adjusted.',
-      infoTitle: 'Format Information',
-      infoContent: 'Lossy Formats (JPEG, WebP): Smaller file size, ideal for photos, but with some quality loss. Lossless Formats (PNG, GIF): Preserves all details perfectly, suitable for high-quality images, but with larger file sizes. Note: Due to browser re-encoding, the output file can sometimes be larger than the original, even at 100% quality.'
+      maxFiles: 'Maximum 10 images allowed',
+      description: 'Batch image format conversion & compression, quality adjustable, all local.',
+      losslessNotice: 'This is a lossless format, quality adjustment is not available.',
+      infoTitle: 'Usage Guide',
+      infoContent: 'Lossy formats (JPEG / WebP): Smaller size, ideal for photos, quality adjustable 10%~100%. Lossless formats (PNG / GIF): Perfect detail preservation, larger file size. All processing is done locally in your browser — images are never uploaded.'
     },
     rotate: {
       title: 'Image Rotate',
@@ -2269,20 +2264,6 @@ export default {
       noText: 'Please enter watermark text',
       invalidFileType: 'Only image files are supported'
     },
-    compress: {
-      title: 'Image Compressor',
-      description: 'Compress images online, supports JPG/PNG/WebP, batch up to 10 images',
-      dragOrClick: 'Drag images here, or click to upload',
-      supportedFormats: 'JPG / PNG / WebP supported, up to 10 images',
-      quality: 'Quality',
-      original: 'Original',
-      compressed: 'Compressed',
-      processing: 'Processing...',
-      downloadAll: 'Download All',
-      maxFiles: 'Maximum 10 images allowed',
-      note: 'Note',
-      noteContent: 'Compression is done locally in your browser, images are never uploaded. Recommended quality: 60%~85% for best results.'
-    }
   },
   text: {
     case: {

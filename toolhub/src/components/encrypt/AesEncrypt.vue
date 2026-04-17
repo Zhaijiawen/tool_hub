@@ -119,16 +119,16 @@
           <p>{{ t('encrypt.aes.padding') }}: {{ formData.padding }}</p>
           <p>{{ t('encrypt.aes.keyLength') }}: {{ formData.key.length }} {{ t('common.characters') }}
             <span v-if="formData.key.length === 16" style="color: green;">✓ {{ t('encrypt.aes.correct') }}</span>
-            <span v-else style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.keyLengthError') }}）</span>
+            <span v-else style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.aes.keyLengthErrorShort') }}）</span>
           </p>
           <p>{{ t('encrypt.aes.ivLength') }}: {{ formData.iv.length }} {{ t('common.characters') }}
             <span v-if="formData.mode === 'ECB'" style="color: #999;">（{{ t('encrypt.aes.ivNotRequired') }}）</span>
             <span v-else-if="formData.iv.length === 16" style="color: green;">✓ {{ t('encrypt.aes.correct') }}</span>
-            <span v-else style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.ivLengthError') }}）</span>
+            <span v-else style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.aes.ivLengthErrorShort') }}）</span>
           </p>
           <p>{{ t('encrypt.aes.inputLength') }}: {{ input.length }} {{ t('common.characters') }}
             <span v-if="formData.padding === 'NoPadding' && input.length % 16 === 0" style="color: green;">✓ {{ t('encrypt.aes.correct') }}（{{ t('encrypt.aes.noPaddingCorrect') }}）</span>
-            <span v-else-if="formData.padding === 'NoPadding' && input.length % 16 !== 0" style="color: red;">✗ {{ t('encrypt.aes.error') }}（{{ t('encrypt.aes.noPaddingError') }}）</span>
+            <span v-else-if="formData.padding === 'NoPadding' && input.length % 16 !== 0" style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.aes.noPaddingError') }}）</span>
             <span v-else-if="formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.aes.pkcs7Support') }}）</span>
             <span v-else style="color: #999;">（{{ t('encrypt.aes.decryptMode') }}）</span>
           </p>

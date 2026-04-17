@@ -373,13 +373,6 @@ const tools = [
     description: 'image.watermark.description',
     category: 'image'
   },
-  {
-    id: 'compress',
-    name: 'image.compress.title',
-    path: '/image/compress',
-    description: 'image.compress.description',
-    category: 'image'
-  },
 
   // 文本工具
   {

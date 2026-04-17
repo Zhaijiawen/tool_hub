@@ -313,11 +313,6 @@ const router = createRouter({
             {
               path: 'watermark',
               component: () => import('@/components/image/Watermark.vue')
-            },
-            // 图片压缩
-            {
-              path: 'compress',
-              component: () => import('@/components/image/Compress.vue')
             }
           ]
         },

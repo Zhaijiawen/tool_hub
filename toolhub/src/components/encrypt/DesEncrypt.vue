@@ -124,16 +124,16 @@
           <p>{{ t('encrypt.des.padding') }}: {{ formData.padding }}</p>
           <p>{{ t('encrypt.des.keyLength') }}: {{ formData.key.length }} {{ t('common.characters') }}
             <span v-if="getKeyLength() === formData.key.length" style="color: green;">✓ {{ t('encrypt.des.correct') }}</span>
-            <span v-else style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.keyLengthError') }}）</span>
+            <span v-else style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.des.keyLengthErrorShort') }}）</span>
           </p>
           <p>{{ t('encrypt.des.ivLength') }}: {{ formData.iv.length }} {{ t('common.characters') }}
             <span v-if="formData.mode === 'ECB'" style="color: #999;">（{{ t('encrypt.des.ivNotRequired') }}）</span>
             <span v-else-if="formData.iv.length === 8" style="color: green;">✓ {{ t('encrypt.des.correct') }}</span>
-            <span v-else style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.ivLengthError') }}）</span>
+            <span v-else style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.des.ivLengthErrorShort') }}）</span>
           </p>
           <p>{{ t('encrypt.des.inputLength') }}: {{ input.length }} {{ t('common.characters') }}
             <span v-if="formData.padding === 'NoPadding' && input.length % 8 === 0" style="color: green;">✓ {{ t('encrypt.des.correct') }}（{{ t('encrypt.des.noPaddingCorrect') }}）</span>
-            <span v-else-if="formData.padding === 'NoPadding' && input.length % 8 !== 0" style="color: red;">✗ {{ t('encrypt.des.error') }}（{{ t('encrypt.des.noPaddingError') }}）</span>
+            <span v-else-if="formData.padding === 'NoPadding' && input.length % 8 !== 0" style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.des.noPaddingError') }}）</span>
             <span v-else-if="formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.des.pkcs7Support') }}）</span>
             <span v-else style="color: #999;">（{{ t('encrypt.des.decryptMode') }}）</span>
           </p>

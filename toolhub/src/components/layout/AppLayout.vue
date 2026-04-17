@@ -556,11 +556,6 @@ const menuOptions = computed(() => [
         label: t('image.watermark.title'),
         key: 'image-watermark',
         path: '/image/watermark'
-      },
-      {
-        label: t('image.compress.title'),
-        key: 'image-compress',
-        path: '/image/compress'
       }
     ]
   },

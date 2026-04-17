@@ -70,7 +70,6 @@ export default {
     error: '错误',
     input: '输入',
     output: '输出',
-    convert: '转换',
     required: '必填项',
     more: '更多',
     go: '前往',
@@ -892,16 +891,13 @@ export default {
       generateFailed: '生成失败：{error}',
       // 调试信息
       debugTitle: '当前配置',
-      mode: '模式',
-      padding: '填充',
       keyLength: '密钥长度',
       ivLength: 'IV长度',
       inputLength: '输入长度',
       correct: '正确',
-      error: '错误',
-      keyLengthError: '需要16字符',
+      keyLengthErrorShort: '需要16字符',
       ivNotRequired: 'ECB模式不需要',
-      ivLengthError: '需要16字符',
+      ivLengthErrorShort: '需要16字符',
       noPaddingCorrect: '正确（16的倍数）',
       noPaddingError: '错误（NoPadding需要16的倍数）',
       pkcs7Support: 'PKCS7支持任意长度',
@@ -1007,8 +1003,6 @@ export default {
       notGenerated: '未生成',
       // 统一窗口模式
       inputLabel: '输入内容',
-      inputRequired: '请输入要加密的文本',
-      decryptInputRequired: '请输入要解密的文本',
       encryptSuccess: '加密成功',
       decryptSuccess: '解密成功',
       // 调试信息
@@ -1017,10 +1011,9 @@ export default {
       ivLength: 'IV长度',
       inputLength: '输入长度',
       correct: '正确',
-      error: '错误',
-      keyLengthError: '需要8字符（DES）或24字符（TripleDES）',
+      keyLengthErrorShort: '需要8字符（DES）或24字符（TripleDES）',
       ivNotRequired: 'ECB模式不需要',
-      ivLengthError: '需要8字符',
+      ivLengthErrorShort: '需要8字符',
       noPaddingCorrect: '正确（8的倍数）',
       noPaddingError: '错误（NoPadding需要8的倍数）',
       pkcs7Support: 'PKCS7支持任意长度',
@@ -1108,8 +1101,7 @@ export default {
       privateKeyHidden: '私钥已隐藏',
       privateKeyShown: '私钥已显示',
       curveMismatch: '密钥对使用的是 {keyCurve} 曲线，但当前选择的是 {selectedCurve} 曲线。请重新生成密钥对或选择正确的曲线。',
-      curveSwitchWarning: '检测到曲线从 {oldCurve} 切换到 {newCurve}，但现有密钥对使用的是 {keyCurve} 曲线。建议重新生成密钥对以确保兼容性。',
-      description: '椭圆曲线加密'
+      curveSwitchWarning: '检测到曲线从 {oldCurve} 切换到 {newCurve}，但现有密钥对使用的是 {keyCurve} 曲线。建议重新生成密钥对以确保兼容性。'
     },
     sha: {
       title: 'SHA 哈希算法',
@@ -1733,7 +1725,7 @@ export default {
       code: '状态码',
       name: '名称',
       category: '分类',
-      description: '描述',
+      descriptionLabel: '描述',
       scenarios: '使用场景',
       solutions: '解决方案',
       inputRequired: '请输入HTTP状态码',
@@ -2185,21 +2177,25 @@ export default {
   },
   image: {
     convert: {
-      title: '图片转换/压缩',
-      upload: '上传图片',
+      title: '图片转换 & 压缩',
+      upload: '拖拽图片到此处，或点击上传',
+      uploadHint: '支持 JPG / PNG / WebP / GIF，最多 10 张',
       format: '输出格式',
       quality: '质量',
       size: '文件大小',
       convert: '转换',
       download: '下载',
+      downloadAll: '全部下载',
       original: '原图',
-      converted: '已转换',
+      converted: '转换后',
+      processing: '处理中...',
       noImage: '请先上传图片',
       invalidFileType: '仅支持图片文件',
-      description: '支持图片格式转换与压缩，灵活调整输出质量和格式',
+      maxFiles: '最多支持 10 张图片',
+      description: '批量图片格式转换与压缩，支持质量调节，数据不上传',
       losslessNotice: '该格式为无损格式，无法调整压缩质量。',
-      infoTitle: '格式说明',
-      infoContent: '有损格式 (JPEG, WebP): 体积小，适合照片，但会损失部分质量。无损格式 (PNG, GIF): 完美保留所有细节，适合需要高质量的图像，但体积较大。注意: 由于浏览器重新编码，即使质量设为100%，输出文件有时也可能大于原始文件。'
+      infoTitle: '使用说明',
+      infoContent: '有损格式 (JPEG / WebP): 体积小，适合照片，可调整质量 10%~100%。无损格式 (PNG / GIF): 完美保留所有细节，体积较大。所有处理均在浏览器本地完成，图片不会上传到服务器。'
     },
     rotate: {
       title: '图片旋转',
@@ -2254,20 +2250,6 @@ export default {
       noText: '请输入水印文字',
       invalidFileType: '仅支持图片文件'
     },
-    compress: {
-      title: '图片压缩',
-      description: '在线图片压缩，支持 JPG/PNG/WebP，批量处理最多 10 张',
-      dragOrClick: '拖拽图片到此处，或点击上传',
-      supportedFormats: '支持 JPG / PNG / WebP，最多 10 张',
-      quality: '压缩质量',
-      original: '原始',
-      compressed: '压缩后',
-      processing: '处理中...',
-      downloadAll: '全部下载',
-      maxFiles: '最多支持 10 张图片',
-      note: '说明',
-      noteContent: '压缩在浏览器本地完成，图片不会上传到服务器。建议质量设置 60%~85% 以获得最佳压缩效果。'
-    }
   },
   text: {
     case: {
