@@ -1,11 +1,5 @@
 User-agent: *
 Allow: /
-
-# Disallow: /admin/
-# Disallow: /private/
-
-Sitemap: https://toolhub.studio/sitemap.xml
-
 Crawl-delay: 1
 
 User-agent: Googlebot
@@ -13,6 +7,18 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Baiduspider
-Allow: / 
+Allow: /
+Crawl-delay: 2
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# 禁止爬取无意义路径
+Disallow: /dist/
+Disallow: /*.map$
+
+Sitemap: https://toolhub.studio/sitemap.xml

@@ -148,43 +148,65 @@ export function useSeo() {
     }
   })
 
+  // 辅助函数：设置或创建 meta 标签
+  const setMeta = (selector, attrKey, attrValue, contentValue) => {
+    let el = document.querySelector(selector)
+    if (!el) {
+      el = document.createElement('meta')
+      el.setAttribute(attrKey, attrValue)
+      document.head.appendChild(el)
+    }
+    el.setAttribute('content', contentValue)
+  }
+
+  // 辅助函数：设置或创建 link 标签
+  const setLink = (rel, href) => {
+    let el = document.querySelector(`link[rel="${rel}"]`)
+    if (!el) {
+      el = document.createElement('link')
+      el.setAttribute('rel', rel)
+      document.head.appendChild(el)
+    }
+    el.setAttribute('href', href)
+  }
+
   // 更新页面元数据
   const updatePageMeta = () => {
     if (typeof document !== 'undefined') {
       // 延迟执行，确保DOM完全加载
       const updateMeta = () => {
         try {
-          // 更新标题 - 使用强制更新方法
           const newTitle = pageTitle.value
-          forceUpdateTitle(newTitle)
+          const desc = pageDescription.value
+          const canonicalUrl = `https://toolhub.studio${window.location.pathname}`
           
-          // 验证标题是否真的更新了
+          // 更新标题
+          forceUpdateTitle(newTitle)
           setTimeout(() => {
-            if (document.title !== newTitle) {
-              console.warn('Title not updated, retrying...')
-              forceUpdateTitle(newTitle)
-            }
+            if (document.title !== newTitle) forceUpdateTitle(newTitle)
           }, 100)
           
-          // 更新描述
-          let metaDescription = document.querySelector('meta[name="description"]')
-          if (!metaDescription) {
-            metaDescription = document.createElement('meta')
-            metaDescription.name = 'description'
-            document.head.appendChild(metaDescription)
-          }
-          metaDescription.content = pageDescription.value
+          // 基础 meta
+          setMeta('meta[name="description"]', 'name', 'description', desc)
+          setMeta('meta[name="keywords"]', 'name', 'keywords', pageKeywords.value)
           
-          // 更新关键词
-          let metaKeywords = document.querySelector('meta[name="keywords"]')
-          if (!metaKeywords) {
-            metaKeywords = document.createElement('meta')
-            metaKeywords.name = 'keywords'
-            document.head.appendChild(metaKeywords)
-          }
-          metaKeywords.content = pageKeywords.value
+          // canonical
+          setLink('canonical', canonicalUrl)
           
-          // 更新结构化数据
+          // Open Graph
+          setMeta('meta[property="og:title"]', 'property', 'og:title', newTitle)
+          setMeta('meta[property="og:description"]', 'property', 'og:description', desc)
+          setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
+          setMeta('meta[property="og:type"]', 'property', 'og:type', 'website')
+          setMeta('meta[property="og:site_name"]', 'property', 'og:site_name', 'ToolHub')
+          setMeta('meta[property="og:image"]', 'property', 'og:image', 'https://toolhub.studio/toolbox.svg')
+
+          // Twitter Card
+          setMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary')
+          setMeta('meta[name="twitter:title"]', 'name', 'twitter:title', newTitle)
+          setMeta('meta[name="twitter:description"]', 'name', 'twitter:description', desc)
+
+          // 结构化数据
           let structuredDataScript = document.querySelector('script[type="application/ld+json"]')
           if (!structuredDataScript) {
             structuredDataScript = document.createElement('script')
@@ -193,23 +215,15 @@ export function useSeo() {
           }
           structuredDataScript.textContent = JSON.stringify(structuredData.value)
           
-          // 调试信息
-          console.log('SEO Meta updated:', {
-            title: newTitle,
-            description: pageDescription.value,
-            keywords: pageKeywords.value
-          })
         } catch (error) {
           console.error('Error updating SEO meta:', error)
         }
       }
       
-      // 如果DOM已经加载完成，立即执行；否则等待
       if (document.readyState === 'complete') {
         updateMeta()
       } else {
         window.addEventListener('load', updateMeta)
-        // 备用：如果load事件没有触发，延迟执行
         setTimeout(updateMeta, 1000)
       }
     }
