@@ -268,7 +268,12 @@ export default {
     emailText: "邮箱",
     copyright: "© 2025 ToolHub. 保留所有权利",
     icp: "京ICP备2025134446号",
-    icpPlaceholder: "备案号待申请"
+    icpPlaceholder: "备案号待申请",
+    contact: '联系我们',
+    contactTip: '如有问题或功能需求，欢迎通过邮箱联系我们。',
+    follow: '关注我们',
+    links: '友情链接',
+    rights: '保留所有权利'
   },
   sidebar: {
     quickTools: '快捷工具',
@@ -1092,7 +1097,16 @@ export default {
       format: '格式',
       maxTextLength: '最大文本长度',
       generated: '生成时间',
-      notGenerated: '未生成'
+      notGenerated: '未生成',
+      inputPlaceholder: '请输入要加密或解密的内容',
+      outputPlaceholder: '加密/解密结果将显示在这里',
+      publicKeyRequired: '请输入公钥',
+      privateKeyRequired: '请输入私钥',
+      keySize: '密钥大小',
+      keySizePlaceholder: '请选择密钥大小',
+      generateKeyPair: '生成密钥对',
+      encryptionFailed: '加密失败',
+      decryptionFailed: '解密失败'
     },
     ecc: {
       title: 'ECC 加密/解密',
@@ -1137,7 +1151,12 @@ export default {
       privateKeyHidden: '私钥已隐藏',
       privateKeyShown: '私钥已显示',
       curveMismatch: '密钥对使用的是 {keyCurve} 曲线，但当前选择的是 {selectedCurve} 曲线。请重新生成密钥对或选择正确的曲线。',
-      curveSwitchWarning: '检测到曲线从 {oldCurve} 切换到 {newCurve}，但现有密钥对使用的是 {keyCurve} 曲线。建议重新生成密钥对以确保兼容性。'
+      curveSwitchWarning: '检测到曲线从 {oldCurve} 切换到 {newCurve}，但现有密钥对使用的是 {keyCurve} 曲线。建议重新生成密钥对以确保兼容性。',
+      inputPlaceholder: '请输入要加密或解密的内容',
+      outputPlaceholder: '加密/解密结果将显示在这里',
+      publicKeyRequired: '请输入公钥',
+      privateKeyRequired: '请输入私钥',
+      generateKeyPair: '生成密钥对'
     },
     sha: {
       title: 'SHA 哈希算法',
@@ -2287,6 +2306,7 @@ export default {
     },
     rotate: {
       title: '图片旋转',
+      description: '任意角度旋转图片，输出无损 PNG，数据本地处理不上传',
       upload: '上传图片',
       angle: '旋转角度',
       rotate: '旋转',
@@ -2300,6 +2320,7 @@ export default {
     },
     crop: {
       title: '图片裁剪',
+      description: '自由或固定比例裁剪图片，实时预览，数据本地处理不上传',
       upload: '上传图片',
       preview: '预览',
       options: '参数选项',
@@ -2314,6 +2335,7 @@ export default {
     },
     watermark: {
       title: '图片水印',
+      description: '为图片添加文字水印，支持自定义位置、字号、颜色、透明度和旋转角度',
       upload: '上传图片',
       text: '水印文字',
       textPlaceholder: '请输入水印内容',
@@ -2352,6 +2374,7 @@ export default {
   text: {
     case: {
       title: '大小写转换',
+      description: '快速将文本转换为全大写、全小写、标题格式、句子格式或交替大小写',
       input: '输入内容',
       inputPlaceholder: '请输入要转换的文本',
       output: '输出结果',
@@ -2370,6 +2393,7 @@ export default {
     },
     reverse: {
       title: '文本反转',
+      description: '一键反转文本字符顺序、单词顺序或行顺序',
       input: '输入内容',
       inputPlaceholder: '请输入要反转的文本',
       output: '输出结果',
@@ -2386,6 +2410,7 @@ export default {
     },
     whitespace: {
       title: '空白字符处理',
+      description: '去除文本首尾空白，或将所有连续空白压缩为单个空格',
       inputPlaceholder: '请输入要处理的文本',
       outputPlaceholder: '处理后的文本',
       trim: '去除首尾空白',
@@ -2396,6 +2421,7 @@ export default {
     },
     replace: {
       title: '文本替换',
+      description: '查找并替换文本内容，支持正则表达式、区分大小写和特殊字符',
       input: '输入内容',
       inputPlaceholder: '请输入要处理的文本',
       output: '输出结果',
@@ -2898,6 +2924,33 @@ quickTemplates: '快速模板',
           ]
         }
       }
+    },
+    shortUrl: {
+      title: '短链接生成器',
+      description: '生成短链接',
+      generate: '生成短链接',
+      decode: '解析短链接',
+      url: '原始链接',
+      urlPlaceholder: '请输入要缩短的链接，如 https://www.example.com',
+      urlRequired: '请输入原始链接',
+      expires: '有效期',
+      shortUrl: '短链接',
+      shortUrlPlaceholder: '请输入要解析的短链接，如 http://t.ly/abc123',
+      shortUrlRequired: '请输入短链接',
+      copy: '复制',
+      result: '结果',
+      copied: '复制成功',
+      generateError: '生成短链接失败',
+      decodeError: '解析短链接失败',
+      invalidUrl: '请输入有效的链接',
+      expires1d: '1天',
+      expires7d: '7天',
+      expires30d: '30天',
+      expiresNever: '永久',
+      infoTitle: '使用说明',
+      infoContent: '生成：输入完整的链接，选择有效期，点击生成即可获得短链接。解析：输入短链接后点击解析，可查看对应的原始链接。注意：本功能为演示版本，短链接仅在当前浏览器内有效。',
+      demoMode: '演示模式',
+      demoModeDesc: '当前为演示模式，短链接仅在本地有效，无法跨设备使用'
     }
   },
   composer: {

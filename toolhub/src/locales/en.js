@@ -1269,6 +1269,7 @@ export default {
       clear: 'Clear',
       charCount: 'Characters: {count}',
       length: 'Length',
+      characters: 'characters',
       saltRoundsInfo: 'Recommended: 10-12, higher values increase security but take longer to compute',
       verifyPlaceholder: 'Enter hash to verify',
       description: 'Bcrypt password hash algorithm',
@@ -1652,6 +1653,10 @@ export default {
     dateTime: 'Time Conversion',
     numberGroup: 'Number Conversion',
     unitGroup: 'Unit Conversion',
+    time: {
+      title: 'Time Conversion',
+      description: 'Timestamp and date conversion tool'
+    },
     number: {
       title: 'Number Conversion',
       description: 'Number format conversion',
@@ -2301,6 +2306,7 @@ export default {
     },
     rotate: {
       title: 'Image Rotate',
+      description: 'Rotate images by any angle, output lossless PNG, all processed locally in your browser',
       upload: 'Upload Image',
       angle: 'Angle',
       rotate: 'Rotate',
@@ -2314,6 +2320,7 @@ export default {
     },
     crop: {
       title: 'Image Cropping',
+      description: 'Crop images with free or fixed aspect ratio, real-time preview, all processed locally in your browser',
       upload: 'Upload Image',
       preview: 'Preview',
       options: 'Options',
@@ -2328,6 +2335,7 @@ export default {
     },
     watermark: {
       title: 'Image Watermark',
+      description: 'Add text watermarks to images with custom position, font size, color, opacity and rotation',
       upload: 'Upload Image',
       text: 'Watermark Text',
       textPlaceholder: 'Enter watermark text',
@@ -2366,6 +2374,7 @@ export default {
   text: {
     case: {
       title: 'Case Converter',
+      description: 'Convert text to UPPER CASE, lower case, Title Case, Sentence case or alternating case instantly',
       input: 'Input',
       inputPlaceholder: 'Enter text to convert',
       output: 'Output',
@@ -2384,6 +2393,7 @@ export default {
     },
     reverse: {
       title: 'Text Reverser',
+      description: 'Reverse characters, word order or line order in any text with one click',
       input: 'Input',
       inputPlaceholder: 'Enter text to reverse',
       output: 'Output',
@@ -2400,6 +2410,7 @@ export default {
     },
     whitespace: {
       title: 'Whitespace Handler',
+      description: 'Trim leading/trailing whitespace or compress all consecutive whitespace into a single space',
       inputPlaceholder: 'Enter text to process',
       outputPlaceholder: 'Processed text',
       trim: 'Trim Whitespace',
@@ -2410,6 +2421,7 @@ export default {
     },
     replace: {
       title: 'Text Replace',
+      description: 'Find and replace text with support for regex, case-sensitive matching and special characters',
       input: 'Input',
       inputPlaceholder: 'Enter text to process',
       output: 'Output',

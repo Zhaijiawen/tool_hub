@@ -69,6 +69,10 @@ export default defineConfig({
           if (id.includes('node_modules/vue-i18n/') || id.includes('node_modules/@intlify/')) {
             return 'vue-i18n'
           }
+          // 语言包单独拆出，业务代码变更不影响其缓存
+          if (id.includes('src/locales/en.js') || id.includes('src/locales/zh.js')) {
+            return 'locales'
+          }
           // Naive UI（按需加载插件会自动只引入使用到的组件，但 vueuc/css-render 等基础模块仍集中打包）
           if (id.includes('node_modules/naive-ui/') || id.includes('node_modules/vueuc/') ||
               id.includes('node_modules/css-render/') || id.includes('node_modules/@css-render/') ||
