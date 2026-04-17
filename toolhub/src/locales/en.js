@@ -2647,7 +2647,7 @@ quickTemplates: 'Quick Templates',
       colType: 'Type',
       colValue: 'Value',
       apiNote: 'API Note',
-      apiNoteContent: 'Uses Cloudflare DNS over HTTPS (DoH) for privacy and reliability.'
+      apiNoteContent: 'Concurrently queries Cloudflare DoH, Alibaba DoH and DNSPod DoH, returning the fastest result. Ensures availability in all regions.'
     },
     calculator: {
       title: 'Calculator',

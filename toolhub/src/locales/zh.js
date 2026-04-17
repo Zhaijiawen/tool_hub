@@ -2647,7 +2647,7 @@ quickTemplates: '快速模板',
       colType: '类型',
       colValue: '值',
       apiNote: '接口说明',
-      apiNoteContent: '使用 Cloudflare DNS over HTTPS（DoH）接口，隐私安全，无需安装任何依赖。'
+      apiNoteContent: '并发请求 Cloudflare DoH、阿里 DoH、DNSPod DoH 三个接口，返回最快的结果，确保在境内外均可正常使用。'
     },
     calculator: {
       title: '计算器',
