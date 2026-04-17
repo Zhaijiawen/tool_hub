@@ -353,7 +353,7 @@ export const seoConfig = {
         keywords: ['url 编码', 'url 解码', '百分号编码']
       }
     },
-    html: {
+    htmlCodec: {
       en: {
         name: 'HTML Encoder/Decoder',
         description: 'HTML entity encoding and decoding tool for web content',
@@ -647,6 +647,162 @@ export const seoConfig = {
         name: '在线计算器',
         description: '高级在线计算器，支持科学计算功能',
         keywords: ['在线计算器', '科学计算器', '数学计算器']
+      }
+    },
+    urlParser: {
+      en: {
+        name: 'URL Parser',
+        description: 'Parse URL components including protocol, host, path, query params and hash. Supports query param table view and URL builder.',
+        keywords: ['url parser', 'url decoder', 'query string parser', 'url builder']
+      },
+      zh: {
+        name: 'URL 解析器',
+        description: '解析 URL 的各个组成部分（协议/主机/路径/参数/Hash），支持参数表格展示和反向构建',
+        keywords: ['URL解析', '查询参数', 'URL构建', '链接解析']
+      }
+    },
+    jsonPath: {
+      en: {
+        name: 'JSONPath Query',
+        description: 'Query JSON data using JSONPath expressions with support for filtering, recursion and quick examples.',
+        keywords: ['jsonpath', 'json query', 'json filter', 'jsonpath-plus']
+      },
+      zh: {
+        name: 'JSONPath 查询',
+        description: '使用 JSONPath 表达式查询 JSON 数据，支持过滤、递归、快速示例',
+        keywords: ['JSONPath', 'JSON查询', 'JSON过滤', 'jsonpath表达式']
+      }
+    },
+    numberChinese: {
+      en: {
+        name: 'Number to Chinese',
+        description: 'Convert Arabic numerals to Chinese uppercase, lowercase or financial format.',
+        keywords: ['number to chinese', 'chinese numerals', 'financial amount', 'number converter']
+      },
+      zh: {
+        name: '数字大写转换',
+        description: '将阿拉伯数字转换为中文大写、小写或财务金额写法',
+        keywords: ['数字大写', '中文金额', '财务金额', '数字转中文']
+      }
+    },
+    exif: {
+      en: {
+        name: 'Image EXIF Viewer',
+        description: 'View image EXIF metadata including camera settings, GPS location and device information.',
+        keywords: ['exif viewer', 'image metadata', 'photo info', 'gps location']
+      },
+      zh: {
+        name: '图片 EXIF 查看器',
+        description: '查看图片的 EXIF 元数据，包括拍摄参数、GPS 位置、设备信息等',
+        keywords: ['EXIF查看', '图片元数据', '拍摄参数', 'GPS位置']
+      }
+    },
+    uuid: {
+      en: {
+        name: 'UUID / NanoID Generator',
+        description: 'Generate UUID v1/v4/v7 and NanoID online, supports batch generation, format configuration and one-click copy.',
+        keywords: ['uuid generator', 'nanoid', 'uuid v4', 'unique id generator']
+      },
+      zh: {
+        name: 'UUID / NanoID 生成器',
+        description: '在线生成 UUID v1/v4/v7 和 NanoID，支持批量生成、格式配置、一键复制',
+        keywords: ['UUID生成', 'NanoID', '唯一ID', 'UUID v4']
+      }
+    },
+    password: {
+      en: {
+        name: 'Password Generator',
+        description: 'Generate strong random passwords with customizable length, character sets, batch generation and strength rating.',
+        keywords: ['password generator', 'random password', 'strong password', 'secure password']
+      },
+      zh: {
+        name: '随机密码生成器',
+        description: '生成高强度随机密码，支持自定义长度、字符集、批量生成和强度评级',
+        keywords: ['密码生成', '随机密码', '强密码', '安全密码']
+      }
+    },
+    diff: {
+      en: {
+        name: 'Text Diff',
+        description: 'Compare two texts side by side with line, word and character level diff highlighting.',
+        keywords: ['text diff', 'text compare', 'diff tool', 'code diff']
+      },
+      zh: {
+        name: 'Diff 文本对比',
+        description: '文本对比，支持行级、字符级、单词级 diff',
+        keywords: ['文本对比', 'diff工具', '代码对比', '差异对比']
+      }
+    },
+    cron: {
+      en: {
+        name: 'Cron Expression Parser',
+        description: 'Parse cron expressions into human-readable descriptions and show the next execution times.',
+        keywords: ['cron parser', 'cron expression', 'cron schedule', 'cron job']
+      },
+      zh: {
+        name: 'Cron 表达式解析',
+        description: '解析 Cron 表达式，展示人话描述和下次执行时间',
+        keywords: ['Cron解析', 'Cron表达式', '定时任务', 'Quartz Cron']
+      }
+    },
+    jsonConvert: {
+      en: {
+        name: 'JSON Format Converter',
+        description: 'Convert JSON to and from YAML, CSV, TOML and XML formats.',
+        keywords: ['json converter', 'json to yaml', 'json to csv', 'json to xml', 'json to toml']
+      },
+      zh: {
+        name: 'JSON 格式互转',
+        description: 'JSON 与 YAML / CSV / TOML / XML 相互转换',
+        keywords: ['JSON转换', 'JSON转YAML', 'JSON转CSV', 'JSON转XML']
+      }
+    },
+    ip: {
+      en: {
+        name: 'IP Lookup',
+        description: 'Look up geolocation, ISP and timezone information for any IPv4 or IPv6 address.',
+        keywords: ['ip lookup', 'ip geolocation', 'ip address info', 'ip query']
+      },
+      zh: {
+        name: 'IP 查询',
+        description: '查询本机 IP 或任意 IP 的地理位置、运营商等信息',
+        keywords: ['IP查询', 'IP地址', 'IP归属地', 'IP地理位置']
+      }
+    },
+    fileHash: {
+      en: {
+        name: 'File Hash Checker',
+        description: 'Calculate MD5, SHA-1, SHA-256 and SHA-512 checksums for any file and verify against expected values.',
+        keywords: ['file hash', 'md5 checker', 'sha256 checksum', 'file integrity']
+      },
+      zh: {
+        name: '文件哈希校验',
+        description: '计算文件的 MD5、SHA-1、SHA-256、SHA-512 哈希值',
+        keywords: ['文件哈希', 'MD5校验', 'SHA256', '文件完整性']
+      }
+    },
+    dns: {
+      en: {
+        name: 'DNS Lookup',
+        description: 'Query DNS records for any domain including A, AAAA, MX, TXT, CNAME, NS and SOA types.',
+        keywords: ['dns lookup', 'dns query', 'dns records', 'domain lookup']
+      },
+      zh: {
+        name: 'DNS 查询',
+        description: '查询域名的 DNS 解析记录（A/AAAA/MX/TXT/CNAME/NS/SOA）',
+        keywords: ['DNS查询', 'DNS记录', '域名解析', 'DNS工具']
+      }
+    },
+    gradient: {
+      en: {
+        name: 'CSS Gradient Generator',
+        description: 'Visually generate CSS linear, radial and conic gradient background code.',
+        keywords: ['css gradient', 'gradient generator', 'linear gradient', 'background gradient']
+      },
+      zh: {
+        name: '渐变色生成器',
+        description: '可视化生成 CSS 渐变背景代码',
+        keywords: ['CSS渐变', '渐变色', '渐变背景', '渐变生成器']
       }
     }
   }
