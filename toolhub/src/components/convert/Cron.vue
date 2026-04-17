@@ -170,9 +170,11 @@ const parseCron = async (expr) => {
   }
 
   try {
-    // 动态导入 cron-parser
-    const { CronExpression, parseExpression } = await import('cron-parser')
-    const interval = parseExpression(expr)
+    // 动态导入 cron-parser v5，使用 CronExpressionParser.parse API
+    const cronParser = await import('cron-parser')
+    const CronExpressionParser = cronParser.CronExpressionParser || cronParser.default?.CronExpressionParser
+    if (!CronExpressionParser) throw new Error('cron-parser API unavailable')
+    const interval = CronExpressionParser.parse(expr)
     const times = []
     for (let i = 0; i < 5; i++) {
       times.push(interval.next().toDate().toLocaleString())
