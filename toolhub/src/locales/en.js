@@ -127,7 +127,6 @@ export default {
     about: 'About',
     feedback: 'Feedback',
     report: 'Report',
-    share: 'Share',
     like: 'Like',
     unlike: 'Unlike',
     follow: 'Follow',
@@ -207,7 +206,39 @@ export default {
     copyError: 'Copy Failed',
     composer: 'Composer',
     clear: 'Clear',
-    example: 'Example'
+    copyFailed: 'Copy failed',
+    example: 'Example',
+    share: {
+      label: 'Share',
+      title: 'Share This Tool',
+      copy: 'Copy Link',
+      copied: 'Copied!',
+      copySuccess: 'Link copied to clipboard',
+      copyMarkdown: 'Copy Markdown',
+      qrCode: 'QR Code',
+      downloadQR: 'Download QR',
+      tweetText: 'Check out this awesome developer tool'
+    },
+    shortcuts: {
+      title: 'Keyboard Shortcuts',
+      focusSearch: 'Focus search box (Ctrl/Cmd + K)',
+      focusSearchSlash: 'Focus search box (press / when not in input)',
+      showHelp: 'Show/hide keyboard shortcuts',
+      closeOrClear: 'Close help dialog',
+      toggleTheme: 'Toggle dark/light theme',
+      toggleFavorite: 'Favorite/unfavorite current tool'
+    },
+    favorites: {
+      title: 'Favorites',
+      add: 'Favorite',
+      remove: 'Unfavorite',
+      addSuccess: 'Added to favorites',
+      removeSuccess: 'Removed from favorites',
+      empty: 'No favorites yet',
+      emptyTip: 'Click ★ on any tool page to add it',
+      clear: 'Clear All',
+      clearConfirm: 'Clear all favorites?'
+    }
   },
   tutorial: {
     technicalBackground: '📚 Technical Background',
@@ -2173,6 +2204,42 @@ export default {
       supportedFormats: 'Supported Formats',
       formatsDesc: 'Supports conversion between JSON, YAML, CSV (object arrays), TOML, and XML formats.'
     },
+    numberChinese: {
+      title: 'Number to Chinese',
+      description: 'Convert Arabic numerals to Chinese uppercase, lowercase, or financial notation',
+      input: 'Input Number',
+      placeholder: 'Enter a number, e.g. 12345.67',
+      examples: 'Examples',
+      mode: 'Mode',
+      modeUpper: 'Uppercase (壹贰叁)',
+      modeLower: 'Lowercase (一二三)',
+      modeFinancial: 'Financial (壹拾贰元叁角肆分)',
+      result: 'Result',
+      emptyTip: 'Enter a number to convert',
+      invalidInput: 'Please enter a valid number (decimals and negatives supported)',
+      tooLarge: 'Number too large. Maximum 15 integer digits supported'
+    },
+    urlParser: {
+      title: 'URL Parser',
+      description: 'Parse URL components (protocol/host/path/params/hash), view query params in a table, and build URLs',
+      input: 'Input URL',
+      placeholder: 'Paste a full URL, e.g. https://example.com/api?key=value#section',
+      parse: 'Parse',
+      valid: 'Valid URL',
+      invalid: 'Invalid URL',
+      empty: '(empty)',
+      tabParts: 'Parts',
+      tabParams: 'Query Params',
+      tabBuild: 'Builder',
+      copyAllParams: 'Copy All Params',
+      decode: 'URL-decode values',
+      paramKey: 'Key',
+      paramValue: 'Value',
+      noParams: 'This URL has no query parameters',
+      builtUrl: 'Built URL',
+      emptyTip: 'Paste a URL to start parsing',
+      invalidTip: 'Please enter a valid URL (must include protocol, e.g. https://)'
+    },
     gradient: {
       title: 'CSS Gradient Generator',
       description: 'Visually generate CSS gradient background code',
@@ -2264,6 +2331,16 @@ export default {
       noText: 'Please enter watermark text',
       invalidFileType: 'Only image files are supported'
     },
+    exif: {
+      title: 'Image EXIF Viewer',
+      description: 'View image EXIF metadata including camera settings, GPS location, and device info',
+      uploadHint: 'Click or drag an image here',
+      uploadSubHint: 'Supports JPEG / TIFF / HEIC and other formats with EXIF data',
+      copyAll: 'Copy All EXIF',
+      loading: 'Parsing EXIF data...',
+      noExif: 'No EXIF data found (may be a screenshot or processed image)',
+      emptyTip: 'Upload an image to view its EXIF metadata'
+    }
   },
   text: {
     case: {
@@ -2337,10 +2414,26 @@ export default {
       specialReturn: 'Return (\\r)',
       specialSpace: 'Space',
       specialComma: 'Comma',
-      specialSemicolon: 'Semicolon'
-    }
-  },
-  other: {
+        specialSemicolon: 'Semicolon'
+      }
+    },
+    jsonPath: {
+      title: 'JSONPath Query',
+      description: 'Query JSON data using JSONPath expressions, with filtering, recursion, and quick examples',
+      jsonInput: 'JSON Data',
+      jsonPlaceholder: 'Paste JSON data...',
+      formatJson: 'Format',
+      pathPlaceholder: 'Enter JSONPath expression, e.g. $.store.book[*].title',
+      query: 'Query',
+      examples: 'Quick Examples',
+      resultAsArray: 'Always return as array',
+      matchCount: 'matches',
+      noMatch: 'No matches found',
+      emptyTip: 'Enter a JSONPath expression to auto-query',
+      invalidJson: 'Invalid JSON format',
+      queryError: 'Expression error'
+    },
+    other: {
     qrcode: {
       title: 'QR Code Generator',
       description: 'Generate and parse QR codes',
@@ -2360,8 +2453,17 @@ export default {
       preview: 'Preview',
       decodeResult: 'Decode Result',
       noQRCodeFound: 'No QR code found, please ensure the image contains a valid QR code',
-      openLink: 'Open Link',
-      quickTemplates: 'Quick Templates',
+openLink: 'Open Link',
+decodeUpload: 'Upload Image',
+decodeCamera: 'Camera Scan',
+startCamera: 'Start Camera',
+stopCamera: 'Stop Camera',
+scanning: 'Scanning...',
+cameraScanSuccess: 'Scan successful!',
+cameraNotSupported: 'Your browser does not support camera access',
+cameraPermissionDenied: 'Camera permission denied, please allow access in browser settings',
+cameraError: 'Failed to start camera',
+quickTemplates: 'Quick Templates',
       templateWifi: 'WiFi',
       templateEmail: 'Email',
       templatePhone: 'Phone',
@@ -2375,7 +2477,7 @@ export default {
       decodeFailed: 'Decode failed',
       generateFailed: 'Failed to generate QR code',
       infoTitle: 'Usage Instructions',
-      infoContent: 'Generate: Enter text content to automatically generate QR code with real-time adjustment of size, error correction level, colors and logo. Supports text, links, phone numbers, emails, etc. Decode: Upload an image containing QR code to automatically recognize and display the content. Higher error correction levels make QR codes more complex but more resistant to damage.',
+      infoContent: 'Generate: Enter text content to automatically generate QR code with real-time adjustment of size, error correction level, colors and logo. Supports text, links, phone numbers, emails, etc. Decode: Upload an image or use camera scan to automatically recognize QR code content. Camera mode scans every 200ms and stops automatically when a code is detected. Higher error correction levels make QR codes more complex but more resistant to damage.',
       // Advanced customization options
       advancedOptions: 'Advanced Options',
       colors: 'Color Settings',
@@ -2441,6 +2543,50 @@ export default {
       noMatch: 'Hash Mismatch ✗',
       emptyExpected: 'Please enter expected hash value',
       largeFileWarning: 'Large file detected, computation may take a while'
+    },
+    password: {
+      title: 'Random Password Generator',
+      description: 'Generate strong random passwords with custom length, charset, batch generation and strength rating',
+      length: 'Length',
+      charset: 'Character Set',
+      uppercase: 'Uppercase',
+      lowercase: 'Lowercase',
+      digits: 'Digits',
+      symbols: 'Special Symbols',
+      customSymbols: 'Symbol Set',
+      symbolsPlaceholder: 'Enter symbols to use',
+      excludeAmbiguous: 'Exclude ambiguous characters',
+      strength: 'Strength',
+      strength_weak: 'Weak',
+      strength_medium: 'Medium',
+      strength_strong: 'Strong',
+      strength_very_strong: 'Very Strong',
+      count: 'Count',
+      generate: 'Generate',
+      copyAll: 'Copy All',
+      results: 'Results',
+      items: 'passwords',
+      clickToCopy: 'Click any row to copy',
+      emptyTip: 'Click "Generate" to create passwords',
+      noCharset: 'Please select at least one character type'
+    },
+    uuid: {
+      title: 'UUID / NanoID Generator',
+      description: 'Generate UUID v1/v4/v7 and NanoID online, with batch generation, format options, and one-click copy',
+      type: 'Type',
+      format: 'Format Options',
+      withHyphens: 'With Hyphens',
+      uppercase: 'Uppercase',
+      length: 'Length',
+      alphabet: 'Alphabet',
+      alphabetPlaceholder: 'Leave empty for default alphabet (A-Za-z0-9_-)',
+      count: 'Count',
+      generate: 'Generate',
+      copyAll: 'Copy All',
+      results: 'Results',
+      items: 'items',
+      clickToCopy: 'Click any row to copy',
+      emptyTip: 'Click "Generate" to create UUID / NanoID'
     },
     dns: {
       title: 'DNS Lookup',

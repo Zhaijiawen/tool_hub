@@ -127,7 +127,6 @@ export default {
     about: '关于',
     feedback: '反馈',
     report: '报告',
-    share: '分享',
     like: '点赞',
     unlike: '取消点赞',
     follow: '关注',
@@ -205,9 +204,41 @@ export default {
     enableHighlight: '启用代码高亮',
     copySuccess: '复制成功',
     copyError: '复制失败',
+    copyFailed: '复制失败',
     composer: '编排',
     clear: '清空',
-    example: '示例'
+    example: '示例',
+    share: {
+      label: '分享',
+      title: '分享此工具',
+      copy: '复制链接',
+      copied: '已复制！',
+      copySuccess: '链接已复制到剪贴板',
+      copyMarkdown: '复制 Markdown',
+      qrCode: '生成二维码',
+      downloadQR: '下载二维码',
+      tweetText: '发现了一个好用的开发工具'
+    },
+    shortcuts: {
+      title: '快捷键',
+      focusSearch: '聚焦搜索框（Ctrl/Cmd + K）',
+      focusSearchSlash: '聚焦搜索框（非输入框时按 /）',
+      showHelp: '显示/隐藏快捷键帮助',
+      closeOrClear: '关闭帮助弹窗',
+      toggleTheme: '切换深色/浅色主题',
+      toggleFavorite: '收藏/取消收藏当前工具'
+    },
+    favorites: {
+      title: '收藏工具',
+      add: '收藏',
+      remove: '取消收藏',
+      addSuccess: '已添加到收藏',
+      removeSuccess: '已取消收藏',
+      empty: '暂无收藏工具',
+      emptyTip: '在任意工具页面点击 ★ 即可收藏',
+      clear: '清空收藏',
+      clearConfirm: '确定要清空所有收藏吗？'
+    }
   },
   tutorial: {
     technicalBackground: '📚 技术背景',
@@ -2159,6 +2190,42 @@ export default {
       supportedFormats: '支持的格式',
       formatsDesc: '支持 JSON、YAML、CSV（对象数组）、TOML、XML 格式之间的相互转换。'
     },
+    numberChinese: {
+      title: '数字大写转换',
+      description: '将阿拉伯数字转换为中文大写、小写或财务金额写法',
+      input: '输入数字',
+      placeholder: '输入阿拉伯数字，如 12345.67',
+      examples: '示例',
+      mode: '转换模式',
+      modeUpper: '大写（壹贰叁）',
+      modeLower: '小写（一二三）',
+      modeFinancial: '财务金额（壹拾贰元叁角肆分）',
+      result: '转换结果',
+      emptyTip: '输入数字即可转换',
+      invalidInput: '请输入有效数字（支持小数和负数）',
+      tooLarge: '数字过大，最多支持 15 位整数'
+    },
+    urlParser: {
+      title: 'URL 解析器',
+      description: '解析 URL 的各个组成部分（协议/主机/路径/参数/Hash），支持参数表格展示和反向构建',
+      input: '输入 URL',
+      placeholder: '粘贴完整 URL，如 https://example.com/api?key=value#section',
+      parse: '解析',
+      valid: '合法 URL',
+      invalid: '非法 URL',
+      empty: '（空）',
+      tabParts: '结构解析',
+      tabParams: 'Query 参数',
+      tabBuild: '反向构建',
+      copyAllParams: '复制全部参数',
+      decode: 'URL 解码显示',
+      paramKey: '参数名',
+      paramValue: '参数值',
+      noParams: '该 URL 没有 Query 参数',
+      builtUrl: '构建结果',
+      emptyTip: '粘贴一个 URL 开始解析',
+      invalidTip: '请输入合法的 URL（需包含协议，如 https://）'
+    },
     gradient: {
       title: '渐变色生成器',
       description: '可视化生成 CSS 渐变背景代码',
@@ -2250,6 +2317,16 @@ export default {
       noText: '请输入水印文字',
       invalidFileType: '仅支持图片文件'
     },
+    exif: {
+      title: '图片 EXIF 查看器',
+      description: '查看图片的 EXIF 元数据，包括拍摄参数、GPS 位置、设备信息等',
+      uploadHint: '点击或拖拽图片到此处',
+      uploadSubHint: '支持 JPEG / TIFF / HEIC 等含 EXIF 信息的格式',
+      copyAll: '复制全部 EXIF',
+      loading: '解析 EXIF 数据...',
+      noExif: '该图片不含 EXIF 信息（可能是截图或经过处理）',
+      emptyTip: '上传图片即可查看 EXIF 元数据'
+    }
   },
   text: {
     case: {
@@ -2323,10 +2400,26 @@ export default {
       specialReturn: '回车 (\\r)',
       specialSpace: '空格',
       specialComma: '逗号',
-      specialSemicolon: '分号'
-    }
-  },
-  other: {
+        specialSemicolon: '分号'
+      }
+    },
+    jsonPath: {
+      title: 'JSONPath 查询',
+      description: '使用 JSONPath 表达式查询 JSON 数据，支持过滤、递归、快速示例',
+      jsonInput: 'JSON 数据',
+      jsonPlaceholder: '粘贴 JSON 数据...',
+      formatJson: '格式化',
+      pathPlaceholder: '输入 JSONPath 表达式，如 $.store.book[*].title',
+      query: '查询',
+      examples: '快速示例',
+      resultAsArray: '始终以数组返回',
+      matchCount: '条匹配',
+      noMatch: '无匹配结果',
+      emptyTip: '输入 JSONPath 表达式后自动查询',
+      invalidJson: 'JSON 格式不正确',
+      queryError: '表达式错误'
+    },
+    other: {
     qrcode: {
       title: '二维码生成器',
       description: '生成和解析二维码',
@@ -2346,8 +2439,17 @@ export default {
       preview: '预览',
       decodeResult: '解析结果',
       noQRCodeFound: '未找到二维码，请确认图片包含有效的二维码',
-      openLink: '打开链接',
-      quickTemplates: '快速模板',
+openLink: '打开链接',
+decodeUpload: '上传图片',
+decodeCamera: '摄像头扫描',
+startCamera: '开启摄像头',
+stopCamera: '停止摄像头',
+scanning: '扫描中...',
+cameraScanSuccess: '扫描成功！',
+cameraNotSupported: '您的浏览器不支持摄像头访问',
+cameraPermissionDenied: '摄像头权限被拒绝，请在浏览器设置中允许访问',
+cameraError: '摄像头启动失败',
+quickTemplates: '快速模板',
       templateWifi: 'WiFi',
       templateEmail: '邮箱',
       templatePhone: '电话',
@@ -2361,7 +2463,7 @@ export default {
       decodeFailed: '解析失败',
       generateFailed: '生成二维码失败',
       infoTitle: '使用说明',
-      infoContent: '生成：输入文本内容后自动生成二维码，支持实时调整尺寸、容错级别、颜色和Logo。支持文本、链接、电话、邮箱等各种内容。解析：上传包含二维码的图片，自动识别并显示二维码内容。容错级别越高，二维码越复杂但抗损坏能力越强。',
+      infoContent: '生成：输入文本内容后自动生成二维码，支持实时调整尺寸、容错级别、颜色和Logo。支持文本、链接、电话、邮箱等各种内容。解析：可上传图片或开启摄像头扫描，自动识别并显示二维码内容；摄像头模式每 200ms 自动扫描，检测到结果后自动停止。容错级别越高，二维码越复杂但抗损坏能力越强。',
       // 高级定制选项
       advancedOptions: '高级定制',
       colors: '颜色设置',
@@ -2427,6 +2529,50 @@ export default {
       noMatch: '哈希不匹配 ✗',
       emptyExpected: '请输入期望的哈希值',
       largeFileWarning: '文件较大，计算可能需要较长时间'
+    },
+    password: {
+      title: '随机密码生成器',
+      description: '生成高强度随机密码，支持自定义长度、字符集、批量生成和强度评级',
+      length: '密码长度',
+      charset: '字符集',
+      uppercase: '大写字母',
+      lowercase: '小写字母',
+      digits: '数字',
+      symbols: '特殊符号',
+      customSymbols: '特殊符号集合',
+      symbolsPlaceholder: '输入要使用的特殊符号',
+      excludeAmbiguous: '排除易混淆字符',
+      strength: '密码强度',
+      strength_weak: '弱',
+      strength_medium: '中',
+      strength_strong: '强',
+      strength_very_strong: '极强',
+      count: '生成数量',
+      generate: '生成',
+      copyAll: '全部复制',
+      results: '生成结果',
+      items: '个',
+      clickToCopy: '点击任意行复制',
+      emptyTip: '点击「生成」按钮生成密码',
+      noCharset: '请至少选择一种字符集'
+    },
+    uuid: {
+      title: 'UUID / NanoID 生成器',
+      description: '在线生成 UUID v1/v4/v7 和 NanoID，支持批量生成、格式配置、一键复制',
+      type: '类型',
+      format: '格式选项',
+      withHyphens: '带连字符',
+      uppercase: '大写',
+      length: '长度',
+      alphabet: '字符集',
+      alphabetPlaceholder: '留空使用默认字符集（A-Za-z0-9_-）',
+      count: '生成数量',
+      generate: '生成',
+      copyAll: '全部复制',
+      results: '生成结果',
+      items: '个',
+      clickToCopy: '点击任意行复制',
+      emptyTip: '点击「生成」按钮生成 UUID / NanoID'
     },
     dns: {
       title: 'DNS 查询',

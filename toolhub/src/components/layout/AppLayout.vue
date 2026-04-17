@@ -33,7 +33,7 @@
           <div class="search-and-buttons">
             <!-- 工具搜索框 -->
             <div class="search-container">
-              <tool-search />
+              <tool-search ref="toolSearchRef" />
             </div>
             
             <!-- 按钮组 -->
@@ -55,6 +55,14 @@
                 </template>
                 <span class="button-text">{{ t('common.composer') }}</span>
               </n-button>
+              <!-- 收藏当前工具 -->
+              <favorite-button
+                v-if="isToolPage"
+                class="header-button"
+                :button-props="{ class: 'header-button' }"
+              />
+              <!-- 分享当前工具 URL -->
+              <share-button class="header-button" :button-props="{ class: 'header-button' }" />
               <!-- 语言切换下拉菜单 -->
               <n-dropdown :options="languageOptions" @select="handleLanguageSelect">
                 <n-button class="header-button">
@@ -71,6 +79,27 @@
     </n-layout-header>
     <!-- 主要内容区域 -->
     <n-layout-content class="main-content" :data-composer="route.path === '/composer'">
+      <!-- 收藏工具快速导航栏 -->
+      <div v-if="favorites.length > 0 && shouldShowTips" class="favorites-bar">
+        <div class="favorites-inner">
+          <n-text depth="3" class="favorites-label">{{ t('common.favorites.title') }}:</n-text>
+          <n-space>
+            <n-button
+              v-for="fav in favorites"
+              :key="fav.path"
+              size="small"
+              :type="route.path === fav.path ? 'primary' : 'default'"
+              @click="router.push(fav.path)"
+              class="fav-btn"
+            >
+              {{ fav.name }}
+            </n-button>
+          </n-space>
+          <n-button size="tiny" quaternary @click="clearFavorites" class="favorites-clear-btn">
+            {{ t('common.favorites.clear') }}
+          </n-button>
+        </div>
+      </div>
       <div class="content-wrapper">
         <!-- 简化的右侧导航 -->
         <SimpleRightNav v-if="shouldShowTips" />
@@ -104,12 +133,27 @@
         </div>
       </div>
     </n-layout-footer>
+
+    <!-- 全局快捷键帮助浮层 -->
+    <n-modal v-model:show="showShortcutHelp" preset="card" :title="t('common.shortcuts.title')" style="max-width: 480px;">
+      <n-list>
+        <n-list-item v-for="sc in shortcutList" :key="sc.key">
+          <n-thing :description="sc.desc">
+            <template #header>
+              <n-space>
+                <n-tag v-for="k in sc.keys" :key="k" size="small" type="info" round>{{ k }}</n-tag>
+              </n-space>
+            </template>
+          </n-thing>
+        </n-list-item>
+      </n-list>
+    </n-modal>
   </n-layout>
 </template>
 
 <script setup>
 // 导入Vue相关功能
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 // 导入国际化功能
 import { useI18n } from 'vue-i18n'
 // 导入主题管理
@@ -120,6 +164,12 @@ import { useRouter, useRoute } from 'vue-router'
 import ToolSearch from '@/components/common/ToolSearch.vue'
 // 导入简化的右侧导航组件
 import SimpleRightNav from '@/components/common/SimpleRightNav.vue'
+// 导入分享按钮组件
+import ShareButton from '@/components/common/ShareButton.vue'
+// 导入收藏按钮组件
+import FavoriteButton from '@/components/common/FavoriteButton.vue'
+// 导入收藏管理 composable
+import { useFavorites } from '@/composables/useFavorites'
 // 导入语言切换工具函数（支持按需动态加载语言包）
 import { setLocale } from '@/locales/index.js'
 // 导入图标组件
@@ -156,6 +206,14 @@ const { isDark, toggleTheme } = useTheme()
 // 初始化路由
 const router = useRouter()
 const route = useRoute()
+// 初始化收藏管理
+const { favorites, clearFavorites } = useFavorites()
+
+// 判断当前是否为工具页面（排除首页和静态页面）
+const isToolPage = computed(() => {
+  const excludedPaths = ['/', '/about', '/privacy', '/terms', '/composer']
+  return !excludedPaths.includes(route.path)
+})
 
 // 监听主题变化，更新DOM和触发事件
 watch(isDark, (newValue) => {
@@ -528,6 +586,16 @@ const menuOptions = computed(() => [
             label: t('convert.gradient.title'),
             key: 'gradient',
             path: '/convert/gradient'
+          },
+          {
+            label: t('convert.urlParser.title'),
+            key: 'url-parser',
+            path: '/convert/url-parser'
+          },
+          {
+            label: t('convert.numberChinese.title'),
+            key: 'number-chinese',
+            path: '/convert/number-chinese'
           }
         ]
       }
@@ -552,14 +620,19 @@ const menuOptions = computed(() => [
         key: 'image-crop',
         path: '/image/crop'
       },
+          {
+            label: t('image.watermark.title'),
+            key: 'image-watermark',
+            path: '/image/watermark'
+          },
+          {
+            label: t('image.exif.title'),
+            key: 'image-exif',
+            path: '/image/exif'
+          }
+        ]
+      },
       {
-        label: t('image.watermark.title'),
-        key: 'image-watermark',
-        path: '/image/watermark'
-      }
-    ]
-  },
-  {
     label: t('common.text'),
     key: 'text',
     children: [
@@ -578,15 +651,20 @@ const menuOptions = computed(() => [
         key: 'text-space',
         path: '/text/whitespace'
       },
+          {
+            label: t('text.replace.title'),
+            key: 'text-replace',
+            path: '/text/replace'
+          },
+          {
+            label: t('text.jsonPath.title'),
+            key: 'json-path',
+            path: '/text/json-path'
+          }
+        ]
+      },
       {
-        label: t('text.replace.title'),
-        key: 'text-replace',
-        path: '/text/replace'
-      }
-    ]
-  },
-  {
-    label: t('common.other'),
+        label: t('common.other'),
     key: 'other',
     children: [
       {
@@ -619,6 +697,16 @@ const menuOptions = computed(() => [
         label: t('other.dns.title'),
         key: 'dns',
         path: '/other/dns'
+      },
+      {
+        label: t('other.uuid.title'),
+        key: 'uuid',
+        path: '/other/uuid'
+      },
+      {
+        label: t('other.password.title'),
+        key: 'password',
+        path: '/other/password'
       }
     ]
   }
@@ -666,6 +754,99 @@ const getToolKeyFromPath = (path) => {
   }
   return 'default'
 }
+
+// ====================== 全局快捷键 ======================
+
+// 搜索框组件引用
+const toolSearchRef = ref(null)
+
+// 快捷键帮助弹窗显示状态
+const showShortcutHelp = ref(false)
+
+// 快捷键列表（用于帮助弹窗展示）
+const shortcutList = computed(() => [
+  {
+    key: 'search',
+    keys: ['Ctrl', 'K'],
+    desc: t('common.shortcuts.focusSearch')
+  },
+  {
+    key: 'slash',
+    keys: ['/'],
+    desc: t('common.shortcuts.focusSearchSlash')
+  },
+  {
+    key: 'help',
+    keys: ['?'],
+    desc: t('common.shortcuts.showHelp')
+  },
+  {
+    key: 'escape',
+    keys: ['Esc'],
+    desc: t('common.shortcuts.closeOrClear')
+  },
+  {
+    key: 'theme',
+    keys: ['Ctrl', 'Shift', 'D'],
+    desc: t('common.shortcuts.toggleTheme')
+  }
+])
+
+// 判断当前焦点是否在输入类元素内（避免在输入时拦截按键）
+function isInputFocused() {
+  const el = document.activeElement
+  if (!el) return false
+  const tag = el.tagName.toLowerCase()
+  return tag === 'input' || tag === 'textarea' || el.isContentEditable
+}
+
+// 全局键盘事件处理
+function handleGlobalKeydown(e) {
+  // Ctrl/Cmd + K → 聚焦搜索框
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault()
+    toolSearchRef.value?.focusInput()
+    return
+  }
+
+  // Ctrl + Shift + D → 切换主题
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+    e.preventDefault()
+    toggleTheme()
+    return
+  }
+
+  // 非输入框时的快捷键
+  if (!isInputFocused()) {
+    // / → 聚焦搜索框
+    if (e.key === '/') {
+      e.preventDefault()
+      toolSearchRef.value?.focusInput()
+      return
+    }
+
+    // ? → 显示快捷键帮助
+    if (e.key === '?') {
+      e.preventDefault()
+      showShortcutHelp.value = !showShortcutHelp.value
+      return
+    }
+  }
+
+  // Esc → 关闭快捷键帮助弹窗
+  if (e.key === 'Escape' && showShortcutHelp.value) {
+    e.preventDefault()
+    showShortcutHelp.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleGlobalKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleGlobalKeydown)
+})
 </script>
 
 <style scoped>
@@ -1089,5 +1270,52 @@ const getToolKeyFromPath = (path) => {
 .main-content[data-composer="true"] .content-wrapper {
   max-width: 100%;
   padding: 0;
+}
+
+/* 收藏工具快速导航栏样式 */
+.favorites-bar {
+  max-width: min(95vw, 1600px);
+  margin: 0 auto;
+  padding: 8px clamp(20px, 4vw, 60px);
+  background-color: var(--card-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.favorites-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.favorites-label {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.fav-btn {
+  font-size: 12px;
+}
+
+.favorites-clear-btn {
+  margin-left: auto;
+  font-size: 12px;
+}
+
+/* 小屏幕下收藏栏优化 */
+@media (max-width: 768px) {
+  .favorites-bar {
+    padding: 8px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorites-bar {
+    padding: 8px 12px;
+  }
+
+  .favorites-inner {
+    gap: 8px;
+  }
 }
 </style>

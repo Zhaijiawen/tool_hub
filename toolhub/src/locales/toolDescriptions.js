@@ -3478,6 +3478,340 @@ export const toolDescriptionsEn = {
       'Setting one quality slider for batch compression is more efficient',
       'All compression is done locally; images are not uploaded'
     ]
+  },
+  exif: {
+    features: [
+      '拖拽上传图片，实时解析 EXIF 元数据',
+      '分组展示：基本信息、拍摄参数（光圈/快门/ISO）、GPS 坐标、其他字段',
+      '支持 JPEG / TIFF / HEIC / RAW 等多种格式',
+      '所有字段可单独复制，支持一键复制全部 EXIF',
+      '图片预览 + 文件名 / 大小显示',
+      '本地解析，图片不上传到任何服务器'
+    ],
+    useCases: [
+      '查看照片拍摄时间、地点、设备信息',
+      '核查照片是否包含 GPS 位置（隐私排查）',
+      '对比不同相机/手机的拍摄参数',
+      '验证图片 EXIF 是否已被清除'
+    ],
+    usageSteps: [
+      '将图片拖到上传区，或点击选择文件',
+      '查看「基本信息」Tab 了解设备和日期',
+      '查看「拍摄参数」Tab 了解光圈、快门、ISO',
+      '查看「GPS」Tab 获取拍摄位置坐标'
+    ],
+    bestPractices: [
+      '原始相机照片（未经截图/微信/社交媒体处理）EXIF 最完整',
+      '截图、网页保存的图片通常不含 EXIF',
+      '微信、微博等平台会自动剥离 GPS 信息以保护隐私',
+      '可复制 GPS 坐标到地图应用查看拍摄地点'
+    ]
+  },
+  exifEn: {
+    features: [
+      'Drag & drop to upload images, parses EXIF metadata in real time',
+      'Grouped display: Basic info, Camera settings (aperture/shutter/ISO), GPS, Others',
+      'Supports JPEG / TIFF / HEIC / RAW and more',
+      'Copy individual fields or copy all EXIF at once',
+      'Image preview with filename and file size',
+      'Local parsing only — images are not uploaded to any server'
+    ],
+    useCases: [
+      'View photo date, location, and device info',
+      'Check whether a photo contains GPS coordinates (privacy audit)',
+      'Compare shooting parameters from different cameras or phones',
+      'Verify whether image EXIF has been stripped'
+    ],
+    usageSteps: [
+      'Drag an image to the upload area or click to browse',
+      'Check the "Basic Info" tab for device and date',
+      'Check the "Camera" tab for aperture, shutter speed, and ISO',
+      'Check the "GPS" tab for shooting location coordinates'
+    ],
+    bestPractices: [
+      'Original camera files (not screenshots or social media) have the most complete EXIF',
+      'Screenshots and web-saved images typically have no EXIF',
+      'WeChat and other platforms strip GPS info for privacy',
+      'Copy GPS coordinates to a map app to find the photo location'
+    ]
+  },
+  numberChinese: {
+    features: [
+      '支持大写（壹贰叁）、小写（一二三）、财务金额三种模式',
+      '财务模式生成标准票据写法（元/角/分/整）',
+      '支持小数和负数',
+      '内置 8 个常用数字快速示例',
+      '最多支持 15 位整数（万亿级别）',
+      '零依赖，纯前端计算'
+    ],
+    useCases: [
+      '填写支票/票据时转换金额为大写',
+      '财务系统前端展示中文金额',
+      '合同文档中的金额大写填写',
+      '数字金额的人工核对'
+    ],
+    usageSteps: [
+      '输入阿拉伯数字（支持小数）',
+      '选择转换模式（大写/小写/财务）',
+      '查看转换结果',
+      '点击「复制」复制结果'
+    ],
+    bestPractices: [
+      '财务场景请使用「财务金额」模式，生成的格式符合国标',
+      '小数部分财务模式只识别前两位（角和分）',
+      '支持负数，如 -123 → 负壹佰贰拾叁'
+    ]
+  },
+  numberChineseEn: {
+    features: [
+      'Three modes: uppercase (壹贰叁), lowercase (一二三), and financial (元/角/分)',
+      'Financial mode generates standard bank check format',
+      'Supports decimals and negative numbers',
+      '8 built-in quick examples',
+      'Supports up to 15 integer digits (up to trillions)',
+      'Zero dependencies, pure client-side'
+    ],
+    useCases: [
+      'Converting amounts to Chinese uppercase for checks/invoices',
+      'Displaying Chinese currency in financial systems',
+      'Contract documents requiring Chinese amount notation',
+      'Manual amount verification'
+    ],
+    usageSteps: [
+      'Enter an Arabic numeral (decimals supported)',
+      'Select the conversion mode (uppercase/lowercase/financial)',
+      'View the converted result',
+      'Click "Copy" to copy the result'
+    ],
+    bestPractices: [
+      'Use "Financial" mode for official documents; the format follows the national standard',
+      'In financial mode, only the first two decimal digits are used (jiao and fen)',
+      'Supports negative numbers, e.g. -123 → 负壹佰贰拾叁'
+    ]
+  },
+  jsonPath: {
+    features: [
+      '内置 5 个常见 JSONPath 快速示例，一键加载',
+      '左右分屏：左侧 JSON 输入，右侧表达式 + 结果',
+      '支持 JSONPath 全语法：递归下行（..）、过滤（[?()]）、通配符（[*]）',
+      'JSON 一键格式化，语法错误实时提示',
+      '结果以格式化 JSON 展示，匹配数量提示，一键复制'
+    ],
+    useCases: [
+      '从复杂 API 返回结果中提取特定字段',
+      '过滤 JSON 数组中满足条件的元素',
+      '递归查找嵌套结构中的某个字段',
+      '学习和测试 JSONPath 表达式语法'
+    ],
+    usageSteps: [
+      '粘贴 JSON 数据到左侧输入框',
+      '在右侧输入 JSONPath 表达式（自动执行查询）',
+      '查看匹配结果，点击复制',
+      '可点击顶部快速示例加载演示数据'
+    ],
+    bestPractices: [
+      '$ 表示根节点，. 表示子节点，.. 表示递归下行',
+      '[?(@.price < 10)] 表示过滤，@ 指当前节点',
+      '[*] 匹配所有子节点，相当于遍历数组',
+      '使用格式化按钮整理 JSON，更容易编写路径'
+    ]
+  },
+  jsonPathEn: {
+    features: [
+      '5 built-in quick examples, load with one click',
+      'Split-pane layout: JSON input on left, expression + results on right',
+      'Supports full JSONPath syntax: recursive descent (..),  filters ([?()]), wildcards ([*])',
+      'One-click JSON formatting with real-time syntax error feedback',
+      'Results shown as formatted JSON with match count and one-click copy'
+    ],
+    useCases: [
+      'Extracting specific fields from complex API responses',
+      'Filtering array elements that meet conditions',
+      'Recursively finding a field in deeply nested structures',
+      'Learning and testing JSONPath expression syntax'
+    ],
+    usageSteps: [
+      'Paste JSON data into the left input',
+      'Enter a JSONPath expression on the right (auto-queries)',
+      'View matched results and click to copy',
+      'Click quick examples to load demo data'
+    ],
+    bestPractices: [
+      '$ is the root, . is child, .. is recursive descent',
+      '[?(@.price < 10)] is a filter expression; @ refers to the current node',
+      '[*] matches all children, equivalent to iterating an array',
+      'Use the Format button to tidy JSON before writing path expressions'
+    ]
+  },
+  urlParser: {
+    features: [
+      '自动检测 URL 合法性，颜色标记提示',
+      '结构化展示所有 URL 组成部分：Protocol/Host/Port/Path/Query/Hash/Origin',
+      'Query 参数以表格形式展示，支持 URL 解码切换，可单独复制每个参数值',
+      '反向构建：填写各字段自动拼装完整 URL',
+      '输入内容自动保存（localStorage）'
+    ],
+    useCases: [
+      '调试 API 请求时分析 URL 参数',
+      '解析第三方回调 URL 中的参数',
+      '构建复杂 URL 时避免拼接出错',
+      '学习 URL 结构和各字段含义'
+    ],
+    usageSteps: [
+      '粘贴完整 URL 到输入框',
+      '查看「结构解析」Tab 了解各字段',
+      '切换到「Query 参数」Tab 查看并复制参数',
+      '切换到「反向构建」Tab 修改字段重新生成 URL'
+    ],
+    bestPractices: [
+      'URL 必须包含协议头（https:// 或 http://）才能正确解析',
+      '开启「URL 解码显示」可以看到中文或特殊字符的原始值',
+      '反向构建时 Path 需以 / 开头'
+    ]
+  },
+  urlParserEn: {
+    features: [
+      'Auto-validates URL with color indicator',
+      'Structured display of all URL parts: Protocol/Host/Port/Path/Query/Hash/Origin',
+      'Query params shown in a table with URL-decode toggle and per-value copy',
+      'URL Builder: fill in fields to assemble a complete URL',
+      'Input auto-saved via localStorage'
+    ],
+    useCases: [
+      'Analyzing URL parameters when debugging API requests',
+      'Parsing callback URL parameters from third-party services',
+      'Building complex URLs without manual string concatenation errors',
+      'Learning URL structure and field meanings'
+    ],
+    usageSteps: [
+      'Paste a complete URL into the input',
+      'View the "Parts" tab for field breakdown',
+      'Switch to "Query Params" tab to view and copy individual params',
+      'Switch to "Builder" tab to modify fields and regenerate the URL'
+    ],
+    bestPractices: [
+      'URL must include a protocol (https:// or http://) to parse correctly',
+      'Enable "URL-decode values" to see the original value of encoded chars',
+      'Path in the builder should start with /'
+    ]
+  },
+  password: {
+    features: [
+      '使用 crypto.getRandomValues() 密码学安全随机数，生成质量更高',
+      '密码长度 4~128 自由配置，支持滑块拖拽',
+      '字符集精细控制：大写/小写/数字/特殊符号，可自定义符号集',
+      '可排除易混淆字符（0/O/l/1/I），减少抄写出错',
+      '实时密码强度评级（弱/中/强/极强）+ 彩色进度条',
+      '批量生成 1~20 个，点击复制或全部复制'
+    ],
+    useCases: [
+      '账号注册时生成高强度密码',
+      '系统管理员批量为用户生成初始密码',
+      '生成 API Key、Secret Token 等临时凭证',
+      '测试场景下批量生成测试账号密码'
+    ],
+    usageSteps: [
+      '拖动滑块或输入数字设置密码长度（推荐 16+）',
+      '勾选需要的字符类型（默认全选）',
+      '可选：自定义特殊符号集合、排除易混淆字符',
+      '设置生成数量，点击「生成」',
+      '点击单行复制单个密码，或「全部复制」批量复制'
+    ],
+    bestPractices: [
+      '推荐长度 16 位以上，包含大小写+数字+符号，强度达到「强」',
+      '如果密码需要人工记忆，可排除易混淆字符',
+      '所有生成在浏览器本地完成，不传输到任何服务器',
+      '生产环境重要密码建议使用专业密码管理器存储'
+    ]
+  },
+  passwordEn: {
+    features: [
+      'Uses crypto.getRandomValues() for cryptographically secure randomness',
+      'Configurable length from 4 to 128 via slider or input',
+      'Fine-grained charset control: uppercase/lowercase/digits/symbols with custom symbol set',
+      'Option to exclude ambiguous characters (0/O/l/1/I)',
+      'Real-time strength rating (Weak/Medium/Strong/Very Strong) with color progress bar',
+      'Batch generate 1–20 passwords, click to copy or copy all'
+    ],
+    useCases: [
+      'Generating strong passwords for account registration',
+      'Admins generating initial passwords for multiple users',
+      'Creating API keys, secret tokens, and temporary credentials',
+      'Batch password generation for test accounts'
+    ],
+    usageSteps: [
+      'Drag the slider or enter a number to set password length (16+ recommended)',
+      'Check desired character types (all selected by default)',
+      'Optionally customize symbol set or exclude ambiguous characters',
+      'Set count and click "Generate"',
+      'Click any row to copy a single password, or "Copy All" for batch copy'
+    ],
+    bestPractices: [
+      'Use 16+ characters with uppercase, lowercase, digits, and symbols for "Strong" rating',
+      'Exclude ambiguous characters if the password needs to be manually typed',
+      'All generation is done locally in your browser — nothing is sent to any server',
+      'Store important passwords in a dedicated password manager'
+    ]
+  },
+  uuid: {
+    features: [
+      '支持 UUID v1（基于时间戳）、v4（随机）、v7（新标准，有序）和 NanoID',
+      '批量生成 1~100 个，一键全部复制',
+      '格式配置：带/不带连字符、大小写切换',
+      'NanoID 支持自定义长度（4~128）和自定义字符集',
+      '点击单行即可复制单个值',
+      '生成配置自动记忆（localStorage）'
+    ],
+    useCases: [
+      '数据库主键生成',
+      '分布式系统唯一标识',
+      '测试数据批量生成',
+      '临时令牌、会话 ID 生成',
+      '需要更短 ID 时使用 NanoID 替代 UUID'
+    ],
+    usageSteps: [
+      '选择 UUID 类型（v4 最常用，v7 有时序性，NanoID 更短）',
+      '设置生成数量（默认 10 个）',
+      '可选：配置格式（连字符、大写）',
+      '点击「生成」按钮',
+      '点击任意行复制单个，或「全部复制」批量复制'
+    ],
+    bestPractices: [
+      'v4 适合大多数场景（完全随机，概率碰撞极低）',
+      'v7 兼具有序性和随机性，适合需要按时间排序的主键',
+      'NanoID 比 UUID 短约 30%，适合 URL、文件名等需要简短 ID 的场景',
+      '生产环境请使用服务端生成以确保唯一性'
+    ]
+  },
+  uuidEn: {
+    features: [
+      'Supports UUID v1 (time-based), v4 (random), v7 (new standard, sortable), and NanoID',
+      'Batch generate 1–100 IDs, copy all with one click',
+      'Format options: with/without hyphens, upper/lowercase',
+      'NanoID supports custom length (4–128) and custom alphabet',
+      'Click any row to copy a single value',
+      'Settings are persisted via localStorage'
+    ],
+    useCases: [
+      'Database primary key generation',
+      'Unique identifiers in distributed systems',
+      'Batch test data generation',
+      'Temporary tokens and session IDs',
+      'Use NanoID when shorter IDs are needed'
+    ],
+    usageSteps: [
+      'Select UUID type (v4 is most common, v7 is sortable, NanoID is shorter)',
+      'Set generation count (default 10)',
+      'Optionally configure format (hyphens, uppercase)',
+      'Click "Generate"',
+      'Click any row to copy single value, or "Copy All" for batch copy'
+    ],
+    bestPractices: [
+      'v4 works for most use cases (fully random, extremely low collision probability)',
+      'v7 combines sortability and randomness, ideal for time-ordered primary keys',
+      'NanoID is ~30% shorter than UUID, great for URLs and filenames',
+      'Use server-side generation in production environments for guaranteed uniqueness'
+    ]
   }
 }
 

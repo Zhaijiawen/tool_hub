@@ -207,38 +207,68 @@
 
         <!-- 解码二维码 -->
         <n-tab-pane name="decode" :tab="$t('other.qrcode.decode')">
-          <n-upload 
-            accept="image/*" 
-            :max="1" 
-            :show-file-list="false" 
-            @change="handleFileChange"
-            :custom-request="() => {}"
-            ref="uploadRef"
-          >
-            <n-upload-dragger>
-              <div class="upload-trigger">
-                <n-icon size="48" :depth="3">
-                  <upload-outlined />
-                </n-icon>
-                <n-text style="margin-top: 8px">
-                  {{ $t('other.qrcode.uploadTip') }}
-                </n-text>
-              </div>
-            </n-upload-dragger>
-          </n-upload>
+          <!-- 解码方式切换 -->
+          <n-space class="mb-4">
+            <n-radio-group v-model:value="decodeMode">
+              <n-space>
+                <n-radio value="upload">{{ $t('other.qrcode.decodeUpload') }}</n-radio>
+                <n-radio value="camera">{{ $t('other.qrcode.decodeCamera') }}</n-radio>
+              </n-space>
+            </n-radio-group>
+          </n-space>
 
-          <!-- 图片预览 -->
-          <div v-if="previewUrl" class="preview-section mt-4">
-            <n-card embedded>
-              <div class="preview-display">
-                <n-image 
-                  :src="previewUrl" 
-                  :alt="$t('other.qrcode.preview')" 
-                  width="300"
-                  :preview-disabled="false"
-                />
+          <!-- 上传模式 -->
+          <div v-if="decodeMode === 'upload'">
+            <n-upload
+              accept="image/*"
+              :max="1"
+              :show-file-list="false"
+              @change="handleFileChange"
+              :custom-request="() => {}"
+              ref="uploadRef"
+            >
+              <n-upload-dragger>
+                <div class="upload-trigger">
+                  <n-icon size="48" :depth="3">
+                    <upload-outlined />
+                  </n-icon>
+                  <n-text style="margin-top: 8px">
+                    {{ $t('other.qrcode.uploadTip') }}
+                  </n-text>
+                </div>
+              </n-upload-dragger>
+            </n-upload>
+
+            <!-- 图片预览 -->
+            <div v-if="previewUrl" class="preview-section mt-4">
+              <n-card embedded>
+                <div class="preview-display">
+                  <n-image
+                    :src="previewUrl"
+                    :alt="$t('other.qrcode.preview')"
+                    width="300"
+                    :preview-disabled="false"
+                  />
+                </div>
+              </n-card>
+            </div>
+          </div>
+
+          <!-- 摄像头模式 -->
+          <div v-if="decodeMode === 'camera'" class="camera-section">
+            <div v-if="!cameraActive">
+              <n-button type="primary" @click="startCamera">
+                {{ $t('other.qrcode.startCamera') }}
+              </n-button>
+            </div>
+            <div v-else class="camera-container">
+              <video ref="videoRef" autoplay playsinline class="camera-video" />
+              <canvas ref="scanCanvasRef" style="display:none;" />
+              <div class="camera-controls">
+                <n-tag v-if="scanning" type="info">{{ $t('other.qrcode.scanning') }}</n-tag>
+                <n-button @click="stopCamera" type="error" size="small">{{ $t('other.qrcode.stopCamera') }}</n-button>
               </div>
-            </n-card>
+            </div>
           </div>
 
           <!-- 解码结果 -->
@@ -283,7 +313,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue'
+import { ref, reactive, nextTick, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
@@ -343,6 +373,15 @@ const decodeError = ref('')
 
 // 上传组件引用
 const uploadRef = ref(null)
+
+// 摄像头扫描
+const decodeMode = ref('upload')
+const cameraActive = ref(false)
+const scanning = ref(false)
+const videoRef = ref(null)
+const scanCanvasRef = ref(null)
+let cameraStream = null
+let scanInterval = null
 
 // 防抖生成二维码
 function debouncedGenerate() {
@@ -678,6 +717,77 @@ function readImageData(file) {
   })
 }
 
+// 开启摄像头扫描
+async function startCamera() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    message.error(t('other.qrcode.cameraNotSupported'))
+    return
+  }
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' }
+    })
+    cameraActive.value = true
+    // 等待 DOM 更新，确保 video 元素已渲染
+    await nextTick()
+    if (videoRef.value) {
+      videoRef.value.srcObject = cameraStream
+      await videoRef.value.play()
+      scanLoop()
+    }
+  } catch (err) {
+    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+      message.error(t('other.qrcode.cameraPermissionDenied'))
+    } else {
+      message.error(t('other.qrcode.cameraError') + ': ' + err.message)
+    }
+    cameraActive.value = false
+    cameraStream = null
+  }
+}
+
+// 停止摄像头扫描
+function stopCamera() {
+  if (scanInterval) {
+    clearInterval(scanInterval)
+    scanInterval = null
+  }
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(track => track.stop())
+    cameraStream = null
+  }
+  if (videoRef.value) {
+    videoRef.value.srcObject = null
+  }
+  cameraActive.value = false
+  scanning.value = false
+}
+
+// 扫描循环：每 200ms 从视频帧中尝试解码二维码
+function scanLoop() {
+  scanning.value = true
+  scanInterval = setInterval(() => {
+    const video = videoRef.value
+    const canvas = scanCanvasRef.value
+    if (!video || !canvas || video.readyState < video.HAVE_ENOUGH_DATA) return
+
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    const ctx = canvas.getContext('2d')
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: 'dontInvert'
+    })
+    if (code) {
+      decodeResult.value = code.data
+      decodeError.value = ''
+      message.success(t('other.qrcode.cameraScanSuccess'))
+      stopCamera()
+    }
+  }, 200)
+}
+
 // 复制解码结果
 function copyDecodeResult() {
   if (!decodeResult.value) return
@@ -702,7 +812,10 @@ function openAsUrl() {
   }
 }
 
-
+// 组件销毁时停止摄像头，防止资源泄漏
+onUnmounted(() => {
+  stopCamera()
+})
 </script>
 
 <style scoped>
@@ -820,5 +933,33 @@ function openAsUrl() {
 .n-space .n-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 摄像头扫描样式 */
+.camera-section {
+  width: 100%;
+}
+
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.camera-video {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 8px;
+  border: 2px solid var(--n-border-color, #e0e0e6);
+  background: #000;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.camera-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 </style>

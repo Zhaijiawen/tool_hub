@@ -4,7 +4,7 @@
     <!-- 搜索输入组 -->
     <n-input-group>
       <!-- 搜索输入框 -->
-      <n-input v-model:value="searchText" :placeholder="$t('common.searchPlaceholder')" clearable
+      <n-input ref="inputRef" v-model:value="searchText" :placeholder="$t('common.searchPlaceholder')" clearable
         @keyup.enter="handleSearch">
         <!-- 搜索图标前缀 -->
         <template #prefix>
@@ -41,6 +41,7 @@
 <script setup>
 // 导入Vue相关功能
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+// 导入 defineExpose 以暴露 focus 方法（默认已全局可用，无需单独导入）
 // 导入路由功能
 import { useRouter } from 'vue-router'
 // 导入搜索图标
@@ -54,6 +55,8 @@ import { useI18n } from 'vue-i18n'
 
 // 初始化路由
 const router = useRouter()
+// 搜索输入框 DOM 引用
+const inputRef = ref(null)
 // 搜索文本
 const searchText = ref('')
 // 是否显示搜索结果
@@ -148,6 +151,13 @@ onMounted(() => {
 // 组件卸载时移除点击事件监听
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
+})
+
+// 暴露 focusInput 方法，供父组件（如全局快捷键）调用
+defineExpose({
+  focusInput() {
+    inputRef.value?.focus()
+  }
 })
 </script>
 

@@ -439,6 +439,48 @@ const tools = [
     path: '/other/dns',
     description: 'other.dns.description',
     category: 'other'
+  },
+  {
+    id: 'uuid',
+    name: 'other.uuid.title',
+    path: '/other/uuid',
+    description: 'other.uuid.description',
+    category: 'other'
+  },
+  {
+    id: 'password',
+    name: 'other.password.title',
+    path: '/other/password',
+    description: 'other.password.description',
+    category: 'other'
+  },
+  {
+    id: 'urlParser',
+    name: 'convert.urlParser.title',
+    path: '/convert/url-parser',
+    description: 'convert.urlParser.description',
+    category: 'convert'
+  },
+  {
+    id: 'jsonPath',
+    name: 'text.jsonPath.title',
+    path: '/text/json-path',
+    description: 'text.jsonPath.description',
+    category: 'text'
+  },
+  {
+    id: 'numberChinese',
+    name: 'convert.numberChinese.title',
+    path: '/convert/number-chinese',
+    description: 'convert.numberChinese.description',
+    category: 'convert'
+  },
+  {
+    id: 'exif',
+    name: 'image.exif.title',
+    path: '/image/exif',
+    description: 'image.exif.description',
+    category: 'image'
   }
 ]
 

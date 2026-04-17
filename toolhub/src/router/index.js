@@ -285,6 +285,16 @@ const router = createRouter({
             {
               path: 'gradient',
               component: () => import('@/components/convert/Gradient.vue')
+            },
+            // URL 解析器
+            {
+              path: 'url-parser',
+              component: () => import('@/components/convert/UrlParser.vue')
+            },
+            // 数字大写转换
+            {
+              path: 'number-chinese',
+              component: () => import('@/components/convert/NumberChinese.vue')
             }
           ]
         },
@@ -313,6 +323,11 @@ const router = createRouter({
             {
               path: 'watermark',
               component: () => import('@/components/image/Watermark.vue')
+            },
+            // EXIF 查看器
+            {
+              path: 'exif',
+              component: () => import('@/components/image/ExifViewer.vue')
             }
           ]
         },
@@ -338,6 +353,11 @@ const router = createRouter({
             {
               path: 'replace',
               component: () => import('@/components/text/Replace.vue')
+            },
+            // JSONPath 查询
+            {
+              path: 'json-path',
+              component: () => import('@/components/text/JsonPathQuery.vue')
             }
           ]
         },
@@ -370,6 +390,16 @@ const router = createRouter({
             {
               path: 'dns',
               component: () => import('@/components/other/DnsQuery.vue')
+            },
+            // UUID / NanoID 生成器
+            {
+              path: 'uuid',
+              component: () => import('@/components/other/UuidGenerator.vue')
+            },
+            // 随机密码生成器
+            {
+              path: 'password',
+              component: () => import('@/components/other/PasswordGenerator.vue')
             }
           ]
         },

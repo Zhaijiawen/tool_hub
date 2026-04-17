@@ -1,0 +1,58 @@
+# UUID / NanoID 示例
+
+## UUID v4 示例
+
+```
+550e8400-e29b-41d4-a716-446655440000
+f47ac10b-58cc-4372-a567-0e02b2c3d479
+6ba7b810-9dad-11d1-80b4-00c04fd430c8
+```
+
+## UUID v4（大写，无连字符）
+
+```
+550E8400E29B41D4A716446655440000
+F47AC10B58CC4372A5670E02B2C3D479
+```
+
+## UUID v7 示例（有序，前缀为时间戳）
+
+```
+018e5a2f-1234-7abc-8def-0123456789ab
+018e5a2f-1235-7def-9012-abcdef012345
+018e5a2f-1236-7000-b123-000000000001
+```
+
+> UUID v7 的前 48 位是 Unix 时间戳（毫秒），因此批量生成的 v7 是有序的
+
+## NanoID 示例（默认长度 21）
+
+```
+V1StGXR8_Z5jdHi6B-myT
+4Xnm6DK8VB_v3FP2W0mJi
+7TsRq1DcH_5mY3gNKpBwX
+```
+
+## NanoID 自定义（仅数字，长度 10）
+
+字符集：`0123456789`，长度：`10`
+
+```
+3847291056
+9012847365
+1029384756
+```
+
+## 在代码中使用
+
+```javascript
+// Node.js / 浏览器
+import { v4 as uuidv4 } from 'uuid'
+const id = uuidv4()
+// => '110ec58a-a0f4-4ac4-8ec2-c5b67f3a1590'
+
+// NanoID
+import { nanoid } from 'nanoid'
+const id = nanoid()
+// => 'V1StGXR8_Z5jdHi6B-myT'
+
