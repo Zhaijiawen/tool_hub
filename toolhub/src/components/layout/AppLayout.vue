@@ -92,7 +92,7 @@
               @click="router.push(fav.path)"
               class="fav-btn"
             >
-              {{ fav.name }}
+              {{ getFavoriteName(fav, locale) }}
             </n-button>
           </n-space>
           <n-button size="tiny" quaternary @click="clearFavorites" class="favorites-clear-btn">
@@ -169,7 +169,7 @@ import ShareButton from '@/components/common/ShareButton.vue'
 // 导入收藏按钮组件
 import FavoriteButton from '@/components/common/FavoriteButton.vue'
 // 导入收藏管理 composable
-import { useFavorites } from '@/composables/useFavorites'
+import { useFavorites, getFavoriteName } from '@/composables/useFavorites'
 // 导入语言切换工具函数（支持按需动态加载语言包）
 import { setLocale } from '@/locales/index.js'
 // 导入图标组件

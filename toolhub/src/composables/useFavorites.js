@@ -1,4 +1,5 @@
-import { ref, computed } from 'vue'
+import {computed, ref} from 'vue'
+import {seoConfig} from '@/locales/seo'
 
 const STORAGE_KEY = 'toolhub_favorites'
 
@@ -20,6 +21,21 @@ function saveFavorites() {
   } catch {
     // ignore
   }
+}
+
+/**
+ * 根据收藏项和当前语言动态获取工具名称
+ * 优先从 seoConfig 中查找当前语言的名称，fallback 到存储的 name
+ * @param {{ path: string, name: string }} fav 收藏项
+ * @param {string} locale 当前语言 ('zh' | 'en')
+ * @returns {string} 工具名称
+ */
+export function getFavoriteName(fav, locale) {
+  // 从路径中提取 seoKey，路径格式为 /category/toolKey
+  const pathParts = (fav.path || '').split('/')
+  const seoKey = pathParts[pathParts.length - 1]
+  const lang = locale === 'zh' ? 'zh' : 'en'
+  return seoConfig[seoKey]?.[lang]?.name || fav.name || seoKey
 }
 
 /**
