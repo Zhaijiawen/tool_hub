@@ -83,7 +83,7 @@
             <n-tab-pane name="build" :tab="t('convert.urlParser.tabBuild')">
               <div class="build-section">
                 <div class="build-row">
-                  <span class="build-label">Protocol</span>
+                  <span class="build-label">{{ t('convert.urlParser.partProtocol') }}</span>
                   <n-select
                     v-model:value="buildProtocol"
                     :options="protocolOptions"
@@ -92,24 +92,24 @@
                   />
                 </div>
                 <div class="build-row">
-                  <span class="build-label">Host</span>
-                  <n-input v-model:value="buildHost" placeholder="example.com" @input="rebuildUrl" />
+                  <span class="build-label">{{ t('convert.urlParser.partHost') }}</span>
+                  <n-input v-model:value="buildHost" :placeholder="t('convert.urlParser.buildHostPlaceholder')" @input="rebuildUrl" />
                 </div>
                 <div class="build-row">
-                  <span class="build-label">Port</span>
-                  <n-input v-model:value="buildPort" placeholder="留空使用默认端口" @input="rebuildUrl" />
+                  <span class="build-label">{{ t('convert.urlParser.partPort') }}</span>
+                  <n-input v-model:value="buildPort" :placeholder="t('convert.urlParser.buildPortPlaceholder')" @input="rebuildUrl" />
                 </div>
                 <div class="build-row">
-                  <span class="build-label">Path</span>
-                  <n-input v-model:value="buildPath" placeholder="/api/v1/users" @input="rebuildUrl" />
+                  <span class="build-label">{{ t('convert.urlParser.partPath') }}</span>
+                  <n-input v-model:value="buildPath" :placeholder="t('convert.urlParser.buildPathPlaceholder')" @input="rebuildUrl" />
                 </div>
                 <div class="build-row">
-                  <span class="build-label">Query</span>
-                  <n-input v-model:value="buildQuery" placeholder="key1=value1&key2=value2" @input="rebuildUrl" />
+                  <span class="build-label">{{ t('convert.urlParser.partQuery') }}</span>
+                  <n-input v-model:value="buildQuery" :placeholder="t('convert.urlParser.buildQueryPlaceholder')" @input="rebuildUrl" />
                 </div>
                 <div class="build-row">
-                  <span class="build-label">Hash</span>
-                  <n-input v-model:value="buildHash" placeholder="section-1" @input="rebuildUrl" />
+                  <span class="build-label">{{ t('convert.urlParser.partHash') }}</span>
+                  <n-input v-model:value="buildHash" :placeholder="t('convert.urlParser.buildHashPlaceholder')" @input="rebuildUrl" />
                 </div>
                 <div v-if="builtUrl" class="built-result">
                   <n-text class="section-label">{{ t('convert.urlParser.builtUrl') }}</n-text>
@@ -219,25 +219,31 @@ const parsedParts = computed(() => {
   if (!parsed.value) return []
   const u = parsed.value
   return [
-    { key: 'href',     label: 'Full URL',  value: u.href },
-    { key: 'protocol', label: 'Protocol',  value: u.protocol },
-    { key: 'host',     label: 'Host',      value: u.host },
-    { key: 'hostname', label: 'Hostname',  value: u.hostname },
-    { key: 'port',     label: 'Port',      value: u.port },
-    { key: 'pathname', label: 'Path',      value: u.pathname },
-    { key: 'search',   label: 'Query',     value: u.search },
-    { key: 'hash',     label: 'Hash',      value: u.hash },
-    { key: 'origin',   label: 'Origin',    value: u.origin },
-    { key: 'username', label: 'Username',  value: u.username },
-    { key: 'password', label: 'Password',  value: u.password }
+    { key: 'href',     label: t('convert.urlParser.partFullUrl'),  value: u.href },
+    { key: 'protocol', label: t('convert.urlParser.partProtocol'),  value: u.protocol },
+    { key: 'host',     label: t('convert.urlParser.partHost'),      value: u.host },
+    { key: 'hostname', label: t('convert.urlParser.partHostname'),  value: u.hostname },
+    { key: 'port',     label: t('convert.urlParser.partPort'),      value: u.port },
+    { key: 'pathname', label: t('convert.urlParser.partPath'),      value: u.pathname },
+    { key: 'search',   label: t('convert.urlParser.partQuery'),     value: u.search },
+    { key: 'hash',     label: t('convert.urlParser.partHash'),      value: u.hash },
+    { key: 'origin',   label: t('convert.urlParser.partOrigin'),    value: u.origin },
+    { key: 'username', label: t('convert.urlParser.partUsername'),  value: u.username },
+    { key: 'password', label: t('convert.urlParser.partPassword'),  value: u.password }
   ]
 })
 
 const queryParams = computed(() => {
   if (!parsed.value || !parsed.value.search) return []
   const params = []
-  parsed.value.searchParams.forEach((value, key) => {
-    params.push({ key, value })
+  // 手动解析 query string，保留原始编码值（不经过 searchParams 的自动解码）
+  const search = parsed.value.search.slice(1) // 去掉开头的 '?'
+  search.split('&').forEach(pair => {
+    if (!pair) return
+    const eqIdx = pair.indexOf('=')
+    const rawKey = eqIdx === -1 ? pair : pair.slice(0, eqIdx)
+    const rawValue = eqIdx === -1 ? '' : pair.slice(eqIdx + 1)
+    params.push({ key: safeDecodeURIComponent(rawKey), rawKey, value: rawValue })
   })
   return params
 })

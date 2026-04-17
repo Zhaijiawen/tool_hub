@@ -2224,7 +2224,23 @@ export default {
       noParams: '该 URL 没有 Query 参数',
       builtUrl: '构建结果',
       emptyTip: '粘贴一个 URL 开始解析',
-      invalidTip: '请输入合法的 URL（需包含协议，如 https://）'
+      invalidTip: '请输入合法的 URL（需包含协议，如 https://）',
+      partFullUrl: '完整 URL',
+      partProtocol: '协议',
+      partHost: '主机',
+      partHostname: '主机名',
+      partPort: '端口',
+      partPath: '路径',
+      partQuery: '查询串',
+      partHash: '哈希',
+      partOrigin: '来源',
+      partUsername: '用户名',
+      partPassword: '密码',
+      buildHostPlaceholder: 'example.com',
+      buildPortPlaceholder: '留空使用默认端口',
+      buildPathPlaceholder: '/api/v1/users',
+      buildQueryPlaceholder: 'key1=value1&key2=value2',
+      buildHashPlaceholder: 'section-1'
     },
     gradient: {
       title: '渐变色生成器',
@@ -2401,7 +2417,6 @@ export default {
       specialSpace: '空格',
       specialComma: '逗号',
         specialSemicolon: '分号'
-      }
     },
     jsonPath: {
       title: 'JSONPath 查询',
@@ -2412,14 +2427,24 @@ export default {
       pathPlaceholder: '输入 JSONPath 表达式，如 $.store.book[*].title',
       query: '查询',
       examples: '快速示例',
-      resultAsArray: '始终以数组返回',
+      outputFormat: '输出格式',
+      formatPretty: '格式化',
+      formatCompact: '紧凑',
+      formatValues: '仅值',
       matchCount: '条匹配',
       noMatch: '无匹配结果',
       emptyTip: '输入 JSONPath 表达式后自动查询',
       invalidJson: 'JSON 格式不正确',
-      queryError: '表达式错误'
-    },
-    other: {
+      queryError: '表达式错误',
+      exprLabel: 'JSONPath 表达式',
+      ex1: '所有书名',
+      ex2: '价格 < 10',
+      ex3: '所有价格',
+      ex4: '第一本书',
+      ex5: '有 isbn 的书'
+    }
+  },
+  other: {
     qrcode: {
       title: '二维码生成器',
       description: '生成和解析二维码',

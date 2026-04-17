@@ -2238,7 +2238,23 @@ export default {
       noParams: 'This URL has no query parameters',
       builtUrl: 'Built URL',
       emptyTip: 'Paste a URL to start parsing',
-      invalidTip: 'Please enter a valid URL (must include protocol, e.g. https://)'
+      invalidTip: 'Please enter a valid URL (must include protocol, e.g. https://)',
+      partFullUrl: 'Full URL',
+      partProtocol: 'Protocol',
+      partHost: 'Host',
+      partHostname: 'Hostname',
+      partPort: 'Port',
+      partPath: 'Path',
+      partQuery: 'Query',
+      partHash: 'Hash',
+      partOrigin: 'Origin',
+      partUsername: 'Username',
+      partPassword: 'Password',
+      buildHostPlaceholder: 'example.com',
+      buildPortPlaceholder: 'Leave empty for default port',
+      buildPathPlaceholder: '/api/v1/users',
+      buildQueryPlaceholder: 'key1=value1&key2=value2',
+      buildHashPlaceholder: 'section-1'
     },
     gradient: {
       title: 'CSS Gradient Generator',
@@ -2415,7 +2431,6 @@ export default {
       specialSpace: 'Space',
       specialComma: 'Comma',
         specialSemicolon: 'Semicolon'
-      }
     },
     jsonPath: {
       title: 'JSONPath Query',
@@ -2426,14 +2441,24 @@ export default {
       pathPlaceholder: 'Enter JSONPath expression, e.g. $.store.book[*].title',
       query: 'Query',
       examples: 'Quick Examples',
-      resultAsArray: 'Always return as array',
+      outputFormat: 'Output Format',
+      formatPretty: 'Pretty',
+      formatCompact: 'Compact',
+      formatValues: 'Values only',
       matchCount: 'matches',
       noMatch: 'No matches found',
       emptyTip: 'Enter a JSONPath expression to auto-query',
       invalidJson: 'Invalid JSON format',
-      queryError: 'Expression error'
-    },
-    other: {
+      queryError: 'Expression error',
+      exprLabel: 'JSONPath Expression',
+      ex1: 'All titles',
+      ex2: 'Price < 10',
+      ex3: 'All prices',
+      ex4: 'First book',
+      ex5: 'Books with isbn'
+    }
+  },
+  other: {
     qrcode: {
       title: 'QR Code Generator',
       description: 'Generate and parse QR codes',
