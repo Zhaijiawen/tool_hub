@@ -102,8 +102,8 @@
       </div>
       <div class="content-wrapper">
         <!-- 简化的右侧导航 -->
-        <SimpleRightNav v-if="shouldShowTips" />
-        
+        <SimpleRightNav v-if="shouldShowTips" :has-favorites="favorites.length > 0" />
+
         <router-view></router-view>
       </div>
     </n-layout-content>
@@ -568,11 +568,6 @@ const menuOptions = computed(() => [
             path: '/convert/char-code'
           },
           {
-            label: t('convert.diff.title'),
-            key: 'diff',
-            path: '/convert/diff'
-          },
-          {
             label: t('convert.cron.title'),
             key: 'cron',
             path: '/convert/cron'
@@ -660,6 +655,11 @@ const menuOptions = computed(() => [
             label: t('text.jsonPath.title'),
             key: 'json-path',
             path: '/text/json-path'
+          },
+          {
+            label: t('convert.diff.title'),
+            key: 'diff',
+            path: '/text/diff'
           }
         ]
       },

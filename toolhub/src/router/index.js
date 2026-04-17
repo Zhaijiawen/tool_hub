@@ -266,11 +266,6 @@ const router = createRouter({
               path: 'char-code',
               component: () => import('@/components/convert/CharCode.vue')
             },
-            // Diff 文本对比
-            {
-              path: 'diff',
-              component: () => import('@/components/convert/Diff.vue')
-            },
             // Cron 表达式解析
             {
               path: 'cron',
@@ -358,6 +353,11 @@ const router = createRouter({
             {
               path: 'json-path',
               component: () => import('@/components/text/JsonPathQuery.vue')
+            },
+            // Diff 文本对比
+            {
+              path: 'diff',
+              component: () => import('@/components/convert/Diff.vue')
             }
           ]
         },

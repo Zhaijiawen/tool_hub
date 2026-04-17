@@ -318,9 +318,9 @@ const tools = [
   {
     id: 'diff',
     name: 'convert.diff.title',
-    path: '/convert/diff',
+    path: '/text/diff',
     description: 'convert.diff.description',
-    category: 'convert'
+    category: 'text'
   },
   {
     id: 'cron',

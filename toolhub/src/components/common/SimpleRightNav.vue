@@ -1,5 +1,5 @@
 <template>
-  <div v-if="shouldShow" class="simple-right-nav">
+  <div v-if="shouldShow" class="simple-right-nav" :style="{ '--nav-top-offset': hasFavorites ? '133px' : '84px' }">
     <div class="nav-panel right-panel">
       <!-- 学习资源导航 -->
       <div class="nav-card learning-nav">
@@ -34,6 +34,13 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { BookOutline as BookIcon } from '@vicons/ionicons5'
+
+const props = defineProps({
+  hasFavorites: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const { t } = useI18n()
 
@@ -83,7 +90,7 @@ const scrollToTutorial = () => {
 <style scoped>
 .simple-right-nav {
   position: fixed;
-  top: 84px;
+  top: var(--nav-top-offset, 84px);
   left: 0;
   right: 0;
   pointer-events: none;
