@@ -90,8 +90,10 @@ echo "=========================================="
 
 # 安装 Node 依赖
 # 切换国内镜像（避免服务器访问 npmjs.org 超时）
+# 写入用户级 .npmrc 确保所有子目录都生效
 echo "[信息] 切换 npm 镜像为淘宝源..."
-npm config set registry https://registry.npmmirror.com
+NPMRC_FILE="$HOME/.npmrc"
+echo "registry=https://registry.npmmirror.com" > "$NPMRC_FILE"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -109,8 +111,8 @@ npm install --legacy-peer-deps --prefix "$SCRIPT_DIR/toolhub-server" || { echo "
 echo "[信息] 安装 toolhub 依赖..."
 npm install --legacy-peer-deps --prefix "$SCRIPT_DIR/toolhub" || { echo "[错误] toolhub npm install 失败"; exit 1; }
 
-# 恢复官方源（不影响系统其他用途）
-npm config set registry https://registry.npmjs.org
+# 恢复官方源
+echo "registry=https://registry.npmjs.org" > "$NPMRC_FILE"
 echo "[信息] 已恢复 npm 官方源"
 
 # 构建前端项目（生产环境优化）
