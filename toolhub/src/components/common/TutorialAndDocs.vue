@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
+import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { marked } from 'marked'
@@ -318,7 +318,7 @@ const setupIntersectionObserver = () => {
 }
 
 // 监听工具键和语言变化，重置状态
-watch([currentToolKey, locale], () => {
+watch([currentToolKey, locale], (newVal, oldVal) => {
   // 重置状态
   isLoaded.value = false
   isLoading.value = false
@@ -342,6 +342,17 @@ watch([currentToolKey, locale], () => {
   backgroundContent.value = ''
   tutorialContent.value = ''
   examplesContent.value = ''
+
+  // 如果是语言切换（非首次初始化），且组件当前在视口内，则直接重新加载
+  // 避免切换语言后必须刷新才能看到对应语言文档的问题
+  if (oldVal !== undefined && tutorialRef.value) {
+    nextTick(() => {
+      const rect = tutorialRef.value?.getBoundingClientRect()
+      if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+        initializeContent()
+      }
+    })
+  }
 }, { immediate: true })
 
 // 组件挂载时设置观察器
