@@ -6,7 +6,7 @@
         <!-- 文件上传 -->
         <div class="upload-section">
           <n-upload
-            :max="1"
+            ref="uploadRef"
             :show-file-list="false"
             :custom-request="handleFileSelect"
             accept="*"
@@ -84,7 +84,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
@@ -92,6 +92,7 @@ import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 
+const uploadRef = ref(null)
 const fileInfo = ref(null)
 const computing = ref(false)
 const progress = ref(0)
@@ -125,13 +126,19 @@ const handleFileSelect = async ({ file }) => {
   const f = file.file
   if (!f) return
 
-  // 重置
+  // 重置状态
   hashResults.md5 = null
   hashResults.sha1 = null
   hashResults.sha256 = null
   hashResults.sha512 = null
   verifyResult.value = null
   expectedHash.value = ''
+
+  // 重置上传组件，允许再次选择同一文件或新文件
+  await nextTick()
+  if (uploadRef.value) {
+    uploadRef.value.clear()
+  }
 
   fileInfo.value = {
     name: f.name,
