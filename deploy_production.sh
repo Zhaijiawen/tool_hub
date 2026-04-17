@@ -97,10 +97,18 @@ echo "registry=https://registry.npmmirror.com" > "$NPMRC_FILE"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "[信息] 清理旧的 node_modules（避免残留文件导致 ENOTEMPTY 错误）..."
+echo "[信息] 清理残留的 npm 进程（避免并发安装导致死锁）..."
+pkill -f "npm install" 2>/dev/null || true
+sleep 1
+
+echo "[信息] 清理旧的 node_modules 和 npm 缓存..."
 rm -rf "$SCRIPT_DIR/node_modules"
 rm -rf "$SCRIPT_DIR/toolhub-server/node_modules"
 rm -rf "$SCRIPT_DIR/toolhub/node_modules"
+rm -f "$SCRIPT_DIR/package-lock.json"
+rm -f "$SCRIPT_DIR/toolhub-server/package-lock.json"
+rm -f "$SCRIPT_DIR/toolhub/package-lock.json"
+npm cache clean --force
 
 echo "[信息] 安装根目录依赖..."
 npm install --legacy-peer-deps || { echo "[错误] 根目录 npm install 失败"; exit 1; }
