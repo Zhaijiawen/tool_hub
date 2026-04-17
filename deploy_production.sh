@@ -15,25 +15,26 @@ if [ -f /etc/lsb-release ] || grep -qi ubuntu /etc/os-release 2>/dev/null; then
   sudo apt update && sudo apt upgrade -y || { echo "[错误] 系统更新失败"; exit 1; }
   
   # 检查并安装 nvm
-  if ! command -v nvm >/dev/null 2>&1; then
+  # 注意：nvm 是 shell 函数而非独立可执行文件，command -v 在脚本子 shell 里无法检测到
+  # 正确方式是检查 ~/.nvm/nvm.sh 是否存在
+  export NVM_DIR="$HOME/.nvm"
+  if [ ! -s "$NVM_DIR/nvm.sh" ]; then
     echo "[信息] 未检测到 nvm，正在安装..."
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    
-    # 更新 source
-    echo "[信息] 更新环境变量..."
-    source ~/.bashrc
-    
-    # 加载 nvm
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   else
     echo "[信息] nvm 已安装，加载环境..."
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   fi
   
+  # 加载 nvm（无论是否刚安装，统一在此加载）
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  # 验证 nvm 是否加载成功
+  if ! command -v nvm >/dev/null 2>&1; then
+    echo "[错误] nvm 加载失败，请检查安装日志"
+    exit 1
+  fi
+
   # 安装 Node.js
   echo "[信息] 安装 Node.js $REQUIRED_NODE_VERSION..."
   nvm install $REQUIRED_NODE_VERSION || { echo "[错误] Node.js 安装失败"; exit 1; }
@@ -44,9 +45,19 @@ if [ -f /etc/lsb-release ] || grep -qi ubuntu /etc/os-release 2>/dev/null; then
   echo "[信息] 安装 PM2..."
   npm install pm2 -g || { echo "[错误] PM2 安装失败"; exit 1; }
   
-  # 安装 nginx 及 Brotli 压缩模块
-  echo "[信息] 安装 nginx 及 ngx_brotli 模块..."
-  sudo apt install nginx libnginx-mod-brotli -y || { echo "[错误] nginx 安装失败"; exit 1; }
+  # 安装 nginx
+  echo "[信息] 安装 nginx..."
+  sudo apt install nginx -y || { echo "[错误] nginx 安装失败"; exit 1; }
+
+  # 尝试安装 Brotli 压缩模块（不同发行版包名不同，失败时自动降级到 Gzip）
+  echo "[信息] 尝试安装 ngx_brotli 模块..."
+  if sudo apt install libnginx-mod-brotli -y 2>/dev/null; then
+    echo "[信息] libnginx-mod-brotli 安装成功 ✅"
+  elif sudo apt install nginx-module-brotli -y 2>/dev/null; then
+    echo "[信息] nginx-module-brotli 安装成功 ✅"
+  else
+    echo "[警告] ngx_brotli 模块在当前系统源中不可用，将自动降级使用 Gzip 压缩 ⚠️"
+  fi
 
 else
   echo "[错误] 此脚本仅支持 Ubuntu/Debian 系统。请手动安装所需依赖。"
