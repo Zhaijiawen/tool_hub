@@ -111,15 +111,23 @@ const ensureMarkedConfig = async () => {
   if (markedConfigured) return
   const hljsInstance = await loadHljs()
   const renderer = new marked.Renderer()
-  renderer.code = function(code, language) {
-    const validLanguage = hljsInstance.getLanguage(language) ? language : 'plaintext'
-    try {
-      const highlighted = hljsInstance.highlight(code, { language: validLanguage }).value
-      return `<pre><code class="hljs ${validLanguage}">${highlighted}</code></pre>`
-    } catch {
-      return `<pre><code class="hljs plaintext">${code}</code></pre>`
+    renderer.code = function(code, language) {
+      // 仅对已注册的语言做高亮，未知语言直接 HTML 转义输出，避免 "language not found" 警告
+      const escapeHtml = (str) => str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+      if (language && hljsInstance.getLanguage(language)) {
+        try {
+          const highlighted = hljsInstance.highlight(code, { language }).value
+          return `<pre><code class="hljs ${language}">${highlighted}</code></pre>`
+        } catch {
+          // ignore
+        }
+      }
+      return `<pre><code class="hljs">${escapeHtml(code)}</code></pre>`
     }
-  }
   marked.setOptions({
     renderer: renderer,
     breaks: true,
