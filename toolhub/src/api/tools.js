@@ -481,6 +481,20 @@ const tools = [
     path: '/image/exif',
     description: 'image.exif.description',
     category: 'image'
+  },
+  {
+    id: 'httpClient',
+    name: 'other.httpClient.title',
+    path: '/other/http-client',
+    description: 'other.httpClient.description',
+    category: 'other'
+  },
+  {
+    id: 'certParser',
+    name: 'other.certParser.title',
+    path: '/other/cert-parser',
+    description: 'other.certParser.description',
+    category: 'other'
   }
 ]
 

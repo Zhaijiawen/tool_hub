@@ -649,7 +649,7 @@ export const seoConfig = {
         keywords: ['在线计算器', '科学计算器', '数学计算器']
       }
     },
-    urlParser: {
+    'url-parser': {
       en: {
         name: 'URL Parser',
         description: 'Parse URL components including protocol, host, path, query params and hash. Supports query param table view and URL builder.',
@@ -661,7 +661,7 @@ export const seoConfig = {
         keywords: ['URL解析', '查询参数', 'URL构建', '链接解析']
       }
     },
-    jsonPath: {
+    'json-path': {
       en: {
         name: 'JSONPath Query',
         description: 'Query JSON data using JSONPath expressions with support for filtering, recursion and quick examples.',
@@ -673,7 +673,7 @@ export const seoConfig = {
         keywords: ['JSONPath', 'JSON查询', 'JSON过滤', 'jsonpath表达式']
       }
     },
-    numberChinese: {
+    'number-chinese': {
       en: {
         name: 'Number to Chinese',
         description: 'Convert Arabic numerals to Chinese uppercase, lowercase or financial format.',
@@ -745,16 +745,16 @@ export const seoConfig = {
         keywords: ['Cron解析', 'Cron表达式', '定时任务', 'Quartz Cron']
       }
     },
-    jsonConvert: {
+    'json-convert': {
       en: {
         name: 'JSON Format Converter',
-        description: 'Convert JSON to and from YAML, CSV, TOML and XML formats.',
-        keywords: ['json converter', 'json to yaml', 'json to csv', 'json to xml', 'json to toml']
+        description: 'Convert JSON to and from YAML, CSV, TOML and XML formats. Also generate TypeScript, Go and Rust type definitions from JSON.',
+        keywords: ['json converter', 'json to yaml', 'json to csv', 'json to xml', 'json to toml', 'json to typescript']
       },
       zh: {
         name: 'JSON 格式互转',
-        description: 'JSON 与 YAML / CSV / TOML / XML 相互转换',
-        keywords: ['JSON转换', 'JSON转YAML', 'JSON转CSV', 'JSON转XML']
+        description: 'JSON 与 YAML / CSV / TOML / XML 相互转换，支持生成 TypeScript / Go / Rust 类型定义',
+        keywords: ['JSON转换', 'JSON转YAML', 'JSON转CSV', 'JSON转XML', 'JSON生成类型']
       }
     },
     ip: {
@@ -769,7 +769,7 @@ export const seoConfig = {
         keywords: ['IP查询', 'IP地址', 'IP归属地', 'IP地理位置']
       }
     },
-    fileHash: {
+    'file-hash': {
       en: {
         name: 'File Hash Checker',
         description: 'Calculate MD5, SHA-1, SHA-256 and SHA-512 checksums for any file and verify against expected values.',
@@ -803,6 +803,30 @@ export const seoConfig = {
         name: '渐变色生成器',
         description: '可视化生成 CSS 渐变背景代码',
         keywords: ['CSS渐变', '渐变色', '渐变背景', '渐变生成器']
+      }
+    },
+    'http-client': {
+      en: {
+        name: 'HTTP Client',
+        description: 'Send HTTP/HTTPS requests directly from your browser. Supports GET, POST, PUT, PATCH, DELETE with custom headers, query params and request body.',
+        keywords: ['http client', 'api tester', 'rest client', 'http request', 'api debugger']
+      },
+      zh: {
+        name: 'HTTP 请求测试',
+        description: '在浏览器中直接发送 HTTP/HTTPS 请求，支持自定义 Headers、Query Params 和 Body',
+        keywords: ['HTTP请求', 'API测试', 'REST客户端', '接口调试', 'HTTP工具']
+      }
+    },
+    'cert-parser': {
+      en: {
+        name: 'SSL Certificate Parser',
+        description: 'Parse SSL/TLS X.509 certificates to view subject, issuer, validity period, SAN, key usage and SHA fingerprints.',
+        keywords: ['ssl certificate', 'tls certificate', 'x509 parser', 'certificate viewer', 'pem parser']
+      },
+      zh: {
+        name: 'SSL 证书解析',
+        description: '解析 SSL/TLS X.509 证书，查看主体、颁发者、有效期、SAN、指纹等详细信息',
+        keywords: ['SSL证书', 'TLS证书', 'X509解析', '证书查看', 'PEM解析']
       }
     }
   }

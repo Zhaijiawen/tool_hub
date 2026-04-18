@@ -1561,29 +1561,31 @@ export const toolDescriptions = {
     features: [
       '支持JSON、YAML、CSV、TOML、XML五种格式互转',
       '智能格式自动检测',
-      '保留数据结构的完整性',
+      '一键生成 TypeScript Interface、Go Struct、Rust Struct',
+      '递归推断嵌套对象类型，自动生成多级 Interface',
       '支持下载转换结果文件',
       '一键互换输入输出格式'
     ],
     useCases: [
-      '将API返回的JSON转为YAML配置文件',
-      '解析CSV表格数据为JSON对象',
-      '转换不同系统间的配置格式',
-      'XML数据结构迁移到JSON',
-      '多格式数据标准化处理'
+      '将 API 返回 JSON 直接转为 TypeScript 接口定义',
+      '将 JSON 数据模型转为 Go 结构体（含 json tag）',
+      '将 JSON 数据模型转为 Rust Serde 可序列化结构体',
+      '将 API 返回的 JSON 转为 YAML 配置文件',
+      '解析 CSV 表格数据为 JSON 对象',
+      '转换不同系统间的配置格式'
     ],
     usageSteps: [
-      '在左侧输入区粘贴源数据',
-      '选择输入格式（可自动检测）',
-      '在右侧选择目标输出格式',
+      '在左侧输入区粘贴 JSON 数据',
+      '选择输入格式为 JSON',
+      '在右侧选择目标输出格式（TypeScript / Go / Rust 或其他格式）',
       '点击"转换"按钮执行',
-      '复制或下载转换结果'
+      '复制或下载生成的代码'
     ],
     bestPractices: [
-      'CSV转JSON时确保表头行完整',
-      'YAML转JSON注意缩进一致性',
-      '转换前验证源数据格式正确',
-      'XML转JSON时注意属性和文本节点的处理'
+      'TypeScript / Go / Rust 代码生成仅支持 JSON 输入',
+      '数组类型会取第一个元素推断类型',
+      'CSV 转 JSON 时确保表头行完整',
+      'YAML 转 JSON 注意缩进一致性'
     ]
   },
 
@@ -3783,6 +3785,66 @@ export const toolDescriptionsEn = {
       '生产环境请使用服务端生成以确保唯一性'
     ]
   },
+
+  httpClient: {
+    features: [
+      '支持 GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS 方法',
+      '自定义 Query Params、Headers、Body（JSON / Form / Text）',
+      '响应状态码、耗时、大小、响应头一览无余',
+      '自动格式化 JSON 响应体，提升可读性',
+      '最近一次请求自动保存，下次打开自动恢复'
+    ],
+    useCases: [
+      '快速测试开放的 REST API 接口',
+      '开发调试时查看 API 响应',
+      '验证请求头与响应头是否符合预期',
+      '测试已配置 CORS 的第三方 API'
+    ],
+    usageSteps: [
+      '选择 HTTP 方法（GET、POST 等）',
+      '输入请求地址',
+      '按需添加 Query Params、Headers 或 Body',
+      '点击「发送」',
+      '查看响应状态、响应头和响应体'
+    ],
+    bestPractices: [
+      '浏览器 CORS 策略会限制部分跨域请求',
+      '可先测试 httpbin.org 等支持 CORS 的开放接口',
+      'JSON Body 会自动补 Content-Type: application/json',
+      'Form Body 会自动补 Content-Type: application/x-www-form-urlencoded'
+    ]
+  },
+
+  certParser: {
+    features: [
+      '粘贴 PEM 格式证书，在浏览器本地解析，数据不上传',
+      '输入域名自动通过 crt.sh CT 日志获取最新证书',
+      '展示主体、颁发者、序列号、版本、有效期等完整信息',
+      '解析 SAN 扩展、密钥用途、扩展密钥用途',
+      '计算 SHA-1 和 SHA-256 指纹',
+      '直观显示证书状态：已过期 / 即将过期 / 有效'
+    ],
+    useCases: [
+      '上线前核实 SSL 证书配置是否正确',
+      '检查证书到期时间，防止服务中断',
+      '验证 SAN 中是否包含所需域名',
+      '提取证书指纹用于证书锁定（Certificate Pinning）',
+      '排查 HTTPS 握手问题'
+    ],
+    usageSteps: [
+      '选择「粘贴 PEM」或「域名查询」模式',
+      '粘贴证书内容 或 输入域名',
+      '点击「解析证书」或「查询」',
+      '查看结构化的证书详细信息'
+    ],
+    bestPractices: [
+      '证书内容在浏览器本地解析，不会上传到服务器，安全可靠',
+      '域名查询需要访问 crt.sh，需要网络连接',
+      '仅支持 PEM 格式（-----BEGIN CERTIFICATE-----）',
+      '内网 CA 证书请直接使用粘贴 PEM 模式'
+    ]
+  },
+
   uuidEn: {
     features: [
       'Supports UUID v1 (time-based), v4 (random), v7 (new standard, sortable), and NanoID',
@@ -3811,6 +3873,65 @@ export const toolDescriptionsEn = {
       'v7 combines sortability and randomness, ideal for time-ordered primary keys',
       'NanoID is ~30% shorter than UUID, great for URLs and filenames',
       'Use server-side generation in production environments for guaranteed uniqueness'
+    ]
+  },
+
+  httpClientEn: {
+    features: [
+      'Supports GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS methods',
+      'Custom Query Params, Headers, and Body (JSON / Form / Text)',
+      'Response status, time, size, and headers displayed in one view',
+      'Auto-formats JSON response body for readability',
+      'Last request auto-saved and restored on next visit'
+    ],
+    useCases: [
+      'Quickly test open REST API endpoints',
+      'Debug API responses during development',
+      'Verify correct request/response headers',
+      'Test CORS-enabled third-party APIs'
+    ],
+    usageSteps: [
+      'Select the HTTP method (GET, POST, etc.)',
+      'Enter the request URL',
+      'Add Query Params, Headers, or Body as needed',
+      'Click "Send" to send the request',
+      'View the response status, headers, and body'
+    ],
+    bestPractices: [
+      'Browser CORS policy restricts some cross-origin requests',
+      'Try APIs with CORS enabled or open APIs like httpbin.org',
+      'JSON body will auto-set Content-Type: application/json',
+      'Form body will auto-set Content-Type: application/x-www-form-urlencoded'
+    ]
+  },
+
+  certParserEn: {
+    features: [
+      'Parse PEM format X.509 certificates locally in the browser',
+      'Fetch certificate info by domain name via crt.sh CT logs',
+      'Display subject, issuer, serial number, version, and validity dates',
+      'Show Subject Alternative Names (SAN), Key Usage, Extended Key Usage',
+      'Calculate SHA-1 and SHA-256 fingerprints',
+      'Visual expiry warning: expired / expiring soon / valid'
+    ],
+    useCases: [
+      'Verify SSL certificate details before deployment',
+      'Check certificate expiry to prevent outages',
+      'Inspect SAN entries to confirm domain coverage',
+      'Validate certificate chain and issuer information',
+      'Extract certificate fingerprints for pinning'
+    ],
+    usageSteps: [
+      'Choose "Paste PEM" or "Domain Lookup" mode',
+      'Paste a PEM certificate or enter a domain name',
+      'Click "Parse Certificate" or "Fetch"',
+      'Review the structured certificate details'
+    ],
+    bestPractices: [
+      'Certificate is parsed entirely in the browser — no data is uploaded',
+      'Domain lookup requires network access to crt.sh',
+      'Only certificates in PEM format (-----BEGIN CERTIFICATE-----) are supported',
+      'For internal CA certificates, use the Paste PEM mode'
     ]
   }
 }

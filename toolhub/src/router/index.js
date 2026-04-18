@@ -401,6 +401,16 @@ const router = createRouter({
             {
               path: 'password',
               component: () => import('@/components/other/PasswordGenerator.vue')
+            },
+            // HTTP 请求测试
+            {
+              path: 'http-client',
+              component: () => import('@/components/other/HttpClient.vue')
+            },
+            // SSL 证书解析
+            {
+              path: 'cert-parser',
+              component: () => import('@/components/other/CertParser.vue')
             }
           ]
         },

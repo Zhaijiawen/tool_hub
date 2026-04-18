@@ -707,6 +707,16 @@ const menuOptions = computed(() => [
         label: t('other.password.title'),
         key: 'password',
         path: '/other/password'
+      },
+      {
+        label: t('other.httpClient.title'),
+        key: 'http-client',
+        path: '/other/http-client'
+      },
+      {
+        label: t('other.certParser.title'),
+        key: 'cert-parser',
+        path: '/other/cert-parser'
       }
     ]
   }

@@ -74,8 +74,13 @@
           {{ convertError }}
         </n-alert>
 
+        <!-- 代码生成提示 -->
+        <n-alert v-if="['typescript','go','rust'].includes(outputFormat)" type="success" :title="t('convert.jsonConvert.codeGenTitle')">
+          {{ t('convert.jsonConvert.codeGenDesc') }}
+        </n-alert>
+
         <!-- 格式说明 -->
-        <n-alert type="info" :title="t('convert.jsonConvert.supportedFormats')">
+        <n-alert v-else type="info" :title="t('convert.jsonConvert.supportedFormats')">
           {{ t('convert.jsonConvert.formatsDesc') }}
         </n-alert>
 
@@ -107,7 +112,10 @@ const formatOptions = computed(() => [
   { label: 'YAML', value: 'yaml' },
   { label: 'CSV', value: 'csv' },
   { label: 'TOML', value: 'toml' },
-  { label: 'XML', value: 'xml' }
+  { label: 'XML', value: 'xml' },
+  { label: 'TypeScript', value: 'typescript', disabled: inputFormat.value !== 'json' },
+  { label: 'Go Struct', value: 'go', disabled: inputFormat.value !== 'json' },
+  { label: 'Rust Struct', value: 'rust', disabled: inputFormat.value !== 'json' }
 ])
 
 const handleFormatChange = () => {
@@ -176,9 +184,176 @@ const serializeOutput = async (data, format) => {
       const builder = new XMLBuilder({ ignoreAttributes: false, format: true })
       return builder.build(data)
     }
+    case 'typescript':
+      return jsonToTypeScript(data)
+    case 'go':
+      return jsonToGo(data)
+    case 'rust':
+      return jsonToRust(data)
     default:
       throw new Error('Unsupported format: ' + format)
   }
+}
+
+// ── JSON → TypeScript Interface ──────────────────────────────
+
+const inferTsType = (value, key = '', depth = 0) => {
+  if (value === null) return 'null'
+  if (Array.isArray(value)) {
+    if (value.length === 0) return 'unknown[]'
+    // 统一推断数组元素类型
+    const elementTypes = [...new Set(value.map(v => inferTsType(v, key, depth)))]
+    const elemType = elementTypes.length === 1 ? elementTypes[0] : elementTypes.join(' | ')
+    return `${elemType}[]`
+  }
+  if (typeof value === 'object') {
+    const typeName = toPascalCase(key) || `Type${depth}`
+    return typeName
+  }
+  if (typeof value === 'number') return Number.isInteger(value) ? 'number' : 'number'
+  if (typeof value === 'boolean') return 'boolean'
+  return 'string'
+}
+
+// 递归收集所有嵌套 interface 定义
+const collectTsInterfaces = (data, name, interfaces) => {
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) return
+  const lines = [`export interface ${name} {`]
+  for (const [key, value] of Object.entries(data)) {
+    const safeName = /^[a-zA-Z_$]/.test(key) ? key : `'${key}'`
+    if (value === null) {
+      lines.push(`  ${safeName}: null`)
+    } else if (Array.isArray(value)) {
+      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+        const childName = toPascalCase(key) + 'Item'
+        lines.push(`  ${safeName}: ${childName}[]`)
+        collectTsInterfaces(value[0], childName, interfaces)
+      } else {
+        const elemType = value.length === 0 ? 'unknown' : inferTsType(value[0])
+        lines.push(`  ${safeName}: ${elemType}[]`)
+      }
+    } else if (typeof value === 'object') {
+      const childName = toPascalCase(key)
+      lines.push(`  ${safeName}: ${childName}`)
+      collectTsInterfaces(value, childName, interfaces)
+    } else {
+      lines.push(`  ${safeName}: ${typeof value}`)
+    }
+  }
+  lines.push('}')
+  interfaces.unshift(lines.join('\n'))
+}
+
+const jsonToTypeScript = (data) => {
+  const root = Array.isArray(data) ? (data[0] || {}) : data
+  if (typeof root !== 'object' || root === null) {
+    return `// 根类型\ntype Root = ${inferTsType(data)}`
+  }
+  const interfaces = []
+  collectTsInterfaces(root, 'Root', interfaces)
+  return interfaces.join('\n\n')
+}
+
+// ── JSON → Go Struct ──────────────────────────────
+
+const jsonToGo = (data) => {
+  const root = Array.isArray(data) ? (data[0] || {}) : data
+  if (typeof root !== 'object' || root === null) return '// 无法从原始类型生成 Go Struct'
+  const structs = []
+  collectGoStructs(root, 'Root', structs)
+  return structs.join('\n\n')
+}
+
+const inferGoType = (value, key) => {
+  if (value === null) return 'interface{}'
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '[]interface{}'
+    if (typeof value[0] === 'object' && value[0] !== null) return `[]${toPascalCase(key)}`
+    return `[]${inferGoType(value[0], key)}`
+  }
+  if (typeof value === 'object') return toPascalCase(key)
+  if (typeof value === 'number') return Number.isInteger(value) ? 'int64' : 'float64'
+  if (typeof value === 'boolean') return 'bool'
+  return 'string'
+}
+
+const collectGoStructs = (data, name, structs) => {
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) return
+  const lines = [`type ${name} struct {`]
+  for (const [key, value] of Object.entries(data)) {
+    const fieldName = toPascalCase(key)
+    const goType = inferGoType(value, key)
+    const jsonTag = `\`json:"${key}"\``
+    lines.push(`\t${fieldName} ${goType} ${jsonTag}`)
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      collectGoStructs(value, toPascalCase(key), structs)
+    } else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+      collectGoStructs(value[0], toPascalCase(key), structs)
+    }
+  }
+  lines.push('}')
+  structs.unshift(lines.join('\n'))
+}
+
+// ── JSON → Rust Struct ──────────────────────────────
+
+const jsonToRust = (data) => {
+  const root = Array.isArray(data) ? (data[0] || {}) : data
+  if (typeof root !== 'object' || root === null) return '// 无法从原始类型生成 Rust Struct'
+  const structs = []
+  collectRustStructs(root, 'Root', structs)
+  return structs.join('\n\n')
+}
+
+const inferRustType = (value, key) => {
+  if (value === null) return 'Option<serde_json::Value>'
+  if (Array.isArray(value)) {
+    if (value.length === 0) return 'Vec<serde_json::Value>'
+    if (typeof value[0] === 'object' && value[0] !== null) return `Vec<${toPascalCase(key)}>`
+    return `Vec<${inferRustType(value[0], key)}>`
+  }
+  if (typeof value === 'object') return toPascalCase(key)
+  if (typeof value === 'number') return Number.isInteger(value) ? 'i64' : 'f64'
+  if (typeof value === 'boolean') return 'bool'
+  return 'String'
+}
+
+const collectRustStructs = (data, name, structs) => {
+  if (typeof data !== 'object' || data === null || Array.isArray(data)) return
+  const lines = [
+    '#[derive(Debug, Serialize, Deserialize)]',
+    `pub struct ${name} {`
+  ]
+  for (const [key, value] of Object.entries(data)) {
+    const snakeKey = toSnakeCase(key)
+    const rustType = inferRustType(value, key)
+    if (snakeKey !== key) lines.push(`    #[serde(rename = "${key}")]`)
+    lines.push(`    pub ${snakeKey}: ${rustType},`)
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      collectRustStructs(value, toPascalCase(key), structs)
+    } else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+      collectRustStructs(value[0], toPascalCase(key), structs)
+    }
+  }
+  lines.push('}')
+  structs.unshift(lines.join('\n'))
+}
+
+// ── 命名工具函数 ──────────────────────────────
+
+const toPascalCase = (str) => {
+  if (!str) return 'Field'
+  return str
+    .replace(/[-_\s]+(.)/g, (_, c) => c.toUpperCase())
+    .replace(/^(.)/, c => c.toUpperCase())
+}
+
+const toSnakeCase = (str) => {
+  return str
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase()
+    .replace(/^_/, '')
+    .replace(/[-\s]+/g, '_')
 }
 
 // 简单 CSV ↔ JSON 实现（处理对象数组）
@@ -252,7 +427,15 @@ const convert = async () => {
   }
 }
 
+const CODE_GEN_FORMATS = ['typescript', 'go', 'rust']
+
 const swapFormats = () => {
+  // 代码生成格式（ts/go/rust）只能作为 output，不能交换到 input
+  if (CODE_GEN_FORMATS.includes(outputFormat.value)) {
+    outputFormat.value = 'json'
+    if (inputText.value) convert()
+    return
+  }
   const tmp = inputFormat.value
   inputFormat.value = outputFormat.value
   outputFormat.value = tmp
@@ -260,6 +443,8 @@ const swapFormats = () => {
 }
 
 const swapContent = () => {
+  // 代码生成格式不可作为输入，跳过内容交换
+  if (CODE_GEN_FORMATS.includes(outputFormat.value)) return
   const tmpText = inputText.value
   const tmpFormat = inputFormat.value
   inputText.value = outputText.value
@@ -286,7 +471,7 @@ const copyOutput = () => {
 
 const downloadOutput = () => {
   if (!outputText.value) return
-  const extMap = { json: 'json', yaml: 'yaml', csv: 'csv', toml: 'toml', xml: 'xml' }
+  const extMap = { json: 'json', yaml: 'yaml', csv: 'csv', toml: 'toml', xml: 'xml', typescript: 'ts', go: 'go', rust: 'rs' }
   const ext = extMap[outputFormat.value] || 'txt'
   const blob = new Blob([outputText.value], { type: 'text/plain' })
   const url = URL.createObjectURL(blob)
