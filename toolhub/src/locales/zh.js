@@ -3023,7 +3023,8 @@ quickTemplates: '快速模板',
       titleRequired: '请输入名称',
       contentRequired: '请输入 Prompt 内容',
       varTip: '变量语法',
-      varTipContent: '在 Prompt 内容中用双花括号包裹变量名，点击「填充变量」时会自动识别并提供输入框。可定义多个变量，如 language、code、text 等'
+      varTipContent: '在 Prompt 内容中用双花括号包裹变量名，点击「填充变量」时会自动识别并提供输入框。可定义多个变量，如 language、code、text 等',
+      localStorageHint: '自定义 Prompt 保存在浏览器本地存储中，清除 Cookie / 浏览器数据后将会丢失，请注意备份重要内容'
     },
     shortUrl: {
       title: '短链接生成器',

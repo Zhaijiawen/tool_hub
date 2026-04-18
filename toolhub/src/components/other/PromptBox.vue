@@ -136,6 +136,9 @@
         <n-alert type="info" :title="t('other.promptBox.varTip')" style="margin-bottom: 8px">
           {{ t('other.promptBox.varTipContent') }}
         </n-alert>
+        <n-alert v-if="!editingPrompt.id" type="warning" :show-icon="true" style="margin-bottom: 12px">
+          {{ t('other.promptBox.localStorageHint') }}
+        </n-alert>
         <n-space justify="end">
           <n-button @click="editDialogVisible = false">{{ t('common.cancel') }}</n-button>
           <n-button type="primary" @click="savePrompt">{{ t('common.save') }}</n-button>

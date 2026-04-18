@@ -3023,7 +3023,8 @@ quickTemplates: 'Quick Templates',
       titleRequired: 'Title is required',
       contentRequired: 'Prompt content is required',
       varTip: 'Variable Syntax',
-      varTipContent: 'Wrap variable names in double braces inside the Prompt content. When you click "Fill Vars", each variable will have its own input field automatically. Multiple variables are supported, e.g. language, code, text'
+      varTipContent: 'Wrap variable names in double braces inside the Prompt content. When you click "Fill Vars", each variable will have its own input field automatically. Multiple variables are supported, e.g. language, code, text',
+      localStorageHint: 'Custom prompts are stored in browser localStorage. They will be lost if you clear cookies or browser data — please back up anything important'
     },
     shortUrl: {
       title: 'Short URL Generator',
