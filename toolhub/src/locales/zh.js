@@ -2479,8 +2479,8 @@ export default {
   },
   other: {
     qrcode: {
-      title: '二维码生成器',
-      description: '生成和解析二维码',
+      title: '二维码生成 / 识别',
+      description: '生成和识别二维码',
       generate: '生成二维码',
       decode: '解析二维码',
       content: '内容',

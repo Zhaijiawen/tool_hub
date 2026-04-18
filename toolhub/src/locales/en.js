@@ -2479,8 +2479,8 @@ export default {
   },
   other: {
     qrcode: {
-      title: 'QR Code Generator',
-      description: 'Generate and parse QR codes',
+    title: 'QR Code Generator & Reader',
+    description: 'Generate and decode QR codes',
       generate: 'Generate QR Code',
       decode: 'Decode QR Code',
       content: 'Content',

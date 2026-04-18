@@ -627,14 +627,14 @@ export const seoConfig = {
     // 其他工具
     qrcode: {
       en: {
-        name: 'QR Code Generator',
-        description: 'Generate QR codes from text, URLs, or other data with customizable options',
-        keywords: ['qr code generator', 'qr code maker', 'qr code creator']
+        name: 'QR Code Generator & Reader',
+        description: 'Generate QR codes from text, URLs, or other data, and decode QR codes from images or camera.',
+        keywords: ['qr code generator', 'qr code reader', 'qr code decoder', 'qr code maker', 'scan qr code']
       },
       zh: {
-        name: '二维码生成工具',
-        description: '二维码生成工具，支持文本、URL 等数据的自定义选项',
-        keywords: ['二维码生成', 'qr 码生成', '二维码制作']
+        name: '二维码生成 / 识别',
+        description: '生成二维码，支持文本、URL 等；同时支持上传图片或摄像头扫描识别二维码',
+        keywords: ['二维码生成', '二维码识别', '二维码扫描', '二维码解析', 'QR码']
       }
     },
     calculator: {
