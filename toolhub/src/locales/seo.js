@@ -840,6 +840,18 @@ export const seoConfig = {
         description: '精选常用 AI Prompt 模板库，支持变量填充、自定义管理和一键复制，快速构建高质量 ChatGPT / Claude 提示词',
         keywords: ['Prompt模板', 'AI提示词', 'ChatGPT', 'Prompt工程', '提示词库']
       }
+    },
+    'script-box': {
+      en: {
+        name: 'Script Toolkit',
+        description: 'Write a JavaScript transform function, feed it any input, and see the result instantly. Comes with dayjs, lodash, CryptoJS and more helpers built-in.',
+        keywords: ['javascript sandbox', 'custom script', 'js toolkit', 'code runner', 'transform tool']
+      },
+      zh: {
+        name: '脚本工具箱',
+        description: '写一个 JavaScript transform 函数，输入数据即可运行得到结果。内置 dayjs、lodash、CryptoJS 等常用工具库，支持脚本导入导出',
+        keywords: ['JS脚本', '自定义工具', '代码运行', '数据转换', '脚本工具箱']
+      }
     }
   }
 

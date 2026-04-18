@@ -420,6 +420,19 @@ const router = createRouter({
           ]
         },
         
+        // ===== 自定义工具路由 =====
+        {
+          path: 'custom',
+          component: BaseView,
+          children: [
+            // 脚本工具箱
+            {
+              path: 'script-box',
+              component: () => import('@/components/custom/ScriptBox.vue')
+            }
+          ]
+        },
+
         // 首页：工具导航 + 网站介绍（独立 SEO 页面）
         {
           path: '',

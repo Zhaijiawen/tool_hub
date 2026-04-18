@@ -502,6 +502,14 @@ const tools = [
     path: '/other/prompt-box',
     description: 'other.promptBox.description',
     category: 'other'
+  },
+  // ===== 自定义工具 =====
+  {
+    id: 'scriptBox',
+    name: 'custom.scriptBox.title',
+    path: '/custom/script-box',
+    description: 'custom.scriptBox.description',
+    category: 'custom'
   }
 ]
 

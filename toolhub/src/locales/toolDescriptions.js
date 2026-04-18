@@ -1770,6 +1770,37 @@ export const toolDescriptions = {
       '内置模板不可删除，可新增自定义变体进行个性化调整',
       '所有自定义 Prompt 仅保存在本地浏览器中'
     ]
+  },
+
+  // ===== 脚本工具箱 =====
+  scriptBox: {
+    features: [
+      '编写自定义 JavaScript transform(input, helpers) 函数处理任意数据',
+      '内置工具库：dayjs、lodash、CryptoJS、js-yaml、mathjs、uuid、nanoid、diff、marked、DOMPurify、fast-xml-parser、spark-md5',
+      '完全在浏览器本地运行，无需服务器，数据不上传',
+      '支持 async/await，可调用 fetch、Web Crypto 等异步浏览器 API',
+      '多脚本管理：按分类命名存储，左侧列表快速切换',
+      '导出为 .toolhub.json 文件，导入到任意设备继续使用',
+      '运行计时：每次执行显示耗时（毫秒）',
+      '错误输出：完整的 stack trace，方便调试定位'
+    ],
+    useCases: [
+      '用 dayjs 将时间戳转换成可读日期',
+      '用 lodash 从 JSON 数据中提取指定字段',
+      '用 CryptoJS 计算字符串的 MD5 / SHA256',
+      '解析 YAML 配置并格式化输出为 JSON',
+      '批量生成 UUID 或 NanoID',
+      '对比两段文本并高亮差异（diff）',
+      '用 mathjs 运行复杂数学表达式',
+      '用 DOMPurify 过滤 HTML 中的 XSS 内容'
+    ],
+    bestPractices: [
+      '函数名必须是 transform，执行引擎按此名称查找',
+      '自由使用 async/await，引擎会自动 await 你的函数',
+      '定期导出脚本集，防止浏览器清理本地存储导致丢失',
+      '在输入框中直接粘贴 JSON 或多行文本，作为 input 参数传入',
+      '用 helpers._ (lodash) 安全遍历对象，无需手动判空'
+    ]
   }
 }
 
@@ -4028,6 +4059,37 @@ export const toolDescriptionsEn = {
       'Add a short description to make templates easy to find via search',
       'Built-in templates cannot be deleted; add custom variants instead',
       'All custom prompts are stored locally in your browser'
+    ]
+  },
+
+  // ===== 脚本工具箱（英文） =====
+  scriptBox: {
+    features: [
+      'Write a custom JavaScript transform(input, helpers) function to process any data',
+      'Built-in helpers: dayjs, lodash, CryptoJS, js-yaml, mathjs, uuid, nanoid, diff, marked, DOMPurify, fast-xml-parser, spark-md5',
+      'Run scripts entirely in the browser — no server, no data upload',
+      'Support async/await: call fetch, use Web Crypto API and other async browser APIs',
+      'Manage multiple named scripts grouped by category',
+      'Export all scripts as a .toolhub.json file; import them on any device',
+      'Execution timer shows elapsed milliseconds for each run',
+      'Error output displayed with full stack trace for easy debugging'
+    ],
+    useCases: [
+      'Convert timestamps to human-readable dates using dayjs',
+      'Extract fields from JSON payloads with lodash pick/get',
+      'Compute MD5 / SHA256 of a string with CryptoJS',
+      'Parse YAML config and re-format as JSON',
+      'Generate bulk UUIDs or NanoIDs',
+      'Diff two text blobs and highlight changes',
+      'Run quick math expressions with mathjs',
+      'Sanitize HTML snippets against XSS with DOMPurify'
+    ],
+    bestPractices: [
+      'Name your function exactly transform — the runner looks for this name',
+      'Use async/await freely; the engine awaits your function automatically',
+      'Export your script collection regularly to avoid data loss',
+      'Paste JSON or multi-line text directly into the input area as the input argument',
+      'Use helpers._ (lodash) for safe traversal — no need to handle null manually'
     ]
   }
 }

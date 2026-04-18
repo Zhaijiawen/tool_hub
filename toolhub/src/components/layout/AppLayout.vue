@@ -724,6 +724,18 @@ const menuOptions = computed(() => [
         path: '/other/prompt-box'
       }
     ]
+  },
+  // ===== 自定义工具 =====
+  {
+    label: t('custom.title'),
+    key: 'custom',
+    children: [
+      {
+        label: t('custom.scriptBox.title'),
+        key: 'script-box',
+        path: '/custom/script-box'
+      }
+    ]
   }
 ])
 
