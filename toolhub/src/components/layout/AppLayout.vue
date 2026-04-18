@@ -717,6 +717,11 @@ const menuOptions = computed(() => [
         label: t('other.certParser.title'),
         key: 'cert-parser',
         path: '/other/cert-parser'
+      },
+      {
+        label: t('other.promptBox.title'),
+        key: 'prompt-box',
+        path: '/other/prompt-box'
       }
     ]
   }

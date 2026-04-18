@@ -1738,6 +1738,38 @@ export const toolDescriptions = {
       '批量压缩时统一设置质量滑块更高效',
       '压缩操作在浏览器本地完成，图片不会上传'
     ]
+  },
+
+  promptBox: {
+    features: [
+      '内置 16 个专业 Prompt 模板，覆盖代码、写作、分析、角色、增强 5 大分类',
+      '变量语法：用 {{变量名}} 定义动态占位符，支持多变量填充',
+      '变量填充弹窗：自动识别变量并提供输入框，实时预览填充结果',
+      '一键复制：直接复制原始模板或填充后的最终 Prompt',
+      '自定义管理：新增、编辑、删除个人 Prompt 模板',
+      '全文搜索：支持按标题、内容、简介搜索',
+      '分类筛选：代码 / 写作 / 分析 / 角色 / 增强 / 自定义',
+      '本地持久化：自定义 Prompt 保存到 localStorage，刷新不丢失'
+    ],
+    useCases: [
+      '快速调用常用 AI 提示词，无需重复输入',
+      '管理 ChatGPT / Claude / Copilot 的个人提示词库',
+      '填充动态变量（如代码片段、语言、收件人）后一键复制',
+      '团队统一维护高质量 Prompt 模板',
+      '代码审查、重构、单元测试、Bug 排查一键生成提示词'
+    ],
+    usageSteps: [
+      '浏览内置模板或使用搜索框找到所需 Prompt',
+      '点击「复制」直接复制原始模板',
+      '或点击「填充变量」输入各变量值后复制填充结果',
+      '点击「+ 新增 Prompt」创建并保存个人模板'
+    ],
+    bestPractices: [
+      '使用 {{变量名}} 占位符让 Prompt 模板可复用，适配不同输入场景',
+      '为自定义 Prompt 添加简介，方便后续搜索定位',
+      '内置模板不可删除，可新增自定义变体进行个性化调整',
+      '所有自定义 Prompt 仅保存在本地浏览器中'
+    ]
   }
 }
 
@@ -3815,6 +3847,38 @@ export const toolDescriptionsEn = {
     ]
   },
 
+  promptBox: {
+    features: [
+      '内置 16 个专业 Prompt 模板，覆盖代码、写作、分析、角色、增强 5 大分类',
+      '变量语法：用 {{变量名}} 定义动态占位符，支持多变量填充',
+      '变量填充弹窗：自动识别变量并提供输入框，实时预览填充结果',
+      '一键复制：直接复制原始模板或填充后的最终 Prompt',
+      '自定义管理：新增、编辑、删除个人 Prompt 模板',
+      '全文搜索：支持按标题、内容、简介搜索',
+      '分类筛选：代码 / 写作 / 分析 / 角色 / 增强 / 自定义',
+      '本地持久化：自定义 Prompt 保存到 localStorage，刷新不丢失'
+    ],
+    useCases: [
+      '快速调用常用 AI 提示词，无需重复输入',
+      '管理 ChatGPT / Claude / Copilot 的个人提示词库',
+      '填充动态变量（如代码片段、语言、收件人）后一键复制',
+      '团队统一维护高质量 Prompt 模板',
+      '代码审查、重构、单元测试、Bug 排查一键生成提示词'
+    ],
+    usageSteps: [
+      '浏览内置模板或使用搜索框找到所需 Prompt',
+      '点击「复制」直接复制原始模板',
+      '或点击「填充变量」输入各变量值后复制填充结果',
+      '点击「+ 新增 Prompt」创建并保存个人模板'
+    ],
+    bestPractices: [
+      '使用 {{变量名}} 占位符让 Prompt 模板可复用，适配不同输入场景',
+      '为自定义 Prompt 添加简介，方便后续搜索定位',
+      '内置模板不可删除，可新增自定义变体进行个性化调整',
+      '所有自定义 Prompt 仅保存在本地浏览器中'
+    ]
+  },
+
   certParser: {
     features: [
       '粘贴 PEM 格式证书，在浏览器本地解析，数据不上传',
@@ -3932,6 +3996,38 @@ export const toolDescriptionsEn = {
       'Domain lookup requires network access to crt.sh',
       'Only certificates in PEM format (-----BEGIN CERTIFICATE-----) are supported',
       'For internal CA certificates, use the Paste PEM mode'
+    ]
+  },
+
+  promptBoxEn: {
+    features: [
+      '16 built-in professional prompt templates across 5 categories',
+      'Variable syntax: use {{variable}} to define dynamic placeholders',
+      'Variable filling dialog: auto-detects variables and provides input fields',
+      'Real-time preview of filled prompt before copying',
+      'Custom prompts: create, edit and delete your own templates',
+      'Full-text search across title, content and description',
+      'Filter by category: Code, Writing, Analysis, Role, Enhance, Custom',
+      'Prompts saved to localStorage — persist across sessions'
+    ],
+    useCases: [
+      'Quickly call up common AI prompts without retyping',
+      'Build a personal prompt library for ChatGPT / Claude / Copilot',
+      'Fill dynamic values like code snippet, language, or recipient before copying',
+      'Share consistent prompts across team workflows',
+      'Draft code review, refactoring, unit test or debug prompts in one click'
+    ],
+    usageSteps: [
+      'Browse the built-in templates or use the search box to find a prompt',
+      'Click "Copy" to copy the raw template to clipboard',
+      'Or click "Fill Vars" to fill in variable placeholders before copying',
+      'Click "+ New Prompt" to create and save your own template'
+    ],
+    bestPractices: [
+      'Use {{variable}} placeholders to make prompts reusable across different inputs',
+      'Add a short description to make templates easy to find via search',
+      'Built-in templates cannot be deleted; add custom variants instead',
+      'All custom prompts are stored locally in your browser'
     ]
   }
 }

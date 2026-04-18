@@ -495,6 +495,13 @@ const tools = [
     path: '/other/cert-parser',
     description: 'other.certParser.description',
     category: 'other'
+  },
+  {
+    id: 'promptBox',
+    name: 'other.promptBox.title',
+    path: '/other/prompt-box',
+    description: 'other.promptBox.description',
+    category: 'other'
   }
 ]
 

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import BaseView from '@/views/BaseView.vue'
 import Home from '@/views/Home.vue'
@@ -411,6 +411,11 @@ const router = createRouter({
             {
               path: 'cert-parser',
               component: () => import('@/components/other/CertParser.vue')
+            },
+            // Prompt 工具箱
+            {
+              path: 'prompt-box',
+              component: () => import('@/components/other/PromptBox.vue')
             }
           ]
         },

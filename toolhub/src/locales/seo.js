@@ -828,6 +828,18 @@ export const seoConfig = {
         description: '解析 SSL/TLS X.509 证书，查看主体、颁发者、有效期、SAN、指纹等详细信息',
         keywords: ['SSL证书', 'TLS证书', 'X509解析', '证书查看', 'PEM解析']
       }
+    },
+    'prompt-box': {
+      en: {
+        name: 'Prompt Toolkit',
+        description: 'A curated library of AI prompt templates with variable filling, custom management and one-click copy. Supercharge your ChatGPT/Claude prompts.',
+        keywords: ['prompt template', 'ai prompt', 'chatgpt prompt', 'prompt engineering', 'prompt library']
+      },
+      zh: {
+        name: 'Prompt 工具箱',
+        description: '精选常用 AI Prompt 模板库，支持变量填充、自定义管理和一键复制，快速构建高质量 ChatGPT / Claude 提示词',
+        keywords: ['Prompt模板', 'AI提示词', 'ChatGPT', 'Prompt工程', '提示词库']
+      }
     }
   }
 
