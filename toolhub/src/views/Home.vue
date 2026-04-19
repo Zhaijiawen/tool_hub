@@ -74,6 +74,7 @@ const CATEGORY_META = {
   image:   { icon: '🖼️', order: 4 },
   text:    { icon: '📝', order: 5 },
   other:   { icon: '⚙️', order: 6 },
+  custom:  { icon: '🛠️', order: 7 },
 }
 
 const categories = computed(() => {
