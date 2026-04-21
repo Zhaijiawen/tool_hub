@@ -503,6 +503,48 @@ const tools = [
     description: 'other.promptBox.description',
     category: 'other'
   },
+  {
+    id: 'gitCommit',
+    name: 'other.gitCommit.title',
+    path: '/other/git-commit',
+    description: 'other.gitCommit.description',
+    category: 'other'
+  },
+  {
+    id: 'textStats',
+    name: 'text.stats.title',
+    path: '/text/stats',
+    description: 'text.stats.description',
+    category: 'text'
+  },
+  {
+    id: 'csvViewer',
+    name: 'convert.csvViewer.title',
+    path: '/convert/csv-viewer',
+    description: 'convert.csvViewer.description',
+    category: 'convert'
+  },
+  {
+    id: 'cidr',
+    name: 'convert.cidr.title',
+    path: '/convert/cidr',
+    description: 'convert.cidr.description',
+    category: 'convert'
+  },
+  {
+    id: 'jsonSchema',
+    name: 'convert.jsonSchema.title',
+    path: '/convert/json-schema',
+    description: 'convert.jsonSchema.description',
+    category: 'convert'
+  },
+  {
+    id: 'mockData',
+    name: 'other.mockData.title',
+    path: '/other/mock-data',
+    description: 'other.mockData.description',
+    category: 'other'
+  },
   // ===== 自定义工具 =====
   {
     id: 'scriptBox',

@@ -291,7 +291,22 @@ const router = createRouter({
             {
               path: 'number-chinese',
               component: () => import('@/components/convert/NumberChinese.vue')
-            }
+            },
+            // CSV / TSV 预览解析
+            {
+              path: 'csv-viewer',
+              component: () => import('@/components/convert/CsvViewer.vue')
+            },
+            // IP / CIDR 子网计算器
+            {
+              path: 'cidr',
+              component: () => import('@/components/convert/Cidr.vue')
+            },
+            // JSON Schema 生成器
+            {
+              path: 'json-schema',
+              component: () => import('@/components/convert/JsonSchema.vue')
+            },
           ]
         },
 
@@ -359,6 +374,11 @@ const router = createRouter({
             {
               path: 'diff',
               component: () => import('@/components/convert/Diff.vue')
+            },
+            // 文本统计分析
+            {
+              path: 'stats',
+              component: () => import('@/components/text/Stats.vue')
             }
           ]
         },
@@ -416,6 +436,16 @@ const router = createRouter({
             {
               path: 'prompt-box',
               component: () => import('@/components/other/PromptBox.vue')
+            },
+            // Git Commit 规范生成器
+            {
+              path: 'git-commit',
+              component: () => import('@/components/other/GitCommit.vue')
+            },
+            // Mock 数据生成器
+            {
+              path: 'mock-data',
+              component: () => import('@/components/other/MockData.vue')
             }
           ]
         },

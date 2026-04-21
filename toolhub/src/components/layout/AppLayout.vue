@@ -591,7 +591,22 @@ const menuOptions = computed(() => [
             label: t('convert.numberChinese.title'),
             key: 'number-chinese',
             path: '/convert/number-chinese'
-          }
+          },
+          {
+            label: t('convert.csvViewer.title'),
+            key: 'csv-viewer',
+            path: '/convert/csv-viewer'
+          },
+          {
+            label: t('convert.cidr.title'),
+            key: 'cidr',
+            path: '/convert/cidr'
+          },
+          {
+            label: t('convert.jsonSchema.title'),
+            key: 'json-schema',
+            path: '/convert/json-schema'
+          },
         ]
       }
     ]
@@ -660,6 +675,11 @@ const menuOptions = computed(() => [
             label: t('convert.diff.title'),
             key: 'diff',
             path: '/text/diff'
+          },
+          {
+            label: t('text.stats.title'),
+            key: 'text-stats',
+            path: '/text/stats'
           }
         ]
       },
@@ -722,9 +742,19 @@ const menuOptions = computed(() => [
         label: t('other.promptBox.title'),
         key: 'prompt-box',
         path: '/other/prompt-box'
-      }
-    ]
-  },
+      },
+      {
+        label: t('other.gitCommit.title'),
+            key: 'git-commit',
+            path: '/other/git-commit'
+          },
+          {
+            label: t('other.mockData.title'),
+            key: 'mock-data',
+            path: '/other/mock-data'
+          }
+        ]
+      },
   // ===== 自定义工具 =====
   {
     label: t('custom.title'),

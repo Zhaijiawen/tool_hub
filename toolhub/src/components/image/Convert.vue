@@ -24,6 +24,7 @@
 
         <!-- 全局参数 -->
         <div v-if="imageList.length > 0" class="global-settings">
+          <!-- 格式 & 质量 -->
           <n-grid :cols="2" :x-gap="24" responsive="screen">
             <n-gi>
               <n-form-item :label="t('image.convert.format')">
@@ -37,9 +38,59 @@
               </n-form-item>
             </n-gi>
           </n-grid>
-          <n-text v-if="isLossless" depth="3" style="display: block; margin-top: -12px; margin-bottom: 8px; font-size: 13px">
+          <n-text v-if="isLossless" depth="3" style="display: block; margin-top: -12px; margin-bottom: 12px; font-size: 13px">
             {{ t('image.convert.losslessNotice') }}
           </n-text>
+
+          <!-- 尺寸调整 -->
+          <n-divider style="margin: 4px 0 16px">{{ t('image.convert.resizeTitle') }}</n-divider>
+          <n-grid :cols="3" :x-gap="16" responsive="screen">
+            <!-- 缩放模式 -->
+            <n-gi>
+              <n-form-item :label="t('image.convert.resizeMode')">
+                <n-radio-group v-model:value="resizeMode" @update:value="onResizeModeChange">
+                  <n-radio value="none">{{ t('image.convert.resizeModeNone') }}</n-radio>
+                  <n-radio value="pixel">{{ t('image.convert.resizeModePixel') }}</n-radio>
+                  <n-radio value="percent">{{ t('image.convert.resizeModePercent') }}</n-radio>
+                </n-radio-group>
+              </n-form-item>
+            </n-gi>
+            <!-- 宽高输入 -->
+            <n-gi v-if="resizeMode !== 'none'">
+              <n-form-item :label="t('image.convert.resizeWidth')">
+                <n-input-number
+                  v-model:value="resizeWidth"
+                  :min="1"
+                  :max="resizeMode === 'pixel' ? 16384 : 500"
+                  :precision="0"
+                  :suffix="resizeMode === 'pixel' ? t('image.convert.resizePixelUnit') : t('image.convert.resizePercentUnit')"
+                  style="width: 100%"
+                  @update:value="onWidthChange"
+                />
+              </n-form-item>
+            </n-gi>
+            <n-gi v-if="resizeMode !== 'none'">
+              <n-form-item :label="t('image.convert.resizeHeight')">
+                <n-input-number
+                  v-model:value="resizeHeight"
+                  :min="1"
+                  :max="resizeMode === 'pixel' ? 16384 : 500"
+                  :precision="0"
+                  :suffix="resizeMode === 'pixel' ? t('image.convert.resizePixelUnit') : t('image.convert.resizePercentUnit')"
+                  style="width: 100%"
+                  @update:value="onHeightChange"
+                />
+              </n-form-item>
+            </n-gi>
+          </n-grid>
+          <!-- 锁定宽高比 + 尺寸预览 -->
+          <n-space v-if="resizeMode !== 'none'" align="center" style="margin-top: -8px; margin-bottom: 8px; flex-wrap: wrap; gap: 12px;">
+            <n-checkbox v-model:checked="resizeLockRatio">{{ t('image.convert.resizeLockRatio') }}</n-checkbox>
+            <n-text v-if="resizePreviewText" depth="3" style="font-size: 12px">{{ resizePreviewText }}</n-text>
+            <n-button size="small" type="primary" ghost @click="reconvertAll">
+              {{ t('image.convert.convert') }}
+            </n-button>
+          </n-space>
         </div>
 
         <!-- 批量操作 -->
@@ -63,6 +114,9 @@
                 <div class="meta-row">
                   <n-text depth="3" class="size-text">{{ formatSize(item.originalSize) }}</n-text>
                   <n-tag size="small" type="default">{{ item.originalFormat }}</n-tag>
+                  <n-text v-if="item.originalWidth" depth="3" class="size-text">
+                    {{ item.originalWidth }}×{{ item.originalHeight }}
+                  </n-text>
                 </div>
               </div>
 
@@ -80,6 +134,9 @@
                   <n-tag :type="getSavingType(item)" size="small">
                     {{ getSavingLabel(item) }}
                   </n-tag>
+                  <n-text v-if="item.convertedWidth" depth="3" class="size-text">
+                    {{ item.convertedWidth }}×{{ item.convertedHeight }}
+                  </n-text>
                 </div>
               </div>
             </div>
@@ -120,7 +177,7 @@ import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 const { t } = useI18n()
 const message = useMessage()
 
-// ── 全局参数 ────────────────────────────────
+// ── 全局参数（格式 & 质量） ────────────────────
 const globalFormat = ref('image/jpeg')
 const globalQuality = ref(80)
 const globalError = ref('')
@@ -135,6 +192,86 @@ const formatOptions = [
 const isLossless = computed(() =>
   globalFormat.value === 'image/png' || globalFormat.value === 'image/gif'
 )
+
+// ── 尺寸调整参数 ─────────────────────────────
+// mode: 'none' | 'pixel' | 'percent'
+const resizeMode    = ref('none')
+const resizeWidth   = ref(100)
+const resizeHeight  = ref(100)
+const resizeLockRatio = ref(true)
+
+// 用于计算锁定比例时的参考：取列表第一张图片的原始尺寸
+const firstItemRatio = computed(() => {
+  const first = imageList.value[0]
+  if (first && first.originalWidth && first.originalHeight) {
+    return first.originalWidth / first.originalHeight
+  }
+  return 1
+})
+
+// 预览文字：展示目标尺寸（仅 pixel 模式且第一张图已加载时可算出精确值）
+const resizePreviewText = computed(() => {
+  if (resizeMode.value === 'none') return ''
+  const first = imageList.value[0]
+  if (!first || !first.originalWidth) return ''
+  const { w, h } = calcTargetSize(first.originalWidth, first.originalHeight)
+  return `${t('image.convert.resizeOriginalSize')}: ${first.originalWidth}×${first.originalHeight}  →  ${t('image.convert.resizeTargetSize')}: ${w}×${h}`
+})
+
+// 计算某张图的目标尺寸
+const calcTargetSize = (origW, origH) => {
+  if (resizeMode.value === 'none') return { w: origW, h: origH }
+  if (resizeMode.value === 'percent') {
+    const wp = Math.max(1, resizeWidth.value)
+    const hp = Math.max(1, resizeHeight.value)
+    return {
+      w: Math.round(origW * wp / 100),
+      h: Math.round(origH * hp / 100)
+    }
+  }
+  // pixel 模式
+  return {
+    w: Math.max(1, resizeWidth.value),
+    h: Math.max(1, resizeHeight.value)
+  }
+}
+
+// 切换缩放模式时重置为合理默认值
+const onResizeModeChange = (val) => {
+  if (val === 'percent') {
+    resizeWidth.value  = 100
+    resizeHeight.value = 100
+  } else if (val === 'pixel') {
+    const first = imageList.value[0]
+    if (first && first.originalWidth) {
+      resizeWidth.value  = first.originalWidth
+      resizeHeight.value = first.originalHeight
+    } else {
+      resizeWidth.value  = 800
+      resizeHeight.value = 600
+    }
+  }
+}
+
+// 宽度变化时，若锁定比例则联动高度
+const onWidthChange = (val) => {
+  if (!resizeLockRatio.value || !val) return
+  if (resizeMode.value === 'pixel') {
+    resizeHeight.value = Math.round(val / firstItemRatio.value)
+  } else {
+    resizeHeight.value = val
+  }
+}
+
+// 高度变化时，若锁定比例则联动宽度
+const onHeightChange = (val) => {
+  if (!resizeLockRatio.value || !val) return
+  if (resizeMode.value === 'pixel') {
+    resizeWidth.value = Math.round(val * firstItemRatio.value)
+  } else {
+    resizeWidth.value = val
+  }
+}
 
 // ── 图片列表 ────────────────────────────────
 const imageList = ref([])
@@ -178,6 +315,13 @@ const getOutputExt = () => {
   return map[globalFormat.value] || 'jpg'
 }
 
+// 生成下载文件名后缀（尺寸缩放信息）
+const getResizeSuffix = (origW, origH) => {
+  if (resizeMode.value === 'none') return ''
+  const { w, h } = calcTargetSize(origW, origH)
+  return `_${w}x${h}`
+}
+
 // ── 核心转换逻辑（Canvas） ──────────────────
 const convertBlob = (file) => {
   return new Promise((resolve, reject) => {
@@ -185,19 +329,20 @@ const convertBlob = (file) => {
     reader.onload = (e) => {
       const img = new Image()
       img.onload = () => {
+        const { w, h } = calcTargetSize(img.width, img.height)
         const canvas = document.createElement('canvas')
-        canvas.width  = img.width
-        canvas.height = img.height
+        canvas.width  = w
+        canvas.height = h
         const ctx = canvas.getContext('2d')
-        // PNG/GIF 保留透明背景，其余填白（JPEG 不支持透明）
+        // PNG/GIF 保留透明背景，JPEG 填白
         if (globalFormat.value === 'image/jpeg') {
           ctx.fillStyle = '#ffffff'
-          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          ctx.fillRect(0, 0, w, h)
         }
-        ctx.drawImage(img, 0, 0)
+        ctx.drawImage(img, 0, 0, w, h)
         canvas.toBlob(
           (blob) => {
-            if (blob) resolve(blob)
+            if (blob) resolve({ blob, width: w, height: h, origWidth: img.width, origHeight: img.height })
             else reject(new Error('Canvas toBlob failed'))
           },
           globalFormat.value,
@@ -229,18 +374,26 @@ const handleUpload = async ({ file }) => {
     originalUrl,
     originalSize: f.size,
     originalFormat: f.type.split('/')[1]?.toUpperCase() || '?',
+    originalWidth: null,
+    originalHeight: null,
     convertedUrl: null,
     convertedSize: null,
     convertedBlob: null,
+    convertedWidth: null,
+    convertedHeight: null,
     converting: true
   })
   imageList.value.push(item)
 
   try {
-    const blob = await convertBlob(f)
-    item.convertedUrl  = URL.createObjectURL(blob)
-    item.convertedSize = blob.size
-    item.convertedBlob = blob
+    const result = await convertBlob(f)
+    item.originalWidth   = result.origWidth
+    item.originalHeight  = result.origHeight
+    item.convertedUrl    = URL.createObjectURL(result.blob)
+    item.convertedSize   = result.blob.size
+    item.convertedBlob   = result.blob
+    item.convertedWidth  = result.width
+    item.convertedHeight = result.height
   } catch (e) {
     globalError.value = e.message
     message.error(e.message)
@@ -253,14 +406,20 @@ const handleUpload = async ({ file }) => {
 const reconvertAll = async () => {
   for (const item of imageList.value) {
     if (!item.originalFile) continue
-    item.converting    = true
-    item.convertedUrl  = null
-    item.convertedSize = null
+    item.converting     = true
+    item.convertedUrl   = null
+    item.convertedSize  = null
+    item.convertedWidth = null
+    item.convertedHeight = null
     try {
-      const blob = await convertBlob(item.originalFile)
-      item.convertedUrl  = URL.createObjectURL(blob)
-      item.convertedSize = blob.size
-      item.convertedBlob = blob
+      const result = await convertBlob(item.originalFile)
+      item.originalWidth   = result.origWidth
+      item.originalHeight  = result.origHeight
+      item.convertedUrl    = URL.createObjectURL(result.blob)
+      item.convertedSize   = result.blob.size
+      item.convertedBlob   = result.blob
+      item.convertedWidth  = result.width
+      item.convertedHeight = result.height
     } catch { /* ignore single item error */ }
     finally { item.converting = false }
   }
@@ -270,9 +429,10 @@ const reconvertAll = async () => {
 const downloadItem = (item) => {
   if (!item.convertedUrl) return
   const baseName = item.name.replace(/\.[^.]+$/, '')
+  const suffix   = getResizeSuffix(item.originalWidth || 0, item.originalHeight || 0)
   const a = document.createElement('a')
   a.href = item.convertedUrl
-  a.download = `${baseName}.${getOutputExt()}`
+  a.download = `${baseName}${suffix}.${getOutputExt()}`
   a.click()
 }
 
@@ -379,6 +539,7 @@ const clearAll = () => {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .size-text {

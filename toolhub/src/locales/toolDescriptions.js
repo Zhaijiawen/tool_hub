@@ -1801,6 +1801,137 @@ export const toolDescriptions = {
       '在输入框中直接粘贴 JSON 或多行文本，作为 input 参数传入',
       '用 helpers._ (lodash) 安全遍历对象，无需手动判空'
     ]
+  },
+
+  // ===== CSV/TSV 预览解析（中文） =====
+  csvViewer: {
+    features: [
+      '支持粘贴文本和上传文件两种输入方式（最大 5MB）',
+      '自动检测逗号、Tab、分号、管道符四种分隔符',
+      '首行表头自动识别，亦可手动关闭',
+      '渲染为可排序的数据表格，支持点击列标题排序',
+      '全局关键字搜索实时过滤数据行',
+      '支持导出为 JSON 数组和重新下载为标准 CSV',
+      '大文件友好：超过 10000 行时自动截断并提示',
+      '所有解析处理完全在浏览器本地完成，数据不上传'
+    ],
+    useCases: [
+      '快速预览服务端导出的 CSV 报表',
+      '核查 Excel 转 CSV 后的数据格式',
+      '将 CSV 数据转换为 JSON 供前端使用',
+      '分析 TSV 格式的日志或数据集',
+      '数据清洗前的快速浏览和过滤'
+    ],
+    usageSteps: [
+      '选择"粘贴文本"直接粘贴内容，或切换"上传文件"拖拽文件',
+      '分隔符默认自动检测，如识别有误可手动切换',
+      '可选择首行是否作为表头',
+      '在搜索框输入关键词实时过滤，点击列标题排序',
+      '点击"导出 JSON"或"下载 CSV"按钮输出数据'
+    ],
+    bestPractices: [
+      '文件请确保使用 UTF-8 编码，否则中文可能乱码',
+      '大文件（>1MB）建议直接上传，避免粘贴操作卡顿',
+      '导出 JSON 前可先用搜索筛选出目标数据'
+    ]
+  },
+
+  // ===== IP/CIDR 子网计算器（中文） =====
+  cidr: {
+    features: [
+      '支持 CIDR 表示法和 IP+子网掩码两种输入方式',
+      '自动计算网络地址、广播地址、子网掩码、通配符掩码',
+      '精确计算可用主机数（/31 和 /32 按 RFC 3021 处理）',
+      '标识 IP 类型（A/B/C类、私有/公共/回环/链路本地）',
+      '三行二进制展示（IP、掩码、网络地址），直观理解位运算',
+      '内置 /8~/32 子网速查表，点击行自动填入计算',
+      '自动记忆上次输入，刷新页面无需重新填写'
+    ],
+    useCases: [
+      '网络规划：计算子网可容纳主机数',
+      '服务器配置：确认 IP 是否在目标网段内',
+      '防火墙规则：将 CIDR 拆解为具体地址范围',
+      '学习理解 IPv4 子网划分原理',
+      '运维排查：快速确认网络地址和广播地址'
+    ],
+    usageSteps: [
+      '选择 CIDR 表示法或 IP+子网掩码输入方式',
+      '输入网络地址（如 192.168.1.0/24 或 IP + 255.255.255.0）',
+      '点击"计算"查看详细结果',
+      '查看二进制展示理解子网位分布',
+      '参考速查表快速了解不同前缀对应的主机数'
+    ],
+    bestPractices: [
+      'CIDR 表示法前缀范围为 /0 ~ /32，超出范围会报错',
+      '子网掩码必须为连续的 1 后跟连续的 0，否则报无效掩码',
+      '私有地址范围：10.0.0.0/8、172.16.0.0/12、192.168.0.0/16'
+    ]
+  },
+
+  // ===== JSON Schema 生成器（中文） =====
+  jsonSchema: {
+    features: [
+      '粘贴任意 JSON 自动推断生成 JSON Schema draft-07',
+      '支持导出为 TypeScript Interface，方便前端直接使用',
+      '递归推断嵌套对象结构',
+      '数组元素类型合并推断（取所有元素类型的并集 anyOf）',
+      '自动检测日期、邮箱、URI、日期时间格式并添加 format 字段',
+      '可选将所有顶层字段标记为 required',
+      '支持自定义 Schema 标题（title 字段）',
+      '一键复制生成结果'
+    ],
+    useCases: [
+      '从 API 响应 JSON 快速生成接口类型定义',
+      '生成接口文档的 Schema 描述',
+      '将 JSON 数据结构转换为 TypeScript Interface 用于前端开发',
+      '辅助生成 JSON Schema 用于数据校验',
+      '快速了解一份陌生 JSON 的结构'
+    ],
+    usageSteps: [
+      '将 JSON 数据粘贴到输入框',
+      '选择输出格式：JSON Schema 或 TypeScript',
+      '可选填写 Schema 标题',
+      '勾选是否将所有顶层字段标记为 required',
+      '点击"生成"查看结果，点击"复制"一键复制'
+    ],
+    bestPractices: [
+      '输入对象时生成 object 类型 Schema；输入数组时生成 array 类型 Schema',
+      '数组中混用多种类型时，生成 anyOf 联合类型描述',
+      '复杂嵌套结构建议先简化 JSON 再生成，避免冗余字段'
+    ]
+  },
+
+  // ===== Mock 数据生成器（中文） =====
+  mockData: {
+    features: [
+      '可视化字段配置：动态增删字段行，所见即所得',
+      '支持 12 种字段类型：整数、浮点数、随机字符串、姓名、邮箱、手机号、日期、日期时间、布尔值、UUID、枚举、自定义模板',
+      '整数/浮点数类型支持指定范围（min/max）和小数位数',
+      '枚举类型支持自定义选项列表（逗号分隔）',
+      '自定义模板支持 {index}（序号）、{uuid}、{timestamp} 占位符',
+      '最多生成 1000 条数据，一键复制或下载为 .json 文件',
+      '姓名使用真实中文姓氏+名字随机组合，手机号符合国内运营商号段规律',
+      '所有数据纯前端生成，数据不上传'
+    ],
+    useCases: [
+      '前端开发时快速生成列表渲染测试数据',
+      '数据库性能测试的初始化数据',
+      '接口联调前生成模拟数据',
+      '演示/原型展示时填充真实感数据',
+      '生成批量测试用例的输入数据'
+    ],
+    usageSteps: [
+      '点击"添加字段"增加一行字段配置',
+      '填写字段名并选择类型，按需配置类型参数',
+      '设置生成条数（1~1000）',
+      '点击"生成"查看 JSON 结果',
+      '点击"复制"或下载 JSON 文件'
+    ],
+    bestPractices: [
+      '字段名建议使用英文或拼音，便于直接用于代码',
+      '枚举选项值之间用英文逗号分隔，前后不加空格',
+      '自定义模板中 {index} 从 1 开始计数，可组合使用：user_{index}_{uuid}'
+    ]
   }
 }
 
@@ -4062,6 +4193,71 @@ export const toolDescriptionsEn = {
     ]
   },
 
+  // ===== Git Commit 生成器（英文） =====
+  gitCommit: {
+    features: [
+      'Follows the Conventional Commits specification (type(scope): subject)',
+      '11 built-in commit types, each with an emoji and description',
+      'Real-time preview of the full commit message',
+      'Supports BREAKING CHANGE flag with dedicated description field',
+      'Related issue reference auto-formatting (Closes: #123)',
+      'Last 5 commits history with one-click refill',
+      'Copy full commit or title line only',
+      'Form state persisted in localStorage across page refreshes'
+    ],
+    useCases: [
+      'Standardize team Git commit messages for automated changelog generation',
+      'Learn the Conventional Commits specification',
+      'Quickly generate a formatted commit for PR descriptions',
+      'Track breaking API changes with BREAKING CHANGE flag',
+      'Link commits to GitHub / GitLab issues'
+    ],
+    usageSteps: [
+      'Select a commit type (e.g. feat / fix / docs)',
+      'Optionally fill in a scope (e.g. auth / ui / api)',
+      'Write a short subject (≤72 chars)',
+      'Optionally add a body and related issues',
+      'If there is a breaking change, toggle the switch and describe it',
+      'Click "Copy Full Commit" or "Copy Title Only"'
+    ],
+    bestPractices: [
+      'Use imperative, present tense for subject: "add feature" not "added feature"',
+      'Use lowercase for scope: auth / ui / api / deps',
+      'One commit = one logical change; keep the subject concise',
+      'Briefly mention breaking change in subject; detail migration steps in body'
+    ]
+  },
+
+  // ===== 文本统计分析（英文） =====
+  textStats: {
+    features: [
+      'Real-time 11-metric analysis: character count, words, lines, paragraphs, byte size, and more',
+      'Separate counts for Chinese characters, English letters, and digits',
+      'Estimated reading time based on Chinese and English reading speeds',
+      'Top 20 word frequency with visual progress bars',
+      'Character distribution chart (Chinese / English / digits / punctuation / whitespace)',
+      'No button click needed — analysis updates as you type'
+    ],
+    useCases: [
+      'Monitor word count while writing articles or blog posts',
+      'Check if a document meets length requirements',
+      'Analyze the language composition of a text',
+      'Discover high-frequency keywords for SEO optimization',
+      'Estimate speech or presentation reading time'
+    ],
+    usageSteps: [
+      'Paste or type text into the input area',
+      'View the real-time statistics cards below',
+      'Switch to the "Word Frequency" tab for Top 20 terms',
+      'Switch to the "Char Distribution" tab for category breakdown'
+    ],
+    bestPractices: [
+      'Paste plain text for the most accurate statistics',
+      'Word frequency handles Chinese (character-by-character) and English (word-by-word) separately',
+      'Reading time estimate: 500 Chinese chars/min, 200 English words/min'
+    ]
+  },
+
   // ===== 脚本工具箱（英文） =====
   scriptBox: {
     features: [
@@ -4090,6 +4286,137 @@ export const toolDescriptionsEn = {
       'Export your script collection regularly to avoid data loss',
       'Paste JSON or multi-line text directly into the input area as the input argument',
       'Use helpers._ (lodash) for safe traversal — no need to handle null manually'
+    ]
+  },
+
+  // ===== CSV/TSV Viewer (English) =====
+  csvViewer: {
+    features: [
+      'Two input methods: paste text or upload a file (up to 5 MB)',
+      'Auto-detects comma, tab, semicolon, and pipe delimiters',
+      'First-row header auto-detection with manual override',
+      'Renders data in a sortable table — click any column header to sort',
+      'Real-time global keyword search to filter rows instantly',
+      'Export as a JSON array or re-download as a clean CSV',
+      'Large-file friendly: rows beyond 10,000 are truncated with a notice',
+      'All parsing runs entirely in the browser — no data is uploaded'
+    ],
+    useCases: [
+      'Quickly preview a CSV report exported from a server',
+      'Verify data integrity after converting Excel to CSV',
+      'Convert CSV data to JSON for use in front-end code',
+      'Analyze TSV-format logs or datasets',
+      'Browse and filter data before a cleaning session'
+    ],
+    usageSteps: [
+      'Choose "Paste Text" to paste content, or switch to "Upload File" to drag and drop',
+      'The delimiter is auto-detected by default; switch manually if needed',
+      'Toggle whether the first row is treated as a header',
+      'Type in the search box to filter rows; click column headers to sort',
+      'Click "Export JSON" or "Download CSV" to save the result'
+    ],
+    bestPractices: [
+      'Ensure your file is UTF-8 encoded to avoid garbled characters',
+      'For files > 1 MB, upload directly rather than pasting to avoid lag',
+      'Filter the data with the search box before exporting JSON'
+    ]
+  },
+
+  // ===== IP/CIDR Calculator (English) =====
+  cidr: {
+    features: [
+      'Two input modes: CIDR notation and IP + subnet mask',
+      'Computes network address, broadcast address, subnet mask, and wildcard mask',
+      'Accurate usable host count (/31 and /32 handled per RFC 3021)',
+      'Identifies IP class (A/B/C) and type (private / public / loopback / link-local)',
+      'Three-row binary display (IP, mask, network address) for visual bit-level insight',
+      'Built-in /8–/32 quick-reference table — click any row to auto-fill the input',
+      'Remembers your last input across page reloads'
+    ],
+    useCases: [
+      'Network planning: calculate how many hosts a subnet can hold',
+      'Server config: verify whether an IP is within a target network',
+      'Firewall rules: decompose a CIDR range into specific addresses',
+      'Learning IPv4 subnetting fundamentals',
+      'Ops troubleshooting: quickly confirm network and broadcast addresses'
+    ],
+    usageSteps: [
+      'Choose CIDR notation or IP + subnet mask input mode',
+      'Enter the network address (e.g. 192.168.1.0/24 or IP + 255.255.255.0)',
+      'Click "Calculate" to view detailed results',
+      'Check the binary display to understand subnet bit distribution',
+      'Use the quick-reference table for common prefix-to-host-count lookups'
+    ],
+    bestPractices: [
+      'CIDR prefix must be between /0 and /32; values outside this range return an error',
+      'A subnet mask must be a contiguous run of 1s followed by 0s; otherwise it is invalid',
+      'Private ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16'
+    ]
+  },
+
+  // ===== JSON Schema Generator (English) =====
+  jsonSchema: {
+    features: [
+      'Paste any JSON to auto-generate a JSON Schema draft-07',
+      'Export as a TypeScript Interface for direct use in front-end projects',
+      'Recursively infers nested object structures',
+      'Array item types are merged as a union (anyOf) from all elements',
+      'Auto-detects date, email, URI, and datetime formats and adds a "format" field',
+      'Optionally mark all top-level fields as required',
+      'Supports a custom schema title (the "title" field)',
+      'One-click copy of the generated output'
+    ],
+    useCases: [
+      'Generate type definitions from an API response JSON',
+      'Create Schema descriptions for interface documentation',
+      'Convert a JSON structure into a TypeScript Interface for front-end development',
+      'Produce a JSON Schema for use in data validation pipelines',
+      'Quickly understand the structure of an unfamiliar JSON payload'
+    ],
+    usageSteps: [
+      'Paste JSON data into the input area',
+      'Select an output format: JSON Schema or TypeScript',
+      'Optionally enter a schema title',
+      'Choose whether to mark all top-level fields as required',
+      'Click "Generate", then click "Copy" to copy the result'
+    ],
+    bestPractices: [
+      'Object input produces an object-type Schema; array input produces an array-type Schema',
+      'Mixed types within an array generate an anyOf union type',
+      'For deeply nested JSON, consider simplifying the structure first to reduce noise'
+    ]
+  },
+
+  // ===== Mock Data Generator (English) =====
+  mockData: {
+    features: [
+      'Visual field configuration: add and remove rows dynamically — what you see is what you get',
+      'Supports 12 field types: integer, float, random string, name, email, phone, date, datetime, boolean, UUID, enum, custom template',
+      'Integer and float types support min/max range and decimal-place configuration',
+      'Enum type supports a custom list of values (comma-separated)',
+      'Custom templates accept {index} (1-based counter), {uuid}, and {timestamp} placeholders',
+      'Generate up to 1,000 records; copy or download as a .json file',
+      'Names use realistic Chinese surname + given-name combinations; phone numbers follow domestic carrier number-range patterns',
+      'All data generated entirely client-side — nothing is uploaded'
+    ],
+    useCases: [
+      'Quickly generate list-rendering test data during front-end development',
+      'Seed initial data for database performance tests',
+      'Produce mock data before an API integration is ready',
+      'Fill a demo or prototype with realistic-looking content',
+      'Generate bulk input records for test-case execution'
+    ],
+    usageSteps: [
+      'Click "Add Field" to add a field configuration row',
+      'Enter a field name and select a type; configure type-specific options as needed',
+      'Set the record count (1–1,000)',
+      'Click "Generate" to preview the JSON result',
+      'Click "Copy" or download the JSON file'
+    ],
+    bestPractices: [
+      'Use English or pinyin field names so they can be used directly in code',
+      'Separate enum values with English commas and no extra spaces',
+      '{index} in custom templates starts at 1; combine placeholders freely, e.g. user_{index}_{uuid}'
     ]
   }
 }
