@@ -135,14 +135,14 @@ export const seoConfig = {
     },
     markdown: {
       en: {
-        name: 'Markdown Formatter',
-        description: 'Format Markdown documents with proper structure and syntax validation',
-        keywords: ['markdown formatter', 'md formatter', 'document formatter']
+        name: 'Markdown Tools',
+        description: 'Format Markdown documents or preview them in real time with GFM syntax, tables, code highlighting and HTML export.',
+        keywords: ['markdown formatter', 'markdown preview', 'markdown editor', 'markdown to html', 'gfm']
       },
       zh: {
-        name: 'Markdown 格式化工具',
-        description: 'Markdown 文档格式化工具，支持结构和语法验证',
-        keywords: ['markdown 格式化', 'md 格式化', '文档格式化']
+        name: 'Markdown 工具',
+        description: 'Markdown 格式化与实时预览，支持 GFM 语法、表格、代码高亮，可导出 HTML',
+        keywords: ['Markdown格式化', 'Markdown预览', 'Markdown编辑器', 'Markdown转HTML', 'GFM']
       }
     },
     vue: {
@@ -851,6 +851,78 @@ export const seoConfig = {
         name: '脚本工具箱',
         description: '写一个 JavaScript transform 函数，输入数据即可运行得到结果。内置 dayjs、lodash、CryptoJS 等常用工具库，支持脚本导入导出',
         keywords: ['JS脚本', '自定义工具', '代码运行', '数据转换', '脚本工具箱']
+      }
+    },
+    'text-stats': {
+      en: {
+        name: 'Text Statistics',
+        description: 'Count characters, words, lines, paragraphs, sentences and reading time for any text. Supports multi-language word frequency analysis.',
+        keywords: ['word count', 'character count', 'text statistics', 'reading time', 'word frequency']
+      },
+      zh: {
+        name: '文本统计',
+        description: '统计字符数、单词数、行数、段落数、句子数和阅读时间，支持多语言词频分析',
+        keywords: ['字数统计', '单词统计', '文本统计', '阅读时间', '词频分析']
+      }
+    },
+    'git-commit': {
+      en: {
+        name: 'Git Commit Generator',
+        description: 'Generate standardized Git commit messages following the Conventional Commits spec with a guided form. Supports breaking changes, issue linking and history.',
+        keywords: ['git commit', 'conventional commits', 'commit message generator', 'git message', 'commit lint']
+      },
+      zh: {
+        name: 'Git Commit 生成器',
+        description: '遵循 Conventional Commits 规范，通过表单向导生成规范的 Git commit 信息，支持破坏性变更、Issue 关联和历史记录',
+        keywords: ['Git Commit', 'Conventional Commits', 'commit信息生成', 'commit规范', 'commitlint']
+      }
+    },
+    'csv-viewer': {
+      en: {
+        name: 'CSV / TSV Viewer',
+        description: 'Paste or upload CSV/TSV files to parse into a sortable, searchable table. Supports auto delimiter detection and JSON export.',
+        keywords: ['csv viewer', 'tsv viewer', 'csv parser', 'csv to table', 'csv to json']
+      },
+      zh: {
+        name: 'CSV / TSV 预览解析',
+        description: '粘贴或上传 CSV/TSV 文件，自动解析为可排序、可搜索的表格，支持自动检测分隔符和导出 JSON',
+        keywords: ['CSV预览', 'TSV解析', 'CSV解析', 'CSV转表格', 'CSV转JSON']
+      }
+    },
+    cidr: {
+      en: {
+        name: 'IP / CIDR Calculator',
+        description: 'Calculate network address, broadcast, usable host range and subnet info from CIDR notation or IP + subnet mask.',
+        keywords: ['cidr calculator', 'subnet calculator', 'ip range', 'network address', 'subnet mask']
+      },
+      zh: {
+        name: 'IP / CIDR 子网计算器',
+        description: '输入 CIDR 或 IP + 子网掩码，计算网络地址、广播地址、可用主机范围等子网信息',
+        keywords: ['CIDR计算', '子网计算器', 'IP范围', '网络地址', '子网掩码']
+      }
+    },
+    'json-schema': {
+      en: {
+        name: 'JSON Schema Generator',
+        description: 'Automatically infer and generate a JSON Schema from any JSON object. Supports required fields, type detection and export.',
+        keywords: ['json schema', 'json schema generator', 'json to schema', 'json validator', 'openapi schema']
+      },
+      zh: {
+        name: 'JSON Schema 生成',
+        description: '从任意 JSON 对象自动推断并生成 JSON Schema，支持必填字段、类型检测和导出',
+        keywords: ['JSON Schema', 'JSON Schema生成', 'JSON转Schema', 'JSON验证', 'OpenAPI']
+      }
+    },
+    'mock-data': {
+      en: {
+        name: 'Mock Data Generator',
+        description: 'Visually configure fields to generate JSON mock data. Supports nested objects, arrays, faker types and enum values.',
+        keywords: ['mock data', 'fake data generator', 'json mock', 'test data generator', 'random data']
+      },
+      zh: {
+        name: 'Mock 数据生成器',
+        description: '可视化配置字段生成 JSON 模拟数据，支持嵌套对象、数组、Faker 类型和枚举值',
+        keywords: ['Mock数据', '假数据生成', 'JSON模拟数据', '测试数据生成', '随机数据']
       }
     }
   }

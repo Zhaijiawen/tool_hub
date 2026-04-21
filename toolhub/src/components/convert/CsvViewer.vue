@@ -99,7 +99,7 @@
 
       </n-space>
     </n-card>
-    <TutorialAndDocs toolKey="csvViewer" />
+  <TutorialAndDocs toolKey="csvViewer" />
   </div>
 </template>
 
@@ -109,7 +109,6 @@ import { useI18n } from 'vue-i18n'
 import { useMessage, NText } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
-
 const { t } = useI18n()
 const message = useMessage()
 

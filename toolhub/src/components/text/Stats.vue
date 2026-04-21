@@ -72,7 +72,7 @@
 
       </n-space>
     </n-card>
-    <TutorialAndDocs toolKey="textStats" />
+  <TutorialAndDocs toolKey="textStats" />
   </div>
 </template>
 
@@ -80,7 +80,6 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
-
 const { t } = useI18n()
 
 const inputText = ref('')

@@ -60,7 +60,7 @@
 
       </n-space>
     </n-card>
-    <TutorialAndDocs toolKey="mockData" />
+  <TutorialAndDocs toolKey="mockData" />
   </div>
 </template>
 
@@ -69,7 +69,6 @@ import { ref, computed, defineComponent, h, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage, NInput, NInputNumber, NSelect, NButton, NText } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
-
 const { t, locale } = useI18n()
 const isZh = computed(() => locale.value.startsWith('zh'))
 const message = useMessage()
