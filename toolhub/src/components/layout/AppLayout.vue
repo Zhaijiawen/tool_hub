@@ -148,6 +148,9 @@
         </n-list-item>
       </n-list>
     </n-modal>
+
+    <!-- Cookie 同意横幅 -->
+    <CookieConsent />
   </n-layout>
 </template>
 
@@ -168,6 +171,8 @@ import SimpleRightNav from '@/components/common/SimpleRightNav.vue'
 import ShareButton from '@/components/common/ShareButton.vue'
 // 导入收藏按钮组件
 import FavoriteButton from '@/components/common/FavoriteButton.vue'
+// 导入 Cookie 同意横幅
+import CookieConsent from '@/components/common/CookieConsent.vue'
 // 导入收藏管理 composable
 import { useFavorites, getFavoriteName } from '@/composables/useFavorites'
 // 导入语言切换工具函数（支持按需动态加载语言包）

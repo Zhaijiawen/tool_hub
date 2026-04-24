@@ -3333,5 +3333,12 @@ typeCiDesc: 'CI configuration changes'
     addSuccess: 'Component added successfully',
     removeSuccess: 'Component removed successfully',
     noResults: 'No matching components found'
+  },
+  cookieConsent: {
+    message: 'We use cookies to remember your preferences (language, theme). With your consent, we also load Google AdSense to display ads that help support this site.',
+    necessary: 'Necessary Only',
+    acceptAll: 'Accept All',
+    privacyLink: 'Privacy Policy',
+    learnMore: 'Learn More'
   }
 } 

@@ -22,7 +22,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookie 使用',
-        desc: '我们使用必要的 Cookie 来记住您的语言偏好和主题设置。'
+        desc: '我们使用必要的 Cookie 来记住您的语言偏好和主题设置。此外，在您通过页面底部的 Cookie 同意横幅明确授权后，我们会加载 Google AdSense 服务，该服务可能设置第三方广告跟踪 Cookie，用于展示个性化广告。您可以随时选择"仅必要"拒绝广告 Cookie 的加载。'
       }
     },
     usage: {
@@ -98,7 +98,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookie Usage',
-        desc: 'We use necessary cookies to remember your language preferences and theme settings.'
+        desc: 'We use necessary cookies to remember your language preferences and theme settings. In addition, with your explicit consent via the cookie banner at the bottom of the page, we load Google AdSense, which may set third-party advertising tracking cookies to display personalized ads. You can choose "Necessary Only" at any time to decline advertising cookies.'
       }
     },
     usage: {

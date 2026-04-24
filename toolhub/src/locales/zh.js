@@ -3330,5 +3330,12 @@ typeCiDesc: 'CI 配置变更'
     addSuccess: '组件添加成功',
     removeSuccess: '组件移除成功',
     noResults: '未找到匹配的组件'
+  },
+  cookieConsent: {
+    message: '我们使用 Cookie 来记住您的偏好设置（语言、主题）。此外，在您同意后，我们会加载 Google AdSense 以展示广告，帮助支持本网站的运营。',
+    necessary: '仅必要',
+    acceptAll: '接受全部',
+    privacyLink: '隐私政策',
+    learnMore: '了解更多'
   }
 } 
