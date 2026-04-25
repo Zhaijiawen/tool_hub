@@ -258,7 +258,13 @@ export default {
     clickToLoad: 'Click the button below to load learning resources',
     loadContent: 'Load Content',
     loading: 'Loading...',
-    autoLoading: 'Content will load automatically when you scroll here'
+    autoLoading: 'Content will load automatically when you scroll here',
+    seo: {
+      features: 'Features',
+      useCases: 'Use Cases',
+      usageSteps: 'How to Use',
+      bestPractices: 'Best Practices'
+    }
   },
   footer: {
     about: 'About',

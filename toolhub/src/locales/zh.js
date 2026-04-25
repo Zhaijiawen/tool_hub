@@ -258,7 +258,13 @@ export default {
     clickToLoad: '点击下方按钮加载学习资源',
     loadContent: '加载内容',
     loading: '加载中...',
-    autoLoading: '滑动到这里时内容将自动加载'
+    autoLoading: '滑动到这里时内容将自动加载',
+    seo: {
+      features: '功能特性',
+      useCases: '适用场景',
+      usageSteps: '使用步骤',
+      bestPractices: '最佳实践'
+    }
   },
   footer: {
     about: '关于我们',
