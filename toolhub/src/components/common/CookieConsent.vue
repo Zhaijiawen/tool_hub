@@ -1,38 +1,27 @@
 <template>
-  <Transition name="cookie-slide">
-    <div v-if="!hasResponded" class="cookie-consent-bar">
-      <div class="cookie-consent-inner">
-        <!-- 图标 + 文案 -->
-        <div class="cookie-consent-text">
-          <n-icon class="cookie-icon" size="18">
-            <InformationCircleOutline />
-          </n-icon>
-          <span>
-            {{ t('cookieConsent.message') }}
-            <router-link to="/privacy" class="cookie-privacy-link">
-              {{ t('cookieConsent.privacyLink') }}
-            </router-link>
-          </span>
+  <Transition name="bar-slide">
+    <div v-if="!hasResponded" class="cookie-bar">
+      <div class="cookie-bar-inner">
+
+        <!-- 左侧：终端风格文案 -->
+        <div class="bar-text">
+          <span class="bar-prompt">$</span>
+          <span class="bar-cmd">cookie-policy</span>
+          <span class="bar-sep">·</span>
+          <span class="bar-desc">{{ t('cookieConsent.barMessage') }}</span>
+          <router-link to="/privacy" class="bar-link">{{ t('cookieConsent.privacyLink') }}</router-link>
         </div>
-        <!-- 操作按钮 -->
-        <div class="cookie-consent-actions">
-          <n-button
-            size="small"
-            quaternary
-            class="btn-necessary"
-            @click="acceptNecessary"
-          >
+
+        <!-- 右侧：按钮 -->
+        <div class="bar-actions">
+          <button class="btn-necessary" @click="acceptNecessary">
             {{ t('cookieConsent.necessary') }}
-          </n-button>
-          <n-button
-            size="small"
-            type="primary"
-            class="btn-accept-all"
-            @click="acceptAll"
-          >
+          </button>
+          <button class="btn-accept-all" @click="acceptAll">
             {{ t('cookieConsent.acceptAll') }}
-          </n-button>
+          </button>
         </div>
+
       </div>
     </div>
   </Transition>
@@ -40,115 +29,174 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { InformationCircleOutline } from '@vicons/ionicons5'
+import { onMounted, onUnmounted } from 'vue'
 import { useCookieConsent } from '@/composables/useCookieConsent'
 
 const { t } = useI18n()
 const { hasResponded, acceptAll, acceptNecessary } = useCookieConsent()
+
+// 30s 无操作 → 静默执行 necessary-only（用户无感知）
+let timer = null
+
+onMounted(() => {
+  if (hasResponded.value) return
+  timer = setTimeout(() => {
+    acceptNecessary()
+  }, 30000)
+})
+
+onUnmounted(() => {
+  if (timer) clearTimeout(timer)
+})
 </script>
 
 <style scoped>
-.cookie-consent-bar {
+/* 底部横幅：不遮挡任何内容 */
+.cookie-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 9998;
-  background-color: var(--card-color);
-  border-top: 1px solid var(--border-color);
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
-  padding: 12px 24px;
+  background: #0d1117;
+  border-top: 1px solid #30363d;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', ui-monospace, monospace;
 }
 
-.cookie-consent-inner {
+.cookie-bar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 10px 24px;
 }
 
-.cookie-consent-text {
+/* 左侧文案 */
+.bar-text {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-color);
-  line-height: 1.5;
+  align-items: center;
+  gap: 7px;
   flex: 1;
   min-width: 0;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.cookie-icon {
+.bar-prompt {
+  color: #3fb950;
+  font-weight: 700;
   flex-shrink: 0;
-  margin-top: 1px;
-  opacity: 0.7;
 }
 
-.cookie-privacy-link {
-  color: var(--primary-color, #18a058);
+.bar-cmd {
+  color: #e6edf3;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.bar-sep {
+  color: #484f58;
+  flex-shrink: 0;
+}
+
+.bar-desc {
+  color: #8b949e;
+  font-size: 11.5px;
+}
+
+.bar-link {
+  color: #58a6ff;
   text-decoration: none;
-  margin-left: 4px;
+  font-size: 11.5px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
-
-.cookie-privacy-link:hover {
+.bar-link:hover {
   text-decoration: underline;
 }
 
-.cookie-consent-actions {
+/* 右侧操作区 */
+.bar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
-.btn-necessary {
+/* 按钮 */
+.btn-necessary,
+.btn-accept-all {
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
   white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.btn-necessary {
+  background: transparent;
+  border-color: #30363d;
+  color: #8b949e;
+}
+.btn-necessary:hover {
+  border-color: #8b949e;
+  color: #e6edf3;
 }
 
 .btn-accept-all {
-  white-space: nowrap;
+  background: #238636;
+  border-color: #2ea043;
+  color: #fff;
+}
+.btn-accept-all:hover {
+  background: #2ea043;
 }
 
 /* 滑入动画 */
-.cookie-slide-enter-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+.bar-slide-enter-active {
+  transition: transform 0.3s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.3s ease;
 }
-
-.cookie-slide-leave-active {
-  transition: transform 0.25s ease, opacity 0.25s ease;
+.bar-slide-leave-active {
+  transition: transform 0.22s ease, opacity 0.22s ease;
 }
-
-.cookie-slide-enter-from {
+.bar-slide-enter-from {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.bar-slide-leave-to {
   transform: translateY(100%);
   opacity: 0;
 }
 
-.cookie-slide-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-
-/* 移动端自适应 */
+/* 移动端 */
 @media (max-width: 640px) {
-  .cookie-consent-bar {
+  .cookie-bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     padding: 12px 16px;
   }
 
-  .cookie-consent-inner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+  .bar-text {
+    font-size: 11px;
   }
 
-  .cookie-consent-text {
-    font-size: 12px;
-  }
-
-  .cookie-consent-actions {
+  .bar-actions {
     justify-content: flex-end;
+  }
+
+  .bar-countdown {
+    display: none;
   }
 }
 </style>

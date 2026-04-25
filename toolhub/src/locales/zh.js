@@ -3338,10 +3338,20 @@ typeCiDesc: 'CI 配置变更'
     noResults: '未找到匹配的组件'
   },
   cookieConsent: {
-    message: '我们使用 Cookie 来记住您的偏好设置（语言、主题）。此外，在您同意后，我们会加载 Google AdSense 以展示广告，帮助支持本网站的运营。',
-    necessary: '仅必要',
-    acceptAll: '接受全部',
-    privacyLink: '隐私政策',
+    title: '您的隐私选择',
+    message: '我们使用 Cookie 记住您的偏好（语言、主题），并通过广告支持网站免费运营。请选择您的偏好：',
+    barMessage: '我们使用 Cookie 记住偏好并展示广告以支持免费运营。',
+    purposeVal: '语言 / 主题偏好存储',
+    adsVal: 'Google AdSense（需同意）',
+    selectPrompt: 'select --mode [1|2]',
+    inputHint: 'enter selection_',
+    timeoutHint: '# auto: necessary-only in {s}s',
+    recommended: 'recommended',
+    necessary: 'necessary-only',
+    necessaryDesc: '仅存储偏好，展示基于页面内容的非跟踪广告',
+    acceptAll: 'accept-all',
+    acceptAllDesc: '启用个性化广告，帮助我们持续提供免费工具',
+    privacyLink: '/privacy',
     learnMore: '了解更多'
   }
 } 

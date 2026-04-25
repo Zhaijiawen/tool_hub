@@ -3341,10 +3341,20 @@ typeCiDesc: 'CI configuration changes'
     noResults: 'No matching components found'
   },
   cookieConsent: {
-    message: 'We use cookies to remember your preferences (language, theme). With your consent, we also load Google AdSense to display ads that help support this site.',
-    necessary: 'Necessary Only',
-    acceptAll: 'Accept All',
-    privacyLink: 'Privacy Policy',
+    title: 'Your Privacy Choices',
+    message: 'We use cookies to remember your preferences (language, theme) and display ads to keep this site free. Please choose your preference:',
+    barMessage: 'We use cookies to save preferences and show ads to keep this site free.',
+    purposeVal: 'language / theme preference storage',
+    adsVal: 'Google AdSense (requires consent)',
+    selectPrompt: 'select --mode [1|2]',
+    inputHint: 'enter selection_',
+    timeoutHint: '# auto: necessary-only in {s}s',
+    recommended: 'recommended',
+    necessary: 'necessary-only',
+    necessaryDesc: 'Stores preferences only; shows non-tracking, content-based ads',
+    acceptAll: 'accept-all',
+    acceptAllDesc: 'Enables personalized ads to help us keep free tools running',
+    privacyLink: '/privacy',
     learnMore: 'Learn More'
   }
 } 
