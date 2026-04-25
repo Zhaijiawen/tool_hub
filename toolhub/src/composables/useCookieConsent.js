@@ -64,19 +64,14 @@ export function useCookieConsent() {
     // 脚本已注入则跳过，避免重复加载或重复触发广告请求
     if (document.getElementById('toolhub-adsense-script')) return
 
-    // 若 NPA 模式，在脚本加载前往队列写入 requestNonPersonalizedAds 指令
-    // AdSense 脚本初始化时会消费队列中的命令，早于任何广告请求
-    if (nonPersonalized) {
-      window.adsbygoogle = window.adsbygoogle || []
-      window.adsbygoogle.push({
-        params: { google_npa: '1' }
-      })
-    }
+    // NPA 模式：在 URL 追加 npa=1 参数，AdSense 脚本加载时即以非个性化模式初始化
+    // 不向队列 push 任何命令，避免被误判为广告请求触发 TagError
+    const npaParam = nonPersonalized ? '&npa=1' : ''
 
     const script = document.createElement('script')
     script.id = 'toolhub-adsense-script'
     script.async = true
-    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}${npaParam}`
     script.crossOrigin = 'anonymous'
     document.head.appendChild(script)
   }
