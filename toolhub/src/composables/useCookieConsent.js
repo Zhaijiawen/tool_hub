@@ -1,7 +1,6 @@
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const CONSENT_KEY = 'toolhub_cookie_consent'
-const ADSENSE_CLIENT = 'ca-pub-8381147251053054'
 
 // 模块级共享状态，跨组件同步
 const consentValue = ref(loadConsent())
@@ -15,13 +14,44 @@ function loadConsent() {
 }
 
 /**
+ * 调用 Consent Mode v2 的 gtag update，通知 AdSense 更新同意状态
+ * AdSense 脚本已静态加载，此处仅更新 consent 信号
+ * @param {boolean} granted - true = 全部允许；false = 仅功能性（NPA 模式）
+ */
+function updateConsentMode(granted) {
+  try {
+    if (typeof window.gtag === 'function') {
+      if (granted) {
+        // accept-all：个性化广告完全开启
+        window.gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'analytics_storage': 'granted',
+          'ad_personalization': 'granted',
+          'ad_user_data': 'granted'
+        })
+      } else {
+        // necessary-only：保持 denied，AdSense 展示非个性化广告（NPA），完全合规
+        window.gtag('consent', 'update', {
+          'ad_storage': 'denied',
+          'analytics_storage': 'denied',
+          'ad_personalization': 'denied',
+          'ad_user_data': 'denied'
+        })
+      }
+    }
+  } catch {
+    // gtag 不可用时静默失败，不影响页面运行
+  }
+}
+
+/**
  * Cookie 同意管理
  * consent 取值：null（未响应）| 'all'（全部接受）| 'necessary'（仅必要）
  *
- * AdSense 广告策略：
- *   - 'all'      → 个性化广告（默认，收益最高）
- *   - 'necessary'→ 非个性化广告 NPA（基于页面内容，不跟踪用户，合规且仍有收益）
- *   - null       → 不注入，等待用户响应
+ * AdSense 广告策略（基于 Consent Mode v2）：
+ *   - 'all'      → gtag update granted → 个性化广告（收益最高）
+ *   - 'necessary'→ gtag update denied  → 非个性化广告 NPA（基于内容，不跟踪用户）
+ *   - null       → 默认 denied（index.html 中已声明），等待用户响应
  */
 export function useCookieConsent() {
   // 是否已做过选择
@@ -30,7 +60,7 @@ export function useCookieConsent() {
   const acceptedAll = ref(consentValue.value === 'all')
 
   /**
-   * 接受全部 cookie → 注入个性化广告
+   * 接受全部 cookie → Consent Mode update granted → 个性化广告
    */
   function acceptAll() {
     consentValue.value = 'all'
@@ -39,11 +69,11 @@ export function useCookieConsent() {
     try {
       localStorage.setItem(CONSENT_KEY, 'all')
     } catch {}
-    injectAdSense(false)
+    updateConsentMode(true)
   }
 
   /**
-   * 仅接受必要 cookie → 注入非个性化广告（NPA），不跟踪用户
+   * 仅接受必要 cookie → Consent Mode 保持 denied → NPA 非个性化广告
    * 非个性化广告基于页面内容定向，不需要用户跟踪 Cookie，符合 GDPR
    */
   function acceptNecessary() {
@@ -53,35 +83,15 @@ export function useCookieConsent() {
     try {
       localStorage.setItem(CONSENT_KEY, 'necessary')
     } catch {}
-    injectAdSense(true)
+    updateConsentMode(false)
   }
 
-  /**
-   * 动态注入 Google AdSense 脚本
-   * @param {boolean} nonPersonalized - true 则设置 NPA 模式（不跟踪用户）
-   */
-  function injectAdSense(nonPersonalized = false) {
-    // 脚本已注入则跳过，避免重复加载或重复触发广告请求
-    if (document.getElementById('toolhub-adsense-script')) return
-
-    // NPA 模式：在 URL 追加 npa=1 参数，AdSense 脚本加载时即以非个性化模式初始化
-    // 不向队列 push 任何命令，避免被误判为广告请求触发 TagError
-    const npaParam = nonPersonalized ? '&npa=1' : ''
-
-    const script = document.createElement('script')
-    script.id = 'toolhub-adsense-script'
-    script.async = true
-    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}${npaParam}`
-    script.crossOrigin = 'anonymous'
-    document.head.appendChild(script)
-  }
-
-  // 页面加载时，根据已存储的同意状态自动注入
+  // 页面加载时，若用户之前已选择，立即恢复同意状态
+  // （AdSense 脚本静态加载，wait_for_update: 2000 会等待此处更新）
   if (consentValue.value === 'all') {
-    injectAdSense(false)
-  } else if (consentValue.value === 'necessary') {
-    injectAdSense(true)
+    updateConsentMode(true)
   }
+  // necessary 时无需 update，默认 denied 即可
 
   return {
     hasResponded,
