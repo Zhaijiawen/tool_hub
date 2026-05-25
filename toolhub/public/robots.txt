@@ -18,7 +18,7 @@ Allow: /
 Crawl-delay: 2
 
 # 禁止爬取无意义路径
-Disallow: /dist/
+# Disallow: /dist/
 Disallow: /*.map$
 
 Sitemap: https://toolhub.studio/sitemap.xml
