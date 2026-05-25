@@ -63,12 +63,14 @@
     </n-card>
 
   </div>
+  <TutorialAndDocs toolKey="number" />
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t } = useI18n()
 const message = useMessage()

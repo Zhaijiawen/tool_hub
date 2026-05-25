@@ -53,6 +53,7 @@
     </n-card>
 
   </div>
+  <TutorialAndDocs toolKey="markdown" />
 </template>
 
 <script setup>
@@ -61,6 +62,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t } = useI18n()
 const message = useMessage()

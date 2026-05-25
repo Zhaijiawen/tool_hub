@@ -111,11 +111,13 @@
     </n-card>
 
   </div>
+  <TutorialAndDocs toolKey="httpStatus" />
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t } = useI18n()
 

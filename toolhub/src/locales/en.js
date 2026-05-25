@@ -49,6 +49,40 @@ export default {
          summary: 'Timestamp processing techniques and best practice sharing',
          tags: ['Timestamp', 'Date']
        }
+     },
+     whyUs: {
+       title: 'Why Choose ToolHub?',
+       desc: 'ToolHub is a free, open-access online toolbox built for developers, engineers, and technical professionals. Every tool runs entirely in your browser — no server-side processing, no data uploads, no registration required. Your data stays private on your device.',
+       items: [
+         {
+           title: 'Privacy First',
+           desc: 'All computations happen locally in your browser. Sensitive data such as encryption keys, passwords, and certificates never leaves your device.'
+         },
+         {
+           title: '60+ Professional Tools',
+           desc: 'From code formatters (JSON, XML, YAML, SQL, JavaScript, CSS) to cryptographic tools (AES, RSA, ECC, SHA), data converters, image processors, and developer utilities — everything in one place.'
+         },
+         {
+           title: 'No Login, No Ads Interruption',
+           desc: 'Open any tool and start working immediately. No pop-ups, no forced registration, no subscription walls. We believe developer tools should be frictionless.'
+         },
+         {
+           title: 'Always Up to Date',
+           desc: 'ToolHub is actively maintained and updated. New tools are added regularly based on community feedback and real-world developer needs.'
+         }
+       ]
+     },
+     toolsIntro: {
+       title: 'What Can ToolHub Do?',
+       desc: 'Explore our comprehensive collection of developer tools across 7 categories:',
+       categories: [
+         { name: 'Format', desc: 'Beautify and validate JSON, XML, YAML, JavaScript, CSS, SQL, HTML, Java, PHP, Ruby, Shell, Markdown, and Vue files with proper indentation and syntax highlighting.' },
+         { name: 'Encrypt & Encode', desc: 'Industry-standard encryption (AES, DES, RSA, ECC, ChaCha20), hashing (SHA, bcrypt, Argon2), digital signatures (ECDSA, Ed25519), and encoding utilities (Base64, Hex, URL, JWT).' },
+         { name: 'Convert', desc: 'Timestamp conversion, date calculations, unit converters, number base conversion, color picker, regex tester, CIDR calculator, JSON Schema generator, and more.' },
+         { name: 'Image', desc: 'Client-side image format conversion, rotation, cropping, watermarking, and EXIF metadata viewer — all processed locally without uploads.' },
+         { name: 'Text', desc: 'Text case conversion, diff comparison, whitespace cleanup, find & replace, character statistics, and JSONPath queries.' },
+         { name: 'Other', desc: 'QR code generator, IP lookup, DNS query, UUID generator, password generator, file hash checker, HTTP client, SSL certificate parser, and Git commit message builder.' }
+       ]
      }
   },
   seo: {

@@ -3,217 +3,217 @@ export const aboutText = {
   'zh-CN': {
     title: '关于 ToolHub',
     seo: {
-      title: '关于我们 - ToolHub',
-      description: '了解 ToolHub 的使命、功能特色、技术架构和发展规划。我们致力于为开发者提供最佳的在线工具体验。',
-      keywords: '关于我们,ToolHub团队,开发者工具,技术架构,产品规划'
+      title: '关于我们 - ToolHub 开发者工具箱',
+      description: '了解 ToolHub 的使命、功能特色、技术架构。ToolHub 是一款面向开发者和技术人员的免费在线工具箱，提供 60+ 工具，所有计算在浏览器本地完成，无需注册，保护您的数据隐私。',
+      keywords: '关于我们,ToolHub,开发者工具箱,免费在线工具,技术架构,隐私优先'
     },
     mission: {
       title: '我们的使命',
-      description: '为全球开发者提供高效、安全、易用的在线工具集合，让开发工作更加便捷和高效。',
-      vision: '成为最受欢迎的开发者工具平台',
+      description: 'ToolHub 是一款专为开发者、工程师和技术专业人员设计的免费在线工具箱。我们深知开发工作中频繁需要小工具来处理格式转换、加密编码、文本处理等日常任务，却往往找不到一个可信赖、快速且无需注册的工具站。ToolHub 正是为了解决这一痛点而生。我们的目标简单而明确：提供一套高质量、开放访问的开发者工具集合，所有计算均在浏览器本地运行，您的数据永远不会离开您的设备。',
+      vision: '成为全球开发者最信赖的在线工具平台',
       highlights: {
         developer: {
-          title: '开发者友好',
-          desc: '专为开发者设计，提供专业级的工具和功能'
+          title: '专为开发者设计',
+          desc: '每一款工具都以开发者的实际使用场景为出发点，注重效率与精准。从 JSON 格式化到 RSA 加密，从正则表达式测试到 HTTP 状态码查询，ToolHub 覆盖了开发日常中最高频的需求。'
         },
         privacy: {
-          title: '隐私保护',
-          desc: '数据本地处理，确保您的隐私和数据安全'
+          title: '隐私优先，数据不上传',
+          desc: '所有工具均在您的浏览器中本地运行，加密密钥、密码、证书、代码等敏感数据不会发送到任何服务器。这是我们从设计之初就坚守的原则，不是承诺，是技术保证。'
         },
         fast: {
-          title: '快速高效',
-          desc: '无需注册，即开即用，提升开发效率'
+          title: '打开即用，无任何门槛',
+          desc: '无需注册账号，无需安装插件，无需付费订阅。打开页面，选择工具，立即开始。我们认为开发者工具应该像命令行一样简洁直接，不应该设置任何障碍。'
         }
       }
     },
     features: {
-      title: '功能特色',
-      intro: 'ToolHub 提供丰富的开发工具，涵盖以下领域：',
+      title: '工具分类与功能',
+      intro: 'ToolHub 目前提供 60+ 款工具，涵盖 7 大类别，持续更新中：',
       format: {
         title: '格式化工具',
-        desc: 'JSON、XML、CSS、JavaScript 等多种格式的格式化工具'
+        desc: '支持 JSON、XML、YAML、JavaScript、CSS、SQL、HTML、Java、PHP、Ruby、Shell、Markdown、Vue 等十余种格式的代码美化与验证。提供语法高亮、缩进控制、折叠展开等功能，帮助开发者快速整理杂乱的代码和配置文件。'
       },
       encrypt: {
-        title: '加密工具',
-        desc: 'AES、RSA、SHA、Base64 等多种加密算法工具'
+        title: '加密与编码工具',
+        desc: '涵盖行业标准对称加密算法（AES-128/192/256、DES、3DES、ChaCha20）、非对称加密（RSA 1024/2048/4096、ECC P-256/P-384/P-521）、哈希函数（MD5、SHA-1/224/256/384/512、bcrypt、Argon2）、数字签名（ECDSA、Ed25519）以及各种编码工具（Base64、Hex、URL 编码、JWT 解析/生成）。所有加密操作均在客户端执行，密钥和明文不会上传服务器。'
       },
       convert: {
         title: '转换工具',
-        desc: '时间戳、进制转换、单位换算、Diff文本对比、Cron表达式解析、JSON多格式互转、渐变色生成器、CSV/TSV预览解析、配色方案生成、IP/CIDR子网计算器、JSON Schema生成器等实用转换工具'
+        desc: '提供时间戳与日期格式互转、存储与时间单位换算、数制转换（2/8/10/16 进制及任意进制）、物理单位换算（长度、质量、温度、面积、速度等）、颜色格式转换（HEX/RGB/HSL/HSV/CMYK）、正则表达式测试、CIDR 子网计算器、JSON Schema 生成器、User Agent 解析、HTTP 状态码查询、字符编码查询、Markdown 实时预览等实用工具。'
       },
       image: {
-        title: '图像处理',
-        desc: '图片格式转换（含尺寸调整）、裁剪、旋转、水印、图片压缩等图像处理工具'
+        title: '图片处理工具',
+        desc: '提供图片格式转换（支持 JPG、PNG、WebP、BMP、GIF、AVIF 等格式互转，含尺寸调整）、图片裁剪、旋转与翻转、文字/图片水印添加、图片压缩（可控质量）、EXIF 元数据查看器等功能。所有图片处理均在浏览器本地完成，不上传任何图片数据到服务器。'
       },
       text: {
-        title: '文本处理',
-        desc: '大小写转换、文本替换、正则表达式、文本统计分析等文本处理工具'
+        title: '文本处理工具',
+        desc: '包含大小写转换（支持驼峰、帕斯卡、蛇形、烤肉串等多种命名格式）、文本逆序、空白字符清理与压缩、查找与替换（支持正则表达式）、文本 Diff 对比、字符/单词/行数统计、JSONPath 查询与提取等工具。'
       },
       other: {
-        title: '其他工具',
-        desc: '二维码生成、IP查询、文件哈希校验、DNS查询、计算器、Git Commit生成器、Mock数据生成器等实用工具'
+        title: '其他实用工具',
+        desc: '二维码生成与解码、IP 地址查询（含 ISP 和地理位置）、DNS 解析查询、UUID v1/v4 批量生成、安全密码生成器（自定义字符集和长度）、文件 MD5/SHA 哈希校验、HTTP 客户端（支持自定义请求头）、SSL 证书解析器、Git Commit 规范消息生成器、Mock 数据生成器（支持 Faker.js 语法）、科学计算器、AI 提示词工具箱等。'
       }
     },
     technology: {
       title: '技术架构',
-      intro: 'ToolHub 采用现代化的 Web 技术栈构建：',
+      intro: 'ToolHub 采用纯前端架构，充分利用现代浏览器的计算能力，确保数据安全和响应速度：',
       frontend: {
-        title: '前端技术',
-        vue: '响应式用户界面框架',
-        naiveui: '优雅的组件库',
-        vite: '快速的构建工具',
-        router: '客户端路由',
-        i18n: '国际化支持'
+        title: '前端技术栈',
+        vue: '渐进式 JavaScript 框架，提供响应式 UI 和组件化开发体验',
+        naiveui: '基于 Vue 3 的高质量 UI 组件库，提供专业的交互组件',
+        vite: '新一代前端构建工具，提供极速的开发热重载和优化的生产构建',
+        router: '客户端路由管理，实现 SPA 单页应用的页面导航',
+        i18n: '国际化框架，支持中英文双语界面切换'
       },
       backend: {
-        title: '后端支持',
-        node: '服务器运行环境',
-        express: 'Web 应用框架',
-        nginx: '反向代理和负载均衡',
-        pm2: '进程管理'
+        title: '服务端支持',
+        node: 'JavaScript 运行时，用于服务端静态资源托管',
+        express: '轻量级 Web 框架，提供 API 接口和静态文件服务',
+        nginx: '高性能反向代理服务器，负责 HTTPS 终止、Gzip 压缩和缓存策略',
+        pm2: '生产环境进程守护工具，确保服务持续稳定运行'
       },
       security: {
-        title: '安全特性',
-        https: '加密传输',
-        csp: '内容安全策略',
+        title: '安全设计',
+        https: '全站 HTTPS 加密传输，确保通信安全',
+        csp: '内容安全策略（CSP）头部配置，防止 XSS 攻击',
         client: {
-          title: '客户端处理',
-          desc: '数据永不离开浏览器'
+          title: '纯客户端计算',
+          desc: '敏感数据（加密内容、密钥、密码等）完全在浏览器沙箱内处理，不经过服务器'
         },
         validation: {
           title: '输入验证',
-          desc: '防止恶意输入'
+          desc: '对所有用户输入进行客户端验证，防止恶意数据注入'
         }
       }
     },
     contact: {
       title: '联系我们',
-      intro: '我们重视每一位用户的反馈和建议。如果您有任何疑问、建议或合作意向，请通过邮箱联系我们：',
+      intro: '我们重视每一位用户的反馈和建议。无论您发现了 Bug、希望新增某个工具，还是有任何使用问题，都欢迎通过邮件联系我们。我们会认真阅读每一封邮件并尽快回复。',
       methods: {
         email: {
-          title: '邮箱联系',
+          title: '邮件联系',
           support: 'pinkmaaaaan03@2925.com'
         }
       }
     },
     thanks: {
       title: '致谢',
-      intro: 'ToolHub 的发展离不开以下开源项目和社区的支持：',
+      intro: 'ToolHub 的开发依托了大量优秀的开源项目，向以下项目和社区致以诚挚的感谢：',
       list: {
-        vue: 'Vue.js 团队和社区贡献者',
-        naiveui: 'Naive UI 组件库开发者',
-        crypto: '各种加密算法库的维护者',
-        users: '所有提供反馈和建议的用户'
+        vue: 'Vue.js 团队及全球社区贡献者——感谢打造了如此优雅的前端框架',
+        naiveui: 'Naive UI 开发团队——感谢提供了美观且功能完善的 Vue 3 组件库',
+        crypto: 'crypto-js、forge、elliptic 等加密库的维护者——感谢你们在浏览器端实现了严谨的密码学工具',
+        users: '所有使用 ToolHub、提交反馈和建议的开发者们——你们的支持是我们持续改进的最大动力'
       },
-      support: '感谢每一位使用 ToolHub 的开发者，您的支持是我们前进的动力！'
+      support: 'ToolHub 会持续更新和维护，不断新增工具，优化体验。感谢每一位信任我们的开发者！'
     }
   },
   'en-US': {
     title: 'About ToolHub',
     seo: {
-      title: 'About Us - ToolHub',
-      description: 'Learn about ToolHub\'s mission, features, technical architecture and development plans. We are committed to providing the best online tool experience for developers.',
-      keywords: 'about us,ToolHub team,developer tools,technical architecture,product roadmap'
+      title: 'About Us - ToolHub Developer Toolbox',
+      description: 'Learn about ToolHub\'s mission, features, and technical architecture. ToolHub is a free online toolbox for developers and technical professionals, offering 60+ tools with all processing done locally in your browser — no registration required, privacy guaranteed.',
+      keywords: 'about us,ToolHub,developer toolbox,free online tools,technical architecture,privacy first'
     },
     mission: {
       title: 'Our Mission',
-      description: 'Provide efficient, secure, and easy-to-use online tool collections for global developers, making development work more convenient and efficient.',
-      vision: 'Become the most popular developer tool platform',
+      description: 'ToolHub is a free online toolbox built specifically for developers, engineers, and technical professionals. We understand that development work constantly requires small utilities for format conversion, encryption, text processing, and countless other daily tasks — yet finding a trustworthy, fast, and registration-free tool site is often frustrating. ToolHub was created to solve exactly this problem. Our goal is straightforward: provide a collection of high-quality, openly accessible developer tools where all computation happens locally in your browser. Your data never leaves your device.',
+      vision: 'Become the most trusted online tool platform for developers worldwide',
       highlights: {
         developer: {
-          title: 'Developer Friendly',
-          desc: 'Designed specifically for developers, providing professional-level tools and features'
+          title: 'Built for Developers',
+          desc: 'Every tool starts from the real workflows of developers. From JSON formatting to RSA encryption, from regex testing to HTTP status code lookup, ToolHub covers the highest-frequency needs in everyday development.'
         },
         privacy: {
-          title: 'Privacy Protection',
-          desc: 'Local data processing ensures your privacy and data security'
+          title: 'Privacy-First, Zero Uploads',
+          desc: 'All tools run locally in your browser. Encryption keys, passwords, certificates, and code never get sent to any server. This is not a promise — it is a technical guarantee baked into our architecture from day one.'
         },
         fast: {
-          title: 'Fast & Efficient',
-          desc: 'No registration required, ready to use, improving development efficiency'
+          title: 'Open and Use Instantly',
+          desc: 'No account registration, no plugin installation, no paid subscription. Open a tool page and start working immediately. We believe developer tools should be as frictionless as a command line — no barriers, no friction.'
         }
       }
     },
     features: {
-      title: 'Features',
-      intro: 'ToolHub provides rich development tools covering the following areas:',
+      title: 'Tool Categories & Features',
+      intro: 'ToolHub currently provides 60+ tools across 7 categories, with new tools added regularly:',
       format: {
         title: 'Formatting Tools',
-        desc: 'Formatting tools for JSON, XML, CSS, JavaScript and other formats'
+        desc: 'Beautify and validate over a dozen formats including JSON, XML, YAML, JavaScript, CSS, SQL, HTML, Java, PHP, Ruby, Shell, Markdown, and Vue. Features include syntax highlighting, indentation control, and expand/collapse, helping developers quickly clean up messy code and config files.'
       },
       encrypt: {
-        title: 'Encryption Tools',
-        desc: 'Various encryption algorithm tools such as AES, RSA, SHA, Base64'
+        title: 'Encryption & Encoding Tools',
+        desc: 'Covers industry-standard symmetric encryption (AES-128/192/256, DES, 3DES, ChaCha20), asymmetric encryption (RSA 1024/2048/4096, ECC P-256/P-384/P-521), hash functions (MD5, SHA-1/224/256/384/512, bcrypt, Argon2), digital signatures (ECDSA, Ed25519), and encoding utilities (Base64, Hex, URL encoding, JWT parsing/generation). All cryptographic operations execute on the client side — keys and plaintext never touch the server.'
       },
       convert: {
         title: 'Conversion Tools',
-        desc: 'Practical conversion tools including timestamp, base conversion, unit conversion, Diff comparison, Cron parser, JSON multi-format converter, gradient generator, CSV/TSV viewer, color palette generator, IP/CIDR subnet calculator, and JSON Schema generator'
+        desc: 'Includes timestamp and date format conversion, storage and time unit converters, number base conversion (binary/octal/decimal/hex and arbitrary bases), physical unit conversion (length, mass, temperature, area, speed, etc.), color format conversion (HEX/RGB/HSL/HSV/CMYK), regex tester, CIDR subnet calculator, JSON Schema generator, User Agent parser, HTTP status code reference, character encoding lookup, and Markdown live preview.'
       },
       image: {
-        title: 'Image Processing',
-        desc: 'Image processing tools: format conversion (with resize), cropping, rotation, watermarking, and compression'
+        title: 'Image Processing Tools',
+        desc: 'Provides image format conversion (supports JPG, PNG, WebP, BMP, GIF, AVIF and more, with optional resize), image cropping, rotation and flipping, text/image watermark overlay, image compression with quality control, and EXIF metadata viewer. All image processing runs entirely in the browser — no image data is uploaded to any server.'
       },
       text: {
-        title: 'Text Processing',
-        desc: 'Text tools: case conversion, replacement, regular expressions, and text statistics analysis'
+        title: 'Text Processing Tools',
+        desc: 'Includes case conversion (camelCase, PascalCase, snake_case, kebab-case, and more), text reversal, whitespace cleanup and compression, find and replace (with regex support), text diff comparison, character/word/line statistics, and JSONPath query and extraction.'
       },
       other: {
-        title: 'Other Tools',
-        desc: 'Practical tools: QR code generation, IP query, file hash, DNS lookup, calculator, Git Commit generator, and Mock data generator'
+        title: 'Other Utilities',
+        desc: 'QR code generator and decoder, IP address lookup (including ISP and geolocation), DNS resolver, UUID v1/v4 batch generator, secure password generator (customizable charset and length), file MD5/SHA hash checker, HTTP client (with custom headers), SSL certificate parser, Git commit message generator following Conventional Commits, Mock data generator (with Faker.js syntax), scientific calculator, and AI prompt toolbox.'
       }
     },
     technology: {
       title: 'Technical Architecture',
-      intro: 'ToolHub is built with modern Web technology stack:',
+      intro: 'ToolHub uses a pure frontend architecture, leveraging the full computational power of modern browsers to ensure both data security and responsiveness:',
       frontend: {
-        title: 'Frontend Technologies',
-        vue: 'Reactive user interface framework',
-        naiveui: 'Elegant component library',
-        vite: 'Fast build tool',
-        router: 'Client-side routing',
-        i18n: 'Internationalization support'
+        title: 'Frontend Stack',
+        vue: 'Progressive JavaScript framework providing reactive UI and component-based development',
+        naiveui: 'High-quality Vue 3 component library offering professional UI interactions',
+        vite: 'Next-generation frontend build tool with instant hot reload and optimized production builds',
+        router: 'Client-side routing management for SPA page navigation',
+        i18n: 'Internationalization framework supporting seamless English/Chinese language switching'
       },
       backend: {
-        title: 'Backend Support',
-        node: 'Server runtime environment',
-        express: 'Web application framework',
-        nginx: 'Reverse proxy and load balancing',
-        pm2: 'Process management'
+        title: 'Server-Side Support',
+        node: 'JavaScript runtime for server-side static asset hosting',
+        express: 'Lightweight web framework for API endpoints and static file serving',
+        nginx: 'High-performance reverse proxy for HTTPS termination, Gzip compression, and caching',
+        pm2: 'Production process daemon ensuring continuous, stable service uptime'
       },
       security: {
-        title: 'Security Features',
-        https: 'Encrypted transmission',
-        csp: 'Content Security Policy',
+        title: 'Security Design',
+        https: 'Full-site HTTPS encrypted transmission for secure communications',
+        csp: 'Content Security Policy (CSP) headers configured to prevent XSS attacks',
         client: {
-          title: 'Client-side Processing',
-          desc: 'Data never leaves browser'
+          title: 'Pure Client-Side Computation',
+          desc: 'Sensitive data (encrypted content, keys, passwords) is processed entirely within the browser sandbox and never passes through the server'
         },
         validation: {
           title: 'Input Validation',
-          desc: 'Prevent malicious input'
+          desc: 'All user inputs undergo client-side validation to prevent malicious data injection'
         }
       }
     },
     contact: {
       title: 'Contact Us',
-      intro: 'We value feedback and suggestions from every user. If you have any questions, suggestions or cooperation intentions, please contact us via email:',
+      intro: 'We value feedback and suggestions from every user. Whether you have found a bug, want to request a new tool, or have any questions, feel free to reach out via email. We read every message and respond as promptly as possible.',
       methods: {
         email: {
-          title: 'Email Contact',
+          title: 'Email',
           support: 'pinkmaaaaan03@2925.com'
         }
       }
     },
     thanks: {
       title: 'Acknowledgments',
-      intro: 'ToolHub\'s development relies on the support of the following open source projects and communities:',
+      intro: 'ToolHub is built on the shoulders of many outstanding open-source projects. We extend our sincere thanks to:',
       list: {
-        vue: 'Vue.js team and community contributors',
-        naiveui: 'Naive UI component library developers',
-        crypto: 'Maintainers of various encryption algorithm libraries',
-        users: 'All users who provide feedback and suggestions'
+        vue: 'The Vue.js team and global community contributors — thank you for building such an elegant frontend framework',
+        naiveui: 'The Naive UI development team — thank you for providing a beautiful and fully-featured Vue 3 component library',
+        crypto: 'Maintainers of crypto-js, forge, elliptic, and other cryptographic libraries — thank you for making rigorous cryptography accessible in the browser',
+        users: 'All developers who use ToolHub and submit feedback — your support is our greatest motivation for continuous improvement'
       },
-      support: 'Thank you to every developer who uses ToolHub. Your support is our driving force!'
+      support: 'ToolHub is continuously updated and maintained, with new tools added and the experience improved regularly. Thank you to every developer who trusts us!'
     }
   }
 }

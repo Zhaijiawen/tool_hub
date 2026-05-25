@@ -51,6 +51,11 @@
         </section>
 
         <section>
+          <h2>{{ getPrivacyText('clientSide.title', locale) }}</h2>
+          <p>{{ getPrivacyText('clientSide.desc', locale) }}</p>
+        </section>
+
+        <section>
           <h2>{{ getPrivacyText('rights.title', locale) }}</h2>
           <ul>
             <li>{{ getPrivacyText('rights.access', locale) }}</li>

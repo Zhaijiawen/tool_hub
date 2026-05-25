@@ -56,6 +56,11 @@
         </section>
 
         <section>
+          <h2>{{ getTermsText('thirdParty.title', locale) }}</h2>
+          <p>{{ getTermsText('thirdParty.desc', locale) }}</p>
+        </section>
+
+        <section>
           <h2>{{ getTermsText('changes.title', locale) }}</h2>
           <p>{{ getTermsText('changes.description', locale) }}</p>
           <p>{{ getTermsText('changes.acceptance', locale) }}</p>

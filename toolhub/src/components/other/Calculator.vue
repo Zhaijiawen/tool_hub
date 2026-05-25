@@ -398,6 +398,7 @@
     </n-card>
     
   </div>
+  <TutorialAndDocs toolKey="calculator" />
 </template>
 
 <script setup>
@@ -405,6 +406,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { evaluate, format } from 'mathjs'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t } = useI18n()
 const message = useMessage()

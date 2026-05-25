@@ -146,6 +146,7 @@
       </n-form>
     </n-modal>
   </div>
+  <TutorialAndDocs toolKey="promptBox" />
 </template>
 
 <script setup>
@@ -153,6 +154,7 @@ import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { builtinPrompts, builtinPromptsEn } from '@/locales/promptData'
+import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 const { t, locale } = useI18n()
 const message = useMessage()

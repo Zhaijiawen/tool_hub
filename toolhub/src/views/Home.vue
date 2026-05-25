@@ -45,6 +45,31 @@
         </div>
       </div>
     </section>
+
+    <!-- Why Choose ToolHub - 原创内容区块，提升 AdSense 内容质量评分 -->
+    <section class="why-us">
+      <h2 class="section-title">{{ t('home.whyUs.title') }}</h2>
+      <p class="why-us-desc">{{ t('home.whyUs.desc') }}</p>
+      <div class="why-us-grid">
+        <div class="why-us-card" v-for="(item, index) in whyUsItems" :key="index">
+          <div class="why-us-card-title">{{ item.title }}</div>
+          <div class="why-us-card-desc">{{ item.desc }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Introduction - 工具分类详细说明 -->
+    <section class="tools-intro">
+      <h2 class="section-title">{{ t('home.toolsIntro.title') }}</h2>
+      <p class="tools-intro-desc">{{ t('home.toolsIntro.desc') }}</p>
+      <div class="tools-intro-list">
+        <div class="tools-intro-item" v-for="(cat, index) in toolsIntroCategories" :key="index">
+          <span class="tools-intro-name">{{ cat.name }}</span>
+          <span class="tools-intro-sep">—</span>
+          <span class="tools-intro-text">{{ cat.desc }}</span>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -55,7 +80,7 @@ import { ShieldCheckmarkOutline as ShieldIcon, FlashOutline as FlashIcon, GiftOu
 import { getAllToolsSync } from '@/api/tools'
 import { useSeo } from '@/composables/useSeo'
 
-const { t, locale } = useI18n()
+const { t, tm, locale } = useI18n()
 
 // SEO：首页专属元数据更新
 const { updatePageMeta } = useSeo()
@@ -101,6 +126,10 @@ const featureItems = computed(() => [
   { key: 'mobileFriendly',     title: t('home.guide.mobileFriendly.title'),     desc: t('home.guide.mobileFriendly.desc') },
   { key: 'professionalDesign', title: t('home.guide.professionalDesign.title'), desc: t('home.guide.professionalDesign.desc') },
 ])
+
+const whyUsItems = computed(() => tm('home.whyUs.items'))
+
+const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
 </script>
 
 <style scoped>
@@ -247,6 +276,79 @@ const featureItems = computed(() => [
   font-size: 12px;
   color: var(--text-color-2);
   line-height: 1.6;
+}
+
+/* ── Why Us ───────────────────────────── */
+.why-us {
+  margin-top: 44px;
+}
+.why-us-desc {
+  font-size: 13px;
+  color: var(--text-color-2);
+  line-height: 1.7;
+  margin: 0 0 18px;
+}
+.why-us-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.why-us-card {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--card-color);
+}
+.why-us-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 6px;
+}
+.why-us-card-desc {
+  font-size: 12px;
+  color: var(--text-color-2);
+  line-height: 1.6;
+}
+
+/* ── Tools Intro ──────────────────────── */
+.tools-intro {
+  margin-top: 44px;
+}
+.tools-intro-desc {
+  font-size: 13px;
+  color: var(--text-color-2);
+  line-height: 1.7;
+  margin: 0 0 14px;
+}
+.tools-intro-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tools-intro-item {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-color);
+}
+.tools-intro-name {
+  font-weight: 600;
+  color: var(--text-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tools-intro-sep {
+  color: var(--text-color-2);
+  flex-shrink: 0;
+}
+.tools-intro-text {
+  color: var(--text-color-2);
 }
 
 /* ── Responsive ───────────────────────── */
