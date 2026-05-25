@@ -28,7 +28,7 @@ export const aboutText = {
     },
     features: {
       title: '工具分类与功能',
-      intro: 'ToolHub 目前提供 60+ 款工具，涵盖 7 大类别，持续更新中：',
+      intro: 'ToolHub 目前提供 60+ 款工具，涵盖 6 大类别，持续更新中：',
       format: {
         title: '格式化工具',
         desc: '支持 JSON、XML、YAML、JavaScript、CSS、SQL、HTML、Java、PHP、Ruby、Shell、Markdown、Vue 等十余种格式的代码美化与验证。提供语法高亮、缩进控制、折叠展开等功能，帮助开发者快速整理杂乱的代码和配置文件。'
@@ -136,7 +136,7 @@ export const aboutText = {
     },
     features: {
       title: 'Tool Categories & Features',
-      intro: 'ToolHub currently provides 60+ tools across 7 categories, with new tools added regularly:',
+      intro: 'ToolHub currently provides 60+ tools across 6 categories, with new tools added regularly:',
       format: {
         title: 'Formatting Tools',
         desc: 'Beautify and validate over a dozen formats including JSON, XML, YAML, JavaScript, CSS, SQL, HTML, Java, PHP, Ruby, Shell, Markdown, and Vue. Features include syntax highlighting, indentation control, and expand/collapse, helping developers quickly clean up messy code and config files.'
