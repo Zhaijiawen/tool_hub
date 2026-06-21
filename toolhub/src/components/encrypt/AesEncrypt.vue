@@ -1,5 +1,8 @@
 <template>
   <div class="aes-encrypt">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="aes" />
+
 
     <n-card :title="t('encrypt.aes.title')">
       <n-space vertical>
@@ -150,6 +153,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CryptoJS from 'crypto-js'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

@@ -1,5 +1,8 @@
 <template>
   <div class="mock-data">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="mockData" />
+
     <n-card :title="t('other.mockData.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -69,6 +72,7 @@ import { ref, computed, defineComponent, h, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage, NInput, NInputNumber, NSelect, NButton, NText } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t, locale } = useI18n()
 const isZh = computed(() => locale.value.startsWith('zh'))
 const message = useMessage()

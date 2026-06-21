@@ -1901,6 +1901,438 @@ export const toolDescriptions = {
     ]
   },
 
+  ed25519: {
+    features: [
+      '高性能椭圆曲线数字签名',
+      '公钥和私钥生成',
+      '签名生成和验证',
+      '抗侧信道攻击'
+    ],
+    useCases: [
+      'SSH 密钥认证',
+      'Git 提交签名',
+      '软件包签名验证',
+      '区块链交易签名'
+    ],
+    usageSteps: [
+      '生成 Ed25519 密钥对',
+      '输入要签名的消息',
+      '生成签名',
+      '使用公钥验证签名'
+    ],
+    bestPractices: [
+      '私钥必须安全保存',
+      '签名前验证消息完整性',
+      '公钥可以公开分发',
+      '定期轮换密钥对'
+    ]
+  },
+
+  hexCodec: {
+    features: [
+      '十六进制编码和解码',
+      '支持大小写输出',
+      '自动格式化（空格分隔）',
+      '错误检测和提示'
+    ],
+    useCases: [
+      '二进制数据查看',
+      '密钥和哈希值表示',
+      '网络协议调试',
+      '文件十六进制转储'
+    ],
+    usageSteps: [
+      '输入文本或十六进制字符串',
+      '选择编码或解码',
+      '选择输出格式（大小写、分隔符）',
+      '复制结果'
+    ],
+    bestPractices: [
+      '十六进制适合表示二进制数据',
+      '注意大小写一致性',
+      '使用空格或冒号分隔提高可读性',
+      '验证输入格式正确性'
+    ]
+  },
+
+  htmlCodec: {
+    features: [
+      'HTML 实体编码和解码',
+      '支持命名实体和数字实体',
+      'XSS 防护编码',
+      '自动检测编码类型'
+    ],
+    useCases: [
+      '防止 XSS 攻击',
+      'HTML 内容安全输出',
+      'URL 参数编码',
+      '特殊字符处理'
+    ],
+    usageSteps: [
+      '输入文本或 HTML 实体',
+      '选择编码或解码',
+      '选择实体类型（命名/数字）',
+      '复制结果'
+    ],
+    bestPractices: [
+      '用户输入必须编码后输出到 HTML',
+      '不要对已编码内容重复编码',
+      '数字实体兼容性更好',
+      '注意 HTML 上下文（属性/文本节点）'
+    ]
+  },
+
+  urlCodec: {
+    features: [
+      'URL 编码和解码',
+      '支持完整 URL 和组件编码',
+      'RFC 3986 标准',
+      '自动检测需要编码的字符'
+    ],
+    useCases: [
+      'URL 查询参数编码',
+      '路径参数编码',
+      'RESTful API 参数处理',
+      '表单数据编码'
+    ],
+    usageSteps: [
+      '输入 URL 或文本',
+      '选择编码或解码',
+      '选择编码模式（完整 URL/组件）',
+      '复制结果'
+    ],
+    bestPractices: [
+      '不要对整个 URL 编码（会编码协议和域名）',
+      '只编码参数值和路径段',
+      '空格编码为 %20（URL）或 +（表单）',
+      '注意编码两次的问题'
+    ]
+  },
+
+  encode: {
+    features: [
+      '多种编码格式支持',
+      'UTF-8、GBK、Base64 等',
+      '编码格式自动检测',
+      '批量转换'
+    ],
+    useCases: [
+      '字符编码转换',
+      '文本编码问题排查',
+      '多语言文本处理',
+      '乱码修复'
+    ],
+    usageSteps: [
+      '输入文本',
+      '选择源编码和目标编码',
+      '执行转换',
+      '验证结果'
+    ],
+    bestPractices: [
+      '优先使用 UTF-8 编码',
+      '了解源文件的编码格式',
+      '注意不可逆转换',
+      '使用 BOM 标识编码'
+    ]
+  },
+
+  ecdh: {
+    features: [
+      'ECDH 密钥交换协议',
+      '支持多种椭圆曲线',
+      '共享密钥生成',
+      '前向保密性'
+    ],
+    useCases: [
+      'TLS/SSL 握手',
+      '安全通信建立',
+      '对称密钥协商',
+      'P2P 加密'
+    ],
+    usageSteps: [
+      '选择椭圆曲线',
+      '生成本地密钥对',
+      '输入对方公钥',
+      '计算共享密钥'
+    ],
+    bestPractices: [
+      '使用标准曲线（P-256、P-384）',
+      '验证对方公钥合法性',
+      '派生加密密钥而非直接使用',
+      '每次会话使用临时密钥'
+    ]
+  },
+
+  ecdsa: {
+    features: [
+      'ECDSA 数字签名算法',
+      '支持多种椭圆曲线',
+      '签名生成和验证',
+      '密钥对管理'
+    ],
+    useCases: [
+      '数字证书签名',
+      '交易签名',
+      '软件包完整性验证',
+      '身份认证'
+    ],
+    usageSteps: [
+      '选择椭圆曲线',
+      '生成或导入密钥对',
+      '签名消息',
+      '验证签名'
+    ],
+    bestPractices: [
+      '私钥安全存储',
+      '使用加密随机数生成器',
+      '验证签名前检查公钥',
+      '定期更新密钥对'
+    ]
+  },
+
+  datecalc: {
+    features: [
+      '日期加减计算',
+      '支持年、月、日、时、分、秒',
+      '工作日计算（跳过周末）',
+      '多时区支持'
+    ],
+    useCases: [
+      '计算未来或过去日期',
+      '项目截止日期计算',
+      '年龄计算',
+      '倒计时和纪念日'
+    ],
+    usageSteps: [
+      '输入起始日期',
+      '选择加或减',
+      '输入时间间隔',
+      '查看结果日期'
+    ],
+    bestPractices: [
+      '注意闰年和月份天数',
+      '考虑时区差异',
+      '工作日计算需考虑节假日',
+      '使用 ISO 8601 格式'
+    ]
+  },
+
+  dateDiff: {
+    features: [
+      '计算两个日期间隔',
+      '支持多种单位（年/月/日/时/分/秒）',
+      '精确到毫秒',
+      '工作日差计算'
+    ],
+    useCases: [
+      '计算年龄',
+      '项目工期计算',
+      '倒计时显示',
+      '时间跨度统计'
+    ],
+    usageSteps: [
+      '输入开始日期',
+      '输入结束日期',
+      '选择显示单位',
+      '查看时间差'
+    ],
+    bestPractices: [
+      '注意时区一致性',
+      '考虑夏令时影响',
+      '工作日计算排除周末',
+      '精确计算使用时间戳'
+    ]
+  },
+
+  dnsQuery: {
+    features: [
+      'DNS 记录查询',
+      '支持 A、AAAA、MX、TXT、CNAME 等',
+      '多 DNS 服务器查询',
+      '查询历史记录'
+    ],
+    useCases: [
+      '域名解析调试',
+      '邮件服务器配置验证',
+      'CDN 配置检查',
+      'DNS 传播验证'
+    ],
+    usageSteps: [
+      '输入域名',
+      '选择记录类型',
+      '选择 DNS 服务器',
+      '查看查询结果'
+    ],
+    bestPractices: [
+      '使用多个 DNS 服务器验证',
+      'TTL 影响缓存时间',
+      '注意 DNS 传播延迟',
+      '定期检查 DNS 记录'
+    ]
+  },
+
+  ipQuery: {
+    features: [
+      'IP 地址查询',
+      '地理位置定位',
+      'ISP 信息',
+      'IP 段归属查询'
+    ],
+    useCases: [
+      'IP 地址归属查询',
+      '网络问题排查',
+      '访客来源分析',
+      '安全审计'
+    ],
+    usageSteps: [
+      '输入 IP 地址',
+      '点击查询',
+      '查看地理位置和 ISP',
+      '查看详细信息'
+    ],
+    bestPractices: [
+      'IPv4 和 IPv6 支持',
+      'IP 数据库定期更新',
+      '注意代理和 VPN 影响',
+      '隐私保护考虑'
+    ]
+  },
+
+  colorPicker: {
+    features: [
+      '颜色选择器',
+      '多种格式输出（HEX、RGB、HSL）',
+      '颜色转换',
+      '取色器功能'
+    ],
+    useCases: [
+      'UI 设计取色',
+      '颜色格式转换',
+      '配色方案生成',
+      'CSS 颜色值获取'
+    ],
+    usageSteps: [
+      '使用拾色器选择颜色',
+      '或输入颜色值',
+      '查看多种格式输出',
+      '复制所需格式'
+    ],
+    bestPractices: [
+      '了解不同格式适用场景',
+      'HEX 用于 CSS',
+      'RGB 用于图像处理',
+      'HSL 便于调整亮度和饱和度'
+    ]
+  },
+
+  csv: {
+    features: [
+      'CSV 文件查看',
+      '表格数据预览',
+      '列排序和过滤',
+      '数据导出'
+    ],
+    useCases: [
+      'CSV 数据查看',
+      '表格数据分析',
+      '数据导入验证',
+      '数据格式转换'
+    ],
+    usageSteps: [
+      '上传或粘贴 CSV 数据',
+      '查看表格预览',
+      '排序和筛选数据',
+      '导出为其他格式'
+    ],
+    bestPractices: [
+      '注意字符编码（UTF-8）',
+      '处理引号和逗号转义',
+      '检查列分隔符',
+      '验证数据完整性'
+    ]
+  },
+
+  image: {
+    features: [
+      '图片格式转换',
+      '支持 JPG、PNG、WebP、GIF',
+      '质量调整',
+      '批量转换'
+    ],
+    useCases: [
+      '图片格式转换',
+      '图片压缩',
+      'WebP 格式优化',
+      '批量处理'
+    ],
+    usageSteps: [
+      '上传图片',
+      '选择目标格式',
+      '调整质量参数',
+      '下载转换结果'
+    ],
+    bestPractices: [
+      'WebP 适合网页使用',
+      '压缩时平衡质量和体积',
+      'PNG 适合透明背景',
+      'JPG 适合照片'
+    ]
+  },
+
+  jsonToTs: {
+    features: [
+      'JSON 转 TypeScript 类型',
+      '自动推断类型',
+      '嵌套对象支持',
+      '数组类型处理'
+    ],
+    useCases: [
+      'API 响应类型生成',
+      '接口定义自动化',
+      'TypeScript 开发',
+      '类型安全'
+    ],
+    usageSteps: [
+      '粘贴 JSON 数据',
+      '生成 TypeScript 接口',
+      '调整类型名称',
+      '复制代码'
+    ],
+    bestPractices: [
+      '检查生成的类型准确性',
+      '处理可选字段',
+      '注意联合类型',
+      '优化嵌套结构'
+    ]
+  },
+
+  storageTime: {
+    features: [
+      '存储时间计算',
+      '容量和速度转换',
+      '传输时间预估',
+      '多种单位支持'
+    ],
+    useCases: [
+      '文件传输时间预估',
+      '备份时间计算',
+      '网络带宽评估',
+      '存储容量规划'
+    ],
+    usageSteps: [
+      '输入文件大小',
+      '输入传输速度',
+      '查看传输时间',
+      '切换单位'
+    ],
+    bestPractices: [
+      '考虑实际网络开销',
+      '理论速度与实际速度差异',
+      '注意单位换算（bit/Byte）',
+      '并发传输影响'
+    ]
+  },
+
   // ===== Mock 数据生成器（中文） =====
   mockData: {
     features: [
@@ -3677,34 +4109,6 @@ export const toolDescriptionsEn = {
   },
   exif: {
     features: [
-      '拖拽上传图片，实时解析 EXIF 元数据',
-      '分组展示：基本信息、拍摄参数（光圈/快门/ISO）、GPS 坐标、其他字段',
-      '支持 JPEG / TIFF / HEIC / RAW 等多种格式',
-      '所有字段可单独复制，支持一键复制全部 EXIF',
-      '图片预览 + 文件名 / 大小显示',
-      '本地解析，图片不上传到任何服务器'
-    ],
-    useCases: [
-      '查看照片拍摄时间、地点、设备信息',
-      '核查照片是否包含 GPS 位置（隐私排查）',
-      '对比不同相机/手机的拍摄参数',
-      '验证图片 EXIF 是否已被清除'
-    ],
-    usageSteps: [
-      '将图片拖到上传区，或点击选择文件',
-      '查看「基本信息」Tab 了解设备和日期',
-      '查看「拍摄参数」Tab 了解光圈、快门、ISO',
-      '查看「GPS」Tab 获取拍摄位置坐标'
-    ],
-    bestPractices: [
-      '原始相机照片（未经截图/微信/社交媒体处理）EXIF 最完整',
-      '截图、网页保存的图片通常不含 EXIF',
-      '微信、微博等平台会自动剥离 GPS 信息以保护隐私',
-      '可复制 GPS 坐标到地图应用查看拍摄地点'
-    ]
-  },
-  exifEn: {
-    features: [
       'Drag & drop to upload images, parses EXIF metadata in real time',
       'Grouped display: Basic info, Camera settings (aperture/shutter/ISO), GPS, Others',
       'Supports JPEG / TIFF / HEIC / RAW and more',
@@ -3733,33 +4137,6 @@ export const toolDescriptionsEn = {
   },
   numberChinese: {
     features: [
-      '支持大写（壹贰叁）、小写（一二三）、财务金额三种模式',
-      '财务模式生成标准票据写法（元/角/分/整）',
-      '支持小数和负数',
-      '内置 8 个常用数字快速示例',
-      '最多支持 15 位整数（万亿级别）',
-      '零依赖，纯前端计算'
-    ],
-    useCases: [
-      '填写支票/票据时转换金额为大写',
-      '财务系统前端展示中文金额',
-      '合同文档中的金额大写填写',
-      '数字金额的人工核对'
-    ],
-    usageSteps: [
-      '输入阿拉伯数字（支持小数）',
-      '选择转换模式（大写/小写/财务）',
-      '查看转换结果',
-      '点击「复制」复制结果'
-    ],
-    bestPractices: [
-      '财务场景请使用「财务金额」模式，生成的格式符合国标',
-      '小数部分财务模式只识别前两位（角和分）',
-      '支持负数，如 -123 → 负壹佰贰拾叁'
-    ]
-  },
-  numberChineseEn: {
-    features: [
       'Three modes: uppercase (壹贰叁), lowercase (一二三), and financial (元/角/分)',
       'Financial mode generates standard bank check format',
       'Supports decimals and negative numbers',
@@ -3786,33 +4163,6 @@ export const toolDescriptionsEn = {
     ]
   },
   jsonPath: {
-    features: [
-      '内置 5 个常见 JSONPath 快速示例，一键加载',
-      '左右分屏：左侧 JSON 输入，右侧表达式 + 结果',
-      '支持 JSONPath 全语法：递归下行（..）、过滤（[?()]）、通配符（[*]）',
-      'JSON 一键格式化，语法错误实时提示',
-      '结果以格式化 JSON 展示，匹配数量提示，一键复制'
-    ],
-    useCases: [
-      '从复杂 API 返回结果中提取特定字段',
-      '过滤 JSON 数组中满足条件的元素',
-      '递归查找嵌套结构中的某个字段',
-      '学习和测试 JSONPath 表达式语法'
-    ],
-    usageSteps: [
-      '粘贴 JSON 数据到左侧输入框',
-      '在右侧输入 JSONPath 表达式（自动执行查询）',
-      '查看匹配结果，点击复制',
-      '可点击顶部快速示例加载演示数据'
-    ],
-    bestPractices: [
-      '$ 表示根节点，. 表示子节点，.. 表示递归下行',
-      '[?(@.price < 10)] 表示过滤，@ 指当前节点',
-      '[*] 匹配所有子节点，相当于遍历数组',
-      '使用格式化按钮整理 JSON，更容易编写路径'
-    ]
-  },
-  jsonPathEn: {
     features: [
       '5 built-in quick examples, load with one click',
       'Split-pane layout: JSON input on left, expression + results on right',
@@ -3841,32 +4191,6 @@ export const toolDescriptionsEn = {
   },
   urlParser: {
     features: [
-      '自动检测 URL 合法性，颜色标记提示',
-      '结构化展示所有 URL 组成部分：Protocol/Host/Port/Path/Query/Hash/Origin',
-      'Query 参数以表格形式展示，支持 URL 解码切换，可单独复制每个参数值',
-      '反向构建：填写各字段自动拼装完整 URL',
-      '输入内容自动保存（localStorage）'
-    ],
-    useCases: [
-      '调试 API 请求时分析 URL 参数',
-      '解析第三方回调 URL 中的参数',
-      '构建复杂 URL 时避免拼接出错',
-      '学习 URL 结构和各字段含义'
-    ],
-    usageSteps: [
-      '粘贴完整 URL 到输入框',
-      '查看「结构解析」Tab 了解各字段',
-      '切换到「Query 参数」Tab 查看并复制参数',
-      '切换到「反向构建」Tab 修改字段重新生成 URL'
-    ],
-    bestPractices: [
-      'URL 必须包含协议头（https:// 或 http://）才能正确解析',
-      '开启「URL 解码显示」可以看到中文或特殊字符的原始值',
-      '反向构建时 Path 需以 / 开头'
-    ]
-  },
-  urlParserEn: {
-    features: [
       'Auto-validates URL with color indicator',
       'Structured display of all URL parts: Protocol/Host/Port/Path/Query/Hash/Origin',
       'Query params shown in a table with URL-decode toggle and per-value copy',
@@ -3892,35 +4216,6 @@ export const toolDescriptionsEn = {
     ]
   },
   password: {
-    features: [
-      '使用 crypto.getRandomValues() 密码学安全随机数，生成质量更高',
-      '密码长度 4~128 自由配置，支持滑块拖拽',
-      '字符集精细控制：大写/小写/数字/特殊符号，可自定义符号集',
-      '可排除易混淆字符（0/O/l/1/I），减少抄写出错',
-      '实时密码强度评级（弱/中/强/极强）+ 彩色进度条',
-      '批量生成 1~20 个，点击复制或全部复制'
-    ],
-    useCases: [
-      '账号注册时生成高强度密码',
-      '系统管理员批量为用户生成初始密码',
-      '生成 API Key、Secret Token 等临时凭证',
-      '测试场景下批量生成测试账号密码'
-    ],
-    usageSteps: [
-      '拖动滑块或输入数字设置密码长度（推荐 16+）',
-      '勾选需要的字符类型（默认全选）',
-      '可选：自定义特殊符号集合、排除易混淆字符',
-      '设置生成数量，点击「生成」',
-      '点击单行复制单个密码，或「全部复制」批量复制'
-    ],
-    bestPractices: [
-      '推荐长度 16 位以上，包含大小写+数字+符号，强度达到「强」',
-      '如果密码需要人工记忆，可排除易混淆字符',
-      '所有生成在浏览器本地完成，不传输到任何服务器',
-      '生产环境重要密码建议使用专业密码管理器存储'
-    ]
-  },
-  passwordEn: {
     features: [
       'Uses crypto.getRandomValues() for cryptographically secure randomness',
       'Configurable length from 4 to 128 via slider or input',
@@ -3951,128 +4246,6 @@ export const toolDescriptionsEn = {
   },
   uuid: {
     features: [
-      '支持 UUID v1（基于时间戳）、v4（随机）、v7（新标准，有序）和 NanoID',
-      '批量生成 1~100 个，一键全部复制',
-      '格式配置：带/不带连字符、大小写切换',
-      'NanoID 支持自定义长度（4~128）和自定义字符集',
-      '点击单行即可复制单个值',
-      '生成配置自动记忆（localStorage）'
-    ],
-    useCases: [
-      '数据库主键生成',
-      '分布式系统唯一标识',
-      '测试数据批量生成',
-      '临时令牌、会话 ID 生成',
-      '需要更短 ID 时使用 NanoID 替代 UUID'
-    ],
-    usageSteps: [
-      '选择 UUID 类型（v4 最常用，v7 有时序性，NanoID 更短）',
-      '设置生成数量（默认 10 个）',
-      '可选：配置格式（连字符、大写）',
-      '点击「生成」按钮',
-      '点击任意行复制单个，或「全部复制」批量复制'
-    ],
-    bestPractices: [
-      'v4 适合大多数场景（完全随机，概率碰撞极低）',
-      'v7 兼具有序性和随机性，适合需要按时间排序的主键',
-      'NanoID 比 UUID 短约 30%，适合 URL、文件名等需要简短 ID 的场景',
-      '生产环境请使用服务端生成以确保唯一性'
-    ]
-  },
-
-  httpClient: {
-    features: [
-      '支持 GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS 方法',
-      '自定义 Query Params、Headers、Body（JSON / Form / Text）',
-      '响应状态码、耗时、大小、响应头一览无余',
-      '自动格式化 JSON 响应体，提升可读性',
-      '最近一次请求自动保存，下次打开自动恢复'
-    ],
-    useCases: [
-      '快速测试开放的 REST API 接口',
-      '开发调试时查看 API 响应',
-      '验证请求头与响应头是否符合预期',
-      '测试已配置 CORS 的第三方 API'
-    ],
-    usageSteps: [
-      '选择 HTTP 方法（GET、POST 等）',
-      '输入请求地址',
-      '按需添加 Query Params、Headers 或 Body',
-      '点击「发送」',
-      '查看响应状态、响应头和响应体'
-    ],
-    bestPractices: [
-      '浏览器 CORS 策略会限制部分跨域请求',
-      '可先测试 httpbin.org 等支持 CORS 的开放接口',
-      'JSON Body 会自动补 Content-Type: application/json',
-      'Form Body 会自动补 Content-Type: application/x-www-form-urlencoded'
-    ]
-  },
-
-  promptBox: {
-    features: [
-      '内置 16 个专业 Prompt 模板，覆盖代码、写作、分析、角色、增强 5 大分类',
-      '变量语法：用 {{变量名}} 定义动态占位符，支持多变量填充',
-      '变量填充弹窗：自动识别变量并提供输入框，实时预览填充结果',
-      '一键复制：直接复制原始模板或填充后的最终 Prompt',
-      '自定义管理：新增、编辑、删除个人 Prompt 模板',
-      '全文搜索：支持按标题、内容、简介搜索',
-      '分类筛选：代码 / 写作 / 分析 / 角色 / 增强 / 自定义',
-      '本地持久化：自定义 Prompt 保存到 localStorage，刷新不丢失'
-    ],
-    useCases: [
-      '快速调用常用 AI 提示词，无需重复输入',
-      '管理 ChatGPT / Claude / Copilot 的个人提示词库',
-      '填充动态变量（如代码片段、语言、收件人）后一键复制',
-      '团队统一维护高质量 Prompt 模板',
-      '代码审查、重构、单元测试、Bug 排查一键生成提示词'
-    ],
-    usageSteps: [
-      '浏览内置模板或使用搜索框找到所需 Prompt',
-      '点击「复制」直接复制原始模板',
-      '或点击「填充变量」输入各变量值后复制填充结果',
-      '点击「+ 新增 Prompt」创建并保存个人模板'
-    ],
-    bestPractices: [
-      '使用 {{变量名}} 占位符让 Prompt 模板可复用，适配不同输入场景',
-      '为自定义 Prompt 添加简介，方便后续搜索定位',
-      '内置模板不可删除，可新增自定义变体进行个性化调整',
-      '所有自定义 Prompt 仅保存在本地浏览器中'
-    ]
-  },
-
-  certParser: {
-    features: [
-      '粘贴 PEM 格式证书，在浏览器本地解析，数据不上传',
-      '输入域名自动通过 crt.sh CT 日志获取最新证书',
-      '展示主体、颁发者、序列号、版本、有效期等完整信息',
-      '解析 SAN 扩展、密钥用途、扩展密钥用途',
-      '计算 SHA-1 和 SHA-256 指纹',
-      '直观显示证书状态：已过期 / 即将过期 / 有效'
-    ],
-    useCases: [
-      '上线前核实 SSL 证书配置是否正确',
-      '检查证书到期时间，防止服务中断',
-      '验证 SAN 中是否包含所需域名',
-      '提取证书指纹用于证书锁定（Certificate Pinning）',
-      '排查 HTTPS 握手问题'
-    ],
-    usageSteps: [
-      '选择「粘贴 PEM」或「域名查询」模式',
-      '粘贴证书内容 或 输入域名',
-      '点击「解析证书」或「查询」',
-      '查看结构化的证书详细信息'
-    ],
-    bestPractices: [
-      '证书内容在浏览器本地解析，不会上传到服务器，安全可靠',
-      '域名查询需要访问 crt.sh，需要网络连接',
-      '仅支持 PEM 格式（-----BEGIN CERTIFICATE-----）',
-      '内网 CA 证书请直接使用粘贴 PEM 模式'
-    ]
-  },
-
-  uuidEn: {
-    features: [
       'Supports UUID v1 (time-based), v4 (random), v7 (new standard, sortable), and NanoID',
       'Batch generate 1–100 IDs, copy all with one click',
       'Format options: with/without hyphens, upper/lowercase',
@@ -4102,7 +4275,7 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  httpClientEn: {
+  httpClient: {
     features: [
       'Supports GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS methods',
       'Custom Query Params, Headers, and Body (JSON / Form / Text)',
@@ -4131,7 +4304,7 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  certParserEn: {
+  certParser: {
     features: [
       'Parse PEM format X.509 certificates locally in the browser',
       'Fetch certificate info by domain name via crt.sh CT logs',
@@ -4161,7 +4334,7 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  promptBoxEn: {
+  promptBox: {
     features: [
       '16 built-in professional prompt templates across 5 categories',
       'Variable syntax: use {{variable}} to define dynamic placeholders',
@@ -4384,6 +4557,438 @@ export const toolDescriptionsEn = {
       'Object input produces an object-type Schema; array input produces an array-type Schema',
       'Mixed types within an array generate an anyOf union type',
       'For deeply nested JSON, consider simplifying the structure first to reduce noise'
+    ]
+  },
+
+  ed25519: {
+    features: [
+      'High-performance elliptic curve digital signatures',
+      'Public and private key generation',
+      'Signature generation and verification',
+      'Side-channel attack resistant'
+    ],
+    useCases: [
+      'SSH key authentication',
+      'Git commit signing',
+      'Software package signature verification',
+      'Blockchain transaction signing'
+    ],
+    usageSteps: [
+      'Generate Ed25519 key pair',
+      'Enter message to sign',
+      'Generate signature',
+      'Verify signature with public key'
+    ],
+    bestPractices: [
+      'Private key must be securely stored',
+      'Verify message integrity before signing',
+      'Public key can be openly distributed',
+      'Rotate key pairs regularly'
+    ]
+  },
+
+  hexCodec: {
+    features: [
+      'Hexadecimal encoding and decoding',
+      'Upper/lowercase output support',
+      'Auto-formatting (space-separated)',
+      'Error detection and hints'
+    ],
+    useCases: [
+      'Binary data viewing',
+      'Key and hash representation',
+      'Network protocol debugging',
+      'File hexdump'
+    ],
+    usageSteps: [
+      'Enter text or hex string',
+      'Select encode or decode',
+      'Choose output format (case, separator)',
+      'Copy result'
+    ],
+    bestPractices: [
+      'Hex is ideal for binary data representation',
+      'Ensure case consistency',
+      'Use spaces or colons for readability',
+      'Validate input format correctness'
+    ]
+  },
+
+  htmlCodec: {
+    features: [
+      'HTML entity encoding and decoding',
+      'Named and numeric entities support',
+      'XSS protection encoding',
+      'Auto-detect encoding type'
+    ],
+    useCases: [
+      'Prevent XSS attacks',
+      'Safe HTML content output',
+      'URL parameter encoding',
+      'Special character handling'
+    ],
+    usageSteps: [
+      'Enter text or HTML entities',
+      'Select encode or decode',
+      'Choose entity type (named/numeric)',
+      'Copy result'
+    ],
+    bestPractices: [
+      'User input must be encoded before HTML output',
+      'Avoid double-encoding',
+      'Numeric entities have better compatibility',
+      'Consider HTML context (attribute/text node)'
+    ]
+  },
+
+  urlCodec: {
+    features: [
+      'URL encoding and decoding',
+      'Full URL and component encoding support',
+      'RFC 3986 standard',
+      'Auto-detect characters needing encoding'
+    ],
+    useCases: [
+      'URL query parameter encoding',
+      'Path parameter encoding',
+      'RESTful API parameter handling',
+      'Form data encoding'
+    ],
+    usageSteps: [
+      'Enter URL or text',
+      'Select encode or decode',
+      'Choose encoding mode (full URL/component)',
+      'Copy result'
+    ],
+    bestPractices: [
+      'Don\'t encode entire URL (will encode protocol and domain)',
+      'Only encode parameter values and path segments',
+      'Space encodes to %20 (URL) or + (form)',
+      'Watch for double-encoding issues'
+    ]
+  },
+
+  encode: {
+    features: [
+      'Multiple encoding format support',
+      'UTF-8, GBK, Base64, etc.',
+      'Auto-detect encoding format',
+      'Batch conversion'
+    ],
+    useCases: [
+      'Character encoding conversion',
+      'Text encoding issue troubleshooting',
+      'Multi-language text processing',
+      'Mojibake fixing'
+    ],
+    usageSteps: [
+      'Enter text',
+      'Select source and target encoding',
+      'Execute conversion',
+      'Verify result'
+    ],
+    bestPractices: [
+      'Prefer UTF-8 encoding',
+      'Know source file encoding',
+      'Note irreversible conversions',
+      'Use BOM to identify encoding'
+    ]
+  },
+
+  ecdh: {
+    features: [
+      'ECDH key exchange protocol',
+      'Multiple elliptic curve support',
+      'Shared secret generation',
+      'Forward secrecy'
+    ],
+    useCases: [
+      'TLS/SSL handshake',
+      'Secure communication establishment',
+      'Symmetric key negotiation',
+      'P2P encryption'
+    ],
+    usageSteps: [
+      'Select elliptic curve',
+      'Generate local key pair',
+      'Enter peer public key',
+      'Compute shared secret'
+    ],
+    bestPractices: [
+      'Use standard curves (P-256, P-384)',
+      'Verify peer public key validity',
+      'Derive encryption keys rather than direct use',
+      'Use ephemeral keys per session'
+    ]
+  },
+
+  ecdsa: {
+    features: [
+      'ECDSA digital signature algorithm',
+      'Multiple elliptic curve support',
+      'Signature generation and verification',
+      'Key pair management'
+    ],
+    useCases: [
+      'Digital certificate signing',
+      'Transaction signing',
+      'Software package integrity verification',
+      'Identity authentication'
+    ],
+    usageSteps: [
+      'Select elliptic curve',
+      'Generate or import key pair',
+      'Sign message',
+      'Verify signature'
+    ],
+    bestPractices: [
+      'Secure private key storage',
+      'Use cryptographic random number generator',
+      'Verify public key before signature verification',
+      'Rotate key pairs regularly'
+    ]
+  },
+
+  datecalc: {
+    features: [
+      'Date addition and subtraction',
+      'Year, month, day, hour, minute, second support',
+      'Business day calculation (skip weekends)',
+      'Multi-timezone support'
+    ],
+    useCases: [
+      'Calculate future or past dates',
+      'Project deadline calculation',
+      'Age calculation',
+      'Countdown and anniversary'
+    ],
+    usageSteps: [
+      'Enter start date',
+      'Select add or subtract',
+      'Enter time interval',
+      'View result date'
+    ],
+    bestPractices: [
+      'Note leap years and month days',
+      'Consider timezone differences',
+      'Business day calculation needs holiday consideration',
+      'Use ISO 8601 format'
+    ]
+  },
+
+  dateDiff: {
+    features: [
+      'Calculate interval between two dates',
+      'Multiple units support (year/month/day/hour/min/sec)',
+      'Precise to millisecond',
+      'Business day difference calculation'
+    ],
+    useCases: [
+      'Age calculation',
+      'Project duration calculation',
+      'Countdown display',
+      'Time span statistics'
+    ],
+    usageSteps: [
+      'Enter start date',
+      'Enter end date',
+      'Select display unit',
+      'View time difference'
+    ],
+    bestPractices: [
+      'Ensure timezone consistency',
+      'Consider daylight saving time effects',
+      'Business day calculation excludes weekends',
+      'Use timestamps for precise calculation'
+    ]
+  },
+
+  dnsQuery: {
+    features: [
+      'DNS record query',
+      'A, AAAA, MX, TXT, CNAME, etc. support',
+      'Multiple DNS server query',
+      'Query history'
+    ],
+    useCases: [
+      'Domain resolution debugging',
+      'Mail server configuration verification',
+      'CDN configuration check',
+      'DNS propagation verification'
+    ],
+    usageSteps: [
+      'Enter domain name',
+      'Select record type',
+      'Select DNS server',
+      'View query results'
+    ],
+    bestPractices: [
+      'Verify with multiple DNS servers',
+      'TTL affects cache time',
+      'Note DNS propagation delay',
+      'Check DNS records regularly'
+    ]
+  },
+
+  ipQuery: {
+    features: [
+      'IP address lookup',
+      'Geolocation',
+      'ISP information',
+      'IP range attribution query'
+    ],
+    useCases: [
+      'IP address attribution query',
+      'Network troubleshooting',
+      'Visitor origin analysis',
+      'Security audit'
+    ],
+    usageSteps: [
+      'Enter IP address',
+      'Click query',
+      'View location and ISP',
+      'View detailed information'
+    ],
+    bestPractices: [
+      'IPv4 and IPv6 support',
+      'IP database updates regularly',
+      'Note proxy and VPN effects',
+      'Privacy protection considerations'
+    ]
+  },
+
+  colorPicker: {
+    features: [
+      'Color picker',
+      'Multiple format output (HEX, RGB, HSL)',
+      'Color conversion',
+      'Eyedropper feature'
+    ],
+    useCases: [
+      'UI design color picking',
+      'Color format conversion',
+      'Color scheme generation',
+      'CSS color value retrieval'
+    ],
+    usageSteps: [
+      'Use picker to select color',
+      'Or enter color value',
+      'View multiple format outputs',
+      'Copy desired format'
+    ],
+    bestPractices: [
+      'Understand different format use cases',
+      'HEX for CSS',
+      'RGB for image processing',
+      'HSL convenient for brightness/saturation adjustment'
+    ]
+  },
+
+  csv: {
+    features: [
+      'CSV file viewing',
+      'Table data preview',
+      'Column sorting and filtering',
+      'Data export'
+    ],
+    useCases: [
+      'CSV data viewing',
+      'Table data analysis',
+      'Data import verification',
+      'Data format conversion'
+    ],
+    usageSteps: [
+      'Upload or paste CSV data',
+      'View table preview',
+      'Sort and filter data',
+      'Export to other formats'
+    ],
+    bestPractices: [
+      'Note character encoding (UTF-8)',
+      'Handle quote and comma escaping',
+      'Check column delimiter',
+      'Verify data integrity'
+    ]
+  },
+
+  image: {
+    features: [
+      'Image format conversion',
+      'JPG, PNG, WebP, GIF support',
+      'Quality adjustment',
+      'Batch conversion'
+    ],
+    useCases: [
+      'Image format conversion',
+      'Image compression',
+      'WebP format optimization',
+      'Batch processing'
+    ],
+    usageSteps: [
+      'Upload image',
+      'Select target format',
+      'Adjust quality parameters',
+      'Download conversion result'
+    ],
+    bestPractices: [
+      'WebP suitable for web use',
+      'Balance quality and size when compressing',
+      'PNG suitable for transparent backgrounds',
+      'JPG suitable for photos'
+    ]
+  },
+
+  jsonToTs: {
+    features: [
+      'JSON to TypeScript types',
+      'Auto-infer types',
+      'Nested object support',
+      'Array type handling'
+    ],
+    useCases: [
+      'API response type generation',
+      'Interface definition automation',
+      'TypeScript development',
+      'Type safety'
+    ],
+    usageSteps: [
+      'Paste JSON data',
+      'Generate TypeScript interface',
+      'Adjust type names',
+      'Copy code'
+    ],
+    bestPractices: [
+      'Check generated type accuracy',
+      'Handle optional fields',
+      'Note union types',
+      'Optimize nested structures'
+    ]
+  },
+
+  storageTime: {
+    features: [
+      'Storage time calculation',
+      'Capacity and speed conversion',
+      'Transfer time estimation',
+      'Multiple unit support'
+    ],
+    useCases: [
+      'File transfer time estimation',
+      'Backup time calculation',
+      'Network bandwidth evaluation',
+      'Storage capacity planning'
+    ],
+    usageSteps: [
+      'Enter file size',
+      'Enter transfer speed',
+      'View transfer time',
+      'Switch units'
+    ],
+    bestPractices: [
+      'Consider actual network overhead',
+      'Theoretical vs actual speed difference',
+      'Note unit conversion (bit/Byte)',
+      'Concurrent transfer effects'
     ]
   },
 

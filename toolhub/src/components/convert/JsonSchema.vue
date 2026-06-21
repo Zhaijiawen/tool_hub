@@ -1,5 +1,8 @@
 <template>
   <div class="json-schema">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="jsonSchema" />
+
     <n-card :title="t('convert.jsonSchema.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -72,6 +75,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

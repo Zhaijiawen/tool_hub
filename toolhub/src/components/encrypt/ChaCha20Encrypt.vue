@@ -1,5 +1,8 @@
 <template>
   <div class="chacha20-encrypt">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="chacha20" />
+
     <n-card :title="t('encrypt.chacha20.title')">
       <n-space vertical>
         <!-- 统一的输入/输出窗口 -->
@@ -120,6 +123,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { streamXOR } from '@stablelib/chacha'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

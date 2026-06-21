@@ -1,5 +1,8 @@
 <template>
   <div class="csv-viewer">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="csv" />
+
     <n-card :title="t('convert.csvViewer.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -109,6 +112,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage, NText } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

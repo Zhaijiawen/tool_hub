@@ -1,5 +1,8 @@
 <template>
   <div class="rsa-encrypt">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="rsa" />
+
     <n-card :title="t('encrypt.rsa.title')">
       <!-- 密钥长度选择 -->
       <div class="key-length-section">
@@ -120,6 +123,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import JSEncrypt from 'jsencrypt'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

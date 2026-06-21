@@ -1,5 +1,8 @@
 <template>
   <div class="ip-query-tool">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="ip" />
+
     <n-card :title="t('other.ip.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -64,6 +67,7 @@ import { ref, onMounted, defineComponent, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage, NDescriptions, NDescriptionsItem, NText, NTag, NA } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

@@ -1,5 +1,8 @@
 <template>
   <div class="color-convert">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="color" />
+
     <n-card :title="t('convert.color.title')" :bordered="false">
       <n-tabs v-model:value="activeTab" type="segment" animated>
 
@@ -160,6 +163,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

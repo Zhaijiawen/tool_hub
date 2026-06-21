@@ -1,5 +1,8 @@
 <template>
   <div class="prompt-box-tool">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="prompt" />
+
     <n-card :title="t('other.promptBox.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -155,6 +158,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { builtinPrompts, builtinPromptsEn } from '@/locales/promptData'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t, locale } = useI18n()
 const message = useMessage()

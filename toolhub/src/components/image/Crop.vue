@@ -1,5 +1,8 @@
 <template>
   <div class="image-crop">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="crop" />
+
     <n-card :title="$t('image.crop.title')" :bordered="false">
       <n-space vertical size="large">
         <n-upload
@@ -81,6 +84,7 @@ import {
 } from 'naive-ui'
 import { UploadOutlined, ZoomInOutlined, ZoomOutOutlined, ReloadOutlined } from '@vicons/antd'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 
 const imgSrc = ref('')

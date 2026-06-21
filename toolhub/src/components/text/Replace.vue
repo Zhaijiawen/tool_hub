@@ -1,5 +1,8 @@
 <template>
   <div class="text-replace">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="replace" />
+
     
     <n-card :title="$t('text.replace.title')">
       <n-form>
@@ -102,6 +105,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

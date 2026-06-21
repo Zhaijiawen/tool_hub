@@ -1,5 +1,8 @@
 <template>
   <div class="text-stats">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="charCode" />
+
     <n-card :title="t('text.stats.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -80,6 +83,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 
 const inputText = ref('')

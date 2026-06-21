@@ -1,6 +1,9 @@
 <template>
   <!-- CSS格式化工具容器 -->
   <div class="css-format">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="css" />
+
     <!-- 工具卡片 -->
     <n-card>
       <template #header>
@@ -47,6 +50,7 @@ import { useMessage } from 'naive-ui'
 // 导入代码格式化工具
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标

@@ -1,6 +1,10 @@
 <template>
-  <n-card :title="$t('text.reverse.title')">
-    <n-form>
+  <div class="text-reverse">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="reverse" />
+
+    <n-card :title="$t('text.reverse.title')">
+      <n-form>
       <n-form-item :label="$t('text.reverse.input')">
         <n-input v-model:value="input" type="textarea" :placeholder="$t('text.reverse.inputPlaceholder')"
           :autosize="{ minRows: 3, maxRows: 10 }" />
@@ -37,6 +41,7 @@
     </n-form>
   </n-card>
   <TutorialAndDocs toolKey="reverse" />
+  </div>
 
 </template>
 
@@ -45,6 +50,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

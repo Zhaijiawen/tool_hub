@@ -1,5 +1,8 @@
 <template>
   <div class="qrcode-container">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="qrcode" />
+
 
     <n-card :title="$t('other.qrcode.title')">
       <n-tabs type="line" animated>
@@ -320,6 +323,7 @@ import { UploadOutlined } from '@vicons/antd'
 import QRCode from 'qrcode'
 import jsQR from 'jsqr'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

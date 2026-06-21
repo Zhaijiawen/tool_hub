@@ -1,6 +1,10 @@
 <template>
-  <n-card :title="$t('text.case.title')">
-    <n-form>
+  <div class="text-case">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="case" />
+
+    <n-card :title="$t('text.case.title')">
+      <n-form>
       <n-form-item :label="$t('text.case.input')">
         <n-input v-model:value="input" type="textarea" :placeholder="$t('text.case.inputPlaceholder')"
           :autosize="{ minRows: 3, maxRows: 10 }" />
@@ -43,6 +47,7 @@
     </n-form>
     </n-card>
   <TutorialAndDocs toolKey="case" />
+  </div>
 </template>
 
 <script setup>
@@ -50,6 +55,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

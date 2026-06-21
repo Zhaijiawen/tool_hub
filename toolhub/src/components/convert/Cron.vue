@@ -1,5 +1,8 @@
 <template>
   <div class="cron-tool">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="cron" />
+
     <n-card :title="t('convert.cron.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -105,6 +108,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 import { useMessage } from 'naive-ui'
 
 const { t } = useI18n()

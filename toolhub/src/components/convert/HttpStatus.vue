@@ -1,5 +1,8 @@
 <template>
   <div class="http-status">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="httpStatus" />
+
 
     <n-card :title="t('convert.httpStatus.title')" :bordered="false">
       <n-space vertical size="large">
@@ -118,6 +121,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 

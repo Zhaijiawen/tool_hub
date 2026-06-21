@@ -1,6 +1,9 @@
 <template>
   <!-- Vue 代码格式化工具 -->
   <div class="vue-format">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="vue" />
+
     <n-card>
       <template #header>
         <div class="card-header">
@@ -40,6 +43,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标
 import { ExtensionPuzzleOutline as TriangleOutline } from '@vicons/ionicons5'

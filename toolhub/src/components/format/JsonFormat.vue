@@ -1,6 +1,9 @@
 <template>
   <!-- JSON格式化工具容器 -->
   <div class="json-format">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="json" />
+
     <!-- 工具卡片 -->
     <n-card>
       <template #header>
@@ -73,7 +76,8 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 // 导入通用代码编辑器组件
 import CodeEditor from '@/components/common/CodeEditor.vue'
-// 工具描述组件已移至左侧面板
+// 导入工具简介组件
+import ToolIntro from '@/components/common/ToolIntro.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
 // 导入图标

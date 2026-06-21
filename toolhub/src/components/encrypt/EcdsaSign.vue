@@ -1,5 +1,8 @@
 <template>
   <div class="ecdsa-sign">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="ecdsa" />
+
     <n-card :title="t('encrypt.ecdsaSign.title')">
       <!-- 参数配置区域 -->
       <div class="parameters-section">
@@ -170,6 +173,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

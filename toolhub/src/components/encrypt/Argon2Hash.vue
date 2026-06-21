@@ -1,5 +1,8 @@
 <template>
   <div class="argon2-hash">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="argon2" />
+
     <n-card :title="t('encrypt.argon2.title')">
       <!-- 输入区域 -->
       <div class="input-section">
@@ -176,6 +179,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

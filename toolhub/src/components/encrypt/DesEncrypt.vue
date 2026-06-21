@@ -1,5 +1,8 @@
 <template>
   <div class="des-encrypt">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="des" />
+
     <n-card :title="t('encrypt.des.title')">
       <n-space vertical>
         <!-- 统一的输入/输出窗口 -->
@@ -155,6 +158,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import CryptoJS from 'crypto-js'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

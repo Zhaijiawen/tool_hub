@@ -1,5 +1,8 @@
 <template>
   <div class="gradient-tool">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="gradient" />
+
     <n-card :title="t('convert.gradient.title')" :bordered="false">
       <n-space vertical size="large">
 
@@ -116,6 +119,7 @@ import { ref, computed, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

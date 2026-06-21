@@ -1,34 +1,5 @@
 <template>
   <div v-if="shouldShow" class="tutorial-and-docs" ref="tutorialRef">
-
-    <!-- 静态 SEO 内容：供搜索引擎爬虫读取，对用户不可见 -->
-    <div v-if="seoDesc" class="seo-content" aria-hidden="true">
-      <div v-if="seoDesc.features && seoDesc.features.length">
-        <h3>{{ t('tutorial.seo.features') }}</h3>
-        <ul>
-          <li v-for="item in seoDesc.features" :key="item">{{ item }}</li>
-        </ul>
-      </div>
-      <div v-if="seoDesc.useCases && seoDesc.useCases.length">
-        <h3>{{ t('tutorial.seo.useCases') }}</h3>
-        <ul>
-          <li v-for="item in seoDesc.useCases" :key="item">{{ item }}</li>
-        </ul>
-      </div>
-      <div v-if="seoDesc.usageSteps && seoDesc.usageSteps.length">
-        <h3>{{ t('tutorial.seo.usageSteps') }}</h3>
-        <ol>
-          <li v-for="item in seoDesc.usageSteps" :key="item">{{ item }}</li>
-        </ol>
-      </div>
-      <div v-if="seoDesc.bestPractices && seoDesc.bestPractices.length">
-        <h3>{{ t('tutorial.seo.bestPractices') }}</h3>
-        <ul>
-          <li v-for="item in seoDesc.bestPractices" :key="item">{{ item }}</li>
-        </ul>
-      </div>
-    </div>
-
     <n-card class="docs-card">
       <!-- 未加载状态 -->
       <div v-if="!isLoaded" class="loading-state">
@@ -412,18 +383,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* 静态 SEO 内容：对用户绝对隐藏，但 DOM 中存在供搜索引擎爬虫读取 */
-.seo-content {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  pointer-events: none;
-}
-
 .tutorial-and-docs {
   margin-top: 32px;
   margin-bottom: 32px;

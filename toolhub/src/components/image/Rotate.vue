@@ -1,5 +1,8 @@
 <template>
   <div class="image-rotate">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="rotate" />
+
     <n-card :title="$t('image.rotate.title')" :bordered="false">
       <n-space vertical size="large">
     <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
@@ -65,6 +68,7 @@ import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

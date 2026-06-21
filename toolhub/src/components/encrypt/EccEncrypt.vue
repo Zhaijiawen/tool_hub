@@ -1,5 +1,8 @@
 <template>
   <div class="ecc-encrypt">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="ecc" />
+
     <n-card :title="t('encrypt.ecc.title')">
       <!-- 椭圆曲线选择 -->
       <div class="curve-section">
@@ -142,6 +145,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

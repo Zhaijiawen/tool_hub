@@ -1,5 +1,8 @@
 <template>
   <div class="date-calc">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="date" />
+
 
     <n-card :title="t('convert.dateCalc.title')">
       <!-- 日期输入区域 -->
@@ -74,6 +77,7 @@ import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

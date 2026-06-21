@@ -1,5 +1,8 @@
 <template>
   <div class="base64-codec">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="base64" />
+
     <n-card :title="t('encrypt.base64.title')" :description="t('encrypt.base64.description')">
       <!-- 文本输入 -->
       <div class="input-section">
@@ -121,6 +124,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

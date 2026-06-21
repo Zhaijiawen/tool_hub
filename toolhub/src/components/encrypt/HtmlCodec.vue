@@ -1,5 +1,8 @@
 <template>
   <div class="html-codec">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="htmlCodec" />
+
     <n-card :title="t('encrypt.html.title')" :description="t('encrypt.html.description')">
       <!-- 文本输入 -->
       <div class="input-section">
@@ -67,6 +70,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 
 const { t } = useI18n()
 const message = useMessage()

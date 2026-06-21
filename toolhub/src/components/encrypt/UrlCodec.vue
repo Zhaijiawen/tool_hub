@@ -1,5 +1,8 @@
 <template>
   <div class="url-codec">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="urlCodec" />
+
     <n-card :title="t('encrypt.url.title')" :description="t('encrypt.url.paramDescription')">
       <!-- 友好提示 -->
       <n-alert type="info" style="margin-bottom: 12px;">
@@ -68,6 +71,7 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 

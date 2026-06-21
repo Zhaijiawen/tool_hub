@@ -1,5 +1,8 @@
 <template>
   <div class="ed25519-sign">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="ed25519" />
+
     <n-card :title="t('encrypt.ed25519Sign.title')">
       <!-- 消息输入 -->
       <div class="input-section">
@@ -159,6 +162,7 @@ import { useMessage } from 'naive-ui'
 import * as nacl from 'tweetnacl'
 import { encodeBase64, decodeBase64 } from 'tweetnacl-util'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
 const message = useMessage()
 
