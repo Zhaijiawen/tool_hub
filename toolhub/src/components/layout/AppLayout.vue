@@ -1303,7 +1303,7 @@ onUnmounted(() => {
 }
 
 .logo-domain {
-  color: #e0e0e0;
+  color: var(--text-color-2);
   font-size: 0.48em;
   margin-left: 2px;
   letter-spacing: 0;

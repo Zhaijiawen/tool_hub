@@ -23,7 +23,7 @@
           <n-form-item :label="t('encrypt.des.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.des.keyPlaceholder')" />
             <template #feedback>
-              <span style="font-size: 12px; color: #666;">
+              <span style="font-size: 12px; color: var(--text-color-2)">
                 {{ t('encrypt.des.keyLengthTip') }}
               </span>
             </template>
@@ -36,7 +36,7 @@
               <span v-if="formData.mode === 'ECB'" style="font-size: 12px; color: #999;">
                 {{ t('encrypt.des.ecbNoIV') }}
               </span>
-              <span v-else style="font-size: 12px; color: #666;">
+              <span v-else style="font-size: 12px; color: var(--text-color-2)">
                 {{ t('encrypt.des.ivTip') }}
               </span>
             </template>
@@ -137,7 +137,7 @@
           <p>{{ t('encrypt.des.inputLength') }}: {{ input.length }} {{ t('common.characters') }}
             <span v-if="formData.padding === 'NoPadding' && input.length % 8 === 0" style="color: green;">✓ {{ t('encrypt.des.correct') }}（{{ t('encrypt.des.noPaddingCorrect') }}）</span>
             <span v-else-if="formData.padding === 'NoPadding' && input.length % 8 !== 0" style="color: red;">✗ {{ t('common.error') }}（{{ t('encrypt.des.noPaddingError') }}）</span>
-            <span v-else-if="formData.padding === 'Pkcs7'" style="color: #666;">（{{ t('encrypt.des.pkcs7Support') }}）</span>
+            <span v-else-if="formData.padding === 'Pkcs7'" style="color: var(--text-color-2)">（{{ t('encrypt.des.pkcs7Support') }}）</span>
             <span v-else style="color: #999;">（{{ t('encrypt.des.decryptMode') }}）</span>
           </p>
         </n-alert>

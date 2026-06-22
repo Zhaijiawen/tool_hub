@@ -23,7 +23,7 @@
           <n-form-item :label="t('encrypt.chacha20.key')">
             <n-input v-model:value="formData.key" :placeholder="t('encrypt.chacha20.keyPlaceholder')" />
             <template #feedback>
-              <span style="font-size: 12px; color: #666;">
+              <span style="font-size: 12px; color: var(--text-color-2)">
                 {{ t('encrypt.chacha20.keyLengthError') }}
               </span>
             </template>
@@ -31,7 +31,7 @@
           <n-form-item :label="t('encrypt.chacha20.nonce')">
             <n-input v-model:value="formData.nonce" :placeholder="t('encrypt.chacha20.noncePlaceholder')" />
             <template #feedback>
-              <span style="font-size: 12px; color: #666;">
+              <span style="font-size: 12px; color: var(--text-color-2)">
                 {{ t('encrypt.chacha20.nonceLengthError') }}
               </span>
             </template>

@@ -178,9 +178,9 @@ function clearAll() {
 .output-placeholder {
   text-align: center;
   padding: 40px;
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--border-color);
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: var(--card-color);
 }
 
 .error-alert {

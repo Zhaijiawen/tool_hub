@@ -179,7 +179,7 @@ defineExpose({
   z-index: 1000;
   max-height: 400px;
   overflow-y: auto;
-  background: white;
+  background: var(--card-color);
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
@@ -190,8 +190,7 @@ defineExpose({
   transition: background-color 0.3s;
 }
 
-/* 搜索结果项悬停效果 */
-:deep(.n-list-item:hover) {
-  background-color: #f5f5f5;
+.search-panel :deep(.n-list-item:hover) {
+  background-color: var(--n-color-hover, rgba(0,0,0,0.04));
 }
 </style>

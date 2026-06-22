@@ -292,7 +292,7 @@ onMounted(() => {
 }
 
 .composer-block.is-empty {
-  background: var(--background-color-secondary, #fafbfc);
+  background: var(--code-color);
 }
 
 .component-wrapper {

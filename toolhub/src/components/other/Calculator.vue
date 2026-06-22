@@ -1085,15 +1085,15 @@ onMounted(() => {
 }
 
 /* 深色主题支持 */
-[data-theme='dark'] .number-btn,
-[data-theme='dark'] .action-btn {
+.dark .number-btn,
+.dark .action-btn {
   background-color: #48484e;
   color: #ffffff;
   border: 1px solid #5a5a5f;
 }
 
-[data-theme='dark'] .number-btn:hover,
-[data-theme='dark'] .action-btn:hover {
+.dark .number-btn:hover,
+.dark .action-btn:hover {
   background-color: #5a5a5f;
 }
 
@@ -1187,7 +1187,7 @@ onMounted(() => {
 }
 
 .help-content .n-text[code] {
-  background: #f5f5f5;
+  background: var(--code-color);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;

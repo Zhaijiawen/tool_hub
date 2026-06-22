@@ -930,7 +930,7 @@ onUnmounted(() => {
 
 /* 颜色预设按钮样式 */
 .n-space .n-button {
-  border: 2px solid #d9d9d9;
+  border: 2px solid var(--border-color);
   font-weight: 500;
 }
 

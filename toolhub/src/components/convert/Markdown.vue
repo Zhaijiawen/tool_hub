@@ -249,7 +249,7 @@ const copyOutput = () => {
 }
 
 .preview-container {
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -257,13 +257,13 @@ const copyOutput = () => {
 .preview {
   padding: 20px;
   min-height: 200px;
-  background-color: #fff;
+  background-color: var(--card-color);
 }
 
 .preview-actions {
   padding: 12px 20px;
-  background-color: #f8f9fa;
-  border-top: 1px solid #eee;
+  background-color: var(--card-color);
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
 }

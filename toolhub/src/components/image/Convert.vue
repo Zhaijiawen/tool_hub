@@ -533,7 +533,7 @@ const clearAll = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--background-color-secondary, #f5f5f5);
+  background: var(--code-color);
   border-radius: 4px;
   color: var(--text-color-3, #999);
   font-size: 13px;

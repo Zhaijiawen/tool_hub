@@ -181,7 +181,7 @@ const clearAll = () => {
 }
 
 .result-card {
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
 }
 
@@ -192,7 +192,7 @@ const clearAll = () => {
 }
 
 .version {
-  color: #666;
+  color: var(--text-color-2);
   font-size: 14px;
 }
 
