@@ -853,7 +853,7 @@ export const seoConfig = {
         keywords: ['JS脚本', '自定义工具', '代码运行', '数据转换', '脚本工具箱']
       }
     },
-    'text-stats': {
+    'stats': {
       en: {
         name: 'Text Statistics',
         description: 'Count characters, words, lines, paragraphs, sentences and reading time for any text. Supports multi-language word frequency analysis.',
