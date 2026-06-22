@@ -240,10 +240,10 @@ onMounted(() => {
 .diff-output {
   font-family: 'Courier New', Courier, monospace;
   font-size: 13px;
-  border: 1px solid var(--border-color, #e0e0e0);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow-x: auto;
-  background: var(--background-color, #fff);
+  background: var(--card-color);
   padding: 8px 0;
 }
 
