@@ -4,7 +4,11 @@ export default {
     intro: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion, image processing and various online tools. Simple, fast, and secure for efficient development.',
     hero: {
       title: 'ToolHub — Developer Tools, All in One Place',
-      subtitle: 'Free online toolbox for developers: code formatting, encryption, data conversion, image processing, and more. No registration needed, runs locally in your browser.'
+      subtitle: 'Free online toolbox for developers: code formatting, encryption, data conversion, image processing, and more. No registration needed, runs locally in your browser.',
+      searchPlaceholder: 'Search tools... (e.g., JSON formatter, AES encrypt)',
+      toolsCount: 'online tools',
+      categoriesCount: 'categories',
+      localFirst: 'Runs Locally'
     },
     toolCount: 'tools',
     features: {
@@ -63,7 +67,7 @@ export default {
            desc: 'From code formatters (JSON, XML, YAML, SQL, JavaScript, CSS) to cryptographic tools (AES, RSA, ECC, SHA), data converters, image processors, and developer utilities — everything in one place.'
          },
          {
-           title: 'No Login, No Ads Interruption',
+           title: 'No Login Required',
            desc: 'Open any tool and start working immediately. No pop-ups, no forced registration, no subscription walls. We believe developer tools should be frictionless.'
          },
          {

@@ -4,7 +4,11 @@ export default {
     intro: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。简单、快速、安全，让开发更高效。',
     hero: {
       title: 'ToolHub — 开发者工具，一站搞定',
-      subtitle: '面向开发者的免费在线工具箱：代码格式化、加密解密、数据转换、图像处理等，无需注册，数据本地处理，安全可靠。'
+      subtitle: '面向开发者的免费在线工具箱：代码格式化、加密解密、数据转换、图像处理等，无需注册，数据本地处理，安全可靠。',
+      searchPlaceholder: '搜索工具...（如：JSON格式化、AES加密）',
+      toolsCount: '个在线工具',
+      categoriesCount: '个分类',
+      localFirst: '本地计算'
     },
     toolCount: '个工具',
     features: {
@@ -63,7 +67,7 @@ export default {
            desc: '从代码格式化（JSON、XML、YAML、SQL、JavaScript、CSS）到加密工具（AES、RSA、ECC、SHA），再到数据转换、图片处理和开发者实用工具，一站式解决。'
          },
          {
-           title: '无需登录，无广告干扰',
+           title: '无需登录，即开即用',
            desc: '打开即用，无弹窗、无强制注册、无付费门槛。我们相信开发者工具应该简单无摩擦。'
          },
          {
