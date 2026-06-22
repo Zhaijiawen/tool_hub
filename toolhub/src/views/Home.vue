@@ -139,8 +139,13 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
 
 /* ── Hero ─────────────────────────────── */
 .hero {
-  padding: 48px 0 36px;
+  padding: 56px 0 40px;
   text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(24, 160, 88, 0.04) 0%,
+    transparent 100%
+  );
 }
 .hero-title {
   font-size: clamp(1.6rem, 4vw, 2.4rem);
@@ -216,14 +221,15 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background: var(--card-color);
+  box-shadow: var(--shadow-sm);
   text-decoration: none;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
   cursor: pointer;
 }
 .tool-card:hover {
   border-color: var(--primary-color);
-  box-shadow: 0 2px 10px rgba(24, 160, 88, 0.12);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+  transform: translateY(-2px);
 }
 .tool-name {
   font-size: 13px;
@@ -265,6 +271,13 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   border-radius: 10px;
   border: 1px solid var(--border-color);
   background: var(--card-color);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 .feature-title {
   font-size: 14px;
@@ -298,6 +311,13 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   border-radius: 10px;
   border: 1px solid var(--border-color);
   background: var(--card-color);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.why-us-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 .why-us-card-title {
   font-size: 14px;
@@ -336,7 +356,15 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background: var(--card-color);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
+
+.tools-intro-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
 .tools-intro-name {
   font-weight: 600;
   color: var(--text-color);

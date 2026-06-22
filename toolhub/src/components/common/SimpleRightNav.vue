@@ -114,13 +114,13 @@ const scrollToTutorial = () => {
   background: var(--card-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
 
 .nav-card:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-2px);
 }
 

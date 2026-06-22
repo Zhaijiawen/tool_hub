@@ -911,6 +911,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+:deep(.n-layout-header) {
+  box-shadow: var(--shadow-sm) !important;
+}
+
 .header-content {
   display: flex;
   align-items: center;
@@ -918,7 +922,13 @@ onUnmounted(() => {
   height: 64px;
   max-width: min(95vw, 1600px);
   margin: 0 auto;
-  background-color: var(--background-color);
+  background: linear-gradient(
+    180deg,
+    var(--card-color) 0%,
+    rgba(24, 160, 88, 0.02) 100%
+  );
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   color: var(--text-color);
 }
 
@@ -1029,7 +1039,7 @@ onUnmounted(() => {
   color: var(--text-color);
   padding: 8px 12px;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
   z-index: 100;
 }
 
@@ -1168,7 +1178,11 @@ onUnmounted(() => {
 
 /* 头部按钮响应式样式 */
 .header-button {
-  transition: all 0.2s ease;
+  transition: all 0.2s ease, transform 0.15s ease;
+}
+
+.header-button:hover {
+  transform: translateY(-1px);
 }
 
 .button-text {
@@ -1340,6 +1354,7 @@ onUnmounted(() => {
   padding: 8px clamp(20px, 4vw, 60px);
   background-color: var(--card-color);
   border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .favorites-inner {

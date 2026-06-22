@@ -351,7 +351,7 @@ const downloadImage = () => {
   max-width: 100%;
   max-height: 300px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 .image-info {
   margin-top: 8px;
@@ -381,7 +381,7 @@ const downloadImage = () => {
   max-width: 100%;
   max-height: 400px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 .output-placeholder {
   text-align: center;

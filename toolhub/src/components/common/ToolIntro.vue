@@ -71,13 +71,20 @@ const description = computed(() => {
 .intro-section {
   background: var(--card-color);
   border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
   border-radius: 8px;
   padding: 12px 14px;
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.intro-section:last-child {
+  border-left-color: #1890ff;
 }
 
 .intro-section:hover {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .section-title {

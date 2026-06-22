@@ -453,7 +453,7 @@ const exportCssVars = () => {
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-md);
   transition: transform 0.15s;
   position: relative;
 }

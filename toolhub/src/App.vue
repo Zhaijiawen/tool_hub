@@ -66,7 +66,7 @@ body {
   /* 字体平滑 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #fff;
+  background: var(--body-bg);
   color: #222;
 }
 

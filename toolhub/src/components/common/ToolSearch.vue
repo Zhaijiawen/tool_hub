@@ -181,7 +181,7 @@ defineExpose({
   overflow-y: auto;
   background: var(--card-color);
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 /* 搜索结果项样式 */
