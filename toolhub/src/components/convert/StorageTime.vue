@@ -1,7 +1,7 @@
 <template>
   <div class="storage-time-convert">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="storage" />
+    <ToolIntro toolKey="storageTime" />
 
 
     <n-card :title="t('convert.storageTime.title')" :bordered="false">

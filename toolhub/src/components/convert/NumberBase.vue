@@ -1,7 +1,7 @@
 <template>
   <div class="number-base-convert">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="numberBase" />
+    <ToolIntro toolKey="number-base" />
 
 
     <n-card :title="t('convert.numberBase.title')" :bordered="false">

@@ -1,7 +1,7 @@
 <template>
   <div class="http-status">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="httpStatus" />
+    <ToolIntro toolKey="http-status" />
 
 
     <n-card :title="t('convert.httpStatus.title')" :bordered="false">

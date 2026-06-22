@@ -1,7 +1,7 @@
 <template>
   <div class="prompt-box-tool">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="prompt" />
+    <ToolIntro toolKey="promptBox" />
 
     <n-card :title="t('other.promptBox.title')" :bordered="false">
       <n-space vertical size="large">

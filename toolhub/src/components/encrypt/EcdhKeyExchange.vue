@@ -1,7 +1,7 @@
 <template>
   <div class="ecdh-key-exchange">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="ecdhkeyexchange" />
+    <ToolIntro toolKey="ecdh" />
 
     <n-card :title="t('encrypt.ecdh-key-exchange.title')">
       <!-- 私钥区域 -->

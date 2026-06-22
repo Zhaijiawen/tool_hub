@@ -1,7 +1,7 @@
 <template>
   <div class="user-agent">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="useragent" />
+    <ToolIntro toolKey="user-agent" />
 
 
     <n-card :title="t('convert.userAgent.title')" :bordered="false">

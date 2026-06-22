@@ -1,7 +1,7 @@
 <template>
   <div class="url-parser">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="urlCodec" />
+    <ToolIntro toolKey="urlParser" />
 
     <n-card :title="t('convert.urlParser.title')" :bordered="false">
       <n-space vertical size="large">

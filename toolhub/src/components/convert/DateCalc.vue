@@ -1,7 +1,7 @@
 <template>
   <div class="date-calc">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="date" />
+    <ToolIntro toolKey="datecalc" />
 
 
     <n-card :title="t('convert.dateCalc.title')">

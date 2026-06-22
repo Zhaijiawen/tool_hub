@@ -1,7 +1,7 @@
 <template>
   <div class="text-stats">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="charCode" />
+    <ToolIntro toolKey="textStats" />
 
     <n-card :title="t('text.stats.title')" :bordered="false">
       <n-space vertical size="large">

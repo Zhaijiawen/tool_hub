@@ -2,7 +2,7 @@
   <!-- Markdown格式化工具容器 -->
   <div class="markdown-format">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="markdown" />
+    <ToolIntro toolKey="markdownFormat" />
 
     <!-- 工具卡片 -->
     <n-card>

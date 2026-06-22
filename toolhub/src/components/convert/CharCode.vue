@@ -1,7 +1,7 @@
 <template>
   <div class="char-codec">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="charcode" />
+    <ToolIntro toolKey="char-code" />
 
 
     <n-card :title="t('convert.charCode.title')" :description="t('convert.charCode.description')">

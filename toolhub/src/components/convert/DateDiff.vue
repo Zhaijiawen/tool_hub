@@ -1,7 +1,7 @@
 <template>
   <div class="date-diff">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="date" />
+    <ToolIntro toolKey="date-diff" />
 
 
     <n-card :title="t('convert.dateDiff.title')">

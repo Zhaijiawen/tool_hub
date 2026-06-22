@@ -1,7 +1,7 @@
 <template>
   <div class="file-hash-tool">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="file" />
+    <ToolIntro toolKey="fileHash" />
 
     <n-card :title="t('other.fileHash.title')" :bordered="false">
       <n-space vertical size="large">
