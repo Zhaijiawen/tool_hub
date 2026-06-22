@@ -1,5 +1,8 @@
 <template>
   <div class="script-box">
+    <!-- 工具简介 -->
+    <ToolIntro toolKey="scriptBox" />
+
     <!-- 脚本列表侧边栏 + 主编辑区 -->
     <div class="layout">
       <!-- 左侧脚本列表 -->
@@ -186,6 +189,7 @@
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
+import ToolIntro from '@/components/common/ToolIntro.vue'
 import CodeEditor from '@/components/common/CodeEditor.vue'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 

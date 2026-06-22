@@ -1794,6 +1794,13 @@ export const toolDescriptions = {
       '用 mathjs 运行复杂数学表达式',
       '用 DOMPurify 过滤 HTML 中的 XSS 内容'
     ],
+    usageSteps: [
+      '点击"新建脚本"，输入脚本名称并选择分类',
+      '在编辑器中编写 transform(input, helpers) 函数',
+      '在输入数据框粘贴要处理的数据',
+      '点击"运行"执行脚本，在输出区查看结果',
+      '可随时导入/导出脚本集，方便跨设备使用'
+    ],
     bestPractices: [
       '函数名必须是 transform，执行引擎按此名称查找',
       '自由使用 async/await，引擎会自动 await 你的函数',
@@ -4452,6 +4459,13 @@ export const toolDescriptionsEn = {
       'Diff two text blobs and highlight changes',
       'Run quick math expressions with mathjs',
       'Sanitize HTML snippets against XSS with DOMPurify'
+    ],
+    usageSteps: [
+      'Click "New Script", enter a name and choose a category',
+      'Write your transform(input, helpers) function in the editor',
+      'Paste your input data into the input area',
+      'Click "Run" to execute and view results in the output area',
+      'Import/export script collections anytime for cross-device use'
     ],
     bestPractices: [
       'Name your function exactly transform — the runner looks for this name',

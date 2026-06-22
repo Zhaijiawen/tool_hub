@@ -51,7 +51,7 @@ export const aboutText = {
       },
       other: {
         title: '其他实用工具',
-        desc: '二维码生成与解码、IP 地址查询（含 ISP 和地理位置）、DNS 解析查询、UUID v1/v4 批量生成、安全密码生成器（自定义字符集和长度）、文件 MD5/SHA 哈希校验、HTTP 客户端（支持自定义请求头）、SSL 证书解析器、Git Commit 规范消息生成器、Mock 数据生成器（支持 Faker.js 语法）、科学计算器、AI 提示词工具箱等。'
+        desc: '二维码生成与解码、IP 地址查询（含 ISP 和地理位置）、DNS 解析查询、UUID v1/v4 批量生成、安全密码生成器（自定义字符集和长度）、文件 MD5/SHA 哈希校验、HTTP 客户端（支持自定义请求头）、SSL 证书解析器、Git Commit 规范消息生成器、Mock 数据生成器（支持 Faker.js 语法）、科学计算器、AI 提示词工具箱、脚本工具箱（内置 dayjs/lodash/CryptoJS 等库，浏览器端运行自定义 JavaScript 脚本）等。'
       }
     },
     technology: {
@@ -159,7 +159,7 @@ export const aboutText = {
       },
       other: {
         title: 'Other Utilities',
-        desc: 'QR code generator and decoder, IP address lookup (including ISP and geolocation), DNS resolver, UUID v1/v4 batch generator, secure password generator (customizable charset and length), file MD5/SHA hash checker, HTTP client (with custom headers), SSL certificate parser, Git commit message generator following Conventional Commits, Mock data generator (with Faker.js syntax), scientific calculator, and AI prompt toolbox.'
+        desc: 'QR code generator and decoder, IP address lookup (including ISP and geolocation), DNS resolver, UUID v1/v4 batch generator, secure password generator (customizable charset and length), file MD5/SHA hash checker, HTTP client (with custom headers), SSL certificate parser, Git commit message generator following Conventional Commits, Mock data generator (with Faker.js syntax), scientific calculator, AI prompt toolbox, and Script Toolkit (built-in dayjs/lodash/CryptoJS libraries, run custom JavaScript scripts entirely in the browser).'
       }
     },
     technology: {
