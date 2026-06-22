@@ -927,8 +927,6 @@ onUnmounted(() => {
     var(--card-color) 0%,
     rgba(24, 160, 88, 0.02) 100%
   );
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
   color: var(--text-color);
 }
 
