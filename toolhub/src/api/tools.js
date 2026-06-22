@@ -591,12 +591,13 @@ export async function getToolsByCategory(category, locale = 'zh-CN') {
  * @returns {Promise<Array>} 搜索结果
  */
 export async function searchTools(keyword, locale = 'zh-CN') {
+  const searchText = keyword.toLowerCase()
   const filteredTools = tools.filter(tool => {
-    const searchText = keyword.toLowerCase()
     return (
       tool.name.toLowerCase().includes(searchText) ||
       tool.description.toLowerCase().includes(searchText) ||
-      tool.id.toLowerCase().includes(searchText)
+      tool.id.toLowerCase().includes(searchText) ||
+      tool.category.toLowerCase().includes(searchText)
     )
   })
   return Promise.resolve(filteredTools)

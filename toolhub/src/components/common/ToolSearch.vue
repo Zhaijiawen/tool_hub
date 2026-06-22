@@ -12,7 +12,7 @@
         </template>
       </n-input>
       <!-- 搜索按钮 -->
-      <n-button type="primary" :loading="isSearching" @click="handleSearch">
+      <n-button type="primary" @click="handleSearch">
         {{ $t('common.search') }}
       </n-button>
     </n-input-group>
@@ -41,7 +41,6 @@
 <script setup>
 // 导入Vue相关功能
 import { ref, watch, onMounted, onUnmounted } from 'vue'
-// 导入 defineExpose 以暴露 focus 方法（默认已全局可用，无需单独导入）
 // 导入路由功能
 import { useRouter } from 'vue-router'
 // 导入搜索图标
@@ -49,7 +48,7 @@ import { Search as SearchIcon } from '@vicons/ionicons5'
 // 导入Naive UI组件
 import { NInputGroup, NInput, NButton, NIcon, NCard, NList, NListItem, NThing, NTag, NEmpty } from 'naive-ui'
 // 导入API服务
-import { searchTools } from '@/api/tools'
+import { getAllToolsSync } from '@/api/tools'
 // 导入i18n功能
 import { useI18n } from 'vue-i18n'
 
@@ -63,37 +62,43 @@ const searchText = ref('')
 const showResults = ref(false)
 // 搜索结果
 const searchResults = ref([])
-// 是否正在搜索
-const isSearching = ref(false)
 // 获取i18n实例
 const { t, locale } = useI18n()
 
 /**
- * 处理搜索操作
- * 调用服务端搜索API
+ * 构建翻译后的搜索索引：{ tool, searchTexts }
+ * tool.name / tool.description 都是 i18n key，需要 t() 翻译后才能搜中文
  */
-const handleSearch = async () => {
-  if (!searchText.value) {
+const buildSearchIndex = () => {
+  return getAllToolsSync().map(tool => ({
+    tool,
+    searchTexts: [t(tool.name), t(tool.description), t(`common.${tool.category}`), tool.id].join(' ').toLowerCase()
+  }))
+}
+
+/**
+ * 处理搜索操作
+ * 在翻译后的文本中搜索，支持中英文
+ */
+const handleSearch = () => {
+  if (!searchText.value.trim()) {
     showResults.value = false
     return
   }
 
-  try {
-    isSearching.value = true
-    const results = await searchTools(searchText.value, locale.value)
-    // 翻译搜索结果
-    searchResults.value = (results || []).map(tool => ({
-      ...tool,
-      name: t(tool.name),
-      description: t(tool.description),
-      category: t(`common.${tool.category}`)
+  const kw = searchText.value.trim().toLowerCase()
+  const index = buildSearchIndex()
+  const matched = index
+    .filter(item => item.searchTexts.includes(kw))
+    .map(item => ({
+      ...item.tool,
+      name: t(item.tool.name),
+      description: t(item.tool.description),
+      category: t(`common.${item.tool.category}`)
     }))
-    showResults.value = true
-  } catch (error) {
-    console.error('Search failed:', error)
-  } finally {
-    isSearching.value = false
-  }
+
+  searchResults.value = matched
+  showResults.value = true
 }
 
 /**
