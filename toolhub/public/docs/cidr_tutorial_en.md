@@ -1,75 +1,61 @@
-# CIDR Calculator - Usage Tutorial
+# CIDR Calculator -- How to Use
 
-## Quick Start
-
-The CIDR Calculator supports two input modes, switchable via the tabs at the top:
-
-- **CIDR mode**: Enter a CIDR expression (e.g. `192.168.1.0/24`)
-- **IP + Mask mode**: Enter the IP address and subnet mask separately (e.g. `192.168.1.0` + `255.255.255.0`)
-
-Both modes produce identical results — choose whichever is more convenient for the information you have on hand.
+Two input modes, same results. Pick whichever matches the information you have.
 
 ## CIDR Mode
 
-### Input Format
+Enter a CIDR expression like `192.168.1.0/24`. That's it. The calculator derives everything: network address, broadcast address, usable range, host count, and whether it's a private address.
 
-Enter a complete CIDR expression in the input field:
+You don't even need the network address -- `192.168.1.100/24` works too. The tool figures out the network automatically.
 
-```
-192.168.1.0/24
-```
-
-You can also enter a host address instead of the network address — the tool will derive the network automatically:
-
-```
-192.168.1.100/24  →  derives network address: 192.168.1.0
-```
-
-### Supported Formats
-
-- IPv4 CIDR: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`
-- Single host route: `192.168.1.1/32`
-- Point-to-point link: `10.0.0.0/30`
+**Common inputs:**
+- `10.0.0.0/8` -- big private network
+- `172.16.0.0/12` -- medium private network
+- `192.168.0.0/16` -- small private network
+- `192.168.1.1/32` -- single host route
+- `10.0.0.0/30` -- point-to-point link
 
 ## IP + Mask Mode
 
-Fill in two separate fields:
+If you have a subnet mask in dotted-decimal form instead of CIDR notation, use this mode:
 
 1. **IP address**: `192.168.1.0`
-2. **Subnet mask**: `255.255.255.0` (also accepts a CIDR prefix length like `24`)
+2. **Subnet mask**: `255.255.255.0` (or just type `24` -- it accepts both)
 
-## Reading the Results
+Same results as CIDR mode. Just a different input format for when that's what you have.
 
-After a successful calculation, the tool shows:
+## What the Results Tell You
 
-| Field | Meaning |
-|-------|---------|
-| Network address | First address in the subnet; identifies the network |
-| Broadcast address | Last address; used for subnet-wide broadcasts |
-| Subnet mask | Dotted-decimal mask notation |
-| Prefix length | The number after the slash (e.g. /24) |
-| Usable host count | Addresses actually assignable to hosts |
-| IP range | First and last assignable host addresses |
-| IP type | Whether the address is private (RFC 1918), loopback, etc. |
+| Field | What it means |
+|---|---|
+| Network address | The base address of the subnet -- identifies the network |
+| Broadcast address | Send here to reach all hosts on the subnet |
+| Subnet mask | The mask in dotted-decimal form |
+| Prefix length | The `/24` part |
+| Usable host count | How many devices you can actually assign addresses to |
+| IP range | First and last assignable addresses |
+| IP type | Private (RFC 1918), loopback, link-local, or public |
 
-## Checking if an IP Belongs to a Subnet
+## Checking IP Membership
 
-After computing the network, enter any IP in the "IP check" section to verify membership:
+After calculating a subnet, use the IP check section to test whether an address belongs to it:
 
 ```
 Subnet: 192.168.1.0/24
-Input:  192.168.1.150  →  ✅ Within this subnet
-Input:  192.168.2.1    →  ❌ Not in this subnet
+Input:  192.168.1.150  →  Yes, in this subnet
+Input:  192.168.2.1    →  No, not in this subnet
 ```
 
-## Common Subnets Reference
+Super useful when you're debugging routing issues or verifying firewall rules.
+
+## Quick Reference: Well-Known Ranges
 
 | Subnet | Purpose |
-|--------|---------|
-| `127.0.0.0/8` | Loopback (localhost) |
-| `10.0.0.0/8` | Class A private network |
-| `172.16.0.0/12` | Class B private network |
-| `192.168.0.0/16` | Class C private network |
-| `0.0.0.0/0` | Default route (all traffic) |
-| `255.255.255.255/32` | Limited broadcast address |
-
+|---|---|
+| `127.0.0.0/8` | Loopback (localhost -- packets never leave the machine) |
+| `10.0.0.0/8` | Class A private |
+| `172.16.0.0/12` | Class B private |
+| `192.168.0.0/16` | Class C private |
+| `169.254.0.0/16` | Link-local (APIPA -- when DHCP fails) |
+| `0.0.0.0/0` | Default route (matches everything) |
+| `255.255.255.255/32` | Limited broadcast |

@@ -1,26 +1,21 @@
-# SSL Certificate Parser — Technical Background
+# SSL Certificate Parser — What's Under the Hood
 
-## What Is an SSL/TLS Certificate?
+SSL/TLS certificates are the reason you see that little padlock in your browser's address bar. They do two things: prove a server is who it says it is, and kick off an encrypted session so nobody can snoop on what you're doing. Every certificate follows the X.509 standard and is issued by a Certificate Authority (CA) — think Let's Encrypt, DigiCert, or Sectigo.
 
-An SSL/TLS certificate is a digital certificate that proves the identity of a server (or client) and establishes an encrypted connection. It is the foundation of HTTPS.
+## The fields that actually matter
 
-Modern certificates follow the **X.509** standard and are issued by trusted **Certificate Authorities (CAs)**.
+When you paste a PEM certificate into this tool, here's what you're looking at:
 
-## Key Certificate Fields
+- **Subject** — who owns the cert, typically a `CN=example.com` style name
+- **Issuer** — which CA signed it, e.g. "Let's Encrypt Authority X3"
+- **Serial Number** — a unique ID the CA assigns, useful for revocation checks
+- **Valid From / To** — the date window during which browsers will trust it
+- **SAN (Subject Alternative Names)** — the list of domains and IPs this cert covers. This is what you really care about. The old `CN` field is basically deprecated; modern browsers only look at SAN
+- **Key Usage / Extended Key Usage** — constraints on what the cert can be used for (signing, encryption, TLS server auth, etc.)
 
-| Field | Description |
-|-------|-------------|
-| Subject | Certificate owner, e.g. `CN=example.com` |
-| Issuer | Issuing authority, e.g. Let's Encrypt |
-| Serial Number | Unique certificate ID assigned by the CA |
-| Valid From / To | Certificate validity period |
-| SAN | Subject Alternative Names — lists all covered domains/IPs |
-| Key Usage | Permitted uses (e.g. Digital Signature, Key Encipherment) |
-| Extended Key Usage | Extended uses (e.g. TLS Web Server Authentication) |
+## SAN: the field that replaced CN
 
-## What Is SAN?
-
-SAN (Subject Alternative Names) is the modern X.509 extension that replaces the legacy `CN` field. A single certificate can cover multiple domains, for example:
+A single cert can cover multiple domains through SAN entries. You'll see stuff like:
 
 ```
 DNS: example.com
@@ -28,26 +23,27 @@ DNS: www.example.com
 DNS: api.example.com
 ```
 
-Wildcard certificates use `*.example.com` to cover all direct subdomains (one level only).
+Wildcard certs use `*.example.com` to match any direct subdomain — but only one level deep. `*.example.com` covers `api.example.com` but not `v2.api.example.com`.
 
-## Certificate Fingerprints
+## Certificate fingerprints
 
-A fingerprint (thumbprint) is a hash of the full DER-encoded certificate:
+A fingerprint is just a hash of the full DER-encoded certificate. There are two variants you'll encounter:
 
-- **SHA-1**: 40-character hex digest; being phased out but still widely used for identification
-- **SHA-256**: 64-character hex digest; the modern standard, used for certificate pinning
+- **SHA-1**: 40 hex chars. Being phased out everywhere, but still shows up in certificate management UIs as an identifier — not for actual security validation
+- **SHA-256**: 64 hex chars. This is what certificate pinning uses. If you're building a mobile app that pins certs, you're comparing SHA-256 fingerprints
 
-## PEM Format
+## PEM format — what you actually paste
 
-PEM (Privacy Enhanced Mail) is the most common text-encoded certificate format:
+PEM is the text-encoded format you'll see everywhere. It wraps base64-encoded DER data between header and footer lines:
 
 ```
 -----BEGIN CERTIFICATE-----
-MIIFazCCA1OgAwIBAgIR...（Base64-encoded DER data）...
+MIIFazCCA1OgAwIBAgIR...（base64 DER data）...
 -----END CERTIFICATE-----
 ```
 
-## Certificate Transparency (CT) Logs
+You can chain multiple blocks — a server might send its own cert followed by intermediate CA certs, all in one PEM file.
 
-All publicly trusted certificates must be submitted to **Certificate Transparency** logs. You can search any domain's certificate history at [crt.sh](https://crt.sh).
+## Certificate Transparency
 
+Since 2018 or so, every publicly trusted certificate has to be logged to Certificate Transparency (CT) logs. This means you can look up any domain's certificate history — including expired and revoked certs — at [crt.sh](https://crt.sh). Our domain lookup mode uses these logs to pull the latest cert for any domain.

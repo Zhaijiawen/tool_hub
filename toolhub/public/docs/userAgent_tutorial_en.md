@@ -1,34 +1,39 @@
 # User Agent Parser — Usage Tutorial
 
-## How to Use
+The UA parser does two things: it shows your own browser's User Agent string automatically, and it lets you paste in any other UA string for analysis.
 
-### Step 1: Get Your User Agent
-The tool automatically detects and displays your browser's current User Agent string when the page loads.
+## Reading your own UA
 
-### Step 2: Parse Any UA String
-You can also manually paste any User Agent string into the input field to analyze it.
+When the page loads, the tool grabs `navigator.userAgent` from your browser and displays it. You'll see the raw string at the top, and below it the parsed breakdown: browser name and version, operating system, device type (desktop, mobile, or tablet), and rendering engine.
 
-### Step 3: View Parsed Information
-The tool breaks down the UA string and displays:
-- **Browser**: name and version
-- **OS**: operating system and version
-- **Device Type**: desktop, mobile, or tablet
-- **Engine**: rendering engine and version
+This is the quickest way to check what your browser is actually sending to every website you visit. If you've ever wondered whether your "Chrome" is really Chrome or a Chromium fork, look at the browser field in the parsed output.
 
-## Where to Find User Agent Strings
+## Parsing any UA string
 
-- **Browser DevTools**: Open the Console tab and type `navigator.userAgent`
-- **HTTP request headers**: visible in server logs or DevTools Network tab → Request Headers
-- **Online tools**: this page auto-detects your own UA
+If you're debugging an issue reported by a user or analyzing server logs, paste their UA string into the input field. The parser breaks it down the same way as your own. This is useful when:
+- A user reports a bug and you want to know their exact browser and OS version
+- Your server logs show a strange UA and you need to figure out what client it is
+- You're investigating bot traffic and want to see what a crawler claims to be
 
-## Common Use Cases
+## Where to find UA strings
 
-1. **Debug mobile layouts**: Identify if a user is on a specific iOS or Android version
-2. **Verify bot traffic**: Check if a crawl request is from Googlebot or a fake UA
-3. **Cross-browser testing**: Log the UA in your error tracking system to reproduce issues
-4. **API compatibility**: Check if a client SDK version is outdated
+If you're collecting UAs to parse, here's where to get them:
+- **Browser DevTools**: Open the Console and type `navigator.userAgent` — the output is exactly what the parser works with
+- **Network tab**: Any HTTP request shows the `User-Agent` header in the request headers section
+- **Server logs**: Most web servers (nginx, Apache) log the UA string by default
+- **Analytics tools**: Google Analytics, Matomo, and similar services capture UA strings for every visitor
 
-## Tips
-- Copy your UA string before upgrading your browser for before/after comparison
-- Server-side UA detection should use a reliable library (e.g., `ua-parser-js`, `device-detector`)
+## Understanding the parsed fields
 
+The parser distills the messy UA string into concrete fields:
+
+- **Browser** and version are extracted by looking for tokens like `Chrome/120`, `Firefox/120`, `Safari/17`. When multiple browsers claim to be each other (Chrome also claiming to be Safari), the parser identifies the real one based on token priority.
+- **OS** comes from the parentheses section: `Windows NT`, `Mac OS X`, `iPhone OS`, `Android`, `Linux`. The version number format varies by OS — Windows uses build numbers, macOS uses underscore-separated version components, iOS and Android use simpler dot-separated versions.
+- **Device type** is inferred from the OS: `iPhone` or `Android` with `Mobile` token means mobile, `iPad` or `Android` without `Mobile` typically means tablet, and `Windows NT` or `Macintosh` means desktop.
+- **Engine** is the rendering engine: Blink, WebKit, or Gecko. It's identified by the presence of `AppleWebKit` (with or without `Chrome/`) or `Gecko`.
+
+## Real-world workflow
+
+A common debugging flow: you get a bug report saying "the page looks broken on my phone." Ask the user to visit the tool, copy their UA, and send it to you. Paste it into the parser and you instantly know: iPhone 15 running iOS 17.2 with Safari 17.2. Now you can reproduce the issue on the exact platform instead of guessing.
+
+For server-side work: if you're writing code that checks UA strings, paste a few sample UAs into the parser first to verify your detection logic. The parser shows you what a proper parsing library would extract, so you can compare your regex or string-matching approach against it.

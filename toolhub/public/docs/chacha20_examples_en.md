@@ -1,327 +1,186 @@
 # ChaCha20 Code Examples
 
-## Python Examples
+Practical ChaCha20 snippets in Python, Go, and JavaScript. Every example uses authenticated encryption unless labeled otherwise.
 
-### Basic ChaCha20 Encryption
+## Python
+
+### Raw ChaCha20 (no authentication -- know when to use this)
+
+Raw ChaCha20 without Poly1305 is rare in production. It gives you confidentiality but not integrity. Use it only when you have authentication covered elsewhere.
+
 ```python
 import os
 from Crypto.Cipher import ChaCha20
 
-def basic_chacha20_encrypt():
-    """Basic ChaCha20 encryption example"""
-    # Generate random key and nonce
-    key = os.urandom(32)  # 256-bit key
-    nonce = os.urandom(12)  # 96-bit nonce
-    
-    # Create cipher
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    
-    # Encrypt message
-    message = "Hello, ChaCha20 encryption!"
-    ciphertext = cipher.encrypt(message.encode())
-    
-    print(f"Key: {key.hex()}")
-    print(f"Nonce: {nonce.hex()}")
-    print(f"Message: {message}")
-    print(f"Ciphertext: {ciphertext.hex()}")
-    
-    return key, nonce, ciphertext
+key = os.urandom(32)
+nonce = os.urandom(12)
 
-def basic_chacha20_decrypt(key, nonce, ciphertext):
-    """Basic ChaCha20 decryption example"""
-    # Create cipher with same key and nonce
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    
-    # Decrypt message
-    plaintext = cipher.decrypt(ciphertext)
-    message = plaintext.decode()
-    
-    print(f"Decrypted: {message}")
-    return message
+cipher = ChaCha20.new(key=key, nonce=nonce)
+message = b"Stream cipher without authentication"
+ciphertext = cipher.encrypt(message)
+
+# Decrypt with the same key and nonce
+cipher = ChaCha20.new(key=key, nonce=nonce)
+plaintext = cipher.decrypt(ciphertext)
+print(plaintext.decode())
 ```
 
-### ChaCha20-Poly1305 AEAD
+### ChaCha20-Poly1305 (what you should actually use)
+
+This is the production-ready version. The Poly1305 tag catches any tampering:
+
 ```python
 from Crypto.Cipher import ChaCha20_Poly1305
 
-def chacha20_poly1305_example():
-    """ChaCha20-Poly1305 authenticated encryption example"""
-    # Generate key and nonce
-    key = os.urandom(32)
+def encrypt(key, plaintext, aad=b""):
     nonce = os.urandom(12)
-    
-    # Create AEAD cipher
     cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    
-    # Add associated data
-    associated_data = b"metadata:user123"
-    cipher.update(associated_data)
-    
-    # Encrypt and get authentication tag
-    message = "Authenticated encryption with ChaCha20-Poly1305"
-    ciphertext, tag = cipher.encrypt_and_digest(message.encode())
-    
-    print(f"Associated Data: {associated_data}")
-    print(f"Message: {message}")
-    print(f"Ciphertext: {ciphertext.hex()}")
-    print(f"Tag: {tag.hex()}")
-    
-    return key, nonce, associated_data, ciphertext, tag
+    cipher.update(aad)
+    ciphertext, tag = cipher.encrypt_and_digest(plaintext)
+    return nonce + ciphertext + tag  # Bundle everything together
 
-def chacha20_poly1305_decrypt(key, nonce, associated_data, ciphertext, tag):
-    """ChaCha20-Poly1305 authenticated decryption example"""
-    # Create AEAD cipher
+def decrypt(key, data, aad=b""):
+    nonce = data[:12]
+    tag = data[-16:]
+    ciphertext = data[12:-16]
     cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    
-    # Add associated data
-    cipher.update(associated_data)
-    
-    # Decrypt and verify
+    cipher.update(aad)
     try:
-        plaintext = cipher.decrypt_and_verify(ciphertext, tag)
-        message = plaintext.decode()
-        print(f"Authenticated decryption successful: {message}")
-        return message
+        return cipher.decrypt_and_verify(ciphertext, tag)
     except ValueError:
-        print("Authentication failed!")
-        return None
+        raise ValueError("Ciphertext has been modified!")
+
+key = os.urandom(32)
+encrypted = encrypt(key, b"Secret message with tamper detection", b"header")
+decrypted = decrypt(key, encrypted, b"header")
+print(decrypted.decode())
 ```
 
-### File Encryption with ChaCha20
+### File encryption with ChaCha20-Poly1305
+
+For files, you need streaming or chunked AE. Here's a chunked approach that stores a nonce and tag per chunk (overkill for most use cases, but illustrative):
+
 ```python
-def encrypt_file_chacha20(input_file, output_file, key):
-    """Encrypt a file using ChaCha20"""
-    nonce = os.urandom(12)
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    
-    with open(input_file, 'rb') as f_in:
-        with open(output_file, 'wb') as f_out:
-            # Write nonce at the beginning
-            f_out.write(nonce)
-            
-            # Encrypt file in chunks
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                encrypted_chunk = cipher.encrypt(chunk)
-                f_out.write(encrypted_chunk)
-    
-    print(f"File encrypted: {input_file} -> {output_file}")
-    return nonce
+def encrypt_file(key, input_path, output_path, chunk_size=65536):
+    with open(input_path, 'rb') as fin, open(output_path, 'wb') as fout:
+        while True:
+            chunk = fin.read(chunk_size)
+            if not chunk:
+                break
+            nonce = os.urandom(12)
+            cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+            ciphertext, tag = cipher.encrypt_and_digest(chunk)
+            fout.write(nonce)
+            fout.write(len(ciphertext).to_bytes(4, 'big'))
+            fout.write(ciphertext)
+            fout.write(tag)
 
-def decrypt_file_chacha20(input_file, output_file, key):
-    """Decrypt a file using ChaCha20"""
-    with open(input_file, 'rb') as f_in:
-        # Read nonce from the beginning
-        nonce = f_in.read(12)
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        
-        with open(output_file, 'wb') as f_out:
-            # Decrypt file in chunks
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                decrypted_chunk = cipher.decrypt(chunk)
-                f_out.write(decrypted_chunk)
-    
-    print(f"File decrypted: {input_file} -> {output_file}")
+def decrypt_file(key, input_path, output_path):
+    with open(input_path, 'rb') as fin, open(output_path, 'wb') as fout:
+        while True:
+            header = fin.read(16)  # 12 nonce + 4 length
+            if not header:
+                break
+            nonce = header[:12]
+            chunk_len = int.from_bytes(header[12:16], 'big')
+            ciphertext = fin.read(chunk_len)
+            tag = fin.read(16)
+            cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+            try:
+                chunk = cipher.decrypt_and_verify(ciphertext, tag)
+                fout.write(chunk)
+            except ValueError:
+                raise ValueError("File has been tampered with!")
 ```
 
-## JavaScript Examples
+## Go
 
-### Node.js ChaCha20 Implementation
-```javascript
-const crypto = require('crypto');
+Go's `chacha20poly1305` package provides authenticated encryption. The `Seal` method appends the ciphertext and tag after the nonce, making storage straightforward:
 
-function chacha20Encrypt(key, nonce, plaintext) {
-    // Create cipher
-    const cipher = crypto.createCipher('chacha20', key);
-    cipher.setAAD(nonce);
-    
-    // Encrypt
-    let encrypted = cipher.update(plaintext, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    
-    return encrypted;
-}
-
-function chacha20Decrypt(key, nonce, ciphertext) {
-    // Create decipher
-    const decipher = crypto.createDecipher('chacha20', key);
-    decipher.setAAD(nonce);
-    
-    // Decrypt
-    let decrypted = decipher.update(ciphertext, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    
-    return decrypted;
-}
-
-// Usage example
-const key = crypto.randomBytes(32);
-const nonce = crypto.randomBytes(12);
-const message = "Hello from Node.js ChaCha20!";
-
-const encrypted = chacha20Encrypt(key, nonce, message);
-const decrypted = chacha20Decrypt(key, nonce, encrypted);
-
-console.log(`Original: ${message}`);
-console.log(`Encrypted: ${encrypted}`);
-console.log(`Decrypted: ${decrypted}`);
-```
-
-## Java Examples
-
-### Bouncy Castle ChaCha20
-```java
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import java.security.SecureRandom;
-import java.util.Base64;
-
-public class ChaCha20Example {
-    static {
-        java.security.Security.addProvider(new BouncyCastleProvider());
-    }
-    
-    public static void main(String[] args) throws Exception {
-        // Generate key and nonce
-        KeyGenerator keyGen = KeyGenerator.getInstance("ChaCha20", "BC");
-        keyGen.init(256);
-        SecretKey key = keyGen.generateKey();
-        
-        SecureRandom random = new SecureRandom();
-        byte[] nonce = new byte[12];
-        random.nextBytes(nonce);
-        
-        // Encrypt
-        Cipher cipher = Cipher.getInstance("ChaCha20", "BC");
-        cipher.init(Cipher.ENCRYPT_MODE, key, new javax.crypto.spec.IvParameterSpec(nonce));
-        
-        String message = "Hello from Java ChaCha20!";
-        byte[] plaintext = message.getBytes("UTF-8");
-        byte[] ciphertext = cipher.doFinal(plaintext);
-        
-        System.out.println("Key: " + Base64.getEncoder().encodeToString(key.getEncoded()));
-        System.out.println("Nonce: " + Base64.getEncoder().encodeToString(nonce));
-        System.out.println("Message: " + message);
-        System.out.println("Ciphertext: " + Base64.getEncoder().encodeToString(ciphertext));
-        
-        // Decrypt
-        cipher.init(Cipher.DECRYPT_MODE, key, new javax.crypto.spec.IvParameterSpec(nonce));
-        byte[] decrypted = cipher.doFinal(ciphertext);
-        String decryptedMessage = new String(decrypted, "UTF-8");
-        
-        System.out.println("Decrypted: " + decryptedMessage);
-    }
-}
-```
-
-## Go Examples
-
-### Go ChaCha20 Implementation
 ```go
 package main
 
 import (
     "crypto/rand"
-    "encoding/hex"
     "fmt"
-    "golang.org/x/crypto/chacha20"
+    "golang.org/x/crypto/chacha20poly1305"
 )
 
 func main() {
-    // Generate key and nonce
-    key := make([]byte, 32)
-    nonce := make([]byte, 12)
+    key := make([]byte, chacha20poly1305.KeySize)
     rand.Read(key)
+
+    aead, _ := chacha20poly1305.New(key)
+
+    nonce := make([]byte, chacha20poly1305.NonceSize)
     rand.Read(nonce)
-    
-    // Create cipher
-    cipher, err := chacha20.NewUnauthenticatedCipher(key, nonce)
+
+    plaintext := []byte("Authenticated encryption in Go")
+    additionalData := []byte("protocol-v1")
+
+    // Seal: encrypt + authenticate. The nonce is prepended here.
+    ciphertext := aead.Seal(nonce, nonce, plaintext, additionalData)
+
+    // Open: verify + decrypt. Reads nonce from ciphertext[:NonceSize].
+    nonce, ciphertext = ciphertext[:aead.NonceSize()], ciphertext[aead.NonceSize():]
+    decrypted, err := aead.Open(nil, nonce, ciphertext, additionalData)
     if err != nil {
-        panic(err)
+        fmt.Println("Verification failed:", err)
+    } else {
+        fmt.Println(string(decrypted))
     }
-    
-    // Encrypt
-    message := []byte("Hello from Go ChaCha20!")
-    ciphertext := make([]byte, len(message))
-    cipher.XORKeyStream(ciphertext, message)
-    
-    fmt.Printf("Key: %s\n", hex.EncodeToString(key))
-    fmt.Printf("Nonce: %s\n", hex.EncodeToString(nonce))
-    fmt.Printf("Message: %s\n", string(message))
-    fmt.Printf("Ciphertext: %s\n", hex.EncodeToString(ciphertext))
-    
-    // Decrypt (recreate cipher with same key/nonce)
-    cipher, _ = chacha20.NewUnauthenticatedCipher(key, nonce)
-    plaintext := make([]byte, len(ciphertext))
-    cipher.XORKeyStream(plaintext, ciphertext)
-    
-    fmt.Printf("Decrypted: %s\n", string(plaintext))
 }
 ```
 
-## Performance and Security
+If you need raw ChaCha20 without authentication (say, you're implementing an existing protocol), use the lower-level `chacha20` package:
 
-### Benchmarking Implementation
-```python
-import time
-import os
-from Crypto.Cipher import ChaCha20
+```go
+import "golang.org/x/crypto/chacha20"
 
-def benchmark_chacha20():
-    """Benchmark ChaCha20 performance"""
-    key = os.urandom(32)
-    nonce = os.urandom(12)
-    data_sizes = [1024, 10240, 102400, 1024000]  # 1KB, 10KB, 100KB, 1MB
-    
-    print("ChaCha20 Performance Benchmark")
-    print("=" * 40)
-    
-    for size in data_sizes:
-        data = os.urandom(size)
-        
-        # Time encryption
-        start_time = time.time()
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        encrypted = cipher.encrypt(data)
-        encryption_time = time.time() - start_time
-        
-        # Calculate speed
-        speed_mbps = (size / 1024 / 1024) / encryption_time
-        
-        print(f"Data size: {size/1024:.1f}KB")
-        print(f"Encryption time: {encryption_time*1000:.2f}ms")
-        print(f"Speed: {speed_mbps:.2f} MB/s")
-        print("-" * 20)
+cipher, _ := chacha20.NewUnauthenticatedCipher(key, nonce)
+ciphertext := make([]byte, len(plaintext))
+cipher.XORKeyStream(ciphertext, plaintext)
+```
 
-def secure_key_generation():
-    """Demonstrate secure key generation practices"""
-    import secrets
-    from Crypto.Protocol.KDF import PBKDF2
-    from Crypto.Hash import SHA256
-    
-    # Method 1: Using secrets module (recommended)
-    key1 = secrets.token_bytes(32)
-    nonce1 = secrets.token_bytes(12)
-    
-    # Method 2: Using PBKDF2 for password-based key derivation
-    password = "my_secure_password"
-    salt = secrets.token_bytes(16)
-    key2 = PBKDF2(password.encode(), salt, dkLen=32, count=100000, 
-                   hmac_hash_module=SHA256)
-    
-    print("Secure key generation examples:")
-    print(f"Random key: {key1.hex()}")
-    print(f"Derived key: {key2.hex()}")
-    print(f"Salt: {salt.hex()}")
-    
-    return key1, key2, salt
-``` 
+But honestly, you almost never want this. Always reach for `chacha20poly1305` first.
+
+## JavaScript (Node.js)
+
+Node's built-in `crypto` module supports ChaCha20-Poly1305:
+
+```javascript
+const crypto = require('crypto');
+
+function encrypt(key, plaintext) {
+    const nonce = crypto.randomBytes(12);
+    const cipher = crypto.createCipheriv('chacha20-poly1305', key, nonce, {
+        authTagLength: 16,
+    });
+    const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+    const tag = cipher.getAuthTag();
+    return Buffer.concat([nonce, ciphertext, tag]);
+}
+
+function decrypt(key, data) {
+    const nonce = data.subarray(0, 12);
+    const tag = data.subarray(data.length - 16);
+    const ciphertext = data.subarray(12, data.length - 16);
+    const decipher = crypto.createDecipheriv('chacha20-poly1305', key, nonce, {
+        authTagLength: 16,
+    });
+    decipher.setAuthTag(tag);
+    return Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+}
+
+const key = crypto.randomBytes(32);
+const encrypted = encrypt(key, Buffer.from('Hello from Node.js!'));
+const decrypted = decrypt(key, encrypted);
+console.log(decrypted.toString());
+```
+
+## Key takeaways
+
+- ChaCha20-Poly1305 is the default choice -- raw ChaCha20 is the exception
+- Nonce must be unique per message with the same key; random generation is safe with 96 bits
+- The Poly1305 tag (16 bytes) must always be verified before using the decrypted data
+- ChaCha20 is fast in pure software -- no special hardware required

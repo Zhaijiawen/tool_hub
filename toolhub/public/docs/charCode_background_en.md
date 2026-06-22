@@ -1,57 +1,53 @@
-# Character Code Converter — Technical Background
+# Character Codes: What's Behind Every Letter You Type
 
-## Character Encoding Fundamentals
+Every character you see on screen is a number underneath. Character encodings are the mapping from those numbers to the glyphs you actually see. Understanding this mapping is essential when you're debugging encoding issues, working with regular expressions, or dealing with URLs.
 
-A character encoding maps characters (letters, digits, symbols) to numeric code points, which computers then represent in binary.
+## ASCII: The Original 7-bit World
 
-## ASCII
+ASCII defined 128 characters using 7 bits. It's the common ancestor of almost every encoding you'll encounter:
 
-**ASCII** (American Standard Code for Information Interchange) was the original 7-bit character encoding, defining 128 characters:
-- 0–31: Control characters (non-printable)
-- 32–126: Printable characters (letters, digits, punctuation)
+- 0-31: Control characters (non-printable stuff like newline, tab, null)
+- 32-126: Printable characters -- letters, digits, punctuation
 - 127: DEL
 
 ```
-A = 65   a = 97   0 = 48   Space = 32   ! = 33
+A = 65    a = 97    0 = 48    Space = 32    ! = 33
 ```
 
-## Unicode
+If you've ever wondered why `'a' > 'A'` in JavaScript, now you know -- lowercase letters have higher code points.
 
-Unicode is the universal character standard, assigning a unique **code point** (U+XXXX) to every character across all writing systems.
+## Unicode: The Universal Character Set
 
-- Over **140,000** characters covering 150+ scripts
-- Code points range from U+0000 to U+10FFFF
+Unicode is the standard that covers pretty much every writing system on the planet. Over 140,000 characters across 150+ scripts, each with a unique code point like `U+0041` for `A`.
 
-### UTF-8
+### UTF-8: The One That Won
 
-The most popular Unicode encoding:
-- Variable-width: 1 to 4 bytes per character
-- ASCII-compatible: the first 128 code points are identical
-- `A` = `0x41` (1 byte)
-- `€` = `0xE2 0x82 0xAC` (3 bytes)
-- `😀` = `0xF0 0x9F 0x98 0x80` (4 bytes)
+UTF-8 is everywhere -- the web, filesystems, APIs. It's variable-width: 1 byte for ASCII characters, up to 4 bytes for things like emoji. Crucially, it's backwards-compatible with ASCII.
 
-### UTF-16
+```
+A  = 0x41                    (1 byte -- same as ASCII)
+€  = 0xE2 0x82 0xAC         (3 bytes)
+😀 = 0xF0 0x9F 0x98 0x80    (4 bytes)
+```
 
-Used internally by JavaScript, Java, and Windows:
-- 2 or 4 bytes per character
-- JavaScript's `String.charCodeAt()` returns UTF-16 code units
+### UTF-16: What JavaScript Uses Internally
 
-### UTF-32
+JavaScript strings are sequences of UTF-16 code units. Most characters fit in one 16-bit unit, but characters outside the Basic Multilingual Plane (like many emoji) need two -- that's what surrogate pairs are about. This is why `'😀'.length` returns 2 in JavaScript even though it's one visible character.
 
-Fixed 4 bytes per character — simple but memory-inefficient.
+### URL Encoding (Percent Encoding)
 
-## HTML Entities
+Characters that aren't allowed in URLs get encoded as `%XX` where XX is the hex byte value:
 
-Characters can be represented in HTML as:
-- **Named entity**: `&amp;` (= `&`), `&lt;` (= `<`)
-- **Decimal reference**: `&#65;` (= `A`)
-- **Hex reference**: `&#x41;` (= `A`)
-
-## URL Encoding (Percent Encoding)
-
-Special characters in URLs are encoded as `%XX` where XX is the hex byte value:
 - Space = `%20`
 - `/` = `%2F`
 - `@` = `%40`
 
+### HTML Entities
+
+HTML gives you a few ways to represent characters:
+
+- Named: `&amp;` for `&`, `&lt;` for `<`
+- Decimal: `&#65;` = `A`
+- Hex: `&#x41;` = `A`
+
+These are critical for preventing XSS -- if user input gets rendered as HTML without entity encoding, you've got a security problem.

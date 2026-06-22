@@ -1,56 +1,49 @@
-# Script Toolkit — Usage Tutorial
+# Script Toolkit — How to Use
 
-## Step 1: Create a New Script
+## Creating a script
 
-Click the **"+ New Script"** button in the left panel. Enter a name and choose a category (JSON, Text, Crypto, etc.), then save. The tool creates a new script pre-filled with a starter template.
+Click "+ New Script" in the left panel, give it a name, pick a category, save. The tool creates a new script with a starter template pre-filled. Scripts live in browser localStorage, so export them regularly.
 
-> ⚠️ Scripts are stored in browser localStorage. Use "Export Scripts" regularly to back them up.
+## Writing the transform function
 
-## Step 2: Write a transform Function
+Your code must contain a function named `transform` that takes two arguments:
 
-Your code **must contain a function named `transform`** that accepts two arguments:
+- `input` — the content of the input box (always a string)
+- `helpers` — the helper library object (see the "Available helpers" panel in the tool)
 
-- `input` — the content of the input box (string)
-- `helpers` — the built-in helper library object (see the "Available helpers" panel)
-
-The return value is automatically displayed in the output area:
+Whatever you return gets displayed in the output area:
 
 ```javascript
 async function transform(input, helpers) {
-  // input is the content of the input box
-  // helpers provides all built-in libraries
+  // input is whatever's in the input box
+  // helpers gives you all the built-in libraries
   return input.trim().toUpperCase()
 }
 ```
 
-`async/await` is fully supported — you can call `fetch` to make network requests.
+`async/await` is fully supported for network requests and crypto operations.
 
-## Step 3: Provide Input and Run
+## Running a script
 
-Paste the data you want to process into the **Input Data** box on the right (JSON, plain text, a timestamp — anything works), then click **"▶ Run"**.
+Paste your data into the **Input Data** box (JSON, plain text, a timestamp — anything), then hit **Run**. If it succeeds, the output area shows the result and the elapsed time in milliseconds in the toolbar. If it fails, the output area turns red and shows the full error with stack trace.
 
-- **Success**: the output area shows the result and elapsed time (ms) in the toolbar
-- **Error**: the output area turns red and displays the full error message with stack trace
+Click **Copy** to grab the output to clipboard.
 
-## Step 4: Copy the Output
+## Script management
 
-After a successful run, click **"Copy"** to write the output to your clipboard.
-
-## Script Management
-
-| Action | Description |
-|---|---|
-| Click item in left panel | Switch active script |
-| Toolbar "Edit" | Rename, change category or description |
-| Toolbar "Delete" | Delete script permanently (cannot be undone) |
+| Action | What it does |
+|--------|-------------|
+| Click a script in the left panel | Switch to that script |
+| Toolbar "Edit" | Rename, change category, update description |
+| Toolbar "Delete" | Delete the script permanently |
 | Export Scripts | Save all scripts as a `.toolhub.json` file |
-| Import Scripts | Load scripts from a `.toolhub.json` file (non-destructive) |
+| Import Scripts | Load scripts from a `.toolhub.json` file (adds, doesn't replace) |
 
-## Tips & Tricks
+## Tips
 
-**Debugging:** Use `console.log` inside your function (open browser DevTools to see output), or return intermediate values to inspect them.
+**Debugging:** Use `console.log` inside your function — output shows in browser DevTools. Or return intermediate values to inspect them directly.
 
-**Multiple outputs:** Return an object — the tool formats it as pretty-printed JSON:
+**Return an object for multiple outputs:**
 
 ```javascript
 async function transform(input, helpers) {
@@ -63,15 +56,12 @@ async function transform(input, helpers) {
 }
 ```
 
-**Pipeline style:** Chain multiple helpers for multi-step processing:
+**Chain helpers for multi-step pipelines:**
 
 ```javascript
 async function transform(input, helpers) {
-  // 1. Parse YAML
-  const obj = helpers.yaml.load(input)
-  // 2. Extract fields with lodash
-  const names = helpers._.map(obj.users, 'name')
-  // 3. Format dates with dayjs
-  return names.map(n => `${n} — ${helpers.dayjs().format('YYYY-MM-DD')}`)
+  const obj = helpers.yaml.load(input)       // 1. Parse YAML
+  const names = helpers._.map(obj.users, 'name')  // 2. Extract with lodash
+  return names.map(n => `${n} — ${helpers.dayjs().format('YYYY-MM-DD')}`)  // 3. Format dates
 }
-
+```

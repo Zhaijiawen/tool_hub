@@ -1,53 +1,37 @@
-# DNS Query Tool - Technical Background
+# DNS Query Tool — What's Going On Behind the Scenes
 
-## What is DNS
+DNS is the internet's phone book. You type `example.com`, DNS figures out the actual IP address (`93.184.216.34`) your browser needs to connect to. Without it, you'd be memorizing IP addresses for every site you visit.
 
-DNS (Domain Name System) is the "phone book" of the internet, responsible for translating human-readable domain names (like `example.com`) into machine-readable IP addresses (like `93.184.216.34`).
+## The resolution flow
 
-## How DNS Works
+When you hit a domain in your browser, here's the chain of events:
 
-When you type `www.example.com` into your browser, the DNS resolution process works as follows:
+1. Your browser and OS check their local DNS cache first — if they already know the IP, no network call needed
+2. If not cached, your machine asks the configured DNS server (usually your router or your ISP's server)
+3. That server does a recursive lookup starting from the root: root nameservers tell it where `.com` lives, the `.com` TLD servers tell it where `example.com`'s authoritative nameservers live, those authoritative servers return the actual IP
+4. The result gets cached at every hop along the way, respecting the record's TTL
 
-1. **Check local cache**: The browser and OS first check the local DNS cache
-2. **Query local DNS server**: Send a query to the configured DNS server (usually the router or ISP-provided server)
-3. **Recursive query**: If the server has no cache, it queries recursively starting from the root name servers
-   - Root server → Tells the resolver the `.com` TLD server address
-   - TLD server → Tells the resolver the authoritative server for `example.com`
-   - Authoritative server → Returns the final IP address
-4. **Cache the result**: The result is cached according to its TTL for future queries
+## Record types you'll actually use
 
-## DNS Record Types
+| Record | What it does |
+|--------|-------------|
+| **A** | Maps a domain to an IPv4 address — the most common record type |
+| **AAAA** | Same thing but for IPv6 |
+| **CNAME** | Creates an alias — `www.example.com` points to `example.com`, or to a CDN hostname |
+| **MX** | Tells email servers where to deliver mail for this domain |
+| **TXT** | Freeform text, used for SPF, DKIM, domain verification, and a hundred other things |
+| **NS** | Which nameservers are authoritative for this domain |
+| **SOA** | Zone metadata — serial number, refresh intervals, admin contact |
 
-| Record Type | Full Name | Purpose |
-|------------|-----------|---------|
-| **A** | Address | Maps a domain name to an IPv4 address |
-| **AAAA** | IPv6 Address | Maps a domain name to an IPv6 address |
-| **CNAME** | Canonical Name | Domain alias pointing to another domain name |
-| **MX** | Mail Exchange | Specifies mail servers for a domain |
-| **TXT** | Text | Stores arbitrary text (SPF, DKIM, ownership verification, etc.) |
-| **NS** | Name Server | Specifies the authoritative DNS servers for a domain |
-| **SOA** | Start of Authority | Authoritative starting record for a DNS zone |
-| **PTR** | Pointer | Reverse DNS lookup (IP address to domain name) |
-| **SRV** | Service | Specifies the host and port for a specific service |
+## TTL matters more than you think
 
-## TTL (Time To Live)
+TTL (in seconds) controls how long DNS caches hold onto a record before asking the authoritative server again. Short TTL (300s) means fast propagation when you change records but more query load on your nameservers. Long TTL (86400s = 1 day) means fewer queries but changes take forever to propagate.
 
-TTL is the caching duration for a DNS record (in seconds).
+The classic mistake: you change an A record with a 24-hour TTL, check immediately, see the old IP, and panic. Lower your TTL to 300 before making DNS changes, make the change, then bump it back up after you've confirmed everything works.
 
-- **Short TTL (e.g., 300 seconds)**: Changes propagate quickly but increase DNS server load
-- **Long TTL (e.g., 86400 seconds / 1 day)**: Fewer queries but changes take longer to propagate
-- **DNS migration tip**: Lower TTL to 300 before migrating, then restore afterward
+## DNS over HTTPS (DoH)
 
-## DoH (DNS over HTTPS)
-
-Traditional DNS queries use UDP port 53 in plaintext, creating privacy risks and vulnerability to man-in-the-middle attacks.
-
-DoH wraps DNS queries inside HTTPS requests, with the following advantages:
-- **Privacy protection**: DNS query content is encrypted; ISPs cannot monitor it
-- **Tamper prevention**: HTTPS encryption prevents MITM modification of results
-- **Firewall bypass**: Uses HTTPS port, bypassing firewalls that specifically block DNS
-
-### Cloudflare DoH API
+Traditional DNS queries go over UDP port 53 in plaintext. Your ISP, your coffee shop's WiFi, anyone on the network can see every domain you're looking up. DoH wraps DNS queries inside HTTPS — same encryption as your banking website.
 
 This tool uses Cloudflare's DoH API:
 
@@ -56,23 +40,12 @@ GET https://cloudflare-dns.com/dns-query?name={domain}&type={type}
 Headers: Accept: application/dns-json
 ```
 
-Returns DNS records in JSON format, including:
-- `Status`: Response code (0 = no error)
-- `TC`: Whether the response was truncated
-- `RD`: Whether recursion was requested
-- `RA`: Whether recursion is available
-- `AD`: Whether DNSSEC validation succeeded
-- `Question`: The query question
-- `Answer`: List of query results
+The response is clean JSON. Key fields: `Status` (0 = success), `Answer` (the actual records), `AD` (whether DNSSEC validation passed).
 
-## Common DNS Issues
+## Common DNS headaches
 
-### DNS Propagation Delay
-After modifying DNS records, the new values take time to propagate across global DNS servers — typically 24-48 hours (depending on TTL settings).
+**Propagation delay** — After changing records, some resolvers will see the new value immediately and others won't for hours. Plan around this, don't fight it.
 
-### DNSSEC
-DNSSEC is a security extension to DNS that uses digital signatures to verify the authenticity of DNS responses, protecting against DNS spoofing attacks.
+**DNSSEC** — Signs DNS responses with digital signatures so resolvers can verify they haven't been tampered with. When it breaks, your domain disappears from the internet.
 
-### DNS Poisoning
-Some network environments return incorrect IPs for DNS queries (DNS poisoning), preventing access to correct websites. Using DoH can help mitigate this issue.
-
+**DNS poisoning / hijacking** — Some networks intercept DNS queries and return fake results. DoH helps bypass this since the queries are encrypted and go to a trusted resolver directly.

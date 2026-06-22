@@ -1,218 +1,56 @@
 # AES Technical Background
 
-## Overview
-The Advanced Encryption Standard (AES) is a symmetric block cipher algorithm that was established by the U.S. National Institute of Standards and Technology (NIST) in 2001. It is widely used for securing sensitive data and has become the de facto standard for encryption worldwide. AES is based on the Rijndael cipher developed by Belgian cryptographers Joan Daemen and Vincent Rijmen.
+AES -- the Advanced Encryption Standard -- is the symmetric block cipher that pretty much everything uses these days. If you've ever made an HTTPS request, unlocked a password manager, or used a VPN, you've relied on AES without thinking about it. It was standardized by NIST back in 2001 after a multi-year competition, and the winner was a cipher called Rijndael, cooked up by two Belgian cryptographers, Joan Daemen and Vincent Rijmen.
 
-## History and Development
+## How the competition went down
 
-### Origins
-- **1997**: NIST announces competition for AES to replace DES
-- **1998**: 15 candidate algorithms submitted
-- **1999**: 5 finalists selected (MARS, RC6, Rijndael, Serpent, Twofish)
-- **2000**: Rijndael selected as the winner
-- **2001**: AES officially published as FIPS 197
+The story is worth knowing because it tells you why AES ended up the way it did. In 1997, NIST put out a call: DES was getting long in the tooth (56-bit keys? in the 90s?), and they needed something that could hold up for decades. Fifteen teams submitted candidates. By 1999 they'd narrowed it to five finalists -- MARS, RC6, Rijndael, Serpent, and Twofish -- and in 2000, Rijndael took it.
 
-### Selection Criteria
-- Security strength and resistance to cryptanalysis
-- Computational efficiency and performance
-- Implementation flexibility across platforms
-- Simplicity and ease of analysis
+The judges cared about more than just raw security. They wanted something that ran fast on 8-bit microcontrollers and beefy servers alike, something simple enough that people could actually implement it correctly, and something that didn't use too much memory or power. Rijndael checked all those boxes, and twenty-plus years later, the choice has held up remarkably well. Nobody has broken AES in any practical sense -- the best known attack is a related-key attack on AES-256 that reduces complexity from 2^256 to about 2^99.5, which is a theoretical earthquake but utterly useless in practice because it requires the attacker to have access to relationships between keys you're never going to create in a real system.
 
-## Core Architecture
+## The block and the key
 
-### Block Structure
-AES operates on fixed-size blocks of 128 bits (16 bytes). The algorithm supports three key sizes:
-- **AES-128**: 128-bit key (10 rounds)
-- **AES-192**: 192-bit key (12 rounds)
-- **AES-256**: 256-bit key (14 rounds)
+AES always works on 128-bit blocks -- that's 16 bytes, no more, no less. But the key can be one of three sizes:
 
-### State Array
-The 128-bit block is organized as a 4×4 matrix of bytes called the state array:
+- **AES-128**: 128-bit key, 10 rounds of transformations
+- **AES-192**: 192-bit key, 12 rounds
+- **AES-256**: 256-bit key, 14 rounds
+
+More rounds means more security margin, but also more computation. For most things, AES-128 is still perfectly fine -- there's no known attack that meaningfully threatens it, even with Grover's algorithm in a hypothetical quantum future (which would just cut the effective security to 64 bits, still requiring 2^64 operations that nobody can run). AES-256 is what you reach for when you're encrypting something that needs to stay secret for decades, or when compliance says you have to.
+
+Internally, that 16-byte block gets arranged as a 4x4 grid called the state array. Every round shuffles it through four operations:
+
 ```
-[a00 a01 a02 a03]
-[a10 a11 a12 a13]
-[a20 a21 a22 a23]
-[a30 a31 a32 a33]
+SubBytes   -- each byte goes through a lookup table (the S-box) that's carefully designed to be non-linear
+ShiftRows  -- rows get cyclically shifted by different amounts
+MixColumns -- columns get mixed together with matrix multiplication in a finite field
+AddRoundKey -- XOR the whole state with a round key derived from your original key
 ```
 
-### Key Schedule
-The key schedule generates round keys from the original key:
-- **Key Expansion**: Derives round keys for each encryption round
-- **Round Constants**: Uses predefined constants for key expansion
-- **Key Length**: Determines number of rounds and key schedule complexity
+The first round skips straight to AddRoundKey, and the last round drops MixColumns (which would be redundant at that point). Decryption runs the inverse of each step in reverse order -- InvShiftRows, InvSubBytes, AddRoundKey, then InvMixColumns for the main rounds.
 
-## Encryption Process
+## Where the real design magic lives
 
-### Main Rounds
-Each encryption round consists of four transformations:
-1. **SubBytes**: Non-linear substitution using S-box
-2. **ShiftRows**: Cyclic shifting of rows
-3. **MixColumns**: Linear transformation of columns
-4. **AddRoundKey**: XOR with round key
+The S-box deserves a moment of appreciation. It's a 256-entry lookup table, but it's not arbitrary -- every entry is computed as the multiplicative inverse in GF(2^8) followed by an affine transformation. That mathematical foundation is what gives AES its resistance to differential and linear cryptanalysis, the two big guns of block cipher attacks. The ShiftRows and MixColumns steps provide diffusion: change one input bit and roughly half the output bits should flip (the avalanche effect). This combination of substitution (confusion) and permutation (diffusion) is the classic Shannon recipe for a good cipher, and AES executes it beautifully.
 
-### Initial and Final Rounds
-- **Initial Round**: Only AddRoundKey transformation
-- **Final Round**: Excludes MixColumns transformation
-- **Main Rounds**: All four transformations applied
+## Modes of operation matter more than the cipher
 
-### Round Structure
-```
-Initial Round: AddRoundKey
-Main Rounds: SubBytes → ShiftRows → MixColumns → AddRoundKey
-Final Round: SubBytes → ShiftRows → AddRoundKey
-```
+Here's something I wish someone had told me when I first started doing crypto: the cipher itself is rarely the weak point. The mode you use it in is where things go wrong. Plain AES encrypts exactly one 16-byte block at a time. To encrypt anything longer, you need a mode of operation.
 
-## Key Transformations
+**ECB (Electronic Codebook)** is the one you should probably never use. Each block is encrypted independently with the same key. Identical plaintext blocks produce identical ciphertext blocks. If you've seen that famous picture of the Linux penguin where you can still make out the shape after ECB encryption -- that's why. ECB leaks patterns, and pattern leakage is a security failure.
 
-### SubBytes
-- **S-box Lookup**: Each byte is replaced using substitution table
-- **Non-linear**: Provides resistance against linear cryptanalysis
-- **Invertible**: Each S-box entry has unique inverse
-- **Mathematical Basis**: Uses multiplicative inverse in GF(2⁸)
+**CBC (Cipher Block Chaining)** fixes this by XORing each plaintext block with the previous ciphertext block before encrypting. You also need a random initialization vector (IV) for the first block. It's been the workhorse mode for decades, but it's not authenticated -- someone can tamper with ciphertext and you won't know. Also, encryption is strictly sequential (you can't parallelize), though decryption can run in parallel.
 
-### ShiftRows
-- **Row 0**: No shift (0 positions)
-- **Row 1**: Left shift by 1 position
-- **Row 2**: Left shift by 2 positions
-- **Row 3**: Left shift by 3 positions
+**CTR (Counter)** turns AES into a stream cipher. You encrypt a counter value and XOR the output with plaintext. Each block is independent, so you can encrypt and decrypt in parallel. Great for high-throughput scenarios, but you must never reuse the same counter with the same key -- that's a catastrophic failure mode.
 
-### MixColumns
-- **Matrix Multiplication**: Each column multiplied by fixed matrix
-- **Polynomial Arithmetic**: Operations in GF(2⁸)
-- **Diffusion**: Spreads input changes across output
-- **Invertible**: Matrix has multiplicative inverse
+**GCM (Galois/Counter Mode)** is the modern default for a reason. It's CTR mode plus an authentication tag computed using Galois field multiplication. That means you get both encryption and integrity in one pass, and it's fast in hardware (though the software performance can be iffy on some platforms without carryless multiplication instructions). GCM is what TLS 1.3 uses, what WireGuard uses, what most modern protocols have settled on. The one gotcha: nonce reuse is absolutely fatal -- it can reveal the authentication key and break both confidentiality and integrity.
 
-### AddRoundKey
-- **XOR Operation**: State array XORed with round key
-- **Key Addition**: Simple bitwise exclusive OR
-- **Reversible**: Same operation for decryption
+## Performance and hardware
 
-## Decryption Process
+On anything made in the last decade, your CPU probably has AES-NI instructions that run AES rounds in dedicated hardware. This takes AES from "pretty fast" to "basically free" -- we're talking gigabytes per second on a single core. Software fallbacks exist everywhere (OpenSSL, Crypto++, Bouncy Castle, Go's standard library, Rust's aes crate), but they're one to two orders of magnitude slower. For mobile and embedded, ARM has its own AES extensions.
 
-### Inverse Transformations
-- **InvSubBytes**: Inverse S-box substitution
-- **InvShiftRows**: Right shift operations
-- **InvMixColumns**: Inverse matrix multiplication
-- **AddRoundKey**: Same as encryption (XOR is self-inverse)
+One thing people don't think about enough: side channels. Software AES without constant-time lookups can leak key material through cache timing. The S-box lookup is a textbook example -- if the lookup address depends on secret data, an attacker measuring cache access patterns can recover the key. Modern libraries handle this by using bitsliced implementations or relying on hardware AES where possible, but if you're rolling your own for some reason, you need to care about this.
 
-### Round Order
-Decryption applies transformations in reverse order:
-```
-Initial Round: AddRoundKey
-Main Rounds: InvShiftRows → InvSubBytes → AddRoundKey → InvMixColumns
-Final Round: InvShiftRows → InvSubBytes → AddRoundKey
-```
+## Where AES goes from here
 
-## Security Features
-
-### Cryptanalysis Resistance
-- **Differential Cryptanalysis**: Resistant through S-box design
-- **Linear Cryptanalysis**: Protected by non-linear SubBytes
-- **Algebraic Attacks**: Complex polynomial equations
-- **Side-Channel Attacks**: Vulnerable to timing/power analysis
-
-### Key Strength
-- **128-bit**: Sufficient for most applications
-- **192-bit**: Enhanced security for sensitive data
-- **256-bit**: Maximum security, recommended for long-term storage
-
-### Mathematical Properties
-- **Avalanche Effect**: Small input changes cause large output changes
-- **Completeness**: Each output bit depends on all input bits
-- **Balance**: Equal distribution of output values
-
-## Implementation Considerations
-
-### Performance Optimization
-- **Lookup Tables**: Pre-computed S-box and inverse S-box
-- **Bit Slicing**: Parallel processing of multiple blocks
-- **Hardware Acceleration**: Dedicated AES instructions (AES-NI)
-- **Memory Usage**: Trade-offs between speed and memory
-
-### Platform Support
-- **CPU Instructions**: AES-NI available on modern processors
-- **Software Libraries**: OpenSSL, Crypto++, Bouncy Castle
-- **Hardware Modules**: Dedicated cryptographic processors
-- **Mobile Devices**: Optimized implementations for ARM processors
-
-### Side-Channel Protection
-- **Constant-Time**: Avoid timing-based attacks
-- **Power Analysis**: Implement countermeasures against DPA
-- **Cache Attacks**: Protect against cache-timing attacks
-- **Randomization**: Add entropy to prevent pattern analysis
-
-## Modes of Operation
-
-### Electronic Codebook (ECB)
-- **Simple Mode**: Direct block encryption
-- **Limitations**: No diffusion between blocks
-- **Use Cases**: Single block encryption, key derivation
-
-### Cipher Block Chaining (CBC)
-- **Chaining**: Each block XORed with previous ciphertext
-- **Initialization Vector**: Random IV for first block
-- **Properties**: Provides diffusion, requires sequential processing
-
-### Counter (CTR)
-- **Stream Cipher**: Converts block cipher to stream cipher
-- **Parallelization**: Blocks can be processed independently
-- **Nonce**: Unique counter value for each encryption
-
-### Galois/Counter Mode (GCM)
-- **Authenticated Encryption**: Provides both confidentiality and authenticity
-- **Associated Data**: Supports additional authenticated data
-- **Performance**: Efficient hardware implementation
-
-## Standards and Compliance
-
-### FIPS 197
-- **Official Standard**: U.S. government encryption standard
-- **Specifications**: Complete algorithm description
-- **Validation**: Required for government use
-
-### ISO/IEC 18033-3
-- **International Standard**: Worldwide recognition
-- **Compatibility**: Interoperable implementations
-- **Certification**: Required for commercial products
-
-### Common Criteria
-- **Security Evaluation**: Formal security assessment
-- **Certification Levels**: EAL1 through EAL7
-- **Vendor Validation**: Independent security testing
-
-## Applications and Use Cases
-
-### Data Protection
-- **File Encryption**: Secure storage of sensitive files
-- **Database Encryption**: Protection of stored data
-- **Backup Encryption**: Secure backup and archival
-- **Cloud Storage**: Client-side encryption for cloud services
-
-### Communication Security
-- **TLS/SSL**: Secure web communications
-- **VPN**: Virtual private network encryption
-- **Email**: Encrypted email protocols
-- **Messaging**: Secure instant messaging
-
-### System Security
-- **Disk Encryption**: Full disk encryption systems
-- **Memory Protection**: Encrypted memory regions
-- **Key Management**: Secure key storage and distribution
-- **Authentication**: Cryptographic authentication systems
-
-## Future Considerations
-
-### Quantum Resistance
-- **Grover's Algorithm**: Reduces effective key size by half
-- **Post-Quantum**: Research into quantum-resistant alternatives
-- **Hybrid Systems**: Combination of classical and quantum-resistant algorithms
-
-### Performance Evolution
-- **Hardware Improvements**: Continued CPU instruction enhancements
-- **Parallel Processing**: Multi-core and GPU acceleration
-- **Memory Optimization**: Reduced memory footprint implementations
-
-### Security Research
-- **Cryptanalysis**: Ongoing analysis of AES security
-- **Implementation Attacks**: New side-channel attack methods
-- **Standardization**: Updates to implementation guidelines 
+AES is going to be around for a long time. Even in a post-quantum world, as I mentioned, Grover's algorithm just cuts the effective key size in half -- so AES-256 would still offer 128-bit security against a quantum attacker, which is plenty. The real threats to AES deployments aren't mathematical breaks; they're implementation bugs, side channels, and misuse of modes and IVs. Use a well-vetted library, pick GCM or CBC+HMAC, generate IVs from a proper CSPRNG, and you'll be fine.

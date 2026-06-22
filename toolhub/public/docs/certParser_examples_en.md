@@ -1,25 +1,21 @@
 # SSL Certificate Parser — Examples
 
-## Example: GitHub Certificate (Domain Lookup)
+## Quick domain lookup: github.com
 
-1. Switch to "Domain Lookup" mode
-2. Enter `github.com`
-3. Click "Fetch"
+Switch to "Domain Lookup," type `github.com`, hit Fetch. Here's the kind of output you'll see:
 
-Expected results:
-
-| Field | Value |
-|-------|-------|
+| Field | Expected |
+|-------|----------|
 | Subject | `CN=github.com` |
 | Issuer | DigiCert or similar CA |
 | SAN | `github.com`, `www.github.com` |
 | Signature Algorithm | SHA256withRSA or SHA384withECDSA |
 
----
+Note that the actual values change as GitHub rotates their certificates. The SAN list is typically the most interesting field — it tells you every domain that certificate is valid for.
 
-## Example: Test PEM Certificate (Paste Directly)
+## Paste a real certificate: ISRG Root X1
 
-The following is the public ISRG Root X1 certificate (Let's Encrypt root CA):
+This is Let's Encrypt's root CA certificate — it's public, so you can paste it directly to see what a real root CA cert looks like:
 
 ```
 -----BEGIN CERTIFICATE-----
@@ -55,17 +51,17 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 -----END CERTIFICATE-----
 ```
 
-Paste it into the tool to see the full ISRG Root X1 details.
+Paste this in and you'll see the full certificate details — Issuer, Subject, validity window (2015 to 2035!), key usage constraints, and thumbprints.
 
----
-
-## Extract a Certificate via openssl
+## Using openssl to grab a cert
 
 ```bash
-# Extract a website certificate and save as PEM
+# Pull a site's certificate and save it as PEM
 openssl s_client -connect example.com:443 </dev/null 2>/dev/null | \
   openssl x509 -out example.pem
 
-# View certificate info (useful for comparing with the tool's output)
+# View all certificate details directly (for comparison with the tool)
 openssl x509 -in example.pem -text -noout
+```
 
+The `-text` flag dumps everything openssl knows about the cert. Compare that output against what the tool shows — they should match on all the major fields.

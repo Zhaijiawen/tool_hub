@@ -1,416 +1,172 @@
 # bcrypt Usage Tutorial
 
-## Environment Setup
+## Getting a library
 
-### Prerequisites
-- Programming language with bcrypt library support
-- Understanding of password security principles
-- Knowledge of cryptographic hash functions
-- Awareness of bcrypt work factor and performance implications
+bcrypt bindings are everywhere -- it's one of the most widely implemented crypto algorithms after AES and SHA. Here's what to reach for:
 
-### Library Selection
-
-#### Python - bcrypt
+**Python** -- `bcrypt` on PyPI. Simple API, well-maintained:
 ```bash
-# Install bcrypt library
 pip install bcrypt
 ```
 
-#### Node.js - bcryptjs
+**Node.js** -- You have two choices. `bcrypt` is the native C++ binding (faster but needs compilation), and `bcryptjs` is pure JavaScript (slower but zero dependencies, works everywhere including browsers):
 ```bash
-# Install bcryptjs (pure JavaScript implementation)
-npm install bcryptjs
-
-# Or install bcrypt (native implementation)
-npm install bcrypt
+npm install bcryptjs   # Pure JS, no compilation needed
+npm install bcrypt     # Native, faster
 ```
 
-#### PHP - password_hash
-```bash
-# Built-in password_hash function supports bcrypt
-# No additional installation required for PHP 5.5+
+**PHP** -- Built into `password_hash()` since PHP 5.5 with `PASSWORD_BCRYPT`. No extra dependencies.
+
+**Go** -- `golang.org/x/crypto/bcrypt` from the extended standard library.
+
+**Java** -- Spring Security's `BCryptPasswordEncoder` is the most common choice, but jBCrypt and the Bouncy Castle implementation work too.
+
+## The work factor: the only parameter that matters
+
+bcrypt has essentially one knob to turn: the work factor (or "cost" or "rounds"). Each increment doubles the computation time, so choosing it matters:
+
+```python
+import bcrypt
+import time
+
+# Quick benchmark to find the right work factor for your hardware
+for rounds in [10, 12, 14, 16]:
+    start = time.time()
+    bcrypt.hashpw(b"benchmark", bcrypt.gensalt(rounds=rounds))
+    elapsed = time.time() - start
+    print(f"Rounds {rounds}: {elapsed:.2f}s")
 ```
 
-#### Java - Spring Security
-```xml
-<dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-crypto</artifactId>
-    <version>5.8.0</version>
-</dependency>
-```
+For a web server handling login requests, you want each hash to take somewhere between 250ms and 500ms. Faster and you're giving attackers an easier time; slower and users will complain (and your server will burn CPU under load). On a typical 2024 server, that usually means rounds=12 or 13.
 
-## Basic Concepts
+The time scales roughly like 2^(rounds-10) * (time_for_rounds_10). If rounds=10 takes 50ms on your server, rounds=12 will take about 200ms, rounds=14 about 800ms. This exponential curve is why you can't just set it to some random number -- test it.
 
-### Work Factor Selection
+## Hashing and verifying passwords
+
+The Python API couldn't be simpler. `bcrypt.hashpw()` takes the password and a salt (which you generate with `gensalt()`), and returns the hash with everything embedded. `bcrypt.checkpw()` takes the password and the stored hash and tells you if they match:
+
 ```python
 import bcrypt
 
-def work_factor_guide():
-    """Guide for selecting bcrypt work factor"""
-    print("bcrypt Work Factor Selection Guide:")
-    print("Work Factor 10: ~100ms, suitable for development")
-    print("Work Factor 12: ~400ms, recommended for production")
-    print("Work Factor 14: ~1.6s, high security requirements")
-    print("Work Factor 16: ~6.4s, maximum security")
-    
-    # Security recommendations
-    recommendations = {
-        "Development": "Work factor 10-11",
-        "Production": "Work factor 12-13",
-        "High Security": "Work factor 14-15",
-        "Maximum Security": "Work factor 16+"
-    }
-    
-    return recommendations
-```
-
-### Hash Format Understanding
-```python
-def explain_bcrypt_format():
-    """Explain bcrypt hash format"""
-    # Example bcrypt hash: $2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.iQe
-    # Format: $2b$<cost>$<salt><hash>
-    
-    print("bcrypt Hash Format:")
-    print("$2b$ - Algorithm version (2b is current)")
-    print("12   - Work factor (cost)")
-    print("LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.iQe - Salt + Hash")
-    print("Total length: 60 characters")
-```
-
-## Basic Password Operations
-
-### Simple Password Hashing
-```python
-import bcrypt
-
-def hash_password(password, work_factor=12):
-    """Hash a password using bcrypt"""
-    if isinstance(password, str):
-        password = password.encode('utf-8')
-    
-    # Generate salt and hash
-    salt = bcrypt.gensalt(rounds=work_factor)
-    hashed = bcrypt.hashpw(password, salt)
-    
+def hash_password(password: str, rounds: int = 12) -> str:
+    """Hash a password and return the bcrypt string."""
+    # bcrypt works with bytes, so encode the string
+    pw_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt(rounds=rounds)
+    hashed = bcrypt.hashpw(pw_bytes, salt)
     return hashed.decode('utf-8')
 
-def verify_password(password, hashed_password):
-    """Verify a password against its hash"""
-    if isinstance(password, str):
-        password = password.encode('utf-8')
-    if isinstance(hashed_password, str):
-        hashed_password = hashed_password.encode('utf-8')
-    
-    return bcrypt.checkpw(password, hashed_password)
+def verify_password(password: str, hashed: str) -> bool:
+    """Check a password against its stored bcrypt hash."""
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
 
-# Usage examples
-password = "mySecurePassword123"
-hashed = hash_password(password, work_factor=12)
-print(f"Password: {password}")
-print(f"Hashed: {hashed}")
+# Usage
+hashed = hash_password("correct horse battery staple", rounds=12)
+print(hashed)
+# $2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.iQe
 
-# Verify password
-is_valid = verify_password(password, hashed)
-print(f"Password valid: {is_valid}")
+print(verify_password("correct horse battery staple", hashed))  # True
+print(verify_password("wrong password", hashed))                 # False
 ```
 
-### JavaScript Implementation
+On the JavaScript side with bcryptjs:
+
 ```javascript
 const bcrypt = require('bcryptjs');
 
-async function hashPassword(password, workFactor = 12) {
-    const salt = await bcrypt.genSalt(workFactor);
-    const hash = await bcrypt.hash(password, salt);
-    return hash;
+async function hashPassword(password, rounds = 12) {
+    const salt = await bcrypt.genSalt(rounds);
+    return await bcrypt.hash(password, salt);
 }
 
-async function verifyPassword(password, hashedPassword) {
-    return await bcrypt.compare(password, hashedPassword);
-}
-
-// Usage examples
-async function example() {
-    const password = "mySecurePassword123";
-    const hashed = await hashPassword(password, 12);
-    console.log(`Password: ${password}`);
-    console.log(`Hashed: ${hashed}`);
-    
-    const isValid = await verifyPassword(password, hashed);
-    console.log(`Password valid: ${isValid}`);
+async function verifyPassword(password, hash) {
+    return await bcrypt.compare(password, hash);
 }
 ```
 
-## Advanced Usage
+## The 72-byte limit and how to handle it
 
-### Work Factor Management
+bcrypt silently truncates passwords longer than 72 bytes. For most users this never matters (72 bytes is a long password), but if you want to be thorough, pre-hash with SHA-256:
+
 ```python
+import hashlib
 import bcrypt
-import time
 
-def benchmark_work_factors():
-    """Benchmark different work factors"""
-    password = "testPassword123"
-    work_factors = [10, 12, 14, 16]
-    
-    results = {}
-    for factor in work_factors:
-        start_time = time.time()
-        
-        # Hash password with specific work factor
-        hashed = hash_password(password, factor)
-        
-        end_time = time.time()
-        duration = (end_time - start_time) * 1000  # Convert to milliseconds
-        
-        results[factor] = {
-            'duration_ms': duration,
-            'hash': hashed
-        }
-        
-        print(f"Work factor {factor}: {duration:.2f}ms")
-    
-    return results
-
-def adaptive_work_factor():
-    """Determine optimal work factor based on system performance"""
-    target_time = 0.5  # Target 500ms for hashing
-    
-    # Test with work factor 10
-    start_time = time.time()
-    hash_password("test", 10)
-    test_time = time.time() - start_time
-    
-    # Calculate optimal work factor
-    optimal_factor = 10
-    while test_time < target_time and optimal_factor < 20:
-        optimal_factor += 1
-        start_time = time.time()
-        hash_password("test", optimal_factor)
-        test_time = time.time() - start_time
-    
-    return optimal_factor - 1
+def hash_password_safe(password: str, rounds: int = 12) -> str:
+    """Hash with SHA-256 pre-hashing to handle long passwords."""
+    # Pre-hash the password to get a consistent-length input
+    pre_hash = hashlib.sha256(password.encode('utf-8')).digest()
+    # Encode as base64 to avoid null bytes that might confuse some libs
+    import base64
+    encoded = base64.b64encode(pre_hash)
+    salt = bcrypt.gensalt(rounds=rounds)
+    return bcrypt.hashpw(encoded, salt).decode('utf-8')
 ```
 
-### Salt Management
+Note that this changes your verification path too -- you must pre-hash the attempted password before checking. If you're building a new system, consider just using Argon2id which handles long passwords natively. If you're already on bcrypt, this pattern works fine.
+
+## Transparent work factor upgrades
+
+The best bcrypt feature is that the work factor lives in the hash string. This lets you upgrade parameters over time without a mass password reset:
+
 ```python
-def custom_salt_generation():
-    """Demonstrate custom salt generation"""
-    import os
-    
-    # Generate custom salt
-    custom_salt = bcrypt.gensalt(rounds=12)
-    print(f"Generated salt: {custom_salt.decode('utf-8')}")
-    
-    # Use custom salt for hashing
-    password = "myPassword"
-    hashed = bcrypt.hashpw(password.encode('utf-8'), custom_salt)
-    print(f"Hashed with custom salt: {hashed.decode('utf-8')}")
-    
-    return custom_salt, hashed
+def login_with_upgrade(username: str, password: str, db):
+    """Login that transparently upgrades weak hashes."""
+    user = db.get_user(username)
+    if not user:
+        return False  # Don't leak user existence
 
-def extract_salt_from_hash(hashed_password):
-    """Extract salt from bcrypt hash"""
-    # bcrypt hash format: $2b$12$<salt><hash>
-    if isinstance(hashed_password, str):
-        hashed_password = hashed_password.encode('utf-8')
-    
-    # Salt is the first 29 characters (including $2b$12$)
-    salt = hashed_password[:29]
-    return salt.decode('utf-8')
+    if not bcrypt.checkpw(password.encode(), user.password_hash.encode()):
+        return False
+
+    # Check if we should upgrade the work factor
+    # The rounds value is the second segment of the hash
+    current_rounds = int(user.password_hash.split('$')[2])
+    if current_rounds < 13:  # Our current target
+        new_hash = bcrypt.hashpw(
+            password.encode(),
+            bcrypt.gensalt(rounds=13)
+        ).decode()
+        db.update_password_hash(username, new_hash)
+
+    return True
 ```
 
-## Security Best Practices
+This pattern is the standard way to keep your password database healthy over years. Set a target rounds value, and every time someone logs in with an old hash, silently upgrade them.
 
-### Password Validation
-```python
-import re
+You can also use this strategy for migration from an older algorithm entirely: check if the stored hash starts with `$2b$`, and if not (meaning it's still in the old format), verify with the old algorithm and then hash with bcrypt on success.
 
-def validate_password_strength(password):
-    """Validate password strength before hashing"""
-    if len(password) < 8:
-        return False, "Password must be at least 8 characters long"
-    
-    if not re.search(r"[A-Z]", password):
-        return False, "Password must contain at least one uppercase letter"
-    
-    if not re.search(r"[a-z]", password):
-        return False, "Password must contain at least one lowercase letter"
-    
-    if not re.search(r"\d", password):
-        return False, "Password must contain at least one digit"
-    
-    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        return False, "Password must contain at least one special character"
-    
-    return True, "Password meets strength requirements"
+## JavaScript gotcha: async vs sync
 
-def secure_password_hashing(password, work_factor=12):
-    """Secure password hashing with validation"""
-    # Validate password strength
-    is_valid, message = validate_password_strength(password)
-    if not is_valid:
-        raise ValueError(f"Password validation failed: {message}")
-    
-    # Hash password
-    return hash_password(password, work_factor)
+Node.js bcrypt operations are async by default -- they run on a thread pool to avoid blocking the event loop. Don't accidentally use them synchronously in a request handler:
+
+```javascript
+// WRONG: This blocks the entire Node.js process
+app.post('/login', (req, res) => {
+    const hash = bcrypt.hashSync(req.body.password, 10);
+    // ...
+});
+
+// RIGHT: Use the async API
+app.post('/login', async (req, res) => {
+    const hash = await bcrypt.hash(req.body.password, 10);
+    // ...
+});
 ```
 
-### Timing Attack Prevention
-```python
-import secrets
-import time
+The synchronous methods are fine for scripts and CLI tools, but never in a server that handles concurrent requests.
 
-def constant_time_verification(password, hashed_password):
-    """Constant-time password verification to prevent timing attacks"""
-    # Use constant-time comparison
-    return verify_password(password, hashed_password)
+## Quick reference
 
-def secure_password_update(old_password, new_password, old_hash, work_factor=12):
-    """Securely update password with verification"""
-    # Verify old password
-    if not verify_password(old_password, old_hash):
-        raise ValueError("Old password is incorrect")
-    
-    # Validate new password strength
-    is_valid, message = validate_password_strength(new_password)
-    if not is_valid:
-        raise ValueError(f"New password validation failed: {message}")
-    
-    # Hash new password
-    new_hash = hash_password(new_password, work_factor)
-    
-    return new_hash
-```
+| Context | Recommended rounds | Approximate time |
+|---------|-------------------|------------------|
+| Development/testing | 6-10 | < 50ms |
+| Production (standard) | 12-13 | 200-500ms |
+| High security | 14-15 | 800ms-3s |
+| Don't go above 16 | 16+ | > 5s (hurts UX) |
 
-## Error Handling
+Remember: benchmark on your actual hardware. Cloud VMs can have wildly different bcrypt performance than your dev laptop.
 
-### Safe bcrypt Operations
-```python
-def safe_bcrypt_operation(password, work_factor=12):
-    """Safe bcrypt operation with error handling"""
-    try:
-        if not password:
-            raise ValueError("Password cannot be empty")
-        
-        if work_factor < 4 or work_factor > 31:
-            raise ValueError("Work factor must be between 4 and 31")
-        
-        return hash_password(password, work_factor)
-        
-    except Exception as e:
-        print(f"bcrypt operation failed: {e}")
-        return None
+## Use the online tool
 
-def validate_bcrypt_hash(hashed_password):
-    """Validate bcrypt hash format"""
-    if not hashed_password:
-        return False, "Hash cannot be empty"
-    
-    if not hashed_password.startswith('$2b$'):
-        return False, "Invalid bcrypt hash format"
-    
-    if len(hashed_password) != 60:
-        return False, "Invalid hash length"
-    
-    try:
-        # Try to decode the hash
-        hashed_password.encode('utf-8')
-        return True, "Valid bcrypt hash"
-    except UnicodeEncodeError:
-        return False, "Invalid character encoding"
-```
-
-## Performance Optimization
-
-### Batch Processing
-```python
-import asyncio
-import concurrent.futures
-
-def batch_hash_passwords(passwords, work_factor=12, max_workers=4):
-    """Hash multiple passwords in parallel"""
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = [
-            executor.submit(hash_password, password, work_factor)
-            for password in passwords
-        ]
-        
-        results = []
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"Password hashing failed: {e}")
-                results.append(None)
-    
-    return results
-
-async def async_batch_hash(passwords, work_factor=12):
-    """Async batch password hashing"""
-    loop = asyncio.get_event_loop()
-    
-    tasks = []
-    for password in passwords:
-        task = loop.run_in_executor(None, hash_password, password, work_factor)
-        tasks.append(task)
-    
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    return results
-```
-
-## Testing and Validation
-
-### Hash Verification
-```python
-def test_bcrypt_implementation():
-    """Test bcrypt implementation with known values"""
-    test_password = "testPassword123"
-    work_factor = 10
-    
-    # Hash password
-    hashed = hash_password(test_password, work_factor)
-    print(f"Generated hash: {hashed}")
-    
-    # Verify password
-    is_valid = verify_password(test_password, hashed)
-    print(f"Password verification: {is_valid}")
-    
-    # Test with wrong password
-    wrong_password = "wrongPassword123"
-    is_invalid = verify_password(wrong_password, hashed)
-    print(f"Wrong password verification: {is_invalid}")
-    
-    return hashed, is_valid, is_invalid
-
-def performance_test():
-    """Test bcrypt performance"""
-    password = "testPassword123"
-    iterations = 10
-    
-    print("bcrypt Performance Test:")
-    for work_factor in [10, 12, 14]:
-        total_time = 0
-        for _ in range(iterations):
-            start_time = time.time()
-            hash_password(password, work_factor)
-            end_time = time.time()
-            total_time += (end_time - start_time)
-        
-        avg_time = (total_time / iterations) * 1000
-        print(f"Work factor {work_factor}: {avg_time:.2f}ms average")
-```
-
-## Summary
-
-This tutorial covers:
-- Environment setup for different programming languages
-- Basic password hashing and verification
-- Work factor selection and management
-- Security best practices and validation
-- Error handling and performance optimization
-- Testing and validation techniques
-
-All examples follow security best practices and use appropriate work factors for their intended purposes. 
+This ToolHub bcrypt tool hashes and verifies passwords in your browser -- nothing leaves your machine. It uses a pure-JS implementation so you get the same results as server-side bcrypt libraries. The hash format is fully standard and can be verified by any bcrypt-compatible system.

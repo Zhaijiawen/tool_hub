@@ -1,8 +1,6 @@
 # 脚本工具箱 — 示例脚本
 
----
-
-## 示例一：时间戳转可读日期
+## 时间戳转可读日期
 
 **输入：** `1702889856000`
 
@@ -18,23 +16,22 @@ async function transform(input, helpers) {
 }
 ```
 
----
+dayjs 毫秒和秒级时间戳都能处理，直接传数字就行。
 
-## 示例二：JSON 字段提取（lodash）
+## JSON 字段提取（lodash）
 
-**输入：** 一段包含用户数组的 JSON
+**输入：** 包含 `users` 数组的 JSON
 
 ```javascript
 async function transform(input, helpers) {
   const data = JSON.parse(input)
-  // 提取所有用户的姓名和邮箱
   return helpers._.map(data.users, u => helpers._.pick(u, ['name', 'email']))
 }
 ```
 
----
+拿到一大段 API 响应但只需要几个字段的时候特别好用。
 
-## 示例三：计算字符串 MD5 / SHA256
+## 算 MD5 和 SHA-256
 
 **输入：** 任意文本
 
@@ -46,11 +43,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## YAML 转 JSON
 
-## 示例四：YAML 转 JSON
-
-**输入：** YAML 配置文件内容
+**输入：** YAML 配置内容
 
 ```javascript
 async function transform(input, helpers) {
@@ -59,9 +54,7 @@ async function transform(input, helpers) {
 }
 ```
 
----
-
-## 示例五：JSON 转 YAML
+## JSON 转 YAML
 
 **输入：** JSON 对象
 
@@ -72,11 +65,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## 批量生成 UUID
 
-## 示例六：批量生成 UUID
-
-**输入：** `10`（要生成的数量）
+**输入：** `10`（要几条）
 
 ```javascript
 async function transform(input, helpers) {
@@ -85,9 +76,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+输入不是数字就默认生成 5 条。
 
-## 示例七：数学表达式计算
+## 数学表达式计算
 
 **输入：** `sqrt(2) * pi + log(100, 10)`
 
@@ -98,11 +89,11 @@ async function transform(input, helpers) {
 }
 ```
 
----
+mathjs 支持从基本运算到矩阵运算和符号代数。
 
-## 示例八：文本 Diff 对比
+## 文本 Diff 对比
 
-**输入：** 两段文本，用 `===SPLIT===` 分隔
+**输入：** 两段文本用 `===SPLIT===` 隔开
 
 ```javascript
 async function transform(input, helpers) {
@@ -117,9 +108,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+新增内容用 `[+方括号]`，删除内容用 `[-方括号]`。
 
-## 示例九：Markdown 转 HTML
+## Markdown 转 HTML（带 XSS 过滤）
 
 **输入：** Markdown 文本
 
@@ -130,9 +121,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+Markdown 转 HTML 之后一定要过一遍 DOMPurify——如果 markdown 里嵌了 HTML 标签可以防 XSS。
 
-## 示例十：XML 解析
+## XML 解析
 
 **输入：** XML 字符串
 
@@ -143,23 +134,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## AES 加密并验证
 
-## 示例十一：计算文件/字符串 MD5（SparkMD5）
-
-**输入：** 任意较长文本
-
-```javascript
-async function transform(input, helpers) {
-  return helpers.sparkMD5.hash(input)
-}
-```
-
----
-
-## 示例十二：AES 加密
-
-**输入：** `明文内容`（密钥硬编码在脚本里，按需修改）
+**输入：** 明文
 
 ```javascript
 async function transform(input, helpers) {
@@ -170,11 +147,11 @@ async function transform(input, helpers) {
 }
 ```
 
----
+加密完马上解密验证来回没问题。密钥换成你自己的。
 
-## 示例十三：lodash 数组去重排序
+## lodash 数组去重排序
 
-**输入：** JSON 数组，如 `[3,1,2,1,3,4]`
+**输入：** JSON 数组如 `[3,1,2,1,3,4]`
 
 ```javascript
 async function transform(input, helpers) {
@@ -183,11 +160,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## 批量生成 NanoID
 
-## 示例十四：nanoid 批量生成短 ID
-
-**输入：** `8`（要生成的数量）
+**输入：** `8`（要几条）
 
 ```javascript
 async function transform(input, helpers) {
@@ -196,9 +171,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+NanoID 比 UUID 短——默认 21 位 URL 安全字符。
 
-## 示例十五：发起 HTTP GET 请求
+## HTTP GET 请求
 
 ```javascript
 async function transform(input, helpers) {
@@ -207,4 +182,6 @@ async function transform(input, helpers) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return await res.json()
 }
+```
 
+输入框填 URL，留空就走 httpbin。

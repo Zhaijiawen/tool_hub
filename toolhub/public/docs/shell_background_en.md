@@ -1,185 +1,75 @@
-# Shell Technical Background
+# Shell — What's Going On Under the Hood
 
-Shell is a command-line interface and scripting language that serves as the primary user interface for Unix-like operating systems. It provides a powerful environment for system administration, automation, and software development.
+The shell is both a REPL and a scripting language. It's the glue that holds Unix systems together — you type commands, and the shell interprets, expands, and executes them. Bash (Bourne Again Shell, 1989) is the default on most Linux distros and macOS. Zsh is the default on macOS since Catalina. Fish is the user-friendly newcomer.
 
-## History and Evolution
+## How Commands Execute
 
-### Early Development
-- **1960s**: The first shell, Thompson shell, was created by Ken Thompson at Bell Labs
-- **1970s**: Stephen Bourne developed the Bourne shell (sh), which became the standard
-- **1980s**: David Korn created the Korn shell (ksh), adding features like command history
-- **1989**: Brian Fox developed Bash (Bourne Again Shell) for the GNU Project
+When you type `ls -la *.txt`, the shell does several things before running anything:
 
-### Modern Shells
-- **Bash**: Most popular shell on Linux and macOS
-- **Zsh**: Advanced shell with extensive customization
-- **Fish**: User-friendly shell with intelligent suggestions
-- **PowerShell**: Microsoft's shell for Windows and cross-platform
+1. **Tokenization** — splits the line into words: `ls`, `-la`, `*.txt`
+2. **Expansion** — `*.txt` expands via globbing to matching filenames
+3. **Redirection** — sets up `>`, `<`, `|`, `2>&1`
+4. **Execution** — `fork()` + `exec()` to run `ls` in a child process
 
-## Core Characteristics
+Pipes `|` connect stdout of one command to stdin of the next. Everything is a file descriptor (stdin=0, stdout=1, stderr=2).
 
-### Command-Line Interface
-Shell provides a text-based interface where users type commands to interact with the operating system. Commands are executed sequentially and can be combined using pipes and redirects.
+## Scripting Basics
 
-### Scripting Language
-Shell scripts are executable text files containing shell commands. They enable automation of repetitive tasks and complex system operations.
-
-### Process Management
-Shells manage process creation, execution, and termination. They provide job control features for running multiple processes simultaneously.
-
-## Architecture and Components
-
-### Shell Process
-The shell runs as a user process that:
-- Reads commands from standard input
-- Parses and interprets commands
-- Executes commands by creating child processes
-- Manages environment variables and working directory
-
-### Command Execution
-1. **Parsing**: Shell parses the command line into tokens
-2. **Expansion**: Performs variable, command, and filename expansion
-3. **Redirection**: Sets up input/output redirection
-4. **Execution**: Creates a new process to run the command
-
-### Built-in Commands
-Shells include built-in commands that don't require external programs:
-- `cd`: Change directory
-- `echo`: Print text
-- `export`: Set environment variables
-- `read`: Read input from user
-
-## Key Features
-
-### File System Navigation
-Shell provides commands for navigating and manipulating the file system:
-- `ls`: List directory contents
-- `cd`: Change directory
-- `pwd`: Print working directory
-- `mkdir`: Create directories
-- `rm`: Remove files and directories
-
-### Text Processing
-Powerful text processing capabilities:
-- `grep`: Search for patterns in text
-- `sed`: Stream editor for text manipulation
-- `awk`: Pattern scanning and processing language
-- `sort`: Sort lines of text
-- `uniq`: Remove duplicate lines
-
-### Process Control
-Shell manages running processes:
-- `ps`: List running processes
-- `kill`: Terminate processes
-- `jobs`: List background jobs
-- `fg/bg`: Control foreground/background jobs
-
-### I/O Redirection
-Shell provides flexible input/output redirection:
-- `>`: Redirect output to file
-- `<`: Redirect input from file
-- `>>`: Append output to file
-- `|`: Pipe output to another command
-
-## Environment and Variables
-
-### Environment Variables
-Shell maintains environment variables that control behavior:
-- `PATH`: Search path for commands
-- `HOME`: User's home directory
-- `USER`: Current username
-- `SHELL`: Path to current shell
-
-### Shell Variables
-Local variables for script execution:
-- `$0`: Script name
-- `$1, $2, ...`: Command line arguments
-- `$#`: Number of arguments
-- `$?`: Exit status of last command
-
-## Scripting Capabilities
-
-### Control Structures
-Shell supports programming constructs:
-- **Conditionals**: `if`, `case` statements
-- **Loops**: `for`, `while`, `until` loops
-- **Functions**: Define reusable code blocks
-
-### Error Handling
-Shell provides mechanisms for error handling:
-- Exit codes indicate success/failure
-- `set -e`: Exit on any error
-- `trap`: Handle signals and errors
-
-### Debugging
-Built-in debugging features:
-- `set -x`: Print commands before execution
-- `set -v`: Print shell input lines
-- `bash -x script.sh`: Debug mode execution
-
-## Security Considerations
-
-### File Permissions
-Shell scripts must have execute permissions:
 ```bash
-chmod +x script.sh
+#!/bin/bash
+set -euo pipefail  # Exit on error, undefined var, pipe failure
+
+NAME=${1:-World}   # First arg, default to "World"
+echo "Hello, $NAME"
+
+# Loops
+for file in *.txt; do
+  echo "Processing $file"
+  wc -l "$file"
+done
+
+# Conditionals
+if [[ -f config.yaml ]]; then
+  echo "Config found"
+else
+  echo "No config"
+fi
 ```
 
-### Input Validation
-Scripts should validate user input to prevent security issues:
-- Check file existence before operations
-- Validate command line arguments
-- Sanitize user input
+## Variables and Quoting
 
-### Privilege Escalation
-Be cautious with scripts that use `sudo` or run with elevated privileges.
+```bash
+name="John"           # No spaces around =
+greeting="Hello, $name"  # Double quotes: variables expand
+literal='Hello, $name'   # Single quotes: literal string
 
-## Performance and Optimization
+# Command substitution
+now=$(date +%Y-%m-%d)
+files=$(ls /var/log)
+```
 
-### Command Efficiency
-- Use built-in commands when possible
-- Minimize external program calls
-- Use appropriate data structures
+The golden rule: **always quote variable expansions unless you explicitly want word splitting**. `"$var"` is safe; `$var` splits on whitespace.
 
-### Memory Management
-- Avoid unnecessary variable assignments
-- Clean up temporary files
-- Use local variables in functions
+## Common Patterns
 
-## Integration with System
+```bash
+# Find and process files
+find . -name "*.log" -mtime +7 -exec rm {} \;
 
-### System Administration
-Shell is essential for system administration tasks:
-- User management
-- Service configuration
-- Log analysis
-- Backup automation
+# Text processing pipeline
+cat access.log | grep " 500 " | awk '{print $1}' | sort | uniq -c | sort -rn | head -10
 
-### Development Workflow
-Shell scripts support development processes:
-- Build automation
-- Testing frameworks
-- Deployment scripts
-- Development environment setup
+# Loop over command output
+while IFS= read -r line; do
+  echo "Got: $line"
+done < file.txt
+```
 
-## Best Practices
+## `set -euo pipefail`
 
-### Script Organization
-- Use clear, descriptive names
-- Include proper documentation
-- Follow consistent formatting
-- Implement error handling
+Put this at the top of every script:
+- `-e` — exit immediately if any command fails
+- `-u` — treat unset variables as errors
+- `-o pipefail` — a pipe fails if any component fails, not just the last one
 
-### Portability
-- Use POSIX-compliant syntax
-- Avoid shell-specific features
-- Test on multiple platforms
-- Document dependencies
-
-### Maintainability
-- Write readable code
-- Use meaningful variable names
-- Add comments for complex logic
-- Keep functions small and focused
-
-Shell remains a fundamental tool for system administration, automation, and development in Unix-like environments. 
+Without these, scripts silently continue after errors, which is how disasters happen in production.

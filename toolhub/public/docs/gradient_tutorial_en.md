@@ -1,92 +1,73 @@
 # Gradient Color Generator - Tutorial
 
-## Getting Started
+Visual editor for CSS gradients -- tweak colors, angles, and stops in real time, then copy the CSS when it looks right. No hand-coding required.
 
-The gradient color generator lets you create beautiful gradient effects through a visual interface — no CSS coding required — and instantly generates reusable CSS code.
+## The workflow
 
-## Basic Usage
+### Pick your gradient type
 
-### Step 1: Select Gradient Type
+Three options at the top:
 
-Choose the gradient type at the top:
-- **Linear**: Colors transition along a straight line — the most common type
-- **Radial**: Colors radiate outward from a center point
-- **Conic**: Colors rotate around a center point
+- **Linear** -- the one you'll use the most. Colors flow in a straight line.
+- **Radial** -- colors radiate from a center point. Great for spotlights and avatars.
+- **Conic** -- colors spin around a center. Pie charts, color wheels, that kind of thing.
 
-### Step 2: Set Colors
+### Set your colors
 
-The tool starts with 2 color stops by default. Click a color swatch to open the color picker and choose your desired color.
+You start with two color stops. Click a swatch to open the color picker. Add more stops with the "+" button (up to 5), remove one by clicking the "x". Each stop has a position slider -- drag it to control where that color peaks in the gradient.
 
-- **Add a color stop**: Click the "+" button (up to 5 stops supported)
-- **Remove a color stop**: Click the "×" button next to a color stop
-- **Adjust position**: Drag the slider to adjust the percentage position of a color stop
+A tip: when you're doing a multi-stop gradient, think about the rhythm of the stops. Evenly spaced (0%, 33%, 66%, 100%) looks balanced; clustering stops close together creates sudden transitions.
 
-### Step 3: Adjust Direction/Angle
+### Dial in the direction
 
-- **Linear gradient**: Use the angle rotator (0°-360°) or direction shortcut buttons
-- **Radial gradient**: Adjust the gradient center position (horizontal/vertical percentage)
-- **Conic gradient**: Adjust the starting angle
+For linear gradients, spin the angle rotator or hit one of the direction presets (right, down, diagonal). Radial gradients let you move the center point around. Conic gradients have a starting angle you can offset.
 
-### Step 4: Preview the Effect
+### Preview and copy
 
-The large preview block in the center shows the gradient in real time and updates instantly as you adjust parameters.
+The big preview block updates instantly as you tweak. When it looks good, grab the CSS from the code area at the bottom -- click Copy and paste it straight into your stylesheet.
 
-### Step 5: Copy the CSS Code
+## Direction presets
 
-The code area at the bottom displays the final CSS property. Click the **Copy** button to copy it to your clipboard, then paste it directly into your CSS file.
+| Button | Direction | CSS |
+|--------|-----------|-----|
+| -> | Right | `to right` |
+| v | Down | `to bottom` |
+| diagonal up | Top right | `to top right` |
+| diagonal down | Bottom right | `to bottom right` |
 
-## Common Direction Presets
+The presets cover the most common angles. For anything else, use the angle slider.
 
-| Button | Direction | CSS Equivalent |
-|--------|-----------|---------------|
-| → | Right | `to right` |
-| ↓ | Down | `to bottom` |
-| ↗ | Top right | `to top right` |
-| ↘ | Bottom right | `to bottom right` |
+## Color combinations that work
 
-## Color Selection Tips
+Some tried-and-tested pairs to get you started:
 
-### Analogous Gradients (recommended for beginners)
-Choose similar colors, such as light blue → dark blue. The visual effect is natural and harmonious.
+**Analogous (safe, professional):**
+- Blue-purple: `#667eea` to `#764ba2`
+- Orange-gold: `#f7971e` to `#ffd200`
+- Teal-green: `#11998e` to `#38ef7d`
 
-Example color pairs:
-- Blue-purple: `#667eea` → `#764ba2`
-- Orange: `#f7971e` → `#ffd200`
-- Teal-green: `#11998e` → `#38ef7d`
+**Complementary (vibrant, eye-catching):**
+- Purple to green: `#8360c3` to `#2ebf91`
+- Blue to coral: `#4facfe` to `#f77062`
 
-### Complementary Gradients (vibrant look)
-Use opposite colors on the color wheel for a strong visual impact.
+**Rainbow (fun but easy to overdo):**
+Stack 4-5 stops in rainbow order (red, orange, yellow, green, blue, purple). Looks great on a conic gradient, can get chaotic on a linear one.
 
-Example color pairs:
-- Purple → Orange: `#8360c3` → `#2ebf91`
-- Blue → Pink: `#4facfe` → `#f77062`
+## What you'll get
 
-### Multi-color Rainbow Gradient
-Add 4-5 color stops arranged in rainbow order (red → orange → yellow → green → blue → purple).
+The tool outputs standard CSS `background` properties:
 
-## Sample Generated CSS Output
-
-The tool generates CSS like the following based on your settings:
-
-Linear gradient:
 ```
+/* Linear */
 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
 
-Radial gradient:
-```
+/* Radial */
 background: radial-gradient(circle, #f7971e 0%, #ffd200 100%);
-```
 
-Multi-color stop:
-```
+/* Multi-stop */
 background: linear-gradient(to right, #f7971e 0%, #ffd200 33%, #21d4fd 66%, #b721ff 100%);
 ```
 
-## Best Practices
+## Practical notes
 
-1. **Focus on the preview**: When adjusting parameters, look at the large preview block rather than just the numbers
-2. **Save frequently used gradients**: Copy the CSS code to a snippet library for easy reuse
-3. **Test in dark mode**: Check whether the gradient still looks good in your project's dark mode
-4. **Mind text readability**: When overlaying text, avoid placing important content in the middle color transition zone
-
+Trust the preview more than the numbers. A gradient that looks great at `47deg` might look weird at `45deg` -- the preview tells the truth. Save gradients you like as CSS custom properties in a snippet library so you're not reinventing them every project. And always test your gradient in both light and dark modes -- what looks subtle on a white background might be nearly invisible on a dark one, or vice versa.

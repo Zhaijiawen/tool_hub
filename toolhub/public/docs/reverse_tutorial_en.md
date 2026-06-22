@@ -1,29 +1,27 @@
 # Text Reversal — Usage Tutorial
 
-## How to Use
+The reversal tool is one of those things that takes longer to describe than to use. Three modes, each with a clear output.
 
-### Step 1: Enter Your Text
-Type or paste the text you want to reverse into the input area.
+Drop your text into the input area — whatever you need flipped around.
 
-### Step 2: Choose a Reversal Mode
-- **Reverse Text** — reverses all characters in the entire text
-- **Reverse Words** — reverses the order of words (each line is processed separately)
-- **Reverse Lines** — reverses the order of lines in the text block
+Pick your mode:
 
-### Step 3: Copy the Result
-The reversed text appears in the output area. Click **Copy** to copy it to your clipboard.
+- **Reverse Text** flips every character in the entire input. Spaces, punctuation, newlines — everything gets reversed. If you paste `Hello World`, you get `dlroW olleH`. It's character-level, no exceptions. This is the mode you want for palindrome checks, simple scrambling, or when you genuinely need the string read backward.
 
-### Step 4: Clear
-Click **Clear** to reset both input and output areas.
+- **Reverse Words** keeps each word as-is but reverses their order within each line. Multi-line input is handled line by line — the line breaks stay where they are, only the words on each line get reordered. `one two three` becomes `three two one`. Super handy for flipping "FirstName LastName" into "LastName FirstName" in a batch.
 
-## Examples
+- **Reverse Lines** reverses the entire line order of the input. A log file with the newest entry at the bottom becomes newest-at-top. Three lines of text become a mirror image vertically. Each line's content is untouched — only the sequence changes.
 
-**Reverse Text:**
-- Input: `Hello`  →  Output: `olleH`
+The output updates as soon as you pick a mode. Hit **Copy** to grab it, or **Clear** to reset everything and start over.
 
-**Reverse Words:**
-- Input: `one two three`  →  Output: `three two one`
+## When to use which mode
 
-**Reverse Lines:**
-- Input: `line1 / line2 / line3`  →  Output: `line3 / line2 / line1`
+Character reversal is the most aggressive — use it when the transformation needs to go all the way down to individual characters. Word reversal is the sweet spot for text that has meaningful word boundaries you want to preserve. Line reversal is for structural reorganization of block text.
 
+A common mistake: picking character reversal when you meant word reversal and wondering why your name turned into "eniL hcoL". If the output looks scrambled at the character level, you probably want word mode instead.
+
+## Pro tips
+
+- Word reversal processes each line independently, so line breaks in your input are preserved. If you want to reverse words across the entire text as a single stream, join all lines first (paste into a text editor, replace newlines with spaces), then reverse.
+- Character reversal handles Unicode correctly, so emoji, accented characters, and CJK text all reverse as you'd expect — no broken glyphs.
+- If you're using this to check palindromes, remember to strip spaces and punctuation first if they shouldn't count. `A man, a plan, a canal: Panama` isn't a palindrome until you normalize it.

@@ -1,15 +1,14 @@
 # JSON Schema 生成 - 使用教程
 
-## 快速开始
+丢一份 JSON 进去，拿到 JSON Schema 或 TypeScript 接口。省时间 -- 不用手写类型定义，贴个 API 响应工具就帮你把脏活干了。
 
-1. 在左侧输入框粘贴你的 JSON 数据
-2. 选择目标格式（JSON Schema 或 TypeScript Interface）
-3. 右侧立即生成结果，点击"复制"即可使用
+## 怎么用
 
-## 输入 JSON 数据
+1. 把 JSON 贴到左侧面板
+2. 选输出格式 -- JSON Schema 或 TypeScript Interface
+3. 右边立刻出结果。复制贴到项目里。
 
-将你要分析的 JSON 粘贴到左侧输入框，例如：
-
+示例输入：
 ```json
 {
   "id": 1001,
@@ -24,32 +23,28 @@
 }
 ```
 
-工具会自动推断每个字段的类型，并生成对应的 Schema 或接口。
+工具遍历每个字段，从值推断类型，递归处理嵌套对象，生成干净的 Schema 或接口。
 
-## 选择输出格式
-
-工具支持两种输出格式：
+## 输出格式
 
 ### JSON Schema
 
-生成标准的 JSON Schema（Draft-07），可用于：
-- API 文档（OpenAPI/Swagger）
-- 数据验证（ajv、joi 等库）
-- IDE 配置文件支持
+标准 Draft-07 JSON Schema。需要以下场景时选这个：
+- 用 AJV 等库做 API 请求/响应验证
+- OpenAPI/Swagger 文档
+- VS Code 配置文件自动补全（通过 `$schema` 引用）
 
 ### TypeScript Interface
 
-生成 TypeScript 类型接口，可用于：
-- 前端 TypeScript 项目类型定义
-- API 响应类型标注
-- 代码编辑器自动补全
+干净的 TypeScript 类型定义。以下场景用这个：
+- TS 项目中给 API 响应加类型注解
+- 编辑器自动补全和类型检查
+- 领域类型的脚手架
 
-## 理解生成规则
+## 类型推断怎么做的
 
-### 类型推断
-
-| JSON 值 | 推断类型 |
-|---------|---------|
+| JSON 值 | 推断为 |
+|---|---|
 | `"hello"` | `string` |
 | `42` | `integer` |
 | `3.14` | `number` |
@@ -58,42 +53,26 @@
 | `[...]` | `array` |
 | `{...}` | `object` |
 
-### 嵌套对象
+嵌套对象生成内联 Schema 或 `$defs` 条目。数组用第一个元素推断元素类型。空数组默认允许任意类型。
 
-工具会递归处理嵌套对象，为每一层生成 Schema：
+## 怎么用生成结果
 
-```json
-{
-  "user": {
-    "profile": {
-      "avatar": "url"
-    }
-  }
-}
-```
-
-会生成带有 `$defs` 引用或内联嵌套 `properties` 的 Schema。
-
-### 数组元素
-
-数组中的第一个元素用于推断 `items` 类型。如果数组为空（`[]`），则 `items` 类型为 `{}`（允许任意）。
-
-## 使用生成的 Schema
-
-### 在 JavaScript 中验证
+### 用 AJV 验证
 
 ```javascript
 import Ajv from 'ajv'
 const ajv = new Ajv()
 
-const validate = ajv.compile(schema) // 粘贴生成的 Schema
+const schema = /* 粘贴生成的 Schema */
+const validate = ajv.compile(schema)
+const data = { id: 123, name: 'Test' }
 const valid = validate(data)
 if (!valid) console.log(validate.errors)
 ```
 
-### 在 TypeScript 中使用接口
+### TypeScript 接口
 
-将生成的 TypeScript Interface 直接粘贴到 `.ts` 文件中：
+直接贴到 `.ts` 文件里：
 
 ```typescript
 interface User {
@@ -109,9 +88,14 @@ interface User {
 }
 ```
 
-## 注意事项
+## 生成后需要手动调整什么
 
-- 工具基于**样本数据推断**类型，不能推断全部可能的约束（如 `minLength`、`pattern` 等需手动补充）
-- 如果字段可能为 `null`，建议在生成后手动将类型改为 `["string", "null"]` 或 TypeScript 中的 `string | null`
-- 对于大型 JSON（超过 1 万行），建议先提取关键片段再生成
+工具基于样本推断，没法面面俱到。常见的补充操作：
 
+- **加 `format`** -- 对看起来像 email 或 URI 的字段，生成器只看到 string，但你知道它是 email
+- **加约束** -- `minLength`、`maxLength`、`minimum`、`maximum`、`pattern`，单个样本值推断不出来
+- **处理 nullable** -- 字段可能为 null 的话，把 `"type": "string"` 改成 `"type": ["string", "null"]`
+- **标记可选字段** -- 从 `required` 数组里拿掉
+- **加 `enum`** -- 字段只有几个已知合法值时
+
+超大 JSON（1 万行以上）建议先提取代表性片段再生成。工具会处理你喂给它的所有内容，100KB 的 JSON 生成的 Schema 你可能根本不想读。

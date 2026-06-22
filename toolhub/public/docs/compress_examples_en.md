@@ -1,27 +1,27 @@
-# Image Compression - Examples
+# Image Compression — Code Examples
 
-## Example 1: Using the browser-image-compression Library
+## Using browser-image-compression
 
 ```javascript
-// Dynamic import to avoid loading the large dependency on initial page load
+// Dynamic import — keeps the heavy library out of the initial bundle
 async function compressImage(file, quality = 0.8) {
   const imageCompression = (await import('browser-image-compression')).default
 
   const options = {
-    maxSizeMB: 2,                    // Max 2MB
-    maxWidthOrHeight: 2048,           // Max dimension 2048px
-    useWebWorker: true,               // Use WebWorker (non-blocking)
-    initialQuality: quality,          // Initial quality
-    onProgress: (percentage) => {     // Progress callback
-      console.log(`Compression progress: ${percentage}%`)
+    maxSizeMB: 2,                    // Cap at 2MB
+    maxWidthOrHeight: 2048,           // Don't exceed 2048px on either side
+    useWebWorker: true,               // Off the main thread
+    initialQuality: quality,
+    onProgress: (percentage) => {
+      console.log(`Compressing: ${percentage}%`)
     }
   }
 
   try {
     const compressedFile = await imageCompression(file, options)
-    console.log(`Original size: ${(file.size / 1024 / 1024).toFixed(2)} MB`)
+    console.log(`Original: ${(file.size / 1024 / 1024).toFixed(2)} MB`)
     console.log(`Compressed: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`)
-    console.log(`Ratio: ${((1 - compressedFile.size / file.size) * 100).toFixed(1)}%`)
+    console.log(`Saved: ${((1 - compressedFile.size / file.size) * 100).toFixed(1)}%`)
     return compressedFile
   } catch (error) {
     console.error('Compression failed:', error)
@@ -30,9 +30,9 @@ async function compressImage(file, quality = 0.8) {
 }
 ```
 
----
+The dynamic import is key here — `browser-image-compression` is a chunky library and you don't want it slowing down your initial page load.
 
-## Example 2: Integrating Image Compression in Vue 3
+## Vue 3 integration
 
 ```vue
 <template>
@@ -45,7 +45,7 @@ async function compressImage(file, quality = 0.8) {
       @change="handleUpload"
     >
       <n-upload-dragger>
-        <div>Drag images here or click to select</div>
+        <div>Drop images here or click to browse</div>
       </n-upload-dragger>
     </n-upload>
 
@@ -97,12 +97,10 @@ function downloadImage(img) {
 </script>
 ```
 
----
-
-## Example 3: Batch Compress and Download as ZIP
+## Batch compress and ZIP download
 
 ```javascript
-// Use JSZip to package multiple compressed images into a zip file
+// Use JSZip to bundle multiple compressed images
 async function downloadAllAsZip(images) {
   const JSZip = (await import('jszip')).default
   const zip = new JSZip()
@@ -124,12 +122,12 @@ async function downloadAllAsZip(images) {
 }
 ```
 
----
+Again, note the dynamic import for `jszip` — don't ship it in the initial bundle.
 
-## Example 4: Manual Compression Using Canvas API
+## Canvas-based compression (zero dependencies)
 
 ```javascript
-// Simple image compression implementation without third-party libraries
+// If you want compression with no third-party library at all
 function compressImageWithCanvas(file, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const img = new Image()
@@ -149,17 +147,17 @@ function compressImageWithCanvas(file, quality = 0.8) {
           if (blob) {
             resolve(new File([blob], file.name, { type: 'image/jpeg' }))
           } else {
-            reject(new Error('Canvas toBlob failed'))
+            reject(new Error('Canvas toBlob returned null'))
           }
         },
         'image/jpeg',
-        quality // 0.0 - 1.0
+        quality
       )
     }
 
     img.onerror = () => {
       URL.revokeObjectURL(url)
-      reject(new Error('Image load failed'))
+      reject(new Error('Failed to load image'))
     }
 
     img.src = url
@@ -167,25 +165,16 @@ function compressImageWithCanvas(file, quality = 0.8) {
 }
 ```
 
----
+This approach converts everything to JPEG. Fine for photos, not great if you need transparency. The Canvas API is well-supported everywhere, so no compatibility worries.
 
-## Practical Compression Results Reference
+## Real-world results
 
-| Scenario | Original | Quality 80% | Quality 60% | Notes |
-|----------|---------|------------|------------|-------|
-| Phone photo | 8MB | 1.2MB | 700KB | Good for sharing |
-| Product photography | 15MB | 2.5MB | 1.5MB | E-commerce display |
-| Screenshot PNG | 2MB | 1.8MB | 1.5MB | PNG compression is limited |
-| Design export PNG | 5MB | 4MB | 3.5MB | Consider converting to JPG |
-| Thumbnail JPG | 500KB | 80KB | 50KB | Significant compression effect |
+| Scenario | Original | Quality 80% | Quality 60% |
+|----------|---------|------------|------------|
+| Phone photo | 8MB | 1.2MB | 700KB |
+| Product shot | 15MB | 2.5MB | 1.5MB |
+| Screenshot PNG | 2MB | 1.8MB | 1.5MB |
+| Design export PNG | 5MB | 4MB | 3.5MB |
+| Thumbnail JPG | 500KB | 80KB | 50KB |
 
-## Best Practice Recommendations
-
-1. **80% quality is usually sufficient**: The human eye can barely distinguish 80% from 100% quality, but file size can be reduced by 50-70%
-2. **Consider converting PNG to JPG**: If the image doesn't need a transparent background, converting PNG to JPG before compressing results in much smaller files
-3. **Choose quality based on use case**:
-   - Print purposes: Keep 90%+ quality
-   - Web display: 70-85% is enough
-   - Thumbnails: 50-70%
-4. **Keep the original**: Compression is irreversible — always keep a backup of important images
-
+Some practical takeaways: 80% quality is the sweet spot for most web use — your visitors won't see the difference. PNG screenshots don't compress much with quality reduction; if you need them smaller, convert to JPG first. Always keep originals around — you can't un-compress an image.

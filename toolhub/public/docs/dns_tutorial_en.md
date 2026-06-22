@@ -1,114 +1,81 @@
-# DNS Query Tool - Tutorial
+# DNS Query Tool — How to Use
 
-## Getting Started
+The tool calls Cloudflare's DoH API from your browser — no installs, no command line needed.
 
-The DNS query tool uses Cloudflare's DoH (DNS over HTTPS) API to look up DNS records for any domain — no software installation needed, works directly in your browser.
+## The basics
 
-## Basic Usage
+**Enter the domain —** Type the domain and only the domain. No `https://`, no path, no port. `example.com` is correct, `https://example.com/page` will fail.
 
-### Step 1: Enter the Domain
+**Pick a record type —**
 
-Type the domain name into the input box. **Do not include `http://` or `https://` prefixes.**
+| Type | When you'd use it |
+|------|-------------------|
+| A | What's the IP of this site? (most common) |
+| AAAA | Same thing, but IPv6 |
+| MX | Where does email for this domain go? |
+| TXT | Look up SPF, DKIM, verification tokens |
+| CNAME | Is this domain an alias for something else? |
+| NS | Who runs the DNS for this domain? |
+| SOA | Zone metadata, serial numbers |
 
-Correct examples:
-- `example.com`
-- `www.google.com`
-- `mail.example.com`
+**Hit Query —** Results usually come back in 1-3 seconds. The table shows Name, Type, TTL, and Value.
 
-Incorrect examples:
-- ~~`https://example.com`~~
-- ~~`example.com/path`~~
+## Common lookups
 
-### Step 2: Select Record Type
-
-Choose the DNS record type from the dropdown:
-
-| Type | Purpose |
-|------|---------|
-| **A** | Query IPv4 address (most common) |
-| **AAAA** | Query IPv6 address |
-| **MX** | Query mail server records |
-| **TXT** | Query text records (SPF/DKIM, etc.) |
-| **CNAME** | Query domain aliases |
-| **NS** | Query authoritative DNS servers |
-| **SOA** | Query zone authority information |
-
-### Step 3: Click Query
-
-Click the **Query** button and wait for results (usually within 1-3 seconds).
-
-### Step 4: View Results
-
-Results are displayed in a table with the following columns:
-- **Name**: The domain name for the record
-- **Type**: Record type (A, MX, etc.)
-- **TTL**: Cache duration in seconds
-- **Value**: Record content (IP address, domain name, etc.)
-
-## Common Query Scenarios
-
-### Query Website IP Address
+**Finding a website's IP —**
 
 ```
 Domain: google.com
 Type: A
 
-Example result:
 Name          Type  TTL   Value
 google.com    A     300   142.250.64.46
 google.com    A     300   142.250.64.78
 ```
 
-> Large websites like Google typically have multiple A records for load balancing.
+Big sites return multiple A records for load balancing. Your browser picks one.
 
-### Query Mail Servers
+**Checking mail servers —**
 
 ```
 Domain: gmail.com
 Type: MX
 
-Example result:
 Name        Type  TTL    Priority  Mail Server
 gmail.com   MX    3600   5         gmail-smtp-in.l.google.com
 gmail.com   MX    3600   10        alt1.gmail-smtp-in.l.google.com
 ```
 
-> Lower priority numbers indicate higher priority.
+Lower priority number = tried first. If priority 5 is unreachable, the sender falls back to 10, then 20, etc.
 
-### Query TXT Records (SPF/DKIM)
+**Checking SPF records —**
 
 ```
 Domain: example.com
 Type: TXT
 
-Example result:
 Name           Type  TTL    Value
 example.com    TXT   3600   "v=spf1 include:_spf.google.com ~all"
-example.com    TXT   3600   "google-site-verification=abc123..."
 ```
 
-### Query CDN CNAME
+This TXT record says "Google's mail servers are allowed to send email as @example.com, and anything else should be treated as suspicious (~all = soft fail)."
+
+**Verifying CDN setup —**
 
 ```
 Domain: www.example.com
 Type: CNAME
 
-Example result:
 Name               Type   TTL   Value
 www.example.com    CNAME  3600  example.com.cdn.cloudflare.net
 ```
 
-## Understanding DNS Propagation Delay
+If you see a CDN hostname in the CNAME, the CDN is active. If it points directly to your origin server, the CDN isn't configured yet.
 
-After you modify DNS records, this tool may still return old records because:
-1. DNS changes need to propagate from the authoritative server to global cache servers
-2. Propagation time equals the original record's TTL value
-3. Short TTL (e.g., 300 seconds) → effective in ~5 minutes; long TTL (e.g., 86400 seconds) → up to 24 hours
+## Understanding propagation
 
-## Important Notes
+When you change DNS records, this tool might still show old values. That's not a bug — DNS is distributed by design. The old record's TTL determines how long caches hold onto it. Short TTL = fast propagation. Long TTL = up to 24 hours of waiting.
 
-1. **Enter bare domain**: Do not include protocol, path, or port
-2. **Internationalized domains**: IDN (domains containing non-ASCII characters) are automatically converted to Punycode
-3. **Rate limits**: Cloudflare DoH has rate limits, but normal usage is well within them
-4. **Result accuracy**: Returns Cloudflare DoH query results, which may differ slightly from your local DNS results
+## Notes
 
+Enter the bare domain — no protocol, no path, no trailing slash. IDN domains (with non-ASCII characters) are automatically converted to Punycode. Cloudflare DoH has rate limits but normal usage stays well under them. Results reflect what Cloudflare's resolver sees, which may differ slightly from what your ISP's resolver returns.

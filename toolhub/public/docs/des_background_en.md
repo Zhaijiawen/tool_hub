@@ -1,140 +1,31 @@
 # DES Technical Background
 
-## Overview
-The Data Encryption Standard (DES) is a symmetric-key block cipher algorithm that was adopted as a federal standard in 1977. DES operates on 64-bit blocks of data using a 56-bit key, with 16 rounds of encryption. While DES was once widely used for securing sensitive data, it has been superseded by more secure algorithms like AES due to its relatively small key size and vulnerability to brute-force attacks.
+DES -- the Data Encryption Standard -- is the grandparent of modern encryption. Standardized in 1977, it was the first cipher to be publicly specified and widely deployed. If you're learning cryptography today, DES isn't something you should use (56-bit keys can be brute-forced in hours), but it's worth understanding because it established the design patterns that AES and its successors built on.
 
-## Historical Development
+## How DES came to be
 
-### Origins and Development
-- **1972**: NIST (then NBS) solicits proposals for a national encryption standard
-- **1974**: IBM submits the Lucifer cipher as a candidate
-- **1975**: NSA modifies the algorithm, reducing key size from 128 to 56 bits
-- **1977**: DES officially adopted as FIPS 46-1
-- **1980s-1990s**: DES becomes the most widely used encryption algorithm globally
+The story has some genuinely interesting twists. In 1972, the US National Bureau of Standards (now NIST) put out a call for a national encryption standard. IBM submitted a cipher called Lucifer, which had been developed by a team led by Horst Feistel. The NSA then reviewed and modified the design -- notably, they shortened the key from Lucifer's 128 bits to 56 bits, and they changed the S-box constants.
 
-### Controversy and Criticism
-- **Key Size**: 56-bit key size criticized as too small for security
-- **NSA Involvement**: Modifications to S-boxes raised suspicions of backdoors
-- **Differential Cryptanalysis**: Biham and Shamir's 1990 attack revealed NSA's awareness
-- **Brute Force**: 1997 DESCHALL project breaks DES in 56 hours
+At the time, people were suspicious. Did the NSA insert a backdoor? The answer turned out to be the opposite: when differential cryptanalysis was discovered publicly in 1990 (by Biham and Shamir), researchers realized the NSA's S-box changes had actually hardened the cipher against this exact attack. The NSA had known about differential cryptanalysis for years and kept it secret, but they used that knowledge to strengthen DES, not weaken it. The 56-bit key, however, was a different story -- short enough that the NSA could brute-force it with their computing resources in the 1970s.
 
-## Algorithm Structure
+## The Feistel network
 
-### Basic Architecture
-DES is a Feistel network with 16 rounds:
-- **Block Size**: 64 bits
-- **Key Size**: 56 bits (plus 8 parity bits)
-- **Rounds**: 16 identical rounds
-- **Key Schedule**: Generates 16 subkeys from the main key
+DES is a 16-round Feistel network. In each round, the 64-bit block is split into two 32-bit halves. The right half goes through a round function (expansion to 48 bits, XOR with the round key, S-box substitution, permutation) and then gets XORed with the left half. The halves are swapped, and you repeat 16 times.
 
-### Feistel Network
-Each round follows the Feistel structure:
-```
-L[i] = R[i-1]
-R[i] = L[i-1] ⊕ F(R[i-1], K[i])
-```
-Where F is the round function and K[i] is the round key.
+The Feistel structure has an elegant property: decryption is exactly the same as encryption, just with the round keys in reverse order. This was important in the 1970s when hardware implementations were expensive and you wanted one circuit for both directions.
 
-### Round Function Components
-1. **Expansion**: 32-bit input expanded to 48 bits
-2. **Key Mixing**: XOR with 48-bit round key
-3. **S-Box Substitution**: 8 S-boxes reduce 48 bits to 32 bits
-4. **Permutation**: Final permutation of 32 bits
+## Why 56 bits wasn't enough
 
-## Security Analysis
+From the day DES was published, people argued the key was too short. At 56 bits, the key space is 2^56 -- about 72 quadrillion keys. In 1977, that was out of reach for anyone without a government-sized budget. By 1997, the DESCHALL project broke a DES key in 56 hours using a distributed network of volunteers. In 1998, the EFF built a dedicated machine called Deep Crack that could break DES in 56 hours for $250,000. Today, a modest GPU rig can do it in days.
 
-### Known Attacks
-- **Brute Force**: Exhaustive key search (2^56 operations)
-- **Differential Cryptanalysis**: Requires 2^47 chosen plaintexts
-- **Linear Cryptanalysis**: Matsui's attack requires 2^43 known plaintexts
-- **Related-Key Attacks**: Theoretical attacks on key schedule
+This is the lesson DES teaches us about key sizes: what's secure today won't be secure forever. Crypto designs need headroom.
 
-### Security Timeline
-- **1977-1990**: Considered secure against known attacks
-- **1990**: Differential cryptanalysis published
-- **1997**: First public brute-force break (DESCHALL)
-- **1998**: EFF's Deep Crack breaks DES in 56 hours
-- **2001**: DES officially deprecated in favor of AES
+## Triple DES (3DES): the stopgap
 
-## Implementation Considerations
+Rather than abandon DES entirely, the industry created Triple DES: encrypt with key K1, decrypt with key K2, encrypt with K3. The "decrypt" in the middle isn't a mistake -- it makes 3DES compatible with regular DES when K1=K2=K3 (the middle decryption cancels the first encryption). Effective key size with three different keys is 168 bits (though a meet-in-the-middle attack reduces this to 112 bits of practical security).
 
-### Hardware Support
-- **Dedicated Chips**: Early DES implementations in hardware
-- **Performance**: ~1 Gbps in modern hardware
-- **Power Efficiency**: Relatively low power consumption
-- **Area**: Compact implementation suitable for embedded systems
+3DES is still approved for some legacy government applications, but it's been deprecated by NIST for new use and will be disallowed after 2023. It's about 3x slower than AES and can only process 64-bit blocks (making it vulnerable to birthday-bound attacks like Sweet32 after encrypting ~32 GB with the same key).
 
-### Software Implementation
-- **Bit Manipulation**: Efficient bit-level operations
-- **Lookup Tables**: S-boxes implemented as lookup tables
-- **Optimization**: Various software optimizations available
-- **Platform Support**: Widely supported across platforms
+## DES today: educational value only
 
-## Modes of Operation
-
-### Standard Modes
-- **ECB (Electronic Codebook)**: Direct block encryption
-- **CBC (Cipher Block Chaining)**: Chained with previous ciphertext
-- **CFB (Cipher Feedback)**: Stream cipher mode
-- **OFB (Output Feedback)**: Stream cipher mode
-
-### Security Properties
-- **ECB**: Vulnerable to pattern analysis
-- **CBC**: Provides confidentiality, requires IV
-- **CFB/OFB**: Convert block cipher to stream cipher
-
-## Legacy and Transition
-
-### Replacement by AES
-- **2001**: AES selected as DES replacement
-- **2002**: AES becomes FIPS 197 standard
-- **2005**: DES officially withdrawn from FIPS
-- **2017**: DES removed from NIST guidance
-
-### Triple DES (3DES)
-- **Purpose**: Extend DES security through multiple encryption
-- **Method**: DES-EDE2 or DES-EDE3 (Encrypt-Decrypt-Encrypt)
-- **Key Size**: 112 or 168 bits effective
-- **Security**: Provides adequate security but slower than AES
-
-## Applications and Legacy
-
-### Historical Usage
-- **Banking**: ATM networks, financial transactions
-- **Government**: Classified and unclassified communications
-- **Industry**: Corporate data protection
-- **Standards**: SSL/TLS, IPsec, and other protocols
-
-### Current Status
-- **Legacy Systems**: Still used in some legacy applications
-- **3DES**: Remains approved for some government use
-- **Education**: Important for understanding cryptography
-- **Research**: Basis for modern block cipher design
-
-## Cryptographic Significance
-
-### Design Principles
-- **Feistel Networks**: Demonstrated effectiveness of Feistel structure
-- **S-Box Design**: Importance of carefully designed substitution boxes
-- **Key Schedule**: Balance between security and efficiency
-- **Differential Cryptanalysis**: Led to better understanding of attacks
-
-### Influence on Modern Cryptography
-- **AES Design**: Lessons learned influenced AES development
-- **Security Analysis**: Established framework for cryptanalysis
-- **Standardization**: Model for cryptographic standards process
-- **Implementation**: Best practices for cryptographic software
-
-## Future Considerations
-
-### Post-Quantum Security
-- **Quantum Attacks**: Grover's algorithm reduces security to 2^28
-- **Migration**: Need for quantum-resistant alternatives
-- **Timeline**: 10-20 years before quantum computers threaten DES
-- **Preparation**: Early planning for post-quantum cryptography
-
-### Educational Value
-- **Learning Tool**: Excellent for understanding block ciphers
-- **Historical Context**: Important part of cryptography history
-- **Security Lessons**: Demonstrates evolution of cryptographic security
-- **Implementation Practice**: Good starting point for crypto implementation 
+For new systems, DES is off the table. Even 3DES should only exist in legacy code you're trying to migrate away from. But as a learning tool, DES is excellent. The Feistel structure, the S-box design principles, the key schedule -- these are the building blocks that inform how we think about block cipher design today. If you're studying cryptography, implementing DES from scratch teaches you more about how ciphers work than reading ten papers on AES. Just don't deploy it.

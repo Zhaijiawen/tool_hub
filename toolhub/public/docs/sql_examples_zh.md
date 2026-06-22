@@ -1,328 +1,195 @@
-# SQL 代码示例
+# SQL — 代码示例
 
-本文档提供了涵盖核心数据库操作和查询技术的实用SQL代码示例。
+## 一套真实 Schema
 
-## 基本数据库操作
-
-### 创建表
+三张表搭一个简单的电商模型：
 
 ```sql
--- 创建用户表
 CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL,
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    username      VARCHAR(50) NOT NULL UNIQUE,
+    email         VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 创建产品表
 CREATE TABLE products (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(10,2) NOT NULL,
+    id             INT PRIMARY KEY AUTO_INCREMENT,
+    name           VARCHAR(100) NOT NULL,
+    description    TEXT,
+    price          DECIMAL(10, 2) NOT NULL,
     stock_quantity INT DEFAULT 0,
-    category_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    category_id    INT,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 创建订单表（带外键）
 CREATE TABLE orders (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    status ENUM('pending', 'processing', 'shipped', 'delivered') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    user_id      INT NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    status       ENUM('pending', 'processing', 'shipped', 'delivered') DEFAULT 'pending',
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE order_items (
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    order_id   INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity   INT NOT NULL DEFAULT 1,
+    price      DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
 ```
 
-### 插入数据
+## 真正有用的连接查询
 
 ```sql
--- 插入单个用户
-INSERT INTO users (username, email, password_hash) 
-VALUES ('john_doe', 'john@example.com', 'hashed_password_123');
-
--- 插入多个产品
-INSERT INTO products (name, description, price, stock_quantity, category_id) VALUES 
-('Laptop', 'High-performance laptop', 999.99, 50, 1),
-('Mouse', 'Wireless optical mouse', 29.99, 100, 2),
-('Keyboard', 'Mechanical keyboard', 89.99, 75, 2);
-
--- 使用SELECT插入
-INSERT INTO users (username, email, password_hash)
-SELECT name, email, password FROM temp_users WHERE status = 'active';
-```
-
-### 基本查询
-
-```sql
--- 选择所有用户
-SELECT * FROM users;
-
--- 选择特定列
-SELECT username, email, created_at FROM users;
-
--- 使用WHERE过滤
-SELECT * FROM users WHERE created_at >= '2024-01-01';
-
--- 排序结果
-SELECT * FROM products ORDER BY price DESC;
-
--- 限制结果
-SELECT * FROM users LIMIT 10 OFFSET 20;
-```
-
-## 高级查询
-
-### 连接
-
-```sql
--- 内连接获取用户订单
-SELECT u.username, o.total_amount, o.status
-FROM users u
-INNER JOIN orders o ON u.id = o.user_id;
-
--- 左连接包含没有订单的用户
-SELECT u.username, COALESCE(o.total_amount, 0) as total_spent
-FROM users u
-LEFT JOIN orders o ON u.id = o.user_id;
-
--- 多表连接
-SELECT u.username, p.name as product_name, oi.quantity, oi.price
-FROM users u
-JOIN orders o ON u.id = o.user_id
+-- 订单 + 用户名 + 商品详情 — 经典的报表查询
+SELECT
+    o.id AS order_id,
+    u.username,
+    p.name AS product,
+    oi.quantity,
+    oi.price,
+    o.status,
+    o.created_at
+FROM orders o
+JOIN users u ON o.user_id = u.id
 JOIN order_items oi ON o.id = oi.order_id
-JOIN products p ON oi.product_id = p.id;
-```
+JOIN products p ON oi.product_id = p.id
+WHERE o.created_at >= '2024-01-01'
+ORDER BY o.created_at DESC;
 
-### 聚合函数
-
-```sql
--- 计算总用户数
-SELECT COUNT(*) as total_users FROM users;
-
--- 平均产品价格
-SELECT AVG(price) as avg_price FROM products;
-
--- 所有订单的总和
-SELECT SUM(total_amount) as total_revenue FROM orders;
-
--- 带聚合的分组
-SELECT category_id, COUNT(*) as product_count, AVG(price) as avg_price
-FROM products
-GROUP BY category_id;
-
--- HAVING子句
-SELECT user_id, COUNT(*) as order_count
-FROM orders
-GROUP BY user_id
-HAVING COUNT(*) > 5;
-```
-
-### 子查询
-
-```sql
--- WHERE子句中的子查询
-SELECT * FROM users 
-WHERE id IN (SELECT DISTINCT user_id FROM orders);
-
--- SELECT中的子查询
-SELECT username, 
-       (SELECT COUNT(*) FROM orders WHERE user_id = users.id) as order_count
-FROM users;
-
--- EXISTS子查询
-SELECT * FROM products p
-WHERE EXISTS (SELECT 1 FROM order_items oi WHERE oi.product_id = p.id);
-
--- 相关子查询
-SELECT p.name, p.price,
-       (SELECT AVG(price) FROM products WHERE category_id = p.category_id) as category_avg
-FROM products p;
-```
-
-## 数据修改
-
-### 更新数据
-
-```sql
--- 简单更新
-UPDATE users SET email = 'newemail@example.com' WHERE username = 'john_doe';
-
--- 带JOIN的更新
-UPDATE products p
-JOIN categories c ON p.category_id = c.id
-SET p.price = p.price * 1.1
-WHERE c.name = 'Electronics';
-
--- 带CASE的条件更新
-UPDATE users 
-SET status = CASE 
-    WHEN (SELECT COUNT(*) FROM orders WHERE user_id = users.id) > 10 THEN 'premium'
-    WHEN (SELECT COUNT(*) FROM orders WHERE user_id = users.id) > 5 THEN 'regular'
-    ELSE 'basic'
-END;
-```
-
-### 删除数据
-
-```sql
--- 删除特定用户
-DELETE FROM users WHERE username = 'john_doe';
-
--- 带子查询的删除
-DELETE FROM products 
-WHERE id NOT IN (SELECT DISTINCT product_id FROM order_items);
-
--- 删除孤立记录
-DELETE u FROM users u
-LEFT JOIN orders o ON u.id = o.user_id
-WHERE o.id IS NULL;
-```
-
-## 高级功能
-
-### 视图
-
-```sql
--- 创建简单视图
-CREATE VIEW user_summary AS
-SELECT u.username, u.email, COUNT(o.id) as order_count, SUM(o.total_amount) as total_spent
+-- 用户终身消费 — LEFT JOIN 保证没订单的用户也显示，金额为 0
+SELECT
+    u.username,
+    u.email,
+    COUNT(o.id) AS total_orders,
+    COALESCE(SUM(o.total_amount), 0) AS lifetime_spent
 FROM users u
 LEFT JOIN orders o ON u.id = o.user_id
-GROUP BY u.id, u.username, u.email;
+GROUP BY u.id, u.username, u.email
+ORDER BY lifetime_spent DESC;
+```
 
--- 查询视图
-SELECT * FROM user_summary WHERE total_spent > 1000;
+## 实用的聚合查询
 
--- 创建复杂视图
-CREATE VIEW product_sales AS
-SELECT p.name, p.price, COUNT(oi.id) as times_ordered, SUM(oi.quantity) as total_quantity
+```sql
+-- 按分类统计销售额
+SELECT
+    c.name AS category,
+    COUNT(DISTINCT p.id) AS product_count,
+    SUM(oi.quantity) AS units_sold,
+    SUM(oi.quantity * oi.price) AS revenue
+FROM categories c
+JOIN products p ON c.id = p.category_id
+JOIN order_items oi ON p.id = oi.product_id
+GROUP BY c.id, c.name
+HAVING revenue > 1000
+ORDER BY revenue DESC;
+
+-- 月度营收趋势
+SELECT
+    DATE_FORMAT(created_at, '%Y-%m') AS month,
+    COUNT(*) AS order_count,
+    SUM(total_amount) AS revenue
+FROM orders
+WHERE created_at >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+ORDER BY month;
+```
+
+## 子查询实战
+
+```sql
+-- 消费最高的前 10 名用户
+SELECT username, email,
+       (SELECT COUNT(*) FROM orders WHERE user_id = users.id) AS order_count,
+       (SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE user_id = users.id) AS total_spent
+FROM users
+ORDER BY total_spent DESC
+LIMIT 10;
+
+-- 找出从未被购买的商品 — 清理死库存
+SELECT p.id, p.name, p.stock_quantity
 FROM products p
-LEFT JOIN order_items oi ON p.id = oi.product_id
-GROUP BY p.id, p.name, p.price;
-```
+WHERE NOT EXISTS (
+    SELECT 1 FROM order_items oi WHERE oi.product_id = p.id
+)
+ORDER BY p.stock_quantity DESC;
 
-### 存储过程
-
-```sql
--- 创建获取用户订单的存储过程
-DELIMITER //
-CREATE PROCEDURE GetUserOrders(IN user_id INT)
-BEGIN
-    SELECT o.id, o.total_amount, o.status, o.created_at,
-           GROUP_CONCAT(p.name) as products
-    FROM orders o
-    JOIN order_items oi ON o.id = oi.order_id
-    JOIN products p ON oi.product_id = p.id
-    WHERE o.user_id = user_id
-    GROUP BY o.id;
-END //
-DELIMITER ;
-
--- 调用存储过程
-CALL GetUserOrders(1);
-```
-
-### 触发器
-
-```sql
--- 插入前触发器
-DELIMITER //
-CREATE TRIGGER before_user_insert
-BEFORE INSERT ON users
-FOR EACH ROW
-BEGIN
-    SET NEW.username = LOWER(NEW.username);
-    SET NEW.email = LOWER(NEW.email);
-END //
-DELIMITER ;
-
--- 更新后触发器
-CREATE TRIGGER after_order_update
-AFTER UPDATE ON orders
-FOR EACH ROW
-BEGIN
-    IF NEW.status = 'delivered' AND OLD.status != 'delivered' THEN
-        INSERT INTO notifications (user_id, message, created_at)
-        VALUES (NEW.user_id, 'Your order has been delivered!', NOW());
-    END IF;
-END;
-```
-
-## 性能优化
-
-### 索引
-
-```sql
--- 创建索引以提高性能
-CREATE INDEX idx_username ON users(username);
-CREATE INDEX idx_email ON users(email);
-CREATE INDEX idx_user_orders ON orders(user_id, created_at);
-CREATE INDEX idx_product_category ON products(category_id, price);
-
--- 复合索引
-CREATE INDEX idx_order_status_date ON orders(status, created_at);
-
--- 唯一索引
-CREATE UNIQUE INDEX idx_unique_email ON users(email);
-```
-
-### 查询优化
-
-```sql
--- 使用EXPLAIN分析查询性能
-EXPLAIN SELECT u.username, o.total_amount
+-- 消费金额高于平均值的用户
+SELECT username, total_amount
 FROM users u
 JOIN orders o ON u.id = o.user_id
-WHERE o.created_at >= '2024-01-01';
+WHERE o.total_amount > (SELECT AVG(total_amount) FROM orders);
+```
 
--- 使用适当的WHERE子句优化
-SELECT * FROM products 
-WHERE category_id = 1 
-AND price BETWEEN 50 AND 200
-AND stock_quantity > 0;
+## 窗口函数（MySQL 8+ / PostgreSQL）
 
--- 使用适当的JOIN类型
-SELECT u.username, COUNT(o.id) as order_count
+```sql
+-- 用户消费排名
+SELECT
+    username,
+    SUM(o.total_amount) AS total_spent,
+    RANK() OVER (ORDER BY SUM(o.total_amount) DESC) AS spending_rank
 FROM users u
-INNER JOIN orders o ON u.id = o.user_id
-WHERE o.status = 'delivered'
+JOIN orders o ON u.id = o.user_id
 GROUP BY u.id, u.username;
+
+-- 月度订单累计
+SELECT
+    DATE_FORMAT(created_at, '%Y-%m') AS month,
+    COUNT(*) AS orders,
+    SUM(COUNT(*)) OVER (ORDER BY DATE_FORMAT(created_at, '%Y-%m')) AS cumulative_orders
+FROM orders
+GROUP BY DATE_FORMAT(created_at, '%Y-%m');
 ```
 
-## 最佳实践
-
-### 安全
+## 事务的正确写法
 
 ```sql
--- 使用参数化查询（预处理语句）
-PREPARE stmt FROM 'SELECT * FROM users WHERE username = ? AND email = ?';
-EXECUTE stmt USING 'john_doe', 'john@example.com';
-
--- 授予最小权限
-GRANT SELECT ON database.users TO 'readonly_user'@'localhost';
-GRANT INSERT, UPDATE ON database.orders TO 'app_user'@'localhost';
-REVOKE DELETE ON database.users FROM 'app_user'@'localhost';
-```
-
-### 数据完整性
-
-```sql
--- 使用事务确保数据一致性
+-- 原子化下单：扣库存、建订单、建订单明细
 START TRANSACTION;
-INSERT INTO orders (user_id, total_amount) VALUES (1, 150.00);
-UPDATE products SET stock_quantity = stock_quantity - 1 WHERE id = 1;
-COMMIT;
 
--- 添加约束
-ALTER TABLE users ADD CONSTRAINT chk_email CHECK (email LIKE '%@%');
-ALTER TABLE products ADD CONSTRAINT chk_price CHECK (price > 0);
-ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (total_amount >= 0);
+-- 先锁住行查库存
+SELECT stock_quantity INTO @stock FROM products WHERE id = 1 FOR UPDATE;
+
+IF @stock < 2 THEN
+    ROLLBACK;
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '库存不足';
+END IF;
+
+INSERT INTO orders (user_id, total_amount) VALUES (1, 199.98);
+SET @order_id = LAST_INSERT_ID();
+
+INSERT INTO order_items (order_id, product_id, quantity, price)
+VALUES (@order_id, 1, 2, 99.99);
+
+UPDATE products SET stock_quantity = stock_quantity - 2 WHERE id = 1;
+
+COMMIT;
 ```
 
-这些示例演示了核心SQL概念和有效数据库管理和查询的最佳实践。 
+`SELECT ... FOR UPDATE` 锁住行，保证并发事务不会在你查库存和扣库存之间把库存抢走。
+
+## 值得建的索引
+
+```sql
+-- 单列索引，覆盖高频过滤条件
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_orders_user_id ON orders(user_id);
+CREATE INDEX idx_orders_status ON orders(status);
+
+-- 复合索引，覆盖最常见的查询组合
+CREATE INDEX idx_orders_user_date ON orders(user_id, created_at);
+
+-- 覆盖索引 — 查询只走索引，不碰表数据
+CREATE INDEX idx_products_active ON products(category_id, price, stock_quantity);
+
+-- 验证索引有没有被用到
+EXPLAIN SELECT * FROM orders WHERE user_id = 1 AND created_at >= '2024-01-01';
+```

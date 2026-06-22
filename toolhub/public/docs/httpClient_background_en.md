@@ -1,42 +1,43 @@
-# HTTP Request Tester — Technical Background
+# HTTP Request Tester — The Basics
 
-## What is HTTP?
+HTTP is the protocol that runs the web. Every API call, every page load, every image fetch — it's all HTTP requests under the hood. If you're building or debugging anything web-related, you need to understand the shape of these requests.
 
-HTTP (HyperText Transfer Protocol) is the application-layer protocol that powers the web. Almost all modern API communication is built on HTTP/HTTPS.
+## The HTTP methods
 
-## Common HTTP Methods
+| Method | What it means | Has a body? |
+|--------|--------------|-------------|
+| GET | Fetch a resource | No |
+| POST | Create something new | Yes |
+| PUT | Replace something entirely | Yes |
+| PATCH | Update part of something | Yes |
+| DELETE | Remove something | Optional |
+| HEAD | Just the headers, no body | No |
+| OPTIONS | What methods does this endpoint support? | No |
 
-| Method | Semantics | Has Body? |
-|--------|-----------|-----------|
-| GET | Retrieve a resource | No |
-| POST | Create a resource | Yes |
-| PUT | Replace a resource entirely | Yes |
-| PATCH | Partially update a resource | Yes |
-| DELETE | Delete a resource | Optional |
-| HEAD | Get headers only (no body) | No |
-| OPTIONS | Query allowed methods | No |
+The one that trips people up: PUT vs PATCH. PUT means "here's the complete new version — replace everything." PATCH means "here are the specific fields to update — leave the rest alone."
 
-## Anatomy of an HTTP Request
+## Anatomy of a request
 
-- **Request line**: Method + URL + protocol version
-- **Headers**: Key-value metadata, e.g. `Content-Type`, `Authorization`
-- **Query Params**: Key-value pairs after `?`, e.g. `?page=1&size=20`
-- **Body**: Data carried by POST/PUT/PATCH
+A request has four parts:
 
-## What is CORS?
+- **The request line** — method, URL, and HTTP version
+- **Headers** — key-value metadata like `Content-Type: application/json` or `Authorization: Bearer xxx`
+- **Query parameters** — the stuff after `?` in the URL, like `?page=1&size=20`
+- **Body** — the payload for POST, PUT, and PATCH requests
 
-CORS (Cross-Origin Resource Sharing) is a browser security mechanism that restricts web scripts from making requests to a different origin (protocol + domain + port).
+## CORS: the thing that breaks your browser requests
 
-- If the target API does not include CORS response headers, the browser blocks the response
-- Servers grant cross-origin access via `Access-Control-Allow-Origin` and related headers
-- Tools like `curl` and Postman are not subject to CORS restrictions
+CORS (Cross-Origin Resource Sharing) is a browser security mechanism. If your web page is on `example.com` and tries to call `api.othersite.com`, the browser blocks it unless the API server explicitly allows it with `Access-Control-Allow-Origin` headers.
 
-## HTTP Status Code Ranges
+This only affects browser-based requests. `curl`, Postman, and server-side code aren't subject to CORS. That's why an API works fine in Postman but fails in your SPA — the browser is enforcing the policy.
 
-| Range | Meaning | Examples |
-|-------|---------|---------|
-| 2xx | Success | 200 OK, 201 Created |
-| 3xx | Redirect | 301 Moved, 302 Found |
-| 4xx | Client error | 400 Bad Request, 401 Unauthorized, 404 Not Found |
-| 5xx | Server error | 500 Internal Server Error, 502 Bad Gateway |
+## Status codes at a glance
 
+| Range | Meaning | Common examples |
+|-------|---------|----------------|
+| 2xx | Everything's fine | 200 OK, 201 Created, 204 No Content |
+| 3xx | Go somewhere else | 301 Moved Permanently, 302 Found |
+| 4xx | You messed up | 400 Bad Request, 401 Unauthorized, 404 Not Found, 429 Too Many Requests |
+| 5xx | Server messed up | 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable |
+
+4xx means fix your request. 5xx means tell the backend team. 429 means slow down.

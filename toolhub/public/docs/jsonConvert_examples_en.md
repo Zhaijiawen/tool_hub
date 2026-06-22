@@ -1,34 +1,26 @@
 # JSON Multi-format Converter - Examples
 
-## Example 1: API Response to Configuration File
+## API response to Kubernetes YAML
 
-### Scenario
-Converting JSON configuration data from an API into YAML format for a Kubernetes deployment file.
+You've got a JSON deployment spec from a dashboard or API and need it as YAML for `kubectl apply`.
 
-**JSON Input:**
+Input:
 ```json
 {
   "apiVersion": "apps/v1",
   "kind": "Deployment",
   "metadata": {
     "name": "my-app",
-    "labels": {
-      "app": "my-app",
-      "version": "v1.0"
-    }
+    "labels": { "app": "my-app", "version": "v1.0" }
   },
   "spec": {
     "replicas": 3,
-    "selector": {
-      "matchLabels": {
-        "app": "my-app"
-      }
-    }
+    "selector": { "matchLabels": { "app": "my-app" } }
   }
 }
 ```
 
-**YAML Output:**
+Output -- clean, no quotes around keys, exactly what kubectl wants:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -46,12 +38,11 @@ spec:
 
 ---
 
-## Example 2: CSV User Data to JSON
+## CSV export to JSON for API import
 
-### Scenario
-Converting a user list CSV exported from Excel into a JSON array for bulk import via a backend API.
+Exported a user list from Excel as CSV, need JSON for a bulk import endpoint.
 
-**CSV Input:**
+Input:
 ```csv
 userId,username,email,role,createdAt
 1001,alice,alice@example.com,admin,2024-01-01
@@ -60,7 +51,7 @@ userId,username,email,role,createdAt
 1004,dave,dave@example.com,user,2024-02-20
 ```
 
-**JSON Output:**
+Output -- everything is a string. Post-process if you need `userId` as a number:
 ```json
 [
   {
@@ -82,12 +73,11 @@ userId,username,email,role,createdAt
 
 ---
 
-## Example 3: XML Config to JSON
+## Legacy XML config to JSON
 
-### Scenario
-Migrating a legacy system's XML configuration file to JSON format for a new system.
+Pulling a config out of an old system that speaks XML, need it in JSON for a modern service.
 
-**XML Input:**
+Input:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
@@ -107,7 +97,7 @@ Migrating a legacy system's XML configuration file to JSON format for a new syst
 </config>
 ```
 
-**JSON Output:**
+Output -- note all values become strings since XML has no built-in types:
 ```json
 {
   "config": {
@@ -115,40 +105,26 @@ Migrating a legacy system's XML configuration file to JSON format for a new syst
       "host": "db.example.com",
       "port": "3306",
       "name": "production",
-      "pool": {
-        "min": "5",
-        "max": "20"
-      }
+      "pool": { "min": "5", "max": "20" }
     },
-    "cache": {
-      "type": "redis",
-      "ttl": "3600"
-    }
+    "cache": { "type": "redis", "ttl": "3600" }
   }
 }
 ```
 
 ---
 
-## Example 4: JSON to TOML (Rust Project Config)
+## JSON to TOML -- Rust/Python project config
 
-**JSON Input:**
+Input:
 ```json
 {
-  "package": {
-    "name": "my-rust-app",
-    "version": "0.1.0",
-    "edition": "2021"
-  },
-  "dependencies": {
-    "serde": "1.0",
-    "tokio": "1.0",
-    "axum": "0.7"
-  }
+  "package": { "name": "my-rust-app", "version": "0.1.0", "edition": "2021" },
+  "dependencies": { "serde": "1.0", "tokio": "1.0", "axum": "0.7" }
 }
 ```
 
-**TOML Output:**
+Output:
 ```toml
 [package]
 name = "my-rust-app"
@@ -163,9 +139,9 @@ axum = "0.7"
 
 ---
 
-## Example 5: JSON to CSV (Report Export)
+## JSON to CSV -- sales report for Excel
 
-**JSON Input (Sales Data):**
+Input:
 ```json
 [
   {"month": "2024-01", "product": "Pro Plan", "sales": 1250, "revenue": 62500},
@@ -175,7 +151,7 @@ axum = "0.7"
 ]
 ```
 
-**CSV Output (Opens directly in Excel):**
+Output -- opens directly in Excel or Google Sheets:
 ```csv
 month,product,sales,revenue
 2024-01,Pro Plan,1250,62500
@@ -186,15 +162,14 @@ month,product,sales,revenue
 
 ---
 
-## Common Conversion Scenarios in Development
+## Common conversion paths
 
-| From | To | Typical Use Case |
-|------|-----|-----------------|
-| JSON | YAML | API data → Kubernetes/Docker config |
-| YAML | JSON | CI config → program processing |
-| CSV | JSON | Excel data → backend bulk import |
-| JSON | CSV | Database query results → report download |
-| XML | JSON | SOAP/legacy system data → REST API |
-| JSON | XML | REST data → enterprise ESB integration |
-| JSON | TOML | App config → Rust/Python project config |
-
+| From | To | Real-world scenario |
+|------|----|--------------------|
+| JSON | YAML | API response to Kubernetes/Docker Compose config |
+| YAML | JSON | Read CI config into a program for processing |
+| CSV | JSON | Excel user data to backend bulk import API |
+| JSON | CSV | Database query results to a downloadable report |
+| XML | JSON | SOAP/legacy system data to a REST API |
+| JSON | XML | REST data into an enterprise ESB integration |
+| JSON | TOML | App config to Rust/Python project config file |

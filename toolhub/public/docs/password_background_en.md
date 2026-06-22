@@ -1,30 +1,33 @@
-# Random Password Generator — Background
+# Random Password Generator — The Thinking Behind It
 
-## Why Password Security Matters
+Weak passwords are still the leading cause of account compromise. Not phishing, not zero-days — just people reusing "Password123!" everywhere. A randomly generated, high-entropy password eliminates that entire category of risk.
 
-Weak passwords are one of the leading causes of account compromise. Research shows that randomly generated, high-entropy passwords effectively resist brute-force and dictionary attacks.
+## What makes a password strong
 
-## Password Strength Criteria
+It comes down to two things: length and character variety. Here's the math:
 
-| Length | Charset | Theoretical Cracking Time |
-|--------|---------|--------------------------|
-| 8 chars, digits only | 10 chars | Milliseconds |
-| 8 chars, alphanumeric | 62 chars | Minutes |
-| 12 chars, mixed + symbols | 94 chars | Thousands of years |
-| 16 chars, mixed + symbols | 94 chars | Hundreds of millions of years |
+| Length + charset | Possible combinations | Brute-force time (rough) |
+|-----------------|----------------------|--------------------------|
+| 8 chars, digits only | 10^8 | Milliseconds |
+| 8 chars, mixed case + digits | 62^8 | Minutes to hours |
+| 12 chars, mixed + symbols | 94^12 | Thousands of years |
+| 16 chars, mixed + symbols | 94^16 | Billions of years |
 
-## Randomness Security
+Every additional character multiplies the search space by the character set size. Going from 12 to 16 characters isn't 33% stronger — it's 94^4 times stronger.
 
-This tool uses `crypto.getRandomValues()` (Web Crypto API), a cryptographically secure pseudorandom number generator (CSPRNG) built into the browser. The values it produces are non-predictable and suitable for security-sensitive use cases like passwords and tokens.
+## How the randomness works
 
-`Math.random()` should never be used for password generation because it relies on a predictable algorithm.
+This tool uses `crypto.getRandomValues()` from the Web Crypto API. That's the browser's built-in cryptographically secure PRNG — the same one used for TLS key generation. Its output is unpredictable in the cryptographic sense.
 
-## Strength Rating Rules
+Contrast that with `Math.random()`, which uses a predictable algorithm. You can predict `Math.random()`'s next output if you've observed enough of its previous outputs. Do not use `Math.random()` for anything security-related.
 
-The tool combines password length and charset diversity:
+## How the strength meter works
 
-- **Weak**: Length < 8 or only one character type
-- **Medium**: Length 8–11 + 2 or more character types
-- **Strong**: Length 12–15 + 3 character types
-- **Very Strong**: Length 16+ + 4 character types
+The tool evaluates strength based on a simple combination of length and character set diversity:
 
+- **Weak**: Fewer than 8 characters, or only one character type
+- **Medium**: 8-11 characters with at least 2 character types
+- **Strong**: 12-15 characters with at least 3 character types
+- **Very Strong**: 16+ characters with all 4 character types
+
+This is a heuristic. A 20-character all-lowercase password is actually stronger than an 8-character mixed password, but the meter prioritizes diversity as a proxy for good password hygiene.

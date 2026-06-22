@@ -1,34 +1,26 @@
 # JSON 多格式互转 - 代码示例
 
-## 示例 1：API 响应转配置文件
+## API 响应转 Kubernetes YAML
 
-### 场景
-从 API 获取到 JSON 配置数据，需要转为 YAML 格式用于 Kubernetes 配置文件。
+从面板或 API 拿到 JSON 格式的 deployment 配置，需要转成 YAML 给 `kubectl apply` 用。
 
-**JSON 输入：**
+输入：
 ```json
 {
   "apiVersion": "apps/v1",
   "kind": "Deployment",
   "metadata": {
     "name": "my-app",
-    "labels": {
-      "app": "my-app",
-      "version": "v1.0"
-    }
+    "labels": { "app": "my-app", "version": "v1.0" }
   },
   "spec": {
     "replicas": 3,
-    "selector": {
-      "matchLabels": {
-        "app": "my-app"
-      }
-    }
+    "selector": { "matchLabels": { "app": "my-app" } }
   }
 }
 ```
 
-**YAML 输出：**
+输出 -- 干净、键不带引号、标准的 kubectl 格式：
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -46,12 +38,11 @@ spec:
 
 ---
 
-## 示例 2：CSV 用户数据转 JSON
+## Excel 导出 CSV 转 JSON 批量导入
 
-### 场景
-从 Excel 导出的用户列表 CSV，转换为 JSON 数组供后端 API 批量导入使用。
+从 Excel 导出了用户列表 CSV，需要 JSON 数组给后端批量导入接口。
 
-**CSV 输入：**
+输入：
 ```csv
 userId,username,email,role,createdAt
 1001,alice,alice@example.com,admin,2024-01-01
@@ -60,7 +51,7 @@ userId,username,email,role,createdAt
 1004,dave,dave@example.com,user,2024-02-20
 ```
 
-**JSON 输出：**
+输出 -- 所有值都是字符串，如果 `userId` 需要数字类型后续自己转：
 ```json
 [
   {
@@ -76,32 +67,17 @@ userId,username,email,role,createdAt
     "email": "bob@example.com",
     "role": "user",
     "createdAt": "2024-01-15"
-  },
-  {
-    "userId": "1003",
-    "username": "carol",
-    "email": "carol@example.com",
-    "role": "editor",
-    "createdAt": "2024-02-01"
-  },
-  {
-    "userId": "1004",
-    "username": "dave",
-    "email": "dave@example.com",
-    "role": "user",
-    "createdAt": "2024-02-20"
   }
 ]
 ```
 
 ---
 
-## 示例 3：XML 配置转 JSON
+## 遗留系统 XML 配置转 JSON
 
-### 场景
-遗留系统的 XML 配置文件，迁移到新系统时需要转为 JSON 格式。
+从老系统导出 XML 配置，新系统需要 JSON。
 
-**XML 输入：**
+输入：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
@@ -121,7 +97,7 @@ userId,username,email,role,createdAt
 </config>
 ```
 
-**JSON 输出：**
+输出 -- 注意所有值变成字符串，XML 没有内置类型：
 ```json
 {
   "config": {
@@ -129,40 +105,26 @@ userId,username,email,role,createdAt
       "host": "db.example.com",
       "port": "3306",
       "name": "production",
-      "pool": {
-        "min": "5",
-        "max": "20"
-      }
+      "pool": { "min": "5", "max": "20" }
     },
-    "cache": {
-      "type": "redis",
-      "ttl": "3600"
-    }
+    "cache": { "type": "redis", "ttl": "3600" }
   }
 }
 ```
 
 ---
 
-## 示例 4：JSON 转 TOML（Rust 项目配置）
+## JSON 转 TOML -- Rust/Python 项目配置
 
-**JSON 输入：**
+输入：
 ```json
 {
-  "package": {
-    "name": "my-rust-app",
-    "version": "0.1.0",
-    "edition": "2021"
-  },
-  "dependencies": {
-    "serde": "1.0",
-    "tokio": "1.0",
-    "axum": "0.7"
-  }
+  "package": { "name": "my-rust-app", "version": "0.1.0", "edition": "2021" },
+  "dependencies": { "serde": "1.0", "tokio": "1.0", "axum": "0.7" }
 }
 ```
 
-**TOML 输出：**
+输出：
 ```toml
 [package]
 name = "my-rust-app"
@@ -177,9 +139,9 @@ axum = "0.7"
 
 ---
 
-## 示例 5：JSON 转 CSV（报表导出）
+## JSON 转 CSV -- 销售报表给 Excel
 
-**JSON 输入（销售数据）：**
+输入：
 ```json
 [
   {"month": "2024-01", "product": "Pro套餐", "sales": 1250, "revenue": 62500},
@@ -189,7 +151,7 @@ axum = "0.7"
 ]
 ```
 
-**CSV 输出（可直接在 Excel 中打开）：**
+输出 -- 可以直接用 Excel 或 Google Sheets 打开：
 ```csv
 month,product,sales,revenue
 2024-01,Pro套餐,1250,62500
@@ -200,15 +162,14 @@ month,product,sales,revenue
 
 ---
 
-## 实际开发中的转换场景
+## 常见转换路径
 
-| 从 | 到 | 典型场景 |
-|----|----|----|
-| JSON | YAML | API 数据 → Kubernetes/Docker 配置 |
-| YAML | JSON | 读取 CI 配置 → 程序处理 |
-| CSV | JSON | Excel 数据 → 后端批量导入 |
-| JSON | CSV | 数据库查询结果 → 报表下载 |
-| XML | JSON | SOAP/旧系统数据 → REST API |
-| JSON | XML | REST 数据 → 企业 ESB 集成 |
-| JSON | TOML | 程序配置 → Rust/Python 项目配置 |
-
+| 从 | 到 | 实际场景 |
+|------|----|---------|
+| JSON | YAML | API 响应转 Kubernetes/Docker Compose 配置 |
+| YAML | JSON | 读取 CI 配置给程序处理 |
+| CSV | JSON | Excel 用户数据转后端批量导入 API |
+| JSON | CSV | 数据库查询结果转可下载报表 |
+| XML | JSON | SOAP/旧系统数据转 REST API |
+| JSON | XML | REST 数据转企业 ESB 集成 |
+| JSON | TOML | 应用配置转 Rust/Python 项目配置文件 |

@@ -1,45 +1,59 @@
-# Markdown Converter — Usage Tutorial
+# Markdown Converter — How to Use It
 
-## How to Use
+## Quick Start
 
-### Step 1: Write or Paste Markdown
-Enter or paste your Markdown text in the left editor panel.
+Paste your Markdown into the left panel. The right panel shows a live HTML preview — it updates as you type, no refresh needed.
 
-### Step 2: Preview the Rendered Output
-The right panel shows the live HTML preview, updating as you type.
+Once you're happy with the output:
 
-### Step 3: Copy or Export
-- Click **Copy HTML** to copy the rendered HTML source
-- Click **Copy Markdown** to copy the raw Markdown text
+- Hit **Copy HTML** to grab the rendered HTML source
+- Hit **Copy Markdown** to copy the raw Markdown text
 
-## Markdown Quick Reference
+That's it. The tool handles the conversion, so you don't need to install anything.
 
-| Element | Syntax | Result |
+## Cheat Sheet
+
+| What you want | Type this | You get |
 |---|---|---|
-| Bold | `**text**` | **text** |
-| Italic | `_text_` | *text* |
-| Heading 1 | `# Title` | large heading |
-| Heading 2 | `## Title` | medium heading |
-| Link | `[label](url)` | clickable link |
-| Image | `![alt](src)` | image |
-| Inline code | `` `code` `` | `code` |
-| Block quote | `> text` | indented quote |
-| Horizontal rule | `---` | divider line |
+| Bold | `**text**` | **strong text** |
+| Italic | `_text_` | *emphasized text* |
+| `# Title` | Large heading | H1 |
+| `## Title` | Medium heading | H2 |
+| `### Title` | Small heading | H3 |
+| Link | `[label](url)` | Clickable link |
+| Image | `![alt](src)` | Embedded image |
+| Inline code | `` `code` `` | `monospace text` |
+| Code block | ` ```lang ` | Syntax-highlighted block |
+| Blockquote | `> text` | Indented quote |
+| Horizontal rule | `---` | Divider line |
+| Unordered list | `- item` | Bullet list |
+| Ordered list | `1. item` | Numbered list |
+| Table | `\| col \| col \|` | HTML table |
+| Task list | `- [ ] task` | Checkbox list |
 
 ## Code Blocks with Syntax Highlighting
 
-Use three backticks followed by the language name:
-    
+Use three backticks with a language tag:
+
 ````markdown
 ```python
-def hello():
-    print("Hello, world!")
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
 ```
 ````
 
-## Tips
+The language tag tells the highlighter which grammar to use. Common tags: `javascript`, `python`, `bash`, `json`, `yaml`, `css`, `html`, `sql`, `java`, `ruby`, `go`, `rust`.
 
-- Use `---` to insert a horizontal rule as a visual separator
-- Nest lists by indenting with 2 spaces
-- Use `> > nested quote` for nested blockquotes
-- Most Markdown renderers support GitHub Flavored Markdown (GFM) — tables, task lists, and strikethrough
+You can also use ` ``` ` without a tag for plain preformatted text.
+
+## Pro Tips
+
+- Use `---` on its own line to drop in a horizontal divider — handy for section breaks in long docs
+- Nest lists by indenting sub-items with 2 spaces (or 3 for ordered sub-lists under ordered parents)
+- Wrap text you don't want parsed in backticks: `` `**this won't be bold**` ``
+- Most platforms support GFM tables, so go ahead and use them in READMEs, issues, and PRs
+- For long docs, break sections with `##` headings — they create anchor links automatically on GitHub
+- Two trailing spaces at end of line creates a `<br>` line break without starting a new paragraph

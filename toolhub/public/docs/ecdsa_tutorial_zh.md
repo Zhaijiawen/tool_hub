@@ -1,151 +1,90 @@
 # ECDSA 使用教程
 
-## 环境设置
+ECDSA 部署广泛但有不少陷阱。新项目如果能选就选 Ed25519。如果必须用 ECDSA（与现有系统互操作），以下是你需要知道的。
 
-### 前置条件
-- 具有ECC库的编程语言
-- 理解椭圆曲线密码学
-- 数字签名概念知识
-- ECDSA安全考虑意识
+## 安装
 
-### 库选择
-
-#### PyCryptodome (Python)
 ```bash
 pip install pycryptodome
 ```
 
-#### Node.js crypto (JavaScript)
-```bash
-# 内置crypto模块，无需安装
-```
+## 签名和验证
 
-#### Bouncy Castle (Java)
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
-
-#### OpenSSL (C/C++)
-```bash
-# 安装OpenSSL
-sudo apt-get install libssl-dev  # Ubuntu/Debian
-brew install openssl             # macOS
-```
-
-## 基本概念
-
-### ECDSA密钥结构
 ```python
 from Crypto.PublicKey import ECC
+from Crypto.Signature import DSS
+from Crypto.Hash import SHA256
 
-# 生成ECDSA密钥对
+# 生成 ECDSA 密钥对
 key = ECC.generate(curve='P-256')
 
-# 公钥组件
-public_key = key.public_key()
-x = public_key.x  # X坐标
-y = public_key.y  # Y坐标
-curve = public_key.curve  # 曲线名称
+# 签名消息
+message = b"ECDSA 签名的消息"
+hash_obj = SHA256.new(message)
+signer = DSS.new(key, 'fips-186-3')
+signature = signer.sign(hash_obj)
 
-# 私钥组件
-private_key = key
-d = private_key.d  # 私钥标量
-curve = private_key.curve  # 曲线名称
+print(f"签名 ({len(signature)} 字节): {signature.hex()}")
 
-print(f"曲线: {curve}")
-print(f"公钥: ({x}, {y})")
-print(f"密钥大小: {key.pointQ.size_in_bits()} 位")
+# 验证
+verifier = DSS.new(key.public_key(), 'fips-186-3')
+try:
+    verifier.verify(SHA256.new(message), signature)
+    print("签名有效！")
+except ValueError:
+    print("无效签名！")
 ```
 
-### 曲线选择
+## 确定性 ECDSA（RFC 6979）
+
+PyCryptodome 支持确定性 nonce 生成，从根本上消除 nonce 重用风险：
+
 ```python
-def curve_recommendations():
-    """ECDSA曲线建议"""
-    print("ECDSA曲线建议:")
-    print("P-256: 最广泛使用，256位安全性")
-    print("P-384: 更高安全性，性能较慢")
-    print("P-521: 最大安全性，最大密钥大小")
-    print("secp256k1: 比特币曲线，256位安全性")
-    
-    # 安全级别
-    security_levels = {
-        'P-256': "128位（当前标准）",
-        'P-384': "192位（高安全性）",
-        'P-521': "256位（最大安全性）",
-        'secp256k1': "128位（比特币标准）"
-    }
-    
-    return security_levels
+# 确定性模式：k 从私钥和消息派生
+signer = DSS.new(key, 'deterministic-rfc6979')
+signature = signer.sign(hash_obj)
 ```
 
-## 密钥生成
+这应该成为你的默认选择。意味着相同私钥和相同消息总是产生相同签名 -- 不需要 RNG，不可能重用 nonce。
 
-### 基本密钥生成
+## nonce 重用演示（不要这么做）
+
+要理解为什么 nonce 重用是致命的，这是如果 k 被重用会发生什么：
+
 ```python
-from Crypto.PublicKey import ECC
-import os
+# 生产中绝不要这样重用 nonce
+# 这只是演示为什么危险
 
-def generate_ecdsa_key_pair(curve='P-256'):
-    """生成ECDSA密钥对"""
-    # 生成随机密钥
-    key = ECC.generate(curve=curve)
-    
-    # 提取公钥和私钥
-    private_key = key
-    public_key = key.public_key()
-    
-    print(f"在{curve}上生成ECDSA密钥对")
-    print(f"公钥: ({public_key.x}, {public_key.y})")
-    print(f"私钥: {private_key.d}")
-    
-    return private_key, public_key
-
-def save_key_pair(private_key, public_key, filename_prefix):
-    """保存ECDSA密钥对到文件"""
-    # 保存私钥
-    with open(f"{filename_prefix}_private.pem", "wb") as f:
-        f.write(private_key.export_key(format='PEM'))
-    
-    # 保存公钥
-    with open(f"{filename_prefix}_public.pem", "wb") as f:
-        f.write(public_key.export_key(format='PEM'))
-    
-    print(f"密钥保存为{filename_prefix}_private.pem和{filename_prefix}_public.pem")
+# 如果两个签名使用相同 k，看到两者的攻击者可以恢复密钥：
+# 给定：消息哈希 z1 的 (r, s1)，消息哈希 z2 的 (r, s2)
+# k = (z1 - z2) / (s1 - s2) mod n
+# 然后：私钥 = (s1 * k - z1) / r mod n
 ```
 
-### 自定义参数的密钥生成
-```python
-def generate_ecdsa_with_custom_curve(curve_name):
-    """使用自定义曲线生成ECDSA密钥"""
-    available_curves = ['P-256', 'P-384', 'P-521', 'secp256k1']
-    
-    if curve_name not in available_curves:
-        print(f"不支持的曲线: {curve_name}")
-        return None
-    
-    key = ECC.generate(curve=curve_name)
-    print(f"在{curve_name}上生成ECDSA密钥")
-    return key
+务必使用 RFC 6979 确定性模式。
 
-def validate_key_parameters(key):
-    """验证ECDSA密钥参数"""
-    # 检查曲线
-    if key.curve not in ['P-256', 'P-384', 'P-521', 'secp256k1']:
-        print("警告: 非标准曲线")
-    
-    # 检查密钥大小
-    key_size = key.pointQ.size_in_bits()
-    if key_size < 256:
-        print("警告: 密钥大小小于256位")
-    
-    # 检查私钥范围
-    if key.d <= 0 or key.d >= key.pointQ.order:
-        print("错误: 私钥超出有效范围")
+## 文件签名
+
+```python
+def sign_file(private_key, file_path):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    signer = DSS.new(private_key, 'deterministic-rfc6979')
+    return signer.sign(SHA256.new(data))
+
+def verify_file(public_key, file_path, signature):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    verifier = DSS.new(public_key, 'fips-186-3')
+    try:
+        verifier.verify(SHA256.new(data), signature)
+        return True
+    except ValueError:
         return False
-    
-    return True
-``` 
+```
+
+## ECDSA 还是 Ed25519？
+
+新代码：选 Ed25519。它天然确定性、64 字节签名、更简单容易实现正确。
+
+只有当你需要和需要 ECDSA 的现有系统兼容时才用它（比特币、老 TLS、某些 HSM 和政府标准）。

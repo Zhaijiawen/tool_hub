@@ -1,10 +1,10 @@
-# Diff Text Comparison - Examples
+# Diff Text Comparison Examples
 
-## Example 1: JavaScript Function Refactoring
+Real before-and-after comparisons across different file types.
 
-### Comparison Content
+## JavaScript Function Refactoring
 
-**Left (Original Version):**
+**Left (original):**
 ```javascript
 // User login validation
 function login(username, password) {
@@ -19,7 +19,7 @@ function login(username, password) {
 }
 ```
 
-**Right (Refactored Version):**
+**Right (refactored):**
 ```javascript
 // User login validation (added length check and password encryption)
 async function login(username, password) {
@@ -41,20 +41,19 @@ async function login(username, password) {
 }
 ```
 
-### Expected Diff Results
-- Function signature: sync → async
-- Added: password length validation
-- Added: user-not-found check
-- Changed: `db.find` → `db.findByUsername`
-- Changed: plaintext password comparison → bcrypt encrypted comparison
+**What the diff reveals:**
+- Function signature went from sync to async
+- Input validation improved (`?.trim()` instead of `=== ''`)
+- New: password minimum length check
+- New: user-not-found handling
+- `db.find` renamed to `db.findByUsername`
+- Plaintext password comparison replaced with bcrypt
 
----
+This is a typical code review scenario. The diff tells the reviewer exactly what to focus on: security improvement (bcrypt), better error messages, and async conversion.
 
-## Example 2: Configuration File Comparison
+## Nginx Config: Dev vs Production
 
-### Nginx Config Diff
-
-**Left (Development Environment):**
+**Left (development):**
 ```nginx
 server {
   listen 3000;
@@ -68,7 +67,7 @@ server {
 }
 ```
 
-**Right (Production Environment):**
+**Right (production):**
 ```nginx
 server {
   listen 80;
@@ -88,13 +87,11 @@ server {
 }
 ```
 
----
+In a line-level diff, you'll immediately see: ports changed, SSL added, server_name changed, proxy target changed (single server to cluster), logging enabled. This is exactly the kind of config diff you'd review before deploying.
 
-## Example 3: JSON Data Comparison
+## API Response Version Comparison
 
-### API Response Diff
-
-**Left (v1 Response):**
+**Left (v1):**
 ```json
 {
   "code": 0,
@@ -106,7 +103,7 @@ server {
 }
 ```
 
-**Right (v2 Response):**
+**Right (v2):**
 ```json
 {
   "code": 0,
@@ -121,28 +118,26 @@ server {
 }
 ```
 
-### Diff Analysis
-- New field: `message`
-- Field renamed: `name` → `displayName`, new `username` added
-- Type change: `role` (String) → `roles` (Array)
+Diff analysis:
+- New top-level field: `message`
+- `name` split into `username` and `displayName`
+- `role` (string) changed to `roles` (array) -- this is a breaking change for any client that expected a string
 - New field: `createdAt`
 
----
+This is valuable for API contract testing -- diff the expected response against the actual response to catch unexpected changes.
 
-## Example 4: Document Revision Comparison
+## Requirements Document Revision
 
-### Requirements Document
-
-**Left (First Draft):**
+**Left (first draft):**
 ```
 User Registration Requirements
 
 1. Users can register with email
 2. Password must be at least 8 characters
-3. Send confirmation email after successful registration
+3. Send confirmation email after registration
 ```
 
-**Right (Revised Draft):**
+**Right (revised):**
 ```
 User Registration Requirements (v1.1)
 
@@ -153,11 +148,11 @@ User Registration Requirements (v1.1)
 5. Unverified accounts are automatically deleted after 24 hours
 ```
 
----
+Word-level diff is ideal here -- it'll highlight "email" changing to "email or phone number" and the two new requirements rather than marking the entire document as changed.
 
-## Example 5: CSS Style Differences
+## CSS Style Update
 
-**Left (Old Style):**
+**Left (old):**
 ```css
 .button {
   background-color: #007bff;
@@ -168,7 +163,7 @@ User Registration Requirements (v1.1)
 }
 ```
 
-**Right (New Style):**
+**Right (new):**
 ```css
 .button {
   background: linear-gradient(135deg, #007bff, #0056b3);
@@ -186,11 +181,10 @@ User Registration Requirements (v1.1)
 }
 ```
 
----
+The diff clearly shows: gradient replaced flat color, padding increased, border-radius added, transition and box-shadow added, and a new hover rule. Reviewing CSS diffs before deployment helps catch unintended style changes.
 
-## Practical Application Tips
+## Tips for Integrating Diff into Your Workflow
 
-1. **Use before code review**: Check diffs locally before submitting a PR to avoid accidentally including debug code
-2. **Config verification before deployment**: Compare test and production configs before going live to avoid missing settings
-3. **Document version management**: Keep both before and after versions of important documents for easy traceability
-
+- **Pre-PR self-review**: Run a diff locally before pushing to catch debug code, console.logs, or unintended changes you forgot about.
+- **Config verification**: Diff staging vs production configs before every deploy. Automated config drift detection is even better.
+- **Document history**: Keep old versions of important documents. When someone asks "what changed in the contract?" you can diff and answer in seconds.

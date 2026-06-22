@@ -1,39 +1,33 @@
 # Find & Replace — Usage Tutorial
 
-## How to Use
+The replace tool is dead simple in concept — type what to find, type what to replace it with, hit the button — but the regex mode opens up a lot of ground that isn't obvious at first glance.
 
-### Step 1: Paste Your Text
-Enter or paste the text you want to process into the input area.
+Start by dropping your text into the input area. It can be anything: a config file, a chunk of HTML, a log dump, whatever you need to clean up.
 
-### Step 2: Enter the Search Term
-Type the text or pattern you want to find in the **Find** field.
+In the **Find** field, enter what you're searching for. If regex mode is off, it's a literal string search — `color` finds exactly `color` and nothing else. If regex mode is on, the field becomes a pattern input where you can use the full regex syntax.
 
-### Step 3: Enter the Replacement
-Type the replacement text in the **Replace** field. Leave it empty to effectively delete all matches.
+In the **Replace** field, type what you want each match to become. Leave it empty and you're effectively deleting matches — the fastest way to strip HTML tags, remove comments, or clean up noise from data.
 
-### Step 4: Configure Options
-- **Regex Mode**: Toggle to enable regular expression matching
-- **Case Sensitive**: Toggle to control case sensitivity (default: case-insensitive)
+Two toggles control the behavior:
+- **Regex Mode**: Off by default. Turn it on when you need pattern matching rather than literal search. The find field immediately starts interpreting metacharacters, so remember to escape literal dots and parentheses with `\`.
+- **Case Sensitive**: Off by default — `hello` matches `Hello` and `HELLO`. Flip it on when casing matters, like when you're renaming a specific identifier in code.
 
-### Step 5: Replace
-- Click **Replace All** to replace every occurrence
-- The result appears in the output area automatically
+Hit **Replace All** and the output updates in place. Every occurrence of the find pattern gets swapped, and you can copy the result immediately.
 
-## Working with Regular Expressions
+## Using backreferences
 
-When Regex Mode is enabled, the search field accepts regex patterns. The replacement field supports backreferences:
+When regex mode is on and your pattern has capturing groups `()`, the replacement string can reference them:
 - `$1` — first captured group
 - `$2` — second captured group
 - `$&` — the entire match
 
-### Example: Swap first and last name
-- **Find**: `(\w+)\s+(\w+)`
-- **Replace**: `$2 $1`
-- **Input**: `John Doe`
-- **Output**: `Doe John`
+This is how you restructure data without losing content. Say you have a list of names in "FirstName LastName" format and need "LastName, FirstName" — the pattern `(\w+)\s+(\w+)` with replacement `$2, $1` does it in one pass.
 
-## Tips
-- Use `.*` in regex to match any sequence of characters
-- Escape special characters with `\` (e.g., `\.` to match a literal dot)
-- Preview results before copying to ensure correctness
+For dates, `(\d{4})-(\d{2})-(\d{2})` captures year, month, and day separately. Replacement `$3/$2/$1` flips the order to day/month/year. No scripting needed.
 
+## Common workflow gotchas
+
+- If you toggle regex mode on after typing a find pattern, double-check it. Characters like `.` and `()` that were literal moments ago are now metacharacters.
+- Regex mode with an empty find field won't match anything — `.*` is what you want if you're trying to wrap or transform entire lines.
+- `\n` matches newlines in regex mode but only if the engine allows it (JavaScript's `.` doesn't match `\n` without the `s` flag, but `\n` itself as a character always works in character classes and alternations).
+- When replacing with backreferences, make sure the groups in your pattern actually capture — a `(?:...)` non-capturing group won't create a `$1`.

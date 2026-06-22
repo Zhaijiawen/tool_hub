@@ -1,66 +1,37 @@
-# Text Statistics - Technical Background
+# Text Statistics — Why Counting Matters
 
-## Why Text Statistics Matter
+Character and word counts show up in more places than you'd think. Platform limits (Twitter 280, Weibo 140), translation billing (per word or per character), SEO guidelines (minimum word counts for ranking), writing constraints (abstracts, executive summaries) — they all need accurate counts.
 
-Text statistics are widely used in writing, content operations, NLP preprocessing, and document review:
+## Character counting: it's not just `str.length`
 
-- **Platform limits**: Weibo caps at 140 chars, Twitter at 280, job descriptions have length guidelines
-- **SEO**: Word count and paragraph structure influence search rankings
-- **Translation billing**: Translation agencies charge by word or character count
-- **Code review**: Evaluating the verbosity of function docs and READMEs
+**Total vs. non-space —** Total characters include every space, newline, and tab. Non-space characters exclude all whitespace. For content like WeChat articles where the goal is "800-2,000 characters of meaningful content," non-space is the number you want.
 
-## Different Ways to Count Characters
+**CJK vs. Latin —** Chinese, Japanese, and Korean characters are fundamentally different from Latin script. Each CJK character is a meaningful unit on its own, where English words are groups of characters delimited by spaces:
 
-### Total Characters vs. Non-Space Characters
-
-- **Total characters**: includes spaces, newlines, tabs, and all whitespace
-- **Non-space characters**: excludes all whitespace, reflecting the volume of actual content
-
-### The Difference Between CJK and Latin Text
-
-Chinese (and Japanese, Korean — CJK) characters are **each inherently a word**, so counting differs from Western languages:
-
-| Language | Word delimiter | Example |
+| Language | How words work | Example |
 |----------|---------------|---------|
-| English | Whitespace | "Hello World" = 2 words |
-| Chinese | Each character is a word | "你好世界" = 4 characters (words) |
+| English | Split by whitespace | "Hello World" = 2 words |
+| Chinese | Each character is a unit | "你好世界" = 4 characters/words |
 
-Word counting strategy used by this tool:
-- English: split by whitespace — each continuous non-whitespace run is one word
-- Chinese: each Han/Kana/Hangul character counts as one word
+Our counting strategy: English words are split by whitespace. CJK characters are counted individually.
 
-## How Reading Time Is Estimated
+## Reading time estimation
 
-Reading speed varies by language and content type:
+Reading speed varies by language and content density. Our estimates:
 
-| Context | Typical speed |
-|---------|--------------|
-| English casual reading | ~200–250 words/min |
-| Chinese casual reading | ~300–400 chars/min |
-| Technical documentation | ~150–200 words/min |
-
-This tool uses:
-- English: **200 words/minute**
-- Chinese (by character count): **350 chars/minute**
+- English: **200 words/minute** (casual reading speed)
+- Chinese: **350 characters/minute**
 - Mixed text: weighted average based on proportion
 
-Results under 1 minute display as "< 1 min"; results over 60 minutes are converted to hours.
+These are approximations. Technical documentation reads slower; social media posts read faster. Results under 1 minute show as "< 1 min"; over 60 minutes convert to hours.
 
-## Word Frequency Analysis
+## Word frequency analysis
 
-Term Frequency (TF) counts how often each word appears — the most fundamental NLP text analysis technique, useful for:
+Term frequency is the simplest NLP technique — count how often each word appears. It's useful for identifying key themes, spotting overused words, and getting a quick sense of what a text is about.
 
-- Extracting key terms (high-frequency words often reflect the topic)
-- Spotting repetitive or redundant phrasing
-- Quick content theme preview
+The tool filters out single letters/characters, numbers, and punctuation automatically. The top 20 words are displayed, ranked by frequency.
 
-This tool automatically filters out:
-- Single letters / single characters (stop words like "the", "a", "的")
-- Pure numbers
-- Punctuation
+## Paragraphs and sentences
 
-## Paragraph and Sentence Counting Rules
-
-- **Paragraphs**: separated by one or more blank lines
-- **Sentences**: segments ending with `.`, `!`, `?`, `。`, `！`, or `？`
-
+- **Paragraphs:** separated by one or more blank lines
+- **Sentences:** segments ending with `.` `!` `?` or their CJK equivalents `。` `！` `？`

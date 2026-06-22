@@ -1,247 +1,33 @@
-# Image Processing Technical Background
+# Image Processing — Technical Background
 
-## Overview
+The image tools run entirely in your browser using the Canvas API. No uploads to a server, no waiting for a backend to process — everything happens client-side. This matters because images can be large and you probably don't want sensitive photos leaving your machine.
 
-Image processing encompasses a wide range of operations that manipulate digital images for various purposes including format conversion, compression, geometric transformations, and watermarking. These operations are fundamental to modern digital workflows, web development, content management, and multimedia applications.
+## What the browser can do
 
-## Image Formats and Compression
+The Canvas API gives you pixel-level access to images, which means the tool can do a lot without any external libraries:
 
-### Raster Image Formats
+- **Format conversion**: Read an image in one format (JPEG, PNG, WebP, AVIF, BMP, GIF), write it out in another. The browser handles the encoding/decoding natively.
+- **Resizing and cropping**: Canvas lets you draw source image data into a target rectangle of any size. Resampling quality depends on the browser's implementation — Chrome and Firefox both do bicubic interpolation by default.
+- **Rotation and flipping**: Affine transforms on canvas handle rotation and mirroring. The math happens in the GPU.
+- **Compression quality control**: JPEG and WebP output accept a quality parameter (0-1). Lower quality = smaller file, more artifacts. You can preview the trade-off in real time.
 
-**JPEG (Joint Photographic Experts Group)**
-- Lossy compression algorithm optimized for photographic images
-- Uses Discrete Cosine Transform (DCT) and quantization
-- Supports quality levels from 0-100, balancing file size and visual quality
-- No transparency support, 24-bit color depth
-- Ideal for photographs, web images, and digital cameras
+## Format trade-offs
 
-**PNG (Portable Network Graphics)**
-- Lossless compression using DEFLATE algorithm
-- Supports transparency (alpha channel) and 8-bit/24-bit/32-bit color
-- Two variants: PNG-8 (256 colors) and PNG-24 (16.7 million colors)
-- Excellent for graphics with sharp edges, text, and transparency needs
-- Larger file sizes compared to lossy formats
+The formats you'll actually choose between:
 
-**WebP**
-- Modern format developed by Google
-- Supports both lossy and lossless compression
-- Includes transparency and animation capabilities
-- Superior compression ratios compared to JPEG and PNG
-- Growing browser support, ideal for web optimization
+- **JPEG**: Lossy, no transparency, great for photos. Quality 80 is the sweet spot for web — visually indistinguishable from 100 at half the file size. Below 60, artifacts become visible.
+- **PNG**: Lossless, supports full alpha transparency. Best for screenshots, logos, text-heavy graphics, and anything with sharp edges. File size is larger than JPEG for photos, but you don't lose any detail.
+- **WebP**: Google's format. Supports both lossy and lossless, includes transparency, and produces files 25-35% smaller than equivalent JPEG/PNG. Browser support is now universal.
+- **AVIF**: Even better compression than WebP (often 50% smaller for equivalent quality). Supports HDR and wide color gamut. The downside: encoding is slower, and the tool runs in the browser so you'll feel the difference on large images.
 
-**AVIF (AV1 Image File Format)**
-- Next-generation format based on AV1 video codec
-- Excellent compression efficiency
-- Supports HDR, wide color gamut, and transparency
-- Emerging format with increasing adoption
+## How resize quality works
 
-### Compression Algorithms
+When you scale an image down, the browser has to decide which source pixels contribute to each output pixel. The default is bicubic interpolation — a weighted average of nearby pixels — which looks good for most cases.
 
-**Lossy Compression**
-- DCT (Discrete Cosine Transform): Converts spatial data to frequency domain
-- Quantization: Reduces precision of frequency coefficients
-- Entropy coding: Huffman or arithmetic coding for final compression
-- Quality vs. file size trade-off
+When scaling up, there's no new information to work with, so the result will look soft. The browser can't invent detail that isn't in the source. If you need to enlarge an image significantly, you're better off using a purpose-built AI upscaler.
 
-**Lossless Compression**
-- DEFLATE: Combines LZ77 and Huffman coding
-- Run-length encoding: Efficient for images with repeated patterns
-- Predictive coding: Uses neighboring pixels to predict current pixel values
+## Why processing happens client-side
 
-## Geometric Transformations
+The tool never sends your images anywhere. This isn't just a privacy feature — it's a performance one. A 20 MB photo would take seconds to upload and seconds more to download the result. Processing it in the browser takes milliseconds. The only bottleneck is your device's CPU/GPU.
 
-### Rotation
-
-**Mathematical Foundation**
-- Affine transformations using rotation matrices
-- Center point calculation and coordinate mapping
-- Interpolation methods: nearest neighbor, bilinear, bicubic
-- Boundary handling and image expansion
-
-**Implementation Considerations**
-- Memory allocation for rotated image dimensions
-- Anti-aliasing techniques to reduce jagged edges
-- Performance optimization for large images
-- Handling of different color depths and formats
-
-### Cropping
-
-**Rectangular Cropping**
-- Coordinate system and boundary validation
-- Memory-efficient region extraction
-- Aspect ratio preservation options
-- Batch processing capabilities
-
-**Advanced Cropping**
-- Circular and elliptical cropping with anti-aliasing
-- Smart cropping using content-aware algorithms
-- Face detection for portrait cropping
-- Rule-of-thirds and golden ratio guides
-
-**Scaling and Resizing**
-- Interpolation algorithms: nearest neighbor, bilinear, bicubic, Lanczos
-- Aspect ratio preservation vs. distortion
-- Upscaling quality considerations
-- Downscaling anti-aliasing techniques
-
-## Watermarking Techniques
-
-### Visible Watermarks
-
-**Text Watermarks**
-- Font rendering and positioning algorithms
-- Opacity and blending mode implementation
-- Anti-aliasing and edge smoothing
-- Dynamic text sizing and wrapping
-
-**Image Watermarks**
-- Logo overlay with transparency support
-- Corner positioning and tiling options
-- Opacity and blend mode controls
-- Watermark removal resistance techniques
-
-### Invisible Watermarks
-
-**Digital Watermarking**
-- LSB (Least Significant Bit) steganography
-- DCT domain watermarking
-- Wavelet domain embedding
-- Spread spectrum techniques
-
-**Robustness Features**
-- Resistance to compression and format conversion
-- Geometric transformation resilience
-- Noise and filtering resistance
-- Multiple watermark layers
-
-## Color Management
-
-### Color Spaces
-
-**RGB (Red, Green, Blue)**
-- Additive color model for digital displays
-- 8-bit, 16-bit, and floating-point representations
-- Gamma correction and color profiles
-- sRGB and Adobe RGB standards
-
-**CMYK (Cyan, Magenta, Yellow, Key/Black)**
-- Subtractive color model for printing
-- Color separation algorithms
-- Ink limit and total area coverage
-- Print-specific color management
-
-**Other Color Spaces**
-- HSV/HSL: Hue, Saturation, Value/Lightness
-- LAB: Device-independent color space
-- Grayscale: Single-channel intensity
-- Indexed color: Palette-based optimization
-
-### Color Transformations
-
-**Color Space Conversion**
-- Matrix transformations between color spaces
-- Gamut mapping and clipping
-- White point and illuminant considerations
-- ICC profile integration
-
-## Performance Optimization
-
-### Memory Management
-
-**Efficient Processing**
-- Streaming processing for large images
-- Memory-mapped file access
-- Tile-based processing for very large images
-- Garbage collection optimization
-
-**Caching Strategies**
-- Thumbnail generation and caching
-- Progressive loading and rendering
-- Multi-resolution image pyramids
-- CDN integration for web delivery
-
-### Algorithm Optimization
-
-**Parallel Processing**
-- Multi-threading for CPU-intensive operations
-- GPU acceleration using OpenGL/OpenCL
-- SIMD instructions for pixel operations
-- Distributed processing for batch operations
-
-**Quality vs. Speed Trade-offs**
-- Fast approximation algorithms
-- Adaptive quality based on image content
-- Progressive quality enhancement
-- Real-time processing considerations
-
-## Error Handling and Validation
-
-### Input Validation
-
-**File Format Detection**
-- Magic number and signature verification
-- Header parsing and validation
-- Corrupted file detection and recovery
-- Format-specific error handling
-
-**Image Data Validation**
-- Dimension and resolution limits
-- Color depth compatibility
-- Memory allocation checks
-- Processing pipeline validation
-
-### Error Recovery
-
-**Graceful Degradation**
-- Fallback formats for unsupported operations
-- Quality reduction for memory constraints
-- Timeout handling for long operations
-- User feedback and progress indication
-
-## Security Considerations
-
-### Image Security
-
-**Malicious Content Detection**
-- EXIF data sanitization
-- Hidden data detection and removal
-- Format-specific security vulnerabilities
-- Content validation and filtering
-
-**Privacy Protection**
-- Metadata removal and anonymization
-- Face detection and blurring
-- Location data scrubbing
-- Watermark removal prevention
-
-## Standards and Best Practices
-
-### Industry Standards
-
-**File Format Standards**
-- ISO/IEC standards for image formats
-- Web standards for image delivery
-- Print industry color standards
-- Accessibility guidelines
-
-**Quality Guidelines**
-- Web image optimization standards
-- Print resolution requirements
-- Archive quality specifications
-- Performance benchmarks
-
-### Implementation Best Practices
-
-**Code Organization**
-- Modular architecture for different operations
-- Plugin system for format support
-- Configuration management
-- Testing and validation frameworks
-
-**User Experience**
-- Intuitive interface design
-- Progress indication and cancellation
-- Preview and comparison tools
-- Batch processing capabilities
-
-This technical background provides the foundation for implementing comprehensive image processing capabilities, covering the essential concepts, algorithms, and considerations for building robust image manipulation tools. 
+The trade-off: the browser's image codecs are optimized for speed, not for squeezing every last byte out of a file. If you need maximum compression (like for a production image pipeline), a command-line tool like `imagemagick` or `sharp` running on a server will do better. But for quick one-off conversions, the browser is more than good enough.

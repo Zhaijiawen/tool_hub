@@ -1,71 +1,54 @@
 # Gradient Color Generator - Technical Background
 
-## Introduction to CSS Gradients
+CSS gradients have been around long enough that it's easy to forget how useful they are. No image files, no HTTP requests, no blurry scaling -- the browser renders them natively at any resolution. If you're still slicing gradient PNGs from Figma, it's time to stop.
 
-CSS gradients create smooth color transitions rendered entirely by the browser — no image files needed. They scale losslessly and are lightweight in size.
+## The three gradient types
 
-## Gradient Types
+### Linear gradients
 
-### Linear Gradient
-
-Colors transition along a straight line. The most commonly used gradient type.
+The one you use 90% of the time. Colors flow along a straight line. The angle system takes a minute to memorize: `0deg` goes bottom-to-top, `90deg` goes left-to-right, `180deg` is top-to-bottom. Or just use `to right`, `to bottom left`, etc. -- way more readable.
 
 ```css
-/* Basic syntax */
-background: linear-gradient(direction, color-stop1, color-stop2, ...);
-
-/* Top to bottom (default) */
+/* Basic two-color */
 background: linear-gradient(#e66465, #9198e5);
 
-/* Specified angle */
+/* Angled */
 background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
 
-/* Specified direction */
+/* Direction keywords -- easier to parse at a glance */
 background: linear-gradient(to right, #667eea, #764ba2);
 
-/* Multiple color stops */
+/* Multiple stops */
 background: linear-gradient(to right, #f7971e, #ffd200, #21d4fd, #b721ff);
 ```
 
-**Angle reference:**
-- `0deg`: bottom to top
-- `90deg`: left to right
-- `180deg`: top to bottom (same as `to bottom`)
-- `270deg`: right to left
+### Radial gradients
 
-### Radial Gradient
-
-Colors radiate outward from a center point.
+Colors spread outward from a center point. You can control the shape (`circle` vs `ellipse`), the size (`closest-side`, `farthest-corner`, etc.), and where the center sits.
 
 ```css
-/* Basic syntax */
-background: radial-gradient(shape size at position, color-stop1, color-stop2);
-
-/* Circular gradient */
+/* Simple radial */
 background: radial-gradient(circle, #ff6b6b, #4ecdc4);
 
-/* Elliptical gradient (default) */
-background: radial-gradient(ellipse, #667eea, #764ba2);
-
-/* Custom center position */
+/* Offset the center -- great for spotlight effects */
 background: radial-gradient(circle at top left, #f7971e, #ffd200);
+
+/* Control the spread */
+background: radial-gradient(circle closest-side, #ee9ca7, #ffdde1);
 ```
 
-### Conic Gradient
+### Conic gradients
 
-Colors rotate around a center point — similar to a pie chart. Added in CSS Level 4.
+Added in CSS Level 4, so check your browser targets. Colors rotate around a center point like a pie chart or color wheel. Super useful for circular progress indicators and color pickers, but older browsers (pre-2020-ish) won't render them.
 
 ```css
-/* Basic syntax */
-background: conic-gradient(color-stop1, color-stop2, ...);
-
-/* Basic pie chart */
+/* Pie chart effect */
 background: conic-gradient(red 0%, yellow 33%, green 67%);
 
-/* With angle offset */
+/* Start from a specific angle */
 background: conic-gradient(from 90deg, #ff6b6b, #4ecdc4, #ff6b6b);
 
-/* Color wheel */
+/* Full color wheel */
 background: conic-gradient(
   hsl(0, 100%, 50%),
   hsl(60, 100%, 50%),
@@ -77,43 +60,34 @@ background: conic-gradient(
 );
 ```
 
-## Color Stops
+## Color stops
 
-Color stops define where each color appears in the gradient:
+Every gradient is defined by color stops -- positions along the gradient line where a color sits. If you don't specify positions, the browser spaces them evenly. But you can get creative:
 
 ```css
-/* Evenly distributed (auto-calculated) */
+/* Even spacing (default) */
 background: linear-gradient(red, yellow, green);
 
-/* Manual position (percentage) */
+/* Pin colors to specific spots */
 background: linear-gradient(red 0%, yellow 30%, green 100%);
 
-/* Hard edge effect (same position, two colors) */
+/* Hard stops -- two colors at the same position creates a sharp edge */
 background: linear-gradient(red 50%, blue 50%);
 ```
 
-## Browser Compatibility
+## Design tips that actually matter
 
-| Gradient Type | Chrome | Firefox | Safari | Edge |
-|--------------|--------|---------|--------|------|
-| linear-gradient | 26+ | 16+ | 6.1+ | 12+ |
-| radial-gradient | 26+ | 16+ | 6.1+ | 12+ |
-| conic-gradient | 69+ | 83+ | 12.1+ | 79+ |
+Pick 2-3 colors max. More than that usually looks like a messy rainbow unless you really know what you're doing. Adjacent colors on the wheel (analogous) give you a smooth, professional look. Opposite colors (complementary) create energy and pop.
 
-> `conic-gradient` is not supported in older browsers — check compatibility requirements.
+When text sits on a gradient, watch the contrast in the middle transition zone. Colors blend there and can create low-contrast spots you don't notice until you actually put text over them. WCAG says 4.5:1 minimum for body text -- test it.
 
-## Design Best Practices
+And here's a performance detail people overlook: gradients defined as CSS custom properties can be swapped in dark mode without re-rendering the whole page. Way smoother than toggling class-based overrides:
 
-### Color Selection Principles
-1. **Analogous gradients**: Use adjacent hues on the color wheel for harmonious gradients
-2. **Complementary gradients**: Use complementary colors for vibrant, energetic effects
-3. **Limit color count**: 2-3 colors are most common; more than 5 often looks cluttered
-
-### Readability Considerations
-- When text overlays a gradient background, ensure sufficient contrast (WCAG standard: at least 4.5:1 for body text)
-- Avoid placing important text in the middle transition zone
-
-### Performance Benefits
-- CSS gradients require no network requests, loading faster than images
-- Can be combined with CSS variables and media queries for theme switching
-
+```css
+:root {
+  --card-bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+[data-theme="dark"] {
+  --card-bg: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+```

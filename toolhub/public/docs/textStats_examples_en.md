@@ -1,9 +1,8 @@
-# Text Statistics - Examples
+# Text Statistics — Examples
 
-## Example 1: English Article
+## English article
 
 **Input:**
-
 ```
 The quick brown fox jumps over the lazy dog.
 This is a sample sentence to demonstrate word counting.
@@ -23,12 +22,9 @@ Each sentence ends with appropriate punctuation.
 | Sentences | 4 |
 | Reading time | < 1 min |
 
----
-
-## Example 2: Chinese Article
+## Chinese article
 
 **Input:**
-
 ```
 人工智能正在深刻改变我们的生活方式。从智能手机的语音助手，到医疗影像的辅助诊断，AI技术已经渗透到各个领域。
 
@@ -40,57 +36,43 @@ Each sentence ends with appropriate punctuation.
 | Metric | Value |
 |--------|-------|
 | Total characters | ~115 |
-| Word count (CJK chars) | ~100 |
+| CJK character count | ~100 |
 | Paragraphs | 2 |
 | Sentences | 4 |
 | Reading time | < 1 min |
 
----
-
-## Example 3: Mixed Chinese-English
+## Mixed Chinese-English
 
 **Input:**
-
 ```
-Today's JavaScript ecosystem is evolving fast.
 React 18 introduced concurrent features，Vue 3 的 Composition API 也越来越流行。
-
 选择框架时，需要考虑团队技术栈和学习曲线。
 The ultimate goal is delivering a great User Experience.
 ```
 
-**Note:**
+The tool counts Chinese characters and English words separately, then computes a weighted reading time.
 
-The tool counts Chinese characters and English words separately, then calculates a weighted reading time.
+## Word frequency example
 
----
-
-## Example 4: Word Frequency Analysis
-
-**Scenario:** Check if a technical blog overuses certain words
-
-**Top frequency results might show:**
+Running a technical blog post about React through the analyzer might show:
 
 | Rank | Word | Count |
 |------|------|-------|
-| 1 | feature | 12 |
-| 2 | user | 9 |
-| 3 | system | 8 |
-| 4 | data | 7 |
-| 5 | optimize | 6 |
+| 1 | component | 12 |
+| 2 | React | 9 |
+| 3 | state | 8 |
+| 4 | render | 7 |
+| 5 | hook | 6 |
 
-If a word appears far more than others, consider using synonyms to improve variety.
+If "component" appears 12 times and the next word is at 9, consider varying your terminology — "element," "widget," "view" depending on context.
 
----
+## Quick metric reference
 
-## Quick Reference
-
-| Use case | Metric to check |
-|----------|----------------|
-| Social media post | Total characters (Twitter ≤ 280) |
-| WeChat article body | Non-space characters (800–2,000) |
-| Paper abstract | Word count (usually ≤ 250 words) |
-| Resume intro | Character count + word freq (avoid repetition) |
-| Translation quote | Word count / character count |
-| SEO article check | Word count (aim for ≥ 1,000 words) |
-
+| What you're doing | Check this metric |
+|-------------------|-------------------|
+| Social media post | Total characters (Twitter <= 280) |
+| WeChat article | Non-space characters (800-2,000) |
+| Academic abstract | Word count (usually <= 250) |
+| Resume intro | Character count + word frequency |
+| Translation quote | Word count or character count |
+| SEO content | Word count (aim for >= 1,000) |

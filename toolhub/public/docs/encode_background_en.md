@@ -1,165 +1,35 @@
-# Encoding Schemes Technical Background
+# Encoding Schemes -- What They Are and Why They Matter
 
-## Overview
-Encoding schemes are fundamental techniques used to represent binary data in text format for safe transmission, storage, and processing. These schemes include Base64, Hexadecimal, URL encoding, HTML encoding, and JSON Web Tokens (JWT). Each serves specific purposes in modern computing, from data transmission to web security and API authentication.
+Encoding is often confused with encryption, but they're completely different things. Encoding transforms data into a different representation for transport or storage -- it doesn't hide information, it just changes its format. Base64, Base32, URL encoding, hex encoding: these are all encoding schemes. Anyone can decode them because there's no secret key.
 
-## Base64 Encoding
+## Base64
 
-### Mathematical Foundation
-Base64 encoding uses a 64-character alphabet (A-Z, a-z, 0-9, +, /) to represent binary data. The algorithm works by:
-- **Input Grouping**: Groups 3 bytes (24 bits) into 4 6-bit chunks
-- **Character Mapping**: Maps each 6-bit value to a character in the Base64 alphabet
-- **Padding**: Uses '=' characters for padding when input length is not divisible by 3
+Base64 is the most common binary-to-text encoding. Every 3 bytes of input become 4 ASCII characters from a 64-character alphabet (A-Z, a-z, 0-9, +, /). This makes binary data safe for text-only channels like email (MIME), JSON, XML, and HTTP headers.
 
-### Core Algorithm Structure
-1. **Binary Conversion**: Convert input to binary representation
-2. **Bit Grouping**: Group bits into 6-bit chunks
-3. **Character Mapping**: Map each chunk to Base64 character
-4. **Padding**: Add '=' padding if necessary
+The math: 3 bytes = 24 bits. Split into four 6-bit chunks (2^6 = 64, hence "Base64"). Each 6-bit value maps to a character in the alphabet. If the input isn't a multiple of 3 bytes, padding with `=` characters fills it out. Two `=` signs means one byte of padding, one `=` means two bytes.
 
-### Applications and Use Cases
-- **Email Attachments**: MIME encoding for binary file transmission
-- **HTTP Basic Authentication**: Username:password encoding
-- **Data URLs**: Embedding binary data in HTML/CSS
-- **API Responses**: Binary data in JSON payloads
-- **Certificate Storage**: PEM format encoding
+The standard variant uses `+` and `/` as the last two characters, with `=` for padding. For URLs, Base64url replaces `+` with `-` and `/` with `_`, and often omits padding. This is what JWTs use.
 
-## Hexadecimal Encoding
+A common mistake: thinking Base64 provides any security. It doesn't. You can decode Base64 with a single line of code in any language. It's purely a transport encoding.
 
-### Mathematical Foundation
-Hexadecimal encoding uses 16 characters (0-9, A-F) to represent binary data. Each byte is represented by two hex characters:
-- **Bit Division**: Each byte (8 bits) divided into two 4-bit nibbles
-- **Character Mapping**: 0-9 for values 0-9, A-F for values 10-15
-- **Case Sensitivity**: Both uppercase and lowercase representations valid
+## Hex encoding
 
-### Core Algorithm Structure
-1. **Byte Processing**: Process each byte individually
-2. **Nibble Extraction**: Extract high and low 4-bit nibbles
-3. **Character Conversion**: Convert each nibble to hex character
-4. **String Concatenation**: Combine all hex characters
+Hex (hexadecimal) encodes each byte as two hex digits (0-9, a-f). A byte with value 255 becomes `ff`. Hex strings are twice as long as the original data, which makes them less efficient than Base64 for large data, but they're much more human-readable. Debugging tools, hash displays, and cryptographic keys almost always use hex.
 
-### Applications and Use Cases
-- **Memory Dumps**: Debugging and forensic analysis
-- **Hash Representations**: Cryptographic hash display
-- **Color Codes**: RGB color representation (#RRGGBB)
-- **MAC Addresses**: Network device identification
-- **Binary Data Display**: Human-readable binary representation
+## URL encoding (percent-encoding)
 
-## URL Encoding
+URL encoding replaces unsafe characters with `%` followed by their hex ASCII value. A space becomes `%20`, a `#` becomes `%23`. This is what lets you put arbitrary data in a URL query string without breaking the URL syntax.
 
-### Mathematical Foundation
-URL encoding (percent-encoding) uses percent signs followed by two hex digits to represent special characters:
-- **Character Set**: ASCII characters 0-127
-- **Reserved Characters**: Special characters that have meaning in URLs
-- **Unsafe Characters**: Characters that could cause parsing issues
+## Base32 and other variants
 
-### Core Algorithm Structure
-1. **Character Analysis**: Identify characters needing encoding
-2. **ASCII Conversion**: Convert character to ASCII value
-3. **Hex Representation**: Convert ASCII to two hex digits
-4. **Percent Prefixing**: Add '%' prefix to hex representation
+Base32 uses a 32-character alphabet (A-Z, 2-7), encoding 5 bits per character. It's less efficient than Base64 but avoids case-sensitivity and visually ambiguous characters (no 0/O or 1/I/l confusion). It's used in things like OTP secrets and some DNS-related encodings.
 
-### Applications and Use Cases
-- **Query Parameters**: Safe transmission of special characters
-- **Form Data**: HTML form submission encoding
-- **API URLs**: RESTful API parameter encoding
-- **File Paths**: Safe representation of file names
-- **Email Links**: Mailto URL encoding
+## Encoding vs. encryption vs. hashing
 
-## HTML Encoding
+This distinction trips people up constantly:
 
-### Mathematical Foundation
-HTML encoding uses character entities to represent special characters:
-- **Numeric Entities**: &#xHH; (hex) or &#DDD; (decimal)
-- **Named Entities**: &entity_name; (predefined names)
-- **Character Set**: Full Unicode character support
+- **Encoding**: Reversible with no key. Base64, hex, URL encoding. Just changes the format.
+- **Encryption**: Reversible with a key. AES, ChaCha20. Hides the content.
+- **Hashing**: One-way. SHA-256, bcrypt. Can't be reversed (by design).
 
-### Core Algorithm Structure
-1. **Character Identification**: Identify characters needing encoding
-2. **Entity Selection**: Choose appropriate entity representation
-3. **Format Application**: Apply correct entity format
-4. **String Replacement**: Replace original character with entity
-
-### Applications and Use Cases
-- **Web Content**: Safe display of special characters
-- **XSS Prevention**: Cross-site scripting attack prevention
-- **Form Output**: Secure form data display
-- **RSS Feeds**: XML-safe content encoding
-- **Email Content**: HTML email encoding
-
-## JSON Web Tokens (JWT)
-
-### Mathematical Foundation
-JWT uses Base64URL encoding for its three components:
-- **Header**: Algorithm and token type information
-- **Payload**: Claims and data
-- **Signature**: Cryptographic signature for verification
-
-### Core Algorithm Structure
-1. **Component Creation**: Create header, payload, and signature
-2. **JSON Serialization**: Convert components to JSON
-3. **Base64URL Encoding**: Encode each component
-4. **Concatenation**: Join with dots (header.payload.signature)
-
-### Applications and Use Cases
-- **API Authentication**: Stateless authentication tokens
-- **Session Management**: Web application sessions
-- **Single Sign-On**: Cross-domain authentication
-- **Microservices**: Service-to-service authentication
-- **Mobile Apps**: Mobile application authentication
-
-## Security Considerations
-
-### Encoding Security
-- **Information Disclosure**: Encoded data may reveal sensitive information
-- **Encoding Attacks**: Malicious use of encoding for bypassing filters
-- **Canonicalization**: Multiple valid representations of same data
-- **Encoding Validation**: Proper validation of encoded input
-
-### Best Practices
-- **Input Validation**: Validate all encoded input
-- **Output Encoding**: Properly encode output for context
-- **Character Set**: Use appropriate character encoding
-- **Security Headers**: Implement proper security headers
-
-## Standards and Compliance
-
-### RFC Standards
-- **RFC 4648**: Base64 encoding standard
-- **RFC 3986**: URL encoding specification
-- **RFC 7519**: JWT standard
-- **HTML5**: HTML encoding specifications
-
-### Industry Standards
-- **MIME**: Multipurpose Internet Mail Extensions
-- **HTTP**: Hypertext Transfer Protocol encoding
-- **XML**: Extensible Markup Language encoding
-- **JSON**: JavaScript Object Notation encoding
-
-## Implementation Considerations
-
-### Performance Characteristics
-- **Encoding Speed**: Base64 ~33% size increase
-- **Decoding Speed**: Hex ~100% size increase
-- **Memory Usage**: Temporary buffer requirements
-- **CPU Usage**: Bit manipulation operations
-
-### Compatibility Issues
-- **Character Sets**: Unicode and ASCII compatibility
-- **Platform Differences**: Operating system variations
-- **Browser Support**: Web browser encoding differences
-- **Legacy Systems**: Older system compatibility
-
-## Future Considerations
-
-### Emerging Standards
-- **Unicode Support**: Enhanced Unicode encoding
-- **Compression**: Efficient encoding with compression
-- **Binary Protocols**: Modern binary protocol adoption
-- **Quantum Computing**: Post-quantum encoding considerations
-
-### Technology Evolution
-- **Web Standards**: Evolving web encoding standards
-- **API Development**: Modern API encoding practices
-- **Security Enhancements**: Improved security encoding
-- **Performance Optimization**: Faster encoding algorithms 
+If you're storing passwords, use hashing (bcrypt/Argon2), not encoding. If you're protecting data, use encryption (AES), not encoding. Encoding is for transporting data safely through text-only channels -- nothing more.

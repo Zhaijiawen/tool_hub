@@ -1,78 +1,34 @@
-# Git Commit Generator - Usage Tutorial
+# Git Commit Generator — How to Use
 
-## Quick Start
+This tool builds valid Conventional Commits messages without you having to memorize the format. Fill in the form, copy the output, paste into `git commit -m`.
 
-The Git Commit Generator helps you produce Conventional Commits-compliant commit messages without memorizing the format.
+## Step by step
 
-## Filling in the Form
+**Commit type —** Start by choosing what kind of change this is. The dropdown has the major types:
 
-### Step 1: Select a Commit Type
+- **feat** — something new exists that didn't before
+- **fix** — something broken now works
+- **docs** — you touched README or comments, that's it
+- **style** — formatting only, zero logic changed
+- **refactor** — restructured code, behavior unchanged
+- **perf** — made something faster
+- **test** — added or updated tests
+- **chore** — dependencies, build scripts, config files
 
-Choose the type that best describes your change:
+**Scope (optional) —** A short label in parentheses that says which part of the codebase changed. Common patterns: `feat(auth)`, `fix(payment)`, `refactor(user)`. Agree on scope names with your team for consistency. Leave it empty for global changes.
 
-- **feat** ✨ — A new feature, API, or page
-- **fix** 🐛 — A bug fix
-- **docs** 📝 — Documentation or comment changes only
-- **style** 💄 — Code formatting changes (spaces, indentation) with no logic change
-- **refactor** ♻️ — Code refactoring that is neither a bug fix nor a feature
-- **perf** ⚡️ — A performance improvement
-- **test** ✅ — Adding or updating tests
-- **chore** 🔧 — Build scripts, dependencies, or CI configuration changes
+**Subject —** The one-line summary. Use present tense, imperative mood ("add" not "added"). Keep it under 72 characters — the tool highlights when you go over. Be specific about what changed, not how you did it.
 
-### Step 2: Enter Scope (optional)
+**Body (optional) —** Add context for complex changes. Why did you make this change? What alternatives did you consider? This helps reviewers and your future self.
 
-The `Scope` is the module name in parentheses, indicating which part of the codebase was changed:
+**Breaking change toggle —** Flip this on if your change breaks existing functionality. Add a description of what broke and how to migrate.
 
-- `feat(auth): add SMS verification login`
-- `fix(payment): correct floating-point precision`
-- `refactor(user): extract user state management`
+**Issues —** Link related issues like `#123, #456`. The output automatically appends `Closes: #123, #456`.
 
-Leave it empty if the change is global or doesn't fit a specific module.
+## Copy and history
 
-### Step 3: Write a Short Description
+The preview panel updates as you type. "Copy Full Commit" grabs the complete message; "Copy Title Only" grabs just the first line. Each time you copy, the message gets saved to history (last 5 entries). Click a history item to reload it into the form.
 
-The `Subject` is the core of your commit message. Follow these guidelines:
+## A few habits worth adopting
 
-- **Use imperative mood**: "add login feature" not "added login feature"
-- **Keep it under 72 characters**: the tool highlights when you exceed this
-- **Be specific**: describe *what* changed, not *how*
-
-### Step 4: Add a Detailed Body (optional)
-
-The `Body` provides context for the change — useful for complex commits:
-
-```
-Extracted user state management from individual components
-into a unified Pinia store, reducing code duplication
-and improving maintainability.
-```
-
-### Step 5: Flag Breaking Changes (optional)
-
-If your change requires callers to update their code (e.g. removed endpoint, changed parameter), toggle the "Breaking Change" switch and describe:
-
-- What changed
-- How to migrate
-
-### Step 6: Link Issues (optional)
-
-Enter related issue numbers in the `Issues` field, e.g. `#123, #456`. The generated message will automatically append `Closes: #123, #456`.
-
-## Copying the Commit Message
-
-The preview updates in real time. Click:
-
-- **Copy Full Commit**: copies the complete message including title, body, and footer
-- **Copy Title Only**: copies just the first line `type(scope): subject`
-
-## History
-
-Every time you click "Copy Full Commit", the message is saved to the history list (up to 5 entries). Click any history item to reload it into the form.
-
-## Best Practices
-
-1. **One commit, one thing**: don't mix a bug fix and a new feature in the same commit
-2. **Review the preview**: make sure the type and description accurately convey the intent
-3. **Always document breaking changes**: helps code reviewers and release automation
-4. **Keep scopes consistent**: agree on scope naming conventions with your team
-
+One commit per logical change — don't bundle a bug fix and a new feature into the same commit. Always flag breaking changes, even if you think nobody's using that endpoint. Keep scope names consistent across the team. Review the preview before committing to make sure the message says what you meant.

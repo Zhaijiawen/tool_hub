@@ -1,202 +1,78 @@
 # ECDH Usage Tutorial
 
-## Environment Setup
+ECDH is the workhorse of modern key exchange. Every TLS 1.3 handshake, every Signal message, every WireGuard connection uses ECDH under the hood. Here's how to use it in Python.
 
-### Prerequisites
-- Programming language with ECDH library support
-- Understanding of elliptic curve cryptography
-- Knowledge of key exchange protocols
-- Familiarity with curve selection and security parameters
+## Setup
 
-### Library Selection
-
-#### Python - cryptography
 ```bash
-# Install cryptography library
-pip install cryptography
+pip install pycryptodome
 ```
 
-#### Node.js - crypto
+## Basic ECDH exchange
+
+Two parties each generate a key pair, exchange public keys, and compute a shared secret:
+
+```python
+from Crypto.PublicKey import ECC
+from Crypto.Protocol.KDF import HKDF
+from Crypto.Hash import SHA256
+
+# Alice's side
+alice_private = ECC.generate(curve='P-256')
+alice_public = alice_private.public_key()
+
+# Bob's side
+bob_private = ECC.generate(curve='P-256')
+bob_public = bob_private.public_key()
+
+# Alice computes shared secret from Bob's public key
+alice_shared_point = alice_private.d * bob_public.pointQ
+alice_shared_bytes = int(alice_shared_point.x).to_bytes(32, 'big')
+
+# Bob computes shared secret from Alice's public key
+bob_shared_point = bob_private.d * alice_public.pointQ
+bob_shared_bytes = int(bob_shared_point.x).to_bytes(32, 'big')
+
+# They match
+assert alice_shared_bytes == bob_shared_bytes
+
+# Derive an encryption key using HKDF
+encryption_key = HKDF(alice_shared_bytes, 32, b"ecdh-salt", SHA256)
+```
+
+The key step people forget: always pass the shared secret through a KDF like HKDF. The raw ECDH output has some mathematical structure you don't want in an encryption key.
+
+## Using X25519 instead (recommended)
+
+X25519 is a safer, simpler ECDH variant. PyCryptodome doesn't support it well -- use PyNaCl or the `cryptography` library:
+
 ```bash
-# Built-in crypto module supports ECDH
-# No additional installation required
+pip install pynacl
 ```
 
-#### Java - Bouncy Castle
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
-
-#### Go - crypto/ecdh
-```go
-// Built-in crypto/ecdh package
-import "crypto/ecdh"
-```
-
-## Basic Concepts
-
-### Curve Selection
 ```python
-from cryptography.hazmat.primitives.asymmetric import ec
+from nacl.public import PrivateKey, Box
 
-def explain_curve_selection():
-    """Explain different curve options"""
-    curves = {
-        "P-256": "NIST curve, widely supported, 256-bit security",
-        "P-384": "NIST curve, higher security, 384-bit",
-        "secp256k1": "Bitcoin curve, 256-bit security",
-        "X25519": "Curve25519, high performance, 255-bit"
-    }
-    
-    for curve_name, description in curves.items():
-        print(f"{curve_name}: {description}")
-    
-    return curves
+# Each party generates a key
+alice = PrivateKey.generate()
+bob = PrivateKey.generate()
+
+# Box computes the shared secret internally
+alice_box = Box(alice, bob.public_key)
+bob_box = Box(bob, alice.public_key)
+
+# Encrypt a message
+encrypted = alice_box.encrypt(b"Hello Bob!", b"some nonce")
+# Decrypt
+decrypted = bob_box.decrypt(encrypted)
 ```
 
-### Key Generation Process
-```python
-def key_generation_process():
-    """Explain ECDH key generation process"""
-    print("ECDH Key Generation Process:")
-    print("1. Generate private key (random scalar)")
-    print("2. Compute public key = private_key * G")
-    print("3. Exchange public keys over insecure channel")
-    print("4. Compute shared secret = private_key * other_public_key")
-    print("5. Both parties get identical shared secret")
-```
+X25519 with NaCl is about as simple as crypto gets. Generate keys, create a Box, and you get authenticated encryption automatically (NaCl boxes use X25519 + XSalsa20-Poly1305).
 
-## Basic Key Exchange
+## Security notes
 
-### Simple ECDH Exchange
-```python
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives import serialization
-import os
-
-def basic_ecdh_exchange():
-    """Basic ECDH key exchange example"""
-    # Generate private keys for both parties
-    private_key_alice = ec.generate_private_key(ec.SECP256R1())
-    private_key_bob = ec.generate_private_key(ec.SECP256R1())
-    
-    # Get public keys
-    public_key_alice = private_key_alice.public_key()
-    public_key_bob = private_key_bob.public_key()
-    
-    # Exchange public keys (in real scenario, over network)
-    print(f"Alice's public key: {public_key_alice.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    ).decode()}")
-    
-    print(f"Bob's public key: {public_key_bob.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    ).decode()}")
-    
-    # Compute shared secrets
-    shared_secret_alice = private_key_alice.exchange(
-        ec.ECDH(), public_key_bob
-    )
-    shared_secret_bob = private_key_bob.exchange(
-        ec.ECDH(), public_key_alice
-    )
-    
-    # Verify both secrets are identical
-    assert shared_secret_alice == shared_secret_bob
-    print(f"Shared secret (32 bytes): {shared_secret_alice.hex()}")
-    
-    return shared_secret_alice
-```
-
-### Curve Comparison
-```python
-def curve_comparison():
-    """Compare different curves for ECDH"""
-    curves = [
-        ec.SECP256R1(),  # NIST P-256
-        ec.SECP384R1(),  # NIST P-384
-        ec.SECP256K1(),  # Bitcoin curve
-    ]
-    
-    print("ECDH Curve Comparison:")
-    print("-" * 50)
-    
-    for curve in curves:
-        # Generate keys
-        private_key = ec.generate_private_key(curve)
-        public_key = private_key.public_key()
-        
-        # Measure key size
-        key_size = public_key.key_size
-        curve_name = curve.name if hasattr(curve, 'name') else str(curve)
-        
-        print(f"Curve: {curve_name}")
-        print(f"Key size: {key_size} bits")
-        print(f"Security level: ~{key_size//2} bits")
-        print("-" * 30)
-```
-
-## Advanced Usage
-
-### Key Derivation
-```python
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-
-def derive_keys_from_shared_secret(shared_secret, salt=None):
-    """Derive multiple keys from shared secret using HKDF"""
-    if salt is None:
-        salt = os.urandom(16)
-    
-    # Derive encryption key
-    encryption_key = HKDF(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        info=b"encryption_key",
-    ).derive(shared_secret)
-    
-    # Derive authentication key
-    auth_key = HKDF(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        info=b"auth_key",
-    ).derive(shared_secret)
-    
-    # Derive MAC key
-    mac_key = HKDF(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        info=b"mac_key",
-    ).derive(shared_secret)
-    
-    return {
-        "encryption_key": encryption_key,
-        "auth_key": auth_key,
-        "mac_key": mac_key,
-        "salt": salt
-    }
-
-# Example usage
-shared_secret = basic_ecdh_exchange()
-derived_keys = derive_keys_from_shared_secret(shared_secret)
-print(f"Derived encryption key: {derived_keys['encryption_key'].hex()}")
-```
-
-## Summary
-
-This tutorial covers:
-- Environment setup for different programming languages
-- Basic ECDH key exchange implementation
-- Curve selection and comparison
-- Key derivation from shared secrets
-
-All examples follow security best practices and provide practical implementations. 
+- Use a fresh ephemeral key pair for every exchange. Don't reuse keys.
+- The public key isn't secret -- send it in the clear.
+- Validate the peer's public key. On NIST curves, a point not on the curve can leak your private key.
+- Pass the shared secret through HKDF before using it as an encryption key.
+- On Python, prefer PyNaCl (Curve25519) over PyCryptodome (NIST curves) for new code.

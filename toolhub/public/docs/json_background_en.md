@@ -1,145 +1,53 @@
-# JSON Technical Background
+# JSON - Technical Background
 
-JSON (JavaScript Object Notation) is a lightweight, text-based data interchange format that is easy for humans to read and write, and easy for machines to parse and generate. It was originally derived from JavaScript but is now language-independent and widely used across all programming languages.
+JSON (JavaScript Object Notation) is the universal data format of the web. If you've ever called an API, edited a config file, or looked at a `package.json`, you've worked with JSON. It's simple enough to read by eye, structured enough for machines to parse reliably, and supported by every programming language that matters.
 
-## History and Development
+Douglas Crockford popularized it in the early 2000s as a lighter alternative to XML. The big insight: JavaScript's object literal syntax was already a decent data format. No schemas, no namespaces, no closing tags -- just brackets, braces, colons, and commas.
 
-JSON was first specified by Douglas Crockford in the early 2000s and was standardized as ECMA-404 in 2013. It was designed to be a minimal, portable, and text-based alternative to XML for data exchange.
+## The six types
 
-## Core Characteristics
+JSON has exactly six data types. That's it. No dates, no functions, no binary.
 
-- **Language Independent**: JSON can be used with any programming language
-- **Self-Describing**: The structure is clear and self-documenting
-- **Hierarchical**: Supports nested objects and arrays
-- **Lightweight**: Minimal syntax overhead compared to XML
-- **Unicode Support**: Fully supports UTF-8 encoding
+- **Strings** -- double quotes only, UTF-8, backslash escaping for special characters
+- **Numbers** -- decimal, no hex, no octal, no `NaN` or `Infinity` (those aren't valid JSON)
+- **Booleans** -- `true` and `false`, lowercase
+- **Null** -- `null`, lowercase
+- **Arrays** -- ordered, `[...]`, can mix types (though you usually shouldn't)
+- **Objects** -- unordered key-value pairs, `{...}`, keys must be double-quoted strings
 
-## Data Types and Syntax
+That last one trips people up: single-quoted keys or unquoted keys aren't valid JSON, even though they work fine in JavaScript.
 
-JSON supports six basic data types:
+## What JSON can't do
 
-### 1. Strings
-Strings must be enclosed in double quotes and can contain any Unicode character. Special characters must be escaped with backslashes.
+No comments. The spec intentionally omits them. Some tools (VS Code, certain parsers) tolerate `//` comments, but they're not standard. If you need comments in config files, use JSONC or YAML.
 
-### 2. Numbers
-JSON numbers can be integers, floating-point numbers, or scientific notation. They are always decimal-based.
+No trailing commas. `{"a": 1,}` is invalid. JavaScript is more forgiving, but `JSON.parse` isn't.
 
-### 3. Booleans
-JSON supports two boolean values: `true` and `false`.
+No date type. Dates get serialized as ISO 8601 strings like `"2024-01-15T10:30:00Z"`. Your parser has to know which fields are dates and revive them manually.
 
-### 4. Null
-The `null` value represents the absence of a value.
+No binary. Base64-encode it if you must embed binary in JSON, but that's a workaround, not a feature.
 
-### 5. Arrays
-Arrays are ordered collections of values, enclosed in square brackets and separated by commas.
+## Parsing safely
 
-### 6. Objects
-Objects are unordered collections of key-value pairs, enclosed in curly braces. Keys must be strings.
+In the browser and Node, you've got `JSON.parse()` and `JSON.stringify()`. Always wrap `parse` in a try/catch -- malformed JSON throws a `SyntaxError`. Never use `eval()` for JSON. Just don't.
 
-## JSON Structure Rules
+```javascript
+try {
+  const data = JSON.parse(input)
+} catch (e) {
+  console.error('Invalid JSON:', e.message)
+}
+```
 
-### Key Requirements
-- All keys must be strings enclosed in double quotes
-- Keys and values are separated by colons
-- Key-value pairs are separated by commas
-- The last element in an object or array should not have a trailing comma
+`JSON.stringify` takes a replacer function (for filtering/transforming) and a space argument for indentation. The space can be a number (spaces) or a string (tabs, etc.). `JSON.stringify(obj, null, 2)` is the standard pretty-print incantation.
 
-### Nesting
-JSON supports unlimited nesting of objects and arrays, allowing complex hierarchical data structures.
+## Where JSON lives
 
-### Whitespace
-JSON ignores whitespace between tokens, making it human-readable when properly formatted.
+- REST APIs -- request and response bodies
+- Configuration -- `package.json`, `tsconfig.json`, CI configs
+- Document databases -- MongoDB, CouchDB, Firebase
+- Data exchange between services
+- Local storage in browsers and mobile apps
+- Log aggregation (structured JSON logging)
 
-## Common Use Cases
-
-### 1. API Communication
-JSON is the de facto standard for REST API communication, providing a consistent format for request and response data.
-
-### 2. Configuration Files
-Many applications use JSON for configuration files due to its readability and wide language support.
-
-### 3. Data Storage
-JSON is commonly used for document-based databases and data serialization.
-
-### 4. Web Services
-JSON is the preferred format for web services and microservices communication.
-
-## Advantages
-
-### 1. Human Readable
-JSON is easy to read and write, making it accessible to both developers and non-developers.
-
-### 2. Language Agnostic
-JSON can be used with any programming language that has a JSON parser.
-
-### 3. Compact
-JSON has minimal syntax overhead compared to XML.
-
-### 4. Fast Parsing
-JSON can be parsed quickly by most programming languages.
-
-## Limitations and Considerations
-
-### 1. Data Type Limitations
-JSON only supports strings, numbers, booleans, arrays, objects, and null. It does not support:
-- Functions
-- Undefined values
-- Dates (must be serialized as strings)
-- Binary data (must be encoded as strings)
-- Comments (not part of the specification)
-
-### 2. Size Limitations
-- No built-in size limits, but practical limits exist
-- Large JSON files can impact parsing performance
-- Consider streaming for very large datasets
-
-### 3. Security Considerations
-- Never use `eval()` with JSON data
-- Always validate JSON input before parsing
-- Be cautious with user-provided JSON data
-
-## Standards and Specifications
-
-### ECMA-404
-The official JSON specification defines the syntax and parsing rules for JSON.
-
-### RFC 7159
-The Internet Engineering Task Force (IETF) RFC 7159 provides additional guidelines for JSON usage.
-
-### JSON Schema
-JSON Schema provides a way to validate JSON documents and define their structure.
-
-## Tools and Libraries
-
-### Popular JSON Libraries
-- **JavaScript**: Built-in `JSON.parse()` and `JSON.stringify()`
-- **Python**: `json` module
-- **Java**: `org.json`, Gson, Jackson
-- **C#**: `System.Text.Json`, Newtonsoft.Json
-- **PHP**: `json_encode()`, `json_decode()`
-
-### Development Tools
-- JSON validators and formatters
-- Schema validation (JSON Schema)
-- Linting tools for JSON files
-- IDE support for syntax highlighting and validation
-
-## Best Practices
-
-### 1. Naming Conventions
-- Use camelCase for property names
-- Be descriptive but concise
-- Avoid reserved words
-
-### 2. Data Validation
-- Always validate JSON structure before processing
-- Use JSON Schema for complex validation
-- Implement proper error handling
-
-### 3. Performance Considerations
-- Minimize nesting depth (max 3-4 levels)
-- Use arrays for homogeneous data
-- Avoid redundant data
-- Consider compression for large datasets
-
-This comprehensive understanding of JSON enables developers to effectively use it for data exchange, configuration, and storage across different platforms and programming languages. 
+It won because it's the right level of simplicity. XML had schemas and namespaces and attributes and CDATA sections. JSON just has brackets and braces. Sometimes less really is more.

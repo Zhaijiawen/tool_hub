@@ -1,15 +1,14 @@
-# JSON Schema Generator - Usage Tutorial
+# JSON Schema Generator - Tutorial
 
-## Quick Start
+Drop in some JSON, get back either a JSON Schema or a TypeScript interface. It's a time-saver -- instead of typing out type definitions by hand, you paste an API response and the tool does the grunt work.
 
-1. Paste your JSON data into the left input area
-2. Select the target format (JSON Schema or TypeScript Interface)
-3. The result appears on the right instantly — click "Copy" to use it
+## How to use it
 
-## Input JSON Data
+1. Paste your JSON into the left panel
+2. Pick the output format -- JSON Schema or TypeScript Interface
+3. The result shows up instantly on the right. Copy and paste into your project.
 
-Paste the JSON you want to analyze into the left input area. For example:
-
+Example input:
 ```json
 {
   "id": 1001,
@@ -24,32 +23,28 @@ Paste the JSON you want to analyze into the left input area. For example:
 }
 ```
 
-The tool automatically infers the type of each field and generates the corresponding schema or interface.
+The tool walks through every field, infers the type from the value, handles nested objects recursively, and generates a clean schema or interface.
 
-## Choosing the Output Format
-
-The tool supports two output formats:
+## Output formats
 
 ### JSON Schema
 
-Generates a standard JSON Schema (Draft-07), useful for:
-- API documentation (OpenAPI/Swagger)
-- Data validation with libraries like ajv or joi
-- IDE support for config files
+Standard Draft-07 JSON Schema. Use this when you need:
+- API request/response validation with a library like AJV
+- OpenAPI/Swagger documentation
+- VS Code config file autocomplete (via `$schema` references)
 
 ### TypeScript Interface
 
-Generates TypeScript type interfaces, useful for:
-- Type definitions in frontend TypeScript projects
-- API response type annotations
-- Editor autocomplete
+Clean TypeScript type definitions. Use this when you want:
+- Type annotations for API responses in a TS project
+- Editor autocomplete and type checking
+- A starting point for your domain types
 
-## Understanding the Generation Rules
+## How type inference works
 
-### Type Inference
-
-| JSON value | Inferred type |
-|------------|--------------|
+| JSON value | Inferred as |
+|---|---|
 | `"hello"` | `string` |
 | `42` | `integer` |
 | `3.14` | `number` |
@@ -58,42 +53,26 @@ Generates TypeScript type interfaces, useful for:
 | `[...]` | `array` |
 | `{...}` | `object` |
 
-### Nested Objects
+Nested objects get their own inline schema or `$defs` entry. For arrays, the tool samples the first element to determine the item type. If the array is empty, it defaults to allowing anything.
 
-The tool recursively processes nested objects and generates schemas for each level:
+## Using the output
 
-```json
-{
-  "user": {
-    "profile": {
-      "avatar": "url"
-    }
-  }
-}
-```
-
-This produces a schema with `$defs` references or inline nested `properties`.
-
-### Array Items
-
-The first element of an array is used to infer the `items` type. If the array is empty (`[]`), `items` defaults to `{}` (allows anything).
-
-## Using the Generated Output
-
-### Validation in JavaScript
+### Validation with AJV
 
 ```javascript
 import Ajv from 'ajv'
 const ajv = new Ajv()
 
-const validate = ajv.compile(schema) // paste the generated schema
+const schema = /* paste generated schema here */
+const validate = ajv.compile(schema)
+const data = { id: 123, name: 'Test' }
 const valid = validate(data)
 if (!valid) console.log(validate.errors)
 ```
 
-### Using the TypeScript Interface
+### TypeScript interface
 
-Paste the generated interface directly into a `.ts` file:
+Paste directly into a `.ts` file:
 
 ```typescript
 interface User {
@@ -109,9 +88,14 @@ interface User {
 }
 ```
 
-## Notes
+## What to tweak after generation
 
-- The tool infers types from **sample data** — it cannot infer constraints like `minLength` or `pattern` (add these manually)
-- If a field can be `null`, update the type manually to `["string", "null"]` in JSON Schema or `string | null` in TypeScript
-- For very large JSON (> 10,000 lines), consider extracting a representative slice before generating
+The generator works from sample data, so it can't infer everything. Common manual additions:
 
+- **Add `format`** for fields that look like emails or URIs -- the generator sees a string, but you know it's an email
+- **Add constraints** -- `minLength`, `maxLength`, `minimum`, `maximum`, `pattern` -- these can't be inferred from a single sample value
+- **Handle nullable fields** -- if a field can be null, change `"type": "string"` to `"type": ["string", "null"]`
+- **Mark optional fields** -- remove them from the `required` array
+- **Add `enum`** for fields with a known set of valid values
+
+For very large JSON docs (10K+ lines), extract a representative slice before generating. The tool processes everything you give it, and a 100KB JSON file produces a schema you won't want to read.

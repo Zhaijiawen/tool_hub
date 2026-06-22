@@ -1,42 +1,38 @@
-# Text Case Conversion — Technical Background
+# What Even Is Text Case
 
-## What Is Text Case?
+Case conversion seems trivial -- uppercase, lowercase, done. But once you start thinking about it as a developer, there's actually a decent amount of convention and edge-case territory here.
 
-Text case refers to the capitalization style of letters in a string. Different programming languages, naming conventions, and writing standards use different case styles.
-
-## Common Case Styles
+## The Styles You Actually Use
 
 ### UPPERCASE
-All letters are capitalized. Commonly used for constants, abbreviations, and emphasis.
-- Example: `HELLO WORLD`, `MAX_VALUE`
+All caps. Constants in code (`MAX_BUFFER_SIZE`), acronyms, or when you need to yell in an email subject line. Example: `HELLO WORLD`.
 
 ### lowercase
-All letters are in their smallest form. Used in URLs, CSS class names, and some programming identifiers.
-- Example: `hello world`, `variable_name`
+The default for most things on the web. URLs, CSS class names, file names. Example: `hello world`.
 
 ### Title Case
-The first letter of each word is capitalized. Used for titles, headings, and proper nouns.
-- Example: `Hello World`, `The Quick Brown Fox`
+Every word starts with a capital. Think headlines, book titles, button labels. Example: `Hello World`.
 
-### Sentence Case
-Only the first letter of the first word is capitalized. Used for regular sentences and paragraphs.
-- Example: `Hello world`, `The quick brown fox`
+### Sentence case
+Just the first letter is capitalized, like a normal sentence. Example: `Hello world`.
 
 ### aLtErNaTiNg CaSe
-Letters alternate between uppercase and lowercase. Used for stylistic or humorous purposes.
-- Example: `hElLo WoRlD`
+Letters flip between upper and lower. Mostly for memes and mocking people online. Example: `hElLo WoRlD`.
 
-## Case in Programming
+## Naming Conventions by Language
 
-| Language | Convention | Example |
+Different ecosystems have different habits. If you're working across languages you'll hit all of these:
+
+| Language / Context | Convention | Example |
 |---|---|---|
 | JavaScript/TypeScript | camelCase | `myVariableName` |
 | Python | snake_case | `my_variable_name` |
 | Java/C# | PascalCase | `MyClassName` |
 | CSS | kebab-case | `my-class-name` |
-| Constants | SCREAMING_SNAKE_CASE | `MAX_BUFFER_SIZE` |
+| Constants (most languages) | SCREAMING_SNAKE_CASE | `MAX_BUFFER_SIZE` |
 
-## Unicode and Internationalization
+## Unicode: The Tricky Part
 
-Case conversion is straightforward for ASCII characters, but more complex for international text. Languages like German have special rules (e.g., `ß` becomes `SS` in uppercase). Modern JavaScript handles most Unicode case conversions correctly via `.toUpperCase()` and `.toLowerCase()`.
+For plain ASCII, case conversion is straightforward -- each letter has a well-known uppercase and lowercase counterpart. Unicode makes it more interesting. The German `ß` becomes `SS` when uppercased. Turkish has dotted and dotless `i` characters that behave differently. JavaScript's `.toUpperCase()` and `.toLowerCase()` handle most of these correctly these days, but edge cases exist -- especially with locale-specific rules.
 
+This tool works at the character level, so it'll handle Unicode text, but for locale-sensitive transformations (like Turkish i) you might need a more specialized tool.

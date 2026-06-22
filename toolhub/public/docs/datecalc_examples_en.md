@@ -1,249 +1,82 @@
-# Date Calculation Code Examples
+# Date Calculation Examples
 
-## Basic Date Operations
+Real-world date math scenarios you'll actually need to compute.
 
-### Simple Date Arithmetic
-```python
-from datetime import date, datetime, timedelta
+## Project Deadlines
 
-def basic_date_arithmetic():
-    """Basic date addition and subtraction examples"""
-    # Current date
-    today = date.today()
-    print(f"Today: {today}")
-    
-    # Add days
-    tomorrow = today + timedelta(days=1)
-    next_week = today + timedelta(weeks=1)
-    next_month = today + timedelta(days=30)
-    
-    print(f"Tomorrow: {tomorrow}")
-    print(f"Next week: {next_week}")
-    print(f"Next month: {next_month}")
-    
-    # Subtract days
-    yesterday = today - timedelta(days=1)
-    last_week = today - timedelta(weeks=1)
-    last_month = today - timedelta(days=30)
-    
-    print(f"Yesterday: {yesterday}")
-    print(f"Last week: {last_week}")
-    print(f"Last month: {last_month}")
-    
-    # Date difference
-    days_diff = (tomorrow - yesterday).days
-    print(f"Days between yesterday and tomorrow: {days_diff}")
+**"The client signed on March 15. The contract says delivery in 90 calendar days. When is the deadline?"**
 
-basic_date_arithmetic()
-```
+- Base date: 2024-03-15
+- Operation: Add
+- Amount: 90 days
+- Result: 2024-06-13
 
-### Date Range Generation
-```python
-def date_range_examples():
-    """Generate date ranges and sequences"""
-    start_date = date(2024, 3, 1)
-    end_date = date(2024, 3, 31)
-    
-    # Daily range
-    current_date = start_date
-    daily_dates = []
-    while current_date <= end_date:
-        daily_dates.append(current_date)
-        current_date += timedelta(days=1)
-    
-    print(f"Daily dates in March: {len(daily_dates)} days")
-    print(f"First 5 days: {daily_dates[:5]}")
-    
-    # Weekly range
-    weekly_dates = []
-    current_date = start_date
-    while current_date <= end_date:
-        weekly_dates.append(current_date)
-        current_date += timedelta(weeks=1)
-    
-    print(f"Weekly dates: {len(weekly_dates)} weeks")
-    print(f"Weekly dates: {weekly_dates}")
-    
-    # Business day range (excluding weekends)
-    business_dates = []
-    current_date = start_date
-    while current_date <= end_date:
-        if current_date.weekday() < 5:  # Monday to Friday
-            business_dates.append(current_date)
-        current_date += timedelta(days=1)
-    
-    print(f"Business days in March: {len(business_dates)} days")
+That's a Thursday. If the contract specifies business days instead, you'd switch to business day mode and the result would land in late July (90 business days is roughly 18 calendar weeks).
 
-date_range_examples()
-```
+## Age Calculation
 
-### Relative Date Calculations
-```python
-def relative_date_examples():
-    """Calculate relative dates from current date"""
-    today = date.today()
-    
-    # Common relative dates
-    relative_dates = {
-        "yesterday": today - timedelta(days=1),
-        "tomorrow": today + timedelta(days=1),
-        "next_week": today + timedelta(weeks=1),
-        "last_week": today - timedelta(weeks=1),
-        "next_month": today + timedelta(days=30),
-        "last_month": today - timedelta(days=30),
-        "next_year": today + timedelta(days=365),
-        "last_year": today - timedelta(days=365)
-    }
-    
-    print("Relative dates from today:")
-    for description, calculated_date in relative_dates.items():
-        print(f"{description}: {calculated_date}")
-    
-    # N days from now
-    for n in [3, 7, 14, 30, 90]:
-        future_date = today + timedelta(days=n)
-        past_date = today - timedelta(days=n)
-        print(f"{n} days from now: {future_date}")
-        print(f"{n} days ago: {past_date}")
+**"How old is someone born on July 20, 1995, as of today?"**
 
-relative_date_examples()
-```
+Use date difference mode:
+- Start date: 1995-07-20
+- End date: today's date
+- Result: shown in years, months, and days
 
-## Advanced Date Calculations
+This handles the variable-length month issue correctly -- the tool accounts for partial months and leap years in between.
 
-### Business Day Calculations
-```python
-def business_day_examples():
-    """Calculate business days excluding weekends"""
-    def add_business_days(start_date, business_days):
-        """Add business days to a date"""
-        current_date = start_date
-        days_added = 0
-        
-        while days_added < business_days:
-            current_date += timedelta(days=1)
-            # Skip weekends (Saturday=5, Sunday=6)
-            if current_date.weekday() < 5:
-                days_added += 1
-        
-        return current_date
-    
-    def count_business_days(start_date, end_date):
-        """Count business days between two dates"""
-        business_days = 0
-        current_date = start_date
-        
-        while current_date <= end_date:
-            if current_date.weekday() < 5:  # Monday to Friday
-                business_days += 1
-            current_date += timedelta(days=1)
-        
-        return business_days
-    
-    # Test business day calculations
-    start_date = date(2024, 3, 15)  # Friday
-    print(f"Start date: {start_date}")
-    
-    # Add business days
-    for days in [1, 3, 5, 10]:
-        result = add_business_days(start_date, days)
-        print(f"Start + {days} business days: {result}")
-    
-    # Count business days
-    end_date = date(2024, 3, 25)
-    business_days = count_business_days(start_date, end_date)
-    print(f"Business days between {start_date} and {end_date}: {business_days}")
+## Subscription and Billing
 
-business_day_examples()
-```
+**"A user started a monthly subscription on January 31. When does it renew?"**
 
-### Month and Year Calculations
-```python
-def month_year_examples():
-    """Advanced month and year calculations"""
-    from dateutil import relativedelta
-    
-    base_date = date(2024, 3, 15)
-    print(f"Base date: {base_date}")
-    
-    # Month calculations
-    next_month = base_date + relativedelta(months=1)
-    last_month = base_date - relativedelta(months=1)
-    three_months_later = base_date + relativedelta(months=3)
-    six_months_ago = base_date - relativedelta(months=6)
-    
-    print(f"Next month: {next_month}")
-    print(f"Last month: {last_month}")
-    print(f"Three months later: {three_months_later}")
-    print(f"Six months ago: {six_months_ago}")
-    
-    # Year calculations
-    next_year = base_date + relativedelta(years=1)
-    last_year = base_date - relativedelta(years=1)
-    five_years_later = base_date + relativedelta(years=5)
-    
-    print(f"Next year: {next_year}")
-    print(f"Last year: {last_year}")
-    print(f"Five years later: {five_years_later}")
-    
-    # Combined calculations
-    two_months_three_years_later = base_date + relativedelta(months=2, years=3)
-    print(f"Two months and three years later: {two_months_three_years_later}")
+- Base date: 2024-01-31
+- Operation: Add
+- Amount: 1 month
+- Result: 2024-02-29 (2024 is a leap year)
 
-month_year_examples()
-```
+In a non-leap year, adding one month to January 31 gives February 28. The tool caps at the last valid day of the target month. For subscriptions you might want to check if your billing system handles this edge case the same way.
 
-### Calendar Navigation
-```python
-def calendar_navigation_examples():
-    """Navigate calendar periods and boundaries"""
-    def get_month_boundaries(target_date):
-        """Get first and last day of month"""
-        first_day = target_date.replace(day=1)
-        if target_date.month == 12:
-            next_month = target_date.replace(year=target_date.year + 1, month=1, day=1)
-        else:
-            next_month = target_date.replace(month=target_date.month + 1, day=1)
-        last_day = next_month - timedelta(days=1)
-        return first_day, last_day
-    
-    def get_quarter_boundaries(target_date):
-        """Get quarter start and end dates"""
-        quarter = (target_date.month - 1) // 3 + 1
-        quarter_start_month = (quarter - 1) * 3 + 1
-        quarter_start = target_date.replace(month=quarter_start_month, day=1)
-        
-        if quarter == 4:
-            quarter_end = target_date.replace(year=target_date.year + 1, month=1, day=1) - timedelta(days=1)
-        else:
-            quarter_end = target_date.replace(month=quarter_start_month + 3, day=1) - timedelta(days=1)
-        
-        return quarter_start, quarter_end
-    
-    def get_year_boundaries(target_date):
-        """Get year start and end dates"""
-        year_start = target_date.replace(month=1, day=1)
-        year_end = target_date.replace(month=12, day=31)
-        return year_start, year_end
-    
-    # Test calendar navigation
-    test_date = date(2024, 3, 15)
-    print(f"Test date: {test_date}")
-    
-    # Month boundaries
-    month_start, month_end = get_month_boundaries(test_date)
-    print(f"Month start: {month_start}")
-    print(f"Month end: {month_end}")
-    
-    # Quarter boundaries
-    quarter_start, quarter_end = get_quarter_boundaries(test_date)
-    print(f"Quarter start: {quarter_start}")
-    print(f"Quarter end: {quarter_end}")
-    
-    # Year boundaries
-    year_start, year_end = get_year_boundaries(test_date) 
-    print(f"Year start: {year_start}")
-    print(f"Year end: {year_end}")
+**"Quarterly billing starting April 1: when are the next 4 billing dates?"**
 
-calendar_navigation_examples()
-``` 
+- April 1 + 3 months = July 1
+- July 1 + 3 months = October 1
+- October 1 + 3 months = January 1 (next year)
+- January 1 + 3 months = April 1 (next year)
+
+## Business Day Calculations
+
+**"A support ticket came in Friday at 4 PM. SLA is 3 business days. When is it due?"**
+
+- Base date: 2024-03-15 (Friday)
+- Operation: Add
+- Amount: 3 business days
+- Result: 2024-03-20 (Wednesday)
+
+Skipping Saturday and Sunday, then Monday is 1, Tuesday is 2, Wednesday is 3 business days.
+
+## Warranty Expiration
+
+**"Product purchased June 15, 2023, with a 2-year warranty. When does it expire?"**
+
+- Base date: 2023-06-15
+- Operation: Add
+- Amount: 2 years
+- Result: 2025-06-15
+
+Simple in this case because it's the same day of the same month two years later. The tool handles leap year February edge cases automatically.
+
+## Historical / Look-Back
+
+**"What was the date 1000 days ago?"**
+
+Use subtract mode: pick today, subtract 1000 days. The tool handles the calendar math across years, months, and leap years. No mental arithmetic needed.
+
+## Day Count Between Events
+
+**"How many days between the project start (Jan 10) and the launch date (Sep 5)?"**
+
+Date difference mode:
+- Start: 2024-01-10
+- End: 2024-09-05
+- Result: 239 days
+
+This accounts for the irregular month boundaries between January and September -- January (22 remaining days) + February (29) + March (31) + April (30) + May (31) + June (30) + July (31) + August (31) + September (5) = 239.

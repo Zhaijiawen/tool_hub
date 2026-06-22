@@ -1,53 +1,54 @@
 # User Agent Parser — Technical Background
 
-## What Is a User Agent?
+Every time your browser makes an HTTP request, it sends a `User-Agent` header — a string that tells the server what browser, version, and operating system you're running. It's the browser's way of introducing itself. Servers use this to serve mobile-optimized pages, track browser market share, and sometimes to block or restrict certain clients.
 
-A **User Agent (UA)** is a string sent by a browser or HTTP client in the `User-Agent` HTTP request header. It identifies the client software, including the browser name, version, operating system, and rendering engine.
+The UA string has a long and weird history, and understanding its quirks explains why the parser is useful.
 
-## Why User Agents Matter
+## Why every UA starts with "Mozilla/5.0"
 
-Servers and analytics tools use the UA string to:
-- Serve device-appropriate content (desktop vs. mobile)
-- Track browser usage statistics
-- Debug compatibility issues
-- Implement browser-specific workarounds
+Back in the 1990s, Netscape Navigator identified itself as `Mozilla/1.0`. When Internet Explorer came along, it wanted sites that checked for "Mozilla" to serve it content too, so it started its UA with `Mozilla/4.0 (compatible; MSIE ...)`. When Chrome launched, it wanted to be treated like Safari for WebKit-compatible sites, so it included both `AppleWebKit` and `Safari` in its string — even though it's not Safari. And Firefox includes `Gecko/20100101` with a frozen date that hasn't changed since 2010, because changing it broke sites that hardcoded date checks.
 
-## Anatomy of a User Agent String
+All of this means the modern UA string is a layered mess of historical baggage. A Chrome 120 UA still says `Mozilla/5.0`, still mentions `Safari`, and still mentions `like Gecko` — none of which accurately describes what Chrome actually is. The parser cuts through this by extracting structured information from the noise.
 
-A typical browser UA string follows this general pattern:
+## Anatomy of a typical UA
 
-```
-Mozilla/5.0 (OS info) AppleWebKit/version (KHTML, like Gecko) Browser/version
-```
+Here's a Chrome on Windows string broken down:
 
-### Example
 ```
 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
 ```
 
-| Part | Meaning |
+| Part | What it actually means |
 |---|---|
-| `Mozilla/5.0` | Legacy compatibility token (all browsers include this) |
-| `Windows NT 10.0; Win64; x64` | OS: Windows 10, 64-bit |
-| `AppleWebKit/537.36` | Rendering engine version |
-| `Chrome/120.0.0.0` | Browser name and version |
-| `Safari/537.36` | Compatibility token |
+| `Mozilla/5.0` | Historical compatibility token — every browser says this |
+| `Windows NT 10.0; Win64; x64` | Windows 10, 64-bit on x86_64 hardware |
+| `AppleWebKit/537.36` | Blink engine version identifier (forked from WebKit) |
+| `(KHTML, like Gecko)` | "We're sort of like KHTML and Gecko" — compatibility note |
+| `Chrome/120.0.0.0` | The actual browser and version you care about |
+| `Safari/537.36` | "Also claim to be Safari" — another compatibility token |
 
-## Common Components
+The version number `537.36` appears in both `AppleWebKit` and `Safari` — it's not a coincidence. It's the WebKit version from which Blink was forked, and it's been frozen at that number for years across Chromium-based browsers.
 
-### Operating Systems
-- `Windows NT 10.0` → Windows 10
-- `Macintosh; Intel Mac OS X 13_0` → macOS Ventura
-- `Linux x86_64` → Linux 64-bit
-- `iPhone; CPU iPhone OS 17_0` → iOS 17
-- `Android 14` → Android 14
+## Operating system signals
 
-### Browser Engines
-- **Blink** (Chrome, Edge, Opera): `AppleWebKit/537.36 (KHTML, like Gecko)`
-- **WebKit** (Safari): `AppleWebKit/605.1.15`
-- **Gecko** (Firefox): `Gecko/20100101 Firefox/120.0`
+The OS portion lives in the parentheses and uses specific tokens:
 
-## UA Spoofing
+- `Windows NT 10.0` — Windows 10 or 11 (yes, Windows 11 still reports `Windows NT 10.0` because changing it broke UA detection in many places)
+- `Macintosh; Intel Mac OS X 14_0` — macOS Sonoma (underscores separate version parts)
+- `Linux x86_64` — Linux on 64-bit x86
+- `iPhone; CPU iPhone OS 17_0 like Mac OS X` — iOS 17 on iPhone. The `like Mac OS X` part is Apple's way of saying "the web platform works like desktop Safari"
+- `Android 14; SM-S908B` — Android 14 with a device model hint
 
-User agents can be easily spoofed — they are self-reported by the client and not verified by the server. Use them only as hints, not reliable identifiers.
+## Browser engines
 
+The rendering engine is usually identifiable by the tokens around it:
+
+- **Blink** (Chrome, Edge, Opera, Brave, Vivaldi): Uses `AppleWebKit/537.36` and mentions `Chrome/` — but the `Chrome/` version is what distinguishes it from Safari
+- **WebKit** (Safari, all iOS browsers): `AppleWebKit/605.1.15` without a `Chrome/` token (Apple mandates that all iOS browsers use WebKit)
+- **Gecko** (Firefox): `Gecko/20100101 Firefox/120.0` — Firefox is the only major browser that puts its engine name prominently
+
+## UA spoofing
+
+The UA string is self-reported by the client. There's no verification. Anyone can send `Googlebot/2.1` in their User-Agent header even if they're not Google. Bots, scrapers, and automated tools routinely fake their UA to avoid blocking.
+
+This means UA-based logic should be treated as a convenience, not a security measure. Don't use UA strings for authentication, rate limiting, or access control. Use them for analytics, debugging, and content adaptation.

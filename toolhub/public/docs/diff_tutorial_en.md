@@ -1,134 +1,62 @@
-# Diff Text Comparison - Tutorial
+# Diff Text Comparison -- How to Use
 
-## Getting Started
+Put old text on the left, new text on the right. The tool highlights exactly what changed.
 
-The Diff text comparison tool helps you quickly find differences between two texts, whether for code comparison, document revision tracking, or configuration comparison.
+## Basic Workflow
 
-## Basic Usage
+The interface has two text panes:
 
-### Step 1: Enter Your Text
+- **Left pane**: Original text (the old version)
+- **Right pane**: Modified text (the new version)
 
-The tool interface has two panes:
-- **Left pane**: Enter the original text (old version)
-- **Right pane**: Enter the modified text (new version)
+Paste or type in both sides. Both support multi-line text. Click **Compare** (or enable auto-compare to trigger on every keystroke) and the differences light up.
 
-You can paste text directly or type manually. Both panes support multi-line text.
+## Reading the Results
 
-### Step 2: Select Comparison Mode
+- **Green background**: Added content -- appears in the right pane but not the left
+- **Red background**: Deleted content -- appears in the left pane but not the right
+- **No background**: Unchanged content
 
-Click the mode toggle at the top:
-- **Line-level diff**: Compares line by line — ideal for code and config files
-- **Character-level diff**: Precise character-by-character comparison — ideal for short texts
+A stats bar at the top summarizes the changes: `+N lines added / -N lines deleted`. Good for a quick gut check on the scale of changes.
 
-### Step 3: Run the Comparison
+## Comparison Modes
 
-Click the **Compare** button, or enable real-time comparison to trigger automatically as you type.
+- **Line-level**: Compares line by line. Use this for code, config files, logs -- anything structured.
+- **Character-level**: Precise per-character diff. Use this for short texts, single sentences, or when you need to see exact letter-level changes.
 
-### Step 4: View the Results
+Switch modes with the toggle at the top. If line-level shows "entire line changed" but you want to see if it was just a typo fix, switch to character-level.
 
-Results are displayed with color highlighting:
-- 🟢 **Green background**: Added content (present on right, absent on left)
-- 🔴 **Red background**: Deleted content (present on left, absent on right)
-- ⬜ **No background**: Unchanged content
+## Handy Features
 
-The stats bar at the top shows: `+N lines added / -N lines removed`
-
-## Feature Details
-
-### Swap Left and Right
-
-Click the **Swap** button to exchange left and right content for a quick reverse comparison. This is useful when reviewing someone else's submission.
-
-### Copy Functions
-
-- **Copy left**: Copy left pane content to clipboard
-- **Copy right**: Copy right pane content to clipboard
-
-### Clear Function
-
-Click the **Clear** button to reset all inputs and results for a fresh comparison.
-
-## Example Scenarios
-
-### Scenario 1: Comparing Code Changes
-
-**Original code (left):**
-```javascript
-function greet(name) {
-  console.log('Hello ' + name);
-}
-```
-
-**Modified code (right):**
-```javascript
-function greet(name, title = '') {
-  const greeting = title ? `Hello ${title} ${name}` : `Hello ${name}`;
-  console.log(greeting);
-}
-```
-
-The result will highlight the new parameter, added lines, and deleted old lines.
-
-### Scenario 2: Document Revision Comparison
-
-**Original text (left):**
-```
-This product is for enterprise users, offering a basic feature set.
-Price: $99/month.
-```
-
-**Revised text (right):**
-```
-This product is for enterprise and individual users, offering a complete feature set.
-Starting at $79/month.
-```
-
-Character-level diff will precisely mark every changed word.
-
-### Scenario 3: Config File Differences
-
-Compare configuration files between two environments (dev/prod) to quickly identify differing settings.
+- **Swap**: Flips left and right content. Useful when you want to reverse the perspective -- "what did they add?" vs "what did they remove?"
+- **Copy left / Copy right**: Grab either pane's content to clipboard.
+- **Clear**: Wipe everything for a fresh comparison.
 
 ## Practical Tips
 
-### Tip 1: Normalize Format Before Comparing
+### Normalize Formatting First
 
-If the two texts have inconsistent formatting (different indentation, line endings), normalize them first with a formatting tool to avoid noise from formatting-only differences.
+If the two texts have different indentation, line endings, or trailing whitespace, the diff will be noisy with formatting-only changes. Run the text through a formatter first, or use the tool's character-level mode which can spot that the actual content is identical despite whitespace differences.
 
-### Tip 2: Use the Swap Feature
+### Choosing the Right Mode
 
-When you receive someone's modified version and want to know what they changed:
-1. Put your original in the left pane
-2. Put their modified version in the right pane
-3. The result shows all their changes
-
-### Tip 3: Choosing Line-level vs Character-level
-
-| Scenario | Recommended Mode |
-|----------|-----------------|
+| Scenario | Use |
+|---|---|
 | Code files | Line-level |
 | Long documents | Line-level |
-| Short text / word changes | Character-level |
-| JSON/YAML config | Line-level |
+| Short text / word tweaks | Character-level |
+| JSON/YAML configs | Line-level |
+| Debugging a specific string change | Character-level |
 
-### Tip 4: Understanding the Stats
+### Reading the Stats
 
-The `+N / -N` stats at the top give quick insight into the scale of changes:
-- Many deletions, few additions → likely code simplification
-- Many additions, few deletions → likely new feature additions
-- Similar additions and deletions → likely content replacement or refactoring
+The `+N / -N` numbers give you a quick sense of the change:
+- Lots of `-`, few `+`: Looks like code deletion or simplification
+- Lots of `+`, few `-`: Probably new features or content
+- Similar numbers: Likely a rewrite or refactoring -- same amount of content, different structure
 
-## FAQ
+## Common Issues
 
-**Q: Why is identical content marked as changed?**
+**Identical text showing as changed**: Usually caused by invisible characters -- Windows `\r\n` vs Unix `\n` line endings, or Unicode zero-width spaces. Clean the text or re-paste from a known-good source.
 
-A: This is often caused by invisible characters (e.g., Windows `\r\n` vs Unix `\n` line endings, or Unicode invisible spaces). Try cleaning the text with a text processing tool first.
-
-**Q: Comparison is slow for very long texts?**
-
-A: Diff computation for very large texts takes time. Consider extracting only the portions you expect to differ for comparison.
-
-**Q: Can I export the comparison results?**
-
-A: You can copy the results to use in other tools.
-
+**Slow with very large texts**: Above 10K lines, diff computation takes noticeable time. For extremely long comparisons, extract only the sections you expect to differ.

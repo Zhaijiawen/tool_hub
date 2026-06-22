@@ -1,25 +1,21 @@
-# SSL 证书解析 — 示例
+# SSL 证书解析 — 使用示例
 
-## 示例：GitHub 证书（域名查询）
+## 域名查询示例：github.com
 
-1. 切换到「域名查询」模式
-2. 输入 `github.com`
-3. 点击「查询」
+切换到「域名查询」模式，输入 `github.com`，点「查询」。你会看到类似这样的输出：
 
-预期结果示例：
-
-| 字段 | 值 |
-|------|------|
+| 字段 | 预期值 |
+|------|--------|
 | Subject | `CN=github.com` |
-| Issuer | DigiCert 或 Let's Encrypt |
+| Issuer | DigiCert 等 CA |
 | SAN | `github.com`, `www.github.com` |
 | 签名算法 | SHA256withRSA 或 SHA384withECDSA |
 
----
+实际值会随 GitHub 轮换证书而变化。SAN 列表通常是最值得看的字段——它告诉你这张证书到底覆盖了哪些域名。
 
-## 示例：测试用 PEM 证书（可直接粘贴）
+## 粘贴真实证书：ISRG Root X1
 
-以下是一个公开的测试证书（Let's Encrypt 根证书 ISRG Root X1）：
+下面是 Let's Encrypt 的根证书，公开的，直接粘贴就能看到根 CA 证书长什么样：
 
 ```
 -----BEGIN CERTIFICATE-----
@@ -55,17 +51,17 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 -----END CERTIFICATE-----
 ```
 
-粘贴到工具中，可以看到 ISRG Root X1 的完整证书信息。
+粘贴进去就能看到完整的证书信息——颁发者、主体、有效期（2015 年到 2035 年！）、密钥用途限制、指纹等等。
 
----
-
-## 使用 openssl 提取证书
+## 用 openssl 抓取证书
 
 ```bash
-# 提取网站证书并保存为 PEM
+# 拉取网站证书保存为 PEM
 openssl s_client -connect example.com:443 </dev/null 2>/dev/null | \
   openssl x509 -out example.pem
 
-# 查看证书信息（用于与工具对比）
+# 直接查看证书所有细节（方便和工具对比）
 openssl x509 -in example.pem -text -noout
+```
 
+`-text` 参数会把 openssl 掌握的所有证书细节都打印出来，你可以和工具解析结果对比，主要字段应该一一对应。

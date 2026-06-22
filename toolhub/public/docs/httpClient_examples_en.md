@@ -1,12 +1,12 @@
 # HTTP Request Tester — Examples
 
-## Example 1: GET Request (Public API)
+## Simple GET request
 
 **URL:** `https://httpbin.org/get`
 **Method:** GET
 **Params:** `name=toolhub`, `version=1.0`
 
-Sample Response:
+Response:
 ```json
 {
   "args": {
@@ -21,9 +21,9 @@ Sample Response:
 }
 ```
 
----
+httpbin echoes everything about your request — params, headers, origin IP. It's the perfect test target for debugging HTTP clients.
 
-## Example 2: POST JSON Request
+## POST with JSON body
 
 **URL:** `https://httpbin.org/post`
 **Method:** POST
@@ -35,19 +35,17 @@ Sample Response:
 }
 ```
 
-The `json` field in the response echoes back the body you sent.
+The response includes a `json` field that echoes back exactly what you sent. Use this to verify your JSON is well-formed and arriving as expected.
 
----
-
-## Example 3: Authenticated Request
+## Authenticated request
 
 **URL:** `https://httpbin.org/bearer`
 **Method:** GET
 **Headers:** `Authorization: Bearer my-token-123`
 
----
+httpbin's `/bearer` endpoint checks for a Bearer token and returns 401 if it's missing or invalid. Good for testing auth header formatting.
 
-## Example 4: Form Submission
+## Form submission
 
 **URL:** `https://httpbin.org/post`
 **Method:** POST
@@ -55,13 +53,20 @@ The `json` field in the response echoes back the body you sent.
 - `username` = `testuser`
 - `password` = `123456`
 
----
+The response will show the form fields under the `form` key, confirming they were encoded as `application/x-www-form-urlencoded`.
 
-## Recommended Public Test APIs
+## Testing your own API
 
-| Service | URL | Notes |
-|---------|-----|-------|
-| httpbin | `https://httpbin.org` | Echoes request data — great for debugging |
-| JSONPlaceholder | `https://jsonplaceholder.typicode.com` | Mock REST API |
-| Dog API | `https://dog.ceo/api/breeds/image/random` | Random dog image URL |
+Before deploying, point this tool at your local dev server:
+- `http://localhost:3000/api/users` for a GET request
+- `http://localhost:3000/api/users` with POST and a JSON body to create a user
 
+If you get CORS errors, your server needs to send `Access-Control-Allow-Origin: *` (or your frontend's origin) in its responses. For Express, that's one line: `app.use(cors())`.
+
+## Public test APIs
+
+| Service | URL | What it does |
+|---------|-----|-------------|
+| httpbin | `https://httpbin.org` | Echoes your request — the go-to debugging tool |
+| JSONPlaceholder | `https://jsonplaceholder.typicode.com` | Fake REST API with posts, users, comments |
+| Dog API | `https://dog.ceo/api/breeds/image/random` | Random dog photos, because why not |

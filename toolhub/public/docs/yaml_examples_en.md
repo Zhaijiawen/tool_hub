@@ -1,8 +1,8 @@
-# YAML Code Examples
+# YAML — Code Examples
 
-## Basic YAML Structure Examples
+## Basic Structures
 
-### Simple Key-Value Pairs
+### Simple key-value pairs
 
 ```yaml
 name: John Doe
@@ -11,7 +11,7 @@ email: john@example.com
 is_active: true
 ```
 
-### Nested Objects
+### Nested objects and arrays
 
 ```yaml
 person:
@@ -23,26 +23,15 @@ person:
   address:
     street: 123 Main St
     city: New York
-    zip: 10001
-```
+    zip: "10001"   # quoted — zip codes with leading zeros lose them otherwise
 
-### Arrays/Lists
-
-```yaml
 fruits:
   - apple
   - banana
   - orange
-
-numbers:
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
 ```
 
-### Complex Nested Structures
+### Complex nested structures
 
 ```yaml
 company:
@@ -69,19 +58,17 @@ company:
         - Agile
 ```
 
-## Configuration File Examples
+## Configuration Files
 
-### Application Configuration
+### App config with database, server, and logging
 
 ```yaml
-# Application settings
 app:
   name: MyApplication
   version: 1.0.0
   environment: production
   debug: false
 
-# Database configuration
 database:
   host: localhost
   port: 5432
@@ -94,7 +81,6 @@ database:
     max: 20
     timeout: 30
 
-# Server configuration
 server:
   port: 8080
   host: 0.0.0.0
@@ -105,7 +91,6 @@ server:
       - http://localhost:3000
       - https://myapp.com
 
-# Logging configuration
 logging:
   level: INFO
   format: json
@@ -114,7 +99,7 @@ logging:
   max_files: 5
 ```
 
-### Docker Compose Configuration
+### Docker Compose
 
 ```yaml
 version: '3.8'
@@ -163,18 +148,18 @@ volumes:
   postgres_data:
 ```
 
-## CI/CD Pipeline Examples
+## CI/CD Pipelines
 
-### GitHub Actions Workflow
+### GitHub Actions
 
 ```yaml
 name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   NODE_VERSION: '16'
@@ -220,10 +205,9 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production..."
-          # Deployment commands here
 ```
 
-### GitLab CI Configuration
+### GitLab CI
 
 ```yaml
 stages:
@@ -289,7 +273,7 @@ deploy:production:
 
 ## Kubernetes Manifests
 
-### Pod Definition
+Pod, Service, and Deployment — the three most common K8s resources:
 
 ```yaml
 apiVersion: v1
@@ -333,11 +317,7 @@ spec:
           port: 3000
         initialDelaySeconds: 5
         periodSeconds: 5
-```
-
-### Service Definition
-
-```yaml
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -357,11 +337,7 @@ spec:
       name: https
   selector:
     app: my-app
-```
-
-### Deployment Definition
-
-```yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -402,9 +378,9 @@ spec:
             name: my-app-config
 ```
 
-## Ansible Playbook Examples
+Notice the `---` document separators — one file, three resources. This is the standard K8s pattern.
 
-### Basic Playbook
+## Ansible Playbooks
 
 ```yaml
 ---
@@ -446,60 +422,10 @@ spec:
         state: restarted
 ```
 
-### Complex Playbook with Roles
+## Environment Configs (dev vs prod)
 
 ```yaml
----
-- name: Deploy application
-  hosts: all
-  become: yes
-  vars_files:
-    - vars/main.yml
-    - vars/secrets.yml
-
-  pre_tasks:
-    - name: Update package cache
-      apt:
-        update_cache: yes
-      when: ansible_os_family == "Debian"
-
-  roles:
-    - common
-    - web
-    - app
-    - database
-
-  tasks:
-    - name: Deploy application
-      git:
-        repo: "{{ app_repository }}"
-        dest: "{{ app_path }}"
-        version: "{{ app_version }}"
-        force: yes
-
-    - name: Install dependencies
-      npm:
-        path: "{{ app_path }}"
-        state: present
-
-    - name: Build application
-      command: npm run build
-      args:
-        chdir: "{{ app_path }}"
-
-    - name: Restart application
-      systemd:
-        name: "{{ app_service }}"
-        state: restarted
-        daemon_reload: yes
-```
-
-## Environment Configuration
-
-### Development Environment
-
-```yaml
-# Development environment configuration
+# Development
 environment: development
 
 app:
@@ -540,10 +466,8 @@ external_services:
     path: ./uploads
 ```
 
-### Production Environment
-
 ```yaml
-# Production environment configuration
+# Production
 environment: production
 
 app:
@@ -593,176 +517,4 @@ external_services:
     region: us-east-1
 ```
 
-## JavaScript Processing Examples
-
-### Parsing YAML
-
-```js
-// Parse YAML from string
-const yaml = require('js-yaml')
-
-const yamlString = `
-app:
-  name: MyApp
-  version: 1.0.0
-  debug: true
-
-database:
-  host: localhost
-  port: 5432
-  name: myapp
-`
-
-try {
-  const config = yaml.load(yamlString)
-  console.log(config.app.name) // Output: MyApp
-  console.log(config.database.host) // Output: localhost
-} catch (error) {
-  console.error('YAML parsing error:', error.message)
-}
-
-// Load YAML from file
-const fs = require('fs')
-
-try {
-  const config = yaml.load(fs.readFileSync('config.yaml', 'utf8'))
-  console.log('Configuration loaded:', config)
-} catch (error) {
-  console.error('Error loading config:', error.message)
-}
-```
-
-### Generating YAML
-
-```js
-// Convert object to YAML
-const yaml = require('js-yaml')
-
-const config = {
-  app: {
-    name: 'MyApp',
-    version: '1.0.0',
-    debug: true
-  },
-  database: {
-    host: 'localhost',
-    port: 5432,
-    name: 'myapp'
-  }
-}
-
-const yamlString = yaml.dump(config, {
-  indent: 2,
-  lineWidth: 80,
-  noRefs: true
-})
-
-console.log(yamlString)
-
-// Save YAML to file
-const fs = require('fs')
-
-fs.writeFileSync('config.yaml', yamlString, 'utf8')
-console.log('Configuration saved to config.yaml')
-```
-
-### Working with YAML Schemas
-
-```js
-// Validate YAML against schema
-const yaml = require('js-yaml')
-const Ajv = require('ajv')
-
-const schema = {
-  type: 'object',
-  properties: {
-    app: {
-      type: 'object',
-      properties: {
-        name: { type: 'string' },
-        version: { type: 'string' },
-        debug: { type: 'boolean' }
-      },
-      required: ['name', 'version']
-    },
-    database: {
-      type: 'object',
-      properties: {
-        host: { type: 'string' },
-        port: { type: 'number' },
-        name: { type: 'string' }
-      },
-      required: ['host', 'port', 'name']
-    }
-  },
-  required: ['app', 'database']
-}
-
-const ajv = new Ajv()
-const validate = ajv.compile(schema)
-
-const yamlString = `
-app:
-  name: MyApp
-  version: 1.0.0
-  debug: true
-
-database:
-  host: localhost
-  port: 5432
-  name: myapp
-`
-
-try {
-  const config = yaml.load(yamlString)
-  const valid = validate(config)
-  
-  if (valid) {
-    console.log('Configuration is valid')
-  } else {
-    console.error('Configuration validation failed:', validate.errors)
-  }
-} catch (error) {
-  console.error('YAML parsing error:', error.message)
-}
-```
-
-## Error Handling Examples
-
-### Validation Error Response
-
-```yaml
-errors:
-  - code: VALIDATION_ERROR
-    message: Invalid YAML structure
-    details:
-      field: database.host
-      issue: Host field is required
-      line: 8
-      column: 3
-  - code: TYPE_ERROR
-    message: Invalid data type
-    details:
-      field: app.port
-      issue: Port must be a number
-      value: "3000"
-      line: 4
-      column: 8
-
-timestamp: 2024-01-15T10:30:00Z
-request_id: req_123456
-```
-
-### System Error Response
-
-```yaml
-error:
-  code: INTERNAL_SERVER_ERROR
-  message: An unexpected error occurred
-  details: YAML parsing failed
-  timestamp: 2024-01-15T10:30:00Z
-  request_id: req_123456
-  stack: "Error: Invalid YAML syntax at line 5..."
-```
-
-These examples demonstrate various YAML patterns and use cases commonly encountered in configuration management, CI/CD pipelines, and application development. 
+Prod secrets reference env vars (`${VAR}`) — never hardcode credentials in YAML committed to version control.

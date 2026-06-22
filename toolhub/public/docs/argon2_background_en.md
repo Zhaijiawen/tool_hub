@@ -1,92 +1,47 @@
 # Argon2 Technical Background
 
-## Overview
-Argon2 is a modern password hashing algorithm designed by Alex Biryukov, Daniel Dinu, and Dmitry Khovratovich, and was the winner of the Password Hashing Competition in 2015. It is specifically designed to be memory-hard, making it resistant to attacks from specialized hardware like ASICs and GPUs. Argon2 provides three variants: Argon2d, Argon2i, and Argon2id, each optimized for different security requirements and use cases.
+Argon2 is the password hashing algorithm you should be using in 2024 and beyond. It won the Password Hashing Competition in 2015, beating out a field of two dozen candidates, and has since been standardized in RFC 9106. The team behind it -- Alex Biryukov, Daniel Dinu, and Dmitry Khovratovich -- designed it specifically to make life miserable for attackers with specialized hardware. That's the whole point of Argon2, really: it's memory-hard.
 
-## Mathematical Foundation
+## What "memory-hard" actually means
 
-### Memory-Hard Function Design
-Argon2 is built on the concept of memory-hard functions, which require a significant amount of memory to compute efficiently. The algorithm uses a large memory array that must be accessed in a specific pattern, making it difficult to implement on memory-constrained hardware like ASICs or GPUs.
+Most password hashing before Argon2 was designed to be CPU-hard -- you crank up the iteration count and brute-forcing gets linearly more expensive. The problem is that GPUs and ASICs can parallelize CPU-bound work embarrassingly well. A GPU with a few thousand cores can try passwords thousands of times faster than your server CPU can hash them once. That's not a fair fight.
 
-### Blake2b Hash Function
-Argon2 uses Blake2b as its underlying hash function, which provides excellent performance and security. Blake2b is a cryptographic hash function that offers high speed and is resistant to length extension attacks, making it ideal for Argon2's design.
+Memory-hardness changes the battlefield. Argon2 forces the algorithm to allocate and repeatedly access a large chunk of memory -- tens or hundreds of megabytes. GPUs have fast memory but very little of it per core. An ASIC that tried to crack Argon2 hashes at scale would need absurd amounts of RAM, which drives up the cost of building cracking rigs by orders of magnitude. It's a much more elegant defense than just making the hash slower.
 
-### Variable Memory and Time Parameters
-Argon2 allows configurable memory cost (m), time cost (t), and parallelism (p) parameters, enabling fine-tuning of security and performance characteristics based on specific requirements and hardware capabilities.
+## The three variants and when to use each
 
-## Core Algorithm Structure
+Argon2 comes in three flavors, and the naming isn't super intuitive if you're new to it:
 
-### Memory Array Initialization
-Argon2 begins by initializing a large memory array with pseudo-random data derived from the password, salt, and other parameters. The size of this array is determined by the memory cost parameter.
+**Argon2d** is the fastest. It accesses memory in a data-dependent pattern -- the path through memory depends on the password itself. This makes it maximally resistant to GPU/ASIC attacks, but it also means an attacker who can watch the memory access pattern (a side-channel attack) might learn something about the password. Use this only when side channels aren't a threat -- like on a server you fully control that no one else shares.
 
-### Block Generation Process
-The algorithm generates blocks in the memory array using a complex function that depends on previous blocks, creating a dependency chain that requires the entire memory array to be available for computation.
+**Argon2i** is the side-channel-resistant version. Memory access is data-independent -- it follows a fixed pattern regardless of the password. This means no information leaks through timing or cache behavior, but the trade-off is that it's easier to optimize for parallel hardware. Use it when you're worried about side channels, like in a shared hosting environment.
 
-### Final Hash Computation
-The final hash is computed by processing the last block in the memory array through additional rounds of the Blake2b function, incorporating the password, salt, and other parameters.
+**Argon2id** is the hybrid, and it's what you should use unless you have a specific reason not to. The first half of the computation uses Argon2i-style data-independent access (to prevent side-channel leakage during the most sensitive phase), and the second half switches to Argon2d-style data-dependent access (to slam the door on GPU attacks). RFC 9106 and NIST both recommend it as the default.
 
-## Security Analysis
+## Under the hood: Blake2b and the memory matrix
 
-### Memory-Hardness Properties
-Argon2's memory-hardness makes it resistant to attacks from specialized hardware that can perform many parallel computations but have limited memory. This property is crucial for protecting against brute force attacks using ASICs or GPUs.
+Argon2 builds on Blake2b, a fast cryptographic hash that's much faster than SHA-256 on 64-bit platforms. The algorithm starts by filling a large block of memory with pseudo-random data derived from the password, salt, and parameters. Then it iterates through that memory, reading from and writing to different positions, creating a dependency chain where you can't compute any block without having the entire memory array available.
 
-### Side-Channel Attack Resistance
-The algorithm is designed to be resistant to various side-channel attacks, including timing attacks and cache-timing attacks, through its constant-time memory access patterns.
+The parameters give you three knobs to turn:
 
-### Parameter Flexibility
-Argon2's configurable parameters allow for future-proofing against advances in computational power, as the memory and time costs can be increased as hardware becomes more powerful.
+- **Memory cost (m)** -- how many kibibytes of memory to use. Typical values range from 64 MiB (development) to 256 MiB or more (production). More memory means more resistance to hardware attacks.
+- **Time cost (t)** -- how many passes to make over the memory. Each pass doubles the compute time. Values of 1-3 are common; going above 10 rarely makes sense.
+- **Parallelism (p)** -- how many independent lanes to process simultaneously. Usually 1-4. High parallelism doesn't help much on typical server hardware and can actually weaken security by dividing the available memory per lane.
 
-## Implementation Considerations
+After all the iterations, the final block gets hashed again with Blake2b to produce the output hash -- typically 32 bytes, but configurable.
 
-### Performance Characteristics
-Argon2's performance is primarily limited by memory bandwidth rather than computational power, making it well-suited for general-purpose CPUs while being difficult to implement efficiently on specialized hardware.
+## The gotcha with Argon2id parameters
 
-### Memory Requirements
-The algorithm requires a significant amount of memory proportional to the memory cost parameter, typically ranging from several megabytes to gigabytes depending on the security level required.
+Here's something that trips people up: you need to balance memory and time cost against what your production servers can actually handle. If you set memory to 1 GB and a login request takes 3 seconds on your two-core server, users will hate you, and someone will probably turn it down to something insecure just to make the complaints stop.
 
-### Parameter Selection Guidelines
-NIST and other security organizations provide guidelines for parameter selection based on the intended use case, with recommendations for different security levels and performance requirements.
+The better approach: benchmark on your actual production hardware. Pick parameters that make a single hash take about 0.5-1 second. That's fast enough that users don't notice, but slow enough that an attacker trying billions of guesses would need centuries and a utility-scale power budget. Then set up monitoring to alert you when average hash time changes (because that could mean someone changed the config, or your hardware got unexpectedly faster).
 
-## Standards and Compliance
+## Migrating from bcrypt or PBKDF2
 
-### NIST Recommendations
-Argon2 is recommended by NIST for password hashing applications, particularly Argon2id which provides a balance between security against different types of attacks.
+If you're on bcrypt or PBKDF2-SHA256 today, Argon2id is a meaningful upgrade. bcrypt is limited to 72 bytes of password input and uses a fixed 4 KB memory footprint -- fine in 1999, not great now. PBKDF2 is just iterated SHA hashing with no memory component at all.
 
-### RFC 9106 Standardization
-Argon2 has been standardized in RFC 9106, providing a formal specification for implementation and ensuring interoperability between different systems.
+The migration pattern: when a user logs in, if their hash is in the old format, verify against it normally, then re-hash with Argon2id and store the new hash transparently. Over time, your active users all get upgraded. You can also add a "last login" column and force-upgrade anyone who hasn't logged in for N months by resetting their password.
 
-### Industry Adoption
-Argon2 has gained widespread adoption in the security community and is implemented in many cryptographic libraries and frameworks, making it a standard choice for modern password hashing.
+## Quantum resistance
 
-## Applications and Use Cases
-
-### Password Storage
-Argon2 is primarily used for secure password storage in applications where high security is required, such as banking systems, government applications, and other sensitive environments.
-
-### Key Derivation
-The algorithm can be used for key derivation functions (KDFs), where a password or passphrase is used to derive cryptographic keys for encryption or other cryptographic operations.
-
-### Legacy System Migration
-Argon2 is often used when migrating from older password hashing algorithms like bcrypt or PBKDF2, providing a significant security upgrade while maintaining compatibility.
-
-## Historical Development
-
-### Password Hashing Competition
-Argon2 was developed as part of the Password Hashing Competition, which aimed to identify the best password hashing algorithm for widespread adoption. The competition involved extensive cryptanalysis and performance testing.
-
-### Evolution and Refinement
-Since winning the competition, Argon2 has undergone additional analysis and refinement, with the development of the three variants (Argon2d, Argon2i, Argon2id) to address different security requirements.
-
-### Community Adoption
-The algorithm has been widely adopted by the cryptographic community and is now considered a best practice for password hashing in new applications and systems.
-
-## Future Considerations
-
-### Quantum Computing Impact
-Argon2's security against quantum computing attacks depends on the underlying Blake2b hash function. While not specifically designed for post-quantum security, its memory-hardness provides some protection against quantum attacks.
-
-### Parameter Scaling
-As computational power and memory capacity continue to increase, the recommended parameters for Argon2 will need to be adjusted upward to maintain security levels. This adaptive nature is one of Argon2's key strengths.
-
-### Research and Development
-Ongoing research continues to analyze Argon2's security properties and optimize its implementation, ensuring it remains a secure choice for password hashing in the future. 
+Argon2 isn't post-quantum by design, but its memory-hardness gives it a surprising edge. Quantum computers don't get to magically bypass memory -- Grover's algorithm speeds up searching unsorted data, but it doesn't make RAM cheaper. So an attacker with a quantum computer might cut the effective security of the hash output in half (from 256-bit to 128-bit against preimage attacks), but they'd still need the same massive memory footprint per guess. That means Argon2 should hold up better against quantum attacks than purely CPU-bound schemes.

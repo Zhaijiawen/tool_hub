@@ -1,35 +1,32 @@
-# AI Prompt Box — Usage Tutorial
+# AI Prompt Box — How to Use
 
-## How to Use
+## The workflow
 
-### Step 1: Select or Create a Prompt Template
-Browse the built-in prompt templates by category, or start from scratch with a blank prompt.
+**Pick or create a template —** Browse the built-in templates by category (code, writing, analysis, etc.), or start with a blank prompt. Templates have placeholders like `{{topic}}` or `{{language}}` that you fill in.
 
-### Step 2: Fill in Variables
-Templates may include placeholders like `{{topic}}`, `{{language}}`, or `{{code}}`. Fill in each variable with your specific content.
+**Fill in the variables —** Each `{{placeholder}}` in the template needs your specific content. Replace `{{language}}` with "Python", `{{topic}}` with "serverless architecture", whatever applies.
 
-### Step 3: Refine the Prompt
-Edit the prompt text directly in the editor. Use the formatting tips below to improve clarity.
+**Refine in the editor —** The prompt text is directly editable. Tweak the wording, add constraints, remove sections you don't need. The tips below help with clarity.
 
-### Step 4: Copy and Use
-Click **Copy** to copy the complete prompt to your clipboard, then paste it into your preferred AI tool (ChatGPT, Claude, Gemini, etc.).
+**Copy and use —** Hit Copy to grab the final prompt, then paste it into ChatGPT, Claude, Gemini, or whichever tool you use.
 
-## Prompt Writing Best Practices
+## Writing better prompts
 
-| Principle | Description |
-|---|---|
-| **Be specific** | Vague prompts produce vague answers. Include context, constraints, and goals. |
-| **Define the role** | "You are a senior backend engineer..." helps set expertise level. |
-| **Specify the format** | "Respond as a numbered list", "Output in JSON", "Write in markdown". |
-| **Set the length** | "In 3 sentences", "In 500 words or less", "Provide a comprehensive answer". |
-| **Provide examples** | Show the model exactly what kind of output you expect. |
-| **Iterate** | Refine your prompt based on the model's response. |
+| Principle | What it means |
+|-----------|---------------|
+| Be specific | "Write a blog post" is useless. "Write a 800-word blog post about Docker networking for developers who've only used docker-compose" is specific. |
+| Define the role | "You are a senior frontend engineer reviewing React code" sets the context the model needs. |
+| Specify the format | "Return a JSON array," "Write in Markdown with ## headings," "Use bullet points." |
+| Set length | "In 3 paragraphs," "Under 500 words," "A detailed analysis with at least 5 sections." |
+| Show examples | A few input/output pairs dramatically improve output quality for structured tasks. |
+| Iterate | The first output is rarely perfect. Tweak the prompt based on what you get. |
 
-## Common Prompt Categories
+## Template categories
 
-- **Code**: Generate, review, debug, refactor, explain code
-- **Writing**: Draft emails, reports, blog posts, documentation
-- **Analysis**: Summarize, compare, evaluate, extract information
-- **Translation**: Convert between languages or styles
-- **Brainstorming**: Generate ideas, alternatives, solutions
+The built-in templates cover common use cases:
 
+- **Code** — generate, review, debug, refactor, explain
+- **Writing** — emails, reports, blog posts, documentation
+- **Analysis** — summarize, compare, evaluate, extract
+- **Translation** — between languages or style registers
+- **Brainstorming** — ideas, alternatives, solutions to open-ended problems

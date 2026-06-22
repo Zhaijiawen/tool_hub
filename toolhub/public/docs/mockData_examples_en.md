@@ -1,8 +1,6 @@
-# Mock Data Generator - Examples
+# Mock Data Generator — Examples
 
-## Example 1: User List (Default Template)
-
-**Field config:**
+## User list (the default template)
 
 | Field | Type | Config |
 |-------|------|--------|
@@ -13,8 +11,7 @@
 | address | Object | children: city, street, zipCode |
 | tags | Array | enum items: vue, react, node, python |
 
-**Sample output (2 records):**
-
+Sample output:
 ```json
 [
   {
@@ -44,11 +41,7 @@
 ]
 ```
 
----
-
-## Example 2: E-commerce Order Data
-
-**Field config:**
+## E-commerce orders
 
 | Field | Type | Config |
 |-------|------|--------|
@@ -58,8 +51,6 @@
 | status | Enum | paid, pending, refunded, cancelled |
 | createdAt | Datetime | — |
 | items | Array | object type, 1–5 elements |
-
-**Sample output:**
 
 ```json
 [
@@ -76,11 +67,7 @@
 ]
 ```
 
----
-
-## Example 3: Article / Content Data
-
-**Field config:**
+## Article / content data
 
 | Field | Type | Config |
 |-------|------|--------|
@@ -92,47 +79,34 @@
 | publishedAt | Date | — |
 | isPublished | Boolean | — |
 
----
+## Using with JSON Server
 
-## Example 4: Use with JSON Server
-
-Generate 100 user records, save as `db.json`, and spin up a REST API instantly:
+Generate 100 user records, save as `db.json`, and you've got a REST API in seconds:
 
 ```bash
-# Install JSON Server
 npm install -g json-server
-
-# Start the server (put the generated array under the "users" key in db.json)
 json-server --watch db.json --port 3001
 ```
 
-Then access:
-- `GET http://localhost:3001/users` — list all users
-- `GET http://localhost:3001/users/1` — get a single user
-- `POST http://localhost:3001/users` — create a user
+Now `GET http://localhost:3001/users` returns your mock data. POST, PUT, DELETE work too — JSON Server persists changes to `db.json`.
 
----
+## Using with Postman mock
 
-## Example 5: Use with Postman Mock
+1. Create a collection in Postman
+2. Set up an example response for your endpoint, pasting in the generated mock data
+3. Enable Postman's mock server
+4. Your frontend now has a live endpoint with realistic data
 
-1. Create a Collection in Postman
-2. Configure an Example Response for the endpoint, pasting the generated mock data
-3. Enable the Postman Mock Server
-4. Point your frontend directly at the mock server URL — no backend needed
+## Quick field config reference
 
----
-
-## Common Field Template Quick Reference
-
-| Scenario | Recommended config |
-|----------|-------------------|
-| Auto-increment DB ID | Integer, 1 – 999,999 |
+| What you need | Recommended setup |
+|---------------|------------------|
+| Auto-increment ID | Integer, 1 – 999999 |
 | UUID primary key | UUID type |
-| Username | String or Name type |
+| Username | String or Name |
 | Price | Float, 2 decimal places |
-| Rating | Float, 1.0 – 5.0, 1 decimal place |
-| Timestamp | Datetime type |
+| Rating | Float, 1.0 – 5.0, 1 decimal |
+| Timestamp | Datetime |
 | Order number | Template: `ORD-{{int(10000,99999)}}` |
-| Phone number | Phone type |
-| Status code | Enum: 0,1,2 or active,inactive |
-
+| Phone | Phone type |
+| Status | Enum with comma-separated options |

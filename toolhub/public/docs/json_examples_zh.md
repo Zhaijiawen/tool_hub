@@ -1,6 +1,6 @@
 # JSON 代码示例
 
-## 基本 JSON 结构示例
+## 最常见的结构
 
 ### 简单对象
 
@@ -13,7 +13,7 @@
 }
 ```
 
-### 嵌套对象
+### 嵌套对象 -- 真实 API 就长这样
 
 ```json
 {
@@ -32,8 +32,9 @@
   }
 }
 ```
+注意嵌套层次是 `user -> profile -> 字段`。三层没问题，超过五层就该考虑扁平化了。
 
-### 数组示例
+### 对象数组 -- 列表接口都返回这个
 
 ```json
 {
@@ -54,9 +55,13 @@
 }
 ```
 
-## API 响应示例
+---
 
-### 成功响应
+## API 响应模式
+
+### 成功响应带数据封装
+
+把实际数据包在 `data` 字段里，外面加元信息，是个很常见的模式。好处是加分页、加时间戳都不用动数据本身的形状。
 
 ```json
 {
@@ -72,6 +77,8 @@
 ```
 
 ### 错误响应
+
+结构化的错误比一个字符串消息强多了。`details` 数组可以一次返回多个验证失败项，不用让用户一个个改。
 
 ```json
 {
@@ -91,18 +98,7 @@
 
 ```json
 {
-  "data": [
-    {
-      "id": 1,
-      "name": "产品1",
-      "price": 100
-    },
-    {
-      "id": 2,
-      "name": "产品2",
-      "price": 200
-    }
-  ],
+  "data": [...],
   "pagination": {
     "page": 1,
     "limit": 10,
@@ -112,9 +108,11 @@
 }
 ```
 
+---
+
 ## 配置文件示例
 
-### 应用程序配置
+### 应用配置
 
 ```json
 {
@@ -143,57 +141,54 @@
 {
   "name": "my-project",
   "version": "1.0.0",
-  "description": "一个示例项目",
-  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest",
-    "build": "webpack"
+    "test": "jest"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "axios": "^0.21.1"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
-    "jest": "^27.0.6"
+    "nodemon": "^2.0.7"
   }
 }
 ```
 
-## JavaScript 处理示例
+---
 
-### 解析 JSON
+## JavaScript 解析与生成
+
+### 解析并处理日期
+
+`JSON.parse` 必须包 try/catch，别偷懒。reviver 函数在日期还原、BigInt 处理、数据清洗这些场景都很有用。
 
 ```js
-// 从字符串解析 JSON
 const jsonString = '{"name":"张三","age":30}'
 const user = JSON.parse(jsonString)
-console.log(user.name) // 输出：张三
+console.log(user.name) // 张三
 
-// 处理解析错误
+// 别省掉 try/catch
 try {
-  const invalidJson = '{"name":"李四",age:35}' // 缺少引号
+  const invalidJson = '{name:"李四",age:35}' // 键缺引号
   const result = JSON.parse(invalidJson)
 } catch (error) {
   console.error('JSON 解析错误:', error.message)
 }
 
-// 使用 reviver 函数解析
+// reviver 处理日期
 const jsonWithDates = '{"name":"王五","birthDate":"1990-01-01"}'
 const userWithDates = JSON.parse(jsonWithDates, (key, value) => {
-  if (key === 'birthDate') {
-    return new Date(value)
-  }
+  if (key === 'birthDate') return new Date(value)
   return value
 })
 ```
 
 ### 生成 JSON
 
+`stringify` 第三个参数控制缩进。`null, 2` 是"不用 replacer，2 空格缩进"的缩写 -- 你会打无数次这种写法。
+
 ```js
-// 将对象转换为 JSON 字符串
 const data = {
   name: '赵六',
   age: 28,
@@ -201,9 +196,6 @@ const data = {
 }
 
 const jsonString = JSON.stringify(data, null, 2)
-console.log(jsonString)
-
-// 输出：
 // {
 //   "name": "赵六",
 //   "age": 28,
@@ -213,35 +205,17 @@ console.log(jsonString)
 //     "Node.js"
 //   ]
 // }
-
-// 自定义 replacer 函数
-const dataWithFunctions = {
-  name: '钱七',
-  age: 25,
-  greet: function() { return '你好！' }
-}
-
-const jsonWithoutFunctions = JSON.stringify(dataWithFunctions, (key, value) => {
-  if (typeof value === 'function') {
-    return undefined // 排除函数
-  }
-  return value
-})
 ```
 
-### 处理数组
+### 数组过滤转 JSON
 
 ```js
-// 对象数组
 const users = [
   { id: 1, name: '张三', age: 25 },
   { id: 2, name: '李四', age: 30 },
   { id: 3, name: '王五', age: 35 }
 ]
 
-const usersJson = JSON.stringify(users, null, 2)
-
-// 过滤并转换为 JSON
 const youngUsers = users
   .filter(user => user.age < 30)
   .map(user => ({ name: user.name, age: user.age }))
@@ -249,9 +223,11 @@ const youngUsers = users
 const youngUsersJson = JSON.stringify(youngUsers, null, 2)
 ```
 
-## 数据库示例
+---
 
-### 用户资料
+## 真实数据形状
+
+### 用户资料（数据库文档）
 
 ```json
 {
@@ -282,106 +258,35 @@ const youngUsersJson = JSON.stringify(youngUsers, null, 2)
 }
 ```
 
-### 产品目录
+### 产品目录项
+
+价格用对象 `{ amount, currency }` 比一个裸数字好 -- 自说明，多币种场景也能处理。
 
 ```json
 {
-  "products": [
-    {
-      "id": "prod_001",
-      "name": "无线耳机",
-      "description": "具有降噪功能的高质量无线耳机",
-      "price": {
-        "amount": 199.99,
-        "currency": "CNY"
-      },
-      "category": "电子产品",
-      "tags": ["无线", "音频", "降噪"],
-      "specifications": {
-        "batteryLife": "20小时",
-        "connectivity": "蓝牙5.0",
-        "weight": "250g"
-      },
-      "inventory": {
-        "stock": 50,
-        "reserved": 5,
-        "available": 45
-      },
-      "images": [
-        "https://example.com/headphones-1.jpg",
-        "https://example.com/headphones-2.jpg"
-      ]
-    }
-  ]
-}
-```
-
-## Web 应用程序示例
-
-### 表单数据
-
-```json
-{
-  "formData": {
-    "personalInfo": {
-      "firstName": "李",
-      "lastName": "四",
-      "email": "lisi@example.com",
-      "phone": "+86-138-1234-5678"
-    },
-    "address": {
-      "street": "中关村大街1号",
-      "city": "北京",
-      "province": "北京",
-      "zipCode": "100080",
-      "country": "中国"
-    },
-    "preferences": {
-      "newsletter": true,
-      "marketing": false,
-      "language": "zh"
-    }
-  }
-}
-```
-
-### API 请求/响应
-
-```json
-{
-  "request": {
-    "method": "POST",
-    "url": "/api/users",
-    "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    },
-    "body": {
-      "name": "新用户",
-      "email": "newuser@example.com",
-      "role": "user"
-    }
+  "id": "prod_001",
+  "name": "无线耳机",
+  "price": {
+    "amount": 199.99,
+    "currency": "CNY"
   },
-  "response": {
-    "status": 201,
-    "headers": {
-      "Content-Type": "application/json",
-      "Location": "/api/users/123"
-    },
-    "body": {
-      "id": 123,
-      "name": "新用户",
-      "email": "newuser@example.com",
-      "role": "user",
-      "createdAt": "2024-01-15T10:30:00Z"
-    }
+  "category": "电子产品",
+  "tags": ["无线", "音频", "降噪"],
+  "specifications": {
+    "batteryLife": "20小时",
+    "connectivity": "蓝牙5.0"
+  },
+  "inventory": {
+    "stock": 50,
+    "reserved": 5,
+    "available": 45
   }
 }
 ```
-
-## 错误处理示例
 
 ### 验证错误
+
+返回字段级别的错误数组，前端可以直接把每个错误映射到对应的表单字段。
 
 ```json
 {
@@ -395,117 +300,10 @@ const youngUsersJson = JSON.stringify(youngUsers, null, 2)
     {
       "field": "password",
       "message": "密码至少需要8个字符",
-      "code": "PASSWORD_TOO_SHORT",
-      "value": "123"
+      "code": "PASSWORD_TOO_SHORT"
     }
   ],
   "timestamp": "2024-01-15T10:30:00Z",
   "requestId": "req_123456"
 }
 ```
-
-### 系统错误
-
-```json
-{
-  "error": {
-    "code": "INTERNAL_SERVER_ERROR",
-    "message": "发生意外错误",
-    "details": "数据库连接失败",
-    "timestamp": "2024-01-15T10:30:00Z",
-    "requestId": "req_123456",
-    "stack": "Error: Connection timeout..."
-  }
-}
-```
-
-## 高级示例
-
-### 复杂嵌套结构
-
-```json
-{
-  "organization": {
-    "id": "org_001",
-    "name": "科技公司",
-    "departments": [
-      {
-        "id": "dept_001",
-        "name": "工程部",
-        "manager": {
-          "id": "emp_001",
-          "name": "张经理",
-          "email": "zhang.manager@techcorp.com"
-        },
-        "employees": [
-          {
-            "id": "emp_002",
-            "name": "李工程师",
-            "position": "高级开发者",
-            "skills": ["JavaScript", "Python", "React"],
-            "projects": [
-              {
-                "id": "proj_001",
-                "name": "电商平台",
-                "status": "进行中",
-                "progress": 75
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "settings": {
-      "timezone": "UTC+8",
-      "workingHours": {
-        "start": "09:00",
-        "end": "18:00"
-      },
-      "holidays": [
-        "2024-01-01",
-        "2024-02-10",
-        "2024-10-01"
-      ]
-    }
-  }
-}
-```
-
-### 带环境变量的配置
-
-```json
-{
-  "development": {
-    "database": {
-      "host": "localhost",
-      "port": 5432,
-      "name": "dev_db"
-    },
-    "redis": {
-      "host": "localhost",
-      "port": 6379
-    },
-    "logging": {
-      "level": "debug",
-      "format": "json"
-    }
-  },
-  "production": {
-    "database": {
-      "host": "${DB_HOST}",
-      "port": "${DB_PORT}",
-      "name": "${DB_NAME}"
-    },
-    "redis": {
-      "host": "${REDIS_HOST}",
-      "port": "${REDIS_PORT}"
-    },
-    "logging": {
-      "level": "info",
-      "format": "json"
-    }
-  }
-}
-```
-
-这些示例演示了在 Web 开发、API 设计和数据管理中常见的各种 JSON 模式和用例。 

@@ -1,446 +1,135 @@
 # ChaCha20 Usage Tutorial
 
-## Environment Setup
+## Quick setup
 
-### Prerequisites
-- Programming language with cryptographic libraries
-- Secure random number generator
-- Understanding of stream ciphers
-- Knowledge of cryptographic concepts
+ChaCha20 is available in every modern crypto library -- it's been mainstream for years now. Here's what to install:
 
-### Library Selection
-
-#### PyCryptodome (Python)
+**Python** -- `pycryptodome` includes both raw ChaCha20 and ChaCha20-Poly1305:
 ```bash
 pip install pycryptodome
 ```
 
-#### CryptoJS (JavaScript)
-```bash
-npm install crypto-js
-```
+**Node.js** -- Built into the `crypto` module since Node 10. No extra dependencies needed for the core cipher, though you might want `tweetnacl` or `libsodium.js` for a nicer API.
 
-#### Bouncy Castle (Java)
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
+**Go** -- `golang.org/x/crypto/chacha20` from the extended standard library. Use `chacha20poly1305` package for AEAD.
 
-#### OpenSSL (C/C++)
-```bash
-# Install OpenSSL
-sudo apt-get install libssl-dev  # Ubuntu/Debian
-brew install openssl             # macOS
-```
+**Rust** -- The `chacha20` and `chacha20poly1305` crates.
 
-## Basic Concepts
+## The nonce rule: never, ever reuse
 
-### Key and Nonce Generation
+I'm putting this first because it's the one mistake you can't recover from. With stream ciphers, encrypting two different messages with the same key and nonce is catastrophic. An attacker who gets both ciphertexts can XOR them together and get the XOR of the two plaintexts. Cryptanalysis on the XOR of two plaintexts is vastly easier than attacking either ciphertext individually.
+
+How to stay safe: generate a random 12-byte nonce for every message. With a 96-bit nonce, the collision probability from a CSPRNG is approximately n^2 / 2^97 for n messages -- encrypt a billion messages and your collision probability is still about 2^-70, which is basically zero.
+
 ```python
 import os
-from Crypto.Cipher import ChaCha20
 
-# Generate a random 256-bit key
-key = os.urandom(32)  # 32 bytes = 256 bits
-print(f"Generated key: {key.hex()}")
-
-# Generate a random 96-bit nonce
-nonce = os.urandom(12)  # 12 bytes = 96 bits
-print(f"Generated nonce: {nonce.hex()}")
+# For every message, generate a fresh nonce
+key = os.urandom(32)   # 256-bit key, generated once
+nonce = os.urandom(12)  # 96-bit nonce, new for each message
 ```
 
-### State Structure
-ChaCha20 uses a 512-bit internal state:
-```python
-# ChaCha20 state layout (16 words of 32 bits each)
-# [0-3]   : Constants ("expand 32-byte k")
-# [4-11]  : Key (256 bits)
-# [12]    : Counter (32 bits)
-# [13-15] : Nonce (96 bits)
+## Basic encryption/decryption
 
-def print_state_info():
-    print("ChaCha20 State Structure:")
-    print("Words 0-3:   Constants")
-    print("Words 4-11:  Key (256 bits)")
-    print("Word 12:     Counter (32 bits)")
-    print("Words 13-15: Nonce (96 bits)")
-```
+ChaCha20 is a stream cipher, so encryption and decryption are the exact same XOR operation. The API in pycryptodome is straightforward:
 
-## Basic Encryption
-
-### Simple ChaCha20 Encryption
 ```python
 from Crypto.Cipher import ChaCha20
 
-def chacha20_encrypt(key, nonce, plaintext):
-    """Basic ChaCha20 encryption"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    ciphertext = cipher.encrypt(plaintext.encode())
-    return ciphertext
-
-def chacha20_decrypt(key, nonce, ciphertext):
-    """Basic ChaCha20 decryption"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    plaintext = cipher.decrypt(ciphertext)
-    return plaintext.decode()
-
-# Usage
 key = os.urandom(32)
 nonce = os.urandom(12)
-message = "Hello, ChaCha20 encryption!"
-encrypted = chacha20_encrypt(key, nonce, message)
-decrypted = chacha20_decrypt(key, nonce, encrypted)
-print(f"Original: {message}")
-print(f"Decrypted: {decrypted}")
+
+# Encryption
+cipher = ChaCha20.new(key=key, nonce=nonce)
+plaintext = b"Hello, ChaCha20!"
+ciphertext = cipher.encrypt(plaintext)
+
+# Decryption -- identical to encryption
+cipher = ChaCha20.new(key=key, nonce=nonce)
+decrypted = cipher.decrypt(ciphertext)
+# decrypted == b"Hello, ChaCha20!"
 ```
 
-### Counter Management
-```python
-def chacha20_with_counter(key, nonce, plaintext, counter=0):
-    """ChaCha20 encryption with explicit counter"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    cipher.seek(counter)
-    ciphertext = cipher.encrypt(plaintext.encode())
-    return ciphertext
+Since there's no padding or block alignment, you can encrypt data of any length. A one-byte message? Works. A 2 GB stream? Also works (the 32-bit counter lets you encrypt up to 256 GB before rekeying).
 
-def encrypt_large_data(key, nonce, data):
-    """Encrypt large data using counter increments"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    encrypted_chunks = []
-    
-    chunk_size = 64  # ChaCha20 block size
-    for i in range(0, len(data), chunk_size):
-        chunk = data[i:i+chunk_size]
-        cipher.seek(i // chunk_size)
-        encrypted_chunk = cipher.encrypt(chunk.encode())
-        encrypted_chunks.append(encrypted_chunk)
-    
-    return b''.join(encrypted_chunks)
-```
+## ChaCha20-Poly1305: authenticated encryption
 
-## Advanced Usage
+Raw ChaCha20 gives you confidentiality but not integrity. Someone who intercepts your ciphertext can flip bits and you'll decrypt garbage without knowing anything is wrong. This is where ChaCha20-Poly1305 comes in:
 
-### ChaCha20-Poly1305 AEAD
 ```python
 from Crypto.Cipher import ChaCha20_Poly1305
 
-def chacha20_poly1305_encrypt(key, nonce, plaintext, associated_data=b""):
-    """ChaCha20-Poly1305 authenticated encryption"""
-    cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    cipher.update(associated_data)
-    ciphertext, tag = cipher.encrypt_and_digest(plaintext.encode())
-    return ciphertext, tag
-
-def chacha20_poly1305_decrypt(key, nonce, ciphertext, tag, associated_data=b""):
-    """ChaCha20-Poly1305 authenticated decryption"""
-    cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    cipher.update(associated_data)
-    try:
-        plaintext = cipher.decrypt_and_verify(ciphertext, tag)
-        return plaintext.decode()
-    except ValueError:
-        return "Authentication failed"
-
-# Usage
 key = os.urandom(32)
 nonce = os.urandom(12)
-message = "Authenticated encryption with ChaCha20-Poly1305"
-associated_data = b"metadata"
-ciphertext, tag = chacha20_poly1305_encrypt(key, nonce, message, associated_data)
-result = chacha20_poly1305_decrypt(key, nonce, ciphertext, tag, associated_data)
+
+# Encryption with authentication
+cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+cipher.update(b"optional associated data")  # Not encrypted, but authenticated
+ciphertext, tag = cipher.encrypt_and_digest(b"secret message")
+# Tag is 16 bytes -- store/transmit it with the ciphertext
+
+# Decryption with verification
+cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+cipher.update(b"optional associated data")
+try:
+    plaintext = cipher.decrypt_and_verify(ciphertext, tag)
+    print("Message verified and decrypted:", plaintext)
+except ValueError:
+    print("Tampering detected -- message rejected")
 ```
 
-### File Encryption
-```python
-def encrypt_file_chacha20(key, input_file, output_file):
-    """Encrypt a file using ChaCha20"""
-    nonce = os.urandom(12)
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    
-    with open(input_file, 'rb') as f_in:
-        with open(output_file, 'wb') as f_out:
-            # Write nonce at the beginning
-            f_out.write(nonce)
-            
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                encrypted_chunk = cipher.encrypt(chunk)
-                f_out.write(encrypted_chunk)
+The associated data parameter is for metadata that needs to be authenticated but not encrypted -- think protocol headers, message IDs, or routing information. The attacker can't modify associated data without the tag failing verification.
 
-def decrypt_file_chacha20(key, input_file, output_file):
-    """Decrypt a file using ChaCha20"""
-    with open(input_file, 'rb') as f_in:
-        # Read nonce from the beginning
-        nonce = f_in.read(12)
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        
-        with open(output_file, 'wb') as f_out:
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                decrypted_chunk = cipher.decrypt(chunk)
-                f_out.write(decrypted_chunk)
-```
+A critical gotcha: PyCryptodome's ChaCha20_Poly1305 generates its own nonce. If you pass one explicitly via `nonce=`, you must ensure uniqueness. If you let the library generate it, the nonce is prepended to the ciphertext and you need to extract it for decryption.
 
-## Key Management
+## Working with the Web Crypto API
 
-### Key Derivation
-```python
-from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Hash import SHA256
+If you're in a browser or using the Web Crypto API in Node, ChaCha20-Poly1305 isn't universally supported yet (as of 2024). But you can use AES-GCM via Web Crypto and get similar authenticated encryption. For ChaCha20 specifically in browsers, you'll want `libsodium.js` or `tweetnacl`.
 
-def derive_chacha20_key(password, salt):
-    """Derive ChaCha20 key from password"""
-    key = PBKDF2(password.encode(), salt, dkLen=32, count=100000, hmac_hash_module=SHA256)
-    return key
+## Go: the standard library does everything
 
-def generate_key_material():
-    """Generate key material for ChaCha20"""
-    password = "my_secure_password"
-    salt = os.urandom(16)
-    key = derive_chacha20_key(password, salt)
-    return key, salt
+Go's ChaCha20 package is low-level but complete:
 
-# Usage
-key, salt = generate_key_material()
-print(f"Derived key: {key.hex()}")
-print(f"Salt: {salt.hex()}")
-```
+```go
+package main
 
-### Key Storage
-```python
-import json
-import base64
+import (
+    "crypto/rand"
+    "fmt"
+    "golang.org/x/crypto/chacha20poly1305"
+)
 
-def save_chacha20_key(key, filename, password):
-    """Save ChaCha20 key encrypted with password"""
-    salt = os.urandom(16)
-    key_encryption_key = derive_chacha20_key(password, salt)
-    
-    # Encrypt the ChaCha20 key
-    cipher = ChaCha20_Poly1305.new(key=key_encryption_key)
-    encrypted_key, tag = cipher.encrypt_and_digest(key)
-    
-    # Save encrypted key with metadata
-    key_data = {
-        'salt': base64.b64encode(salt).decode(),
-        'nonce': base64.b64encode(cipher.nonce).decode(),
-        'encrypted_key': base64.b64encode(encrypted_key).decode(),
-        'tag': base64.b64encode(tag).decode()
+func main() {
+    key := make([]byte, chacha20poly1305.KeySize)  // 32 bytes
+    rand.Read(key)
+
+    ae, _ := chacha20poly1305.New(key)
+
+    nonce := make([]byte, chacha20poly1305.NonceSize)  // 12 bytes
+    rand.Read(nonce)
+
+    plaintext := []byte("Hello from Go!")
+
+    // Seal appends ciphertext to nonce, then appends the tag automatically
+    ciphertext := ae.Seal(nil, nonce, plaintext, nil)
+
+    // Open reads nonce from the front, verifies tag, returns plaintext
+    decrypted, err := ae.Open(nil, nonce, ciphertext, nil)
+    if err != nil {
+        fmt.Println("Tampering detected!")
+    } else {
+        fmt.Println(string(decrypted))
     }
-    
-    with open(filename, 'w') as f:
-        json.dump(key_data, f)
-
-def load_chacha20_key(filename, password):
-    """Load ChaCha20 key from encrypted file"""
-    with open(filename, 'r') as f:
-        key_data = json.load(f)
-    
-    # Decode the stored data
-    salt = base64.b64decode(key_data['salt'])
-    nonce = base64.b64decode(key_data['nonce'])
-    encrypted_key = base64.b64decode(key_data['encrypted_key'])
-    tag = base64.b64decode(key_data['tag'])
-    
-    # Derive the key encryption key
-    key_encryption_key = derive_chacha20_key(password, salt)
-    
-    # Decrypt the ChaCha20 key
-    cipher = ChaCha20_Poly1305.new(key=key_encryption_key, nonce=nonce)
-    key = cipher.decrypt_and_verify(encrypted_key, tag)
-    
-    return key
+}
 ```
 
-## Security Best Practices
+The `Seal` and `Open` API takes some getting used to -- the `dst` parameter (first argument, `nil` here) is where the output gets prepended. Pass `nonce` as `dst` to store the nonce at the front of the ciphertext automatically.
 
-### Nonce Management
-```python
-import secrets
+## Quick safety checklist
 
-def generate_secure_nonce():
-    """Generate cryptographically secure nonce"""
-    return secrets.token_bytes(12)
-
-def validate_nonce(nonce):
-    """Validate nonce length and uniqueness"""
-    if len(nonce) != 12:
-        raise ValueError("Nonce must be 12 bytes")
-    return True
-
-def ensure_nonce_uniqueness(used_nonces, new_nonce):
-    """Ensure nonce uniqueness"""
-    if new_nonce in used_nonces:
-        raise ValueError("Nonce already used")
-    used_nonces.add(new_nonce)
-    return True
-```
-
-### Constant-Time Operations
-```python
-import hmac
-
-def constant_time_compare(a, b):
-    """Constant-time comparison"""
-    return hmac.compare_digest(a, b)
-
-def secure_key_verification(stored_key, provided_key):
-    """Secure key verification"""
-    return constant_time_compare(stored_key, provided_key)
-```
-
-### Input Validation
-```python
-def validate_chacha20_params(key, nonce, plaintext):
-    """Validate ChaCha20 parameters"""
-    if not isinstance(key, bytes) or len(key) != 32:
-        raise ValueError("Key must be 32 bytes")
-    
-    if not isinstance(nonce, bytes) or len(nonce) != 12:
-        raise ValueError("Nonce must be 12 bytes")
-    
-    if not isinstance(plaintext, str):
-        raise ValueError("Plaintext must be string")
-    
-    return True
-```
-
-## Performance Optimization
-
-### Hardware Acceleration
-```python
-import platform
-
-def check_hardware_support():
-    """Check for ChaCha20 hardware support"""
-    try:
-        import cpuinfo
-        info = cpuinfo.get_cpu_info()
-        flags = info.get('flags', [])
-        
-        if 'chacha' in flags:
-            return "Hardware ChaCha20 support available"
-        else:
-            return "Using software ChaCha20 implementation"
-    except ImportError:
-        return "Hardware support check not available"
-```
-
-### Batch Processing
-```python
-def encrypt_batch_chacha20(key, messages):
-    """Encrypt multiple messages efficiently"""
-    results = []
-    
-    for i, message in enumerate(messages):
-        nonce = os.urandom(12)
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        encrypted = cipher.encrypt(message.encode())
-        results.append((nonce, encrypted))
-    
-    return results
-
-def decrypt_batch_chacha20(key, encrypted_messages):
-    """Decrypt multiple messages efficiently"""
-    results = []
-    
-    for nonce, ciphertext in encrypted_messages:
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        decrypted = cipher.decrypt(ciphertext)
-        results.append(decrypted.decode())
-    
-    return results
-```
-
-## Error Handling
-
-### Exception Handling
-```python
-def safe_chacha20_encrypt(key, nonce, plaintext):
-    """Safe ChaCha20 encryption with error handling"""
-    try:
-        # Validate inputs
-        validate_chacha20_params(key, nonce, plaintext)
-        
-        # Perform encryption
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        ciphertext = cipher.encrypt(plaintext.encode())
-        
-        return ciphertext
-    except ValueError as e:
-        print(f"Validation error: {e}")
-        return None
-    except Exception as e:
-        print(f"Encryption error: {e}")
-        return None
-
-def safe_chacha20_decrypt(key, nonce, ciphertext):
-    """Safe ChaCha20 decryption with error handling"""
-    try:
-        # Validate inputs
-        if not isinstance(key, bytes) or len(key) != 32:
-            raise ValueError("Invalid key")
-        if not isinstance(nonce, bytes) or len(nonce) != 12:
-            raise ValueError("Invalid nonce")
-        
-        # Perform decryption
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        plaintext = cipher.decrypt(ciphertext)
-        
-        return plaintext.decode()
-    except ValueError as e:
-        print(f"Validation error: {e}")
-        return None
-    except Exception as e:
-        print(f"Decryption error: {e}")
-        return None
-```
-
-## Testing and Validation
-
-### Test Vectors
-```python
-def test_chacha20_vectors():
-    """Test ChaCha20 with known test vectors"""
-    # RFC 7539 test vector
-    key = bytes.fromhex('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f')
-    nonce = bytes.fromhex('000000000000004a00000000')
-    plaintext = b'Ladies and Gentlemen of the class of \'99: If I could offer you only one tip for the future, sunscreen would be it.'
-    
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    ciphertext = cipher.encrypt(plaintext)
-    
-    expected = bytes.fromhex('6e2e359a2568f98041ba0728dd0d6981e97e7aec1d4360c20a27afccfd9fae0bf91b65c5524733ab8f593dabcd62b3571639d624e65152ab8f530c359f0861d807ca0dbf500d6a6156a38e088a22b65e52bc514d16ccf806818ce91ab77937365af90bbf74a35be6b40b8eedf2785e42874d')
-    
-    assert ciphertext == expected, "Test vector failed"
-    print("ChaCha20 test vector passed")
-```
-
-### Performance Benchmarking
-```python
-import time
-
-def benchmark_chacha20():
-    """Benchmark ChaCha20 performance"""
-    key = os.urandom(32)
-    nonce = os.urandom(12)
-    data = os.urandom(1024 * 1024)  # 1MB of data
-    
-    # Time encryption
-    start_time = time.time()
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    encrypted = cipher.encrypt(data)
-    encryption_time = time.time() - start_time
-    
-    print(f"Encrypted 1MB in {encryption_time:.4f} seconds")
-    print(f"Speed: {1/encryption_time:.2f} MB/s")
-``` 
+- Fresh random nonce for every encryption with the same key
+- Never use raw ChaCha20 without authentication -- always pair with Poly1305
+- The key is 32 bytes and must come from a CSPRNG
+- If deriving a key from a password, use PBKDF2, scrypt, or Argon2
+- Store the nonce alongside the ciphertext (it doesn't need to be secret)
+- The Poly1305 tag is 16 bytes and must be stored/verified

@@ -1,84 +1,43 @@
 # IP Query Tool - Tutorial
 
-## Getting Started
+Open the tool, it auto-detects your public IP and pulls up whatever geolocation data is available. No signup, no setup.
 
-The IP query tool requires no registration — open and use immediately. The tool automatically detects and displays your current public IP information.
+## What happens when you open it
 
-## Basic Usage
+The tool immediately calls an IP geolocation API with your current connection. You'll see:
 
-### Auto-Query Your Current IP
+- Your public IP address
+- Country and region (with a flag)
+- Approximate city
+- ISP and ASN (Autonomous System Number)
+- Timezone
+- Latitude/longitude -- clickable, opens in a map
+- Currency and language info
 
-When you open the tool, it automatically calls the API to retrieve your current public IP and its geolocation information — no action needed.
+## Looking up a specific IP
 
-Displayed information includes:
-- 📍 **IP Address**: Your public IP
-- 🌍 **Country/Region**: The registered country and region of the IP
-- 🏙️ **City**: Approximate city location
-- 🏢 **ISP/Carrier**: Internet Service Provider (e.g., Comcast, AT&T)
-- 📡 **ASN**: Autonomous System Number
-- 🕐 **Timezone**: Current timezone
-- 📍 **Latitude/Longitude**: Click the link to view on a map
+Type an IP into the box and hit Query. Supports both IPv4 and IPv6:
 
-### Query a Specific IP
+- `8.8.8.8` -- Google's public DNS
+- `1.1.1.1` -- Cloudflare's DNS
+- `2001:4860:4860::8888` -- Google's IPv6 DNS
 
-1. Enter the IP address to query in the input box (supports IPv4 and IPv6)
-2. Click the **Query** button
-3. Wait for the results to display
+## Understanding what you're looking at
 
-**IPv4 example:** `8.8.8.8` (Google DNS)
+The geographic fields (country, city, lat/long) come from whichever IP database the API uses. The network fields (ISP, ASN, org) come from WHOIS and BGP data. These are two separate data sources that don't always agree -- sometimes the geographic location is where the ISP registered the block, while the network info reflects who actually operates it.
 
-**IPv6 example:** `2001:4860:4860::8888`
+The lat/long link is particularly handy -- click it to open Google Maps or OpenStreetMap and see exactly where the database thinks this IP lives.
 
-## Understanding the Results
+## Practical uses
 
-### Geographic Information
+**Check if your VPN is working.** Open the tool before and after connecting your VPN. If the country changes, your traffic is routing through the VPN. If it stays the same, your VPN might be leaking (or you connected to a node in your own country).
 
-| Field | Description |
-|-------|-------------|
-| Country | Registered country of the IP (with flag icon) |
-| Region/Province | State or province |
-| City | City location (may have significant margin of error) |
-| Postal Code | Area postal code |
-| Lat/Long | Geographic coordinates — click to open map |
+**Verify where your server lives.** Spin up a cloud VM and the provider says it's in Frankfurt? Look up its public IP to confirm the datacenter's actual location. Occasionally cloud providers' "regions" don't match the physical location they tell you.
 
-### Network Information
+**Debug geo-restrictions.** If a service gives you a geo-block error, check what country your IP resolves to. That tells you whether the block is targeting your actual location or if there's a misconfiguration.
 
-| Field | Description |
-|-------|-------------|
-| ISP | Internet Service Provider name |
-| Organization | Organization the IP actually belongs to |
-| AS Number | Autonomous System Number, e.g., AS13335 |
-| Connection Type | e.g., broadband, corporate, mobile |
+**Script it.** Need your server's public IP in a shell script? `curl -s https://ipapi.co/json/` gives you JSON with IP, country, city, and more. Parse with `jq` and you've got a one-liner.
 
-## Common Use Cases
+## Important caveats
 
-### Verify VPN is Working
-
-Open the tool and check the displayed country and city. If they differ from your actual location, your VPN is active and routing your traffic through its exit node.
-
-### Query Server IP Location
-
-Enter your server's public IP to confirm the city and ISP of the datacenter where your server is hosted.
-
-### Network Troubleshooting
-
-When you can't access certain websites or services, query your IP's registered location to check if your region is geo-blocked by the target service.
-
-### Get Public IP in Scripts
-
-```javascript
-// Fetch current public IP from ipapi.co
-const response = await fetch('https://ipapi.co/json/')
-const data = await response.json()
-console.log(data.ip)      // Current IP
-console.log(data.country) // Country code
-console.log(data.city)    // City
-```
-
-## Important Notes
-
-1. **Private IPs cannot be queried**: LAN addresses like `192.168.x.x` and `10.x.x.x` have no geolocation data
-2. **Free APIs have rate limits**: ipapi.co allows 1,000 free requests per day — avoid excessive calls
-3. **Results are approximate**: Geolocation accuracy is limited; city-level results may be incorrect
-4. **Corporate VPN impact**: When using a corporate VPN, the displayed IP is your company's exit IP, not your personal location
-
+Private IPs (`192.168.x.x`, `10.x.x.x`) return nothing useful -- they're local network addresses with no geolocation data. Free IP APIs have rate limits (ipapi.co gives you 1,000 requests/day on the free tier). And remember: the results are approximate. If the tool says you're in a city 200km away, that's within normal accuracy range for IP geolocation. It's not broken -- it's just how IP databases work.

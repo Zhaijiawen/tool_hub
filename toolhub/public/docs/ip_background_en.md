@@ -1,73 +1,39 @@
 # IP Query Tool - Technical Background
 
-## What is an IP Address
-
-An IP (Internet Protocol) address is a unique identifier assigned to each device on a network, used for routing communication between devices. IPv4 and IPv6 are the two versions currently in use.
+An IP address is your device's identifier on a network -- the digital equivalent of a return address on an envelope. Without IP addresses, the internet has no way to route data to the right machine.
 
 ## IPv4 vs IPv6
 
-### IPv4
-- 32-bit number in dotted-decimal notation: `192.168.1.1`
-- ~4.3 billion total addresses — nearly exhausted
-- Private address ranges: `10.x.x.x`, `172.16-31.x.x`, `192.168.x.x`
+**IPv4** is what most people picture: `192.168.1.1`. It's 32 bits, formatted as four decimal numbers separated by dots. There are about 4.3 billion possible addresses, and they've been running out since the 1990s. That's why your home router uses NAT to share one public IP across all your devices. Private ranges like `10.x.x.x`, `172.16-31.x.x`, and `192.168.x.x` are reserved for local networks -- they never appear on the public internet.
 
-### IPv6
-- 128-bit number in colon-hexadecimal notation: `2001:0db8:85a3::8a2e:0370:7334`
-- ~3.4×10³⁸ addresses — enough to assign an IP to every grain of sand on Earth
-- Gradually rolling out globally
+**IPv6** is the long-term fix: 128 bits, written in colon-separated hex like `2001:0db8:85a3::8a2e:0370:7334`. The address space is absurdly large -- 3.4 x 10^38 addresses. We could assign one to every atom on the planet and still have leftovers. Adoption has been slow but steady; about 45% of Google's traffic is now IPv6.
 
-## How IP Geolocation Works
+## How IP geolocation actually works
 
-IP geolocation databases are built through:
-1. **WHOIS registration**: Geographic info provided when IP ranges are registered with Regional Internet Registries (RIRs)
-2. **BGP routing analysis**: Inferring geographic location from internet routing announcements
-3. **Active probing**: Using tools like traceroute to detect router locations along the path
-4. **User feedback and calibration**: Continuously improving accuracy with user reports and GPS data
+It's less "GPS" and more "educated guess." The databases are built from several sources:
 
-## IP Information Fields
+1. **WHOIS records** -- when ISPs register IP blocks with Regional Internet Registries, they provide a physical address.
+2. **BGP routing data** -- analyzing which networks announce which IP ranges from where.
+3. **Latency triangulation** -- measuring ping times to known locations to estimate distance.
+4. **User-reported data** -- some services use GPS data from mobile apps to calibrate their databases.
 
-| Field | Description |
-|-------|-------------|
-| IP | The IP address itself |
-| Country/Region | Country and region code |
-| City | City location (may be inaccurate) |
-| Latitude/Longitude | Approximate geographic coordinates |
-| ISP/ASN | Internet Service Provider and Autonomous System Number |
-| Timezone | Timezone used in the region |
-| Currency | Currency used in the country |
-| Language | Official language |
+## What you get from an IP lookup
 
-## Common IP Query APIs
+| Field | What it tells you |
+|---|---|
+| IP | The address itself |
+| Country/Region | Usually accurate at the country level |
+| City | Approximate, often 50-100km off |
+| Lat/Long | Rough coordinates -- don't send a drone |
+| ISP/ASN | Who owns the IP block |
+| Timezone | Based on the registered location |
+| Currency | National currency, useful for localization |
+| Language | Official language of the country |
 
-### ipapi.co
-- Free tier: 1,000 requests/day
-- Supports IPv4 and IPv6
-- Returns JSON format
-- Endpoint: `https://ipapi.co/{ip}/json/`
+## Public vs private IPs
 
-### ip-api.com
-- Free tier: 45 requests/minute
-- Supports Chinese responses (`lang=zh-CN`)
-- HTTP only (no HTTPS for free tier)
-- Endpoint: `http://ip-api.com/json/{ip}?lang=zh-CN`
+Private IPs (`192.168.x.x`, `10.x.x.x`, `172.16-31.x.x`) only work within a local network. They're not routable on the internet, and there's no geolocation data for them. Public IPs are what your ISP assigns and what external services see. If you're behind a router, the IP this tool shows is your router's public IP, not your laptop's local one.
 
-### ipinfo.io
-- Free tier: 50,000 requests/month
-- Provides detailed ASN information
-- Supports HTTPS
+## The accuracy problem
 
-## Accuracy Limitations
-
-IP geolocation is **not precise positioning** and has the following limitations:
-- City-level accuracy is typically within 50-100 km
-- ISP datacenter address ≠ user's actual physical address
-- VPN/proxy users show the exit node location
-- Corporate VPN users show their headquarters or datacenter location
-- Satellite network users (e.g., Starlink) may show very inaccurate locations
-
-## Public IP vs Private IP
-
-- **Private IPs** (e.g., `192.168.1.1`) are only used within local networks. They can't be routed on the internet and have no geolocation data.
-- **Public IPs** are routable on the internet and are assigned by ISPs. Geolocation data is available.
-- Most home users share a single public IP through NAT (Network Address Translation) across multiple devices.
-
+IP geolocation is rough. City-level accuracy for fixed-line connections is typically within 50-100km. Mobile connections are worse. VPNs and proxies make it meaningless -- you see the exit node's location, not the user's. Corporate VPN users often appear to be at their company's HQ or datacenter. Satellite ISPs like Starlink can show wildly wrong locations because the ground station might be in a different country than the user.

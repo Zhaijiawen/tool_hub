@@ -1,247 +1,41 @@
-# PHP 技术背景
+# PHP — 幕后原理
 
-PHP（Hypertext Preprocessor）是一种专为Web开发设计的服务器端脚本语言。最初由Rasmus Lerdorf于1994年创建，PHP已发展成为一种强大的通用编程语言，特别适合构建动态网站和Web应用程序。
+PHP 始于 1994 年 Rasmus Lerdorf 写的一套 Perl 脚本，用来追踪他的在线简历访问量。"Personal Home Page" 慢慢长成了一门完整的语言。今天 PHP 撑起了大约 75% 的 Web（仅 WordPress 就驱动了超过 40% 的网站）。
 
-## 历史与发展
+## PHP 怎么执行
 
-### 起源
-PHP最初是Rasmus Lerdorf创建的一套简单的Perl脚本，用于跟踪其在线简历的访问量。"PHP"最初代表"Personal Home Page"（个人主页），但随着语言的发展，后来改为"PHP: Hypertext Preprocessor"（PHP：超文本预处理器）。
+PHP 是服务器端语言——Web 服务器把请求交给 PHP 解释器，解释器产出 HTML/JSON/XML 返回。Apache 用 `mod_php` 内联执行；Nginx 用 PHP-FPM（FastCGI 进程管理器）作为独立进程池。不管哪种方式，每个请求都获得全新的执行上下文——请求之间不共享状态，除非你主动用了 session 或缓存。
 
-### 重要里程碑
-- **1994年**：PHP 1.0发布，作为一套简单的Perl脚本
-- **1995年**：PHP 2.0用C语言重写，具备基本功能
-- **1997年**：Andi Gutmans和Zeev Suraski引入PHP 3.0
-- **2000年**：PHP 4.0发布，性能和功能得到改进
-- **2004年**：PHP 5.0引入面向对象编程
-- **2015年**：PHP 7.0带来显著的性能改进
-- **2020年**：PHP 8.0引入重大新功能和改进
+PHP 7+（Zend Engine 3）是一场性能飞跃。比 PHP 5 快了差不多一倍。OPcache 把预编译的字节码存内存里，重复请求跳过解析步骤。
 
-## 核心特性
+## 类型系统
 
-### 1. 服务器端脚本
-PHP主要设计用于在Web服务器上运行，处理请求并为Web浏览器生成动态内容。
+PHP 是动态类型语言，自 PHP 7 起支持可选的类型声明：
 
-### 2. 易于集成
-PHP可以轻松嵌入HTML中，并与各种Web服务器和数据库无缝协作。
-
-### 3. 跨平台
-PHP可在多个操作系统上运行，包括Windows、Linux、macOS和各种Unix系统。
-
-### 4. 开源
-PHP可免费使用，拥有大量活跃的社区为其发展做出贡献。
-
-### 5. 数据库支持
-PHP为各种数据库提供出色的支持，包括MySQL、PostgreSQL、SQLite等。
-
-## PHP架构
-
-### Web服务器集成
-PHP可以通过多种方式与Web服务器集成：
-- **Apache**：使用mod_php模块
-- **Nginx**：使用PHP-FPM（FastCGI进程管理器）
-- **内置服务器**：PHP的开发服务器用于测试
-
-### 请求处理
-1. **Web服务器**：接收HTTP请求
-2. **PHP解释器**：处理PHP代码
-3. **数据库**：如需要则进行查询
-4. **响应**：返回HTML/JSON/其他内容
-
-## 数据类型和变量
-
-### 标量类型
-- **int**：整数
-- **float**：浮点数
-- **string**：文本数据
-- **bool**：布尔值（true/false）
-
-### 复合类型
-- **array**：有序映射
-- **object**：类的实例
-- **callable**：函数和方法
-- **iterable**：可遍历数据
-
-### 特殊类型
-- **null**：表示无值
-- **resource**：外部资源句柄
-
-## PHP语法
-
-### 基本语法
 ```php
-<?php
-// PHP代码放在这里
-echo "Hello, World!";
-?>
-```
-
-### 变量
-```php
-$variable = "value";
-$number = 42;
-$array = [1, 2, 3];
-```
-
-### 函数
-```php
-function greet($name) {
-    return "Hello, " . $name;
+function greet(string $name, int $age): string {
+    return "Hello, $name. You are $age.";
 }
 ```
 
-## 面向对象编程
+标量类型：`int`、`float`、`string`、`bool`。复合类型：`array`、`object`、`callable`。`mixed`（PHP 8）表示「任意类型」。`never`（PHP 8.1）表示「这个函数绝不会返回」。
 
-### 类和对象
-PHP支持完整的面向对象编程，包括：
-- 类和对象
-- 继承
-- 接口
-- 特征（Traits）
-- 命名空间
+PHP 的数组实际上是哈希映射——同时扮演索引数组和字典的角色。灵活是真灵活，但当你期望索引行为却得到关联行为时，也是 bug 的高发地。
 
-### 示例类
-```php
-class User {
-    private $name;
-    private $email;
-    
-    public function __construct($name, $email) {
-        $this->name = $name;
-        $this->email = $email;
-    }
-    
-    public function getName() {
-        return $this->name;
-    }
-}
-```
+## 生态
 
-## Web开发功能
+- **Laravel** 统治了现代 PHP。Eloquent ORM、Blade 模板、Artisan 命令行、内置队列系统。如今 PHP 开发基本以 Laravel 为中心。
+- **Symfony** 组件是 Laravel 和很多其他项目的底层。Doctrine ORM。
+- **WordPress** 统治 CMS 领域。六万多个插件的生态。
+- **Composer** 管依赖。`composer.json` + `composer.lock` = 可复现的构建。Packagist 是包注册中心。
+- **PHPUnit** 做测试，**Xdebug** 做调试，**PHPStan**（或 Psalm）做静态分析。
 
-### 表单处理
-PHP擅长处理HTML表单和处理用户输入。
+## 需要注意的地方
 
-### 会话管理
-内置会话支持，用于在请求之间维护用户状态。
+**`==` 和 `===`。** PHP 的松散比较出了名的诡异：`0 == "foo"` 是 `true`。永远用严格比较（`===`），除非你明确需要类型自动转换。
 
-### Cookie处理
-轻松操作Cookie以进行客户端数据存储。
+**PDO 做数据库访问。** 绝对不要用 `mysql_*` 函数（PHP 7 已移除）。不要用裸的 `mysqli_*` 而不用预处理语句。PDO + 预处理语句 = 免疫 SQL 注入。
 
-### 文件上传
-原生支持处理来自Web表单的文件上传。
+**Include/require 路径。** PHP 用进程的工作目录而非当前文件所在目录来解析相对路径。用 `__DIR__ . '/file.php'` 保证引用可靠。
 
-## 数据库集成
-
-### MySQL/MariaDB
-PHP对MySQL数据库提供出色的支持，有多种API：
-- **mysqli**：面向对象和过程化接口
-- **PDO**：数据库抽象层
-- **mysql**：遗留扩展（已弃用）
-
-### 其他数据库
-- PostgreSQL
-- SQLite
-- MongoDB
-- Redis
-
-## 框架和库
-
-### 流行框架
-- **Laravel**：功能齐全的Web应用程序框架
-- **Symfony**：基于组件的框架
-- **CodeIgniter**：轻量级框架
-- **Yii**：高性能框架
-- **CakePHP**：快速开发框架
-
-### CMS平台
-- **WordPress**：最受欢迎的CMS
-- **Drupal**：企业级CMS
-- **Joomla**：用户友好的CMS
-
-## 性能和优化
-
-### PHP 7+改进
-- **Zend Engine 3**：显著的性能改进
-- **类型声明**：更好的代码优化
-- **返回类型声明**：增强的类型安全
-- **空合并运算符**：简化的null处理
-
-### 缓存
-- **OPcache**：字节码缓存
-- **APCu**：用户数据缓存
-- **Redis**：外部缓存
-- **Memcached**：分布式缓存
-
-## 安全功能
-
-### 内置安全
-- **输入验证**：用于清理输入的函数
-- **SQL注入防护**：预处理语句
-- **XSS防护**：输出转义函数
-- **CSRF防护**：基于令牌的防护
-
-### 最佳实践
-- 始终验证和清理用户输入
-- 对数据库查询使用预处理语句
-- 实现适当的身份验证和授权
-- 保持PHP和扩展的更新
-- 对敏感数据使用HTTPS
-
-## 开发工具
-
-### IDE和编辑器
-- **PhpStorm**：专业PHP IDE
-- **VS Code**：带有PHP扩展的轻量级编辑器
-- **Sublime Text**：快速文本编辑器
-- **NetBeans**：支持PHP的免费IDE
-
-### 调试工具
-- **Xdebug**：高级调试扩展
-- **PHPUnit**：单元测试框架
-- **Composer**：依赖管理
-- **PHP_CodeSniffer**：代码质量工具
-
-## 包管理
-
-### Composer
-PHP的现代依赖管理：
-- **Packagist**：主要包仓库
-- **自动加载**：PSR-4自动加载标准
-- **版本管理**：语义版本控制支持
-
-### PSR标准
-PHP标准建议，用于一致的编码：
-- **PSR-1**：基本编码标准
-- **PSR-4**：自动加载标准
-- **PSR-12**：扩展编码风格
-
-## 部署和托管
-
-### 共享托管
-由于PHP的简单性和低资源需求，它在共享托管平台上得到广泛支持。
-
-### 云平台
-- **AWS**：Elastic Beanstalk、Lambda
-- **Google Cloud**：App Engine
-- **Azure**：Web Apps
-- **Heroku**：平台即服务
-
-### 容器化
-- **Docker**：容器化PHP应用程序
-- **Kubernetes**：PHP服务编排
-
-## 社区和生态系统
-
-### 活跃社区
-- 大型开发者社区
-- 广泛的文档
-- 定期会议和聚会
-- 开源贡献
-
-### 学习资源
-- 官方PHP文档
-- 在线教程和课程
-- 社区论坛和Stack Overflow
-- YouTube频道和播客
-
-PHP结合了简单性、强大功能和广泛的Web开发特性，是构建动态网站和Web应用程序的绝佳选择。其活跃的社区和丰富的生态系统确保在现代Web开发中保持相关性。 
+**错误报告。** 生产环境：`display_errors = Off`，`log_errors = On`。开发环境：`error_reporting = E_ALL`。PHP 8 把很多 Warning 升级成了 TypeError，PHP 7 上能跑的代码到 PHP 8 可能直接抛异常。

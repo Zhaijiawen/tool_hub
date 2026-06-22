@@ -1,6 +1,6 @@
-# YAML 代码示例
+# YAML — 代码示例
 
-## 基本 YAML 结构示例
+## 基本结构
 
 ### 简单键值对
 
@@ -11,7 +11,7 @@ email: john@example.com
 is_active: true
 ```
 
-### 嵌套对象
+### 嵌套对象和数组
 
 ```yaml
 person:
@@ -23,26 +23,15 @@ person:
   address:
     street: 123 Main St
     city: New York
-    zip: 10001
-```
+    zip: "10001"   # 加引号 — 邮编以 0 开头的话不加引号会丢前导零
 
-### 数组/列表
-
-```yaml
 fruits:
   - apple
   - banana
   - orange
-
-numbers:
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
 ```
 
-### 复杂嵌套结构
+### 复杂嵌套
 
 ```yaml
 company:
@@ -69,19 +58,17 @@ company:
         - Agile
 ```
 
-## 配置文件示例
+## 配置文件
 
-### 应用程序配置
+### 应用配置：数据库 + 服务器 + 日志
 
 ```yaml
-# 应用程序设置
 app:
   name: MyApplication
   version: 1.0.0
   environment: production
   debug: false
 
-# 数据库配置
 database:
   host: localhost
   port: 5432
@@ -94,7 +81,6 @@ database:
     max: 20
     timeout: 30
 
-# 服务器配置
 server:
   port: 8080
   host: 0.0.0.0
@@ -105,7 +91,6 @@ server:
       - http://localhost:3000
       - https://myapp.com
 
-# 日志配置
 logging:
   level: INFO
   format: json
@@ -114,7 +99,7 @@ logging:
   max_files: 5
 ```
 
-### Docker Compose 配置
+### Docker Compose
 
 ```yaml
 version: '3.8'
@@ -163,18 +148,18 @@ volumes:
   postgres_data:
 ```
 
-## CI/CD 管道示例
+## CI/CD 管道
 
-### GitHub Actions 工作流
+### GitHub Actions
 
 ```yaml
 name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   NODE_VERSION: '16'
@@ -220,10 +205,9 @@ jobs:
       - name: Deploy to production
         run: |
           echo "Deploying to production..."
-          # 部署命令在这里
 ```
 
-### GitLab CI 配置
+### GitLab CI
 
 ```yaml
 stages:
@@ -289,7 +273,7 @@ deploy:production:
 
 ## Kubernetes 清单
 
-### Pod 定义
+Pod、Service、Deployment——最常用的三种 K8s 资源：
 
 ```yaml
 apiVersion: v1
@@ -333,11 +317,7 @@ spec:
           port: 3000
         initialDelaySeconds: 5
         periodSeconds: 5
-```
-
-### Service 定义
-
-```yaml
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -357,11 +337,7 @@ spec:
       name: https
   selector:
     app: my-app
-```
-
-### Deployment 定义
-
-```yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -402,9 +378,9 @@ spec:
             name: my-app-config
 ```
 
-## Ansible 剧本示例
+注意 `---` 文档分隔符——单个文件三个资源。K8s 的标准用法。
 
-### 基本剧本
+## Ansible 剧本
 
 ```yaml
 ---
@@ -446,60 +422,10 @@ spec:
         state: restarted
 ```
 
-### 复杂剧本与角色
+## 环境配置（开发 vs 生产）
 
 ```yaml
----
-- name: Deploy application
-  hosts: all
-  become: yes
-  vars_files:
-    - vars/main.yml
-    - vars/secrets.yml
-
-  pre_tasks:
-    - name: Update package cache
-      apt:
-        update_cache: yes
-      when: ansible_os_family == "Debian"
-
-  roles:
-    - common
-    - web
-    - app
-    - database
-
-  tasks:
-    - name: Deploy application
-      git:
-        repo: "{{ app_repository }}"
-        dest: "{{ app_path }}"
-        version: "{{ app_version }}"
-        force: yes
-
-    - name: Install dependencies
-      npm:
-        path: "{{ app_path }}"
-        state: present
-
-    - name: Build application
-      command: npm run build
-      args:
-        chdir: "{{ app_path }}"
-
-    - name: Restart application
-      systemd:
-        name: "{{ app_service }}"
-        state: restarted
-        daemon_reload: yes
-```
-
-## 环境配置
-
-### 开发环境
-
-```yaml
-# 开发环境配置
+# 开发环境
 environment: development
 
 app:
@@ -540,10 +466,8 @@ external_services:
     path: ./uploads
 ```
 
-### 生产环境
-
 ```yaml
-# 生产环境配置
+# 生产环境
 environment: production
 
 app:
@@ -593,176 +517,4 @@ external_services:
     region: us-east-1
 ```
 
-## JavaScript 处理示例
-
-### 解析 YAML
-
-```js
-// 从字符串解析 YAML
-const yaml = require('js-yaml')
-
-const yamlString = `
-app:
-  name: MyApp
-  version: 1.0.0
-  debug: true
-
-database:
-  host: localhost
-  port: 5432
-  name: myapp
-`
-
-try {
-  const config = yaml.load(yamlString)
-  console.log(config.app.name) // 输出: MyApp
-  console.log(config.database.host) // 输出: localhost
-} catch (error) {
-  console.error('YAML 解析错误:', error.message)
-}
-
-// 从文件加载 YAML
-const fs = require('fs')
-
-try {
-  const config = yaml.load(fs.readFileSync('config.yaml', 'utf8'))
-  console.log('配置已加载:', config)
-} catch (error) {
-  console.error('加载配置错误:', error.message)
-}
-```
-
-### 生成 YAML
-
-```js
-// 将对象转换为 YAML
-const yaml = require('js-yaml')
-
-const config = {
-  app: {
-    name: 'MyApp',
-    version: '1.0.0',
-    debug: true
-  },
-  database: {
-    host: 'localhost',
-    port: 5432,
-    name: 'myapp'
-  }
-}
-
-const yamlString = yaml.dump(config, {
-  indent: 2,
-  lineWidth: 80,
-  noRefs: true
-})
-
-console.log(yamlString)
-
-// 保存 YAML 到文件
-const fs = require('fs')
-
-fs.writeFileSync('config.yaml', yamlString, 'utf8')
-console.log('配置已保存到 config.yaml')
-```
-
-### 使用 YAML Schema
-
-```js
-// 根据模式验证 YAML
-const yaml = require('js-yaml')
-const Ajv = require('ajv')
-
-const schema = {
-  type: 'object',
-  properties: {
-    app: {
-      type: 'object',
-      properties: {
-        name: { type: 'string' },
-        version: { type: 'string' },
-        debug: { type: 'boolean' }
-      },
-      required: ['name', 'version']
-    },
-    database: {
-      type: 'object',
-      properties: {
-        host: { type: 'string' },
-        port: { type: 'number' },
-        name: { type: 'string' }
-      },
-      required: ['host', 'port', 'name']
-    }
-  },
-  required: ['app', 'database']
-}
-
-const ajv = new Ajv()
-const validate = ajv.compile(schema)
-
-const yamlString = `
-app:
-  name: MyApp
-  version: 1.0.0
-  debug: true
-
-database:
-  host: localhost
-  port: 5432
-  name: myapp
-`
-
-try {
-  const config = yaml.load(yamlString)
-  const valid = validate(config)
-  
-  if (valid) {
-    console.log('配置有效')
-  } else {
-    console.error('配置验证失败:', validate.errors)
-  }
-} catch (error) {
-  console.error('YAML 解析错误:', error.message)
-}
-```
-
-## 错误处理示例
-
-### 验证错误响应
-
-```yaml
-errors:
-  - code: VALIDATION_ERROR
-    message: 无效的 YAML 结构
-    details:
-      field: database.host
-      issue: 主机字段是必需的
-      line: 8
-      column: 3
-  - code: TYPE_ERROR
-    message: 无效的数据类型
-    details:
-      field: app.port
-      issue: 端口必须是数字
-      value: "3000"
-      line: 4
-      column: 8
-
-timestamp: 2024-01-15T10:30:00Z
-request_id: req_123456
-```
-
-### 系统错误响应
-
-```yaml
-error:
-  code: INTERNAL_SERVER_ERROR
-  message: 发生意外错误
-  details: YAML 解析失败
-  timestamp: 2024-01-15T10:30:00Z
-  request_id: req_123456
-  stack: "Error: Invalid YAML syntax at line 5..."
-```
-
-这些示例演示了在配置管理、CI/CD 管道和应用程序开发中常见的各种 YAML 模式和用例。 
+生产环境的敏感信息用环境变量（`${VAR}`）引用——永远不要把明文凭证写进版本控制的 YAML 文件里。

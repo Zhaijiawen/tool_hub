@@ -1,42 +1,38 @@
-# 文本大小写转换 — 技术背景
+# 文本大小写这点事
 
-## 什么是文本大小写？
+大小写转换听起来简单，但作为一个经常在不同语言和规范间切换的开发者，这里面的命名约定和边界情况还真不少。
 
-文本大小写是指字符串中字母的大写/小写形式。不同的编程语言、命名规范和写作标准使用不同的大小写风格。
-
-## 常见大小写风格
+## 你实际会用到的几种风格
 
 ### 全大写（UPPERCASE）
-所有字母均为大写形式，常用于常量、缩写词和强调语境。
-- 示例：`HELLO WORLD`、`MAX_VALUE`
+代码里的常量（`MAX_BUFFER_SIZE`）、缩写词、邮件标题里想强调的地方。示例：`HELLO WORLD`。
 
 ### 全小写（lowercase）
-所有字母均为小写形式，常用于 URL、CSS 类名和部分编程标识符。
-- 示例：`hello world`、`variable_name`
+Web 上的默认态。URL、CSS 类名、文件名基本都是小写。示例：`hello world`。
 
 ### 首字母大写（Title Case）
-每个单词的首字母大写，其余小写，常用于标题和专有名词。
-- 示例：`Hello World`、`The Quick Brown Fox`
+每个单词首字母大写，标题、按钮文字、书名用。示例：`Hello World`。
 
-### 句首大写（Sentence Case）
-仅第一个单词首字母大写，其余小写，符合普通句子的书写规范。
-- 示例：`Hello world`、`The quick brown fox`
+### 句首大写（Sentence case）
+只有第一个字母大写，跟正常句子一样。示例：`Hello world`。
 
-### 交替大小写（Alternating Case）
-字母在大写和小写之间交替出现，多用于装饰或幽默表达。
-- 示例：`hElLo WoRlD`
+### 交替大小写（aLtErNaTiNg CaSe）
+大小写来回切换。基本就是在网上玩梗和吐槽用的。示例：`hElLo WoRlD`。
 
-## 编程中的命名规范
+## 各种语言的命名习惯
 
-| 语言/场景 | 命名规范 | 示例 |
+不同生态有不同的规矩，跨语言开发的时候你基本都会遇到：
+
+| 语言 / 场景 | 规范 | 示例 |
 |---|---|---|
-| JavaScript/TypeScript | 小驼峰（camelCase） | `myVariableName` |
-| Python | 下划线（snake_case） | `my_variable_name` |
-| Java/C# | 大驼峰（PascalCase） | `MyClassName` |
-| CSS | 连字符（kebab-case） | `my-class-name` |
-| 常量 | 全大写下划线 | `MAX_BUFFER_SIZE` |
+| JavaScript/TypeScript | 小驼峰 camelCase | `myVariableName` |
+| Python | 蛇形 snake_case | `my_variable_name` |
+| Java/C# | 大驼峰 PascalCase | `MyClassName` |
+| CSS | 连字符 kebab-case | `my-class-name` |
+| 常量（多数语言） | 全大写蛇形 | `MAX_BUFFER_SIZE` |
 
-## Unicode 与国际化
+## Unicode 的坑
 
-ASCII 字符的大小写转换较为简单，但国际化文本处理更为复杂。例如德语中 `ß` 转大写为 `SS`。现代 JavaScript 通过 `.toUpperCase()` 和 `.toLowerCase()` 可正确处理大多数 Unicode 字符的大小写转换。
+纯 ASCII 的大小写转换很简单，每个字母的大小写对应关系是确定的。Unicode 就复杂了。德语 `ß` 转大写变成 `SS`。土耳其语有带点和不带点的 `i`，大小写规则跟英语不一样。现代 JavaScript 的 `.toUpperCase()` 和 `.toLowerCase()` 大部分情况都能正确处理，但特定语言环境下还是可能有边界情况。
 
+这个工具是基于字符级别处理的，Unicode 文本没问题，但如果你需要区域敏感的大小写转换（比如土耳其语的 i），可能需要更专业的工具。

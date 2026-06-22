@@ -1,8 +1,6 @@
 # Script Toolkit — Example Scripts
 
----
-
-## Example 1: Unix Timestamp → Human-Readable Date
+## Timestamp to readable date
 
 **Input:** `1702889856000`
 
@@ -18,9 +16,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+dayjs handles both millisecond and second timestamps — just pass the number.
 
-## Example 2: JSON Field Extraction (lodash)
+## JSON field extraction with lodash
 
 **Input:** JSON with a `users` array
 
@@ -31,9 +29,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+Handy when you've got a big API response and only need a few fields.
 
-## Example 3: Compute MD5 & SHA-256
+## MD5 and SHA-256 in one call
 
 **Input:** Any text
 
@@ -45,11 +43,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## YAML to JSON
 
-## Example 4: YAML → JSON
-
-**Input:** YAML configuration content
+**Input:** YAML config content
 
 ```javascript
 async function transform(input, helpers) {
@@ -58,9 +54,7 @@ async function transform(input, helpers) {
 }
 ```
 
----
-
-## Example 5: JSON → YAML
+## JSON to YAML
 
 **Input:** JSON object
 
@@ -71,11 +65,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## Bulk UUID generation
 
-## Example 6: Bulk UUID Generation
-
-**Input:** `10` (how many UUIDs to generate)
+**Input:** `10` (how many)
 
 ```javascript
 async function transform(input, helpers) {
@@ -84,9 +76,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+Defaults to 5 if the input isn't a valid number.
 
-## Example 7: Math Expression Evaluator
+## Math expression evaluator
 
 **Input:** `sqrt(2) * pi + log(100, 10)`
 
@@ -97,9 +89,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+mathjs supports everything from basic arithmetic to matrix operations and symbolic algebra.
 
-## Example 8: Word-level Text Diff
+## Word-level text diff
 
 **Input:** Two texts separated by `===SPLIT===`
 
@@ -116,9 +108,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+Output shows additions in `[+brackets]` and deletions in `[-brackets]`.
 
-## Example 9: Markdown → HTML (sanitized)
+## Markdown to HTML (sanitized)
 
 **Input:** Markdown text
 
@@ -129,9 +121,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+Always sanitize after Markdown conversion — it prevents XSS if the markdown contains embedded HTML.
 
-## Example 10: Parse XML
+## Parse XML to JSON
 
 **Input:** XML string
 
@@ -142,23 +134,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## AES encrypt and verify
 
-## Example 11: SparkMD5 Hash
-
-**Input:** Any text (works well for large content)
-
-```javascript
-async function transform(input, helpers) {
-  return helpers.sparkMD5.hash(input)
-}
-```
-
----
-
-## Example 12: AES Encrypt & Decrypt
-
-**Input:** Plain text to encrypt
+**Input:** Plain text
 
 ```javascript
 async function transform(input, helpers) {
@@ -169,11 +147,11 @@ async function transform(input, helpers) {
 }
 ```
 
----
+The script encrypts and then decrypts to verify the round trip. Replace the hardcoded key with your own.
 
-## Example 13: lodash Array Dedup & Sort
+## lodash array dedup and sort
 
-**Input:** JSON array, e.g. `[3,1,2,1,3,4]`
+**Input:** JSON array like `[3,1,2,1,3,4]`
 
 ```javascript
 async function transform(input, helpers) {
@@ -182,11 +160,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+## Bulk NanoID generation
 
-## Example 14: Bulk NanoID Generation
-
-**Input:** `8` (how many IDs to generate)
+**Input:** `8` (how many)
 
 ```javascript
 async function transform(input, helpers) {
@@ -195,9 +171,9 @@ async function transform(input, helpers) {
 }
 ```
 
----
+NanoID is shorter than UUID — 21 URL-safe characters by default.
 
-## Example 15: HTTP GET Request
+## HTTP GET request
 
 ```javascript
 async function transform(input, helpers) {
@@ -206,4 +182,6 @@ async function transform(input, helpers) {
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return await res.json()
 }
+```
 
+Paste any URL as input or leave empty to hit httpbin.

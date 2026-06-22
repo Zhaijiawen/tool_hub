@@ -1,115 +1,79 @@
-# Cron Expression Parser - Tutorial
+# Cron Expression Parser -- How to Use
 
-## Getting Started
-
-The Cron expression parser helps developers and operations engineers quickly understand, validate, and generate Cron time expressions without memorizing complex syntax rules.
+Two ways to use this tool: parse a cron expression to understand what it does, or build one visually without memorizing the syntax.
 
 ## Parsing a Cron Expression
 
-### Step 1: Enter the Expression
+Paste or type a cron expression and you get an instant plain-English description plus the next few execution times.
 
-Paste or type a Cron expression in the input box:
+**5-field (Unix standard):** `0 9 * * 1-5`
+**6-field (Quartz with seconds):** `0 0 9 * * MON-FRI`
 
-- **5-field format (Unix standard)**: `0 9 * * 1-5`
-- **6-field format (Quartz, with seconds)**: `0 0 9 * * MON-FRI`
+The tool translates these into readable descriptions:
+- `0 9 * * 1-5` -- "At 09:00, Monday through Friday"
+- `*/5 * * * *` -- "Every 5 minutes"
+- `0 0 1 * *` -- "At midnight, on day 1 of every month"
 
-### Step 2: View the Plain-text Description
+Below the description you'll see the next 5 execution times calculated from your browser's local timezone. This is the most reliable way to verify your cron expression -- just look at the dates and times and ask yourself "is this when I want it to run?"
 
-The tool instantly translates the expression into a human-readable description, for example:
-- `0 9 * * 1-5` → "At 09:00 AM, Monday through Friday"
-- `*/5 * * * *` → "Every 5 minutes"
-- `0 0 1 * *` → "At 12:00 AM, on day 1 of every month"
+## Building an Expression Visually
 
-### Step 3: View Next Execution Times
+If you don't want to remember the field order and special characters, use the visual builder. Select what you want for each component and the expression auto-generates:
 
-The tool lists the next 5 execution times to help you confirm the schedule is correct:
+1. **Minute**: Fixed minute (`:00`, `:30`) or step (every 5, 10, 15 minutes)
+2. **Hour**: Specific hours or every N hours
+3. **Day**: Every day, a specific date, or the last day of the month
+4. **Month**: All year or specific months
+5. **Weekday**: Weekdays, weekends, or specific days
 
-```
-Next execution times:
-1. 2024-04-15 09:00:00 (Monday)
-2. 2024-04-16 09:00:00 (Tuesday)
-3. 2024-04-17 09:00:00 (Wednesday)
-4. 2024-04-18 09:00:00 (Thursday)
-5. 2024-04-19 09:00:00 (Friday)
-```
+The generated expression updates as you make selections. Copy it and paste it into your crontab, GitHub Actions workflow, or wherever you need it.
 
-## Reverse-generating a Cron Expression
+## Common Patterns by Use Case
 
-### Using the Visual Builder Panel
+### Daily jobs
 
-If you're not familiar with Cron syntax, use the visual selection panel:
+| What you want | Expression |
+|---|---|
+| Backup at 2 AM | `0 2 * * *` |
+| Report at 8 AM | `0 8 * * *` |
+| Twice a day (noon and 6 PM) | `0 12,18 * * *` |
 
-1. **Minute**: Select a fixed minute (e.g., `:00`, `:30`) or a step (e.g., every 5 minutes)
-2. **Hour**: Select specific hours or every N hours
-3. **Day**: Select every day, a fixed date, or the last day of the month
-4. **Month**: Select all year or specific months
-5. **Weekday**: Select weekdays, weekends, or specific days
+### Weekly jobs
 
-After making selections, the corresponding Cron expression is auto-generated below for direct copy-paste.
-
-## Common Cron Scenarios
-
-### Daily Tasks
-
-| Requirement | Cron Expression |
-|-------------|----------------|
-| Backup at 2 AM daily | `0 2 * * *` |
-| Send report at 8 AM daily | `0 8 * * *` |
-| Run at noon and 6 PM daily | `0 12,18 * * *` |
-
-### Weekly Tasks
-
-| Requirement | Cron Expression |
-|-------------|----------------|
-| Every Monday at 9 AM | `0 9 * * 1` |
-| Every Friday at 5 PM | `0 17 * * 5` |
+| What you want | Expression |
+|---|---|
+| Monday at 9 AM | `0 9 * * 1` |
+| Friday at 5 PM | `0 17 * * 5` |
 | Every hour on weekdays | `0 * * * 1-5` |
 
-### Monthly Tasks
+### Monthly jobs
 
-| Requirement | Cron Expression |
-|-------------|----------------|
-| Payroll notification on 1st | `0 9 1 * *` |
-| Last day of month | `0 23 L * *` (Quartz) |
+| What you want | Expression |
+|---|---|
+| 1st of the month | `0 9 1 * *` |
+| Last day of month | `0 23 L * *` (Quartz only) |
 | First day of each quarter | `0 0 1 1,4,7,10 *` |
 
-### High-frequency Tasks
+### High-frequency jobs
 
-| Requirement | Cron Expression |
-|-------------|----------------|
-| Check every 5 minutes | `*/5 * * * *` |
+| What you want | Expression |
+|---|---|
+| Every 5 minutes | `*/5 * * * *` |
 | Every 10 minutes | `*/10 * * * *` |
 | Every 30 minutes | `0,30 * * * *` |
 
 ## Error Diagnosis
 
-### Common Errors and Fixes
+The tool catches common mistakes before they hit production:
 
-**Error: Month field out of range**
-```
-Input:  0 9 * 13 *
-Error:  Month value 13 is out of valid range [1-12]
-Fix:    0 9 * 12 * (December)
-```
+- **Month 13?** Range is 1-12.
+- **Weekday 8?** Range is 0-7 (or 1-7 for Quartz).
+- **Step value of 0?** `*/0` makes no sense -- use `*/1` or just `*`.
+- **Mixed day-of-month and day-of-week in Quartz?** Use `?` in one of them to avoid ambiguity.
 
-**Error: Invalid weekday value**
-```
-Input:  0 9 * * 8
-Error:  Weekday value 8 is out of valid range [0-7]
-Fix:    0 9 * * 1-5 (weekdays)
-```
+## A Few Habits Worth Building
 
-**Error: Step value is zero**
-```
-Input:  */0 * * * *
-Error:  Step value cannot be 0
-Fix:    */1 * * * * (every minute)
-```
-
-## Best Practices
-
-1. **Always verify with plain-text description**: After creating or receiving a Cron expression, confirm its meaning using this tool's description feature
-2. **Check next execution times**: Especially for edge cases like end of month or year — the time list is the most reliable check
-3. **Be aware of timezones**: This tool displays times based on your browser's local timezone; deployed servers may use UTC
-4. **Document Cron meanings**: Add a comment in your code explaining what the Cron expression does to make maintenance easier for others
-
+- Always read the plain-English description. Even if you wrote the expression yourself, read what the tool says it means. You'd be surprised how often a missing `?` or an extra `*` changes the meaning.
+- Check the next 5 execution times. Especially for edge cases: end of month, beginning of month, daylight saving transitions. The time list doesn't lie.
+- Know your timezone. The tool shows times in your browser's timezone. The server where this runs may be UTC. Adjust accordingly or add timezone configuration to your scheduler.
+- Comment your crons. A `# Runs weekdays at 9 AM EST` comment above the expression saves the next person (including future you) from having to parse it again.

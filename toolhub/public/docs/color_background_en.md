@@ -1,48 +1,41 @@
-# Color Picker & Converter — Technical Background
+# Color Models: HEX, RGB, HSL and Why There Are So Many
 
-## Color Models
+Working with color on the web means jumping between formats constantly. Here's what each one is for and why they all exist.
 
-### RGB (Red, Green, Blue)
-The additive color model used by screens and digital displays. Each channel ranges from 0 to 255.
-- `rgb(255, 0, 0)` — pure red
-- `rgb(0, 128, 255)` — sky blue
+## RGB: What Your Screen Actually Uses
 
-### HEX (Hexadecimal)
-A compact representation of RGB using base-16 notation. Widely used in web development.
-- `#FF0000` — red
-- `#0080FF` — sky blue
-- Short form: `#F00` is equivalent to `#FF0000`
+RGB is the additive color model -- mix red, green, and blue light at different intensities and you get any color. Each channel goes from 0 to 255, giving you 16.7 million possible colors. In CSS it's `rgb(255, 0, 0)` for pure red.
 
-### HSL (Hue, Saturation, Lightness)
-A more intuitive model for humans:
-- **Hue**: color angle on the color wheel (0°–360°)
-- **Saturation**: color intensity (0%–100%)
-- **Lightness**: brightness from black to white (0%–100%)
+With alpha (opacity), it's `rgba(255, 0, 0, 0.5)` for 50% transparent red. The alpha channel goes from 0 (fully transparent) to 1 (fully opaque).
 
-`hsl(0, 100%, 50%)` — pure red
-`hsl(210, 100%, 56%)` — sky blue
+## HEX: RGB in Base-16
 
-### HSV / HSB (Hue, Saturation, Value/Brightness)
-Similar to HSL but uses Value (brightness) instead of Lightness. Common in design tools like Photoshop.
+HEX is just RGB written in hexadecimal instead of decimal. `#FF0000` means R=255, G=0, B=0 -- same as `rgb(255, 0, 0)`. It's the most compact format, which is why CSS and design tools default to it.
 
-### CMYK (Cyan, Magenta, Yellow, Key/Black)
-The subtractive color model used in printing. Channels are expressed as percentages.
+Short hex exists too: `#F00` is the same as `#FF0000`. Each digit gets doubled. With alpha, you get 8-digit hex: `#FF000080` is red at 50% opacity.
 
-## Alpha (Opacity)
+## HSL: Designed for Humans, Not Machines
 
-Colors can include an alpha channel to define transparency:
-- `rgba(255, 0, 0, 0.5)` — 50% transparent red
-- `#FF000080` — red with 50% alpha in 8-digit hex
+RGB and HEX are great for computers but terrible for humans. Want "a slightly lighter blue"? With HSL you just tweak the Lightness value. With RGB you'd need a calculator.
 
-## Color in CSS
+- **Hue**: The color on the wheel, 0-360 degrees. 0=red, 120=green, 240=blue.
+- **Saturation**: How intense the color is. 0% is gray, 100% is full color.
+- **Lightness**: How bright. 0% is black, 50% is the pure hue, 100% is white.
 
-```css
-color: #3498db;
-background: rgb(52, 152, 219);
-border: 2px solid hsl(204, 70%, 53%);
+`hsl(210, 100%, 56%)` gives you a nice sky blue. Change the third number and you get lighter or darker variants of the same color -- perfect for generating color palettes programmatically.
+
+## HSV/HSB: Similar but Different
+
+HSV (or HSB, same thing) uses Value/Brightness instead of Lightness. `hsv(0, 100%, 100%)` is pure red. It's common in design tools like Photoshop's color picker. The difference from HSL matters most when you're converting between them -- the math is non-trivial.
+
+## CMYK: For Print
+
+The subtractive model used in printing. Four channels: Cyan, Magenta, Yellow, and Key (black). If you're designing something that'll be printed, you care about CMYK. For screen-only work you can safely ignore it.
+
+## Quick Conversion Reference
+
+```
+#3498db = rgb(52, 152, 219) = hsl(204, 70%, 53%)
 ```
 
-## Web-Safe Colors
-
-Historically, 216 colors were considered "web-safe" because they rendered consistently across 8-bit monitors. With modern 24-bit displays, this restriction is no longer relevant.
-
+Converting between these is straightforward for HEX/RGB (just base conversion) but requires actual math for HSL/HSV. That's what the tool handles for you.

@@ -1,151 +1,90 @@
 # ECDSA Usage Tutorial
 
-## Environment Setup
+ECDSA is widely deployed but has sharp edges. Use Ed25519 for new projects if you can. If you need ECDSA (for interop with existing systems), here's what you need to know.
 
-### Prerequisites
-- Programming language with ECC libraries
-- Understanding of elliptic curve cryptography
-- Knowledge of digital signature concepts
-- Awareness of ECDSA security considerations
+## Setup
 
-### Library Selection
-
-#### PyCryptodome (Python)
 ```bash
 pip install pycryptodome
 ```
 
-#### Node.js crypto (JavaScript)
-```bash
-# Built-in crypto module, no installation needed
-```
+## Signing and verification
 
-#### Bouncy Castle (Java)
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
-
-#### OpenSSL (C/C++)
-```bash
-# Install OpenSSL
-sudo apt-get install libssl-dev  # Ubuntu/Debian
-brew install openssl             # macOS
-```
-
-## Basic Concepts
-
-### ECDSA Key Structure
 ```python
 from Crypto.PublicKey import ECC
+from Crypto.Signature import DSS
+from Crypto.Hash import SHA256
 
 # Generate ECDSA key pair
 key = ECC.generate(curve='P-256')
 
-# Public key components
-public_key = key.public_key()
-x = public_key.x  # X coordinate
-y = public_key.y  # Y coordinate
-curve = public_key.curve  # Curve name
+# Sign a message
+message = b"ECDSA signed message"
+hash_obj = SHA256.new(message)
+signer = DSS.new(key, 'fips-186-3')
+signature = signer.sign(hash_obj)
 
-# Private key components
-private_key = key
-d = private_key.d  # Private scalar
-curve = private_key.curve  # Curve name
+print(f"Signature ({len(signature)} bytes): {signature.hex()}")
 
-print(f"Curve: {curve}")
-print(f"Public key: ({x}, {y})")
-print(f"Key size: {key.pointQ.size_in_bits()} bits")
+# Verify
+verifier = DSS.new(key.public_key(), 'fips-186-3')
+try:
+    verifier.verify(SHA256.new(message), signature)
+    print("Signature is valid!")
+except ValueError:
+    print("Invalid signature!")
 ```
 
-### Curve Selection
+## Deterministic ECDSA (RFC 6979)
+
+PyCryptodome supports deterministic nonce generation, which eliminates nonce-reuse risks:
+
 ```python
-def curve_recommendations():
-    """ECDSA curve recommendations"""
-    print("ECDSA Curve Recommendations:")
-    print("P-256: Most widely used, 256-bit security")
-    print("P-384: Higher security, slower performance")
-    print("P-521: Maximum security, largest key size")
-    print("secp256k1: Bitcoin curve, 256-bit security")
-    
-    # Security levels
-    security_levels = {
-        'P-256': "128 bits (current standard)",
-        'P-384': "192 bits (high security)",
-        'P-521': "256 bits (maximum security)",
-        'secp256k1': "128 bits (Bitcoin standard)"
-    }
-    
-    return security_levels
+# Deterministic mode: k is derived from the private key and message
+signer = DSS.new(key, 'deterministic-rfc6979')
+signature = signer.sign(hash_obj)
 ```
 
-## Key Generation
+This should be your default. It means the same private key and same message always produce the same signature -- no RNG needed, no nonce reuse possible.
 
-### Basic Key Generation
+## The nonce-reuse demonstration (DON'T DO THIS)
+
+To understand why nonce reuse is fatal, here's what happens if k is reused:
+
 ```python
-from Crypto.PublicKey import ECC
-import os
+# NEVER reuse a nonce like this in production
+# This demonstrates WHY it's dangerous
 
-def generate_ecdsa_key_pair(curve='P-256'):
-    """Generate ECDSA key pair"""
-    # Generate random key
-    key = ECC.generate(curve=curve)
-    
-    # Extract public and private keys
-    private_key = key
-    public_key = key.public_key()
-    
-    print(f"Generated ECDSA key pair on {curve}")
-    print(f"Public key: ({public_key.x}, {public_key.y})")
-    print(f"Private key: {private_key.d}")
-    
-    return private_key, public_key
-
-def save_key_pair(private_key, public_key, filename_prefix):
-    """Save ECDSA key pair to files"""
-    # Save private key
-    with open(f"{filename_prefix}_private.pem", "wb") as f:
-        f.write(private_key.export_key(format='PEM'))
-    
-    # Save public key
-    with open(f"{filename_prefix}_public.pem", "wb") as f:
-        f.write(public_key.export_key(format='PEM'))
-    
-    print(f"Keys saved as {filename_prefix}_private.pem and {filename_prefix}_public.pem")
+# If two signatures use the same k, an attacker who sees both can recover the key:
+# Given: (r, s1) for message hash z1, and (r, s2) for message hash z2
+# k = (z1 - z2) / (s1 - s2) mod n
+# Then: private_key = (s1 * k - z1) / r mod n
 ```
 
-### Key Generation with Custom Parameters
-```python
-def generate_ecdsa_with_custom_curve(curve_name):
-    """Generate ECDSA key with custom curve"""
-    available_curves = ['P-256', 'P-384', 'P-521', 'secp256k1']
-    
-    if curve_name not in available_curves:
-        print(f"Unsupported curve: {curve_name}")
-        return None
-    
-    key = ECC.generate(curve=curve_name)
-    print(f"Generated ECDSA key on {curve_name}")
-    return key
+Use RFC 6979 deterministic mode. Every time.
 
-def validate_key_parameters(key):
-    """Validate ECDSA key parameters"""
-    # Check curve
-    if key.curve not in ['P-256', 'P-384', 'P-521', 'secp256k1']:
-        print("Warning: Non-standard curve")
-    
-    # Check key size
-    key_size = key.pointQ.size_in_bits()
-    if key_size < 256:
-        print("Warning: Key size less than 256 bits")
-    
-    # Check private key range
-    if key.d <= 0 or key.d >= key.pointQ.order:
-        print("Error: Private key out of valid range")
+## Signing files
+
+```python
+def sign_file(private_key, file_path):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    signer = DSS.new(private_key, 'deterministic-rfc6979')
+    return signer.sign(SHA256.new(data))
+
+def verify_file(public_key, file_path, signature):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    verifier = DSS.new(public_key, 'fips-186-3')
+    try:
+        verifier.verify(SHA256.new(data), signature)
+        return True
+    except ValueError:
         return False
-    
-    return True
-``` 
+```
+
+## Should you use ECDSA or Ed25519?
+
+For new code: Ed25519. It's deterministic by design, produces 64-byte signatures, and is simpler to implement correctly.
+
+Use ECDSA only when you need compatibility with an existing system that requires it (Bitcoin, legacy TLS, some HSMs and government standards).

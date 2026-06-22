@@ -1,33 +1,33 @@
-# CSV / TSV Preview - Technical Background
+# CSV and TSV: The Universal Data Interchange Format
 
-## What are CSV and TSV
+CSV has been around forever and it's not going anywhere. It's the lowest common denominator for moving tabular data between systems. But it's surprisingly tricky to parse correctly.
 
-**CSV (Comma-Separated Values)** is the most common plain-text tabular format, widely used for data exports, table interchange, and database migrations.
+## CSV vs TSV: Just the Delimiter
 
-**TSV (Tab-Separated Values)** is similar to CSV but uses a tab character (`\t`) as the delimiter instead of a comma. It's common in log systems and database dumps.
+CSV uses commas. TSV uses tabs. That's the only structural difference. But the delimiter choice matters because it determines what needs escaping.
 
-## Delimiter Types
-
-| Delimiter | Character | Typical use case |
-|-----------|-----------|-----------------|
-| Comma | `,` | Excel export, Google Sheets, generic CSV |
+| Delimiter | Character | Where you'll see it |
+|---|---|---|
+| Comma | `,` | Excel, Google Sheets, general CSV |
 | Tab | `\t` | Database dumps, MySQL exports |
-| Semicolon | `;` | European Excel (localized: comma = decimal point) |
-| Pipe | `\|` | Log files, custom data formats |
-| Space | ` ` | nginx logs, system logs |
+| Semicolon | `;` | European Excel (comma is decimal separator there) |
+| Pipe | `\|` | Custom log formats |
+| Space | ` ` | nginx/apache access logs |
 
-## Common CSV Pitfalls
+## Why Parsing CSV Is Harder Than It Looks
 
 ### 1. Delimiter inside a field
 
-When a field value contains the delimiter, wrap it in double quotes:
+When a field value itself contains the delimiter, it gets wrapped in double quotes:
 
 ```
 name,city,note
-Alice,"New York,Boston","Frequent traveler, works across cities"
+Alice,"New York, Boston","Frequent traveler, works across cities"
 ```
 
-### 2. Newline inside a field
+Without the quotes, "New York" and " Boston" would parse as separate columns.
+
+### 2. Newlines inside a field
 
 A quoted field can span multiple lines:
 
@@ -37,27 +37,30 @@ id,description
 Line two"
 ```
 
-### 3. Escaped double quotes
+This means you can't just split on `\n` and then split on `,`. You have to track whether you're inside quotes while iterating through characters.
 
-To represent a literal double quote inside a quoted field, use `""`:
+### 3. Escaped quotes
+
+Double quotes inside a quoted field are escaped by doubling them: `""` means a literal `"`:
 
 ```
 name,quote
 Bob,"He said ""hello"""
 ```
 
-### 4. Encoding issues
+### 4. Encoding problems
 
-CSV files may be UTF-8, GBK (common on Chinese Windows), or UTF-8 with BOM. Encoding mismatches cause garbled characters.
+CSV files can be UTF-8, GBK (common on Chinese Windows), UTF-8 with BOM, Latin-1, or anything else. If the encoding doesn't match what the parser expects, you get garbled text -- especially for non-ASCII characters.
 
-## RFC 4180 Standard
+## RFC 4180: The De Facto Standard
 
-The de-facto CSV standard is defined by [RFC 4180](https://tools.ietf.org/html/rfc4180). Key rules:
+RFC 4180 formalized the rules most CSV tools follow:
 
-1. Each record occupies exactly one line, terminated by CRLF
-2. The last record may or may not have an ending line break
-3. The first line may optionally serve as a header row
+1. Each record is one line, terminated by CRLF
+2. The last record may or may not have a trailing line break
+3. The first line is optionally a header row
 4. Fields are separated by commas
-5. Fields containing commas, double quotes, or newlines must be enclosed in double quotes
-6. A double quote within a quoted field is represented by `""`
+5. Fields containing commas, double quotes, or line breaks must be quoted
+6. Double quotes inside quoted fields are escaped as `""`
 
+Most real-world CSV is "RFC 4180-ish" -- close enough that parsers handle it, but rarely 100% compliant. Real data is messy.

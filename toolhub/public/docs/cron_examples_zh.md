@@ -1,47 +1,45 @@
-# Cron 表达式解析 - 代码示例
+# Cron 表达式实际代码示例
 
-## 常用 Cron 表达式速查表
+各种框架和工具里 cron 表达式的真实写法。
 
-### 基础示例
+## 速查表
 
-| 表达式 | 含义 | 应用场景 |
-|--------|------|---------|
-| `* * * * *` | 每分钟 | 高频状态检查 |
-| `*/5 * * * *` | 每5分钟 | 缓存刷新、健康检查 |
-| `0 * * * *` | 每小时整点 | 统计汇总 |
-| `0 0 * * *` | 每天凌晨 | 日志清理、数据备份 |
-| `0 9 * * 1-5` | 工作日上午9点 | 工作日提醒 |
-| `0 0 * * 0` | 每周日凌晨 | 周报生成 |
-| `0 0 1 * *` | 每月1号凌晨 | 月度账单 |
-| `0 0 1 1 *` | 每年1月1日 | 年度统计 |
+| 表达式 | 含义 | 用在哪 |
+|---|---|---|
+| `* * * * *` | 每分钟 | 健康检查、指标采集 |
+| `*/5 * * * *` | 每 5 分钟 | 缓存刷新、队列处理 |
+| `0 * * * *` | 每小时 | 统计汇总 |
+| `0 0 * * *` | 每天凌晨 | 日志轮转、日备份 |
+| `0 9 * * 1-5` | 工作日上午 9 点 | 晨报、提醒 |
+| `0 0 * * 0` | 每周日凌晨 | 周报 |
+| `0 0 1 * *` | 每月 1 号 | 月度账单 |
+| `0 0 1 1 *` | 每年 1 月 1 日 | 年报 |
 
----
-
-## 示例 1：Spring Boot 定时任务
+## Spring Boot @Scheduled
 
 ```java
 @Component
 public class ScheduledTasks {
 
-    // 每天早上8点发送晨报
+    // 每天早 8 点发晨报
     @Scheduled(cron = "0 0 8 * * ?")
     public void sendMorningReport() {
         reportService.generateAndSend();
     }
 
-    // 每5分钟清理过期会话
+    // 每 5 分钟清理过期会话
     @Scheduled(cron = "0 */5 * * * ?")
     public void cleanExpiredSessions() {
         sessionService.removeExpired();
     }
 
-    // 每周一上午9点发送周报
+    // 每周一上午 9 点周报
     @Scheduled(cron = "0 0 9 ? * MON")
     public void sendWeeklyReport() {
         weeklyReportService.generate();
     }
 
-    // 每月最后一天下午5点发结账通知
+    // 每月最后一天下午 5 点结算
     @Scheduled(cron = "0 0 17 L * ?")
     public void sendMonthlySettlement() {
         billingService.sendSettlementNotice();
@@ -49,22 +47,22 @@ public class ScheduledTasks {
 }
 ```
 
----
+注意日期和星期字段里的 `?` -- 在 Quartz 里指定了一个另一个就必须用 `?`，不然会有歧义。
 
-## 示例 2：Node.js 定时任务（node-cron）
+## Node.js（node-cron）
 
 ```javascript
 const cron = require('node-cron');
 
-// 每天凌晨2点进行数据备份
+// 每天凌晨 2 点备份（上海时间）
 cron.schedule('0 2 * * *', () => {
-  console.log('开始每日数据备份...');
+  console.log('开始每日备份...');
   backupService.run();
 }, {
-  timezone: 'Asia/Shanghai'  // 指定时区
+  timezone: 'Asia/Shanghai'
 });
 
-// 每10分钟检查待处理队列
+// 每 10 分钟检查待处理队列
 cron.schedule('*/10 * * * *', async () => {
   const pending = await Queue.getPending();
   if (pending.length > 0) {
@@ -72,69 +70,66 @@ cron.schedule('*/10 * * * *', async () => {
   }
 });
 
-// 工作日每小时同步数据
+// 工作日 9 点到 18 点每小时同步
 cron.schedule('0 9-18 * * 1-5', () => {
   syncService.syncFromUpstream();
 });
 ```
 
----
+node-cron 的 `timezone` 选项很重要 -- 不指定的话用服务器进程的时区，可能跟你预期的不一样。
 
-## 示例 3：Linux crontab 配置
+## Linux crontab
 
 ```bash
-# 编辑 crontab: crontab -e
+# 编辑：crontab -e
 
-# 每天凌晨3点备份数据库
+# 每天凌晨 3 点备份数据库
 0 3 * * * /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
 
-# 每5分钟检查服务状态
+# 每 5 分钟检查服务状态
 */5 * * * * /opt/scripts/health-check.sh
 
-# 工作日早上9点发送邮件提醒
+# 工作日 9 点发提醒
 0 9 * * 1-5 /usr/local/bin/send-reminder.py
 
-# 每月1号凌晨清理30天前的日志
+# 每月 1 号清理 30 天前的日志
 0 0 1 * * find /var/log/app -mtime +30 -delete
 
-# 每周日凌晨2点全量备份（重启后也执行）
+# 每周日 2 点全量备份（用 @weekly 宏）
 @weekly /usr/local/bin/full-backup.sh
 ```
 
----
+`>> /var/log/backup.log 2>&1` 把标准输出和标准错误都重定向到日志文件。不加的话 cron 会给用户发邮件 -- 个人服务器无所谓，规模化部署就很烦了。
 
-## 示例 4：GitHub Actions 定时工作流
+## GitHub Actions
 
 ```yaml
 name: Daily Report
 
 on:
-  # 每天UTC时间0点（北京时间8点）运行
   schedule:
+    # 每天 UTC 0 点执行
     - cron: '0 0 * * *'
 
-  # 也支持手动触发
-  workflow_dispatch:
+  workflow_dispatch:  # 也支持手动触发
 
 jobs:
   generate-report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Generate daily report
+      - name: Generate report
         run: node scripts/generate-report.js
-
-      - name: Upload report
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: daily-report
           path: report.html
 ```
 
----
+GitHub Actions 的 cron 永远是 UTC 时间，没有时区选项。高峰期调度可能延迟执行 -- 别依赖它做严格时间敏感的操作。
 
-## 示例 5：Kubernetes CronJob
+## Kubernetes CronJob
 
 ```yaml
 apiVersion: batch/v1
@@ -142,15 +137,9 @@ kind: CronJob
 metadata:
   name: database-backup
 spec:
-  # 每天凌晨1点执行
-  schedule: "0 1 * * *"
-
-  # 保留最近3次成功记录
-  successfulJobsHistoryLimit: 3
-
-  # 保留最近1次失败记录
-  failedJobsHistoryLimit: 1
-
+  schedule: "0 1 * * *"        # 每天凌晨 1 点
+  successfulJobsHistoryLimit: 3  # 保留最近 3 次成功
+  failedJobsHistoryLimit: 1      # 保留最近 1 次失败
   jobTemplate:
     spec:
       template:
@@ -168,37 +157,39 @@ spec:
           restartPolicy: OnFailure
 ```
 
----
+`successfulJobsHistoryLimit` 和 `failedJobsHistoryLimit` 控制 kubectl 保留多少条完成/失败的 pod 记录，默认成功 3 条失败 1 条，按你的排查需求调整。
 
-## 常见坑和解决方案
+## 三个常见坑（和解决方案）
 
-### 坑1：时区混乱
+### 时区混乱
 
 ```bash
-# 问题：服务器在UTC时区，设置了"每天9点"，实际执行是下午5点（北京时间）
-0 9 * * * /scripts/task.sh  # 实际执行是北京时间17:00
+# 问题：服务器 UTC，你以为写的是北京时间
+0 9 * * * /scripts/task.sh  # 实际是 UTC 9:00，北京时间 17:00
 
-# 解决：在命令中指定时区，或在crontab顶部设置
+# 解决：crontab 顶部或调度器配置里指定时区
 CRON_TZ=Asia/Shanghai
-0 9 * * * /scripts/task.sh  # 现在是北京时间9:00
+0 9 * * * /scripts/task.sh  # 现在是北京时间 9:00
 ```
 
-### 坑2：月末的日期字段
+### 月末日期不存在
 
 ```bash
-# 问题：每月31号执行，但2月、4月等没有31号
-0 0 31 * * /scripts/task.sh  # 某些月份不执行
+# 问题：每月 31 号执行，但 2 月、4 月等没有 31 号
+0 0 31 * * /scripts/task.sh  # 小月直接跳过
 
-# 解决：使用 Quartz 的 L 字段表示月最后一天
-0 0 0 L * ?  # 每月最后一天（Quartz格式）
+# 解决：Quartz 用 L 表示"当月最后一天"
+0 0 0 L * ?  # 每月最后一天，不管大小月
 ```
 
-### 坑3：并发执行
+### 并发重叠执行
 
 ```bash
-# 问题：任务耗时30分钟，但每10分钟触发一次，导致并发
-*/10 * * * * /scripts/long-task.sh
+# 问题：任务要跑 30 分钟，但每 10 分钟触发一次
+*/10 * * * * /scripts/long-task.sh  # 很快就三个实例同时跑
 
-# 解决：使用 flock 防止并发
+# 解决：flock 防止并发
 */10 * * * * flock -n /tmp/task.lock /scripts/long-task.sh
+```
 
+`flock -n` 拿不到锁直接退出，重叠的触发会被跳过而不是堆积。

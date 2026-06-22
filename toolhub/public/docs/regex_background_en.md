@@ -1,63 +1,75 @@
 # Regular Expression Tester — Technical Background
 
-## What Is a Regular Expression?
+If you've spent any time in a terminal or an editor, you've probably stumbled across regex — those cryptic slash-delimited incantations that somehow match exactly what you need. A regular expression is just a search pattern expressed as a string of characters, and it shows up in every language: JavaScript, Python, Go, Java, shell scripts, you name it. Whether you're validating form input, parsing logs, or doing a quick find-and-replace across a codebase, regex is the Swiss Army knife you keep reaching for.
 
-A regular expression (regex or regexp) is a sequence of characters that defines a search pattern. It is a powerful tool for string matching, validation, extraction, and transformation used across virtually every programming language.
+## The Building Blocks
 
-## Core Syntax
+Most of the time characters just match themselves. The pattern `abc` hits the literal string "abc" — no magic there. The power comes from the metacharacters, special symbols that change how matching works.
 
-### Literal Characters
-Most characters match themselves: `abc` matches the string "abc".
-
-### Special Characters (Metacharacters)
-| Symbol | Meaning |
+| Symbol | What it does |
 |---|---|
-| `.` | Any single character (except newline) |
-| `^` | Start of string (or line in multiline mode) |
-| `$` | End of string (or line in multiline mode) |
-| `*` | 0 or more of the preceding element |
-| `+` | 1 or more of the preceding element |
-| `?` | 0 or 1 of the preceding element (also makes quantifiers lazy) |
-| `\` | Escapes the next special character |
-| `|` | Alternation — matches either the left or right expression |
-| `()` | Grouping and capture |
-| `[]` | Character class |
-| `{}` | Quantifier with exact count |
+| `.` | Matches any single character except newlines |
+| `^` | Anchors to the start of the string (or start of line with `m` flag) |
+| `$` | Anchors to the end of the string (or end of line with `m` flag) |
+| `*` | Zero or more of whatever came before |
+| `+` | One or more of whatever came before |
+| `?` | Zero or one — makes the preceding token optional. Also switches quantifiers to lazy mode when placed after them |
+| `\` | Escape hatch: turns the next metacharacter back into a literal |
+| `|` | Alternation — think of it as "or" between two sub-patterns |
+| `()` | Capturing group — also controls precedence |
+| `[]` | Character class — match any one character inside |
+| `{}` | Fixed-quantity quantifier |
 
-### Character Classes
+## Character Classes
+
+Instead of spelling out every possible character, you use shorthand classes. They're compact and way easier to read.
+
 | Pattern | Matches |
 |---|---|
-| `[abc]` | a, b, or c |
-| `[^abc]` | Any character except a, b, c |
+| `[abc]` | Exactly a, b, or c |
+| `[^abc]` | Anything except a, b, or c |
 | `[a-z]` | Any lowercase letter |
 | `[0-9]` | Any digit |
-| `\d` | Any digit — equivalent to `[0-9]` |
-| `\D` | Any non-digit |
-| `\w` | Word character `[a-zA-Z0-9_]` |
-| `\W` | Non-word character |
-| `\s` | Whitespace character |
-| `\S` | Non-whitespace character |
+| `\d` | Shorthand for `[0-9]` |
+| `\D` | Anything that isn't a digit |
+| `\w` | Word characters: `[a-zA-Z0-9_]` |
+| `\W` | Non-word characters |
+| `\s` | Whitespace (spaces, tabs, newlines) |
+| `\S` | Anything that's not whitespace |
 
-### Quantifiers
+## Quantifiers
+
+You rarely want one character at a time. Quantifiers tell the engine how many of the preceding token to grab.
+
 | Pattern | Meaning |
 |---|---|
-| `a{3}` | Exactly 3 a's |
-| `a{2,4}` | 2 to 4 a's |
-| `a{2,}` | 2 or more a's |
+| `a{3}` | Exactly three a's |
+| `a{2,4}` | Between two and four a's |
+| `a{2,}` | Two or more a's, no upper limit |
+
+A common gotcha: quantifiers are greedy by default — they'll grab as much as they can. Slap a `?` after a quantifier (like `*?` or `+?`) and it becomes lazy, matching as little as possible. This matters a lot when you're parsing HTML with `.*` and accidentally swallow the entire document.
 
 ## Flags
 
+Flags tweak how the whole pattern behaves. You set them separately from the pattern itself.
+
 | Flag | Effect |
 |---|---|
-| `g` | Global — find all matches, not just the first |
-| `i` | Case-insensitive matching |
-| `m` | Multiline — `^` and `$` match line boundaries |
-| `s` | Dotall — `.` also matches newline |
+| `g` | Global — return every match, not just the first one |
+| `i` | Case-insensitive — `[a-z]` also matches `[A-Z]` |
+| `m` | Multiline — `^` and `$` anchor to line boundaries instead of the whole string |
+| `s` | Dotall — lets `.` match newlines too, which it normally skips |
 
-## Groups and Backreferences
+In practice you'll combine flags. Pattern `/[a-z]+/gi` finds every alphabetic chunk regardless of case — that's the boring part you already know. The real trick is knowing when to use `m` for log files where each line is a separate record, or `s` when you need to slurp a multiline block into a single pattern.
 
-- `(pattern)` — capturing group, accessible as `$1`, `$2`, etc.
-- `(?:pattern)` — non-capturing group
-- `(?=pattern)` — positive lookahead
-- `(?!pattern)` — negative lookahead
+## Groups and Lookarounds
 
+Capturing groups `(pattern)` are how you pull substrings out of a match. The first pair of parens becomes `$1`, the second `$2`, and so on. When you're doing find-and-replace, `$1` lets you rearrange text without losing data — swap "Doe, John" to "John Doe" with `(\w+),\s(\w+)` and `$2 $1`.
+
+Non-capturing groups `(?:pattern)` act like regular groups for precedence but don't create a backreference. Use them when you need grouping control but don't care about the captured content.
+
+Lookaheads are zero-width assertions — they check whether something exists (or doesn't) without consuming characters:
+- `(?=pattern)` — positive lookahead: must be followed by this
+- `(?!pattern)` — negative lookahead: must NOT be followed by this
+
+A classic use case: `\d+(?=px)` matches a number only when it's immediately followed by "px", so `12px` gives you `12` but `12em` doesn't. Handy when scraping CSS values, extracting dimensions from style attributes, or parsing any format where context determines meaning.

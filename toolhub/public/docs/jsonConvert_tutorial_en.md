@@ -1,33 +1,30 @@
 # JSON Multi-format Converter - Tutorial
 
-## Getting Started
+Converts between JSON, YAML, CSV, TOML, and XML. Paste your data in one format, pick the target, convert, copy, done.
 
-The JSON multi-format converter supports arbitrary mutual conversion among five formats: JSON, YAML, CSV, TOML, and XML — simple to use, no software installation required.
+## The workflow
 
-## Basic Usage
+### 1. Paste your source data
 
-### Step 1: Paste Your Source Data
+Drop your data into the left input area. The tool tries to auto-detect the format. If it guesses wrong, pick the right one from the dropdown.
 
-Paste your source data into the left input area. The tool will automatically attempt to detect the input format, or you can manually select the correct format from the dropdown.
+### 2. Pick the target format
 
-### Step 2: Select Target Format
+Choose what you want to convert to on the right side. Can't be the same as the input format -- converting JSON to JSON isn't interesting.
 
-From the format dropdown on the right, select the target format you want to convert to (must be different from the input format).
+### 3. Convert
 
-### Step 3: Click Convert
+Hit the button. Result appears in the right panel.
 
-Click the **Convert** button to execute the conversion. The converted output will appear in the right panel.
+### 4. Copy or download
 
-### Step 4: Copy or Download
+Copy button for quick paste elsewhere. Download if you need a file in the target format.
 
-- Click **Copy** to copy the result to your clipboard
-- Click **Download** to save the result as a file in the target format
+## Conversion walkthroughs
 
-## Detailed Format Conversion Examples
+### JSON to YAML -- API config to CI file
 
-### JSON → YAML
-
-**Input (JSON):**
+Input:
 ```json
 {
   "database": {
@@ -39,7 +36,7 @@ Click the **Convert** button to execute the conversion. The converted output wil
 }
 ```
 
-**Output (YAML):**
+Output:
 ```yaml
 database:
   host: localhost
@@ -50,9 +47,9 @@ features:
   - cache
 ```
 
-### YAML → JSON
+### YAML to JSON -- the reverse
 
-**Input (YAML):**
+Input:
 ```yaml
 # Server configuration
 server:
@@ -61,7 +58,7 @@ server:
   debug: false
 ```
 
-**Output (JSON):**
+Output (comments are stripped -- JSON can't hold them):
 ```json
 {
   "server": {
@@ -71,11 +68,10 @@ server:
   }
 }
 ```
-> Note: Comments in YAML are removed when converting to JSON.
 
-### JSON → CSV
+### JSON to CSV -- must be an array of objects
 
-**Input (JSON, must be an array of objects):**
+Input:
 ```json
 [
   {"id": 1, "name": "Alice", "age": 25, "city": "New York"},
@@ -84,7 +80,7 @@ server:
 ]
 ```
 
-**Output (CSV):**
+Output:
 ```csv
 id,name,age,city
 1,Alice,25,New York
@@ -92,29 +88,28 @@ id,name,age,city
 3,Carol,28,Chicago
 ```
 
-### CSV → JSON
+### CSV to JSON -- everything becomes a string
 
-**Input (CSV):**
+Input:
 ```csv
 name,price,in_stock
 Apple,1.20,true
 Banana,0.50,true
-Durian,8.99,false
 ```
 
-**Output (JSON):**
+Output -- note the quotes around numbers and booleans:
 ```json
 [
   {"name": "Apple", "price": "1.20", "in_stock": "true"},
-  {"name": "Banana", "price": "0.50", "in_stock": "true"},
-  {"name": "Durian", "price": "8.99", "in_stock": "false"}
+  {"name": "Banana", "price": "0.50", "in_stock": "true"}
 ]
 ```
-> Note: All values are strings when converting CSV to JSON. Manual type casting is needed for numeric or boolean values.
 
-### JSON → XML
+If you need `price` as a number and `in_stock` as a boolean, you'll have to `parseInt`/`parseFloat` after converting, or map the array.
 
-**Input (JSON):**
+### JSON to XML
+
+Input:
 ```json
 {
   "person": {
@@ -125,7 +120,7 @@ Durian,8.99,false
 }
 ```
 
-**Output (XML):**
+Output (arrays become repeated tags):
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
@@ -138,28 +133,16 @@ Durian,8.99,false
 </root>
 ```
 
-## Swap Feature
+## The swap button
 
-Click the **Swap** button in the middle to move the output to the left, swap formats, and perform a reverse conversion for verification.
+Middle button swaps input and output -- useful for reverse conversions to verify nothing got mangled.
 
-## FAQ
+## Common gotchas
 
-**Q: Why does JSON to CSV conversion fail?**
+**JSON to CSV fails?** Your data probably isn't an array of flat objects. Nested objects can't convert to CSV without losing structure.
 
-A: Converting JSON to CSV requires the input to be an array of objects (`[{...}, {...}]`). Plain objects or primitives are not supported.
+**YAML comments disappeared?** Expected. JSON doesn't support comments, so they're dropped during conversion.
 
-**Q: My YAML comments disappeared after conversion?**
+**XML to JSON looks weird?** XML attributes and text nodes don't map 1:1 to JSON. The converter follows a standard convention, but you might need tweaks for your specific schema.
 
-A: JSON does not support comments. YAML comments are discarded when converting to JSON — this is expected behavior.
-
-**Q: The XML to JSON structure looks strange?**
-
-A: XML attributes (`<tag attr="val">`) and text nodes are mapped to JSON following a standard convention. You may need to manually adjust the result to fit your specific needs.
-
-## Best Practices
-
-1. **Validate source data first**: Ensure the source data is a valid format before converting, otherwise conversion will fail
-2. **Organize CSV data**: Make sure CSV has a meaningful header row and that each row has a consistent number of columns
-3. **Large file handling**: Data larger than 1MB may cause the browser to slow down; consider splitting it into batches
-4. **Save important results**: Use the download feature to save critical conversion results to your local machine
-
+**Large data?** Over 1MB might lag the browser. Split into chunks or use a CLI tool like `yq` or `dasel` for big files.

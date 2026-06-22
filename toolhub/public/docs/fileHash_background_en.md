@@ -1,75 +1,47 @@
 # File Hash Verification - Technical Background
 
-## What is a Hash Function
+Hash functions are one of those things you use constantly without thinking about them. Git commits, package downloads, password storage -- they all lean on hashing. Let's walk through what's actually happening under the hood.
 
-A hash function maps data of arbitrary length to a fixed-length output (hash value / digest). Hash functions have the following key properties:
+A hash function takes data of any size and spits out a fixed-length string. The key properties that make it useful:
 
-1. **Deterministic**: The same input always produces the same output
-2. **One-way**: It is computationally infeasible to reverse a hash to recover the original data
-3. **Avalanche effect**: A tiny change in input produces a completely different output
-4. **Collision resistance**: Finding two different inputs that produce the same hash is extremely difficult
+1. **Deterministic** -- same input, same output every time. No randomness involved.
+2. **One-way** -- you can't reverse a hash to get the original data. That's the whole point for passwords.
+3. **Avalanche effect** -- flip one bit in the input and the output looks completely different. This is how you catch even the tiniest corruption.
+4. **Collision resistance** -- finding two different inputs that hash to the same value should be practically impossible. When it becomes possible, the algorithm is dead.
 
-## Common Hash Algorithms
+## The algorithm family tree
 
-### MD5 (Message Digest 5)
-- Output length: 128 bits (32 hex characters)
-- Speed: Very fast
-- Security: ⚠️ **No longer secure** — known collision attacks exist
-- Uses: File integrity checking (non-security contexts), checksums
+**MD5** outputs 128 bits (32 hex chars). It's blazing fast, which is why people still use it for non-security checksums. But don't use it for anything security-related -- collision attacks have been demonstrated for over a decade. It's fine for "did this file get corrupted in transit" checks, nothing more.
 
 ```
-Example:
 MD5("hello") = 5d41402abc4b2a76b9719d911017c592
 ```
 
-### SHA-1 (Secure Hash Algorithm 1)
-- Output length: 160 bits (40 hex characters)
-- Speed: Relatively fast
-- Security: ⚠️ **No longer secure** — Google demonstrated a practical collision attack (SHAttered) in 2017
-- Uses: Git object identification (legacy), legacy systems
+**SHA-1** gives you 160 bits (40 hex chars). Google's SHAttered attack in 2017 showed a practical collision, so it's also off the table for security. Git still uses SHA-1 for object IDs, though they've been working on the SHA-256 transition for a while now.
 
 ```
-Example:
 SHA1("hello") = aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
 ```
 
-### SHA-256 (SHA-2 family)
-- Output length: 256 bits (64 hex characters)
-- Speed: Moderate
-- Security: ✅ **Currently secure**, widely used
-- Uses: File download verification, digital signatures, password storage, Bitcoin mining
+**SHA-256** (from the SHA-2 family) is the current workhorse -- 256 bits, 64 hex chars. It's what you see on download pages, what Bitcoin mining uses, what most digital signatures rely on. Still considered secure as of today.
 
 ```
-Example:
 SHA256("hello") = 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
 ```
 
-### SHA-512 (SHA-2 family)
-- Output length: 512 bits (128 hex characters)
-- Speed: Faster than SHA-256 on 64-bit systems
-- Security: ✅ **Very secure**, larger security margin
-- Uses: High-security scenarios, SSL/TLS certificates
+**SHA-512** is SHA-256's bigger sibling at 512 bits (128 hex chars). Interestingly, it's actually faster than SHA-256 on 64-bit systems because it operates on 64-bit words natively. Used in high-security contexts and TLS certificates.
 
-## Uses of Hash Values
+## What you actually use hashes for
 
-### File Integrity Verification
-When releasing software, official websites typically provide the SHA-256 hash of the file. After downloading, compute the file hash and compare with the official value to verify:
-- The file is not corrupted
-- The file has not been tampered with (man-in-the-middle attacks)
-- You downloaded the genuine file
+Download verification is the most common real-world use. When you grab a Linux ISO or a Node.js installer, the download page shows a SHA-256 hash. Run the file through a hasher, compare the output, and you know whether the file arrived intact and un-tampered.
 
-### Digital Fingerprint
-Every file has a unique hash value (analogous to a fingerprint), used for:
-- File deduplication
-- Quickly comparing if files are identical (without byte-by-byte comparison)
-- Copyright proof (timestamped hash)
+File deduplication is another big one. Instead of comparing files byte by byte, just compare hashes. If two files have the same SHA-256, they're the same file (with astronomically high probability).
 
-### Password Storage
-User passwords should never be stored in plaintext — store their hash values instead (combined with a salt).
+Password storage of course -- never store plaintext. Hash with a salt, and when the user logs in, hash what they typed and compare. Even if your database leaks, attackers can't directly see passwords.
 
-## Web Crypto API
+## Web Crypto API in the browser
 
-Modern browsers have a built-in `SubtleCrypto` API that supports computing SHA-family hashes directly in the browser without a backend service:
+Modern browsers expose `SubtleCrypto` which lets you compute SHA-family hashes directly in JavaScript, no backend needed:
 
 ```javascript
 async function sha256(message) {
@@ -80,12 +52,6 @@ async function sha256(message) {
 }
 ```
 
-Supported algorithms: `SHA-1`, `SHA-256`, `SHA-384`, `SHA-512` (Note: MD5 is not supported natively)
+The built-in support covers `SHA-1`, `SHA-256`, `SHA-384`, and `SHA-512`. MD5 isn't in the spec (for good reason), so you'll need a library like `spark-md5` for that.
 
-## Performance Considerations
-
-- SHA-256 takes approximately 3-10 seconds for a 1GB file (depends on device performance)
-- Large files must be processed in chunks to avoid memory overflow
-- Use `FileReader.readAsArrayBuffer` or `File.arrayBuffer()` to read files
-- MD5 is computed in the browser through third-party libraries like `spark-md5`
-
+On the performance side, hashing a 1GB file with SHA-256 takes about 3-10 seconds depending on your hardware. Large files need chunked reading to avoid blowing up memory -- `File.arrayBuffer()` or `FileReader.readAsArrayBuffer()` with a streaming approach are the way to go. Browsers don't natively support incremental hashing through SubtleCrypto, so for really big files you might want to offload to a Web Worker to keep the UI responsive.

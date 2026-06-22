@@ -1,8 +1,6 @@
-# Git Commit Generator - Examples
+# Git Commit Generator — Example Messages
 
-## Common Scenarios
-
-### New Features
+## New features
 
 ```
 feat(user): add avatar upload
@@ -21,9 +19,9 @@ Supports keyword, price range, and category filters with paginated results.
 feat: add dark mode support
 ```
 
----
+The last one has no scope — it touches the entire app, so scoping it to one module would be misleading.
 
-### Bug Fixes
+## Bug fixes
 
 ```
 fix(auth): redirect to login page when token refresh fails
@@ -41,9 +39,9 @@ fix(order): correct discount calculation when coupon and promo are combined
 fix: prevent mobile nav bar from overlapping page content
 ```
 
----
+Notice the body on the first fix — when a bug needs explanation, write it. Future you (or the person on call) will thank you.
 
-### Breaking Changes
+## Breaking changes
 
 ```
 feat(auth)!: remove username/password login in favour of SSO
@@ -60,9 +58,9 @@ BREAKING CHANGE: config.json is no longer supported.
 Please migrate your settings to config.yaml. See MIGRATION.md.
 ```
 
----
+The migration guide link in the footer is critical — don't just say something broke, tell people how to fix it.
 
-### Refactoring
+## Refactoring
 
 ```
 refactor(payment): extract payment module into standalone microservice
@@ -75,9 +73,7 @@ communicating via MQ for better service isolation.
 refactor: extract shared request interceptor for unified error handling
 ```
 
----
-
-### Docs & Tooling
+## Docs and tooling
 
 ```
 docs(api): update product endpoint docs with missing filters description
@@ -95,11 +91,9 @@ ci: add GitHub Actions automated test workflow
 test(user): add unit tests for user registration flow
 ```
 
----
+## Team convention examples
 
-## Team Convention Examples
-
-### Frontend
+### Frontend team
 
 ```
 feat(pages/home): add flash-sale banner on home page
@@ -107,7 +101,7 @@ fix(components/modal): fix modal rendering issue on iOS 16
 style(components): normalize button spacing to 8px
 ```
 
-### Backend
+### Backend team
 
 ```
 feat(service/order): add bulk order export
@@ -115,10 +109,12 @@ fix(dao/user): fix OOM on large-batch queries
 perf(service/search): replace full-table-scan with Elasticsearch
 ```
 
-### Mobile
+### Mobile team
 
 ```
 feat(android/push): integrate Jiguang push SDK
 fix(ios/crash): fix crash on iOS 17 cold start
 chore(android): bump targetSdkVersion to 34
+```
 
+The scope naming convention here uses `platform/feature` or `layer/module` — pick a scheme that matches your repo structure and stick with it.

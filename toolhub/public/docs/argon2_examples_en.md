@@ -1,453 +1,221 @@
 # Argon2 Code Examples
 
-## Basic Hash Operations
+Practical, drop-in-ready Argon2 code across a few languages, with notes on what each piece does.
 
-### Simple Password Hashing
+## Python
+
+Python's `argon2-cffi` is the reference implementation binding and it's a pleasure to use. The `PasswordHasher` class handles salt generation, parameter encoding, and constant-time verification for you.
+
+### Basic hash and verify
+
 ```python
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 
-def basic_hash_example():
-    """Basic Argon2 password hashing example"""
-    ph = PasswordHasher()
-    password = "mySecurePassword123"
-    
-    # Hash password with default parameters
-    hashed = ph.hash(password)
-    print(f"Original password: {password}")
-    print(f"Hashed password: {hashed}")
-    
-    # Verify password
-    try:
-        ph.verify(hashed, password)
-        print("Password verification: True")
-    except Exception as e:
-        print(f"Password verification failed: {e}")
-    
-    return hashed
+ph = PasswordHasher()  # Defaults: Argon2id, t=3, m=65536, p=1
 
-# Run example
-basic_hash_example()
+password = "correct horse battery staple"
+hashed = ph.hash(password)
+print(f"Hash: {hashed}")
+
+# The hash string includes all params -- it's self-contained
+# $argon2id$v=19$m=65536,t=3,p=1$<salt>$<hash>
+
+try:
+    ph.verify(hashed, password)
+    print("Password matches!")
+except VerifyMismatchError:
+    print("Wrong password!")
 ```
 
-### Custom Parameters
+### Custom parameters for production
+
+Development defaults are deliberately fast. For production, you want more memory and possibly more time:
+
 ```python
-def custom_parameters_example():
-    """Example with custom Argon2 parameters"""
-    ph = PasswordHasher(
-        time_cost=3,      # Number of iterations
-        memory_cost=65536, # Memory usage in KiB (64MB)
-        parallelism=1,    # Number of parallel threads
-        hash_len=32,      # Hash length in bytes
-        salt_len=16       # Salt length in bytes
-    )
-    
-    password = "adminPassword456"
-    hashed = ph.hash(password)
-    
-    print(f"Password: {password}")
-    print(f"Custom parameters: time_cost=3, memory_cost=65536, parallelism=1")
-    print(f"Hashed: {hashed}")
-    
-    return hashed
+ph = PasswordHasher(
+    time_cost=3,        # Passes over the memory array
+    memory_cost=131072, # 128 MiB (131072 KiB)
+    parallelism=1,      # Threads -- usually 1 for web servers
+    hash_len=32,        # 32-byte output
+    salt_len=16,        # 16-byte salt
+)
+
+hashed = ph.hash("production_password")
+print(hashed)
 ```
 
-## Advanced Usage
+### Building a small auth system
 
-### Parameter Benchmarking
+```python
+from argon2 import PasswordHasher
+import argon2.exceptions
+
+class AuthService:
+    def __init__(self, time_cost=3, memory_cost=131072):
+        self._params = {"time_cost": time_cost, "memory_cost": memory_cost}
+        self._hasher = PasswordHasher(**self._params, parallelism=1)
+        self._users = {}  # In production, this is a database
+    
+    def register(self, username, password):
+        if username in self._users:
+            return False, "Username taken"
+        self._users[username] = self._hasher.hash(password)
+        return True, "Registered!"
+    
+    def login(self, username, password):
+        stored_hash = self._users.get(username)
+        if not stored_hash:
+            # Same message as wrong password -- don't leak existence
+            return False, "Invalid username or password"
+        
+        try:
+            # verify() reads parameters from the stored hash itself
+            PasswordHasher().verify(stored_hash, password)
+            
+            # Check if we should upgrade the hash to stronger params
+            if PasswordHasher().check_needs_rehash(stored_hash):
+                self._users[username] = self._hasher.hash(password)
+            
+            return True, "Logged in!"
+        except argon2.exceptions.VerifyMismatchError:
+            return False, "Invalid username or password"
+
+
+auth = AuthService()
+auth.register("alice", "Tr0ub4dor&3")
+print(auth.login("alice", "Tr0ub4dor&3"))  # (True, "Logged in!")
+print(auth.login("alice", "wrongpass"))    # (False, "Invalid username...")
+print(auth.login("bob", "anything"))        # (False, "Invalid username...")
+```
+
+### Benchmarking to find the right params
+
+Don't guess your parameters -- measure them:
+
 ```python
 import time
+from argon2 import PasswordHasher
 
-def benchmark_parameters():
-    """Benchmark different Argon2 parameters"""
-    password = "benchmarkPassword"
-    test_cases = [
-        {"time_cost": 1, "memory_cost": 32768, "parallelism": 1},
-        {"time_cost": 2, "memory_cost": 65536, "parallelism": 1},
-        {"time_cost": 3, "memory_cost": 131072, "parallelism": 1},
-        {"time_cost": 4, "memory_cost": 262144, "parallelism": 1}
-    ]
-    
-    print("Argon2 Parameter Benchmark:")
-    print("-" * 50)
-    
-    for params in test_cases:
-        ph = PasswordHasher(**params)
-        
-        start_time = time.time()
-        hashed = ph.hash(password)
-        end_time = time.time()
-        
-        duration = (end_time - start_time) * 1000
-        memory_mb = params["memory_cost"] / 1024
-        
-        print(f"Time: {params['time_cost']}, Memory: {memory_mb}MB, "
-              f"Parallelism: {params['parallelism']} -> {duration:.2f}ms")
-    
-    print("-" * 50)
+def benchmark_params(time_cost, memory_cost):
+    ph = PasswordHasher(time_cost=time_cost, memory_cost=memory_cost)
+    start = time.time()
+    ph.hash("benchmark_password")
+    return time.time() - start
 
-# Run benchmark
-benchmark_parameters()
+# Quick scan of reasonable parameter combinations
+for t in [1, 2, 3, 5]:
+    for m_kib in [32768, 65536, 131072, 262144]:
+        elapsed = benchmark_params(t, m_kib)
+        print(f"t={t}, m={m_kib/1024:.0f}MB -> {elapsed:.2f}s")
 ```
 
-### Memory Usage Analysis
-```python
-import psutil
-import os
+Pick the combination that hits your latency budget (0.5-1s for most web apps).
 
-def memory_usage_analysis():
-    """Analyze memory usage during Argon2 operations"""
-    def get_memory_usage():
-        process = psutil.Process(os.getpid())
-        return process.memory_info().rss / 1024 / 1024  # MB
-    
-    password = "memoryTestPassword"
-    memory_costs = [32768, 65536, 131072, 262144]  # 32MB, 64MB, 128MB, 256MB
-    
-    print("Argon2 Memory Usage Analysis:")
-    print("-" * 40)
-    
-    for memory_cost in memory_costs:
-        ph = PasswordHasher(memory_cost=memory_cost, time_cost=1)
-        
-        initial_memory = get_memory_usage()
-        hashed = ph.hash(password)
-        peak_memory = get_memory_usage()
-        
-        memory_used = peak_memory - initial_memory
-        print(f"Memory Cost: {memory_cost/1024}MB, "
-              f"Peak Usage: {peak_memory:.1f}MB, "
-              f"Additional: {memory_used:.1f}MB")
-```
+## JavaScript (Node.js)
 
-## Security Applications
+The `argon2` npm package provides a Promise-based API. The `type` parameter is important -- explicitly set it to `argon2id`.
 
-### User Authentication System
-```python
-class UserAuth:
-    def __init__(self):
-        self.users = {}  # In real app, use database
-    
-    def register_user(self, username, password, **params):
-        """Register new user with Argon2 hashed password"""
-        if username in self.users:
-            return False, "Username already exists"
-        
-        # Hash password with Argon2
-        ph = PasswordHasher(**params)
-        hashed = ph.hash(password)
-        
-        self.users[username] = {
-            'password_hash': hashed,
-            'params': params
-        }
-        return True, "User registered successfully"
-    
-    def authenticate_user(self, username, password):
-        """Authenticate user with Argon2 verification"""
-        if username not in self.users:
-            return False, "User not found"
-        
-        stored_hash = self.users[username]['password_hash']
-        ph = PasswordHasher()
-        
-        try:
-            ph.verify(stored_hash, password)
-            return True, "Authentication successful"
-        except Exception:
-            return False, "Invalid password"
-
-# Usage example
-auth_system = UserAuth()
-auth_system.register_user("alice", "SecurePass123!", 
-                         time_cost=3, memory_cost=65536)
-success, message = auth_system.authenticate_user("alice", "SecurePass123!")
-print(f"Authentication: {success}, {message}")
-```
-
-### Password Update System
-```python
-def secure_password_update_example():
-    """Securely update user password"""
-    class PasswordManager:
-        def __init__(self):
-            self.current_hash = None
-            self.params = {"time_cost": 3, "memory_cost": 65536}
-        
-        def set_initial_password(self, password):
-            """Set initial password"""
-            ph = PasswordHasher(**self.params)
-            self.current_hash = ph.hash(password)
-            return self.current_hash
-        
-        def update_password(self, old_password, new_password):
-            """Update password with verification"""
-            ph = PasswordHasher()
-            
-            # Verify old password
-            try:
-                ph.verify(self.current_hash, old_password)
-            except Exception:
-                return False, "Old password incorrect"
-            
-            # Hash new password
-            ph_new = PasswordHasher(**self.params)
-            new_hash = ph_new.hash(new_password)
-            
-            self.current_hash = new_hash
-            return True, "Password updated successfully"
-    
-    # Test password update
-    pm = PasswordManager()
-    pm.set_initial_password("oldPassword123")
-    success, message = pm.update_password("oldPassword123", "newPassword456")
-    print(f"Password update: {success}, {message}")
-```
-
-## Performance Testing
-
-### Parameter Optimization
-```python
-def parameter_optimization():
-    """Find optimal parameters for target performance"""
-    def find_optimal_params(target_time=1.0, max_memory=256):
-        """Find optimal parameters for target execution time"""
-        password = "testPassword"
-        base_params = {"parallelism": 1}
-        
-        # Test different combinations
-        for time_cost in range(1, 6):
-            for memory_cost in [32768, 65536, 131072, 262144]:
-                if memory_cost / 1024 > max_memory:
-                    continue
-                
-                params = {**base_params, "time_cost": time_cost, 
-                         "memory_cost": memory_cost}
-                ph = PasswordHasher(**params)
-                
-                start_time = time.time()
-                ph.hash(password)
-                duration = time.time() - start_time
-                
-                if duration >= target_time:
-                    return params
-        
-        return {"time_cost": 1, "memory_cost": 65536, "parallelism": 1}
-    
-    # Find parameters for different targets
-    targets = [(0.5, 128), (1.0, 256), (2.0, 512)]
-    
-    print("Parameter Optimization:")
-    for target_time, max_memory in targets:
-        params = find_optimal_params(target_time, max_memory)
-        print(f"Target: {target_time}s, Max: {max_memory}MB -> "
-              f"Time: {params['time_cost']}, Memory: {params['memory_cost']/1024}MB")
-```
-
-### Memory vs Time Trade-off
-```python
-def memory_time_tradeoff():
-    """Analyze memory vs time trade-off"""
-    password = "tradeoffPassword"
-    test_configs = [
-        {"time_cost": 1, "memory_cost": 131072},  # High memory, low time
-        {"time_cost": 3, "memory_cost": 65536},   # Medium both
-        {"time_cost": 5, "memory_cost": 32768},   # Low memory, high time
-    ]
-    
-    print("Memory vs Time Trade-off Analysis:")
-    print("-" * 50)
-    
-    for config in test_configs:
-        ph = PasswordHasher(**config)
-        
-        start_time = time.time()
-        hashed = ph.hash(password)
-        duration = time.time() - start_time
-        
-        memory_mb = config["memory_cost"] / 1024
-        print(f"Time: {config['time_cost']}, Memory: {memory_mb}MB -> "
-              f"{duration:.3f}s")
-    
-    print("-" * 50)
-```
-
-## Error Handling
-
-### Safe Argon2 Operations
-```python
-def safe_argon2_operations():
-    """Safe Argon2 operations with error handling"""
-    def safe_hash_password(password, **params):
-        try:
-            if not password:
-                raise ValueError("Password cannot be empty")
-            
-            # Validate parameters
-            if params.get("time_cost", 1) < 1 or params.get("time_cost", 1) > 10:
-                raise ValueError("Time cost must be between 1 and 10")
-            
-            if params.get("memory_cost", 32768) < 8192:
-                raise ValueError("Memory cost must be at least 8192 KiB")
-            
-            if params.get("parallelism", 1) < 1 or params.get("parallelism", 1) > 4:
-                raise ValueError("Parallelism must be between 1 and 4")
-            
-            ph = PasswordHasher(**params)
-            return ph.hash(password)
-            
-        except Exception as e:
-            print(f"Error hashing password: {e}")
-            return None
-    
-    def safe_verify_password(password, hashed):
-        try:
-            if not password or not hashed:
-                return False
-            
-            ph = PasswordHasher()
-            ph.verify(hashed, password)
-            return True
-            
-        except Exception as e:
-            print(f"Error verifying password: {e}")
-            return False
-    
-    # Test safe operations
-    test_cases = [
-        ("", {}),  # Empty password
-        ("valid", {"time_cost": 0}),  # Invalid time cost
-        ("valid", {"memory_cost": 4096}),  # Too low memory cost
-        ("valid", {"parallelism": 8}),  # Too high parallelism
-        ("valid", {})  # Valid case
-    ]
-    
-    for password, params in test_cases:
-        result = safe_hash_password(password, **params)
-        print(f"Password: '{password}', Params: {params} -> {result is not None}")
-```
-
-## JavaScript Examples
-
-### Node.js Argon2 Implementation
 ```javascript
 const argon2 = require('argon2');
 
-async function argon2Examples() {
-    console.log("JavaScript Argon2 Examples:");
-    
-    // Basic hashing
-    const password = "jsPassword123";
-    const hash = await argon2.hash(password, {
+async function hashAndVerify() {
+    // Hash with explicit Argon2id
+    const hash = await argon2.hash("my_password", {
         type: argon2.argon2id,
         timeCost: 3,
-        memoryCost: 65536,
-        parallelism: 1
+        memoryCost: 65536,  // 64 MiB in KiB
+        parallelism: 1,
+        hashLength: 32,
     });
-    
-    console.log(`Password: ${password}`);
-    console.log(`Hash: ${hash}`);
-    
-    // Verification
-    const isValid = await argon2.verify(hash, password);
-    console.log(`Valid: ${isValid}`);
-    
-    // Parameter comparison
-    const configs = [
-        {timeCost: 1, memoryCost: 32768},
-        {timeCost: 2, memoryCost: 65536},
-        {timeCost: 3, memoryCost: 131072}
-    ];
-    
-    for (const config of configs) {
-        const startTime = Date.now();
-        await argon2.hash("test", config);
-        const duration = Date.now() - startTime;
-        console.log(`Config: ${JSON.stringify(config)} -> ${duration}ms`);
-    }
+    console.log("Hash:", hash);
+
+    // Verify -- reads params from the hash string
+    const valid = await argon2.verify(hash, "my_password");
+    console.log("Valid:", valid);  // true
+
+    const invalid = await argon2.verify(hash, "wrong_password");
+    console.log("Invalid:", invalid);  // false
 }
 
-// Run JavaScript examples
-argon2Examples().catch(console.error);
+hashAndVerify().catch(console.error);
 ```
 
-## Testing and Validation
+The Node.js API also exposes `argon2.needsRehash()` for parameter upgrades, just like the Python library:
 
-### Hash Verification Tests
-```python
-def hash_verification_tests():
-    """Comprehensive hash verification tests"""
-    ph = PasswordHasher()
-    test_cases = [
-        ("password123", "password123", True),
-        ("password123", "password124", False),
-        ("", "", True),
-        ("unicode测试", "unicode测试", True),
-        ("unicode测试", "unicode测试2", False),
-    ]
-    
-    print("Argon2 Hash Verification Tests:")
-    print("-" * 50)
-    
-    for password, test_password, expected in test_cases:
-        try:
-            hashed = ph.hash(password)
-            is_valid = ph.verify(hashed, test_password)
-            
-            status = "PASS" if is_valid == expected else "FAIL"
-            print(f"{status}: '{password}' vs '{test_password}' -> {is_valid}")
-            
-        except Exception as e:
-            print(f"ERROR: {e}")
-
-# Run verification tests
-hash_verification_tests()
+```javascript
+// Check if an old hash should be upgraded
+const needsUpgrade = argon2.needsRehash(oldHash, {
+    timeCost: 5,           // We now want stronger params
+    memoryCost: 131072,
+});
+if (needsUpgrade) {
+    const newHash = await argon2.hash(password, { timeCost: 5, memoryCost: 131072 });
+    // Store newHash in the database
+}
 ```
 
-### Performance Regression Test
-```python
-def performance_regression_test():
-    """Test Argon2 performance consistency"""
-    password = "regressionTestPassword"
-    params = {"time_cost": 2, "memory_cost": 65536, "parallelism": 1}
-    iterations = 10
-    
-    ph = PasswordHasher(**params)
-    times = []
-    
-    for _ in range(iterations):
-        start_time = time.time()
-        ph.hash(password)
-        end_time = time.time()
-        times.append((end_time - start_time) * 1000)
-    
-    avg_time = sum(times) / len(times)
-    max_time = max(times)
-    min_time = min(times)
-    
-    print("Argon2 Performance Regression Test:")
-    print(f"Average time: {avg_time:.2f}ms")
-    print(f"Min time: {min_time:.2f}ms")
-    print(f"Max time: {max_time:.2f}ms")
-    print(f"Variance: {max_time - min_time:.2f}ms")
-    
-    # Check for significant performance degradation
-    if max_time > avg_time * 2:
-        print("WARNING: Significant performance variance detected")
+## Go
 
-# Run performance test
-performance_regression_test()
+Go's `golang.org/x/crypto/argon2` package is a low-level implementation -- it gives you key derivation, not a password hashing API with verification built in. You handle encoding and parameter storage yourself. For password hashing specifically, consider a higher-level wrapper, but here's the raw approach:
+
+```go
+package main
+
+import (
+    "crypto/rand"
+    "encoding/base64"
+    "fmt"
+    "golang.org/x/crypto/argon2"
+)
+
+func hashPassword(password string) (string, error) {
+    // Generate a random 16-byte salt
+    salt := make([]byte, 16)
+    if _, err := rand.Read(salt); err != nil {
+        return "", err
+    }
+
+    // Argon2id with explicit parameters
+    hash := argon2.IDKey([]byte(password), salt,
+        3,          // time (iterations)
+        64*1024,    // memory (64 MiB)
+        1,          // threads
+        32,         // output key length
+    )
+
+    // Encode salt + hash together for storage
+    encoded := base64.StdEncoding.EncodeToString(salt) + "$" +
+        base64.StdEncoding.EncodeToString(hash)
+
+    return encoded, nil
+}
+
+func verifyPassword(encodedHash, password string) bool {
+    // Split salt and hash
+    parts := strings.SplitN(encodedHash, "$", 2)
+    if len(parts) != 2 {
+        return false
+    }
+
+    salt, _ := base64.StdEncoding.DecodeString(parts[0])
+    expectedHash, _ := base64.StdEncoding.DecodeString(parts[1])
+
+    // Recompute with the same parameters
+    recomputed := argon2.IDKey([]byte(password), salt, 3, 64*1024, 1, 32)
+
+    // Constant-time comparison
+    return subtle.ConstantTimeCompare(recomputed, expectedHash) == 1
+}
 ```
 
-## Summary
+A caveat: this Go code is more verbose than Python/JS because it's doing parameter tracking and constant-time comparison manually. For production Go, you might prefer a library like `github.com/matthewhartstonge/argon2` that wraps all this up.
 
-These examples demonstrate:
-- Basic Argon2 hashing and verification
-- Parameter selection and optimization
-- Memory usage analysis and benchmarking
-- User authentication systems
-- Performance testing and optimization
-- Error handling and safe operations
-- JavaScript implementations
-- Comprehensive testing and validation
+## What to watch out for
 
-All examples follow security best practices and provide practical implementations for real-world applications. 
+A few things that'll bite you in practice:
+
+- **Don't trim the hash string.** The `$argon2id$...` format has precise delimiters. Truncating or modifying it will break verification.
+- **Don't reuse salts.** The library handles this for you in the `hash()` call. If you're constructing salts manually, each password gets its own salt.
+- **Don't store passwords, even temporarily.** If you pass a `char[]` in Java or a `bytearray` in Python, zero it out after hashing. Python strings are immutable so the `hash()` call handles this; in lower-level languages, be mindful.
+- **Test your migration path.** Before switching from bcrypt/PBKDF2 to Argon2, test that your rehash-on-login flow works end-to-end with a staging database.

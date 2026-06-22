@@ -1,41 +1,25 @@
-# 图片 EXIF 查看器 技术背景
+# 图片 EXIF 查看器 — 照片里藏了什么
 
-## 什么是 EXIF？
+EXIF 是相机和手机拍照时自动写入文件的元数据。这个标准从 1995 年就有了，是 JEITA 制定的，绝大多数 JPEG 和 TIFF 照片都会自带 EXIF。
 
-EXIF（Exchangeable Image File Format，可交换图像文件格式）是一种存储在图像文件中的元数据标准，由日本电子工业发展协会（JEITA）于 1995 年制定。
+## 记录了哪些信息
 
-绝大多数数码相机和智能手机拍摄的 JPEG 和 TIFF 图片都会自动写入 EXIF 信息。
+**设备信息 —** Make（制造商，比如 Apple、Canon、Nikon）和 Model（具体型号，比如 iPhone 15 Pro）。还有 Software 字段，一般是操作系统版本或者最后处理过这张图的软件。
 
-## 常见 EXIF 字段
+**拍摄参数 —** ExposureTime（快门速度，比如 1/1000）、FNumber（光圈 f 值，比如 f/1.8）、ISO 感光度、FocalLength 焦距（mm）、Flash（闪光灯有没有触发）。玩摄影的话这些是必看的，能还原当时怎么拍的。
 
-### 设备信息
-- **Make**：相机制造商（如 Apple、Canon、Nikon）
-- **Model**：具体型号（如 iPhone 15 Pro）
-- **Software**：处理软件版本
+**时间 —** 有 DateTime（文件修改时间）和 DateTimeOriginal（快门按下的实际时间）。一般关注后者。
 
-### 拍摄参数
-- **ExposureTime**：快门速度（如 1/1000）
-- **FNumber**：光圈 f 值（如 f/1.8）
-- **ISO**：感光度
-- **FocalLength**：焦距（mm）
-- **Flash**：是否使用闪光灯
+**GPS —** 纬度、经度、海拔。手机拍照默认记录 GPS，精度足够定位到具体是哪栋楼。
 
-### 时间信息
-- **DateTime**：文件修改时间
-- **DateTimeOriginal**：实际拍摄时间
+## 隐私问题：GPS 是最容易被忽略的
 
-### GPS 信息
-- **GPSLatitude**：纬度
-- **GPSLongitude**：经度
-- **GPSAltitude**：海拔高度
+照片里的 GPS 信息经常被忽视，记住这几件事：
 
-## 隐私注意事项
+- 微信、Instagram 等社交平台上传图片时会自动剥离 EXIF，包括 GPS
+- 但如果发的是原文件——邮件附件、AirDrop、文件传输——所有 EXIF 数据都跟着走
+- 在闲鱼上卖东西拍了家里的照片，GPS 坐标直接暴露你家地址
 
-GPS 信息可以精确定位拍摄地点，在分享照片前请注意：
-- 使用微信、Instagram 等平台分享通常会自动剥离 GPS 信息
-- 通过邮件或 AirDrop 直接传输的原图保留完整 EXIF
+## 用的什么库
 
-## 本工具使用的库
-
-基于 `exifr`（npm），支持解析 JPEG、TIFF、HEIC、PNG、WebP 等多种格式的 EXIF、XMP、IPTC 数据。
-
+底层是 `exifr`，支持解析 JPEG、TIFF、HEIC、PNG、WebP 等多种格式的 EXIF、XMP、IPTC 数据。完全在浏览器里跑。

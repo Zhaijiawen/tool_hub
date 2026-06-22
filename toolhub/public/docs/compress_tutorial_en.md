@@ -1,90 +1,46 @@
-# Image Compression - Tutorial
+# Image Compression — How to Use
 
-## Getting Started
+The whole thing runs in your browser. Nothing gets uploaded anywhere — your images stay on your machine. It handles JPG, PNG, and WebP, up to 10 images at a time.
 
-The image compression tool runs entirely in your browser — images are never uploaded to any server. Supports JPG, PNG, and WebP formats, and can process up to 10 images at once.
+## The basic flow
 
-## Basic Usage
+**Getting images in —** Drag and drop onto the upload area, or click it to browse files. JPG, PNG, and WebP are supported. Aim to keep individual files under 20MB or so for decent performance.
 
-### Step 1: Select Images
+**Setting quality —** The slider goes from 0 to 100%. Here's what those numbers roughly translate to:
 
-There are two ways to add images:
-- **Drag and drop**: Drag images directly into the upload area on the page
-- **Click to select**: Click the upload area and choose one or more images from the file dialog
+- **100%** — near-lossless, barely any size reduction
+- **80%** (recommended) — sweet spot between visual quality and file size. Most people won't notice the difference vs. 100%, but your file might be 60% smaller
+- **60%** — noticeable compression, good for web thumbnails where perfect fidelity isn't the goal
+- **40%** — aggressive, only use this for small reference images
 
-Supported formats: JPG/JPEG, PNG, WebP
-Maximum per upload: 10 images
-Recommended single file size: Under 20MB
+The quality setting applies to all uploaded images together.
 
-### Step 2: Adjust Compression Quality
+**Reading the results —** Each image card shows you: original size vs. compressed size, the compression ratio (like `-65%`), and a preview thumbnail so you can visually check the output.
 
-Use the quality slider to set the compression level:
-- **100%**: Near-lossless (file size barely changes)
-- **80%** (recommended): Good balance between quality and size
-- **60%**: Noticeable compression, suitable for web thumbnails
-- **40%**: Heavy compression, suitable for preview images
+**Downloading —** Hit the download button on a single card to grab one file, or use "Download All" to get everything at once.
 
-The quality slider applies to all uploaded images simultaneously.
+## Real-world scenarios
 
-### Step 3: View Compression Results
+**Website image optimization —** You've got 5-10MB photos straight from a camera or design tool. Set quality to 80%, compress, and you'll typically land under 500KB per image. That's the difference between a 2-second page load and a 10-second one.
 
-Each image card displays:
-- 📦 **Original size** vs **Compressed size**
-- 📉 **Compression ratio** (e.g., `-65%`)
-- 🖼️ Preview thumbnail (compressed result)
+**Email attachments —** Photos that are too big for Gmail/Outlook limits. Bump quality down to 70%, the files shrink dramatically while staying perfectly viewable.
 
-### Step 4: Download Results
+**Pre-processing before mobile upload —** If you're building an app where users upload photos, point them here first. Batch compress at 75-80% quality, then upload. Saves their data and your storage costs.
 
-- **Single download**: Click the download button on each image card
-- **Batch download**: Click "Download All" at the top to download all compressed images
+**E-commerce product shots —** Product images need to be crisp but fast-loading. Batch compress at 80% and you'll maintain enough detail while slashing page weight.
 
-## Feature Details
+## Rough size estimates
 
-### Real-time Comparison
+These are ballpark figures from real testing:
 
-Each image card shows a real-time size comparison before and after compression, helping you decide if the quality meets your needs.
-
-### Drag Multiple Images
-
-You can drag multiple images into the upload area at once, and the tool will process them all in parallel.
-
-### Clear Image List
-
-Click "Clear" to remove all uploaded images and start a fresh batch.
-
-## Use Cases
-
-### Scenario 1: Website Image Optimization
-
-Upload high-resolution images from a camera or design software, set quality to 80%, and use the compressed images directly for your website. This typically reduces 5-10MB images to under 500KB.
-
-### Scenario 2: Email Attachment Photos
-
-Upload photos, set quality to 70%, and use the compressed versions as email attachments to stay within attachment size limits.
-
-### Scenario 3: Pre-processing Images Before Mobile App Upload
-
-Select multiple photos, set quality to 75-80%, compress them, then upload to the app — saving users' data usage.
-
-### Scenario 4: E-commerce Product Images
-
-Batch compress product images while maintaining sufficient visual quality, making e-commerce pages load faster.
-
-## Quality Comparison Reference
-
-| Original Size | Quality 80% | Quality 60% | Quality 40% |
-|--------------|------------|------------|------------|
+| Original | At 80% | At 60% | At 40% |
+|----------|--------|--------|--------|
 | 5MB JPG | ~1.5MB | ~900KB | ~600KB |
 | 3MB PNG | ~2.5MB | ~2MB | ~1.5MB |
 | 10MB JPEG | ~3MB | ~1.8MB | ~1.2MB |
 
-> PNG compression is less effective than JPEG, because PNG is a lossless format with limited room for quality-based compression.
+PNG compression is less effective because the format is inherently lossless. If file size matters more than transparency, convert PNG to JPG first.
 
-## Important Notes
+## Heads up
 
-1. **Privacy**: All compression happens locally in your browser — images are never uploaded to any server
-2. **Format preserved**: Compressed images maintain their original format (JPG stays JPG, PNG stays PNG)
-3. **Dimensions unchanged**: This tool only compresses quality, not pixel dimensions
-4. **Irreversible**: Compression is a lossy operation — keep the original image as a backup
-5. **PNG note**: PNG is a lossless format, so quality compression is less effective. For smallest file size, consider converting to JPG
-
+Since everything runs locally, there's zero privacy concern — your images never leave your device. Compressed images keep their original format (JPG stays JPG). The tool compresses quality only, not pixel dimensions. And remember, compression is irreversible — keep your originals safe if you might need them later.

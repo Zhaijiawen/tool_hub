@@ -1,59 +1,23 @@
-# AI Prompt Box — Technical Background
+# AI Prompt Box — What Makes a Good Prompt
 
-## What Is a Prompt?
+A prompt is the text you feed to a large language model. It can be a one-line question or a page of detailed instructions with examples. The difference between a good prompt and a bad one is often the difference between getting exactly what you need and getting vaguely plausible nonsense.
 
-In the context of generative AI and Large Language Models (LLMs), a **prompt** is the input text provided to the model that guides its response. The quality, structure, and clarity of a prompt directly determine the usefulness of the output.
+## Why prompt quality matters
 
-## Why Prompt Engineering Matters
+LLMs like GPT-4, Claude, and Gemini are sensitive to phrasing in ways that human readers aren't. Small changes in wording can push the output in completely different directions. A well-crafted prompt does several things at once: it constrains the topic, establishes the tone, specifies the format, and gives the model enough context to fill in the right details.
 
-LLMs like GPT-4, Claude, and Gemini are highly sensitive to how instructions are phrased. A well-crafted prompt can:
-- Significantly improve response accuracy
-- Control the format and style of output
-- Reduce hallucinations
-- Tailor responses to specific audiences or contexts
+## Prompting techniques that work
 
-## Core Prompting Techniques
+**Role assignment —** Tell the model who it's supposed to be. "You are an experienced database administrator..." sets expectations about terminology, depth, and what kinds of answers are appropriate. Without a role, the model defaults to a generic helpful assistant.
 
-### 1. Role Assignment
-Tell the model to adopt a specific role or persona:
-```
-You are an experienced software architect. Review the following code and suggest improvements.
-```
+**Few-shot prompting —** Show examples of what you want. If you need translations in a specific style, show two or three before asking for the next one. The model picks up the pattern.
 
-### 2. Few-Shot Prompting
-Provide examples to demonstrate the desired output pattern:
-```
-Translate English to French:
-English: Hello → French: Bonjour
-English: Thank you → French: Merci
-English: Good morning → French: ?
-```
+**Chain-of-thought —** For reasoning tasks, ask the model to work step by step. "Solve this math problem by showing each step of your calculation" produces more reliable results than "What's the answer?"
 
-### 3. Chain-of-Thought (CoT)
-Ask the model to reason step-by-step before answering:
-```
-Solve this step by step: If a train travels 60 mph for 2.5 hours, how far does it travel?
-```
+**Output formatting —** Be explicit about the format you want. "Return a JSON array with 'name' and 'description' fields" or "Write in bullet points, max 3 sentences per bullet." If you don't specify, you get whatever the model defaults to.
 
-### 4. Output Formatting
-Specify the exact output format expected:
-```
-List the top 5 programming languages in 2024 as a JSON array with "name" and "ranking" fields.
-```
+**Context injection —** Paste relevant background information before the question. Instead of "review this pull request," paste the PR description, the relevant code, and say "here's the context, now review it."
 
-### 5. Context Injection
-Provide relevant background information before the instruction:
-```
-Context: [paste relevant document or data here]
+## Prompt templates
 
-Based on the above context, answer the following question: ...
-```
-
-## Prompt Templates
-
-Reusable prompt structures (templates) help maintain consistency across similar tasks:
-- Code review template
-- Blog post writing template
-- Data extraction template
-- Customer support response template
-
+Templates give you a reusable structure for tasks you do repeatedly. A code review template, a blog outline template, a data extraction template — fill in the variables and go. They save time and keep output quality consistent across sessions.

@@ -1,446 +1,135 @@
 # ChaCha20 使用教程
 
-## 环境设置
+## 快速准备
 
-### 前置条件
-- 具有加密库的编程语言
-- 安全随机数生成器
-- 对流密码的理解
-- 加密概念知识
+ChaCha20 在所有现代密码库中都有 -- 它已经主流很多年了。安装什么：
 
-### 库选择
-
-#### PyCryptodome (Python)
+**Python** -- `pycryptodome` 包含裸 ChaCha20 和 ChaCha20-Poly1305：
 ```bash
 pip install pycryptodome
 ```
 
-#### CryptoJS (JavaScript)
-```bash
-npm install crypto-js
-```
+**Node.js** -- Node 10 起内置于 `crypto` 模块。核心密码不需要额外依赖，但你可能想要 `tweetnacl` 或 `libsodium.js` 来获得更好的 API。
 
-#### Bouncy Castle (Java)
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
+**Go** -- 扩展标准库中的 `golang.org/x/crypto/chacha20`。用 `chacha20poly1305` 包做 AEAD。
 
-#### OpenSSL (C/C++)
-```bash
-# 安装OpenSSL
-sudo apt-get install libssl-dev  # Ubuntu/Debian
-brew install openssl             # macOS
-```
+**Rust** -- `chacha20` 和 `chacha20poly1305` crate。
 
-## 基本概念
+## nonce 规则：绝对、永远不能违反
 
-### 密钥和随机数生成
+我把它放在最前面，因为这是唯一无法挽回的错误。使用流密码时，同一个密钥和 nonce 加密两条不同的消息是灾难性的。拿到两个密文的攻击者可以把它们异或到一起得到两条明文的异或。对两条明文异或的密码分析比单独攻击密文容易得多。
+
+怎么避免：每条消息生成随机 12 字节 nonce。96 位 nonce 下，CSPRNG 碰撞概率约为 n^2 / 2^97 -- 即使加密十亿条消息，碰撞概率仍然约 2^-70，基本为零。
+
 ```python
 import os
-from Crypto.Cipher import ChaCha20
 
-# 生成随机256位密钥
-key = os.urandom(32)  # 32字节 = 256位
-print(f"生成的密钥: {key.hex()}")
-
-# 生成随机96位随机数
-nonce = os.urandom(12)  # 12字节 = 96位
-print(f"生成的随机数: {nonce.hex()}")
+# 每条消息生成全新的 nonce
+key = os.urandom(32)   # 256 位密钥，只生成一次
+nonce = os.urandom(12)  # 96 位 nonce，每条消息新生成
 ```
 
-### 状态结构
-ChaCha20使用512位内部状态：
-```python
-# ChaCha20状态布局（16个32位字）
-# [0-3]   : 常量 ("expand 32-byte k")
-# [4-11]  : 密钥 (256位)
-# [12]    : 计数器 (32位)
-# [13-15] : 随机数 (96位)
+## 基本加密/解密
 
-def print_state_info():
-    print("ChaCha20状态结构:")
-    print("字0-3:   常量")
-    print("字4-11:  密钥 (256位)")
-    print("字12:    计数器 (32位)")
-    print("字13-15: 随机数 (96位)")
-```
+ChaCha20 是流密码，加密和解密是完全相同的异或操作。pycryptodome 的 API 很直接：
 
-## 基本加密
-
-### 简单ChaCha20加密
 ```python
 from Crypto.Cipher import ChaCha20
 
-def chacha20_encrypt(key, nonce, plaintext):
-    """基本ChaCha20加密"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    ciphertext = cipher.encrypt(plaintext.encode())
-    return ciphertext
-
-def chacha20_decrypt(key, nonce, ciphertext):
-    """基本ChaCha20解密"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    plaintext = cipher.decrypt(ciphertext)
-    return plaintext.decode()
-
-# 使用示例
 key = os.urandom(32)
 nonce = os.urandom(12)
-message = "Hello, ChaCha20 encryption!"
-encrypted = chacha20_encrypt(key, nonce, message)
-decrypted = chacha20_decrypt(key, nonce, encrypted)
-print(f"原文: {message}")
-print(f"解密: {decrypted}")
+
+# 加密
+cipher = ChaCha20.new(key=key, nonce=nonce)
+plaintext = b"Hello, ChaCha20!"
+ciphertext = cipher.encrypt(plaintext)
+
+# 解密 -- 和加密完全相同
+cipher = ChaCha20.new(key=key, nonce=nonce)
+decrypted = cipher.decrypt(ciphertext)
+# decrypted == b"Hello, ChaCha20!"
 ```
 
-### 计数器管理
-```python
-def chacha20_with_counter(key, nonce, plaintext, counter=0):
-    """带显式计数器的ChaCha20加密"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    cipher.seek(counter)
-    ciphertext = cipher.encrypt(plaintext.encode())
-    return ciphertext
+因为没有填充和块对齐，你可以加密任意长度的数据。一条一字节的消息？可以。2 GB 的流？也可以（32 位计数器允许你在重新生成密钥前加密最多 256 GB）。
 
-def encrypt_large_data(key, nonce, data):
-    """使用计数器增量加密大数据"""
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    encrypted_chunks = []
-    
-    chunk_size = 64  # ChaCha20块大小
-    for i in range(0, len(data), chunk_size):
-        chunk = data[i:i+chunk_size]
-        cipher.seek(i // chunk_size)
-        encrypted_chunk = cipher.encrypt(chunk.encode())
-        encrypted_chunks.append(encrypted_chunk)
-    
-    return b''.join(encrypted_chunks)
-```
+## ChaCha20-Poly1305：认证加密
 
-## 高级用法
+裸 ChaCha20 只提供机密性，不提供完整性。拦截你密文的人可以翻转某个位，你会解密出垃圾但完全不知道出了问题。这是 ChaCha20-Poly1305 登场的地方：
 
-### ChaCha20-Poly1305 AEAD
 ```python
 from Crypto.Cipher import ChaCha20_Poly1305
 
-def chacha20_poly1305_encrypt(key, nonce, plaintext, associated_data=b""):
-    """ChaCha20-Poly1305认证加密"""
-    cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    cipher.update(associated_data)
-    ciphertext, tag = cipher.encrypt_and_digest(plaintext.encode())
-    return ciphertext, tag
-
-def chacha20_poly1305_decrypt(key, nonce, ciphertext, tag, associated_data=b""):
-    """ChaCha20-Poly1305认证解密"""
-    cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
-    cipher.update(associated_data)
-    try:
-        plaintext = cipher.decrypt_and_verify(ciphertext, tag)
-        return plaintext.decode()
-    except ValueError:
-        return "认证失败"
-
-# 使用示例
 key = os.urandom(32)
 nonce = os.urandom(12)
-message = "Authenticated encryption with ChaCha20-Poly1305"
-associated_data = b"metadata"
-ciphertext, tag = chacha20_poly1305_encrypt(key, nonce, message, associated_data)
-result = chacha20_poly1305_decrypt(key, nonce, ciphertext, tag, associated_data)
+
+# 带认证的加密
+cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+cipher.update(b"可选的关联数据")  # 不加密，但认证
+ciphertext, tag = cipher.encrypt_and_digest(b"秘密消息")
+# 标签是 16 字节 -- 和密文一起存储/传输
+
+# 带验证的解密
+cipher = ChaCha20_Poly1305.new(key=key, nonce=nonce)
+cipher.update(b"可选的关联数据")
+try:
+    plaintext = cipher.decrypt_and_verify(ciphertext, tag)
+    print("消息验证且解密成功:", plaintext)
+except ValueError:
+    print("检测到篡改 -- 消息被拒绝")
 ```
 
-### 文件加密
-```python
-def encrypt_file_chacha20(key, input_file, output_file):
-    """使用ChaCha20加密文件"""
-    nonce = os.urandom(12)
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    
-    with open(input_file, 'rb') as f_in:
-        with open(output_file, 'wb') as f_out:
-            # 在开头写入随机数
-            f_out.write(nonce)
-            
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                encrypted_chunk = cipher.encrypt(chunk)
-                f_out.write(encrypted_chunk)
+关联数据参数用于需要认证但不需要加密的元数据 -- 比如协议头、消息 ID 或路由信息。攻击者无法修改关联数据而不导致标签验证失败。
 
-def decrypt_file_chacha20(key, input_file, output_file):
-    """使用ChaCha20解密文件"""
-    with open(input_file, 'rb') as f_in:
-        # 从开头读取随机数
-        nonce = f_in.read(12)
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        
-        with open(output_file, 'wb') as f_out:
-            while True:
-                chunk = f_in.read(1024)
-                if not chunk:
-                    break
-                
-                decrypted_chunk = cipher.decrypt(chunk)
-                f_out.write(decrypted_chunk)
-```
+一个关键注意点：PyCryptodome 的 ChaCha20_Poly1305 可以自己生成 nonce。如果你显式通过 `nonce=` 传入，必须确保唯一性。如果让库自己生成，nonce 会被前置到密文前面，解密时需要从中提取。
 
-## 密钥管理
+## 浏览器中使用
 
-### 密钥派生
-```python
-from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Hash import SHA256
+在浏览器环境下，Web Crypto API 对 ChaCha20-Poly1305 的支持目前还不普遍（截至 2024 年）。可以用 AES-GCM 获得类似的认证加密。如果要专门在浏览器用 ChaCha20，可以引入 `libsodium.js` 或 `tweetnacl`。
 
-def derive_chacha20_key(password, salt):
-    """从密码派生ChaCha20密钥"""
-    key = PBKDF2(password.encode(), salt, dkLen=32, count=100000, hmac_hash_module=SHA256)
-    return key
+## Go：标准库全搞定
 
-def generate_key_material():
-    """生成ChaCha20密钥材料"""
-    password = "my_secure_password"
-    salt = os.urandom(16)
-    key = derive_chacha20_key(password, salt)
-    return key, salt
+Go 的 ChaCha20 包偏底层但功能完整：
 
-# 使用示例
-key, salt = generate_key_material()
-print(f"派生的密钥: {key.hex()}")
-print(f"盐值: {salt.hex()}")
-```
+```go
+package main
 
-### 密钥存储
-```python
-import json
-import base64
+import (
+    "crypto/rand"
+    "fmt"
+    "golang.org/x/crypto/chacha20poly1305"
+)
 
-def save_chacha20_key(key, filename, password):
-    """使用密码加密保存ChaCha20密钥"""
-    salt = os.urandom(16)
-    key_encryption_key = derive_chacha20_key(password, salt)
-    
-    # 加密ChaCha20密钥
-    cipher = ChaCha20_Poly1305.new(key=key_encryption_key)
-    encrypted_key, tag = cipher.encrypt_and_digest(key)
-    
-    # 保存加密密钥和元数据
-    key_data = {
-        'salt': base64.b64encode(salt).decode(),
-        'nonce': base64.b64encode(cipher.nonce).decode(),
-        'encrypted_key': base64.b64encode(encrypted_key).decode(),
-        'tag': base64.b64encode(tag).decode()
+func main() {
+    key := make([]byte, chacha20poly1305.KeySize)  // 32 字节
+    rand.Read(key)
+
+    ae, _ := chacha20poly1305.New(key)
+
+    nonce := make([]byte, chacha20poly1305.NonceSize)  // 12 字节
+    rand.Read(nonce)
+
+    plaintext := []byte("来自 Go 的问候！")
+
+    // Seal 把密文附加到 nonce 后面，再自动加上标签
+    ciphertext := ae.Seal(nil, nonce, plaintext, nil)
+
+    // Open 从前面读 nonce、验证标签、返回明文
+    decrypted, err := ae.Open(nil, nonce, ciphertext, nil)
+    if err != nil {
+        fmt.Println("检测到篡改！")
+    } else {
+        fmt.Println(string(decrypted))
     }
-    
-    with open(filename, 'w') as f:
-        json.dump(key_data, f)
-
-def load_chacha20_key(filename, password):
-    """从加密文件加载ChaCha20密钥"""
-    with open(filename, 'r') as f:
-        key_data = json.load(f)
-    
-    # 解码存储的数据
-    salt = base64.b64decode(key_data['salt'])
-    nonce = base64.b64decode(key_data['nonce'])
-    encrypted_key = base64.b64decode(key_data['encrypted_key'])
-    tag = base64.b64decode(key_data['tag'])
-    
-    # 派生密钥加密密钥
-    key_encryption_key = derive_chacha20_key(password, salt)
-    
-    # 解密ChaCha20密钥
-    cipher = ChaCha20_Poly1305.new(key=key_encryption_key, nonce=nonce)
-    key = cipher.decrypt_and_verify(encrypted_key, tag)
-    
-    return key
+}
 ```
 
-## 安全最佳实践
+`Seal` 和 `Open` 的 API 需要一点时间适应 -- `dst` 参数（第一个参数，上面传了 `nil`）决定了输出的前缀位置。传 `nonce` 作为 `dst` 可以自动把 nonce 存在密文前面。
 
-### 随机数管理
-```python
-import secrets
+## 安全检查清单
 
-def generate_secure_nonce():
-    """生成密码学安全的随机数"""
-    return secrets.token_bytes(12)
-
-def validate_nonce(nonce):
-    """验证随机数长度和唯一性"""
-    if len(nonce) != 12:
-        raise ValueError("随机数必须是12字节")
-    return True
-
-def ensure_nonce_uniqueness(used_nonces, new_nonce):
-    """确保随机数唯一性"""
-    if new_nonce in used_nonces:
-        raise ValueError("随机数已使用")
-    used_nonces.add(new_nonce)
-    return True
-```
-
-### 恒定时间操作
-```python
-import hmac
-
-def constant_time_compare(a, b):
-    """恒定时间比较"""
-    return hmac.compare_digest(a, b)
-
-def secure_key_verification(stored_key, provided_key):
-    """安全密钥验证"""
-    return constant_time_compare(stored_key, provided_key)
-```
-
-### 输入验证
-```python
-def validate_chacha20_params(key, nonce, plaintext):
-    """验证ChaCha20参数"""
-    if not isinstance(key, bytes) or len(key) != 32:
-        raise ValueError("密钥必须是32字节")
-    
-    if not isinstance(nonce, bytes) or len(nonce) != 12:
-        raise ValueError("随机数必须是12字节")
-    
-    if not isinstance(plaintext, str):
-        raise ValueError("明文必须是字符串")
-    
-    return True
-```
-
-## 性能优化
-
-### 硬件加速
-```python
-import platform
-
-def check_hardware_support():
-    """检查ChaCha20硬件支持"""
-    try:
-        import cpuinfo
-        info = cpuinfo.get_cpu_info()
-        flags = info.get('flags', [])
-        
-        if 'chacha' in flags:
-            return "ChaCha20硬件支持可用"
-        else:
-            return "使用软件ChaCha20实现"
-    except ImportError:
-        return "硬件支持检查不可用"
-```
-
-### 批处理
-```python
-def encrypt_batch_chacha20(key, messages):
-    """高效加密多个消息"""
-    results = []
-    
-    for i, message in enumerate(messages):
-        nonce = os.urandom(12)
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        encrypted = cipher.encrypt(message.encode())
-        results.append((nonce, encrypted))
-    
-    return results
-
-def decrypt_batch_chacha20(key, encrypted_messages):
-    """高效解密多个消息"""
-    results = []
-    
-    for nonce, ciphertext in encrypted_messages:
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        decrypted = cipher.decrypt(ciphertext)
-        results.append(decrypted.decode())
-    
-    return results
-```
-
-## 错误处理
-
-### 异常处理
-```python
-def safe_chacha20_encrypt(key, nonce, plaintext):
-    """带错误处理的安全ChaCha20加密"""
-    try:
-        # 验证输入
-        validate_chacha20_params(key, nonce, plaintext)
-        
-        # 执行加密
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        ciphertext = cipher.encrypt(plaintext.encode())
-        
-        return ciphertext
-    except ValueError as e:
-        print(f"验证错误: {e}")
-        return None
-    except Exception as e:
-        print(f"加密错误: {e}")
-        return None
-
-def safe_chacha20_decrypt(key, nonce, ciphertext):
-    """带错误处理的安全ChaCha20解密"""
-    try:
-        # 验证输入
-        if not isinstance(key, bytes) or len(key) != 32:
-            raise ValueError("无效密钥")
-        if not isinstance(nonce, bytes) or len(nonce) != 12:
-            raise ValueError("无效随机数")
-        
-        # 执行解密
-        cipher = ChaCha20.new(key=key, nonce=nonce)
-        plaintext = cipher.decrypt(ciphertext)
-        
-        return plaintext.decode()
-    except ValueError as e:
-        print(f"验证错误: {e}")
-        return None
-    except Exception as e:
-        print(f"解密错误: {e}")
-        return None
-```
-
-## 测试和验证
-
-### 测试向量
-```python
-def test_chacha20_vectors():
-    """使用已知测试向量测试ChaCha20"""
-    # RFC 7539测试向量
-    key = bytes.fromhex('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f')
-    nonce = bytes.fromhex('000000000000004a00000000')
-    plaintext = b'Ladies and Gentlemen of the class of \'99: If I could offer you only one tip for the future, sunscreen would be it.'
-    
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    ciphertext = cipher.encrypt(plaintext)
-    
-    expected = bytes.fromhex('6e2e359a2568f98041ba0728dd0d6981e97e7aec1d4360c20a27afccfd9fae0bf91b65c5524733ab8f593dabcd62b3571639d624e65152ab8f530c359f0861d807ca0dbf500d6a6156a38e088a22b65e52bc514d16ccf806818ce91ab77937365af90bbf74a35be6b40b8eedf2785e42874d')
-    
-    assert ciphertext == expected, "测试向量失败"
-    print("ChaCha20测试向量通过")
-```
-
-### 性能基准测试
-```python
-import time
-
-def benchmark_chacha20():
-    """ChaCha20性能基准测试"""
-    key = os.urandom(32)
-    nonce = os.urandom(12)
-    data = os.urandom(1024 * 1024)  # 1MB数据
-    
-    # 计时加密
-    start_time = time.time()
-    cipher = ChaCha20.new(key=key, nonce=nonce)
-    encrypted = cipher.encrypt(data)
-    encryption_time = time.time() - start_time
-    
-    print(f"1MB加密用时 {encryption_time:.4f} 秒")
-    print(f"速度: {1/encryption_time:.2f} MB/s")
-``` 
+- 同一密钥每次加密都用全新随机 nonce
+- 绝不要用裸 ChaCha20 而不加认证 -- 始终搭配 Poly1305
+- 密钥是 32 字节，必须来自 CSPRNG
+- 如果从密码派生密钥，用 PBKDF2、scrypt 或 Argon2
+- nonce 和密文一起存储（不需要保密）
+- Poly1305 标签是 16 字节，必须存储和验证

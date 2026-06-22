@@ -1,18 +1,12 @@
 # JSON Schema Generator - Technical Background
 
-## What is JSON Schema
+JSON Schema is a way to describe the shape of JSON data -- what fields exist, what types they are, which ones are required, and what constraints apply. The clever part: the schema itself is valid JSON, so you can version it, store it, and generate it with the same tools you use for any JSON.
 
-**JSON Schema** is a declarative language, written in JSON itself, for describing the structure and constraints of JSON data. It can be used to:
+It's defined by the JSON Schema spec at json-schema.org, with Draft 7 being the most widely supported version. Draft 2020-12 added some refinements, but Draft 7 is the safe choice for broad compatibility.
 
-- **Validate**: check whether JSON data conforms to an expected format
-- **Document**: describe the structure of API request and response bodies
-- **Generate code**: automatically produce TypeScript interfaces, database models, etc. from a schema
+## What a schema looks like
 
-Official specification: [json-schema.org](https://json-schema.org)
-
-## Basic Schema Structure
-
-A basic JSON Schema is built from the following keywords:
+Here's a schema for a simple user object:
 
 ```json
 {
@@ -44,59 +38,30 @@ A basic JSON Schema is built from the following keywords:
 }
 ```
 
-## Core Data Types
+The structure is self-describing: `type` declares the overall shape, `required` lists mandatory fields, and `properties` describes each field's type and constraints.
 
-| Type | Description | Example JSON value |
-|------|-------------|-------------------|
-| `string` | Text string | `"hello"` |
-| `number` | Number (incl. decimals) | `3.14` |
-| `integer` | Whole number | `42` |
-| `boolean` | True or false | `true` |
-| `null` | Null value | `null` |
-| `array` | Ordered list | `[1, 2, 3]` |
-| `object` | Key-value map | `{"key": "value"}` |
+## The type system
 
-## Common Validation Keywords
+JSON Schema recognizes seven core types: `string`, `number`, `integer`, `boolean`, `null`, `array`, and `object`. The distinction between `number` and `integer` is useful -- `integer` rejects `3.14` and `number` accepts it.
 
-### String constraints
+## Validation keywords worth knowing
 
-| Keyword | Meaning |
-|---------|---------|
-| `minLength` / `maxLength` | Min / max character length |
-| `pattern` | Regular expression match |
-| `format` | Predefined formats: `email`, `date`, `uri`, etc. |
-| `enum` | Enumerated allowed values |
+**Strings:** `minLength`/`maxLength` for length bounds. `pattern` for regex validation. `format` for semantic validation of common patterns -- `email`, `uri`, `date`, `date-time`, `ipv4`, `ipv6`, `hostname`. `enum` restricts values to a fixed set.
 
-### Number constraints
+**Numbers:** `minimum`/`maximum` (inclusive), `exclusiveMinimum`/`exclusiveMaximum` (strict), `multipleOf` (divisibility check).
 
-| Keyword | Meaning |
-|---------|---------|
-| `minimum` / `maximum` | Min / max value (inclusive) |
-| `exclusiveMinimum` / `exclusiveMaximum` | Strictly less / greater than |
-| `multipleOf` | Must be a multiple of the given number |
+**Arrays:** `items` defines the schema for each element. `minItems`/`maxItems` for bounds. `uniqueItems` to reject duplicates.
 
-### Array constraints
+**Objects:** `required` is an array of mandatory property names. `properties` maps each property to its schema. `additionalProperties` controls whether extra fields are allowed (set to `false` to forbid them). `minProperties`/`maxProperties` limit the total count.
 
-| Keyword | Meaning |
-|---------|---------|
-| `items` | Schema describing each element |
-| `minItems` / `maxItems` | Min / max element count |
-| `uniqueItems` | Require all elements to be unique |
+## Where JSON Schema is used
 
-### Object constraints
+- **OpenAPI 3.0** uses it under the hood for request/response body schemas
+- **AJV** is the go-to JavaScript validator -- fast, well-maintained, supports Draft 7 through 2020-12
+- **VS Code** uses JSON Schema for autocomplete and validation in `settings.json`, `package.json`, and CI configs
+- **Mongoose** shares concepts with JSON Schema (though the syntax differs)
+- **Code generation** tools like `quicktype` and `json-schema-to-typescript` can produce TypeScript interfaces, Go structs, or Python dataclasses from a JSON Schema
 
-| Keyword | Meaning |
-|---------|---------|
-| `required` | List of required property names |
-| `properties` | Schema for each property |
-| `additionalProperties` | Whether extra properties are allowed |
-| `minProperties` / `maxProperties` | Min / max number of properties |
+## The generator's limits
 
-## Primary Use Cases
-
-1. **API documentation**: OpenAPI 3.0 uses JSON Schema to describe request/response bodies
-2. **Form validation**: Front-end libraries (react-hook-form, formik, etc.) use schema-driven validation
-3. **Database ORM validation**: Mongoose schemas share concepts with JSON Schema
-4. **Config file validation**: IDEs like VS Code use JSON Schema for autocomplete and validation in config files
-5. **Code generation**: Tools like `quicktype` and `json-schema-to-typescript` generate strongly-typed code from schemas
-
+This tool infers schema from sample data. That means it can only see what's in your sample -- if a field is sometimes a string and sometimes a number, it'll only detect one. Constraints like `minLength`, `pattern`, and `format` can't be inferred from values (you'll add those manually). nullability also needs manual attention: if a field is missing in the sample but can be `null` in practice, update the type to `["string", "null"]`.

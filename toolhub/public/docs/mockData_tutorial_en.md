@@ -1,31 +1,24 @@
-# Mock Data Generator - Usage Tutorial
+# Mock Data Generator — How to Use
 
-## Quick Start
+The tool comes with a pre-built user schema so you can hit Generate and see output immediately. Modify that template or clear it and build your own from scratch.
 
-The tool comes pre-loaded with a typical user data structure. Click "Generate" right away to see the output. Use it as a starting point, or click "Clear" to build a schema from scratch.
+## Configuring fields
 
-## Configuring Fields
+Hit "+ Add Field" to add a row. Each field needs a name (the JSON key) and a type (what to generate).
 
-### Adding Fields
+### Field types
 
-Click the "+ Add Field" button to append a new row to the field list. Each field requires:
+**Basic types —**
 
-1. **Field name**: The JSON key in the generated output, e.g. `id`, `name`, `createdAt`
-2. **Field type**: Determines what data is generated (see type reference below)
-
-### Field Type Reference
-
-#### Basic Types
-
-| Type | Generated content | Extra config |
-|------|------------------|--------------|
-| Integer (int) | Random integer within a range | Min / Max |
-| Float | Random decimal within a range | Min / Max / Decimal places |
-| String | Random alphanumeric string | — |
+| Type | Produces | Extra config |
+|------|---------|-------------|
+| Integer | Random number in a range | Min / Max |
+| Float | Random decimal | Min / Max / Decimal places |
+| String | Random alphanumeric | — |
 | Boolean | `true` or `false` | — |
 | UUID | Standard UUID v4 | — |
 
-#### Common Faker Types
+**Faker types —**
 
 | Type | Example output |
 |------|---------------|
@@ -38,50 +31,30 @@ Click the "+ Add Field" button to append a new row to the field list. Each field
 | IP | 192.168.1.42 |
 | Color | #3a7bd5 |
 
-#### Enum
+**Enum —** Define a list of options separated by commas: `active,inactive,pending,deleted`. The generator picks one randomly.
 
-Randomly picks one value from a custom list. Enter comma-separated options in the text field:
+**Custom template —** Use `{{}}` placeholders to compose values. Available helpers:
 
-```
-active,inactive,pending,deleted
-```
-
-#### Custom Template
-
-Freely combine output using `{{}}` placeholders:
-
-| Placeholder | Meaning |
-|-------------|---------|
-| `{{int(1,100)}}` | Random integer from 1 to 100 |
-| `{{float(0,1,2)}}` | Random decimal 0–1 with 2 decimal places |
-| `{{uuid}}` | UUID |
+| Placeholder | What it does |
+|-------------|-------------|
+| `{{int(1,100)}}` | Random integer 1 to 100 |
+| `{{float(0,1,2)}}` | Random float 0 to 1, 2 decimal places |
+| `{{uuid}}` | UUID v4 |
 | `{{name}}` | Random name |
 | `{{email}}` | Random email |
 
-Example: `USER_{{int(10000,99999)}}_{{name}}`
+Example: `USER_{{int(10000,99999)}}_{{name}}` produces something like `USER_45892_AliceSmith`.
 
-#### Nested Structures
+**Nested structures —** Object creates a nested object (add child fields under it). Array generates an array of elements — configure the element type (a basic type or enum) and min/max count.
 
-- **Object**: Generates a nested object; add child fields underneath it
-- **Array**: Generates an array; configure the element type (basic type or enum) and min/max element count
+### Managing fields
 
-### Removing Fields
+Click the × button to delete a field. Drag fields to reorder them (the order determines the JSON key order in output). Object and Array fields can be collapsed to keep the UI manageable.
 
-Click the **×** button on the right side of a field to delete it. Child fields within nested structures work the same way.
+## Generating and exporting
 
-## Setting the Record Count
-
-Enter the number of records to generate (1–1000) in the "Count" field.
-
-## Generating and Exporting
-
-- **Generate**: produce JSON data based on the current field schema
-- **Copy**: copy the generated JSON to the clipboard
-- **JSON**: download the generated data as a `.json` file
+Set the count (1 to 1000), hit Generate. The output area shows pretty-printed JSON. Click Copy to grab it to clipboard, or JSON to download as a `.json` file.
 
 ## Tips
 
-- Field names support any characters including non-ASCII, but camelCase or snake_case is recommended for broadest JSON parser compatibility
-- Object / Array fields can be collapsed and expanded to manage complex structures
-- Dates and datetimes are generated using the browser's local timezone
-
+Field names can include any characters including Chinese, but camelCase or snake_case is safer for broad JSON parser compatibility. Object and Array fields produce structured output that matches real API response shapes. Date and datetime values use your browser's timezone.

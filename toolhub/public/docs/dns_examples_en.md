@@ -1,23 +1,21 @@
-# DNS Query Tool - Examples
+# DNS Query Tool — Examples
 
-## Example 1: Query GitHub's A Records
+## GitHub's A records
 
 **Query:** `github.com` / Type: A
 
-**Expected result:**
 ```
 Name           Type  TTL   Value
 github.com     A     60    140.82.113.3
 github.com     A     60    140.82.114.3
 ```
 
----
+GitHub uses a very short TTL (60 seconds) so they can quickly redirect traffic during incidents or maintenance.
 
-## Example 2: Query Google's MX Records (Mail Servers)
+## Google's MX records
 
 **Query:** `google.com` / Type: MX
 
-**Expected result:**
 ```
 Name         Type  TTL    Priority  Server
 google.com   MX    3600   10        aspmx.l.google.com
@@ -27,13 +25,12 @@ google.com   MX    3600   40        alt3.aspmx.l.google.com
 google.com   MX    3600   50        alt4.aspmx.l.google.com
 ```
 
----
+Five mail servers at staggered priorities — if the primary at priority 10 is down, senders automatically try 20, then 30, and so on.
 
-## Example 3: Query NS Records (Authoritative DNS Servers)
+## Cloudflare's NS records
 
 **Query:** `cloudflare.com` / Type: NS
 
-**Expected result:**
 ```
 Name              Type  TTL    Value
 cloudflare.com    NS    86400  ns1.cloudflare.com
@@ -42,82 +39,49 @@ cloudflare.com    NS    86400  ns3.cloudflare.com
 cloudflare.com    NS    86400  ns4.cloudflare.com
 ```
 
----
+86400 seconds = 24 hours. NS records typically have long TTLs because changing nameservers is rare and slow propagation is fine.
 
-## Example 4: Query TXT Records (SPF Email Verification)
+## Gmail's TXT (SPF) record
 
 **Query:** `gmail.com` / Type: TXT
 
-**Expected result (includes SPF record):**
 ```
 Name        Type  TTL    Value
 gmail.com   TXT   3600   "v=spf1 redirect=_spf.google.com"
 ```
 
----
+This delegates SPF policy to `_spf.google.com` — a common pattern. Google manages a list of authorized sending IPs under that record, and gmail.com just redirects to it.
 
-## Example 5: Query CNAME Records (CDN Configuration Verification)
+## CNAME for GitHub Pages
 
 **Query:** `docs.github.com` / Type: CNAME
 
-**Expected result:**
 ```
 Name              Type   TTL   Value
 docs.github.com   CNAME  60    github.github.io
 ```
 
----
+GitHub Pages sites sit behind `github.github.io`. Notice the 60-second TTL again — fast failover is part of GitHub's infrastructure philosophy.
 
-## Common Application Scenarios
+## Real-world scenarios
 
-### Scenario 1: Verify DNS Record Changes Have Propagated
+**Verifying DNS changes took effect —**
+1. Change your A record to point to a new IP
+2. Query your domain with this tool every few minutes
+3. When the new IP shows up, the change has propagated through Cloudflare's resolver
+4. Check with your ISP's resolver too — they may have different caching behavior
 
-```
-Steps:
-1. Modify your DNS A record to point the domain to a new IP (e.g., 192.168.1.100)
-2. Use the DNS query tool to query your domain's A records
-3. If the new IP appears, the change has propagated
-4. If the old IP still appears, wait for the TTL duration and check again
-```
+**Debugging email delivery failures —**
+1. Query TXT records of the sender's domain — is SPF configured?
+2. Query MX records of the recipient's domain — do they exist and resolve?
+3. Query the A record for each MX hostname — make sure the mail server itself has an IP
 
-### Scenario 2: Diagnose Email Delivery Failures
+**SSL certificate domain validation —**
+When provisioning an SSL cert, the CA often asks you to add a TXT record like `_acme-challenge.yourdomain.com` with a specific value. Query that exact name to confirm it's visible before telling the CA to proceed.
 
-```
-Possible cause: MX record misconfiguration
-Troubleshooting steps:
-1. Query TXT records of the sender's domain (check SPF)
-2. Query MX records of the recipient's domain (confirm mail servers)
-3. Check if the MX record's hostname has an A record
-
-Example SPF record interpretation:
-"v=spf1 include:_spf.google.com ~all"
-└── Allows Google mail servers to send on behalf of this domain
-    ~all = Soft fail (other IPs may pass but are marked as suspicious)
-```
-
-### Scenario 3: Confirm CDN Has Taken Over a Domain
-
-```
-Query the CNAME record for www.yourdomain.com:
-- If CNAME points to CDN provider's domain (e.g., *.cloudflare.net) → CDN is active
-- If no CNAME or points to original server → CDN not configured or not yet effective
-```
-
-### Scenario 4: SSL Certificate Domain Validation
-
-```
-When applying for an SSL certificate, the CA requires a verification record in DNS:
-
-Query type: TXT
-Record name: _acme-challenge.yourdomain.com
-
-If the corresponding TXT value appears in the query, the validation record has been added.
-```
-
-### Scenario 5: DNS Query in Code
+**Querying DNS from code —**
 
 ```javascript
-// Query DNS using Cloudflare DoH (browser/Node.js)
 async function queryDNS(domain, type = 'A') {
   const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=${type}`
   const res = await fetch(url, {
@@ -132,22 +96,20 @@ async function queryDNS(domain, type = 'A') {
   return data.Answer || []
 }
 
-// Query A records example
 const records = await queryDNS('example.com', 'A')
 records.forEach(r => {
   console.log(`${r.name} -> ${r.data} (TTL: ${r.TTL}s)`)
 })
 ```
 
-## DNS Record Type Quick Reference
+## Quick reference
 
-| Record Type | Example Value | Purpose |
-|------------|--------------|---------|
-| A | `93.184.216.34` | IPv4 address |
-| AAAA | `2606:2800:220:1:248:1893:25c8:1946` | IPv6 address |
-| CNAME | `www.example.com.cdn.cloudflare.net` | Domain alias |
-| MX | `10 mail.example.com` | Mail server |
-| TXT | `v=spf1 include:...` | Text verification |
-| NS | `ns1.cloudflare.com` | Authoritative DNS |
-| SOA | `ns1.example.com. admin.example.com. 2024010101 3600 900 604800 300` | Zone info |
-
+| Record | Example value |
+|--------|--------------|
+| A | `93.184.216.34` |
+| AAAA | `2606:2800:220:1:248:1893:25c8:1946` |
+| CNAME | `www.example.com.cdn.cloudflare.net` |
+| MX | `10 mail.example.com` |
+| TXT | `v=spf1 include:...` |
+| NS | `ns1.cloudflare.com` |
+| SOA | `ns1.example.com. admin.example.com. 2024010101 3600 900 604800 300` |

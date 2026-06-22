@@ -1,22 +1,20 @@
-# Git Commit 生成器 - 技术背景
+# Git Commit 生成器 — 规范背后的事
 
-## 什么是 Conventional Commits
-
-Conventional Commits 是一种为提交信息添加人机可读含义的规范。它建立在 SemVer 语义化版本之上，通过提交信息描述特性、修复和破坏性变更。
+Conventional Commits 是一套提交信息规范，让提交记录既能给人看懂，也能让工具自动解析。核心思路很简单：每条提交前面加个标准化的类型标签，工具就能自动判断版本号怎么变、生成 changelog、检查提交规范。
 
 官方规范：[conventionalcommits.org](https://www.conventionalcommits.org)
 
-## 提交信息格式
+## 提交信息的结构
 
 ```
-<type>[optional scope][optional !]: <description>
+<type>[可选 scope][可选 !]: <描述>
 
-[optional body]
+[可选正文]
 
-[optional footer(s)]
+[可选脚注]
 ```
 
-### 完整示例
+实际例子：
 
 ```
 feat(auth)!: 支持 OAuth2 第三方登录
@@ -28,43 +26,42 @@ BREAKING CHANGE: 短信登录接口 /api/sms-login 已废弃
 Closes: #312
 ```
 
-## 提交类型（type）说明
+## 类型说明
 
-| Type | 含义 | 是否触发版本更新 |
-|------|------|----------------|
-| `feat` | 新功能 | Minor 版本 |
-| `fix` | Bug 修复 | Patch 版本 |
-| `docs` | 文档变更 | 不触发 |
-| `style` | 代码格式（不影响逻辑） | 不触发 |
-| `refactor` | 重构（非 Bug 修复/新功能） | 不触发 |
-| `perf` | 性能优化 | Patch 版本 |
-| `test` | 添加或修改测试 | 不触发 |
-| `chore` | 构建/辅助工具变更 | 不触发 |
-| `revert` | 回退某次提交 | 不触发 |
-| `build` | 构建系统或外部依赖 | 不触发 |
-| `ci` | CI 配置文件变更 | 不触发 |
+| 类型 | 含义 | 触发版本更新？ |
+|------|------|--------------|
+| `feat` | 新功能 | 是 — minor |
+| `fix` | Bug 修复 | 是 — patch |
+| `docs` | 只改了文档 | 否 |
+| `style` | 代码格式（空格、缩进），没动逻辑 | 否 |
+| `refactor` | 重构，不是修 bug 也不是新功能 | 否 |
+| `perf` | 性能优化 | 是 — patch |
+| `test` | 加测试或改测试 | 否 |
+| `chore` | 构建脚本、依赖升级 | 否 |
+| `revert` | 回退某次提交 | 否 |
+| `build` | 构建系统或外部依赖 | 否 |
+| `ci` | CI 配置改动 | 否 |
 
-## 破坏性变更（BREAKING CHANGE）
+## 破坏性变更怎么标记
 
-有两种方式标记破坏性变更：
+两种方式：
 
-1. **在 type 后加 `!`**：`feat!: 移除 v1 API`
-2. **在 footer 中写 `BREAKING CHANGE:`**：描述具体的变更内容和迁移方案
+1. 在类型后面加 `!`：`feat!: 移除 v1 API`
+2. 在脚注里写 `BREAKING CHANGE:` 并说明迁移方案
 
-破坏性变更会触发 **Major 版本**号更新（如 1.x.x → 2.0.0）。
+不管哪种，都会触发主版本号升级（1.x.x 到 2.0.0）。
 
-## 与 SemVer 的关系
+## 和语义化版本的关系
 
 | 提交类型 | 版本变化 |
 |---------|---------|
-| `fix` | 1.0.0 → 1.0.**1** |
-| `feat` | 1.0.0 → 1.**1**.0 |
-| `BREAKING CHANGE` | 1.0.0 → **2**.0.0 |
+| `fix` | 1.0.0 → 1.0.**1**（patch）|
+| `feat` | 1.0.0 → 1.**1**.0（minor）|
+| `BREAKING CHANGE` | 1.0.0 → **2**.0.0（major）|
 
-## 配合工具链
+## 配套工具链
 
-- **commitlint**：提交前校验格式是否符合规范
-- **commitizen**：交互式命令行生成提交信息
-- **standard-version / release-please**：根据提交历史自动生成 CHANGELOG 和版本号
-- **semantic-release**：全自动化版本发布流水线
-
+- **commitlint** — 提交前检查格式是否合规
+- **commitizen** — 交互式命令行工具，一步步引导你写规范提交
+- **standard-version / release-please** — 读提交历史自动生成 CHANGELOG.md 并更新版本号
+- **semantic-release** — 全自动：每次合到 main 分支，读提交记录、定版本号、发布到 npm、贴 GitHub release

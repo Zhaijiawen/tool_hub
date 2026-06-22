@@ -1,9 +1,8 @@
 # JSON Schema Generator - Examples
 
-## Example 1: User Object
+## Simple user object
 
-**Input JSON:**
-
+Input:
 ```json
 {
   "id": 1001,
@@ -15,8 +14,7 @@
 }
 ```
 
-**Generated JSON Schema:**
-
+Generated JSON Schema (all fields are inferred as required since they're all present in the sample):
 ```json
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -33,8 +31,7 @@
 }
 ```
 
-**Generated TypeScript Interface:**
-
+Generated TypeScript interface:
 ```typescript
 interface Root {
   id: number
@@ -46,12 +43,13 @@ interface Root {
 }
 ```
 
+After generating, you'd probably add `format: "email"` to the email field and change `createdAt` to `format: "date-time"`. The generator can't know those from a single string value -- add them by hand.
+
 ---
 
-## Example 2: Order List (Array)
+## Array of orders with nested items
 
-**Input JSON:**
-
+Input:
 ```json
 [
   {
@@ -66,8 +64,7 @@ interface Root {
 ]
 ```
 
-**Generated TypeScript Interface:**
-
+Generated TypeScript -- notice how the nested `items` array produces a separate `Item` interface:
 ```typescript
 interface Item {
   sku: string
@@ -88,10 +85,9 @@ type Root = Order[]
 
 ---
 
-## Example 3: Deeply Nested Config
+## Deeply nested config
 
-**Input JSON:**
-
+Input:
 ```json
 {
   "server": {
@@ -109,8 +105,7 @@ type Root = Order[]
 }
 ```
 
-**Generated JSON Schema (excerpt):**
-
+Generated JSON Schema -- three levels of nesting handled cleanly:
 ```json
 {
   "type": "object",
@@ -142,23 +137,25 @@ type Root = Order[]
 
 ---
 
-## Common Manual Enhancements
+## Manual refinements to apply after generation
 
-After generating a schema, common refinements to add by hand:
+The generator gives you a solid starting point. Here's what to add yourself:
 
 ```json
-// 1. Add format validation for email
+// 1. Format hints -- can't be inferred from values
 "email": { "type": "string", "format": "email" }
 
-// 2. Add length constraints for strings
+// 2. Length constraints
 "username": { "type": "string", "minLength": 3, "maxLength": 20 }
 
-// 3. Restrict an enum field to allowed values
+// 3. Enums for status fields
 "status": { "type": "string", "enum": ["pending", "completed", "refunded"] }
 
-// 4. Allow a field to be null
+// 4. Nullable fields -- type can be an array
 "deletedAt": { "type": ["string", "null"] }
 
-// 5. Mark optional fields (remove from the required array)
-"required": ["id", "username"]  // optional fields not listed
+// 5. Relax required fields -- remove optional ones from the array
+"required": ["id", "username"]  // email, age etc. are now optional
+```
 
+The generated schema is never the final product -- it's the 80% you get for free so you only have to write the 20% that requires human judgment.

@@ -1,12 +1,10 @@
-# Git Commit Generator - Technical Background
+# Git Commit Generator — The Convention Behind It
 
-## What is Conventional Commits
+Conventional Commits is a spec for writing commit messages that both humans and tools can parse. The idea is simple: prefix every commit with a standardized type tag, and tools can automatically derive version bumps, generate changelogs, and enforce commit hygiene.
 
-Conventional Commits is a specification for adding human and machine readable meaning to commit messages. It builds on top of SemVer, describing features, fixes, and breaking changes in commit messages.
+The official spec lives at [conventionalcommits.org](https://www.conventionalcommits.org).
 
-Official spec: [conventionalcommits.org](https://www.conventionalcommits.org)
-
-## Commit Message Format
+## The anatomy of a commit message
 
 ```
 <type>[optional scope][optional !]: <description>
@@ -16,7 +14,7 @@ Official spec: [conventionalcommits.org](https://www.conventionalcommits.org)
 [optional footer(s)]
 ```
 
-### Full Example
+A real example:
 
 ```
 feat(auth)!: add OAuth2 third-party login
@@ -28,43 +26,42 @@ BREAKING CHANGE: /api/sms-login endpoint is deprecated
 Closes: #312
 ```
 
-## Commit Types
+## The type system
 
-| Type | Meaning | Version bump |
-|------|---------|--------------|
-| `feat` | New feature | Minor |
-| `fix` | Bug fix | Patch |
-| `docs` | Documentation only | None |
-| `style` | Code style (no logic change) | None |
-| `refactor` | Code refactor (not a fix/feature) | None |
-| `perf` | Performance improvement | Patch |
-| `test` | Adding or updating tests | None |
-| `chore` | Build process or tooling | None |
-| `revert` | Revert a previous commit | None |
-| `build` | Build system / external deps | None |
-| `ci` | CI configuration changes | None |
+| Type | Meaning | Triggers version bump? |
+|------|---------|----------------------|
+| `feat` | New feature | Yes — minor |
+| `fix` | Bug fix | Yes — patch |
+| `docs` | Documentation only | No |
+| `style` | Formatting, whitespace, no logic change | No |
+| `refactor` | Code restructuring, not a fix or feature | No |
+| `perf` | Performance improvement | Yes — patch |
+| `test` | Adding or updating tests | No |
+| `chore` | Build scripts, dependency updates | No |
+| `revert` | Rolling back a previous commit | No |
+| `build` | Build system or external dependencies | No |
+| `ci` | CI configuration changes | No |
 
-## Breaking Changes
+## Breaking changes
 
-Two ways to mark a breaking change:
+Two ways to signal them:
 
-1. **Append `!` after the type**: `feat!: remove v1 API`
-2. **Add `BREAKING CHANGE:` footer**: describe the change and migration path
+1. Append `!` after the type: `feat!: remove v1 API`
+2. Add `BREAKING CHANGE:` in the footer with migration instructions
 
-Breaking changes trigger a **Major version** bump (e.g. 1.x.x → 2.0.0).
+Either way, it triggers a major version bump (1.x.x to 2.0.0).
 
-## Relationship with SemVer
+## How this connects to SemVer
 
-| Commit type | Version change |
+| Commit type | Version impact |
 |-------------|---------------|
-| `fix` | 1.0.0 → 1.0.**1** |
-| `feat` | 1.0.0 → 1.**1**.0 |
-| `BREAKING CHANGE` | 1.0.0 → **2**.0.0 |
+| `fix` | 1.0.0 → 1.0.**1** (patch) |
+| `feat` | 1.0.0 → 1.**1**.0 (minor) |
+| `BREAKING CHANGE` | 1.0.0 → **2**.0.0 (major) |
 
-## Ecosystem Tools
+## Tools in the ecosystem
 
-- **commitlint**: Validate commit messages against the spec
-- **commitizen**: Interactive CLI for composing commit messages
-- **standard-version / release-please**: Auto-generate CHANGELOG and version from commit history
-- **semantic-release**: Fully automated version release pipeline
-
+- **commitlint** — validates commit messages against the spec before they land
+- **commitizen** — interactive CLI that walks you through composing a compliant message
+- **standard-version / release-please** — reads your commit history and auto-generates CHANGELOG.md plus bumps the version
+- **semantic-release** — fully automated: on every push to main, it reads commits, determines the next version, publishes to npm, and posts a GitHub release

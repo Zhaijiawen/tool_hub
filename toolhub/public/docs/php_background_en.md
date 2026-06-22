@@ -1,247 +1,41 @@
-# PHP Technical Background
+# PHP — What's Going On Under the Hood
 
-PHP (Hypertext Preprocessor) is a server-side scripting language designed for web development. Originally created by Rasmus Lerdorf in 1994, PHP has evolved into a powerful, general-purpose programming language that is particularly well-suited for building dynamic websites and web applications.
+PHP started in 1994 as Rasmus Lerdorf's collection of Perl scripts for tracking visits to his online resume. "Personal Home Page" grew into a full language, and today PHP powers roughly 75% of the web (WordPress alone drives over 40% of all websites).
 
-## History and Development
+## How PHP Executes
 
-### Origins
-PHP was originally created as a simple set of Perl scripts by Rasmus Lerdorf to track visits to his online resume. The name "PHP" initially stood for "Personal Home Page" but was later changed to "PHP: Hypertext Preprocessor" as the language evolved.
+PHP is server-side — the web server hands requests to the PHP interpreter, which produces HTML/JSON/XML and sends it back. With Apache, `mod_php` runs PHP inline. With Nginx, PHP-FPM (FastCGI Process Manager) acts as a separate process pool. Either way, each request gets a fresh execution context — no shared state between requests unless you deliberately use sessions or caches.
 
-### Key Milestones
-- **1994**: PHP 1.0 released as a simple set of Perl scripts
-- **1995**: PHP 2.0 rewritten in C with basic functionality
-- **1997**: PHP 3.0 introduced by Andi Gutmans and Zeev Suraski
-- **2000**: PHP 4.0 released with improved performance and features
-- **2004**: PHP 5.0 introduced object-oriented programming
-- **2015**: PHP 7.0 brought significant performance improvements
-- **2020**: PHP 8.0 introduced major new features and improvements
+PHP 7+ (the Zend Engine 3) was a huge leap. Performance roughly doubled compared to PHP 5. OPcache stores precompiled bytecode in memory so the interpreter skips parsing on repeated requests.
 
-## Core Characteristics
+## Type System
 
-### 1. Server-Side Scripting
-PHP is primarily designed to run on web servers, processing requests and generating dynamic content for web browsers.
+PHP is dynamically typed with optional type declarations since PHP 7:
 
-### 2. Easy Integration
-PHP can be easily embedded into HTML and works seamlessly with various web servers and databases.
-
-### 3. Cross-Platform
-PHP runs on multiple operating systems including Windows, Linux, macOS, and various Unix systems.
-
-### 4. Open Source
-PHP is free to use and has a large, active community contributing to its development.
-
-### 5. Database Support
-PHP provides excellent support for various databases including MySQL, PostgreSQL, SQLite, and others.
-
-## PHP Architecture
-
-### Web Server Integration
-PHP can be integrated with web servers in several ways:
-- **Apache**: Using mod_php module
-- **Nginx**: Using PHP-FPM (FastCGI Process Manager)
-- **Built-in Server**: PHP's development server for testing
-
-### Request Processing
-1. **Web Server**: Receives HTTP request
-2. **PHP Interpreter**: Processes PHP code
-3. **Database**: Queries if needed
-4. **Response**: Returns HTML/JSON/other content
-
-## Data Types and Variables
-
-### Scalar Types
-- **int**: Integer numbers
-- **float**: Floating-point numbers
-- **string**: Text data
-- **bool**: Boolean values (true/false)
-
-### Compound Types
-- **array**: Ordered maps
-- **object**: Instances of classes
-- **callable**: Functions and methods
-- **iterable**: Traversable data
-
-### Special Types
-- **null**: Represents no value
-- **resource**: External resource handles
-
-## PHP Syntax
-
-### Basic Syntax
 ```php
-<?php
-// PHP code goes here
-echo "Hello, World!";
-?>
-```
-
-### Variables
-```php
-$variable = "value";
-$number = 42;
-$array = [1, 2, 3];
-```
-
-### Functions
-```php
-function greet($name) {
-    return "Hello, " . $name;
+function greet(string $name, int $age): string {
+    return "Hello, $name. You are $age.";
 }
 ```
 
-## Object-Oriented Programming
+Scalar types: `int`, `float`, `string`, `bool`. Compound: `array`, `object`, `callable`. The `mixed` type (PHP 8) means "anything." `never` (PHP 8.1) means "this function won't return."
 
-### Classes and Objects
-PHP supports full object-oriented programming with:
-- Classes and objects
-- Inheritance
-- Interfaces
-- Traits
-- Namespaces
+Arrays in PHP are actually ordered hash maps — they serve as both arrays and dictionaries. This is incredibly flexible but also a frequent source of bugs when you expect indexed behavior and get associative.
 
-### Example Class
-```php
-class User {
-    private $name;
-    private $email;
-    
-    public function __construct($name, $email) {
-        $this->name = $name;
-        $this->email = $email;
-    }
-    
-    public function getName() {
-        return $this->name;
-    }
-}
-```
+## The Ecosystem
 
-## Web Development Features
+- **Laravel** dominates. Eloquent ORM, Blade templates, Artisan CLI, built-in queue workers. Modern PHP is essentially Laravel-first.
+- **Symfony** components underpin Laravel and many other projects. Doctrine ORM.
+- **WordPress** powers the CMS world. Plugin ecosystem with 60,000+ plugins.
+- **Composer** handles dependencies. `composer.json` + `composer.lock` = reproducible builds. Packagist is the package registry.
+- **PHPUnit** for testing, **Xdebug** for debugging, **PHPStan** (or Psalm) for static analysis.
 
-### Form Processing
-PHP excels at processing HTML forms and handling user input.
+## What to Watch Out For
 
-### Session Management
-Built-in session support for maintaining user state across requests.
+**`==` vs `===`.** PHP's loose comparison is famously weird: `0 == "foo"` is `true`. Always use strict comparison (`===`) unless you explicitly want type coercion.
 
-### Cookie Handling
-Easy manipulation of cookies for client-side data storage.
+**PDO for database access.** Never use `mysql_*` functions (removed in PHP 7). Never use raw `mysqli_*` without prepared statements. PDO + prepared statements = immune to SQL injection.
 
-### File Upload
-Native support for handling file uploads from web forms.
+**Include/require paths.** PHP resolves relative paths from the PHP process's working directory, not the file doing the include. Use `__DIR__ . '/file.php'` for reliable includes.
 
-## Database Integration
-
-### MySQL/MariaDB
-PHP has excellent support for MySQL databases with multiple APIs:
-- **mysqli**: Object-oriented and procedural interfaces
-- **PDO**: Database abstraction layer
-- **mysql**: Legacy extension (deprecated)
-
-### Other Databases
-- PostgreSQL
-- SQLite
-- MongoDB
-- Redis
-
-## Frameworks and Libraries
-
-### Popular Frameworks
-- **Laravel**: Full-featured web application framework
-- **Symfony**: Component-based framework
-- **CodeIgniter**: Lightweight framework
-- **Yii**: High-performance framework
-- **CakePHP**: Rapid development framework
-
-### CMS Platforms
-- **WordPress**: Most popular CMS
-- **Drupal**: Enterprise-level CMS
-- **Joomla**: User-friendly CMS
-
-## Performance and Optimization
-
-### PHP 7+ Improvements
-- **Zend Engine 3**: Significant performance improvements
-- **Type Declarations**: Better code optimization
-- **Return Type Declarations**: Enhanced type safety
-- **Null Coalescing Operator**: Simplified null handling
-
-### Caching
-- **OPcache**: Bytecode caching
-- **APCu**: User data caching
-- **Redis**: External caching
-- **Memcached**: Distributed caching
-
-## Security Features
-
-### Built-in Security
-- **Input Validation**: Functions for sanitizing input
-- **SQL Injection Prevention**: Prepared statements
-- **XSS Protection**: Output escaping functions
-- **CSRF Protection**: Token-based protection
-
-### Best Practices
-- Always validate and sanitize user input
-- Use prepared statements for database queries
-- Implement proper authentication and authorization
-- Keep PHP and extensions updated
-- Use HTTPS for sensitive data
-
-## Development Tools
-
-### IDEs and Editors
-- **PhpStorm**: Professional PHP IDE
-- **VS Code**: Lightweight editor with PHP extensions
-- **Sublime Text**: Fast text editor
-- **NetBeans**: Free IDE with PHP support
-
-### Debugging Tools
-- **Xdebug**: Advanced debugging extension
-- **PHPUnit**: Unit testing framework
-- **Composer**: Dependency management
-- **PHP_CodeSniffer**: Code quality tool
-
-## Package Management
-
-### Composer
-Modern dependency management for PHP:
-- **Packagist**: Main package repository
-- **Autoloading**: PSR-4 autoloading standard
-- **Version Management**: Semantic versioning support
-
-### PSR Standards
-PHP Standards Recommendations for consistent coding:
-- **PSR-1**: Basic coding standard
-- **PSR-4**: Autoloading standard
-- **PSR-12**: Extended coding style
-
-## Deployment and Hosting
-
-### Shared Hosting
-PHP is widely supported on shared hosting platforms due to its simplicity and low resource requirements.
-
-### Cloud Platforms
-- **AWS**: Elastic Beanstalk, Lambda
-- **Google Cloud**: App Engine
-- **Azure**: Web Apps
-- **Heroku**: Platform as a Service
-
-### Containerization
-- **Docker**: Containerized PHP applications
-- **Kubernetes**: Orchestration for PHP services
-
-## Community and Ecosystem
-
-### Active Community
-- Large developer community
-- Extensive documentation
-- Regular conferences and meetups
-- Open source contributions
-
-### Learning Resources
-- Official PHP documentation
-- Online tutorials and courses
-- Community forums and Stack Overflow
-- YouTube channels and podcasts
-
-PHP's combination of simplicity, power, and extensive web development features makes it an excellent choice for building dynamic websites and web applications. Its active community and rich ecosystem ensure continued relevance in modern web development. 
+**Error reporting.** Production: `display_errors = Off`, `log_errors = On`. Development: `error_reporting = E_ALL`. PHP 8 made many warnings into TypeErrors, so code that worked on PHP 7 might throw on PHP 8.

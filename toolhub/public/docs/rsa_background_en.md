@@ -1,114 +1,38 @@
 # RSA Technical Background
 
-## Overview
-RSA (Rivest-Shamir-Adleman) is a widely-used public-key cryptosystem that provides both encryption and digital signature capabilities. Named after its creators Ron Rivest, Adi Shamir, and Leonard Adleman, RSA is based on the mathematical difficulty of factoring large composite numbers. It was first published in 1977 and remains one of the most important cryptographic algorithms in modern security systems.
+RSA is the original public-key cryptosystem, published by Ron Rivest, Adi Shamir, and Leonard Adleman in 1977 (the same year DES came out). It was the first algorithm to do both encryption and digital signatures with separate public and private keys, and it's still everywhere -- TLS certificates, SSH keys, GPG, JWTs. But it's increasingly being replaced by elliptic curve cryptography, which offers equivalent security with dramatically smaller keys.
 
-## Mathematical Foundation
+## How it works, simply
 
-### Core Principle
-RSA security relies on the computational difficulty of factoring the product of two large prime numbers. The problem of finding the prime factors of a large composite number is believed to be computationally infeasible for sufficiently large numbers, making RSA secure against classical attacks.
+RSA's security rests on the difficulty of factoring large numbers. Generate two large prime numbers p and q, multiply them to get n = p * q, and choose a public exponent e (typically 65537). The public key is (n, e). The private key is d, computed from e and the totient of n, such that e * d ≡ 1 (mod φ(n)).
 
-### Key Mathematical Concepts
-- **Prime Numbers**: Large prime numbers p and q are the foundation
-- **Euler's Totient Function**: φ(n) = (p-1)(q-1) for n = pq
-- **Modular Arithmetic**: All operations are performed modulo n
-- **Fermat's Little Theorem**: Basis for the encryption/decryption process
+Encryption: ciphertext = message^e mod n. Decryption: message = ciphertext^d mod n. Without knowing p and q (and thus being able to compute d), an attacker would need to factor n -- which for a 2048-bit number is computationally infeasible with today's technology.
 
-## Algorithm Structure
+## Key sizes and what they mean
 
-### Key Generation
-1. **Prime Selection**: Choose two large prime numbers p and q
-2. **Modulus Calculation**: Compute n = p × q
-3. **Totient Calculation**: Compute φ(n) = (p-1)(q-1)
-4. **Public Exponent**: Choose e such that 1 < e < φ(n) and gcd(e, φ(n)) = 1
-5. **Private Exponent**: Calculate d such that d × e ≡ 1 (mod φ(n))
+RSA keys need to be large because factoring attacks keep improving:
 
-### Encryption Process
-- **Public Key**: (n, e)
-- **Ciphertext**: c = m^e mod n
-- **Message**: m must satisfy 0 ≤ m < n
+| Key size | Security | Status |
+|----------|----------|--------|
+| 1024-bit | ~80 bits | Broken/deprecated |
+| 2048-bit | ~112 bits | Minimum for current use |
+| 3072-bit | ~128 bits | Recommended by NIST |
+| 4096-bit | ~140 bits | Overkill for most apps |
 
-### Decryption Process
-- **Private Key**: (n, d)
-- **Plaintext**: m = c^d mod n
+A 256-bit ECC key provides the same security as a 3072-bit RSA key. This is why SSL certificate authorities have largely switched to ECC -- smaller keys mean faster handshakes and less bandwidth.
 
-## Security Analysis
+## RSA encryption in practice
 
-### Known Attacks
-- **Factorization Attacks**: Attempt to factor n into p and q
-- **Timing Attacks**: Exploit timing variations in modular exponentiation
-- **Chosen Ciphertext Attacks**: Exploit properties of RSA padding
-- **Side-Channel Attacks**: Exploit physical implementation weaknesses
+Nobody encrypts messages directly with RSA. It's slow, it can only encrypt data smaller than the key size minus padding, and textbook RSA (without padding) is insecure. The standard approach is hybrid encryption: generate a random AES key, encrypt the actual data with AES, and encrypt the AES key with RSA.
 
-### Security Parameters
-- **Key Size**: Currently recommended minimum is 2048 bits
-- **Prime Size**: Each prime should be at least 1024 bits
-- **Exponent**: Common choices are e = 3, 17, or 65537
+The padding scheme matters enormously. OAEP (Optimal Asymmetric Encryption Padding) is the current standard. PKCS#1 v1.5 padding is older and has known vulnerabilities (Bleichenbacher's attack).
 
-## Implementation Considerations
+## RSA signatures
 
-### Padding Schemes
-- **PKCS#1 v1.5**: Legacy padding scheme with known vulnerabilities
-- **OAEP (Optimal Asymmetric Encryption Padding)**: Recommended padding scheme
-- **PSS (Probabilistic Signature Scheme)**: For digital signatures
+RSA signing reverses the operation: the signer computes signature = hash(message)^d mod n, and anyone with the public key verifies with hash(message) ≡ signature^e mod n. RSA-PSS (Probabilistic Signature Scheme) is the modern padding standard; PKCS#1 v1.5 signatures are still widely used but less secure.
 
-### Performance Characteristics
-- **Encryption**: Relatively fast with small public exponent
-- **Decryption**: Slower due to large private exponent
-- **Key Generation**: Most computationally expensive operation
+## RSA vs ECC
 
-## Standards and Compliance
+For new projects, ECC (Ed25519 for signatures, X25519 for key exchange) is the better choice. Keys are smaller, operations are faster, and the implementation is harder to get wrong. RSA's main remaining advantage is compatibility -- every system that does public-key crypto supports RSA, and some legacy systems only support RSA.
 
-### NIST Guidelines
-- **FIPS 186-4**: Digital Signature Standard
-- **SP 800-56B**: Key establishment using integer factorization
-- **SP 800-57**: Key management recommendations
-
-### Industry Standards
-- **PKCS#1**: RSA cryptography standard
-- **RFC 8017**: PKCS#1 v2.2 specification
-- **ISO/IEC 9796**: Digital signature schemes
-
-## Applications and Use Cases
-
-### Primary Applications
-- **Digital Signatures**: Document and message authentication
-- **Key Exchange**: Secure key establishment protocols
-- **Hybrid Encryption**: Combined with symmetric ciphers
-- **Certificate Authorities**: X.509 certificate infrastructure
-
-### Real-World Usage
-- **SSL/TLS**: Secure web communications
-- **SSH**: Secure remote access
-- **PGP/GPG**: Email encryption and signing
-- **Smart Cards**: Identity and payment systems
-
-## Historical Development
-
-### Timeline
-- **1977**: RSA algorithm first published
-- **1983**: MIT patent granted for RSA
-- **1990s**: Widespread adoption in internet protocols
-- **2000**: Patent expiration, open implementation
-- **2000s**: Transition to larger key sizes
-- **2010s**: Post-quantum cryptography research begins
-
-### Evolution
-- **Key Sizes**: From 512 bits to 2048+ bits
-- **Padding**: From simple padding to OAEP
-- **Implementation**: From software-only to hardware acceleration
-- **Standards**: From academic papers to formal standards
-
-## Future Considerations
-
-### Quantum Computing Threat
-- **Shor's Algorithm**: Can factor large numbers efficiently
-- **Key Size Impact**: Current key sizes become insecure
-- **Migration Timeline**: 10-20 year transition period
-- **Post-Quantum Alternatives**: Lattice-based, hash-based, code-based
-
-### Current Research
-- **Post-Quantum RSA**: RSA with larger key sizes
-- **Hybrid Schemes**: Combining classical and post-quantum
-- **Implementation Security**: Side-channel resistance
-- **Performance Optimization**: Faster key generation and operations 
+If you're generating an RSA key, use at least 2048 bits (3072 if you're cautious). Never use 1024-bit RSA keys -- they've been publicly factored.

@@ -1,55 +1,40 @@
-# HTTP Request Tester — Tutorial
+# HTTP Request Tester — How to Use
 
-## Sending Your First Request
+A lightweight HTTP client that runs in your browser. No server relay — requests go directly from your browser to the target API.
 
-### Step 1: Enter the URL
+## Sending a request
 
-Type the full request URL, e.g.:
-```
-https://httpbin.org/get
-```
-If no protocol is specified, `https://` is added automatically.
+**URL —** Type the full address. If you leave off the protocol, `https://` is added automatically. Works with any public API that supports CORS, or any API you've configured to allow cross-origin requests.
 
-### Step 2: Select the HTTP Method
+**Method —** Defaults to GET. Switch to POST, PUT, PATCH, DELETE, HEAD, or OPTIONS as needed.
 
-The default is `GET`. Choose from `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, or `OPTIONS` as needed.
+**Params tab —** Add query parameters as key-value pairs. Each has a checkbox to toggle it on or off without deleting it — handy for testing with and without certain params. Enabled params are appended to the URL automatically.
 
-### Step 3: Configure Request Parameters
+**Headers tab —** `Accept: application/json` is prefilled. Add auth tokens, content types, or custom headers. Each header row has its own enable/disable toggle.
 
-**Params Tab (Query Parameters)**
-- Click "+ Add Param" to add key-value pairs
-- Use the checkbox to enable or disable individual parameters
-- Enabled params are appended to the URL automatically
+**Body tab —** Only active for POST, PUT, and PATCH. Four modes:
+- **None** — no body
+- **JSON** — automatically sets `Content-Type: application/json`
+- **Form** — automatically sets `Content-Type: application/x-www-form-urlencoded`
+- **Text** — raw text, you set the Content-Type header yourself
 
-**Headers Tab**
-- `Accept: application/json` is pre-filled by default
-- Add custom headers such as `Authorization: Bearer <token>`
+Hit **Send** and wait for the response.
 
-**Body Tab** (disabled for GET/HEAD)
-- `None`: No request body
-- `JSON`: Sets `Content-Type: application/json` automatically
-- `Form`: Sets `Content-Type: application/x-www-form-urlencoded` automatically
-- `Text`: Plain text body
+## Reading the response
 
-### Step 4: Send the Request
+The status bar shows the HTTP status code (color-coded: green for 2xx, orange for 4xx, red for 5xx), elapsed time in milliseconds, and response body size.
 
-Click the **Send** button and wait for the response.
+The Body tab shows the response content — JSON is auto-formatted with syntax highlighting. The Response Headers tab shows every header the server sent back.
 
-## Reading the Response
+## CORS workaround notes
 
-- **Status bar**: Status code (green = success, orange = 4xx, red = 5xx), elapsed time, body size
-- **Body tab**: Response content; JSON is auto-formatted
-- **Response Headers tab**: All response headers returned by the server
+If you get a CORS error, a few options:
 
-## Dealing with CORS Errors
+1. Use a public API that supports CORS for testing — `https://httpbin.org` is built exactly for this
+2. Configure your API server to include `Access-Control-Allow-Origin` headers
+3. For internal testing, use a browser extension that disables CORS (temporary, development only)
+4. Switch to `curl` or Postman for APIs that don't support CORS — this tool runs in the browser so it's subject to the same restrictions as your web app
 
-If you see a CORS error, try:
-1. Using a CORS-enabled public API (e.g. `https://httpbin.org`) for testing
-2. Configuring `Access-Control-Allow-Origin: *` on your API server
-3. Using tools not subject to CORS restrictions, like Postman or `curl`
+## Data persistence
 
-## Tips
-
-- The last request configuration is saved automatically and restored on your next visit
-- Requests are sent directly from your browser with no server relay, protecting your privacy
-
+Your last request configuration — URL, method, params, headers, and body — is saved to localStorage and restored when you come back. Your request history is only stored locally, never uploaded anywhere.

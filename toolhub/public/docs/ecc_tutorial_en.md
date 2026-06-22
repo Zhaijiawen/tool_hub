@@ -1,514 +1,144 @@
 # ECC Usage Tutorial
 
-## Environment Setup
+ECC is a huge topic -- curves, key exchange, signatures. This tutorial focuses on the practical side: generating keys, doing ECDH key exchange, and signing with ECDSA, all in Python with `pycryptodome`.
 
-### Prerequisites
-- Programming language with ECC cryptographic libraries
-- Understanding of elliptic curve mathematics
-- Knowledge of public-key cryptography concepts
-- Awareness of ECC security considerations
+## Setup
 
-### Library Selection
-
-#### PyCryptodome (Python)
 ```bash
 pip install pycryptodome
 ```
 
-#### Node.js crypto (JavaScript)
-```bash
-# Built-in crypto module supports ECC
-npm install elliptic  # For additional ECC features
-```
+For JavaScript, Node's built-in `crypto` module does ECC natively. For Java, Bouncy Castle is the standard. For Go, `crypto/ecdsa` and `crypto/elliptic` are in the standard library.
 
-#### Bouncy Castle (Java)
-```xml
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.70</version>
-</dependency>
-```
+## Picking a curve
 
-#### OpenSSL (C/C++)
-```bash
-# Install OpenSSL with ECC support
-sudo apt-get install libssl-dev  # Ubuntu/Debian
-brew install openssl             # macOS
-```
+The curve you pick matters. A lot. Here's a quick guide:
 
-## Basic Concepts
-
-### Curve Selection
 ```python
 from Crypto.PublicKey import ECC
 
-def curve_selection_guide():
-    """Guide for selecting ECC curves"""
-    print("ECC Curve Selection Guide:")
-    print("P-256: NIST curve, widely supported, 128-bit security")
-    print("P-384: NIST curve, higher security, slower performance")
-    print("Curve25519: High-performance curve, 128-bit security")
-    print("Ed25519: Edwards curve for signatures, fast and secure")
-    
-    # Security levels
-    security_levels = {
-        "P-256": "128 bits (recommended)",
-        "P-384": "192 bits (high security)",
-        "Curve25519": "128 bits (high performance)",
-        "Ed25519": "128 bits (signatures only)"
-    }
-    
-    return security_levels
+# NIST P-256: the workhorse. 128-bit security, everywhere.
+key = ECC.generate(curve='P-256')
+
+# P-384: higher security (192-bit), slower.
+key = ECC.generate(curve='P-384')
+
+# Curve25519: djb's design, fast and hard to misuse. For key exchange only.
+# (Use nacl or cryptography library for this, not pycryptodome)
+
+# Ed25519: for signatures. Deterministic, no nonce-reuse risk.
+# (Use nacl or cryptography library)
 ```
 
-### Key Pair Structure
-```python
-def generate_ecc_key_pair(curve_name="P-256"):
-    """Generate ECC key pair"""
-    key = ECC.generate(curve=curve_name)
-    
-    # Extract components
-    private_key = key
-    public_key = key.public_key()
-    
-    print(f"Generated {curve_name} ECC key pair")
-    print(f"Private key: {private_key.d}")
-    print(f"Public key: {public_key.pointQ}")
-    
-    return private_key, public_key
-```
+For new projects, Curve25519 (ECDH) + Ed25519 (signatures) is the combination most cryptographers recommend. NIST P-256 is still fine and has broader compatibility.
 
-## Key Generation
+## Key generation
 
-### Basic Key Generation
 ```python
 from Crypto.PublicKey import ECC
-import os
 
-def generate_ecc_key_pair(curve_name="P-256"):
-    """Generate ECC key pair with specified curve"""
-    key = ECC.generate(curve=curve_name)
-    
-    print(f"Generated {curve_name} ECC key pair")
-    print(f"Curve: {key.curve}")
-    print(f"Key size: {key.pointQ.size_in_bits()} bits")
-    
-    return key
+# Generate a P-256 key pair
+key = ECC.generate(curve='P-256')
 
-def save_key_pair(key, filename_prefix):
-    """Save ECC key pair to files"""
-    # Save private key
-    with open(f"{filename_prefix}_private.pem", "wb") as f:
-        f.write(key.export_key(format='PEM'))
-    
-    # Save public key
-    with open(f"{filename_prefix}_public.pem", "wb") as f:
-        f.write(key.public_key().export_key(format='PEM'))
-    
-    print(f"Keys saved as {filename_prefix}_private.pem and {filename_prefix}_public.pem")
+# The private key is a scalar (big integer)
+print(f"Private key d: {key.d}")
+
+# The public key is a point on the curve
+pub = key.public_key()
+print(f"Public key point: {pub.pointQ}")
+
+# Export to PEM for storage
+private_pem = key.export_key(format='PEM')
+public_pem = pub.export_key(format='PEM')
+
+with open('ecc_private.pem', 'wb') as f:
+    f.write(private_pem)
+with open('ecc_public.pem', 'wb') as f:
+    f.write(public_pem)
+
+# Load back
+loaded_key = ECC.import_key(open('ecc_private.pem', 'rb').read())
 ```
 
-### Key Generation with Custom Parameters
+## ECDH key exchange
+
+ECDH lets two parties derive a shared secret using each other's public keys:
+
 ```python
-def generate_ecc_with_custom_curve():
-    """Generate ECC key with different curves"""
-    curves = ["P-256", "P-384", "P-521"]
-    
-    for curve in curves:
-        key = ECC.generate(curve=curve)
-        print(f"{curve}: {key.pointQ.size_in_bits()} bits")
-    
-    return key
-
-def validate_key_parameters(key):
-    """Validate ECC key parameters"""
-    # Check curve
-    if key.curve not in ["P-256", "P-384", "P-521"]:
-        print("Warning: Non-standard curve")
-    
-    # Check key size
-    if key.pointQ.size_in_bits() < 256:
-        print("Warning: Key size less than 256 bits")
-    
-    # Check private key
-    if key.d == 0:
-        print("Error: Invalid private key")
-        return False
-    
-    return True
-```
-
-## Key Exchange (ECDH)
-
-### Basic ECDH Key Exchange
-```python
+from Crypto.PublicKey import ECC
 from Crypto.Protocol.KDF import HKDF
 from Crypto.Hash import SHA256
 
-def ecdh_key_exchange(private_key_a, public_key_b):
-    """Perform ECDH key exchange"""
-    # Compute shared secret
-    shared_secret = private_key_a.d * public_key_b.pointQ
-    
-    # Convert to bytes
-    shared_bytes = shared_secret.x.to_bytes(32, 'big')
-    
-    # Derive key material
-    key_material = HKDF(shared_bytes, 32, b"", SHA256)
-    
-    return key_material
+# Alice generates her key pair
+alice = ECC.generate(curve='P-256')
+# Bob generates his
+bob = ECC.generate(curve='P-256')
 
-def ecdh_example():
-    """Complete ECDH key exchange example"""
-    # Generate key pairs for two parties
-    alice_key = ECC.generate(curve='P-256')
-    bob_key = ECC.generate(curve='P-256')
-    
-    # Exchange public keys
-    alice_public = alice_key.public_key()
-    bob_public = bob_key.public_key()
-    
-    # Compute shared secrets
-    alice_shared = ecdh_key_exchange(alice_key, bob_public)
-    bob_shared = ecdh_key_exchange(bob_key, alice_public)
-    
-    # Verify they match
-    assert alice_shared == bob_shared
-    print("ECDH key exchange successful")
-    
-    return alice_shared
+# Alice computes shared secret using Bob's public key
+alice_shared = alice.d * bob.public_key().pointQ
+alice_bytes = int(alice_shared.x).to_bytes(32, 'big')
+
+# Bob computes shared secret using Alice's public key
+bob_shared = bob.d * alice.public_key().pointQ
+bob_bytes = int(bob_shared.x).to_bytes(32, 'big')
+
+# They match!
+assert alice_bytes == bob_bytes
+
+# Derive actual encryption keys using HKDF
+derived_key = HKDF(alice_bytes, 32, b"ecdh-salt", SHA256)
 ```
 
-### ECDH with Key Derivation
-```python
-def ecdh_with_derivation(private_key, public_key, salt=None):
-    """ECDH with proper key derivation"""
-    # Compute shared secret
-    shared_point = private_key.d * public_key.pointQ
-    
-    # Convert to bytes
-    shared_bytes = shared_point.x.to_bytes(32, 'big')
-    
-    # Generate salt if not provided
-    if salt is None:
-        salt = os.urandom(16)
-    
-    # Derive keys using HKDF
-    derived_key = HKDF(shared_bytes, 32, salt, SHA256)
-    
-    return derived_key, salt
+In practice, you should always pass the raw shared secret through a KDF like HKDF before using it as an encryption key. Raw ECDH output has some statistical biases that HKDF eliminates.
 
-def secure_key_exchange():
-    """Secure ECDH key exchange with key derivation"""
-    # Generate keys
-    alice_key = ECC.generate(curve='P-256')
-    bob_key = ECC.generate(curve='P-256')
-    
-    # Exchange public keys
-    alice_public = alice_key.public_key()
-    bob_public = bob_key.public_key()
-    
-    # Generate salt
-    salt = os.urandom(16)
-    
-    # Derive shared keys
-    alice_key_material, _ = ecdh_with_derivation(alice_key, bob_public, salt)
-    bob_key_material, _ = ecdh_with_derivation(bob_key, alice_public, salt)
-    
-    assert alice_key_material == bob_key_material
-    return alice_key_material
-```
+## ECDSA signatures
 
-## Digital Signatures
+ECDSA signs a message hash with a private key. The big gotcha: the nonce `k` must be unique and unpredictable for every signature. Reusing a nonce across two signatures with the same key reveals the private key. PyCryptodome's DSS module handles this safely:
 
-### ECDSA Signatures
 ```python
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
 
-def ecdsa_sign(private_key, message):
-    """Sign message using ECDSA"""
-    # Create hash of the message
-    hash_obj = SHA256.new(message.encode())
-    
-    # Create signer
-    signer = DSS.new(private_key, 'fips-186-3')
-    
-    # Sign the hash
-    signature = signer.sign(hash_obj)
-    
-    return signature
+# Sign
+message = b"Hello, ECDSA!"
+hash_obj = SHA256.new(message)
+signer = DSS.new(key, 'fips-186-3')
+signature = signer.sign(hash_obj)
 
-def ecdsa_verify(public_key, message, signature):
-    """Verify ECDSA signature"""
-    # Create hash of the message
-    hash_obj = SHA256.new(message.encode())
-    
-    # Create verifier
-    verifier = DSS.new(public_key, 'fips-186-3')
-    
-    try:
-        verifier.verify(hash_obj, signature)
-        return True
-    except ValueError:
-        return False
-
-# Usage example
-def ecdsa_example():
-    """ECDSA signature example"""
-    # Generate key pair
-    key = ECC.generate(curve='P-256')
-    
-    # Sign message
-    message = "Hello, ECDSA!"
-    signature = ecdsa_sign(key, message)
-    
-    # Verify signature
-    is_valid = ecdsa_verify(key.public_key(), message, signature)
-    
-    print(f"Message: {message}")
-    print(f"Signature valid: {is_valid}")
-    
-    return signature
+# Verify
+verifier = DSS.new(key.public_key(), 'fips-186-3')
+try:
+    verifier.verify(hash_obj, signature)
+    print("Signature valid!")
+except ValueError:
+    print("Signature invalid!")
 ```
 
-### EdDSA Signatures
-```python
-def eddsa_sign(private_key, message):
-    """Sign message using EdDSA"""
-    # Create hash of the message
-    hash_obj = SHA256.new(message.encode())
-    
-    # Create signer (EdDSA uses different format)
-    signer = DSS.new(private_key, 'deterministic-rfc6979')
-    
-    # Sign the hash
-    signature = signer.sign(hash_obj)
-    
-    return signature
+For real applications, prefer Ed25519 over ECDSA. Ed25519 eliminates the nonce problem entirely by making nonces deterministic, produces smaller signatures (64 bytes vs 70-72), and is faster to verify.
 
-def eddsa_verify(public_key, message, signature):
-    """Verify EdDSA signature"""
-    # Create hash of the message
-    hash_obj = SHA256.new(message.encode())
-    
-    # Create verifier
-    verifier = DSS.new(public_key, 'deterministic-rfc6979')
-    
-    try:
-        verifier.verify(hash_obj, signature)
-        return True
-    except ValueError:
-        return False
+## Curve25519/Ed25519 in Python (nacl)
+
+PyCryptodome doesn't support Curve25519 well. Use PyNaCl or the `cryptography` library instead:
+
+```bash
+pip install pynacl
 ```
 
-## Advanced Usage
-
-### Hybrid Encryption
 ```python
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
+import nacl.signing
 
-def ecc_hybrid_encrypt(ecc_public_key, message):
-    """Hybrid encryption using ECC + AES"""
-    # Generate random AES key
-    aes_key = get_random_bytes(32)  # 256-bit key
-    
-    # Encrypt AES key with ECC (ECDH)
-    shared_point = ecc_public_key.pointQ  # In practice, use ECDH
-    # This is simplified - in real implementation, use proper ECDH
-    
-    # Encrypt message with AES
-    cipher = AES.new(aes_key, AES.MODE_GCM)
-    ciphertext, tag = cipher.encrypt_and_digest(message.encode())
-    
-    return aes_key, cipher.nonce, ciphertext, tag
+# Ed25519 signing key
+signing_key = nacl.signing.SigningKey.generate()
+verify_key = signing_key.verify_key
 
-def ecc_hybrid_decrypt(ecc_private_key, aes_key, nonce, ciphertext, tag):
-    """Hybrid decryption using ECC + AES"""
-    # Decrypt AES key with ECC (ECDH)
-    # This is simplified - in real implementation, use proper ECDH
-    
-    # Decrypt message with AES
-    cipher = AES.new(aes_key, AES.MODE_GCM, nonce=nonce)
-    plaintext = cipher.decrypt_and_verify(ciphertext, tag)
-    
-    return plaintext.decode()
+# Sign
+signed = signing_key.sign(b"Hello, Ed25519!")
+# Verify
+try:
+    verify_key.verify(signed)
+    print("Valid!")
+except nacl.exceptions.BadSignatureError:
+    print("Invalid!")
 ```
 
-### Key Management
-```python
-def load_ecc_key_from_file(filename):
-    """Load ECC key from PEM file"""
-    with open(filename, "rb") as f:
-        key_data = f.read()
-    
-    return ECC.import_key(key_data)
-
-def export_ecc_key_to_pem(key, filename):
-    """Export ECC key to PEM file"""
-    with open(filename, "wb") as f:
-        f.write(key.export_key(format='PEM'))
-
-def key_fingerprint(public_key):
-    """Generate key fingerprint for identification"""
-    import hashlib
-    key_data = public_key.export_key(format='DER')
-    fingerprint = hashlib.sha256(key_data).hexdigest()
-    return fingerprint[:16]  # First 16 characters
-```
-
-## Security Best Practices
-
-### Secure Key Generation
-```python
-def secure_ecc_generation():
-    """Secure ECC key generation practices"""
-    print("Secure ECC Key Generation Guidelines:")
-    print("1. Use standardized curves (P-256, Curve25519)")
-    print("2. Generate keys on secure hardware when possible")
-    print("3. Store private keys securely")
-    print("4. Use strong random number generators")
-    print("5. Validate key parameters after generation")
-    print("6. Use appropriate key sizes for security level")
-
-def check_ecc_security(key):
-    """Check ECC key security parameters"""
-    issues = []
-    
-    if key.curve not in ["P-256", "P-384", "P-521"]:
-        issues.append("Non-standard curve")
-    
-    if key.pointQ.size_in_bits() < 256:
-        issues.append("Key size too small")
-    
-    if key.d == 0:
-        issues.append("Invalid private key")
-    
-    return issues
-```
-
-### Curve Security
-```python
-def curve_security_guide():
-    """ECC curve security guidelines"""
-    print("ECC Curve Security:")
-    print("✅ Use P-256 for general purpose (128-bit security)")
-    print("✅ Use P-384 for high security (192-bit security)")
-    print("✅ Use Curve25519 for high performance")
-    print("✅ Use Ed25519 for digital signatures")
-    print("❌ Avoid custom curves")
-    print("❌ Avoid deprecated curves")
-    
-    print("\nCurve Recommendations:")
-    print("- P-256: Widely supported, good performance")
-    print("- P-384: Higher security, slower performance")
-    print("- Curve25519: High performance, modern design")
-    print("- Ed25519: Fast signatures, deterministic")
-```
-
-## Performance Considerations
-
-### Performance Optimization
-```python
-import time
-
-def benchmark_ecc_operations():
-    """Benchmark ECC operations"""
-    # Generate test key
-    key = ECC.generate(curve='P-256')
-    message = "Test message"
-    
-    # Benchmark key generation
-    start_time = time.time()
-    test_key = ECC.generate(curve='P-256')
-    generation_time = time.time() - start_time
-    
-    # Benchmark signing
-    start_time = time.time()
-    signature = ecdsa_sign(key, message)
-    signing_time = time.time() - start_time
-    
-    # Benchmark verification
-    start_time = time.time()
-    ecdsa_verify(key.public_key(), message, signature)
-    verification_time = time.time() - start_time
-    
-    print(f"Key generation: {generation_time*1000:.2f}ms")
-    print(f"Signing: {signing_time*1000:.2f}ms")
-    print(f"Verification: {verification_time*1000:.2f}ms")
-
-def curve_performance_comparison():
-    """Compare performance across different curves"""
-    curves = ["P-256", "P-384", "P-521"]
-    
-    for curve in curves:
-        start_time = time.time()
-        key = ECC.generate(curve=curve)
-        generation_time = time.time() - start_time
-        
-        print(f"{curve} key generation: {generation_time*1000:.2f}ms")
-```
-
-## Error Handling
-
-### Exception Handling
-```python
-def safe_ecc_operations():
-    """Safe ECC operations with error handling"""
-    try:
-        # Generate key
-        key = ECC.generate(curve='P-256')
-        
-        # Sign message
-        message = "Test message"
-        signature = ecdsa_sign(key, message)
-        
-        # Verify signature
-        is_valid = ecdsa_verify(key.public_key(), message, signature)
-        
-        return True, "Operations successful"
-        
-    except ValueError as e:
-        return False, f"Value error: {e}"
-    except Exception as e:
-        return False, f"Unexpected error: {e}"
-
-def validate_ecc_parameters(curve_name):
-    """Validate ECC curve parameters"""
-    valid_curves = ["P-256", "P-384", "P-521"]
-    
-    if curve_name not in valid_curves:
-        raise ValueError(f"Invalid curve: {curve_name}")
-    
-    return True
-```
-
-## Testing and Validation
-
-### Test Vectors
-```python
-def test_ecc_operations():
-    """Test ECC operations with known values"""
-    # Generate test key
-    key = ECC.generate(curve='P-256')
-    
-    # Test ECDSA
-    message = "Test message"
-    signature = ecdsa_sign(key, message)
-    is_valid = ecdsa_verify(key.public_key(), message, signature)
-    
-    assert is_valid, "ECDSA test failed"
-    print("ECC ECDSA test passed")
-    
-    # Test key exchange
-    alice_key = ECC.generate(curve='P-256')
-    bob_key = ECC.generate(curve='P-256')
-    
-    alice_shared = ecdh_key_exchange(alice_key, bob_key.public_key())
-    bob_shared = ecdh_key_exchange(bob_key, alice_key.public_key())
-    
-    assert alice_shared == bob_shared, "ECDH test failed"
-    print("ECC ECDH test passed")
-``` 
+That's it. No nonce to manage, no modes to configure, just sign and verify.

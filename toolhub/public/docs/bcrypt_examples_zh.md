@@ -1,464 +1,215 @@
 # bcrypt 代码示例
 
-## 基本哈希操作
+几种语言中可直接使用的 bcrypt 代码片段，附带实际开发中的重要细节。
 
-### 简单密码哈希
+## Python
+
+Python 的 `bcrypt` 库是 OpenBSD 实现的薄封装。API 处理的是字节，所以需要编码/解码 UTF-8 字符串。
+
+### 基本哈希和验证
+
 ```python
 import bcrypt
 
-def basic_hash_example():
-    """基本bcrypt密码哈希示例"""
-    password = "mySecurePassword123"
-    
-    # 使用默认工作因子(12)哈希密码
-    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    print(f"原始密码: {password}")
-    print(f"哈希密码: {hashed.decode('utf-8')}")
-    
-    # 验证密码
-    is_valid = bcrypt.checkpw(password.encode('utf-8'), hashed)
-    print(f"密码验证: {is_valid}")
-    
-    return hashed
+password = "Tr0ub4dor&3"
 
-# 运行示例
-basic_hash_example()
+# gensalt() 用你选择的工作因子生成随机盐值
+salt = bcrypt.gensalt(rounds=12)
+hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+
+print(hashed.decode('utf-8'))
+# $2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/HS.iQe
+
+# 验证 -- checkpw 从哈希中读取 rounds 和盐值
+print(bcrypt.checkpw(password.encode('utf-8'), hashed))  # True
+print(bcrypt.checkpw(b"wrong_password", hashed))         # False
 ```
 
-### 自定义工作因子
+### 基准测试工作因子
+
+不要猜测服务器能承受多大 rounds 值。测试一下：
+
 ```python
+import bcrypt
 import time
 
-def custom_work_factor_example():
-    """自定义工作因子示例"""
-    password = "adminPassword456"
-    work_factor = 14  # 更高安全性
-    
-    # 使用自定义工作因子生成盐值
-    salt = bcrypt.gensalt(rounds=work_factor)
-    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-    
-    print(f"密码: {password}")
-    print(f"工作因子: {work_factor}")
-    print(f"哈希: {hashed.decode('utf-8')}")
-    
-    return hashed
-
-# 测试不同工作因子
-def work_factor_comparison():
-    """比较不同工作因子"""
-    password = "testPassword"
-    factors = [10, 12, 14, 16]
-    
-    for factor in factors:
-        start_time = time.time()
-        salt = bcrypt.gensalt(rounds=factor)
-        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-        end_time = time.time()
-        
-        duration = (end_time - start_time) * 1000
-        print(f"工作因子 {factor}: {duration:.2f}ms")
+for rounds in [8, 10, 12, 14, 16]:
+    start = time.time()
+    bcrypt.hashpw(b"benchmark", bcrypt.gensalt(rounds=rounds))
+    elapsed = (time.time() - start) * 1000
+    print(f"rounds={rounds:2d}: {elapsed:6.1f}ms")
 ```
 
-## 高级用法
+在我开发机上 rounds=12 大约 300ms。你的结果会不同 -- 云虚拟机、树莓派和 M1 Mac 的 bcrypt 性能差别很大，因为底层 Blowfish 操作在不同 CPU 架构上的表现差异明显。
 
-### 盐值管理
+### 迷你认证服务
+
 ```python
-def salt_management_example():
-    """演示盐值管理"""
-    password = "userPassword789"
-    
-    # 手动生成盐值
-    salt1 = bcrypt.gensalt(rounds=12)
-    salt2 = bcrypt.gensalt(rounds=12)
-    
-    # 使用不同盐值哈希相同密码
-    hash1 = bcrypt.hashpw(password.encode('utf-8'), salt1)
-    hash2 = bcrypt.hashpw(password.encode('utf-8'), salt2)
-    
-    print(f"密码: {password}")
-    print(f"哈希1: {hash1.decode('utf-8')}")
-    print(f"哈希2: {hash2.decode('utf-8')}")
-    print(f"哈希不同: {hash1 != hash2}")
-    
-    # 两者都应该验证正确
-    valid1 = bcrypt.checkpw(password.encode('utf-8'), hash1)
-    valid2 = bcrypt.checkpw(password.encode('utf-8'), hash2)
-    print(f"都有效: {valid1 and valid2}")
+import bcrypt
 
-def extract_salt_example():
-    """从现有哈希中提取盐值"""
-    password = "examplePassword"
-    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+class AuthService:
+    def __init__(self, target_rounds=13):
+        self.target_rounds = target_rounds
+        self.users = {}  # 生产环境：换成数据库
     
-    # 提取盐值（前29个字符）
-    salt = hashed[:29]
-    print(f"原始哈希: {hashed.decode('utf-8')}")
-    print(f"提取的盐值: {salt.decode('utf-8')}")
-    
-    # 使用提取的盐值处理新密码
-    new_password = "newPassword123"
-    new_hash = bcrypt.hashpw(new_password.encode('utf-8'), salt)
-    print(f"使用相同盐值的新哈希: {new_hash.decode('utf-8')}")
-```
-
-### 密码验证
-```python
-import re
-
-def password_validation_example():
-    """在哈希前验证密码强度"""
-    def validate_password(password):
-        if len(password) < 8:
-            return False, "太短"
-        if not re.search(r"[A-Z]", password):
-            return False, "无大写字母"
-        if not re.search(r"[a-z]", password):
-            return False, "无小写字母"
-        if not re.search(r"\d", password):
-            return False, "无数字"
-        if not re.search(r"[!@#$%^&*]", password):
-            return False, "无特殊字符"
-        return True, "有效"
-    
-    test_passwords = [
-        "weak",
-        "weakpass",
-        "WeakPass",
-        "WeakPass1",
-        "WeakPass1!"
-    ]
-    
-    for password in test_passwords:
-        is_valid, message = validate_password(password)
-        if is_valid:
-            hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-            print(f"'{password}': {message} -> {hashed.decode('utf-8')[:20]}...")
-        else:
-            print(f"'{password}': {message}")
-```
-
-## 安全应用
-
-### 用户认证系统
-```python
-class UserAuth:
-    def __init__(self):
-        self.users = {}  # 实际应用中，使用数据库
-    
-    def register_user(self, username, password, work_factor=12):
-        """使用bcrypt哈希密码注册新用户"""
+    def register(self, username, password):
         if username in self.users:
-            return False, "用户名已存在"
-        
-        # 哈希密码
-        hashed = bcrypt.hashpw(password.encode('utf-8'), 
-                              bcrypt.gensalt(rounds=work_factor))
-        
-        self.users[username] = {
-            'password_hash': hashed.decode('utf-8'),
-            'work_factor': work_factor
-        }
-        return True, "用户注册成功"
+            return False, "用户名已被占用"
+        hashed = bcrypt.hashpw(
+            password.encode('utf-8'),
+            bcrypt.gensalt(rounds=self.target_rounds)
+        ).decode('utf-8')
+        self.users[username] = hashed
+        return True, "注册成功"
     
-    def authenticate_user(self, username, password):
-        """使用bcrypt验证用户"""
-        if username not in self.users:
-            return False, "用户不存在"
+    def login(self, username, password):
+        stored = self.users.get(username)
+        if not stored:
+            return False, "用户名或密码错误"
         
-        stored_hash = self.users[username]['password_hash']
-        is_valid = bcrypt.checkpw(password.encode('utf-8'), 
-                                 stored_hash.encode('utf-8'))
+        if not bcrypt.checkpw(password.encode('utf-8'), stored.encode('utf-8')):
+            return False, "用户名或密码错误"
         
-        return is_valid, "认证成功" if is_valid else "密码错误"
-
-# 使用示例
-auth_system = UserAuth()
-auth_system.register_user("alice", "SecurePass123!", 12)
-success, message = auth_system.authenticate_user("alice", "SecurePass123!")
-print(f"认证: {success}, {message}")
-```
-
-### 密码更新系统
-```python
-def secure_password_update_example():
-    """安全更新用户密码"""
-    class PasswordManager:
-        def __init__(self):
-            self.current_hash = None
-        
-        def set_initial_password(self, password, work_factor=12):
-            """设置初始密码"""
-            self.current_hash = bcrypt.hashpw(
-                password.encode('utf-8'), 
-                bcrypt.gensalt(rounds=work_factor)
-            ).decode('utf-8')
-            return self.current_hash
-        
-        def update_password(self, old_password, new_password, work_factor=12):
-            """验证后更新密码"""
-            # 验证旧密码
-            if not bcrypt.checkpw(old_password.encode('utf-8'), 
-                                self.current_hash.encode('utf-8')):
-                return False, "旧密码不正确"
-            
-            # 哈希新密码
+        # 透明升级：如果存储的哈希用了较弱的 rounds，重新哈希
+        current_rounds = int(stored.split('$')[2])
+        if current_rounds < self.target_rounds:
             new_hash = bcrypt.hashpw(
-                new_password.encode('utf-8'), 
-                bcrypt.gensalt(rounds=work_factor)
+                password.encode('utf-8'),
+                bcrypt.gensalt(rounds=self.target_rounds)
             ).decode('utf-8')
-            
-            self.current_hash = new_hash
-            return True, "密码更新成功"
-    
-    # 测试密码更新
-    pm = PasswordManager()
-    pm.set_initial_password("oldPassword123")
-    success, message = pm.update_password("oldPassword123", "newPassword456")
-    print(f"密码更新: {success}, {message}")
-```
-
-## 性能测试
-
-### 基准测试不同工作因子
-```python
-import time
-
-def benchmark_work_factors():
-    """基准测试不同工作因子的bcrypt"""
-    password = "benchmarkPassword"
-    work_factors = [8, 10, 12, 14, 16]
-    iterations = 5
-    
-    print("bcrypt工作因子基准测试:")
-    print("-" * 40)
-    
-    for factor in work_factors:
-        total_time = 0
-        for _ in range(iterations):
-            start_time = time.time()
-            bcrypt.hashpw(password.encode('utf-8'), 
-                         bcrypt.gensalt(rounds=factor))
-            end_time = time.time()
-            total_time += (end_time - start_time)
+            self.users[username] = new_hash
         
-        avg_time = (total_time / iterations) * 1000
-        print(f"工作因子 {factor:2d}: {avg_time:6.2f}ms 平均")
-    
-    print("-" * 40)
+        return True, "登录成功"
 
-# 运行基准测试
-benchmark_work_factors()
+
+auth = AuthService(target_rounds=13)
+auth.register("alice", "correct horse battery staple")
+print(auth.login("alice", "correct horse battery staple"))  # (True, "登录成功")
+print(auth.login("alice", "wrong password"))                # (False, "用户名或密码错误")
+print(auth.login("bob", "anything"))                         # (False, "用户名或密码错误")
 ```
 
-### 内存使用分析
-```python
-import psutil
-import os
+注意"bob"（不存在的用户）和"wrong password"返回相同的响应。这防止了用户枚举 -- 攻击者无法通过错误消息来判断用户名是否存在。
 
-def memory_usage_example():
-    """分析bcrypt操作期间的内存使用"""
-    def get_memory_usage():
-        process = psutil.Process(os.getpid())
-        return process.memory_info().rss / 1024 / 1024  # MB
-    
-    password = "memoryTestPassword"
-    work_factor = 12
-    
-    print("内存使用分析:")
-    print(f"初始内存: {get_memory_usage():.2f} MB")
-    
-    # 哈希密码
-    start_memory = get_memory_usage()
-    hashed = bcrypt.hashpw(password.encode('utf-8'), 
-                          bcrypt.gensalt(rounds=work_factor))
-    end_memory = get_memory_usage()
-    
-    print(f"哈希后: {end_memory:.2f} MB")
-    print(f"内存增加: {end_memory - start_memory:.2f} MB")
-    print(f"哈希结果: {hashed.decode('utf-8')[:30]}...")
-```
+## JavaScript (Node.js)
 
-## 错误处理
+`bcryptjs` 比原生 `bcrypt` 慢，但可以在任何地方部署，无需本地编译。对大多数应用来说速度差异无所谓，因为 bcrypt 本来就应该慢。
 
-### 安全bcrypt操作
-```python
-def safe_bcrypt_operations():
-    """带错误处理的安全bcrypt操作"""
-    def safe_hash_password(password, work_factor=12):
-        try:
-            if not password:
-                raise ValueError("密码不能为空")
-            
-            if work_factor < 4 or work_factor > 31:
-                raise ValueError("工作因子必须在4到31之间")
-            
-            if len(password) > 72:  # bcrypt限制
-                print("警告: 密码截断为72个字符")
-                password = password[:72]
-            
-            hashed = bcrypt.hashpw(password.encode('utf-8'), 
-                                 bcrypt.gensalt(rounds=work_factor))
-            return hashed.decode('utf-8')
-            
-        except Exception as e:
-            print(f"哈希密码时出错: {e}")
-            return None
-    
-    def safe_verify_password(password, hashed_password):
-        try:
-            if not password or not hashed_password:
-                return False
-            
-            return bcrypt.checkpw(password.encode('utf-8'), 
-                                hashed_password.encode('utf-8'))
-            
-        except Exception as e:
-            print(f"验证密码时出错: {e}")
-            return False
-    
-    # 测试安全操作
-    test_cases = [
-        ("", 12),  # 空密码
-        ("valid", 3),  # 工作因子太低
-        ("valid", 32),  # 工作因子太高
-        ("valid", 12),  # 有效情况
-    ]
-    
-    for password, factor in test_cases:
-        result = safe_hash_password(password, factor)
-        print(f"密码: '{password}', 因子: {factor} -> {result}")
-```
-
-## JavaScript示例
-
-### Node.js bcrypt实现
 ```javascript
 const bcrypt = require('bcryptjs');
 
-async function bcryptExamples() {
-    console.log("JavaScript bcrypt示例:");
-    
-    // 基本哈希
-    const password = "jsPassword123";
+async function demo() {
+    const password = "jsPassword456";
+
+    // 显式生成盐值并哈希
     const salt = await bcrypt.genSalt(12);
     const hash = await bcrypt.hash(password, salt);
-    
-    console.log(`密码: ${password}`);
-    console.log(`哈希: ${hash}`);
-    
+    console.log("哈希:", hash);
+
     // 验证
-    const isValid = await bcrypt.compare(password, hash);
-    console.log(`有效: ${isValid}`);
-    
-    // 工作因子比较
-    const factors = [10, 12, 14];
-    for (const factor of factors) {
-        const startTime = Date.now();
-        await bcrypt.hash("test", factor);
-        const duration = Date.now() - startTime;
-        console.log(`因子 ${factor}: ${duration}ms`);
+    const valid = await bcrypt.compare(password, hash);
+    console.log("正确密码:", valid);  // true
+
+    const invalid = await bcrypt.compare("wrong", hash);
+    console.log("错误密码:", invalid);   // false
+}
+
+demo().catch(console.error);
+```
+
+一个小细节：`bcryptjs` 也支持在 `hash()` 调用中直接传密码和 rounds，不需要单独的 `genSalt()`：
+
+```javascript
+// 简写: hash(password, rounds) 内部生成盐值
+const hash = await bcrypt.hash("myPassword", 12);
+```
+
+两种写法都可以，但显式的 `genSalt()` + `hash()` 模式让你可以选择重用盐值（密码场景不应该，但在某些密钥派生场景有用）。
+
+## Go
+
+Go 的 bcrypt 包在扩展标准库中。API 很精简但够用：
+
+```go
+package main
+
+import (
+    "fmt"
+    "golang.org/x/crypto/bcrypt"
+)
+
+func main() {
+    password := "goPassword123"
+
+    // GenerateFromPassword 创建盐值并返回完整哈希字符串
+    hash, err := bcrypt.GenerateFromPassword([]byte(password), 12)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("哈希:", string(hash))
+    // $2a$12$...  (Go 默认用 $2a$ 前缀)
+
+    // CompareHashAndPassword 做恒定时间比较
+    err = bcrypt.CompareHashAndPassword(hash, []byte(password))
+    if err == nil {
+        fmt.Println("密码匹配！")
+    }
+
+    err = bcrypt.CompareHashAndPassword(hash, []byte("wrong"))
+    if err != nil {
+        fmt.Println("密码不匹配")  // 走这个分支
+    }
+
+    // 可以检查哈希是否需要升级:
+    cost, _ := bcrypt.Cost(hash)
+    if cost < 13 {
+        fmt.Println("哈希应该升级到更高的 cost")
+        newHash, _ := bcrypt.GenerateFromPassword([]byte(password), 13)
+        // 把 newHash 存到数据库
+        _ = newHash
     }
 }
-
-// 运行JavaScript示例
-bcryptExamples().catch(console.error);
 ```
 
-### 浏览器bcrypt实现
-```javascript
-// 在浏览器中使用bcryptjs
-async function browserBcryptExample() {
-    // 从CDN加载bcryptjs
-    const bcrypt = window.bcrypt;
-    
-    const password = "browserPassword";
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-    
-    console.log("浏览器bcrypt结果:", hash);
-    
-    const isValid = await bcrypt.compare(password, hash);
-    console.log("浏览器验证:", isValid);
+Go 对错误密码返回 `bcrypt.ErrMismatchedHashAndPassword` 特定错误，对格式异常的哈希返回 `bcrypt.ErrHashTooShort`。这在监控中区分"密码错误"和"数据损坏"很有用，但不要把这种区分暴露给用户的错误消息。
+
+## Java (Spring Security)
+
+Spring Security 的 `BCryptPasswordEncoder` 是 Java 生态里最省事的方案：
+
+```java
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+public class BcryptDemo {
+    public static void main(String[] args) {
+        // 构造函数参数是工作因子
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+        String password = "javaPassword789";
+        String hash = encoder.encode(password);
+        System.out.println("哈希: " + hash);
+        // $2a$12$...
+
+        boolean matches = encoder.matches(password, hash);
+        System.out.println("匹配: " + matches);  // true
+
+        boolean wrong = encoder.matches("wrong", hash);
+        System.out.println("错误: " + wrong);      // false
+
+        // 检查哈希是否需要升级:
+        boolean needsUpgrade = encoder.upgradeEncoding(hash);
+        System.out.println("需要升级: " + needsUpgrade);
+    }
 }
 ```
 
-## 测试和验证
+Spring 的 `upgradeEncoding()` 检查存储的哈希是否使用了和当前 encoder 一样的工作因子。如果你把 encoder 的 rounds 从 12 调到 13，所有旧哈希对 `upgradeEncoding()` 都会返回 `true`，给你的登录时重新哈希提供了清晰的升级路径。
 
-### 哈希验证测试
-```python
-def hash_verification_tests():
-    """全面的哈希验证测试"""
-    test_cases = [
-        ("password123", "password123", True),
-        ("password123", "password124", False),
-        ("", "", True),
-        ("unicode测试", "unicode测试", True),
-        ("unicode测试", "unicode测试2", False),
-    ]
-    
-    print("哈希验证测试:")
-    print("-" * 40)
-    
-    for password, test_password, expected in test_cases:
-        # 哈希原始密码
-        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        
-        # 测试验证
-        result = bcrypt.checkpw(test_password.encode('utf-8'), hashed)
-        
-        status = "通过" if result == expected else "失败"
-        print(f"{status}: '{password}' vs '{test_password}' -> {result} (期望 {expected})")
+## 实际踩过的坑
 
-# 运行验证测试
-hash_verification_tests()
-```
+从真实的 bcrypt 部署经验中总结：
 
-### 性能回归测试
-```python
-def performance_regression_test():
-    """测试bcrypt性能一致性"""
-    password = "regressionTestPassword"
-    work_factor = 10
-    iterations = 10
-    
-    times = []
-    for _ in range(iterations):
-        start_time = time.time()
-        bcrypt.hashpw(password.encode('utf-8'), 
-                     bcrypt.gensalt(rounds=work_factor))
-        end_time = time.time()
-        times.append((end_time - start_time) * 1000)
-    
-    avg_time = sum(times) / len(times)
-    max_time = max(times)
-    min_time = min(times)
-    
-    print("性能回归测试:")
-    print(f"平均时间: {avg_time:.2f}ms")
-    print(f"最小时间: {min_time:.2f}ms")
-    print(f"最大时间: {max_time:.2f}ms")
-    print(f"方差: {max_time - min_time:.2f}ms")
-    
-    # 检查显著的性能下降
-    if max_time > avg_time * 2:
-        print("警告: 检测到显著的性能差异")
-
-# 运行性能测试
-performance_regression_test()
-```
-
-## 总结
-
-这些示例演示了：
-- 基本bcrypt哈希和验证
-- 工作因子管理和基准测试
-- 盐值生成和管理
-- 密码验证和安全实践
-- 用户认证系统
-- 性能测试和优化
-- 错误处理和安全操作
-- JavaScript实现
-- 全面的测试和验证
-
-所有示例都遵循安全最佳实践，并为实际应用提供实用的实现。 
+- **哈希存在 VARCHAR(60) 字段？** 改成 VARCHAR(255)。标准哈希是 60 个字符，但未来 bcrypt 版本可能改变格式，你不想以后再搞字段宽度迁移。
+- **别不小心双重哈希。** 如果你因为 72 字节限制在 bcrypt 之前用 SHA 预哈希，确保验证路径做一模一样的预哈希。我排查过一个生产事故，注册路径预哈希了但登录路径没预哈希。
+- **高负载下登录超时。** 如果设了 rounds=14 又遇上流量高峰，服务器可能把所有 CPU 花在 bcrypt 上导致健康检查超时。考虑加登录频率限制或者换成 Argon2id（参数控制更精细）。
+- **`gensalt()` 前缀很重要。** `$2b$` 开头的哈希到处都能用。有些老系统生成 `$2a$` 哈希，这种格式有已知的特定 UTF-8 密码 bug。新哈希用 `$2b$`。

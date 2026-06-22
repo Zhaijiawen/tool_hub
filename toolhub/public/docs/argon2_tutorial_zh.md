@@ -1,469 +1,183 @@
 # Argon2 使用教程
 
-## 环境设置
+## 选库
 
-### 前置条件
-- 具有Argon2库支持的编程语言
-- 理解密码安全原理
-- 内存密集型函数知识
-- 了解Argon2变体和参数选择
+Argon2 的绑定库几乎所有语言都有。以下是我用过且可以推荐的：
 
-### 库选择
-
-#### Python - argon2-cffi
+**Python** -- `argon2-cffi` 是标准选择，通过 CFFI 包装了参考 C 实现，API 清爽且不容易用错：
 ```bash
-# 安装argon2-cffi库
 pip install argon2-cffi
 ```
 
-#### Node.js - argon2
+**Node.js** -- `argon2` npm 包维护活跃，提供了好用的异步 API：
 ```bash
-# 安装argon2库
 npm install argon2
 ```
 
-#### PHP - password_hash
-```bash
-# 内置password_hash函数支持Argon2
-# 需要PHP 7.2+并支持Argon2
-```
+**PHP** -- PHP 7.2 起内置了 Argon2 支持，用 `password_hash()` 和 `PASSWORD_ARGON2ID` 常量就行，不需要额外的东西。
 
-#### Java - Spring Security
-```xml
-<dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-crypto</artifactId>
-    <version>5.8.0</version>
-</dependency>
-```
+**Java** -- Spring Security 通过 `Argon2PasswordEncoder` 支持 Argon2。或者用 Bouncy Castle。
 
-## 基本概念
+**Go** -- 扩展标准库 `golang.org/x/crypto/argon2` 就够用了，不需要第三方依赖。
 
-### Argon2变体
+## 两个最重要的概念
+
+写代码之前，先搞清楚这两件事：
+
+### 变体选择 -- 直接用 Argon2id 就好
+
+除非你有特定的威胁模型要求否则，Argon2id 就是正确选择。它结合了 Argon2i 的抗侧信道能力（前半段）和 Argon2d 的抗 GPU/ASIC 能力（后半段）。NIST 和 RFC 都推荐它作为默认。
+
 ```python
 from argon2 import PasswordHasher
+from argon2 import Type
 
-def explain_argon2_variants():
-    """解释不同的Argon2变体"""
-    print("Argon2变体:")
-    print("Argon2d: 数据相关内存访问，最快但易受侧信道攻击")
-    print("Argon2i: 数据无关内存访问，抵抗侧信道攻击")
-    print("Argon2id: 混合方法，推荐用于大多数应用")
-    
-    # 安全建议
-    recommendations = {
-        "Web应用程序": "Argon2id",
-        "高安全性": "Argon2i", 
-        "性能关键": "Argon2d",
-        "一般用途": "Argon2id"
-    }
-    
-    return recommendations
+# 大多数库默认就是 Argon2id，但显式声明更清晰
+ph = PasswordHasher(type=Type.ID)
 ```
 
-### 参数选择指南
-```python
-def parameter_selection_guide():
-    """Argon2参数选择指南"""
-    print("Argon2参数选择:")
-    print("内存成本(m): 64MB-1GB，决定内存使用量")
-    print("时间成本(t): 1-10，决定CPU时间")
-    print("并行度(p): 1-4，并行线程数")
-    
-    # 参数建议
-    recommendations = {
-        "开发环境": "m=65536, t=1, p=1",
-        "生产环境": "m=131072, t=3, p=1", 
-        "高安全性": "m=262144, t=5, p=1",
-        "最高安全性": "m=524288, t=10, p=1"
-    }
-    
-    return recommendations
-```
+### 参数调优 -- 先做基准测试
 
-## 基本密码操作
+人们用 Argon2 最大的错误就是不测试直接选参数。要么留默认值（通常调的是开发环境参数而非生产环境），要么照搬某篇博客的参数。
 
-### 简单密码哈希
-```python
-from argon2 import PasswordHasher
+正确的做法是在自己的硬件上测试：
 
-def basic_hash_example():
-    """基本Argon2密码哈希示例"""
-    ph = PasswordHasher()
-    password = "mySecurePassword123"
-    
-    # 使用默认参数哈希密码
-    hashed = ph.hash(password)
-    print(f"密码: {password}")
-    print(f"哈希: {hashed}")
-    
-    # 验证密码
-    try:
-        ph.verify(hashed, password)
-        print("密码验证: True")
-    except Exception as e:
-        print(f"密码验证失败: {e}")
-    
-    return hashed
-
-# 运行示例
-basic_hash_example()
-```
-
-### 自定义参数
-```python
-def custom_parameters_example():
-    """自定义Argon2参数示例"""
-    # 使用自定义参数创建哈希器
-    ph = PasswordHasher(
-        time_cost=3,      # 迭代次数
-        memory_cost=65536, # 内存使用量(KiB) (64MB)
-        parallelism=1,    # 并行线程数
-        hash_len=32,      # 哈希长度(字节)
-        salt_len=16       # 盐值长度(字节)
-    )
-    
-    password = "adminPassword456"
-    hashed = ph.hash(password)
-    
-    print(f"密码: {password}")
-    print(f"自定义参数: time_cost=3, memory_cost=65536, parallelism=1")
-    print(f"哈希: {hashed}")
-    
-    return hashed
-```
-
-## 高级用法
-
-### 参数基准测试
 ```python
 import time
+from argon2 import PasswordHasher
 
-def benchmark_parameters():
-    """基准测试不同Argon2参数"""
-    password = "benchmarkPassword"
-    test_cases = [
-        {"time_cost": 1, "memory_cost": 32768, "parallelism": 1},
-        {"time_cost": 2, "memory_cost": 65536, "parallelism": 1},
-        {"time_cost": 3, "memory_cost": 131072, "parallelism": 1},
-        {"time_cost": 4, "memory_cost": 262144, "parallelism": 1}
-    ]
+def find_params(target_seconds=1.0, max_memory_mb=256):
+    """暴力搜索符合目标时间的参数"""
+    test_password = "benchmark_test"
     
-    print("Argon2参数基准测试:")
-    print("-" * 50)
+    for time_cost in range(1, 11):
+        for memory_cost in [32768, 65536, 131072, 262144, 524288]:
+            if memory_cost / 1024 > max_memory_mb:
+                continue
+            
+            ph = PasswordHasher(time_cost=time_cost, memory_cost=memory_cost)
+            start = time.time()
+            ph.hash(test_password)
+            elapsed = time.time() - start
+            
+            if elapsed >= target_seconds:
+                return {
+                    "time_cost": time_cost,
+                    "memory_cost": memory_cost,
+                    "elapsed": elapsed
+                }
     
-    for params in test_cases:
-        ph = PasswordHasher(**params)
-        
-        start_time = time.time()
-        hashed = ph.hash(password)
-        end_time = time.time()
-        
-        duration = (end_time - start_time) * 1000
-        memory_mb = params["memory_cost"] / 1024
-        
-        print(f"时间: {params['time_cost']}, 内存: {memory_mb}MB, "
-              f"并行度: {params['parallelism']} -> {duration:.2f}ms")
-    
-    print("-" * 50)
+    # 保底 -- 全部拉满
+    return {"time_cost": 10, "memory_cost": 524288, "elapsed": 999}
+
+params = find_params(target_seconds=0.5)
+print(f"推荐参数: time_cost={params['time_cost']}, "
+      f"memory_cost={params['memory_cost'] / 1024}MB "
+      f"({params['elapsed']:.2f}s)")
 ```
 
-### 内存使用分析
-```python
-import psutil
-import os
+对于典型的 Web 应用，目标设在 0.5-1 秒每次哈希。如果服务器撑不住，从 0.2 秒开始，随着横向扩展再慢慢调高。关键洞察：哈希时间只在登录时一次性消耗。这是用户每次会话承受一次的延迟 -- 有意识地做这个权衡。
 
-def memory_usage_analysis():
-    """分析Argon2操作期间的内存使用"""
-    def get_memory_usage():
-        process = psutil.Process(os.getpid())
-        return process.memory_info().rss / 1024 / 1024  # MB
-    
-    password = "memoryTestPassword"
-    memory_costs = [32768, 65536, 131072, 262144]  # 32MB, 64MB, 128MB, 256MB
-    
-    print("Argon2内存使用分析:")
-    print("-" * 40)
-    
-    for memory_cost in memory_costs:
-        ph = PasswordHasher(memory_cost=memory_cost, time_cost=1)
-        
-        initial_memory = get_memory_usage()
-        hashed = ph.hash(password)
-        peak_memory = get_memory_usage()
-        
-        memory_used = peak_memory - initial_memory
-        print(f"内存成本: {memory_cost/1024}MB, "
-              f"峰值使用: {peak_memory:.1f}MB, "
-              f"额外使用: {memory_used:.1f}MB")
+## 基本哈希和验证
+
+Python 的 argon2-cffi 库提供了 `PasswordHasher` 对象，处理所有事情：盐值生成、输出字符串中的参数编码、以及验证。
+
+```python
+from argon2 import PasswordHasher
+
+ph = PasswordHasher(
+    time_cost=3,       # 遍历内存 3 次
+    memory_cost=65536, # 64 MB 内存
+    parallelism=1,     # 单线程
+    hash_len=32,       # 32 字节输出
+    salt_len=16,       # 16 字节随机盐
+)
+
+password = "my_user_password_123"
+hashed = ph.hash(password)
+print(hashed)
+# 输出类似: $argon2id$v=19$m=65536,t=3,p=1$<salt>$<hash>
 ```
 
-## 安全最佳实践
+输出字符串是自描述的 -- 包含了算法变体、版本和所有参数。这对向前兼容性简直完美：如果以后想调高参数，你可以用旧哈希自身的参数验证它，用更强的参数哈希新密码，全都存在同一个数据库列里。
 
-### 参数选择
 ```python
-def secure_parameter_selection():
-    """根据用例选择安全参数"""
-    def get_secure_params(use_case):
-        if use_case == "development":
-            return {"time_cost": 1, "memory_cost": 32768, "parallelism": 1}
-        elif use_case == "production":
-            return {"time_cost": 3, "memory_cost": 131072, "parallelism": 1}
-        elif use_case == "high_security":
-            return {"time_cost": 5, "memory_cost": 262144, "parallelism": 1}
-        elif use_case == "maximum_security":
-            return {"time_cost": 10, "memory_cost": 524288, "parallelism": 1}
-        else:
-            raise ValueError("无效用例")
-    
-    # 测试不同用例
-    use_cases = ["development", "production", "high_security", "maximum_security"]
-    
-    for use_case in use_cases:
-        params = get_secure_params(use_case)
-        ph = PasswordHasher(**params)
-        
-        start_time = time.time()
-        hashed = ph.hash("testPassword")
-        duration = (time.time() - start_time) * 1000
-        
-        print(f"{use_case}: {duration:.2f}ms, "
-              f"内存: {params['memory_cost']/1024}MB")
+# 验证非常简单
+try:
+    ph.verify(hashed, password)
+    print("密码正确！")
+except argon2.exceptions.VerifyMismatchError:
+    print("密码错误！")
 ```
 
-### 哈希验证
-```python
-def secure_verification_example():
-    """带错误处理的安全密码验证"""
-    ph = PasswordHasher()
-    password = "securePassword123"
-    
-    # 哈希密码
-    hashed = ph.hash(password)
-    
-    # 正确验证
-    try:
-        is_valid = ph.verify(hashed, password)
-        print(f"正确密码验证: {is_valid}")
-    except Exception as e:
-        print(f"验证错误: {e}")
-    
-    # 错误密码
-    try:
-        is_valid = ph.verify(hashed, "wrongPassword")
-        print(f"错误密码验证: {is_valid}")
-    except Exception as e:
-        print(f"预期的验证失败: {e}")
-    
-    # 无效哈希格式
-    try:
-        is_valid = ph.verify("invalid_hash", password)
-        print(f"无效哈希验证: {is_valid}")
-    except Exception as e:
-        print(f"预期的哈希格式错误: {e}")
-```
+## 进阶：透明的参数升级
 
-## 错误处理
+这是我生产环境用过的一个模式，能干净地处理参数升级：
 
-### 安全Argon2操作
 ```python
-def safe_argon2_operations():
-    """带错误处理的安全Argon2操作"""
-    def safe_hash_password(password, **params):
+import argon2
+
+class PasswordService:
+    def __init__(self, target_params):
+        self.current_hasher = PasswordHasher(**target_params)
+        self.target_params = target_params
+    
+    def hash_password(self, password):
+        return self.current_hasher.hash(password)
+    
+    def verify_password(self, stored_hash, password):
+        """返回 (is_valid, needs_rehash)"""
         try:
-            if not password:
-                raise ValueError("密码不能为空")
-            
-            # 验证参数
-            if params.get("time_cost", 1) < 1 or params.get("time_cost", 1) > 10:
-                raise ValueError("时间成本必须在1到10之间")
-            
-            if params.get("memory_cost", 32768) < 8192:
-                raise ValueError("内存成本必须至少8192 KiB")
-            
-            if params.get("parallelism", 1) < 1 or params.get("parallelism", 1) > 4:
-                raise ValueError("并行度必须在1到4之间")
-            
-            ph = PasswordHasher(**params)
-            return ph.hash(password)
-            
-        except Exception as e:
-            print(f"哈希密码时出错: {e}")
-            return None
-    
-    def safe_verify_password(password, hashed):
-        try:
-            if not password or not hashed:
-                return False
-            
+            # verify 调用使用 stored_hash 中嵌入的参数
             ph = PasswordHasher()
-            ph.verify(hashed, password)
-            return True
+            ph.verify(stored_hash, password)
             
-        except Exception as e:
-            print(f"验证密码时出错: {e}")
-            return False
+            # 检查哈希是否用了比我们期望更弱的参数
+            needs_rehash = ph.check_needs_rehash(stored_hash)
+            
+            return True, needs_rehash
+        except argon2.exceptions.VerifyMismatchError:
+            return False, False
     
-    # 测试安全操作
-    test_cases = [
-        ("", {}),  # 空密码
-        ("valid", {"time_cost": 0}),  # 无效时间成本
-        ("valid", {"memory_cost": 4096}),  # 内存成本太低
-        ("valid", {"parallelism": 8}),  # 并行度太高
-        ("valid", {})  # 有效情况
-    ]
-    
-    for password, params in test_cases:
-        result = safe_hash_password(password, **params)
-        print(f"密码: '{password}', 参数: {params} -> {result is not None}")
+    def rehash_if_needed(self, stored_hash, password):
+        """如果旧参数过时，用当前参数重新哈希"""
+        is_valid, needs_rehash = self.verify_password(stored_hash, password)
+        if needs_rehash and is_valid:
+            return self.hash_password(password)
+        return stored_hash
 ```
 
-## 性能优化
+如果 `check_needs_rehash` 返回 `True`，就用当前参数重新哈希并更新数据库。用户甚至不知道发生过升级。
 
-### 自适应参数选择
+## 不要泄露时序信息的错误处理
+
+有个容易被忽略的细节：不要为"用户不存在"和"密码错误"返回不同的错误信息。这不只是 Argon2 的问题 -- 而是通用的认证原则。如果你的错误信息让攻击者能区分"这个账号存在"和"密码不对"，你就给了他们一个用户名枚举入口。
+
 ```python
-def adaptive_parameter_selection():
-    """根据系统性能选择参数"""
-    def find_optimal_params(target_time=1.0):
-        """为目标执行时间找到最佳参数"""
-        password = "testPassword"
-        base_params = {"memory_cost": 65536, "parallelism": 1}
-        
-        # 测试不同时间成本
-        for time_cost in range(1, 11):
-            params = {**base_params, "time_cost": time_cost}
-            ph = PasswordHasher(**params)
-            
-            start_time = time.time()
-            ph.hash(password)
-            duration = time.time() - start_time
-            
-            if duration >= target_time:
-                return params
-        
-        return base_params
-    
-    # 为不同目标时间找到参数
-    target_times = [0.5, 1.0, 2.0, 5.0]
-    
-    print("自适应参数选择:")
-    for target_time in target_times:
-        params = find_optimal_params(target_time)
-        print(f"目标: {target_time}s -> 时间: {params['time_cost']}, "
-              f"内存: {params['memory_cost']/1024}MB")
+# 不好的做法：不同的错误信息泄露用户存在性
+if not user:
+    return "用户不存在"
+if not verify_password(user.hash, password):
+    return "密码错误"
+
+# 好的做法：无论什么情况都返回相同的信息
+if not user or not verify_password(user.hash, password):
+    return "用户名或密码错误"
 ```
 
-### 并行处理
-```python
-def parallel_processing_example():
-    """演示Argon2的并行处理"""
-    import concurrent.futures
-    
-    def hash_password_parallel(password, params):
-        """使用特定参数哈希密码"""
-        ph = PasswordHasher(**params)
-        return ph.hash(password)
-    
-    passwords = ["password1", "password2", "password3", "password4"]
-    params = {"time_cost": 2, "memory_cost": 65536, "parallelism": 1}
-    
-    print("并行密码哈希:")
-    start_time = time.time()
-    
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-        futures = [
-            executor.submit(hash_password_parallel, password, params)
-            for password in passwords
-        ]
-        
-        results = []
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"错误: {e}")
-    
-    total_time = time.time() - start_time
-    print(f"总时间: {total_time:.2f}s，处理{len(passwords)}个密码")
-```
+另外别忘了，Argon2 本身的验证路径是恒定时间的 -- 库已经帮你处理了。但你外围的逻辑仍然需要注意时序泄露（比如，数据库查找不存在的用户和已存在的用户可能需要测量上不同量级的时间）。
 
-## 测试和验证
+## 参数速查表
 
-### 哈希验证测试
-```python
-def hash_verification_tests():
-    """全面的哈希验证测试"""
-    ph = PasswordHasher()
-    test_cases = [
-        ("password123", "password123", True),
-        ("password123", "password124", False),
-        ("", "", True),
-        ("unicode测试", "unicode测试", True),
-        ("unicode测试", "unicode测试2", False),
-    ]
-    
-    print("Argon2哈希验证测试:")
-    print("-" * 50)
-    
-    for password, test_password, expected in test_cases:
-        try:
-            hashed = ph.hash(password)
-            is_valid = ph.verify(hashed, test_password)
-            
-            status = "通过" if is_valid == expected else "失败"
-            print(f"{status}: '{password}' vs '{test_password}' -> {is_valid}")
-            
-        except Exception as e:
-            print(f"错误: {e}")
+| 场景 | time_cost | memory_cost | parallelism | 备注 |
+|------|-----------|-------------|-------------|------|
+| 开发环境 | 1 | 32768 (32 MB) | 1 | 快，但别用于生产 |
+| Web 应用（标准） | 2-3 | 65536-131072 (64-128 MB) | 1 | 大多数网站的合适平衡 |
+| 高安全性 | 4-6 | 262144 (256 MB) | 1 | 金融/政府数据 |
+| 最高安全性 | 10 | 524288+ (512+ MB) | 1 | 密钥派生、离线使用 |
 
-# 运行验证测试
-hash_verification_tests()
-```
+记住：这些数字要在你自己的硬件上验证。上表是起点，不是铁律。
 
-### 性能回归测试
-```python
-def performance_regression_test():
-    """测试Argon2性能一致性"""
-    password = "regressionTestPassword"
-    params = {"time_cost": 2, "memory_cost": 65536, "parallelism": 1}
-    iterations = 10
-    
-    ph = PasswordHasher(**params)
-    times = []
-    
-    for _ in range(iterations):
-        start_time = time.time()
-        ph.hash(password)
-        end_time = time.time()
-        times.append((end_time - start_time) * 1000)
-    
-    avg_time = sum(times) / len(times)
-    max_time = max(times)
-    min_time = min(times)
-    
-    print("Argon2性能回归测试:")
-    print(f"平均时间: {avg_time:.2f}ms")
-    print(f"最小时间: {min_time:.2f}ms")
-    print(f"最大时间: {max_time:.2f}ms")
-    print(f"方差: {max_time - min_time:.2f}ms")
-    
-    # 检查显著的性能下降
-    if max_time > avg_time * 2:
-        print("警告: 检测到显著的性能差异")
+## 使用本工具
 
-# 运行性能测试
-performance_regression_test()
-```
-
-## 总结
-
-本教程涵盖：
-- 不同编程语言的环境设置
-- 基本密码哈希和验证
-- 参数选择和优化
-- 安全最佳实践和验证
-- 错误处理和性能优化
-- 测试和验证技术
-
-所有示例都遵循安全最佳实践，并为其预期用途使用适当的参数。 
+这个在线 Argon2 工具处理参数选择、哈希和验证。所有计算都在你的浏览器中完成 -- 不会发送任何数据到服务器。盐值从你浏览器的 CSPRNG 生成，所有参数编码在输出字符串中，你可以后续用任何兼容的 Argon2 实现来验证。

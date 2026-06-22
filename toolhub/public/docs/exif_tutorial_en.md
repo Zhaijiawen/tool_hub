@@ -1,47 +1,29 @@
-# Image EXIF Viewer — Tutorial
+# Image EXIF Viewer — How to Use
 
-## Upload an Image
+## Getting a photo in
 
-**Method 1**: Drag and drop an image file onto the upload area
-**Method 2**: Click the upload area to open the file browser
+Drag and drop an image onto the upload area, or click it to browse. JPEG and HEIC (iPhone's format) are the most common formats with EXIF data. The tool also handles TIFF and WebP.
 
-Supports JPEG, TIFF, HEIC (iPhone format), and other formats with EXIF data.
+## What you'll see
 
-## View Basic Info
+The tool organizes EXIF data into tabs so you're not staring at a wall of raw fields:
 
-After uploading, switch to the "Basic Info" tab to see:
-- Camera brand and model
-- Capture time (DateTimeOriginal)
-- Image resolution
-- Color space
+**Basic Info tab —** Camera make and model, capture time, image resolution, and color space. This is your quick overview.
 
-## View Camera Settings
+**Camera tab —** Shutter speed, aperture, ISO, focal length, and flash status. These are the settings the camera used when the shot was taken.
 
-Switch to the "Camera" tab to see:
-- **Shutter speed** (ExposureTime): e.g. 1/125s
-- **Aperture** (FNumber): e.g. f/2.8
-- **ISO**: e.g. ISO 800
-- **Focal length** (FocalLength): e.g. 24mm
-- **Flash**: whether it fired
+**GPS tab —** If the photo has location data, latitude and longitude are displayed in decimal format. Copy them and paste into Google Maps or Apple Maps to see exactly where the photo was taken.
 
-## View GPS Location
+## Copy what you need
 
-Switch to the "GPS" tab. If GPS data exists:
-- Latitude (GPSLatitude) and Longitude (GPSLongitude) are shown
-- Copy and paste into Google Maps to find the photo location
+Each row has a copy button that grabs just that field's value. There's also a "Copy All EXIF" button that dumps everything as `key: value` pairs. Handy for pasting into documentation or debugging.
 
-## Copy Data
+## Why a photo might have no EXIF
 
-- Click the "Copy" button next to any row to copy that field's value
-- Click "Copy All EXIF" at the top to copy all fields in `key: value` format
+It happens more often than you'd think:
 
-## FAQ
-
-**Q: I uploaded a photo but it says "No EXIF data"?**
-
-A: This happens when:
-1. The image is a screenshot
-2. The image was downloaded from WeChat/Weibo/etc. (platforms strip EXIF)
-3. The image was saved by Photoshop or similar software
-4. The image is a PNG (PNG doesn't support standard EXIF)
-
+1. It's a screenshot — screenshots don't contain EXIF data
+2. The image came from WeChat, Weibo, or similar — these platforms strip EXIF on upload
+3. It was exported from Photoshop or Lightroom with "Remove metadata" checked
+4. It's a PNG — PNG doesn't support standard EXIF (some tools embed XMP instead)
+5. The photo was taken with a very old or very basic camera that didn't record EXIF

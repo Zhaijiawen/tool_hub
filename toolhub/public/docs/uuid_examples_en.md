@@ -1,6 +1,6 @@
-# UUID / NanoID Examples
+# UUID & NanoID — Example Output
 
-## UUID v4 Examples
+## UUID v4 (standard)
 
 ```
 550e8400-e29b-41d4-a716-446655440000
@@ -8,14 +8,18 @@ f47ac10b-58cc-4372-a567-0e02b2c3d479
 6ba7b810-9dad-11d1-80b4-00c04fd430c8
 ```
 
-## UUID v4 (Uppercase, No Hyphens)
+Notice the third character group always starts with `4` — that's the version nibble for v4. The first character of the fourth group is `8`, `9`, `a`, or `b` — the variant bits.
+
+## UUID v4 (uppercase, no hyphens)
 
 ```
 550E8400E29B41D4A716446655440000
 F47AC10B58CC4372A5670E02B2C3D479
 ```
 
-## UUID v7 Examples (Sortable, Time-prefixed)
+Compact format strips 4 hyphens, saving 4 characters. Same entropy, less readable.
+
+## UUID v7 (sortable by creation time)
 
 ```
 018e5a2f-1234-7abc-8def-0123456789ab
@@ -23,9 +27,9 @@ F47AC10B58CC4372A5670E02B2C3D479
 018e5a2f-1236-7000-b123-000000000001
 ```
 
-> The first 48 bits of UUID v7 are a Unix timestamp (milliseconds), so batch-generated v7 IDs are naturally ordered
+The first three groups are the timestamp. If you generate a batch of v7 UUIDs, they'll naturally sort in creation order. This is the killer feature for database primary keys.
 
-## NanoID Examples (Default Length 21)
+## NanoID (default 21 characters)
 
 ```
 V1StGXR8_Z5jdHi6B-myT
@@ -33,9 +37,9 @@ V1StGXR8_Z5jdHi6B-myT
 7TsRq1DcH_5mY3gNKpBwX
 ```
 
-## NanoID Custom (Digits Only, Length 10)
+21 URL-safe characters. No hyphens, no encoding needed — paste directly into URLs.
 
-Alphabet: `0123456789`, Length: `10`
+## NanoID (digits only, length 10)
 
 ```
 3847291056
@@ -43,16 +47,30 @@ Alphabet: `0123456789`, Length: `10`
 1029384756
 ```
 
-## Usage in Code
+Useful for verification codes or short numeric IDs where readability matters.
+
+## Using in code
 
 ```javascript
-// Node.js / Browser
+// UUID v4
 import { v4 as uuidv4 } from 'uuid'
 const id = uuidv4()
 // => '110ec58a-a0f4-4ac4-8ec2-c5b67f3a1590'
+
+// UUID v7
+import { v7 as uuidv7 } from 'uuid'
+const id = uuidv7()
+// => '018e5a2f-1234-7abc-8def-0123456789ab'
 
 // NanoID
 import { nanoid } from 'nanoid'
 const id = nanoid()
 // => 'V1StGXR8_Z5jdHi6B-myT'
 
+// NanoID with custom length and alphabet
+import { customAlphabet } from 'nanoid'
+const numericId = customAlphabet('0123456789', 10)
+numericId()  // => '3847291056'
+```
+
+The `customAlphabet` function is useful when you need IDs in a specific format — numeric-only, lowercase-only, or restricted to characters your system supports.

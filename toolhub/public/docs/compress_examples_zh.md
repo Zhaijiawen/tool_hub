@@ -1,27 +1,27 @@
-# 图片压缩 - 代码示例
+# 图片压缩 — 代码示例
 
-## 示例 1：使用 browser-image-compression 库
+## 使用 browser-image-compression
 
 ```javascript
-// 动态导入（避免首屏加载大依赖）
+// 动态导入——别让这个大库拖慢首屏
 async function compressImage(file, quality = 0.8) {
   const imageCompression = (await import('browser-image-compression')).default
 
   const options = {
-    maxSizeMB: 2,                    // 最大 2MB
-    maxWidthOrHeight: 2048,           // 最大边长 2048px
-    useWebWorker: true,               // 使用 WebWorker（不阻塞 UI）
-    initialQuality: quality,          // 初始质量
-    onProgress: (percentage) => {     // 进度回调
+    maxSizeMB: 2,                    // 上限 2MB
+    maxWidthOrHeight: 2048,           // 边长不超过 2048px
+    useWebWorker: true,               // 后台线程，不卡主线程
+    initialQuality: quality,
+    onProgress: (percentage) => {
       console.log(`压缩进度: ${percentage}%`)
     }
   }
 
   try {
     const compressedFile = await imageCompression(file, options)
-    console.log(`原始大小: ${(file.size / 1024 / 1024).toFixed(2)} MB`)
+    console.log(`原始: ${(file.size / 1024 / 1024).toFixed(2)} MB`)
     console.log(`压缩后: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`)
-    console.log(`压缩率: ${((1 - compressedFile.size / file.size) * 100).toFixed(1)}%`)
+    console.log(`节省: ${((1 - compressedFile.size / file.size) * 100).toFixed(1)}%`)
     return compressedFile
   } catch (error) {
     console.error('压缩失败:', error)
@@ -30,9 +30,9 @@ async function compressImage(file, quality = 0.8) {
 }
 ```
 
----
+注意用动态 `import()` 而不是静态导入——`browser-image-compression` 体积不小，别让它影响首屏加载。
 
-## 示例 2：在 Vue 3 中集成图片压缩
+## Vue 3 集成
 
 ```vue
 <template>
@@ -97,12 +97,10 @@ function downloadImage(img) {
 </script>
 ```
 
----
-
-## 示例 3：批量压缩并打包下载
+## 批量压缩打包 ZIP
 
 ```javascript
-// 使用 JSZip 将多张压缩图片打包成 zip
+// 用 JSZip 把多张压缩图打包
 async function downloadAllAsZip(images) {
   const JSZip = (await import('jszip')).default
   const zip = new JSZip()
@@ -124,12 +122,12 @@ async function downloadAllAsZip(images) {
 }
 ```
 
----
+`jszip` 也是动态导入，别打进首屏 bundle。
 
-## 示例 4：Canvas API 手动实现压缩
+## Canvas API 实现（零依赖）
 
 ```javascript
-// 不依赖第三方库的简单图片压缩实现
+// 不用任何第三方库的压缩方案
 function compressImageWithCanvas(file, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const img = new Image()
@@ -149,17 +147,17 @@ function compressImageWithCanvas(file, quality = 0.8) {
           if (blob) {
             resolve(new File([blob], file.name, { type: 'image/jpeg' }))
           } else {
-            reject(new Error('Canvas toBlob failed'))
+            reject(new Error('Canvas toBlob 返回 null'))
           }
         },
         'image/jpeg',
-        quality // 0.0 - 1.0
+        quality
       )
     }
 
     img.onerror = () => {
       URL.revokeObjectURL(url)
-      reject(new Error('Image load failed'))
+      reject(new Error('图片加载失败'))
     }
 
     img.src = url
@@ -167,25 +165,16 @@ function compressImageWithCanvas(file, quality = 0.8) {
 }
 ```
 
----
+这种方案会把所有图转成 JPEG。适合照片，需要透明通道的话不建议用。Canvas API 兼容性很好，所有现代浏览器都支持。
 
-## 实际压缩效果参考
+## 实测压缩效果
 
-| 场景 | 原图 | 质量 80% | 质量 60% | 备注 |
-|------|------|---------|---------|------|
-| 手机拍照 | 8MB | 1.2MB | 700KB | 适合分享 |
-| 产品摄影 | 15MB | 2.5MB | 1.5MB | 电商展示 |
-| 网页截图 PNG | 2MB | 1.8MB | 1.5MB | PNG 压缩有限 |
-| 设计稿 PNG | 5MB | 4MB | 3.5MB | 建议转 JPG |
-| 缩略图 JPG | 500KB | 80KB | 50KB | 压缩效果显著 |
+| 场景 | 原图 | 80% 质量 | 60% 质量 |
+|------|------|---------|---------|
+| 手机拍照 | 8MB | 1.2MB | 700KB |
+| 产品摄影 | 15MB | 2.5MB | 1.5MB |
+| 网页截图 PNG | 2MB | 1.8MB | 1.5MB |
+| 设计稿 PNG | 5MB | 4MB | 3.5MB |
+| 缩略图 JPG | 500KB | 80KB | 50KB |
 
-## 最佳实践建议
-
-1. **80% 质量通常足够**：人眼很难区分 80% 和 100% 质量的差别，但体积可以减少 50-70%
-2. **PNG 考虑转 JPG**：如果图片不需要透明背景，将 PNG 转为 JPG 再压缩，体积更小
-3. **根据用途选择质量**：
-   - 打印用途：保持 90%+ 质量
-   - 网页展示：70-85% 即可
-   - 缩略图：50-70%
-4. **保留原图**：压缩是不可逆的，重要图片务必保留原始备份
-
+几个实用经验：80% 质量是网页场景的甜点，肉眼很难看出和原图的区别但体积能砍掉一半以上。PNG 截图靠调质量压不了多少，需要更小就先转 JPG。原始文件一定要留着，压缩不可逆。

@@ -1,79 +1,42 @@
-# Diff Text Comparison - Technical Background
+# How Diff Actually Works
 
-## What is Diff
+If you use Git, you use diff every day. `git diff` tells you what changed, pull requests show diffs, merge conflicts happen when diffs overlap. Understanding what's happening under the hood makes you better at reading and resolving them.
 
-Diff (Difference) algorithms are used to compare two text sequences and identify their differences. They are widely used in version control systems (like Git), code review tools, and document management systems.
+## The Core Algorithm: Longest Common Subsequence
 
-## Historical Background
+Most diff tools work by finding the Longest Common Subsequence (LCS) between the old and new text. Once you know what stayed the same, everything else must be an addition or a deletion. It's conceptually simple but computationally interesting -- a naive implementation on two 1000-line files would take forever.
 
-The diff algorithm was first proposed by Hunt and McIlroy in 1975 and was later integrated into the Unix `diff` command-line tool. Today, diff is an indispensable foundational tool in software development.
+The algorithm actually used in Git and most modern diff tools is the **Myers diff algorithm** (1986), which runs in O(ND) time where N is the total number of lines and D is the number of differences. When files are similar (which they usually are -- you're comparing versions of the same thing), D is small and the algorithm is fast.
 
-## Core Algorithms
-
-### LCS (Longest Common Subsequence)
-
-Most diff algorithms are based on LCS. LCS finds the longest common part between two sequences, inferring what was "added" and what was "removed."
-
-### Myers Diff Algorithm
-
-Eugene Myers proposed a more efficient diff algorithm in 1986 with time complexity O(ND), where N is the sequence length and D is the number of differences. This algorithm is widely adopted by modern tools like Git.
-
-## Comparison Granularity
+## Three Levels of Granularity
 
 ### Line-level Diff
-- Splits text by newline characters
-- Best suited for code files and config files
-- Clearly shows which lines were modified, added, or deleted
+Text is split by newlines and compared line by line. This is what `git diff` shows you. Best for code, config files, and structured text where each line is a meaningful unit.
 
 ### Character-level Diff
-- Tracks changes down to each individual character
-- Ideal for precise comparison of short texts
-- Reveals word- or letter-level modifications
+Tracks changes down to individual characters. Useful for short strings or when you need to see exactly which characters changed within a single word. "color" vs "colour" -- line-level just says "line changed," character-level shows exactly the added `u`.
 
 ### Word-level Diff
-- Compares word by word using whitespace as delimiters
-- Suited for natural language (articles, documents)
-- Clearly shows changes in wording
+Compares word by word, using whitespace as boundaries. Great for prose -- articles, documentation, legal text. Shows "changed this word to that word" instead of "this whole line is different."
 
-## Diff Display Formats
+## Display Formats
 
-### Unified Diff Format
-The standard format used by Git, where `+` denotes added lines, `-` denotes removed lines, and `@@` marks change positions.
+### Unified Diff
+The classic `+` and `-` format. Lines starting with `-` were removed, `+` were added, and lines with neither are context. The `@@` markers show which line ranges are being compared.
 
 ### Side-by-side
-Two panes show the original and modified content side by side, with differences highlighted for easy reading.
+Two panes, old on the left, new on the right. Differences are highlighted in both panes. This is what most code review tools use because it's the most intuitive for reading changes.
 
-### Inline Diff
-Additions and deletions are shown in the same view using color coding — green background for added content, red for removed.
+### Inline
+A single view where additions are shown in green and deletions in red. More compact than side-by-side but can be harder to read for complex changes.
 
-## Use Cases
+## Where Diff Matters
 
-### Code Review
-The diff view in Pull Requests is central to code review, helping developers quickly understand what changed.
+- **Code review**: Every PR review is fundamentally a diff review. Knowing how to read diffs quickly is a core skill.
+- **Configuration management**: Comparing prod vs staging configs to catch drift before it causes outages.
+- **Document versioning**: Tracking changes in specs, contracts, and policies.
+- **Debugging**: "What changed between the working version and the broken one?" Diff the two states.
 
-### Document Version Tracking
-Managing revision history for papers, contracts, and technical documents ensures every change is traceable.
+## Performance Notes
 
-### Configuration File Comparison
-In operations, comparing configuration differences between production and test environments prevents issues from configuration mismatches.
-
-### Data Validation
-Comparing API responses against expected values for assertions in automated testing.
-
-## Popular Libraries and Tools
-
-| Tool/Library | Language | Notes |
-|-------------|----------|-------|
-| `diff` (npm) | JavaScript | Lightweight, multiple granularity modes |
-| `diff-match-patch` | Multi-language | Google product, feature-rich |
-| `jsdiff` | JavaScript | Browser-friendly |
-| GNU diff | C | Unix standard tool |
-| vimdiff | Vim | Terminal-based comparison tool |
-
-## Performance Considerations
-
-For very large texts (tens of thousands of lines), diff calculation can be time-consuming. Optimization strategies include:
-- First filter out identical prefixes and suffixes
-- Use Web Workers for background thread computation
-- Process very long texts in chunks
-
+For very large files (tens of thousands of lines), diff computation gets expensive. This tool uses a JavaScript implementation that's fast enough for typical use cases (a few thousand lines). For enormous comparisons, strategies like pre-filtering identical prefixes/suffixes or using Web Workers for background computation help, but for most practical purposes the performance is fine.

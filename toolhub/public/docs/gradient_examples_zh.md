@@ -1,70 +1,73 @@
 # 渐变色生成器 - 代码示例
 
-## 精选渐变方案
+## 精选预设方案
 
-### 1. 经典蓝紫渐变
+### 经典蓝紫渐变
 
-效果：沉稳、专业
+稳妥、专业，放在哪里都合适。一半的 SaaS 落地页默认渐变都长这样，不是没道理的。
+
 ```css
 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 ```
-适用：按钮、卡片背景、Banner
+
+按钮、卡片、Hero 区域通吃，不会突兀。
 
 ---
 
-### 2. 日落橙金渐变
+### 日落橙金渐变
 
-效果：温暖、活力
+温暖、有活力，适合促销横幅和 CTA 按钮。
+
 ```css
 background: linear-gradient(to right, #f7971e 0%, #ffd200 100%);
 ```
-适用：促销横幅、登录页背景
 
 ---
 
-### 3. 极光绿青渐变
+### 极光绿青渐变
 
-效果：清新、现代
+清新、现代，搭配白色文字和充裕的内边距效果很好。
+
 ```css
 background: linear-gradient(120deg, #11998e 0%, #38ef7d 100%);
 ```
-适用：成功状态、环保主题
 
 ---
 
-### 4. 霓虹粉紫渐变
+### 霓虹粉紫渐变
 
-效果：时尚、科技感
+大胆、科技感强。品牌风格张扬的话可以考虑。
+
 ```css
 background: linear-gradient(to right, #f953c6 0%, #b91d73 50%, #510a7d 100%);
 ```
-适用：科技产品、游戏界面
 
 ---
 
-### 5. 天空蓝白渐变
+### 天空蓝白渐变
 
-效果：轻盈、干净
+轻盈、干净。做页面背景很合适，有微妙的层次感但不会抢内容的风头。
+
 ```css
 background: linear-gradient(to bottom, #e0f7fa 0%, #ffffff 100%);
 ```
-适用：页面背景、卡片
 
 ---
 
-### 6. 径向光晕效果
+### 径向光晕
 
-效果：聚光灯感
+聚光灯效果，放在头像或者重点卡片背后很出彩。
+
 ```css
 background: radial-gradient(circle at center, #fff 0%, #a18cd1 50%, #fbc2eb 100%);
 ```
-适用：头像背景、焦点区域
 
 ---
 
-### 7. 锥形彩虹（色轮）
+### 锥形彩虹色轮
 
-效果：多彩、艺术感
+完整色轮，加上 `border-radius: 50%` 秒变艺术品。
+
 ```css
 background: conic-gradient(
   from 0deg,
@@ -77,13 +80,14 @@ background: conic-gradient(
 );
 border-radius: 50%;
 ```
-适用：颜色选择器、艺术装饰
 
 ---
 
-## 实际应用示例
+## 实际组件示例
 
-### 按钮渐变
+### 渐变按钮
+
+hover 效果直接用 `opacity`，渐变不变只降低透明度，比单独定义一个 hover 渐变干净得多。
 
 ```css
 .btn-primary {
@@ -104,7 +108,9 @@ border-radius: 50%;
 
 ---
 
-### 卡片渐变背景
+### 卡片浅渐变背景
+
+淡色渐变给卡片增加层次感，但不会太抢眼。
 
 ```css
 .feature-card {
@@ -117,7 +123,9 @@ border-radius: 50%;
 
 ---
 
-### 渐变文字效果
+### 渐变文字
+
+`-webkit-background-clip` 把渐变裁剪到文字形状里。加了标准的 `background-clip: text` 给 Firefox。注意这个效果只在实色背景上成立 -- 透明背景下渐变会穿透文字显示出来。
 
 ```css
 .gradient-text {
@@ -132,7 +140,9 @@ border-radius: 50%;
 
 ---
 
-### 页面头部渐变横幅
+### Hero 区域横幅
+
+三个色点比两个更有层次，中间色充当过渡桥。
 
 ```css
 .hero-section {
@@ -151,7 +161,9 @@ border-radius: 50%;
 
 ---
 
-### 暗色主题渐变
+### 暗色主题渐变卡片
+
+深蓝色系在暗色背景下可见性好，又不像纯黑那么死板。
 
 ```css
 .dark-card {
@@ -164,7 +176,9 @@ border-radius: 50%;
 
 ---
 
-## 渐变与 CSS 变量结合
+## CSS 变量管理渐变
+
+定义一次，到处使用。主题切换方便，渐变调色板也能保持统一。
 
 ```css
 :root {
@@ -178,4 +192,4 @@ border-radius: 50%;
 .btn-success { background: var(--gradient-success); }
 .btn-warning { background: var(--gradient-warning); }
 .btn-danger  { background: var(--gradient-danger); }
-
+```

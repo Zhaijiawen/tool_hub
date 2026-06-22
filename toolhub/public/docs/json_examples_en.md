@@ -1,8 +1,8 @@
 # JSON Code Examples
 
-## Basic JSON Structure Examples
+## Common structures you'll actually see
 
-### Simple Object
+### Simple object -- the bread and butter
 
 ```json
 {
@@ -13,7 +13,7 @@
 }
 ```
 
-### Nested Object
+### Nested objects -- real APIs look like this
 
 ```json
 {
@@ -32,8 +32,9 @@
   }
 }
 ```
+Notice how nesting goes `user -> profile -> fields`. Three levels is fine. More than five and you might want to flatten things.
 
-### Array Example
+### Arrays of objects -- every list endpoint returns this
 
 ```json
 {
@@ -54,9 +55,13 @@
 }
 ```
 
-## API Response Examples
+---
 
-### Success Response
+## API response patterns
+
+### Success with data envelope
+
+Wrapping the payload in a `data` field and adding metadata is a common pattern. Makes it easy to add pagination, timestamps, etc. without touching the payload shape.
 
 ```json
 {
@@ -71,7 +76,9 @@
 }
 ```
 
-### Error Response
+### Error response
+
+Structured errors beat string messages. The `details` array lets you return multiple validation failures at once -- way better than making the user fix errors one at a time.
 
 ```json
 {
@@ -87,22 +94,11 @@
 }
 ```
 
-### Paginated Response
+### Paginated response
 
 ```json
 {
-  "data": [
-    {
-      "id": 1,
-      "name": "Product 1",
-      "price": 100
-    },
-    {
-      "id": 2,
-      "name": "Product 2",
-      "price": 200
-    }
-  ],
+  "data": [...],
   "pagination": {
     "page": 1,
     "limit": 10,
@@ -112,9 +108,11 @@
 }
 ```
 
-## Configuration File Examples
+---
 
-### Application Config
+## Configuration examples
+
+### App config
 
 ```json
 {
@@ -137,63 +135,60 @@
 }
 ```
 
-### Package.json Example
+### Package.json -- you know this one
 
 ```json
 {
   "name": "my-project",
   "version": "1.0.0",
-  "description": "A sample project",
-  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest",
-    "build": "webpack"
+    "test": "jest"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "axios": "^0.21.1"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
-    "jest": "^27.0.6"
+    "nodemon": "^2.0.7"
   }
 }
 ```
 
-## JavaScript Processing Examples
+---
 
-### Parsing JSON
+## JavaScript: parsing and generating
+
+### Parse with error handling
+
+Always wrap `JSON.parse` in try/catch. Always. The reviver function is useful for converting date strings back to Date objects, handling BigInt, or cleaning up data shapes.
 
 ```js
-// Parse JSON from string
 const jsonString = '{"name":"Alice","age":30}'
 const user = JSON.parse(jsonString)
-console.log(user.name) // Output: Alice
+console.log(user.name) // Alice
 
-// Handle parsing errors
+// Don't skip the try/catch
 try {
-  const invalidJson = '{"name":"Bob",age:35}' // Missing quotes
+  const invalidJson = '{name:"Bob",age:35}' // missing quotes on key
   const result = JSON.parse(invalidJson)
 } catch (error) {
   console.error('JSON parsing error:', error.message)
 }
 
-// Parse with reviver function
+// Reviver for dates
 const jsonWithDates = '{"name":"John","birthDate":"1990-01-01"}'
 const userWithDates = JSON.parse(jsonWithDates, (key, value) => {
-  if (key === 'birthDate') {
-    return new Date(value)
-  }
+  if (key === 'birthDate') return new Date(value)
   return value
 })
 ```
 
-### Generating JSON
+### Generate with stringify
+
+The third argument to `stringify` is your indentation. `null, 2` means "no replacer, 2-space indent" -- you'll type this a thousand times.
 
 ```js
-// Convert object to JSON string
 const data = {
   name: 'Charlie',
   age: 28,
@@ -201,9 +196,6 @@ const data = {
 }
 
 const jsonString = JSON.stringify(data, null, 2)
-console.log(jsonString)
-
-// Output:
 // {
 //   "name": "Charlie",
 //   "age": 28,
@@ -213,35 +205,19 @@ console.log(jsonString)
 //     "Node.js"
 //   ]
 // }
-
-// Custom replacer function
-const dataWithFunctions = {
-  name: 'David',
-  age: 25,
-  greet: function() { return 'Hello!' }
-}
-
-const jsonWithoutFunctions = JSON.stringify(dataWithFunctions, (key, value) => {
-  if (typeof value === 'function') {
-    return undefined // Exclude functions
-  }
-  return value
-})
 ```
 
-### Working with Arrays
+### Filtering arrays to JSON
+
+Combine array methods with `stringify` for quick data extraction:
 
 ```js
-// Array of objects
 const users = [
   { id: 1, name: 'Alice', age: 25 },
   { id: 2, name: 'Bob', age: 30 },
   { id: 3, name: 'Charlie', age: 35 }
 ]
 
-const usersJson = JSON.stringify(users, null, 2)
-
-// Filter and convert to JSON
 const youngUsers = users
   .filter(user => user.age < 30)
   .map(user => ({ name: user.name, age: user.age }))
@@ -249,9 +225,11 @@ const youngUsers = users
 const youngUsersJson = JSON.stringify(youngUsers, null, 2)
 ```
 
-## Database Examples
+---
 
-### User Profile
+## Real-world data shapes
+
+### User profile (database document)
 
 ```json
 {
@@ -282,106 +260,35 @@ const youngUsersJson = JSON.stringify(youngUsers, null, 2)
 }
 ```
 
-### Product Catalog
+### Product catalog item
+
+Price as an object (`{ amount, currency }`) is better than a raw number -- it's self-documenting and handles multi-currency cleanly.
 
 ```json
 {
-  "products": [
-    {
-      "id": "prod_001",
-      "name": "Wireless Headphones",
-      "description": "High-quality wireless headphones with noise cancellation",
-      "price": {
-        "amount": 199.99,
-        "currency": "USD"
-      },
-      "category": "Electronics",
-      "tags": ["wireless", "audio", "noise-cancellation"],
-      "specifications": {
-        "batteryLife": "20 hours",
-        "connectivity": "Bluetooth 5.0",
-        "weight": "250g"
-      },
-      "inventory": {
-        "stock": 50,
-        "reserved": 5,
-        "available": 45
-      },
-      "images": [
-        "https://example.com/headphones-1.jpg",
-        "https://example.com/headphones-2.jpg"
-      ]
-    }
-  ]
-}
-```
-
-## Web Application Examples
-
-### Form Data
-
-```json
-{
-  "formData": {
-    "personalInfo": {
-      "firstName": "Jane",
-      "lastName": "Smith",
-      "email": "jane.smith@example.com",
-      "phone": "+1-555-123-4567"
-    },
-    "address": {
-      "street": "123 Main St",
-      "city": "New York",
-      "state": "NY",
-      "zipCode": "10001",
-      "country": "USA"
-    },
-    "preferences": {
-      "newsletter": true,
-      "marketing": false,
-      "language": "en"
-    }
-  }
-}
-```
-
-### API Request/Response
-
-```json
-{
-  "request": {
-    "method": "POST",
-    "url": "/api/users",
-    "headers": {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    },
-    "body": {
-      "name": "New User",
-      "email": "newuser@example.com",
-      "role": "user"
-    }
+  "id": "prod_001",
+  "name": "Wireless Headphones",
+  "price": {
+    "amount": 199.99,
+    "currency": "USD"
   },
-  "response": {
-    "status": 201,
-    "headers": {
-      "Content-Type": "application/json",
-      "Location": "/api/users/123"
-    },
-    "body": {
-      "id": 123,
-      "name": "New User",
-      "email": "newuser@example.com",
-      "role": "user",
-      "createdAt": "2024-01-15T10:30:00Z"
-    }
+  "category": "Electronics",
+  "tags": ["wireless", "audio", "noise-cancellation"],
+  "specifications": {
+    "batteryLife": "20 hours",
+    "connectivity": "Bluetooth 5.0"
+  },
+  "inventory": {
+    "stock": 50,
+    "reserved": 5,
+    "available": 45
   }
 }
 ```
 
-## Error Handling Examples
+### Validation errors
 
-### Validation Errors
+Returning an array of field-level errors lets the frontend map each error to its form field directly.
 
 ```json
 {
@@ -395,117 +302,10 @@ const youngUsersJson = JSON.stringify(youngUsers, null, 2)
     {
       "field": "password",
       "message": "Password must be at least 8 characters",
-      "code": "PASSWORD_TOO_SHORT",
-      "value": "123"
+      "code": "PASSWORD_TOO_SHORT"
     }
   ],
   "timestamp": "2024-01-15T10:30:00Z",
   "requestId": "req_123456"
 }
 ```
-
-### System Error
-
-```json
-{
-  "error": {
-    "code": "INTERNAL_SERVER_ERROR",
-    "message": "An unexpected error occurred",
-    "details": "Database connection failed",
-    "timestamp": "2024-01-15T10:30:00Z",
-    "requestId": "req_123456",
-    "stack": "Error: Connection timeout..."
-  }
-}
-```
-
-## Advanced Examples
-
-### Complex Nested Structure
-
-```json
-{
-  "organization": {
-    "id": "org_001",
-    "name": "TechCorp",
-    "departments": [
-      {
-        "id": "dept_001",
-        "name": "Engineering",
-        "manager": {
-          "id": "emp_001",
-          "name": "Sarah Johnson",
-          "email": "sarah.johnson@techcorp.com"
-        },
-        "employees": [
-          {
-            "id": "emp_002",
-            "name": "Mike Chen",
-            "position": "Senior Developer",
-            "skills": ["JavaScript", "Python", "React"],
-            "projects": [
-              {
-                "id": "proj_001",
-                "name": "E-commerce Platform",
-                "status": "in-progress",
-                "progress": 75
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "settings": {
-      "timezone": "UTC-5",
-      "workingHours": {
-        "start": "09:00",
-        "end": "17:00"
-      },
-      "holidays": [
-        "2024-01-01",
-        "2024-07-04",
-        "2024-12-25"
-      ]
-    }
-  }
-}
-```
-
-### Configuration with Environment Variables
-
-```json
-{
-  "development": {
-    "database": {
-      "host": "localhost",
-      "port": 5432,
-      "name": "dev_db"
-    },
-    "redis": {
-      "host": "localhost",
-      "port": 6379
-    },
-    "logging": {
-      "level": "debug",
-      "format": "json"
-    }
-  },
-  "production": {
-    "database": {
-      "host": "${DB_HOST}",
-      "port": "${DB_PORT}",
-      "name": "${DB_NAME}"
-    },
-    "redis": {
-      "host": "${REDIS_HOST}",
-      "port": "${REDIS_PORT}"
-    },
-    "logging": {
-      "level": "info",
-      "format": "json"
-    }
-  }
-}
-```
-
-These examples demonstrate various JSON patterns and use cases commonly encountered in web development, API design, and data management. 

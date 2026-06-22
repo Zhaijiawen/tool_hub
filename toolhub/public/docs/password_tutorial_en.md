@@ -1,43 +1,32 @@
-# Random Password Generator — Tutorial
+# Random Password Generator — How to Use
 
-## Generate a Strong Password Quickly
+## Quick generation
 
-1. Keep default settings (length 16, all charsets enabled)
-2. Set count to `1`
-3. Click "Generate"
-4. Click the result row to copy
+Default settings (16 characters, all character sets, count 1) produce a strong password immediately. Click Generate, click the result to copy, done.
 
-## Configuration Guide
+## Configuration options
 
-### Password Length
+**Length —** Drag the slider or type a number (4 to 128). Rough guidelines:
+- Regular accounts: 12-16 characters
+- Email, banking, anything critical: 20+ characters
+- API keys and secrets: 32+ characters
 
-Drag the slider or type a number directly (4–128). Recommendations:
-
-- Regular accounts: 12–16 characters
-- Critical accounts (banking, email): 20+ characters
-- API Keys / Secrets: 32+ characters
-
-### Character Sets
+**Character sets —**
 
 | Option | Characters |
 |--------|-----------|
-| Uppercase | A-Z (26 chars) |
-| Lowercase | a-z (26 chars) |
-| Digits | 0-9 (10 chars) |
+| Uppercase | A-Z (26) |
+| Lowercase | a-z (26) |
+| Digits | 0-9 (10) |
 | Symbols | `!@#$%^&*()_+-=[]{}|;:,.<>?` (28 by default) |
 
-**Custom Symbol Set**: After enabling "Symbols", you can edit the symbol set to only include characters supported by the target website (some sites restrict special characters).
+**Custom symbols —** After enabling symbols, you can edit the symbol set. Some sites only accept a subset of special characters (looking at you, bank websites with "only !@#$ are allowed"). Trim the set to match what the target system accepts.
 
-### Exclude Ambiguous Characters
+**Exclude ambiguous characters —** Removes `0`, `O`, `l`, `1`, `I` — the characters that look identical in many fonts. Use this when the password needs to be typed manually or written down.
 
-When enabled, removes `0` (zero), `O` (capital O), `l` (lowercase L), `1` (one), and `I` (capital i) — useful when the password will be manually typed or written down.
+**Batch generation —** Set count up to 20. Each click of a row copies that single password. "Copy All" copies everything, one per line — paste into a password manager or text file.
 
-### Batch Generation
+## Copy options
 
-Generate up to 20 passwords at once — useful for bulk user account setup.
-
-## Copy Options
-
-- **Click any row**: Copies that single password to clipboard
-- **Copy All**: Copies all passwords separated by newlines, easy to paste into a text file
-
+- Click any row to copy just that password
+- "Copy All" copies all passwords, newline-separated, in one operation

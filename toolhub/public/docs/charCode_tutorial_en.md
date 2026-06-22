@@ -1,35 +1,35 @@
-# Character Code Converter — Usage Tutorial
+# Character Code Converter -- How to Use
 
-## How to Use
+Type a character, see its encoding in every format. Or work backward: enter a code point and it tells you what character that is.
 
-### Step 1: Input a Character or String
-Type or paste a character or string in the input field. The tool works with single characters or multi-character strings.
+## Forward Lookup: Character to Codes
 
-### Step 2: View Code Representations
-The tool instantly displays the character's code in multiple formats:
-- **Decimal** (Unicode code point)
-- **Hexadecimal**
-- **Binary**
-- **HTML Entity** (decimal and hex)
-- **URL Encoded**
-- **Octal**
+Type or paste a character (or a whole string) into the input field. The tool instantly shows you:
 
-### Reverse Lookup
-Enter a code point (e.g., `65`, `0x41`, or `U+0041`) to find which character it represents.
+- **Decimal** -- the Unicode code point as a plain number
+- **Hexadecimal** -- hex representation, what you'd use in most programming contexts
+- **Binary** -- the raw bits
+- **HTML Entity** -- both decimal (`&#65;`) and hex (`&#x41;`) forms
+- **URL Encoded** -- percent-encoded form
+- **Octal** -- occasionally useful in legacy contexts
 
-## Supported Input Formats
+For multi-character strings it shows each character's codes separately, which makes it great for inspecting text with encoding problems.
 
-| Format | Example | Character |
+## Reverse Lookup: Code to Character
+
+Enter a code point in any of these formats and the tool finds the matching character:
+
+| Format | Example | Result |
 |---|---|---|
-| Decimal code point | `65` | `A` |
-| Hex code point | `0x41` or `41` | `A` |
+| Decimal | `65` | `A` |
+| Hex | `0x41` or `41` | `A` |
 | Unicode notation | `U+0041` | `A` |
 | HTML entity | `&#65;` or `&#x41;` | `A` |
-| Character | `A` | → codes |
 
-## Tips
+## When You'll Actually Use This
 
-- Use this tool to identify invisible or special characters (zero-width space, BOM, etc.)
-- Paste text with encoding issues to inspect each character's code point
-- Helpful for debugging regular expressions involving Unicode characters
-
+- **Debugging invisible characters**: Zero-width spaces (U+200B), BOM (U+FEFF), non-breaking spaces (U+00A0) -- these cause baffling bugs. Paste text in and the tool reveals them.
+- **Encoding troubleshooting**: Got garbled text? Paste it character by character to see what code points are actually there versus what you expected.
+- **Regex with Unicode**: Writing a regex that matches emoji or CJK characters? Look up the code point ranges you need.
+- **URL encoding**: Need to know the percent-encoded form of a specific character for query strings or path segments.
+- **HTML safety**: Check what characters need entity encoding and what their entity forms are.
