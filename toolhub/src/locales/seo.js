@@ -3,14 +3,14 @@ export const seoConfig = {
     // 格式化工具
     json: {
       en: {
-        name: 'JSON Formatter',
-        description: 'Format and validate JSON data with syntax highlighting and error detection',
-        keywords: ['json formatter', 'json validator', 'json beautifier', 'json prettifier']
+        name: 'JSON & JSON5 Formatter',
+        description: 'Format and compress JSON data, with JSON5 mode for comments, unquoted keys, and trailing commas',
+        keywords: ['json formatter', 'json5 formatter', 'json beautifier', 'json compressor', 'json5', 'json formatter online']
       },
       zh: {
-        name: 'JSON 格式化工具',
-        description: 'JSON 数据格式化和验证工具，支持语法高亮和错误检测',
-        keywords: ['json 格式化', 'json 验证', 'json 美化', 'json 工具']
+        name: 'JSON & JSON5 格式化工具',
+        description: 'JSON 数据格式化和压缩工具，支持 JSON5 模式（注释、无引号键、尾逗号）',
+        keywords: ['json 格式化', 'json5 格式化', 'json 美化', 'json 压缩', 'json5', 'json 在线格式化']
       }
     },
     xml: {
