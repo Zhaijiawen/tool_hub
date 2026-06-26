@@ -4,7 +4,7 @@
 
 Drop this into the left panel to see how a typical project README renders:
 
-```markdown
+````markdown
 # weather-cli
 
 > A tiny weather tool for your terminal — no API key needed for basic forecasts.
@@ -46,7 +46,7 @@ weather berlin --units metric
 ## License
 
 MIT — do whatever you want with it.
-```
+````
 
 Every README element in one shot: heading hierarchy, blockquote, fenced code blocks with language tags, a GFM table, a task list, and a horizontal rule if you add one.
 
@@ -78,7 +78,7 @@ GitHub renders these as actual checkboxes. They're clickable in the issue/PR UI 
 
 ## Nested Content
 
-```markdown
+````markdown
 ## Deployment Guide
 
 1. Build the image
@@ -95,6 +95,6 @@ GitHub renders these as actual checkboxes. They're clickable in the issue/PR UI 
    - Run smoke test: `curl https://myapp.example.com/health`
 
 > **Heads up**: Step 3 needs `kubectl` configured with the right context. Double-check with `kubectl config current-context`.
-```
+````
 
 Fenced code blocks inside ordered lists need that extra indentation to render correctly. The blockquote at the end sits outside the list — just add a blank line first.

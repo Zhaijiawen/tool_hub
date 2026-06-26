@@ -4,7 +4,7 @@
 
 把下面的内容粘贴到左边面板，看看典型的项目 README 渲染出来什么样：
 
-```markdown
+````markdown
 # weather-cli
 
 > 终端里的天气预报小工具——基础预报无需 API Key。
@@ -46,7 +46,7 @@ weather berlin --units metric
 ## 许可证
 
 MIT — 随意使用。
-```
+````
 
 一个示例覆盖了 README 的常见元素：标题层级、引用块、带语言标签的围栏代码块、GFM 表格、任务列表。
 
@@ -78,7 +78,7 @@ GitHub 会把这些渲染成实实在在的复选框。在 Issue/PR 页面上直
 
 ## 嵌套内容
 
-```markdown
+````markdown
 ## 部署指南
 
 1. 构建镜像
@@ -95,6 +95,6 @@ GitHub 会把这些渲染成实实在在的复选框。在 Issue/PR 页面上直
    - 冒烟测试：`curl https://myapp.example.com/health`
 
 > **注意**：第三步需要 `kubectl` 配置正确的 context。先跑 `kubectl config current-context` 确认一下。
-```
+````
 
 有序列表里嵌套围栏代码块需要额外缩进——少了渲染会乱。最后的引用块在列表外面，前面加个空行就行。

@@ -17,7 +17,7 @@ That's it. The tool handles the conversion, so you don't need to install anythin
 |---|---|---|
 | Bold | `**text**` | **strong text** |
 | Italic | `_text_` | *emphasized text* |
-| `# Title` | Large heading | H1 |
+| H1 | `# Title` | Large heading |
 | `## Title` | Medium heading | H2 |
 | `### Title` | Small heading | H3 |
 | Link | `[label](url)` | Clickable link |
