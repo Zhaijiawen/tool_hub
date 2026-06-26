@@ -36,7 +36,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    <TutorialAndDocs toolKey="markdown" />
+    <TutorialAndDocs toolKey="markdownFormat" />
   </div>
 </template>
 

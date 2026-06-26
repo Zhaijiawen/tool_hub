@@ -580,9 +580,9 @@ export const toolDescriptions = {
   markdown: {
     features: [
       '实时 Markdown 预览',
-      '语法高亮显示',
-      '多种 Markdown 扩展',
-      '导出多种格式'
+      'GitHub 风格 Markdown（GFM）',
+      'XSS 安全过滤',
+      '一键复制渲染后的 HTML'
     ],
     useCases: [
       '文档编写和编辑',
@@ -593,14 +593,14 @@ export const toolDescriptions = {
     usageSteps: [
       '在编辑区输入 Markdown 文本',
       '实时查看预览效果',
-      '调整格式和内容',
-      '导出或复制结果'
+      '加载示例快速体验',
+      '复制渲染后的 HTML 代码'
     ],
     bestPractices: [
       '保持文档结构清晰',
       '使用有意义的标题',
       '适当添加链接和图片',
-      '定期备份重要文档'
+      '注意代码块的语言标签'
     ]
   },
 
@@ -823,28 +823,27 @@ export const toolDescriptions = {
 
   markdownFormat: {
     features: [
-      'Markdown 语法高亮显示',
-      '自动缩进和格式化',
-      '语法错误检测',
-      '多种格式化选项'
+      'Markdown 语法高亮编辑',
+      '表格列对齐',
+      '空行规范化',
+      '一键下载 .md 文件'
     ],
     useCases: [
-      '文档格式化和美化',
-      '技术文档编写',
-      '博客文章编辑',
-      'README 文件优化'
+      '统一 Markdown 文档排版',
+      '技术文档规范化',
+      '博客文章整理',
+      'README 文件美化'
     ],
     usageSteps: [
       '将 Markdown 内容粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
       '点击格式化按钮',
-      '查看格式化结果'
+      '复制或下载格式化结果'
     ],
     bestPractices: [
       '使用标准的 Markdown 语法',
       '保持文档结构清晰',
       '适当使用标题层级',
-      '注意代码块的语法高亮'
+      '代码块标注语言标签'
     ]
   },
 
@@ -3255,9 +3254,9 @@ export const toolDescriptionsEn = {
   markdown: {
     features: [
       'Real-time Markdown preview',
-      'Syntax highlighting',
-      'Multiple Markdown extensions',
-      'Export multiple formats'
+      'GitHub Flavored Markdown (GFM)',
+      'XSS-safe HTML output',
+      'One-click copy rendered HTML'
     ],
     useCases: [
       'Document writing and editing',
@@ -3267,15 +3266,15 @@ export const toolDescriptionsEn = {
     ],
     usageSteps: [
       'Enter Markdown text in the editing area',
-      'Real-time preview effect',
-      'Adjust format and content',
-      'Export or copy results'
+      'Real-time preview as you type',
+      'Load an example to get started',
+      'Copy the rendered HTML output'
     ],
     bestPractices: [
       'Keep document structure clear',
       'Use meaningful headings',
       'Add links and images appropriately',
-      'Regularly back up important documents'
+      'Always include language tags for code blocks'
     ]
   },
 
@@ -3498,28 +3497,27 @@ export const toolDescriptionsEn = {
 
   markdownFormat: {
     features: [
-      'Markdown syntax highlighting',
-      'Automatic indentation and formatting',
-      'Syntax error detection',
-      'Multiple formatting options'
+      'Markdown syntax-highlighted editor',
+      'Table column alignment',
+      'Blank line normalization',
+      'One-click download as .md'
     ],
     useCases: [
-      'Document formatting and beautification',
-      'Technical document writing',
-      'Blog post editing',
-      'README file optimization'
+      'Standardize Markdown document layout',
+      'Technical document normalization',
+      'Blog post cleanup',
+      'README file beautification'
     ],
     usageSteps: [
-      'Paste Markdown content into input box',
-      'Select formatting options (beautify/compress)',
-      'Click format button',
-      'View formatted result'
+      'Paste Markdown content into the editor',
+      'Click the format button',
+      'Copy or download the formatted result'
     ],
     bestPractices: [
       'Use standard Markdown syntax',
       'Keep document structure clear',
       'Use appropriate heading levels',
-      'Pay attention to syntax highlighting for code blocks'
+      'Always include language tags for code blocks'
     ]
   },
 
