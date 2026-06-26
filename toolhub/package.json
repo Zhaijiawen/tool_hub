@@ -55,6 +55,7 @@
     "js-beautify": "^1.14.9",
     "js-yaml": "^4.1.1",
     "jsencrypt": "^3.3.2",
+    "json5": "^2.2.3",
     "jsonpath-plus": "^10.4.0",
     "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",

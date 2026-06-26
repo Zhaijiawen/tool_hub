@@ -307,3 +307,70 @@ const youngUsersJson = JSON.stringify(youngUsers, null, 2)
   "requestId": "req_123456"
 }
 ```
+
+
+---
+
+## JSON5 格式示例
+
+切换到 JSON5 模式后再看这些例子。以下写法在标准 JSON 中不合法，但在 JSON5 中完全有效。
+
+### 带注释的配置
+```json5
+{
+  // 数据库配置
+  database: {
+    host: 'localhost',
+    port: 5432,
+    /* 生产环境请修改以下凭据 */
+    user: 'admin',
+    password: 'changeme',
+  },
+  // 缓存策略
+  cache: {
+    ttl: 3600, // 秒
+    maxSize: '256MB',
+  },
+}
+```
+
+### 无引号键 + 尾逗号
+```json5
+{
+  name: 'ToolHub',
+  version: '1.0.0',
+  features: [
+    'format',
+    'encrypt',
+    'convert',
+  ],
+  contributors: [
+    { name: '张三', role: '开发' },
+    { name: '李四', role: '设计' },
+  ],
+}
+```
+
+### 常见构建配置文件
+
+这就是 .prettierrc 和其他构建工具配置文件的典型风格：
+
+```json5
+{
+  printWidth: 100,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'none',
+  // 仅在项目中覆盖
+  overrides: [
+    {
+      files: '*.md',
+      options: { tabWidth: 4 },
+    },
+  ],
+}
+```
+
+注意 JSON5 模式下格式化这些文件，注释保留、键引号可能被优化——正是你对配置文件的期望行为。

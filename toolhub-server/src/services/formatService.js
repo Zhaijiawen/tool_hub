@@ -60,7 +60,8 @@ function getParser(language) {
     go: 'go-template',
     vue: 'vue',
     markdown: 'markdown',
-    yaml: 'yaml'
+    yaml: 'yaml',
+    json5: 'json5'
   };
   return parserMap[language.toLowerCase()] || 'babel';
 }

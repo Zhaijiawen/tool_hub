@@ -37,7 +37,8 @@ const BACKEND_REQUIRED_PLUGINS = [
   '@un-ts/prettier-plugin-sql',
   '@vue/compiler-sfc',
   'yaml',
-  'markdown'
+  'markdown',
+  'json5'
 ];
 
 /**
@@ -110,7 +111,8 @@ const getPrettierPlugins = (language) => {
     sql: ['@un-ts/prettier-plugin-sql'],
     vue: ['@vue/compiler-sfc'],
     yaml: ['yaml'],
-    markdown: ['markdown']
+    markdown: ['markdown'],
+    json5: ['json5']
   };
   const languagePlugins = pluginMap[language.toLowerCase()] || [];
   return [...basePlugins, ...languagePlugins];

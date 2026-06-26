@@ -51,3 +51,27 @@ try {
 - Log aggregation (structured JSON logging)
 
 It won because it's the right level of simplicity. XML had schemas and namespaces and attributes and CDATA sections. JSON just has brackets and braces. Sometimes less really is more.
+
+## JSON5 — the "human-friendly" superset
+
+JSON works great as a machine interchange format, but for config files that humans write, the strict rules get annoying: keys must be double-quoted, no comments, no trailing commas. JSON5 fixes exactly that.
+
+JSON5 extends JSON with:
+
+- **Unquoted keys**: `{ name: "value" }` — valid, using ECMAScript 5 identifier rules
+- **Single-quoted strings**: `'hello'` works alongside `"hello"`
+- **Trailing commas**: `{ a: 1, }` — no error
+- **Comments**: `//` line comments and `/* */` block comments both allowed
+- **More number formats**: hexadecimal `0xFF`, `Infinity`, `NaN`
+
+JSON5 is a **superset** of JSON. Every valid JSON file is also valid JSON5. The reverse isn't true: JSON5 extras (comments, unquoted keys) will break standard JSON parsers.
+
+Pretty much all modern build tool configs use JSON5-style files — `.prettierrc`, `tsconfig.json`, and most Vite/Webpack/Rollup configs. That's what this tool's JSON5 mode is designed for.
+
+### JSON5 formatting behavior
+
+When you switch to JSON5 mode, Prettier applies JSON5 rules:
+
+- **Key quotes**: If you paste `{"name": "value"}`, the formatter may strip the key quotes leaving `{ name: "value" }`. This is valid JSON5, so Prettier removes unnecessary quoting
+- **Comments**: fully preserved — this is the main reason to use JSON5 mode over standard JSON mode
+- **Short objects**: objects that fit within `printWidth` may stay on a single line

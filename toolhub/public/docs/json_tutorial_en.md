@@ -37,32 +37,37 @@ Click Format and the tool expands everything with proper indentation:
 }
 ```
 
-### Choose your indentation
-
-Most people use 2-space indent (it's what Prettier defaults to, and it keeps deeply nested JSON from drifting too far right). 4-space is more readable for shallow structures. Tab is an option if you're old school. Pick one and stick with it.
-
 ### Copy and move on
 
-Click Copy next to the formatted output, paste it wherever you need it. Done.
+Click Copy after formatting, paste it wherever you need it. Done.
 
-## What the validator catches
+## JSON / JSON5 toggle
 
-The tool validates as it formats. Common errors:
+Next to the card title there's a `[JSON → JSON5]` button group. Click to switch:
 
-**Unquoted keys** -- `{name: "value"}` is JavaScript, not JSON. The tool flags it, you add quotes, life goes on.
+- **JSON** (default): standard JSON formatting, 2-space indent, double-quoted keys
+- **JSON5**: supports comments, unquoted keys, trailing commas, single-quoted strings. Formatted via backend Prettier, comments fully preserved
 
-**Trailing commas** -- that extra comma after the last array element or object property is valid in JS but not JSON. Easy to miss:
+JSON5 mode is built for config files like `.prettierrc`, `tsconfig.json`, and `eslintrc` — these are already JSON5 under the hood. Format them for cleaner structure without losing comments.
+
+When you switch to JSON5 mode, a warning panel appears explaining that key quotes may be removed and short objects may stay single-line.
+
+## Common pitfalls
+
+The formatter handles layout, not syntax validation. Here's what to know about JSON and JSON5 boundaries:
+
+**Unquoted keys** -- `{name: "value"}` is invalid in standard JSON but valid in JSON5 mode. JSON mode validates that keys are double-quoted.
+
+**Trailing commas** -- that extra comma after the last element is not valid JSON, but fine in JSON5:
 ```json
-// Nope
+// Invalid JSON, valid JSON5
 {
   "a": 1,
   "b": 2,
 }
 ```
 
-**Unescaped control characters** -- real newlines inside JSON strings need to be `\n`, not actual line breaks. If you copy JSON from a terminal or text editor that wrapped lines, this is common.
-
-**Mismatched brackets** -- a missing `}` or `]` somewhere in a 500-line JSON file. The validator points to the approximate line.
+**Mismatched brackets** -- a missing `}` or `]` will cause a parse error, but the formatter can only report the approximate location.
 
 ## Tips from the trenches
 
@@ -70,6 +75,6 @@ Keep a backup of the original minified JSON. Sometimes you need to diff the raw 
 
 For really large JSON (over 1MB), the browser might lag. Most browser-based formatters handle up to a few MB fine. Beyond that, use `jq` or a native tool.
 
-Don't store formatted JSON in production databases -- it's wasted bytes. Format for debugging, minify for storage and transport.
+Don't store formatted JSON in production databases — it's wasted bytes. Format for debugging, minify for storage and transport.
 
-If you're working with JSON that other tools produce, watch out for non-standard extensions. Some services emit JSON with comments, trailing commas, or single-quoted strings. The tool will catch these -- that's the whole point.
+If you hit a JSON file with comments, trailing commas, or single-quoted strings — switch to JSON5 mode instead of manually cleaning it up.

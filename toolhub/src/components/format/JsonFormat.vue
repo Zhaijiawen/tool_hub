@@ -8,14 +8,22 @@
     <n-card>
       <template #header>
         <div class="card-header">
-          <span>{{ t('format.json.title') }}</span>
-          <n-icon size="20" class="language-icon">
-            <DatabaseIcon />
-          </n-icon>
+          <span>{{ currentTitle }}</span>
+          <div class="mode-toggle">
+            <button
+              :class="['mode-btn', { active: mode === 'json' }]"
+              @click="mode = 'json'"
+            >JSON</button>
+            <span class="mode-arrow">→</span>
+            <button
+              :class="['mode-btn', { active: mode === 'json5' }]"
+              @click="mode = 'json5'"
+            >JSON5</button>
+          </div>
         </div>
       </template>
       <!-- JSON输入区域 - 带行号的代码编辑器 -->
-      <CodeEditor v-model="input" :placeholder="t('format.json.placeholder')" language="json" />
+      <CodeEditor v-model="input" :placeholder="currentPlaceholder" :language="editorLanguage" />
       <!-- 功能按钮组 -->
       <div class="button-group">
         <!-- 格式化按钮 -->
@@ -60,6 +68,18 @@
           </ul>
         </div>
       </n-alert>
+
+      <!-- JSON5 模式说明 -->
+      <n-alert v-if="mode === 'json5'" type="warning" class="info-alert">
+        <div class="info-content">
+          <h4>{{ t('format.json.json5InfoTitle') }}</h4>
+          <ul>
+            <li>{{ t('format.json.json5Tip1') }}</li>
+            <li>{{ t('format.json.json5Tip2') }}</li>
+            <li>{{ t('format.json.json5Tip3') }}</li>
+          </ul>
+        </div>
+      </n-alert>
     </n-card>
 
     <!-- 工具详细描述已移至左侧面板 -->
@@ -69,7 +89,7 @@
 
 <script setup>
 // 导入Vue相关功能
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // 导入国际化功能
 import { useI18n } from 'vue-i18n'
 // 导入Naive UI消息提示
@@ -80,8 +100,6 @@ import CodeEditor from '@/components/common/CodeEditor.vue'
 import ToolIntro from '@/components/common/ToolIntro.vue'
 // 导入格式化工具
 import { formatCode } from '@/utils/formatUtils'
-// 导入图标
-import { LayersOutline as DatabaseIcon } from '@vicons/ionicons5'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 
 // 初始化国际化
@@ -89,24 +107,16 @@ const { t } = useI18n()
 // 初始化消息提示
 const message = useMessage()
 
+// JSON / JSON5 模式
+const mode = ref('json')
+const editorLanguage = computed(() => mode.value === 'json5' ? 'javascript' : 'json')
+const currentTitle = computed(() => mode.value === 'json5' ? t('format.json.json5Title') : t('format.json.title'))
+const currentPlaceholder = computed(() => mode.value === 'json5' ? t('format.json.json5Placeholder') : t('format.json.placeholder'))
+
 // 输入文本
 const input = ref('')
 // 错误信息
 const error = ref('')
-
-/**
- * 验证 JSON 格式
- * @param {string} jsonString - 要验证的 JSON 字符串
- * @returns {boolean} - 是否为有效的 JSON
- */
-const isValidJson = (jsonString) => {
-  try {
-    JSON.parse(jsonString)
-    return true
-  } catch {
-    return false
-  }
-}
 
 /**
  * 格式化JSON
@@ -120,9 +130,15 @@ const formatJson = async () => {
   }
   try {
     error.value = ''
-    input.value = await formatCode(trimmedInput, 'json')
-    // 校验 JSON 合法性，不合法直接抛出异常
-    JSON.parse(trimmedInput);
+    const lang = mode.value === 'json5' ? 'json5' : 'json'
+    input.value = await formatCode(trimmedInput, lang)
+    // 校验合法性（JSON5 需要 json5 库，标准 JSON 用原生）
+    if (mode.value === 'json5') {
+      const { default: JSON5 } = await import('json5')
+      JSON5.parse(input.value)
+    } else {
+      JSON.parse(input.value)
+    }
     message.success(t('format.json.success'))
   } catch (e) {
     error.value = e.message
@@ -134,7 +150,7 @@ const formatJson = async () => {
  * 压缩JSON
  * 移除所有空白字符，使JSON更紧凑
  */
-const compressJson = () => {
+const compressJson = async () => {
   const trimmedInput = input.value.trim()
 
   if (!trimmedInput) {
@@ -144,8 +160,14 @@ const compressJson = () => {
 
   try {
     error.value = ''
-    const parsed = JSON.parse(trimmedInput)
-    input.value = JSON.stringify(parsed)
+    if (mode.value === 'json5') {
+      const { default: JSON5 } = await import('json5')
+      const parsed = JSON5.parse(trimmedInput)
+      input.value = JSON.stringify(parsed)
+    } else {
+      const parsed = JSON.parse(trimmedInput)
+      input.value = JSON.stringify(parsed)
+    }
     message.success(t('format.json.compressSuccess'))
   } catch (e) {
     error.value = e.message
@@ -231,12 +253,14 @@ const downloadJson = () => {
   try {
     error.value = ''
     // 创建Blob对象
-    const blob = new Blob([input.value], { type: 'application/json;charset=utf-8' })
+    const ext = mode.value === 'json5' ? 'json5' : 'json'
+    const mime = mode.value === 'json5' ? 'application/json+json5' : 'application/json'
+    const blob = new Blob([input.value], { type: `${mime};charset=utf-8` })
     // 创建下载链接
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = `formatted-data.json`
+    link.download = `formatted-data.${ext}`
     // 触发下载
     document.body.appendChild(link)
     link.click()
@@ -296,11 +320,45 @@ const downloadJson = () => {
 .card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-.language-icon {
-  color: #3498db;
-  opacity: 0.9;
+/* 模式切换按钮组 */
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.mode-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-color-2);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.mode-btn:hover {
+  color: var(--text-color);
+  background: var(--code-color);
+}
+
+.mode-btn.active {
+  background: #1890ff;
+  color: #fff;
+}
+
+.mode-arrow {
+  color: var(--text-color-3);
+  font-size: 11px;
+  padding: 0 2px;
 }
 </style>

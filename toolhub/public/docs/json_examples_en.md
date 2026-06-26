@@ -309,3 +309,70 @@ Returning an array of field-level errors lets the frontend map each error to its
   "requestId": "req_123456"
 }
 ```
+
+
+---
+
+## JSON5 Format Examples
+
+Switch to JSON5 mode to try these examples. The following are perfectly valid JSON5 but would break a standard JSON parser.
+
+### Config with comments
+```json5
+{
+  // Database config
+  database: {
+    host: 'localhost',
+    port: 5432,
+    /* Replace these credentials in production */
+    user: 'admin',
+    password: 'changeme',
+  },
+  // Cache policy
+  cache: {
+    ttl: 3600, // seconds
+    maxSize: '256MB',
+  },
+}
+```
+
+### Unquoted keys and trailing commas
+```json5
+{
+  name: 'ToolHub',
+  version: '1.0.0',
+  features: [
+    'format',
+    'encrypt',
+    'convert',
+  ],
+  contributors: [
+    { name: 'Alice', role: 'Developer' },
+    { name: 'Bob', role: 'Designer' },
+  ],
+}
+```
+
+### Typical build tool config
+
+This is what .prettierrc and other build tool configs look like:
+
+```json5
+{
+  printWidth: 100,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'none',
+  // Overrides for this project only
+  overrides: [
+    {
+      files: '*.md',
+      options: { tabWidth: 4 },
+    },
+  ],
+}
+```
+
+When you format these in JSON5 mode, comments are preserved and key quotes may be optimized — exactly what you want for config files.
