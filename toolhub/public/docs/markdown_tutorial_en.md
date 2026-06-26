@@ -1,15 +1,15 @@
-# Markdown Converter — How to Use It
+# Markdown Preview — How to Use It
 
 ## Quick Start
 
-Paste your Markdown into the left panel. The right panel shows a live HTML preview — it updates as you type, no refresh needed.
+Type or paste Markdown into the input area at the top. The preview renders below as you type — no refresh needed.
 
 Once you're happy with the output:
 
-- Hit **Copy HTML** to grab the rendered HTML source
-- Hit **Copy Markdown** to copy the raw Markdown text
+- Hit **Copy** to grab the rendered HTML source
+- Hit **Load Example** to try out different Markdown styles
 
-That's it. The tool handles the conversion, so you don't need to install anything.
+That's it. Everything runs in your browser — nothing to install.
 
 ## Cheat Sheet
 
@@ -31,7 +31,7 @@ That's it. The tool handles the conversion, so you don't need to install anythin
 | Table | `\| col \| col \|` | HTML table |
 | Task list | `- [ ] task` | Checkbox list |
 
-## Code Blocks with Syntax Highlighting
+## Code Blocks with Language Tags
 
 Use three backticks with a language tag:
 
@@ -45,7 +45,7 @@ def fibonacci(n):
 ```
 ````
 
-The language tag tells the highlighter which grammar to use. Common tags: `javascript`, `python`, `bash`, `json`, `yaml`, `css`, `html`, `sql`, `java`, `ruby`, `go`, `rust`.
+The language tag is preserved in the output HTML (`class="language-python"`). Paste it into a blog or docs site with highlight.js and you'll get syntax coloring. Common tags: `javascript`, `python`, `bash`, `json`, `yaml`, `css`, `html`, `sql`, `java`, `ruby`, `go`, `rust`.
 
 You can also use ` ``` ` without a tag for plain preformatted text.
 

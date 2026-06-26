@@ -1,6 +1,6 @@
 # Vue.js — 使用格式化工具
 
-左边粘贴 Vue 单文件组件，右边出格式化的 `<template>`、`<script>`、`<style>`。
+粘贴 Vue 单文件组件到编辑区，点格式化，`<template>`、`<script>`、`<style>` 区块自动整理。
 
 ## 模板语法
 

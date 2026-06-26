@@ -1,13 +1,13 @@
-# Markdown 转换器 — 使用指南
+# Markdown 预览 — 使用指南
 
 ## 三步上手
 
-把 Markdown 粘贴到左边面板里，右边实时出 HTML 预览——打字即刷新，不用手动触发。
+在上方输入区粘贴 Markdown 文本，下方实时渲染 HTML 预览——打字即刷新，不用手动触发。
 
 满意了就：
 
-- 点**复制 HTML**，拿到渲染后的 HTML 源码
-- 点**复制 Markdown**，复制原始 Markdown 文本
+- 点**复制**，把渲染后的 HTML 源码拷贝到剪贴板
+- 点**加载示例**，快速体验不同类型的 Markdown 渲染效果
 
 没了。转换全在浏览器里跑，不用装任何东西。
 
@@ -31,7 +31,7 @@
 | 表格 | `\| 列 \| 列 \|` | HTML 表格 |
 | 任务列表 | `- [ ] 任务` | 复选框列表 |
 
-## 带语法高亮的代码块
+## 带语言标签的代码块
 
 三个反引号加语言标签：
 
@@ -45,7 +45,7 @@ def fibonacci(n):
 ```
 ````
 
-语言标签告诉高亮器该用哪套语法规则。常用标签：`javascript`、`python`、`bash`、`json`、`yaml`、`css`、`html`、`sql`、`java`、`ruby`、`go`、`rust`。
+语言标签会保留在输出的 HTML 中（`class="language-python"`），复制出去放到博客或文档站里，配合 highlight.js 就能实现语法高亮。常见标签：`javascript`、`python`、`bash`、`json`、`yaml`、`css`、`html`、`sql`、`java`、`ruby`、`go`、`rust`。
 
 不加语言标签也行，出来就是纯预格式化文本。
 

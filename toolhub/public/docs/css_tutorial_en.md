@@ -1,6 +1,6 @@
 # CSS — Using the Formatter
 
-Drop messy CSS in the left panel, hit format, get clean output on the right. The formatter normalizes indentation, adds missing semicolons, and catches syntax errors.
+Paste messy CSS into the editor, hit format, and the result appears in place. The formatter normalizes indentation, line breaks, and spacing.
 
 Before:
 
@@ -31,19 +31,19 @@ body {
 }
 ```
 
-## Common Errors
+## Common Pitfalls
 
-**Missing semicolons** — the formatter catches them:
+**Missing semicolons** — a frequent issue, formatting makes misaligned properties easier to spot:
 
 ```css
 /* Broken */
 body { margin: 0 padding: 0 }
 
-/* Fixed */
+/* Correct */
 body { margin: 0; padding: 0; }
 ```
 
-**Unclosed braces** — the formatter highlights the mismatch.
+**Unclosed braces** — formatting helps reveal structurally mismatched blocks.
 
 ## Formatting Tips
 

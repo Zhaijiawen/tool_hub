@@ -1,6 +1,6 @@
 # HTML — Using the Formatter
 
-Paste messy HTML on the left, get clean, indented HTML on the right. The formatter validates your markup as you type.
+Paste messy HTML into the editor, hit format, and get clean, indented output. The formatter normalizes indentation and tag nesting.
 
 Before:
 
@@ -27,13 +27,13 @@ After:
 </html>
 ```
 
-## Common Errors
+## Common Pitfalls
 
-**Unclosed tags** — the formatter catches missing `</p>`, `</div>`, etc.
+**Unclosed tags** — missing `</p>`, `</div>`, etc. can break layout; formatting helps by making nesting visible.
 
-**Missing DOCTYPE** — HTML5 needs `<!DOCTYPE html>` at the top.
+**Missing DOCTYPE** — HTML5 documents need `<!DOCTYPE html>` at the top, otherwise browsers fall back to quirks mode.
 
-**Invalid attributes** — `alt` must have a value for validation.
+**Invalid attributes** — some attributes require values and must be properly quoted.
 
 ## Semantic Structure
 

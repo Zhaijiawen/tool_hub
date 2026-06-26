@@ -1,6 +1,6 @@
 # XML — Using the Formatter
 
-Paste messy XML on the left, get clean, properly indented XML on the right. The formatter validates well-formedness as you type.
+Paste messy XML into the editor, hit format, and get clean, properly indented output. The formatter normalizes indentation and tag nesting.
 
 Before:
 
@@ -57,9 +57,9 @@ Use attributes for metadata (IDs, types, references) and elements for content:
 <book title="The Great Novel" author="Jane Smith" isbn="978-0-123-45678-9" />
 ```
 
-## Common Errors
+## Common Pitfalls
 
-**Unclosed tags** — `<book>` without `</book>`; the formatter catches these.
+**Unclosed tags** — `<book>` without `</book>` breaks parsing; formatting makes nesting visible so these stand out.
 
 **Mismatched case** — `<Book>` vs `</book>`; XML is case-sensitive.
 

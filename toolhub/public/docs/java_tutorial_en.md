@@ -1,6 +1,6 @@
 # Java — Using the Formatter
 
-The Java formatter takes messy, inconsistently indented code and produces clean, idiomatic Java. Paste your code on the left, formatted output on the right.
+The Java formatter takes messy, inconsistently indented code and produces clean, idiomatic Java. Paste into the editor, hit format, and the result appears in place.
 
 ## Hello World
 

@@ -1,6 +1,6 @@
 # Shell — 使用格式化工具
 
-左边粘贴混乱的 Shell 脚本，右边出整齐可读的 Bash。
+粘贴 Shell 脚本到编辑区，点格式化，结果原位输出。
 
 ## Hello World
 

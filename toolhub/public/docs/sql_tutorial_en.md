@@ -1,6 +1,6 @@
 # SQL — Using the Formatter
 
-The SQL formatter takes messy, unindented queries and turns them into clean, readable SQL. Paste your query on the left, formatted output appears on the right.
+The SQL formatter takes messy, unindented queries and turns them into clean, readable SQL. Paste into the editor, hit format, and the result appears in place.
 
 ## Basic Operations
 

@@ -1,6 +1,6 @@
 # PHP — Using the Formatter
 
-Paste your PHP code in the left panel, hit format, and get consistently indented, readable PHP on the right.
+Paste your PHP code into the editor, hit format, and get consistently indented, readable output.
 
 ## Hello World
 

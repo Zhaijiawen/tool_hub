@@ -2,7 +2,7 @@
 
 ## A Real README
 
-Drop this into the left panel to see how a typical project README renders:
+Paste this into the input area to see how a typical project README renders:
 
 ````markdown
 # weather-cli

@@ -1,6 +1,6 @@
 # JavaScript — Using the Formatter
 
-Paste messy JS on the left, get formatted code on the right. Consistent indentation, semicolons, and spacing.
+Paste messy JS into the editor, hit format, and get consistently indented code with normalised semicolons and spacing.
 
 Before:
 

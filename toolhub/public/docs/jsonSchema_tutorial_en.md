@@ -4,9 +4,9 @@ Drop in some JSON, get back either a JSON Schema or a TypeScript interface. It's
 
 ## How to use it
 
-1. Paste your JSON into the left panel
+1. Paste your JSON into the input area at the top
 2. Pick the output format -- JSON Schema or TypeScript Interface
-3. The result shows up instantly on the right. Copy and paste into your project.
+3. The result shows up in the output area below. Copy and paste into your project.
 
 Example input:
 ```json

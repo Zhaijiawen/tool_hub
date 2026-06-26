@@ -1,6 +1,6 @@
 # Shell — Using the Formatter
 
-Paste messy shell scripts on the left, get clean, readable bash on the right.
+Paste messy shell scripts into the editor, hit format, and get clean, readable output.
 
 ## Hello World
 

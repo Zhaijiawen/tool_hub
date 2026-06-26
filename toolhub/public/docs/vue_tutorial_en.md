@@ -1,6 +1,6 @@
 # Vue.js — Using the Formatter
 
-Paste Vue SFC code on the left, get formatted `<template>`, `<script>`, and `<style>` sections on the right.
+Paste Vue SFC code into the editor, hit format, and `<template>`, `<script>`, `<style>` sections are automatically cleaned up.
 
 ## Template Syntax
 

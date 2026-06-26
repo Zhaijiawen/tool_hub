@@ -1,6 +1,6 @@
 # Ruby — Using the Formatter
 
-Paste Ruby code on the left, hit format, get clean output on the right.
+Paste Ruby code into the editor, hit format, and the result appears in place.
 
 ## Hello World
 

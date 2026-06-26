@@ -1,6 +1,6 @@
 # YAML — Using the Formatter
 
-Paste your YAML in the left panel, hit format, clean output on the right. The formatter normalizes indentation, aligns values, and catches syntax errors as you type.
+Paste your YAML into the editor, hit format, and the result appears in place. The formatter normalizes indentation and key-value spacing.
 
 ## The Formatting Flow
 
@@ -35,7 +35,7 @@ server:
 
 The formatter normalizes indentation to 2 spaces so the hierarchy is consistent and readable.
 
-## Common Errors the Formatter Catches
+## Common Pitfalls
 
 **Wrong indentation:**
 
@@ -69,7 +69,7 @@ country: no
 country: "no"
 ```
 
-Whitespace is invisible to the eye but fatal to YAML parsers. The formatter lets you see the structure before you commit the file.
+The formatter won't fix these for you — it handles layout, not semantics. But formatted indentation and spacing help you see the document structure clearly before committing.
 
 ## Multi-line Strings
 
