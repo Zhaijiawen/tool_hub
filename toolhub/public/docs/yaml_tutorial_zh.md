@@ -4,10 +4,18 @@
 
 ## 格式化流程
 
-把乱成一团的：
+把缩进不一致的：
 
 ```yaml
-database:host:localhost port:5432 name:myapp user:admin server:port:8080 host:0.0.0.0 timeout:30
+database:
+    host: localhost
+    port: 5432
+    name: myapp
+    user: admin
+server:
+    port: 8080
+    host: 0.0.0.0
+    timeout: 30
 ```
 
 点格式化，变成：
@@ -25,7 +33,7 @@ server:
   timeout: 30
 ```
 
-工具识别 `:` 作为键值分隔符，自动缩进嵌套的键。
+工具统一缩进为 2 空格，让层级关系一目了然。
 
 ## 格式化工具能抓出的常见错误
 

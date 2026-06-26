@@ -4,10 +4,18 @@ Paste your YAML in the left panel, hit format, clean output on the right. The fo
 
 ## The Formatting Flow
 
-Take something ugly like:
+Take something with inconsistent indentation:
 
 ```yaml
-database:host:localhost port:5432 name:myapp user:admin server:port:8080 host:0.0.0.0 timeout:30
+database:
+    host: localhost
+    port: 5432
+    name: myapp
+    user: admin
+server:
+    port: 8080
+    host: 0.0.0.0
+    timeout: 30
 ```
 
 Hit format and it becomes:
@@ -25,7 +33,7 @@ server:
   timeout: 30
 ```
 
-The tool recognizes `:` as a key-value separator and indents nested keys accordingly.
+The formatter normalizes indentation to 2 spaces so the hierarchy is consistent and readable.
 
 ## Common Errors the Formatter Catches
 
