@@ -1,7 +1,7 @@
 <template>
   <div class="dns-query-tool">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="dnsQuery" />
+    <ToolIntro toolKey="dns" />
 
     <n-card :title="t('other.dns.title')" :bordered="false">
       <n-space vertical size="large">
@@ -70,7 +70,7 @@
 
       </n-space>
     </n-card>
-    <TutorialAndDocs toolKey="dnsQuery" />
+    <TutorialAndDocs toolKey="dns" />
   </div>
 </template>
 
