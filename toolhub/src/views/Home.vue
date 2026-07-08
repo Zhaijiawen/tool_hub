@@ -56,7 +56,7 @@
       </div>
     </section>
 
-    <!-- Why Choose ToolHub - 原创内容区块，提升 AdSense 内容质量评分 -->
+    <!-- Why Choose ToolHub - 原创内容区块 -->
     <section class="why-us">
       <h2 class="section-title">{{ t('home.whyUs.title') }}</h2>
       <p class="why-us-desc">{{ t('home.whyUs.desc') }}</p>

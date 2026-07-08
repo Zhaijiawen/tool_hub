@@ -22,7 +22,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookie 与本地存储',
-        desc: '我们使用以下类型的 Cookie 和本地存储：（1）必要性 Cookie：用于记录您的语言偏好（中文/英文）和界面主题（明亮/暗色）设置，这类 Cookie 是平台正常运行所必需的，无法关闭；（2）分析性 Cookie：在您通过页面底部 Cookie 同意横幅明确授权后，我们才会启用 Google Analytics 统计 Cookie；（3）广告性 Cookie：在您明确同意后，我们会加载 Google AdSense 服务，该服务会设置第三方广告追踪 Cookie，用于根据您的浏览历史展示个性化广告。您可以随时通过 Cookie 设置面板撤回对分析和广告 Cookie 的授权。'
+        desc: '我们使用以下类型的 Cookie 和本地存储：（1）必要性 Cookie：用于记录您的语言偏好（中文/英文）和界面主题（明亮/暗色）设置，这类 Cookie 是平台正常运行所必需的，无法关闭；（2）分析性 Cookie：在您通过页面底部 Cookie 同意横幅明确授权后，我们才会启用 Google Analytics 统计 Cookie；（3）广告性 Cookie：在您明确同意后，我们会加载 Adsterra 广告服务，该服务会设置第三方广告追踪 Cookie，用于根据您的浏览历史展示个性化广告。您可以随时通过 Cookie 设置面板撤回对分析和广告 Cookie 的授权。'
       }
     },
     usage: {
@@ -45,7 +45,7 @@ export const privacyText = {
       title: '三、信息共享与披露',
       intro: '我们不会出售、租借或以商业目的向第三方披露您的个人信息。以下情况除外：',
       legal: '法律合规：当法律法规要求、法院命令或政府主管机构依法要求时，我们可能需要披露必要的信息',
-      service: '服务提供商：我们使用 Google Analytics（分析）和 Google AdSense（广告）等第三方服务。这些服务商依据其各自的隐私政策处理数据，我们建议您查阅 Google 隐私政策了解详情',
+      service: '服务提供商：我们使用 Google Analytics（分析）和 Adsterra（广告）等第三方服务。这些服务商依据其各自的隐私政策处理数据，我们建议您查阅其隐私政策了解详情',
       consent: '用户授权：在获得您明确同意的情况下，与您指定的第三方共享相关信息',
       disclaimer: '以上第三方服务商拥有独立的数据处理规则和隐私政策，我们无法控制其行为。如您对此有所顾虑，可选择通过 Cookie 设置面板关闭对分析和广告服务的授权。'
     },
@@ -102,7 +102,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookies & Local Storage',
-        desc: 'We use the following types of cookies and local storage: (1) Necessary Cookies: used to remember your language preference (English/Chinese) and theme setting (light/dark); these are required for the platform to function and cannot be disabled; (2) Analytics Cookies: only enabled after you explicitly consent via the cookie banner at the bottom of the page; (3) Advertising Cookies: after your explicit consent, we load Google AdSense, which sets third-party advertising tracking cookies to display personalized ads based on your browsing history. You may withdraw consent for analytics and advertising cookies at any time via the Cookie Settings panel.'
+        desc: 'We use the following types of cookies and local storage: (1) Necessary Cookies: used to remember your language preference (English/Chinese) and theme setting (light/dark); these are required for the platform to function and cannot be disabled; (2) Analytics Cookies: only enabled after you explicitly consent via the cookie banner at the bottom of the page; (3) Advertising Cookies: after your explicit consent, we load Adsterra, which sets third-party advertising tracking cookies to display personalized ads based on your browsing history. You may withdraw consent for analytics and advertising cookies at any time via the Cookie Settings panel.'
       }
     },
     usage: {
@@ -125,7 +125,7 @@ export const privacyText = {
       title: '3. Information Sharing & Disclosure',
       intro: 'We do not sell, rent, or disclose your personal information to third parties for commercial purposes. Exceptions include:',
       legal: 'Legal compliance: when required by applicable laws, court orders, or government authorities, we may be required to disclose necessary information',
-      service: 'Service providers: we use third-party services including Google Analytics (analytics) and Google AdSense (advertising). These providers process data according to their own privacy policies — we recommend reviewing Google\'s Privacy Policy for details',
+      service: 'Service providers: we use third-party services including Google Analytics (analytics) and Adsterra (advertising). These providers process data according to their own privacy policies',
       consent: 'User authorization: sharing relevant information with third parties you specifically designate, with your explicit consent',
       disclaimer: 'The above third-party service providers have their own independent data processing rules and privacy policies that we cannot control. If you have concerns, you can disable authorization for analytics and advertising services through the Cookie Settings panel at any time.'
     },

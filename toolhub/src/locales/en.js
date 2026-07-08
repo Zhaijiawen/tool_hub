@@ -1,4 +1,7 @@
 export default {
+  ads: {
+    sponsored: 'Sponsored',
+  },
   home: {
     welcome: 'Welcome to ToolHub',
     intro: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion, image processing and various online tools. Simple, fast, and secure for efficient development.',
@@ -3389,15 +3392,15 @@ typeCiDesc: 'CI configuration changes'
     message: 'We use cookies to remember your preferences (language, theme) and display ads to keep this site free. Please choose your preference:',
     barMessage: 'We use cookies to save preferences and show ads to keep this site free.',
     purposeVal: 'language / theme preference storage',
-    adsVal: 'Google AdSense (requires consent)',
+    adsVal: 'Adsterra Ads (requires consent)',
     selectPrompt: 'select --mode [1|2]',
     inputHint: 'enter selection_',
     timeoutHint: '# auto: necessary-only in {s}s',
     recommended: 'recommended',
     necessary: 'necessary-only',
-    necessaryDesc: 'Stores preferences only; shows non-tracking, content-based ads',
+    necessaryDesc: 'Stores preferences only; no ads displayed',
     acceptAll: 'accept-all',
-    acceptAllDesc: 'Enables personalized ads to help us keep free tools running',
+    acceptAllDesc: 'Enables ads to help us keep free tools running',
     privacyLink: '/privacy',
     learnMore: 'Learn More'
   }

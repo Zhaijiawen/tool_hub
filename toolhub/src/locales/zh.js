@@ -1,4 +1,7 @@
 export default {
+  ads: {
+    sponsored: '赞助商广告',
+  },
   home: {
     welcome: '欢迎使用 ToolHub',
     intro: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。简单、快速、安全，让开发更高效。',
@@ -3386,15 +3389,15 @@ typeCiDesc: 'CI 配置变更'
     message: '我们使用 Cookie 记住您的偏好（语言、主题），并通过广告支持网站免费运营。请选择您的偏好：',
     barMessage: '我们使用 Cookie 记住偏好并展示广告以支持免费运营。',
     purposeVal: '语言 / 主题偏好存储',
-    adsVal: 'Google AdSense（需同意）',
+    adsVal: 'Adsterra 广告（需同意）',
     selectPrompt: 'select --mode [1|2]',
     inputHint: 'enter selection_',
     timeoutHint: '# auto: necessary-only in {s}s',
     recommended: 'recommended',
     necessary: 'necessary-only',
-    necessaryDesc: '仅存储偏好，展示基于页面内容的非跟踪广告',
+    necessaryDesc: '仅存储偏好，不展示广告',
     acceptAll: 'accept-all',
-    acceptAllDesc: '启用个性化广告，帮助我们持续提供免费工具',
+    acceptAllDesc: '启用广告展示，帮助我们持续提供免费工具',
     privacyLink: '/privacy',
     learnMore: '了解更多'
   }

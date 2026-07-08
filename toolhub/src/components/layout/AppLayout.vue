@@ -100,11 +100,21 @@
           </n-button>
         </div>
       </div>
-      <div class="content-wrapper">
-        <!-- 简化的右侧导航 -->
-        <SimpleRightNav v-if="shouldShowTips" :has-favorites="favorites.length > 0" />
+      <div class="content-area">
+        <div class="content-wrapper">
+          <router-view></router-view>
 
-        <router-view></router-view>
+          <!-- 右侧边栏：更多学习资源 + Native Banner（仅宽屏展示） -->
+          <div v-if="shouldShowTips || showNativeBanner" class="right-sidebar">
+            <SimpleRightNav v-if="shouldShowTips" :has-favorites="favorites.length > 0" />
+
+            <div v-if="showNativeBanner" class="ad-native-banner">
+              <div :id="nativeBannerContainerId" class="native-banner-inner">
+                <span class="native-banner-placeholder">{{ t('ads.sponsored') }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </n-layout-content>
     <n-layout-footer v-if="route.path !== '/composer'" bordered>
@@ -175,6 +185,7 @@ import FavoriteButton from '@/components/common/FavoriteButton.vue'
 import CookieConsent from '@/components/common/CookieConsent.vue'
 // 导入收藏管理 composable
 import { useFavorites, getFavoriteName } from '@/composables/useFavorites'
+import { useAds } from '@/composables/useAds'
 // 导入语言切换工具函数（支持按需动态加载语言包）
 import { setLocale } from '@/locales/index.js'
 // 导入图标组件
@@ -213,6 +224,7 @@ const router = useRouter()
 const route = useRoute()
 // 初始化收藏管理
 const { favorites, clearFavorites } = useFavorites()
+const { showNativeBanner, nativeBannerContainerId } = useAds()
 
 // 判断当前是否为工具页面（排除首页和静态页面）
 const isToolPage = computed(() => {
@@ -1252,10 +1264,10 @@ onUnmounted(() => {
     padding: 20px;
   }
   
-  .content-wrapper {
+  .content-area {
     padding: 0 20px;
   }
-  
+
   /* 小屏幕下恢复显示按钮文字 */
   .header-button .button-text {
     display: inline;
@@ -1302,7 +1314,7 @@ onUnmounted(() => {
     font-size: 0.4em;
   }
   
-  .content-wrapper {
+  .content-area {
     padding: 0 12px;
   }
 }
@@ -1328,10 +1340,60 @@ onUnmounted(() => {
   background-color: var(--background-color);
 }
 
-.content-wrapper {
+.content-area {
   max-width: min(95vw, 1600px);
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 60px);
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 右侧边栏：绝对定位在 content-wrapper 右侧，不占布局空间，不影响工作区宽度 */
+/* top + margin-left 对齐 BaseView .tool-view 的 padding: 16px */
+.right-sidebar {
+  position: absolute;
+  top: 16px;
+  left: 100%;
+  margin-left: 24px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Native Banner 卡片 */
+.ad-native-banner {
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.native-banner-inner {
+  min-height: 250px;
+  position: relative;
+}
+
+.native-banner-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  color: var(--text-color-3);
+  pointer-events: none;
+}
+
+/* 窄屏隐藏侧边栏 */
+@media (max-width: 1199px) {
+  .right-sidebar {
+    display: none;
+  }
 }
 
 /* 为composer页面提供全宽布局 */
@@ -1340,7 +1402,7 @@ onUnmounted(() => {
 }
 
 /* 当路由是composer时，使用全宽布局 */
-.main-content[data-composer="true"] .content-wrapper {
+.main-content[data-composer="true"] .content-area {
   max-width: 100%;
   padding: 0;
 }

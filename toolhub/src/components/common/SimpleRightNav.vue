@@ -1,5 +1,5 @@
 <template>
-  <div v-if="shouldShow" class="simple-right-nav" :style="{ '--nav-top-offset': hasFavorites ? '133px' : '84px' }">
+  <div v-if="shouldShow" class="simple-right-nav">
     <div class="nav-panel right-panel">
       <!-- 学习资源导航 -->
       <div class="nav-card learning-nav">
@@ -89,25 +89,15 @@ const scrollToTutorial = () => {
 
 <style scoped>
 .simple-right-nav {
-  position: fixed;
-  top: var(--nav-top-offset, 84px);
-  left: 0;
-  right: 0;
   pointer-events: none;
-  z-index: 5;
 }
 
 .nav-panel {
-  position: fixed;
-  width: 280px;
+  width: 250px;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.right-panel {
-  right: calc((100vw - 1200px) / 2 - 300px);
 }
 
 .nav-card {
