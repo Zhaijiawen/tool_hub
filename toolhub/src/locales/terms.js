@@ -45,7 +45,7 @@ export const termsText = {
     },
     thirdParty: {
       title: '6. 第三方服务',
-      desc: '本平台使用以下第三方服务：Google Analytics（访问统计）和 Adsterra（广告服务）。这些第三方服务有其独立的服务条款和隐私政策，本平台不对第三方服务的行为或政策承担责任。您可以通过页面底部的 Cookie 设置面板管理对这些第三方服务的授权。'
+      desc: '本平台使用以下第三方服务：Adsterra（非个性化广告，基于合法利益直接加载）和 Google Analytics（访问统计，需通过 Cookie 横幅授权后加载）。这些第三方服务有其独立的服务条款和隐私政策，本平台不对第三方服务的行为或政策承担责任。'
     },
     changes: {
       title: '7. 条款变更',
@@ -104,7 +104,7 @@ export const termsText = {
     },
     thirdParty: {
       title: '6. Third-Party Services',
-      desc: 'The Platform uses the following third-party services: Google Analytics (traffic statistics) and Adsterra (advertising). These third-party services have their own independent terms of service and privacy policies; the Platform is not responsible for the actions or policies of third-party services. You can manage authorization for these third-party services through the Cookie Settings panel at the bottom of the page.'
+      desc: 'The Platform uses the following third-party services: Adsterra (non-personalized ads, loaded under legitimate interest) and Google Analytics (traffic statistics, loaded after consent via cookie banner). These third-party services have their own independent terms of service and privacy policies; the Platform is not responsible for the actions or policies of third-party services.'
     },
     changes: {
       title: '7. Terms Changes',

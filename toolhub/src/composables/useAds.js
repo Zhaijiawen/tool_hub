@@ -91,6 +91,7 @@ let nativeBannerCleanup = null
 export function useAds() {
   const route = useRoute()
 
+  // 广告仅在工具页展示（非首页/关于/隐私/条款），不依赖 Cookie 同意（GDPR 合法利益，非个性化广告）
   const shouldShowAds = computed(() => !AD_EXCLUDED_PATHS.includes(route.path))
   const showNativeBanner = computed(() => shouldShowAds.value && windowWidth.value >= NATIVE_BANNER_MIN_WIDTH)
   const currentBannerSize = computed(() => windowWidth.value >= BANNER_BREAKPOINT ? 'large' : 'small')

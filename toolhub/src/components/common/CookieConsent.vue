@@ -35,7 +35,7 @@ import { useCookieConsent } from '@/composables/useCookieConsent'
 const { t } = useI18n()
 const { hasResponded, acceptAll, acceptNecessary } = useCookieConsent()
 
-// 30s 无操作 → 静默执行 necessary-only（用户无感知）
+// 30s 无操作 → 自动执行 necessary-only（GDPR 安全默认值）
 let timer = null
 
 onMounted(() => {
