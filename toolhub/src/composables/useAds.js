@@ -49,9 +49,12 @@ function injectScript(src, attrs = {}) {
   if (document.querySelector(`script[src="${src}"]`)) return () => {}
 
   const script = document.createElement('script')
+  // data-cfasync="false" 必须先于 type 设置（与 Adsterra 官方示例的属性顺序保持一致），
+  // 告知 Cloudflare Rocket Loader 跳过该脚本，避免其重写/延迟执行导致广告脚本失效
+  script.setAttribute('data-cfasync', 'false')
+  script.type = 'text/javascript'
   script.src = src
   if (attrs.async) script.async = true
-  if (attrs.dataCfasync) script.setAttribute('data-cfasync', 'false')
   document.body.appendChild(script)
 
   return () => {
@@ -64,11 +67,19 @@ export function injectBannerIntoContainer(containerEl, bannerConfig) {
 
   containerEl.innerHTML = ''
 
+  // atOptions 必须与 invoke.js 同步、按顺序执行，因此两个 <script> 标签都必须加上
+  // data-cfasync="false"（且先于 type 设置，与官方示例属性顺序一致），防止 Cloudflare
+  // Rocket Loader 重写/延迟它们的执行顺序，否则 invoke.js 读取 atOptions 时可能读到
+  // 旧值或 undefined，导致广告请求成功但不渲染
   const configScript = document.createElement('script')
+  configScript.setAttribute('data-cfasync', 'false')
+  configScript.type = 'text/javascript'
   configScript.textContent = `atOptions={key:'${bannerConfig.key}',format:'iframe',height:${bannerConfig.height},width:${bannerConfig.width},params:{}};`
   containerEl.appendChild(configScript)
 
   const invokeScript = document.createElement('script')
+  invokeScript.setAttribute('data-cfasync', 'false')
+  invokeScript.type = 'text/javascript'
   invokeScript.src = bannerConfig.src
   containerEl.appendChild(invokeScript)
 
@@ -107,7 +118,7 @@ export function useAds() {
   function mountNativeBanner() {
     if (!showNativeBanner.value) return
     if (nativeBannerCleanup) return
-    nativeBannerCleanup = injectScript(AD_CONFIG.nativeBanner.src, { async: true, dataCfasync: true })
+    nativeBannerCleanup = injectScript(AD_CONFIG.nativeBanner.src, { async: true })
   }
 
   function unmountNativeBanner() {
