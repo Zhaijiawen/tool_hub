@@ -4,11 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-ToolHub is an online developer toolbox deployed at `toolhub.studio`, offering 60+ client-side tools (formatting, encryption, encoding, converters, image tools, text tools, QR code, UUID generator, HTTP client, etc.). Most tools run entirely in the browser; only code formatting for certain languages calls the backend.
+ToolHub is an online developer toolbox deployed at `toolhubs.org`, offering 60+ client-side tools (formatting, encryption, encoding, converters, image tools, text tools, QR code, UUID generator, HTTP client, etc.). All tools run entirely in the browser on client side.
 
-**Monorepo with two code directories:**
-- `toolhub/` — Vue 3 SPA frontend
-- `toolhub-server/` — Express backend (single endpoint for code formatting)
+**Monorepo structure:**
+- `toolhub/` — Vue 3 SPA frontend (pure static, deployed on Cloudflare Pages)
 - `notepad/` — planning docs (not part of the app)
 
 ## Commands

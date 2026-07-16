@@ -169,7 +169,7 @@ Google AdSense 多次驳回，最近一次约两周前，提示：**"低价值�
   "operatingSystem": "Web Browser",
   "description": "...",
   "offers": { "@type": "Offer", "price": "0" },
-  "featureList": "https://toolhub.studio/format/json#features"
+  "featureList": "https://toolhubs.org/format/json#features"
 }
 ```
 

@@ -1,4 +1,4 @@
-[点击访问](https://toolhub.studio)
+[点击访问](https://toolhubs.org)
 
 # ToolHub
 
@@ -91,6 +91,6 @@ npm run client
 
 ## 联系方式
 
-- 项目维护者：[Your Name]
-- 邮箱：[your.email@example.com]
-- 项目链接：[https://github.com/yourusername/toolhub] 
+- 项目维护者：ToolHub
+- 项目链接：[https://github.com/Zhaijiawen/tool_hub](https://github.com/Zhaijiawen/tool_hub)
+- 问题反馈：[GitHub Issues](https://github.com/Zhaijiawen/tool_hub/issues)

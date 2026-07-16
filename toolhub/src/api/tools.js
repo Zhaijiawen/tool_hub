@@ -46,34 +46,6 @@ const tools = [
     category: 'format'
   },
   {
-    id: 'java',
-    name: 'format.java.title',
-    path: '/format/java',
-    description: 'format.java.description',
-    category: 'format'
-  },
-  {
-    id: 'php',
-    name: 'format.php.title',
-    path: '/format/php',
-    description: 'format.php.description',
-    category: 'format'
-  },
-  {
-    id: 'ruby',
-    name: 'format.ruby.title',
-    path: '/format/ruby',
-    description: 'format.ruby.description',
-    category: 'format'
-  },
-  {
-    id: 'shell',
-    name: 'format.shell.title',
-    path: '/format/shell',
-    description: 'format.shell.description',
-    category: 'format'
-  },
-  {
     id: 'sql',
     name: 'format.sql.title',
     path: '/format/sql',

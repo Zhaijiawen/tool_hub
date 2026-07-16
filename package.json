@@ -7,13 +7,12 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "start:prod": "concurrently \"npm run server\" \"npm run client:prod\"",
-    "server": "cd toolhub-server && npm start",
+    "start": "cd toolhub && npm run dev",
+    "start:prod": "cd toolhub && npm run build:prod && npm run preview",
     "client": "cd toolhub && npm run dev",
     "client:prod": "cd toolhub && npm run build:prod && npm run preview",
     "build:prod": "cd toolhub && npm run build:prod",
-    "install-all": "npm install --legacy-peer-deps && cd toolhub-server && npm install --legacy-peer-deps && cd ../toolhub && npm install --legacy-peer-deps"
+    "install-all": "npm install --legacy-peer-deps && cd toolhub && npm install --legacy-peer-deps"
   },
   "devDependencies": {
     "concurrently": "^9.2.0"

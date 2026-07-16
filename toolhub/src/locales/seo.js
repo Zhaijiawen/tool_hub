@@ -73,54 +73,6 @@ export const seoConfig = {
         keywords: ['css 格式化', 'css 美化', 'css 工具']
       }
     },
-    java: {
-      en: {
-        name: 'Java Formatter',
-        description: 'Format Java code with proper indentation and syntax highlighting',
-        keywords: ['java formatter', 'java beautifier', 'code formatter']
-      },
-      zh: {
-        name: 'Java 格式化工具',
-        description: 'Java 代码格式化工具，支持缩进和语法高亮',
-        keywords: ['java 格式化', 'java 美化', '代码格式化']
-      }
-    },
-    php: {
-      en: {
-        name: 'PHP Formatter',
-        description: 'Format PHP code with proper indentation and syntax validation',
-        keywords: ['php formatter', 'php beautifier', 'code formatter']
-      },
-      zh: {
-        name: 'PHP 格式化工具',
-        description: 'PHP 代码格式化工具，支持缩进和语法验证',
-        keywords: ['php 格式化', 'php 美化', '代码格式化']
-      }
-    },
-    ruby: {
-      en: {
-        name: 'Ruby Formatter',
-        description: 'Format Ruby code with proper indentation and syntax highlighting',
-        keywords: ['ruby formatter', 'ruby beautifier', 'code formatter']
-      },
-      zh: {
-        name: 'Ruby 格式化工具',
-        description: 'Ruby 代码格式化工具，支持缩进和语法高亮',
-        keywords: ['ruby 格式化', 'ruby 美化', '代码格式化']
-      }
-    },
-    shell: {
-      en: {
-        name: 'Shell Formatter',
-        description: 'Format shell scripts with proper indentation and syntax validation',
-        keywords: ['shell formatter', 'bash formatter', 'script formatter']
-      },
-      zh: {
-        name: 'Shell 格式化工具',
-        description: 'Shell 脚本格式化工具，支持缩进和语法验证',
-        keywords: ['shell 格式化', 'bash 格式化', '脚本格式化']
-      }
-    },
     sql: {
       en: {
         name: 'SQL Formatter',

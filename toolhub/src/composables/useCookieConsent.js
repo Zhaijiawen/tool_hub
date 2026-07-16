@@ -18,10 +18,9 @@ function loadConsent() {
  *
  * 网站使用：
  *   - 必要性 Cookie：语言/主题偏好，功能所需，无需同意
- *   - 广告：Adsterra 基于页面内容展示非个性化广告（不含追踪 Cookie，符合 GDPR 合法利益原则）
  *   - 分析 Cookie：Google Analytics，仅在用户同意后加载
  *
- * 横幅用于告知并获得分析 Cookie 的同意。广告不受同意状态影响。
+ * 横幅用于告知并获得分析 Cookie 的同意。
  */
 export function useCookieConsent() {
   const hasResponded = ref(consentValue.value !== null)

@@ -6,7 +6,7 @@
 
     <!-- Home -->
     <url>
-        <loc>https://toolhub.studio/</loc>
+        <loc>https://toolhubs.org/</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -14,483 +14,459 @@
 
     <!-- Static pages -->
     <url>
-        <loc>https://toolhub.studio/about</loc>
+        <loc>https://toolhubs.org/about</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/privacy</loc>
+        <loc>https://toolhubs.org/privacy</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/terms</loc>
+        <loc>https://toolhubs.org/terms</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
-    <!-- Tools (77 total) -->
+    <!-- Tools (73 total) -->
     <url>
-        <loc>https://toolhub.studio/convert/char-code</loc>
+        <loc>https://toolhubs.org/convert/char-code</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/cidr</loc>
+        <loc>https://toolhubs.org/convert/cidr</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/color</loc>
+        <loc>https://toolhubs.org/convert/color</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/cron</loc>
+        <loc>https://toolhubs.org/convert/cron</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/csv-viewer</loc>
+        <loc>https://toolhubs.org/convert/csv-viewer</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/date-calc</loc>
+        <loc>https://toolhubs.org/convert/date-calc</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/date-diff</loc>
+        <loc>https://toolhubs.org/convert/date-diff</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/gradient</loc>
+        <loc>https://toolhubs.org/convert/gradient</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/http-status</loc>
+        <loc>https://toolhubs.org/convert/http-status</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/json-convert</loc>
+        <loc>https://toolhubs.org/convert/json-convert</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/json-schema</loc>
+        <loc>https://toolhubs.org/convert/json-schema</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/markdown</loc>
+        <loc>https://toolhubs.org/convert/markdown</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/number</loc>
+        <loc>https://toolhubs.org/convert/number</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/number-base</loc>
+        <loc>https://toolhubs.org/convert/number-base</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/number-chinese</loc>
+        <loc>https://toolhubs.org/convert/number-chinese</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/regex</loc>
+        <loc>https://toolhubs.org/convert/regex</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/storage-time</loc>
+        <loc>https://toolhubs.org/convert/storage-time</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/timestamp</loc>
+        <loc>https://toolhubs.org/convert/timestamp</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/unit</loc>
+        <loc>https://toolhubs.org/convert/unit</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/url-parser</loc>
+        <loc>https://toolhubs.org/convert/url-parser</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/convert/user-agent</loc>
+        <loc>https://toolhubs.org/convert/user-agent</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/custom/script-box</loc>
+        <loc>https://toolhubs.org/custom/script-box</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/aes</loc>
+        <loc>https://toolhubs.org/encrypt/aes</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/argon2</loc>
+        <loc>https://toolhubs.org/encrypt/argon2</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/base64</loc>
+        <loc>https://toolhubs.org/encrypt/base64</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/bcrypt</loc>
+        <loc>https://toolhubs.org/encrypt/bcrypt</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/chacha20</loc>
+        <loc>https://toolhubs.org/encrypt/chacha20</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/des</loc>
+        <loc>https://toolhubs.org/encrypt/des</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/ecc</loc>
+        <loc>https://toolhubs.org/encrypt/ecc</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/ecdh-key-exchange</loc>
+        <loc>https://toolhubs.org/encrypt/ecdh-key-exchange</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/ecdsa-sign</loc>
+        <loc>https://toolhubs.org/encrypt/ecdsa-sign</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/ed25519-sign</loc>
+        <loc>https://toolhubs.org/encrypt/ed25519-sign</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/hex</loc>
+        <loc>https://toolhubs.org/encrypt/hex</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/html</loc>
+        <loc>https://toolhubs.org/encrypt/html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/jwt</loc>
+        <loc>https://toolhubs.org/encrypt/jwt</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/rsa</loc>
+        <loc>https://toolhubs.org/encrypt/rsa</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/rsa-sign</loc>
+        <loc>https://toolhubs.org/encrypt/rsa-sign</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/sha</loc>
+        <loc>https://toolhubs.org/encrypt/sha</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/url</loc>
+        <loc>https://toolhubs.org/encrypt/url</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/encrypt/x25519</loc>
+        <loc>https://toolhubs.org/encrypt/x25519</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/css</loc>
+        <loc>https://toolhubs.org/format/css</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/html</loc>
+        <loc>https://toolhubs.org/format/html</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/java</loc>
+        <loc>https://toolhubs.org/format/js</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/js</loc>
+        <loc>https://toolhubs.org/format/json</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/json</loc>
+        <loc>https://toolhubs.org/format/markdown</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/markdown</loc>
+        <loc>https://toolhubs.org/format/sql</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/php</loc>
+        <loc>https://toolhubs.org/format/vue</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/ruby</loc>
+        <loc>https://toolhubs.org/format/xml</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/shell</loc>
+        <loc>https://toolhubs.org/format/yaml</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/sql</loc>
+        <loc>https://toolhubs.org/image/convert</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/vue</loc>
+        <loc>https://toolhubs.org/image/crop</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/xml</loc>
+        <loc>https://toolhubs.org/image/exif</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/format/yaml</loc>
+        <loc>https://toolhubs.org/image/rotate</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/image/convert</loc>
+        <loc>https://toolhubs.org/image/watermark</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/image/crop</loc>
+        <loc>https://toolhubs.org/other/calculator</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/image/exif</loc>
+        <loc>https://toolhubs.org/other/cert-parser</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/image/rotate</loc>
+        <loc>https://toolhubs.org/other/dns</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/image/watermark</loc>
+        <loc>https://toolhubs.org/other/file-hash</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/calculator</loc>
+        <loc>https://toolhubs.org/other/git-commit</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/cert-parser</loc>
+        <loc>https://toolhubs.org/other/http-client</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/dns</loc>
+        <loc>https://toolhubs.org/other/ip</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/file-hash</loc>
+        <loc>https://toolhubs.org/other/mock-data</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/git-commit</loc>
+        <loc>https://toolhubs.org/other/password</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/http-client</loc>
+        <loc>https://toolhubs.org/other/prompt-box</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/ip</loc>
+        <loc>https://toolhubs.org/other/qrcode</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/mock-data</loc>
+        <loc>https://toolhubs.org/other/uuid</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/password</loc>
+        <loc>https://toolhubs.org/text/case</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/prompt-box</loc>
+        <loc>https://toolhubs.org/text/diff</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/qrcode</loc>
+        <loc>https://toolhubs.org/text/json-path</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/other/uuid</loc>
+        <loc>https://toolhubs.org/text/replace</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/text/case</loc>
+        <loc>https://toolhubs.org/text/reverse</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/text/diff</loc>
+        <loc>https://toolhubs.org/text/stats</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://toolhub.studio/text/json-path</loc>
-        <lastmod>2026-06-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://toolhub.studio/text/replace</loc>
-        <lastmod>2026-06-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://toolhub.studio/text/reverse</loc>
-        <lastmod>2026-06-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://toolhub.studio/text/stats</loc>
-        <lastmod>2026-06-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://toolhub.studio/text/whitespace</loc>
+        <loc>https://toolhubs.org/text/whitespace</loc>
         <lastmod>2026-06-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>

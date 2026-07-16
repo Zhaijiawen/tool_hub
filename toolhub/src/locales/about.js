@@ -66,11 +66,11 @@ export const aboutText = {
         i18n: '国际化框架，支持中英文双语界面切换'
       },
       backend: {
-        title: '服务端支持',
-        node: 'JavaScript 运行时，用于服务端静态资源托管',
-        express: '轻量级 Web 框架，提供 API 接口和静态文件服务',
-        nginx: '高性能反向代理服务器，负责 HTTPS 终止、Gzip 压缩和缓存策略',
-        pm2: '生产环境进程守护工具，确保服务持续稳定运行'
+        title: '部署与托管',
+        node: 'JavaScript 运行时，用于构建和开发',
+        express: '纯静态站点，部署于 Cloudflare Pages，全球 CDN 加速',
+        nginx: '无需后端服务器，所有工具在浏览器本地运行',
+        pm2: '开源项目，代码托管于 GitHub'
       },
       security: {
         title: '安全设计',
@@ -88,11 +88,11 @@ export const aboutText = {
     },
     contact: {
       title: '联系我们',
-      intro: '我们重视每一位用户的反馈和建议。无论您发现了 Bug、希望新增某个工具，还是有任何使用问题，都欢迎通过邮件联系我们。我们会认真阅读每一封邮件并尽快回复。',
+      intro: '我们重视每一位用户的反馈和建议。无论您发现了 Bug、希望新增某个工具，还是有任何使用问题，都欢迎通过 GitHub Issues 联系我们。',
       methods: {
-        email: {
-          title: '邮件联系',
-          support: 'pinkmaaaaan03@2925.com'
+        github: {
+          title: 'GitHub Issues',
+          support: 'github.com/Zhaijiawen/tool_hub/issues'
         }
       }
     },
@@ -174,11 +174,11 @@ export const aboutText = {
         i18n: 'Internationalization framework supporting seamless English/Chinese language switching'
       },
       backend: {
-        title: 'Server-Side Support',
-        node: 'JavaScript runtime for server-side static asset hosting',
-        express: 'Lightweight web framework for API endpoints and static file serving',
-        nginx: 'High-performance reverse proxy for HTTPS termination, Gzip compression, and caching',
-        pm2: 'Production process daemon ensuring continuous, stable service uptime'
+        title: 'Deployment & Hosting',
+        node: 'JavaScript runtime for building and development',
+        express: 'Pure static site, deployed on Cloudflare Pages with global CDN',
+        nginx: 'No backend server required — all tools run locally in your browser',
+        pm2: 'Open source project, hosted on GitHub'
       },
       security: {
         title: 'Security Design',
@@ -196,11 +196,11 @@ export const aboutText = {
     },
     contact: {
       title: 'Contact Us',
-      intro: 'We value feedback and suggestions from every user. Whether you have found a bug, want to request a new tool, or have any questions, feel free to reach out via email. We read every message and respond as promptly as possible.',
+      intro: 'We value feedback and suggestions from every user. Whether you have found a bug, want to request a new tool, or have any questions, feel free to reach out via GitHub Issues.',
       methods: {
-        email: {
-          title: 'Email',
-          support: 'pinkmaaaaan03@2925.com'
+        github: {
+          title: 'GitHub Issues',
+          support: 'github.com/Zhaijiawen/tool_hub/issues'
         }
       }
     },

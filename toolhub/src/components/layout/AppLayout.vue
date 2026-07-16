@@ -21,7 +21,7 @@
                 <path d="M4 12H28M4 16H28" stroke="currentColor" stroke-width="1" stroke-opacity="0.3" fill="none" />
               </svg>
             </n-icon>
-            <span class="logo-text">ToolHub<span class="logo-domain">.studio</span></span>
+            <span class="logo-text">ToolHub</span>
           </router-link>
         </div>
         <!-- 主导航菜单 -->
@@ -104,15 +104,9 @@
         <div class="content-wrapper">
           <router-view></router-view>
 
-          <!-- 右侧边栏：更多学习资源 + Native Banner（仅宽屏展示） -->
-          <div v-if="shouldShowTips || showNativeBanner" class="right-sidebar">
+          <!-- 右侧边栏：更多学习资源（仅宽屏展示） -->
+          <div v-if="shouldShowTips" class="right-sidebar">
             <SimpleRightNav v-if="shouldShowTips" :has-favorites="favorites.length > 0" />
-
-            <div v-if="showNativeBanner" class="ad-native-banner">
-              <div :id="nativeBannerContainerId" class="native-banner-inner">
-                <span class="native-banner-placeholder">{{ t('ads.sponsored') }}</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -122,12 +116,7 @@
         <div class="footer-line-v3 footer-desc-v3">
           {{ $t('footer.description') }}
         </div>
-        <div class="footer-line-v3 footer-contact-v3">
-          {{ $t('footer.contactPrefix') }}
-          <a class="footer-email-link-v3" href="mailto:pinkmaaaaan03@2925.com">{{ $t('footer.emailText') }}</a>
-          {{ $t('footer.contactSuffix') }}
-        </div>
-        
+
         <!-- 网站导航链接 -->
         <div class="footer-line-v3 footer-links-v3">
             <router-link to="/about" class="footer-link-v3">{{ t('footer.about') }}</router-link>
@@ -136,10 +125,10 @@
           <span class="footer-separator-v3">|</span>
           <router-link to="/terms" class="footer-link-v3">{{ t('footer.terms') }}</router-link>
         </div>
-        
+
         <div class="footer-line-v3 footer-meta-v3">
           {{ $t('footer.copyright') }} |
-          <a class="footer-icp-link-v3" href="https://beian.miit.gov.cn/" target="_blank">{{ $t('footer.icp') }}</a>
+          <a class="footer-icp-link-v3" href="https://github.com/Zhaijiawen/tool_hub" target="_blank">{{ $t('footer.github') }}</a>
         </div>
       </div>
     </n-layout-footer>
@@ -185,7 +174,6 @@ import FavoriteButton from '@/components/common/FavoriteButton.vue'
 import CookieConsent from '@/components/common/CookieConsent.vue'
 // 导入收藏管理 composable
 import { useFavorites, getFavoriteName } from '@/composables/useFavorites'
-import { useAds } from '@/composables/useAds'
 // 导入语言切换工具函数（支持按需动态加载语言包）
 import { setLocale } from '@/locales/index.js'
 // 导入图标组件
@@ -224,7 +212,6 @@ const router = useRouter()
 const route = useRoute()
 // 初始化收藏管理
 const { favorites, clearFavorites } = useFavorites()
-const { showNativeBanner, nativeBannerContainerId } = useAds()
 
 // 判断当前是否为工具页面（排除首页和静态页面）
 const isToolPage = computed(() => {
@@ -326,26 +313,6 @@ const menuOptions = computed(() => [
             label: t('format.css.title'),
             key: 'css-format',
             path: '/format/css'
-          },
-          {
-            label: t('format.java.title'),
-            key: 'java-format',
-            path: '/format/java'
-          },
-          {
-            label: t('format.php.title'),
-            key: 'php-format',
-            path: '/format/php'
-          },
-          {
-            label: t('format.ruby.title'),
-            key: 'ruby-format',
-            path: '/format/ruby'
-          },
-          {
-            label: t('format.shell.title'),
-            key: 'shell-format',
-            path: '/format/shell'
           },
           {
             label: t('format.sql.title'),
@@ -1363,30 +1330,6 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-/* Native Banner 卡片 */
-.ad-native-banner {
-  background: var(--card-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-}
-
-.native-banner-inner {
-  min-height: 250px;
-  position: relative;
-}
-
-.native-banner-placeholder {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 13px;
-  color: var(--text-color-3);
-  pointer-events: none;
 }
 
 /* 窄屏隐藏侧边栏 */

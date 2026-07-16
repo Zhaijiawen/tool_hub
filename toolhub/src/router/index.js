@@ -60,26 +60,6 @@ const router = createRouter({
               path: 'css',
               component: () => import('@/components/format/CssFormat.vue')
             },
-            // Java格式化
-            {
-              path: 'java',
-              component: () => import('@/components/format/JavaFormat.vue')
-            },
-            // PHP格式化
-            {
-              path: 'php',
-              component: () => import('@/components/format/PhpFormat.vue')
-            },
-            // Ruby格式化
-            {
-              path: 'ruby',
-              component: () => import('@/components/format/RubyFormat.vue')
-            },
-            // Shell脚本格式化
-            {
-              path: 'shell',
-              component: () => import('@/components/format/ShellFormat.vue')
-            },
             // SQL格式化
             {
               path: 'sql',

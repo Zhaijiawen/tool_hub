@@ -1,8 +1,4 @@
 import beautify from 'js-beautify';
-import prettier from 'prettier/standalone';
-import parserBabel from 'prettier/plugins/babel';
-import parserEstree from 'prettier/plugins/estree';
-import { formatCode as formatWithBackend } from '@/api/format';
 
 // js-beautify 配置
 const beautifyOptions = {
@@ -12,34 +8,103 @@ const beautifyOptions = {
   max_preserve_newlines: 2,
 };
 
-// prettier 配置
-const prettierOptions = {
-  printWidth: 100,
-  tabWidth: 2,
-  useTabs: false,
-  semi: true,
-  singleQuote: true,
-  trailingComma: 'none'
+// 支持 js-beautify 的语言（轻量、同步，优先使用）
+// XML 用 beautify.html 处理，因为 HTML 和 XML 结构类似
+const BEAUTIFY_LANGUAGES = ['javascript', 'js', 'html', 'css', 'json', 'xml'];
+
+// 支持 Prettier 内置插件的语言（动态 import，懒加载）
+const PRETTIER_LANGUAGES = {
+  vue:      { parser: 'vue',       plugins: ['babel', 'estree', 'html'] },
+  markdown: { parser: 'markdown',  plugins: ['babel', 'estree', 'markdown'] },
+  yaml:     { parser: 'yaml',      plugins: ['yaml'] },
+  json5:    { parser: 'json5',     plugins: ['babel', 'estree'] },
 };
 
-// 支持 js-beautify 的语言列表
-const BEAUTIFY_SUPPORTED_LANGUAGES = ['javascript', 'js', 'html', 'css', 'json'];
+// 需要专用第三方格式化库的语言（动态 import，浏览器兼容）
+const EXTERNAL_FORMATTERS = ['sql'];
 
-// 需要后端支持的插件列表
-const BACKEND_REQUIRED_PLUGINS = [
-  '@prettier/plugin-php',
-  '@prettier/plugin-ruby',
-  '@prettier/plugin-xml',
-  'prettier-plugin-java',
-  'prettier-plugin-sh',
-  'prettier-plugin-sql',
-  '@un-ts/prettier-plugin-sh',
-  '@un-ts/prettier-plugin-sql',
-  '@vue/compiler-sfc',
-  'yaml',
-  'markdown',
-  'json5'
-];
+// --- 懒加载缓存 ---
+let prettierCache = null;
+let sqlFormatterCache = null;
+
+async function loadPrettier() {
+  if (prettierCache) return prettierCache;
+
+  const [
+    { format },
+    babelMod,
+    estreeMod,
+    htmlMod,
+    markdownMod,
+    yamlMod,
+  ] = await Promise.all([
+    import('prettier/standalone'),
+    import('prettier/plugins/babel'),
+    import('prettier/plugins/estree'),
+    import('prettier/plugins/html'),
+    import('prettier/plugins/markdown'),
+    import('prettier/plugins/yaml'),
+  ]);
+
+  prettierCache = {
+    format,
+    plugins: {
+      babel: babelMod.default,
+      estree: estreeMod.default,
+      html: htmlMod.default,
+      markdown: markdownMod.default,
+      yaml: yamlMod.default,
+    },
+  };
+
+  return prettierCache;
+}
+
+async function loadSqlFormatter() {
+  if (sqlFormatterCache) return sqlFormatterCache;
+  const mod = await import('sql-formatter');
+  sqlFormatterCache = mod;
+  return sqlFormatterCache;
+}
+
+/**
+ * 使用 Prettier 内置插件格式化
+ * @param {string} code - 要格式化的代码
+ * @param {string} language - 代码语言
+ * @returns {Promise<string|null>} 格式化后的代码
+ */
+async function formatWithPrettier(code, language) {
+  const config = PRETTIER_LANGUAGES[language.toLowerCase()];
+  if (!config) return null;
+
+  const { format, plugins } = await loadPrettier();
+
+  return format(code, {
+    parser: config.parser,
+    plugins: config.plugins.map(name => plugins[name]),
+    printWidth: 100,
+    tabWidth: 2,
+    useTabs: false,
+    semi: true,
+    singleQuote: true,
+    trailingComma: 'none',
+  });
+}
+
+/**
+ * 使用 sql-formatter 格式化 SQL
+ * @param {string} code - SQL 代码
+ * @returns {Promise<string>} 格式化后的 SQL
+ */
+async function formatWithSqlFormatter(code) {
+  const { format } = await loadSqlFormatter();
+  return format(code, {
+    language: 'sql',
+    tabWidth: 2,
+    keywordCase: 'upper',
+    linesBetweenQueries: 2,
+  });
+}
 
 /**
  * 使用 js-beautify 进行格式化
@@ -48,7 +113,7 @@ const BACKEND_REQUIRED_PLUGINS = [
  * @returns {string|null} 格式化后的代码
  */
 export const formatWithBeautify = (code, language) => {
-  if (!BEAUTIFY_SUPPORTED_LANGUAGES.includes(language.toLowerCase())) {
+  if (!BEAUTIFY_LANGUAGES.includes(language.toLowerCase())) {
     return null;
   }
 
@@ -57,6 +122,8 @@ export const formatWithBeautify = (code, language) => {
     case 'js':
       return beautify.js(code, beautifyOptions);
     case 'html':
+      return beautify.html(code, beautifyOptions);
+    case 'xml':
       return beautify.html(code, beautifyOptions);
     case 'css':
       return beautify.css(code, beautifyOptions);
@@ -68,90 +135,39 @@ export const formatWithBeautify = (code, language) => {
 };
 
 /**
- * 使用 prettier 进行格式化
- * @param {string} code - 要格式化的代码
- * @param {string} language - 代码语言
- * @returns {Promise<string|null>} 格式化后的代码
- */
-export const formatWithPrettier = async (code, language) => {
-  const parser = getPrettierParser(language);
-  if (!parser) return null;
-  return await prettier.format(code, {
-    ...prettierOptions,
-    parser
-    // plugins: [] // 可省略
-  });
-};
-
-/**
- * 获取 prettier parser
- * @param {string} language - 代码语言
- * @returns {string} parser 名称
- */
-const getPrettierParser = (language) => {
-  const parserMap = {
-    // xxx: 'xxx'
-  };
-  return parserMap[language.toLowerCase()] || null;
-};
-
-/**
- * 获取 prettier 插件
- * @param {string} language - 代码语言
- * @returns {Array} 插件列表
- */
-const getPrettierPlugins = (language) => {
-  const basePlugins = [parserBabel, parserEstree];
-  const pluginMap = {
-    php: ['@prettier/plugin-php'],
-    ruby: ['@prettier/plugin-ruby'],
-    xml: ['@prettier/plugin-xml'],
-    java: ['prettier-plugin-java'],
-    shell: ['@un-ts/prettier-plugin-sh'],
-    sql: ['@un-ts/prettier-plugin-sql'],
-    vue: ['@vue/compiler-sfc'],
-    yaml: ['yaml'],
-    markdown: ['markdown'],
-    json5: ['json5']
-  };
-  const languagePlugins = pluginMap[language.toLowerCase()] || [];
-  return [...basePlugins, ...languagePlugins];
-};
-
-/**
- * 检查是否需要后端支持
- * @param {string} language - 代码语言
- * @returns {boolean} 是否需要后端支持
- */
-const needsBackendSupport = (language) => {
-  const plugins = getPrettierPlugins(language);
-  return plugins.some(plugin => BACKEND_REQUIRED_PLUGINS.includes(plugin));
-};
-
-/**
- * 主格式化函数
+ * 主格式化函数（纯前端，无后端依赖）
  * @param {string} code - 要格式化的代码
  * @param {string} language - 代码语言
  * @returns {Promise<string>} 格式化后的代码
  */
 export const formatCode = async (code, language) => {
-  // 首先尝试使用 js-beautify
+  // 优先使用 js-beautify（快速、同步）
   const beautified = formatWithBeautify(code, language);
   if (beautified) {
     return beautified;
   }
 
-  // 检查是否需要后端支持
-  if (needsBackendSupport(language)) {
-    return await formatWithBackend(code, language);
+  // 尝试 Prettier 内置插件（懒加载）
+  const lang = language.toLowerCase();
+  if (PRETTIER_LANGUAGES[lang]) {
+    try {
+      return await formatWithPrettier(code, lang);
+    } catch (err) {
+      throw new Error(`Format error: ${err.message}`);
+    }
   }
 
-  // 如果不需要后端支持，尝试使用 prettier
-  const prettierFormatted = await formatWithPrettier(code, language);
-  if (prettierFormatted) {
-    return prettierFormatted;
+  // 尝试专用第三方格式化库（懒加载）
+  if (EXTERNAL_FORMATTERS.includes(lang)) {
+    try {
+      if (lang === 'sql') {
+        return await formatWithSqlFormatter(code);
+      }
+    } catch (err) {
+      throw new Error(`Format error: ${err.message}`);
+    }
   }
 
-  // 如果都不支持，返回原始代码
+  // 不支持的语言，返回原始代码
   return code;
-}; 
+};

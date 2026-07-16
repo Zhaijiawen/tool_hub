@@ -180,8 +180,8 @@ export default defineConfig({
     port: 4173, // 生产环境端口
     open: true, // 自动打开浏览器
     allowedHosts: [
-      'toolhub.studio',
-      'www.toolhub.studio',
+      'toolhubs.org',
+      'www.toolhubs.org',
       'localhost',
       '127.0.0.1'
     ]

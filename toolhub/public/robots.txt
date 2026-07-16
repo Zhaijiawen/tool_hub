@@ -21,4 +21,4 @@ Crawl-delay: 2
 # Disallow: /dist/
 Disallow: /*.map$
 
-Sitemap: https://toolhub.studio/sitemap.xml
+Sitemap: https://toolhubs.org/sitemap.xml

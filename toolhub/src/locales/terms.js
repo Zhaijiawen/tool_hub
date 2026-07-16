@@ -8,7 +8,7 @@ export const termsText = {
       keywords: '服务条款,用户协议,服务协议,ToolHub,开发者工具'
     },
     lastUpdated: '最后更新时间：2025年7月21日',
-    agreement: '欢迎使用 ToolHub（网址：toolhub.studio，以下简称"本平台"）。在访问或使用本平台提供的任何服务之前，请仔细阅读以下服务条款。通过访问、浏览或使用本平台，您表示已阅读、理解并同意受本服务条款的约束。如果您不同意这些条款的任何部分，请停止使用本服务。',
+    agreement: '欢迎使用 ToolHub（以下简称"本平台"）。在访问或使用本平台提供的任何服务之前，请仔细阅读以下服务条款。通过访问、浏览或使用本平台，您表示已阅读、理解并同意受本服务条款的约束。如果您不同意这些条款的任何部分，请停止使用本服务。',
     service: {
       title: '1. 服务说明',
       description: 'ToolHub 是一个面向开发者和技术人员的免费在线工具平台，提供包括但不限于代码格式化、数据加密与解密、格式转换、图片处理、文本处理、进制转换、单位换算等 60 余款工具。所有工具均免费开放使用，无需注册账号，所有计算在用户浏览器本地执行，不需要将数据上传至服务器。',
@@ -45,7 +45,7 @@ export const termsText = {
     },
     thirdParty: {
       title: '6. 第三方服务',
-      desc: '本平台使用以下第三方服务：Adsterra（非个性化广告，基于合法利益直接加载）和 Google Analytics（访问统计，需通过 Cookie 横幅授权后加载）。这些第三方服务有其独立的服务条款和隐私政策，本平台不对第三方服务的行为或政策承担责任。'
+      desc: '本平台使用以下第三方服务：Google Analytics（访问统计，需通过 Cookie 横幅授权后加载）。这些第三方服务有其独立的服务条款和隐私政策，本平台不对第三方服务的行为或政策承担责任。'
     },
     changes: {
       title: '7. 条款变更',
@@ -55,7 +55,7 @@ export const termsText = {
     contact: {
       title: '8. 联系我们',
       intro: '如果您对本服务条款有任何疑问、意见或建议，或者发现本平台存在任何问题（包括版权侵权举报），请通过以下方式联系我们：',
-      email: '邮箱：pinkmaaaaan03@2925.com',
+      email: 'GitHub Issues: github.com/Zhaijiawen/tool_hub/issues',
       response: '我们会认真对待每一封来信，并在收到后的 30 个工作日内给予回复。对于版权侵权投诉，我们将依法快速处理。'
     }
   },
@@ -67,7 +67,7 @@ export const termsText = {
       keywords: 'terms of service,user agreement,service agreement,ToolHub,developer tools'
     },
     lastUpdated: 'Last updated: July 21, 2025',
-    agreement: 'Welcome to ToolHub (toolhub.studio, hereinafter "the Platform"). Please read these Terms of Service carefully before accessing or using any services provided by the Platform. By accessing, browsing, or using the Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please discontinue use of this service.',
+    agreement: 'Welcome to ToolHub (hereinafter "the Platform"). Please read these Terms of Service carefully before accessing or using any services provided by the Platform. By accessing, browsing, or using the Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please discontinue use of this service.',
     service: {
       title: '1. Service Description',
       description: 'ToolHub is a free online tool platform for developers and technical professionals, offering more than 60 tools including but not limited to code formatting, data encryption and decryption, format conversion, image processing, text manipulation, base conversion, and unit conversion. All tools are freely available without account registration. All computations execute locally in the user\'s browser without uploading data to any server.',
@@ -104,7 +104,7 @@ export const termsText = {
     },
     thirdParty: {
       title: '6. Third-Party Services',
-      desc: 'The Platform uses the following third-party services: Adsterra (non-personalized ads, loaded under legitimate interest) and Google Analytics (traffic statistics, loaded after consent via cookie banner). These third-party services have their own independent terms of service and privacy policies; the Platform is not responsible for the actions or policies of third-party services.'
+      desc: 'The Platform uses the following third-party services: Google Analytics (traffic statistics, loaded after consent via cookie banner). These third-party services have their own independent terms of service and privacy policies; the Platform is not responsible for the actions or policies of third-party services.'
     },
     changes: {
       title: '7. Terms Changes',
@@ -114,7 +114,7 @@ export const termsText = {
     contact: {
       title: '8. Contact Us',
       intro: 'If you have any questions, comments, or suggestions about these Terms of Service, or if you discover any issues with the Platform (including copyright infringement reports), please contact us at:',
-      email: 'Email: pinkmaaaaan03@2925.com',
+      email: 'GitHub Issues: github.com/Zhaijiawen/tool_hub/issues',
       response: 'We take every inquiry seriously and will respond within 30 business days of receipt. Copyright infringement complaints will be handled promptly in accordance with applicable law.'
     }
   }

@@ -22,7 +22,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookie 与本地存储',
-        desc: '我们使用以下类型的 Cookie 和本地存储：（1）必要性 Cookie：用于记录您的语言偏好（中文/英文）和界面主题（明亮/暗色）设置，这类 Cookie 是平台正常运行所必需的，无法关闭；（2）广告：Adsterra 展示基于页面内容的非个性化广告，不依赖追踪 Cookie，基于 GDPR 合法利益原则（Recital 47）；（3）分析性 Cookie：仅在您通过页面底部 Cookie 横幅明确同意后，我们才会启用 Google Analytics 统计 Cookie。如需撤回授权，可清除浏览器中本站的本地存储数据并刷新页面，横幅将重新出现供您重新选择。'
+        desc: '我们使用以下类型的 Cookie 和本地存储：（1）必要性 Cookie：用于记录您的语言偏好（中文/英文）和界面主题（明亮/暗色）设置，这类 Cookie 是平台正常运行所必需的，无法关闭；（2）分析性 Cookie：仅在您通过页面底部 Cookie 横幅明确同意后，我们才会启用 Google Analytics 统计 Cookie。如需撤回授权，可清除浏览器中本站的本地存储数据并刷新页面，横幅将重新出现供您重新选择。'
       }
     },
     usage: {
@@ -45,7 +45,7 @@ export const privacyText = {
       title: '三、信息共享与披露',
       intro: '我们不会出售、租借或以商业目的向第三方披露您的个人信息。以下情况除外：',
       legal: '法律合规：当法律法规要求、法院命令或政府主管机构依法要求时，我们可能需要披露必要的信息',
-      service: '服务提供商：我们使用 Adsterra（非个性化广告，基于合法利益直接加载）和 Google Analytics（分析统计，需同意后加载）等第三方服务。这些服务商依据其各自的隐私政策处理数据，建议您查阅其隐私政策了解详情',
+      service: '服务提供商：我们使用 Google Analytics（分析统计，需同意后加载）等第三方服务。这些服务商依据其各自的隐私政策处理数据，建议您查阅其隐私政策了解详情',
       consent: '用户授权：在获得您明确同意的情况下，与您指定的第三方共享相关信息',
       disclaimer: '以上第三方服务商拥有独立的数据处理规则和隐私政策，我们无法控制其行为。如需修改分析授权选择，可清除浏览器中本站的本地存储数据，重新加载后 Cookie 横幅会再次出现。对于广告 Cookie，可通过浏览器设置清除。'
     },
@@ -67,12 +67,12 @@ export const privacyText = {
       correction: '更正权：如发现我们持有的信息不准确，您有权要求我们更正',
       deletion: '删除权（被遗忘权）：您可以要求我们删除与您相关的个人数据，我们将在合理期限内完成',
       portability: '数据可携带权：您有权以结构化、通用格式获取您的个人数据',
-      contact: '撤回同意权：您可以随时通过清除浏览器 localStorage 中 toolhub_cookie_consent 键来重置 Cookie 偏好，重新选择是否允许 Google Analytics。撤回不影响此前已发生的数据处理。广告基于合法利益展示，不使用追踪 Cookie。'
+      contact: '撤回同意权：您可以随时通过清除浏览器 localStorage 中 toolhub_cookie_consent 键来重置 Cookie 偏好，重新选择是否允许 Google Analytics。撤回不影响此前已发生的数据处理。'
     },
     contact: {
       title: '七、联系我们',
       intro: '如果您对本隐私政策有任何疑问，或需要行使上述任何权利，请通过以下方式联系我们：',
-      email: '邮箱：pinkmaaaaan03@2925.com',
+      email: 'GitHub Issues: github.com/Zhaijiawen/tool_hub/issues',
       response: '我们承诺在收到您的请求后 30 个工作日内给予回复。对于涉及数据删除或访问的请求，我们可能需要核实您的身份以确保数据安全。'
     },
     updates: {
@@ -102,7 +102,7 @@ export const privacyText = {
       },
       cookies: {
         title: 'Cookies & Local Storage',
-        desc: 'We use the following types of cookies and local storage: (1) Necessary Cookies: used to remember your language preference (English/Chinese) and theme setting (light/dark); these are required for the platform to function and cannot be disabled; (2) Advertising: Adsterra displays non-personalized, content-based ads without tracking cookies, under GDPR legitimate interest (Recital 47); (3) Analytics Cookies: only loaded after your explicit consent via the cookie banner at the bottom of the page — this includes Google Analytics. To withdraw consent, clear this site\'s localStorage data in your browser and reload the page — the banner will reappear for you to choose again.'
+        desc: 'We use the following types of cookies and local storage: (1) Necessary Cookies: used to remember your language preference (English/Chinese) and theme setting (light/dark); these are required for the platform to function and cannot be disabled; (2) Analytics Cookies: only loaded after your explicit consent via the cookie banner at the bottom of the page — this includes Google Analytics. To withdraw consent, clear this site\'s localStorage data in your browser and reload the page — the banner will reappear for you to choose again.'
       }
     },
     usage: {
@@ -125,7 +125,7 @@ export const privacyText = {
       title: '3. Information Sharing & Disclosure',
       intro: 'We do not sell, rent, or disclose your personal information to third parties for commercial purposes. Exceptions include:',
       legal: 'Legal compliance: when required by applicable laws, court orders, or government authorities, we may be required to disclose necessary information',
-      service: 'Service providers: we use Adsterra (non-personalized ads, loaded under legitimate interest) and Google Analytics (analytics, loaded after consent). These providers process data according to their own privacy policies',
+      service: 'Service providers: we use Google Analytics (analytics, loaded after consent). These providers process data according to their own privacy policies',
       consent: 'User authorization: sharing relevant information with third parties you specifically designate, with your explicit consent',
       disclaimer: 'The above third-party service providers have their own independent data processing rules and privacy policies that we cannot control. To modify your analytics preference, clear this site\'s localStorage data in your browser and reload — the cookie banner will reappear. For ad cookies, you can clear them through your browser settings.'
     },
@@ -147,12 +147,12 @@ export const privacyText = {
       correction: 'Right to rectification: if you find that information we hold is inaccurate, you have the right to request correction',
       deletion: 'Right to erasure (right to be forgotten): you may request deletion of personal data related to you, which we will complete within a reasonable timeframe',
       portability: 'Right to data portability: you have the right to receive your personal data in a structured, commonly used format',
-      contact: 'Right to withdraw consent: you may reset your cookie preference at any time by clearing the toolhub_cookie_consent key in your browser\'s localStorage, then reloading the page to see the banner again. Withdrawal does not affect prior processing. Ads are displayed under legitimate interest without tracking cookies.'
+      contact: 'Right to withdraw consent: you may reset your cookie preference at any time by clearing the toolhub_cookie_consent key in your browser\'s localStorage, then reloading the page to see the banner again. Withdrawal does not affect prior processing.',
     },
     contact: {
       title: '7. Contact Us',
       intro: 'If you have any questions about this Privacy Policy or need to exercise any of the rights described above, please contact us at:',
-      email: 'Email: pinkmaaaaan03@2925.com',
+      email: 'GitHub Issues: github.com/Zhaijiawen/tool_hub/issues',
       response: 'We commit to responding to your request within 30 business days of receipt. For requests involving data deletion or access, we may need to verify your identity to ensure data security.'
     },
     updates: {

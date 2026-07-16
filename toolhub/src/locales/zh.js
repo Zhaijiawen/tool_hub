@@ -1,7 +1,4 @@
 export default {
-  ads: {
-    sponsored: '赞助商广告',
-  },
   home: {
     welcome: '欢迎使用 ToolHub',
     intro: '专业的开发者工具集合，提供代码格式化、加密解密、数据转换、图像处理等多种在线工具。简单、快速、安全，让开发更高效。',
@@ -313,17 +310,11 @@ export default {
     privacy: '隐私政策',
     terms: '使用条款',
     description: "简单、快速的在线工具集合，助你高效开发与生活。",
-    contactPrefix: "如有问题或功能需求，欢迎通过",
-    contactSuffix: "联系。",
-    emailText: "邮箱",
-    copyright: "© 2025 ToolHub. 保留所有权利",
-    icp: "京ICP备2025134446号",
-    icpPlaceholder: "备案号待申请",
+    copyright: "© 2025 ToolHub. 开源项目",
     contact: '联系我们',
-    contactTip: '如有问题或功能需求，欢迎通过邮箱联系我们。',
-    follow: '关注我们',
     links: '友情链接',
-    rights: '保留所有权利'
+    rights: '保留所有权利',
+    github: 'GitHub'
   },
   sidebar: {
     quickTools: '快捷工具',
@@ -499,37 +490,7 @@ export default {
       vueComposition: 'Composition API支持',
       vueEcosystem: 'Vue生态',
       vueEcosystemDesc: 'Vue拥有丰富的生态系统，包括Vue Router、Vuex/Pinia状态管理、Vue CLI等工具。',
-      
-      // PHP 编程语言
-      phpFormat: 'PHP格式化',
-      phpFormatDesc: 'PHP是一种广泛使用的开源通用脚本语言，特别适合Web开发，具有动态类型、面向对象编程和丰富的框架生态。',
-      phpSyntax: 'PHP语法规范',
-      phpPsr: 'PSR编码标准',
-      phpNamespace: 'PHP命名空间',
-      phpOop: 'PHP面向对象',
-      phpModern: '现代PHP',
-      phpModernDesc: 'PHP已发展为现代化语言，支持类型声明、trait、composer包管理等特性。',
-      
-      // Ruby 编程语言
-      rubyFormat: 'Ruby格式化',
-      rubyFormatDesc: 'Ruby是一种动态、开源的编程语言，注重简洁和效率。它有着优雅的语法，自然易读，易于编写。',
-      rubyElegant: 'Ruby优雅语法',
-      rubyGems: 'RubyGems包管理',
-      rubyRails: 'Ruby on Rails框架',
-      rubyDsl: 'Ruby DSL领域语言',
-      rubyPhilosophy: 'Ruby哲学',
-      rubyPhilosophyDesc: 'Ruby秉承"程序员快乐"的设计哲学，让编程变得更加愉悦和高效。',
-      
-      // Shell 脚本
-      shellFormat: 'Shell格式化',
-      shellFormatDesc: 'Shell是Linux/Unix系统的命令行解释器，Shell脚本是强大的自动化工具，广泛用于系统管理、部署和批处理。',
-      shellBash: 'Bash脚本优化',
-      shellZsh: 'Zsh高级特性',
-      shellScript: 'Shell脚本规范',
-      shellAutomation: 'Shell自动化任务',
-      shellPower: 'Shell强大功能',
-      shellPowerDesc: 'Shell脚本结合Linux命令，可以实现复杂的系统操作和自动化部署。',
-      
+
       // Markdown 标记语言
       markdownFormat: 'Markdown格式化',
       markdownFormatDesc: 'Markdown是一种轻量级标记语言，使用简洁的语法来格式化文本，广泛用于文档编写、博客和技术文档。',
@@ -539,17 +500,7 @@ export default {
       markdownLinks: 'Markdown链接处理',
       markdownUsage: '应用场景',
       markdownUsageDesc: 'Markdown广泛应用于GitHub、技术博客、API文档和项目说明文件。',
-      
-      // Java 编程语言
-      javaFormat: 'Java格式化',
-      javaFormatDesc: 'Java是一种面向对象的编程语言，具有"一次编写，到处运行"的特性，广泛应用于企业级开发、Android开发和大数据处理。',
-      javaOop: 'Java面向对象特性',
-      javaEnterprise: 'Java企业级开发',
-      javaSpring: 'Spring框架生态',
-      javaPerformance: 'Java性能优化',
-      javaEcosystem: 'Java生态',
-      javaEcosystemDesc: 'Java拥有庞大的生态系统，包括Spring、Maven、Gradle等成熟的开发工具和框架。',
-      
+
       // 加密工具详细配置
       hexEncoding: 'Hex编码',
       hexDesc: 'Hex十六进制编码是计算机科学中的基础编码方式，将字节数据转换为十六进制字符串表示。每个字节用两个十六进制数字表示，广泛应用于程序调试、网络协议分析、密码学和数据存储等领域。',
@@ -874,50 +825,6 @@ export default {
       description: '格式化 CSS 样式',
       download: '下载CSS',
       downloadSuccess: 'CSS文件下载成功'
-    },
-    java: {
-      title: 'Java 格式化',
-      placeholder: '请输入Java代码',
-      format: '格式化',
-      empty: '请输入要格式化的Java代码',
-      success: 'Java代码格式化成功',
-      error: 'Java代码格式化失败',
-      description: '格式化 Java 代码',
-      download: '下载Java',
-      downloadSuccess: 'Java文件下载成功'
-    },
-    php: {
-      title: 'PHP 格式化',
-      placeholder: '请输入PHP代码',
-      format: '格式化',
-      empty: '请输入要格式化的PHP代码',
-      success: 'PHP代码格式化成功',
-      error: 'PHP代码格式化失败',
-      description: '格式化 PHP 代码',
-      download: '下载PHP',
-      downloadSuccess: 'PHP文件下载成功'
-    },
-    ruby: {
-      title: 'Ruby 格式化',
-      placeholder: '请输入Ruby代码',
-      format: '格式化',
-      empty: '请输入要格式化的Ruby代码',
-      success: 'Ruby代码格式化成功',
-      error: 'Ruby代码格式化失败',
-      description: '格式化 Ruby 代码',
-      download: '下载Ruby',
-      downloadSuccess: 'Ruby文件下载成功'
-    },
-    shell: {
-      title: 'Shell 格式化',
-      placeholder: '请输入Shell脚本',
-      format: '格式化',
-      empty: '请输入要格式化的Shell脚本',
-      success: 'Shell脚本格式化成功',
-      error: 'Shell脚本格式化失败',
-      description: '格式化 Shell 脚本',
-      download: '下载Shell',
-      downloadSuccess: 'Shell脚本下载成功'
     },
     sql: {
       title: 'SQL 格式化',
@@ -3386,17 +3293,16 @@ typeCiDesc: 'CI 配置变更'
   },
   cookieConsent: {
     title: '您的隐私选择',
-    message: '我们使用 Cookie 记住您的偏好（语言、主题），并通过非个性化广告支持网站免费运营。请选择是否允许分析统计：',
-    barMessage: '本网站使用 Cookie 记住偏好并展示非个性化广告（不含追踪），点击"接受全部"即允许匿名统计。',
+    message: '我们使用 Cookie 记住您的偏好（语言、主题）。请选择是否允许分析统计：',
+    barMessage: '本网站使用 Cookie 记住偏好，点击"接受全部"即允许匿名统计。',
     purposeVal: '语言 / 主题偏好存储（必需）',
-    adsVal: 'Adsterra 广告（非个性化，无需同意）',
     analyticsVal: 'Google Analytics 统计（需同意）',
     selectPrompt: 'select --mode [1|2]',
     inputHint: 'enter selection_',
     timeoutHint: '# auto: necessary-only in {s}s',
     recommended: 'recommended',
     necessary: '仅必要',
-    necessaryDesc: '广告照常展示，仅跳过匿名统计',
+    necessaryDesc: '仅跳过匿名统计',
     acceptAll: '接受全部',
     acceptAllDesc: '额外允许匿名统计，帮助我们改进',
     privacyLink: '/privacy',

@@ -129,17 +129,17 @@ export function useSeo() {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "ToolHub",
-          "url": "https://toolhub.studio",
+          "url": window.location.origin,
           "description": homeSeo[lang].description,
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://toolhub.studio/?q={search_term_string}",
+            "target": `${window.location.origin}/?q={search_term_string}`,
             "query-input": "required name=search_term_string"
           },
           "author": {
             "@type": "Organization",
             "name": "ToolHub",
-            "url": "https://toolhub.studio"
+            "url": window.location.origin
           }
         }
       }
@@ -147,7 +147,7 @@ export function useSeo() {
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "ToolHub",
-        "url": "https://toolhub.studio",
+        "url": window.location.origin,
         "description": defaultSeo[lang].description,
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Web Browser",
@@ -168,7 +168,7 @@ export function useSeo() {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": details.name,
-      "url": `https://toolhub.studio/${category}/${tool}`,
+      "url": `${window.location.origin}/${category}/${tool}`,
       "description": details.description,
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Web Browser",
@@ -215,7 +215,7 @@ export function useSeo() {
         try {
           const newTitle = pageTitle.value
           const desc = pageDescription.value
-          const canonicalUrl = `https://toolhub.studio${window.location.pathname}`
+          const canonicalUrl = `${window.location.origin}${window.location.pathname}`
           
           // 更新标题
           forceUpdateTitle(newTitle)
@@ -236,7 +236,7 @@ export function useSeo() {
           setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl)
           setMeta('meta[property="og:type"]', 'property', 'og:type', 'website')
           setMeta('meta[property="og:site_name"]', 'property', 'og:site_name', 'ToolHub')
-          setMeta('meta[property="og:image"]', 'property', 'og:image', 'https://toolhub.studio/toolbox.svg')
+          setMeta('meta[property="og:image"]', 'property', 'og:image', `${window.location.origin}/toolbox.svg`)
 
           // Twitter Card
           setMeta('meta[name="twitter:card"]', 'name', 'twitter:card', 'summary')

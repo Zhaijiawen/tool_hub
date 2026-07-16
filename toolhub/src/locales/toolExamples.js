@@ -140,32 +140,7 @@ ORDER BY order_count DESC;`,
 template: 容器和标题
 script: 响应式数据绑定
 style: 作用域CSS样式`,
-  
-  php: `namespace App\\Services;
 
-class ToolService {
-    public function format(string $code): string {
-        return trim($code);
-    }
-}`,
-  
-  ruby: `class ToolFormatter
-  def self.beautify(code)
-    code.split("\\n")
-        .map(&:strip)
-        .join("\\n")
-  end
-end`,
-  
-  shell: `#!/bin/bash
-format_code() {
-    local file="$1"
-    prettier --write "$file"
-    echo "Formatted: $file"
-}
-
-format_code "app.js"`,
-  
   markdown: `# ToolHub
 ## 功能特色
 - **格式化工具**：代码美化
@@ -175,24 +150,13 @@ format_code "app.js"`,
 \`\`\`javascript
 console.log('Hello ToolHub');
 \`\`\``,
-  
-  java: `public class ToolFormatter {
-    public static String format(String code) {
-        return code.trim()
-                   .replaceAll("\\\\s+", " ");
-    }
-    
-    public static void main(String[] args) {
-        System.out.println("ToolHub");
-    }
-}`,
-  
+
   rotate: `旋转角度: 90°, 180°, 270°
 自动调整: 保持宽高比
 批量处理: 支持多张图片
 预览功能: 实时查看效果`,
   
-  watermark: `文字水印: ToolHub Studio
+  watermark: `文字水印: ToolHubs
 位置选择: 左上、右上、左下、右下、中心
 透明度: 10%-100%可调
 字体样式: 大小、颜色、字体`,
@@ -350,32 +314,7 @@ ORDER BY order_count DESC;`,
 template: container with title
 script: reactive data binding
 style: scoped CSS styles`,
-  
-  php: `namespace App\\Services;
 
-class ToolService {
-    public function format(string $code): string {
-        return trim($code);
-    }
-}`,
-  
-  ruby: `class ToolFormatter
-  def self.beautify(code)
-    code.split("\\n")
-        .map(&:strip)
-        .join("\\n")
-  end
-end`,
-  
-  shell: `#!/bin/bash
-format_code() {
-    local file="$1"
-    prettier --write "$file"
-    echo "Formatted: $file"
-}
-
-format_code "app.js"`,
-  
   markdown: `# ToolHub
 ## Features
 - **Format Tools**: Code beautification
@@ -385,24 +324,13 @@ format_code "app.js"`,
 \`\`\`javascript
 console.log('Hello ToolHub');
 \`\`\``,
-  
-  java: `public class ToolFormatter {
-    public static String format(String code) {
-        return code.trim()
-                   .replaceAll("\\\\s+", " ");
-    }
-    
-    public static void main(String[] args) {
-        System.out.println("ToolHub");
-    }
-}`,
-  
+
   rotate: `Rotation angles: 90°, 180°, 270°
 Auto adjust: Maintain aspect ratio
 Batch processing: Support multiple images
 Preview: Real-time effect viewing`,
   
-  watermark: `Text watermark: ToolHub Studio
+  watermark: `Text watermark: ToolHub
 Position: Top-left, Top-right, Bottom-left, Bottom-right, Center
 Opacity: 10%-100% adjustable
 Font style: Size, color, font family`,

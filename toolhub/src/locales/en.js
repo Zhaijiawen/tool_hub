@@ -1,7 +1,4 @@
 export default {
-  ads: {
-    sponsored: 'Sponsored',
-  },
   home: {
     welcome: 'Welcome to ToolHub',
     intro: 'Professional developer tools collection providing code formatting, encryption/decryption, data conversion, image processing and various online tools. Simple, fast, and secure for efficient development.',
@@ -313,17 +310,10 @@ export default {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
     description: "A simple and fast online tool collection for efficient work and life.",
-    contactPrefix: "For questions or feature requests, feel free to contact us by",
-    contactSuffix: ".",
-    emailText: "email",
-    contactTip: "For questions or feature requests, feel free to contact us by email.",
-    copyright: "© 2025 ToolHub. All rights reserved",
+    copyright: "© 2025 ToolHub. Open Source Project",
     links: 'Links',
-    contact: 'Contact Us',
-    follow: 'Follow Us',
     rights: 'All rights reserved',
-    icp: '京ICP备2025134446号',
-    icpPlaceholder: 'ICP filing pending'
+    github: 'GitHub'
   },
   sidebar: {
     quickTools: 'Quick Tools',
@@ -715,37 +705,7 @@ export default {
       vueComposition: 'Composition API support',
       vueEcosystem: 'Vue Ecosystem',
       vueEcosystemDesc: 'Vue has a rich ecosystem including Vue Router, Vuex/Pinia state management, Vue CLI and other tools.',
-      
-      // PHP Programming Language
-      phpFormat: 'PHP Formatting',
-      phpFormatDesc: 'PHP is a widely-used open source general-purpose scripting language especially suited for web development, featuring dynamic typing, object-oriented programming and rich framework ecosystem.',
-      phpSyntax: 'PHP syntax standards',
-      phpPsr: 'PSR coding standards',
-      phpNamespace: 'PHP namespaces',
-      phpOop: 'PHP object-oriented',
-      phpModern: 'Modern PHP',
-      phpModernDesc: 'PHP has evolved into a modern language supporting type declarations, traits, composer package management and other features.',
-      
-      // Ruby Programming Language
-      rubyFormat: 'Ruby Formatting',
-      rubyFormatDesc: 'Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.',
-      rubyElegant: 'Ruby elegant syntax',
-      rubyGems: 'RubyGems package management',
-      rubyRails: 'Ruby on Rails framework',
-      rubyDsl: 'Ruby DSL domain language',
-      rubyPhilosophy: 'Ruby Philosophy',
-      rubyPhilosophyDesc: 'Ruby follows the philosophy of "programmer happiness", making programming more enjoyable and efficient.',
-      
-      // Shell Scripting
-      shellFormat: 'Shell Formatting',
-      shellFormatDesc: 'Shell is the command line interpreter for Linux/Unix systems. Shell scripts are powerful automation tools widely used for system administration, deployment and batch processing.',
-      shellBash: 'Bash script optimization',
-      shellZsh: 'Zsh advanced features',
-      shellScript: 'Shell script standards',
-      shellAutomation: 'Shell automation tasks',
-      shellPower: 'Shell Power',
-      shellPowerDesc: 'Shell scripts combined with Linux commands can achieve complex system operations and automated deployment.',
-      
+
       // Markdown Markup Language
       markdownFormat: 'Markdown Formatting',
       markdownFormatDesc: 'Markdown is a lightweight markup language that uses simple syntax to format text, widely used for documentation, blogging and technical documentation.',
@@ -755,17 +715,7 @@ export default {
       markdownLinks: 'Markdown link processing',
       markdownUsage: 'Use Cases',
       markdownUsageDesc: 'Markdown is widely used in GitHub, technical blogs, API documentation and project README files.',
-      
-      // Java Programming Language
-      javaFormat: 'Java Formatting',
-      javaFormatDesc: 'Java is an object-oriented programming language with "write once, run anywhere" characteristics, widely used in enterprise development, Android development and big data processing.',
-      javaOop: 'Java object-oriented features',
-      javaEnterprise: 'Java enterprise development',
-      javaSpring: 'Spring framework ecosystem',
-      javaPerformance: 'Java performance optimization',
-      javaEcosystem: 'Java Ecosystem',
-      javaEcosystemDesc: 'Java has a huge ecosystem including mature development tools and frameworks like Spring, Maven, Gradle.',
-      
+
       // Code examples moved to /locales/examples.js to avoid i18n escaping issues
     }
   },
@@ -874,50 +824,6 @@ export default {
       description: 'Format CSS styles',
       download: 'Download CSS',
       downloadSuccess: 'CSS file downloaded successfully'
-    },
-    java: {
-      title: 'Java Formatter',
-      placeholder: 'Enter Java code',
-      format: 'Format',
-      empty: 'Please enter Java code to format',
-      success: 'Java code formatted successfully',
-      error: 'Java code formatting failed',
-      description: 'Format Java code',
-      download: 'Download Java',
-      downloadSuccess: 'Java file downloaded successfully'
-    },
-    php: {
-      title: 'PHP Formatter',
-      placeholder: 'Enter PHP code',
-      format: 'Format',
-      empty: 'Please enter PHP code to format',
-      success: 'PHP code formatted successfully',
-      error: 'PHP code formatting failed',
-      description: 'Format PHP code',
-      download: 'Download PHP',
-      downloadSuccess: 'PHP file downloaded successfully'
-    },
-    ruby: {
-      title: 'Ruby Formatter',
-      placeholder: 'Enter Ruby code',
-      format: 'Format',
-      empty: 'Please enter Ruby code to format',
-      success: 'Ruby code formatted successfully',
-      error: 'Ruby code formatting failed',
-      description: 'Format Ruby code',
-      download: 'Download Ruby',
-      downloadSuccess: 'Ruby file downloaded successfully'
-    },
-    shell: {
-      title: 'Shell/Bash Formatter',
-      placeholder: 'Enter Shell/Bash script',
-      format: 'Format',
-      empty: 'Please enter Shell script to format',
-      success: 'Shell script formatted successfully',
-      error: 'Shell script formatting failed',
-      description: 'Format Shell scripts',
-      download: 'Download Shell',
-      downloadSuccess: 'Shell script downloaded successfully'
     },
     sql: {
       title: 'SQL Formatter',
@@ -3389,17 +3295,16 @@ typeCiDesc: 'CI configuration changes'
   },
   cookieConsent: {
     title: 'Your Privacy Choices',
-    message: 'We use cookies to remember your preferences (language, theme) and display non-personalized ads to keep this site free. Choose whether to allow analytics:',
-    barMessage: 'This site uses cookies for preferences and shows non-personalized ads (no tracking). Click "Accept All" to also allow anonymous analytics.',
+    message: 'We use cookies to remember your preferences (language, theme). Choose whether to allow analytics:',
+    barMessage: 'This site uses cookies for preferences. Click "Accept All" to also allow anonymous analytics.',
     purposeVal: 'language / theme preference storage (essential)',
-    adsVal: 'Adsterra Ads (non-personalized, no consent needed)',
     analyticsVal: 'Google Analytics (requires consent)',
     selectPrompt: 'select --mode [1|2]',
     inputHint: 'enter selection_',
     timeoutHint: '# auto: necessary-only in {s}s',
     recommended: 'recommended',
     necessary: 'Necessary Only',
-    necessaryDesc: 'Ads still shown, analytics skipped',
+    necessaryDesc: 'Analytics skipped',
     acceptAll: 'Accept All',
     acceptAllDesc: 'Also enable anonymous analytics to improve',
     privacyLink: '/privacy',

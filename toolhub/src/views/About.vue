@@ -116,11 +116,11 @@
           <div class="contact-methods">
             <div class="contact-item">
               <n-icon size="20" color="#18a058">
-                <EmailIcon />
+                <GithubIcon />
               </n-icon>
               <div>
-                <h4>{{ getAboutText('contact.methods.email.title', locale) }}</h4>
-                <p>{{ getAboutText('contact.methods.email.support', locale) }}</p>
+                <h4>{{ getAboutText('contact.methods.github.title', locale) }}</h4>
+                <a :href="'https://' + getAboutText('contact.methods.github.support', locale)" target="_blank" style="color: #18a058; text-decoration: none;">{{ getAboutText('contact.methods.github.support', locale) }}</a>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@ import {
   CodeOutline as CodeIcon,
   ShieldCheckmarkOutline as ShieldIcon,
   FlashOutline as FastIcon,
-  MailOutline as EmailIcon
+  LogoGithub as GithubIcon
 } from '@vicons/ionicons5'
 
 const { locale } = useI18n()
