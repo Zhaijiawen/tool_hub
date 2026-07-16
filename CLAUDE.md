@@ -62,13 +62,7 @@ There are **no tests, no linters, no TypeScript type-checking** configured in th
 
 - **Language switching:** Two languages (zh/en) with messages in `toolhub/src/locales/{zh,en}.js`. Language packs are loaded lazily via `setLocale()`. Browser language auto-detection on first visit; preference persisted to `localStorage('language')`.
 
-- **Vite dev proxy:** `/api` requests are proxied to `http://localhost:3000` in development.
-
-### Backend (Express 5)
-
-Single-purpose server at `toolhub-server/src/app.js`: `POST /api/format` accepts `{ code, language }`, runs it through Prettier with the appropriate plugin, returns `{ code: 0, data: { formattedCode }, message: 'success' }`. Errors return HTTP 200 with `{ code: 1, data: null, message: error.message }` — errors are never returned as HTTP 4xx/5xx.
-
-Prettier plugins are loaded via `createRequire(import.meta.url)` since the server uses ES modules but Prettier plugins are CommonJS.
+### Pure static deployment (Cloudflare Pages)
 
 ### Build optimization
 

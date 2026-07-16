@@ -66,7 +66,7 @@ const loadHljs = async () => {
   if (hljs) return hljs
   // 动态导入 highlight.js 核心 + 常用语言（按需注册，减少体积）
   const [hljsCore, langJs, langTs, langJson, langXml, langSql, langPython,
-    langJava, langShell, langCss, langMarkdown, langYaml] = await Promise.all([
+    langCss, langMarkdown, langYaml] = await Promise.all([
     import('highlight.js/lib/core'),
     import('highlight.js/lib/languages/javascript'),
     import('highlight.js/lib/languages/typescript'),
@@ -74,8 +74,6 @@ const loadHljs = async () => {
     import('highlight.js/lib/languages/xml'),
     import('highlight.js/lib/languages/sql'),
     import('highlight.js/lib/languages/python'),
-    import('highlight.js/lib/languages/java'),
-    import('highlight.js/lib/languages/shell'),
     import('highlight.js/lib/languages/css'),
     import('highlight.js/lib/languages/markdown'),
     import('highlight.js/lib/languages/yaml')
@@ -90,9 +88,6 @@ const loadHljs = async () => {
   instance.registerLanguage('html', langXml.default)
   instance.registerLanguage('sql', langSql.default)
   instance.registerLanguage('python', langPython.default)
-  instance.registerLanguage('java', langJava.default)
-  instance.registerLanguage('shell', langShell.default)
-  instance.registerLanguage('bash', langShell.default)
   instance.registerLanguage('css', langCss.default)
   instance.registerLanguage('markdown', langMarkdown.default)
   instance.registerLanguage('yaml', langYaml.default)

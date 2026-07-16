@@ -374,81 +374,6 @@ const getTipsForPath = (path) => {
           ]
         }
       },
-      php: {
-        left: {
-          title: t('sidebar.tips.phpFormat'),
-          icon: CodeIcon,
-          iconColor: '#777bb4',
-          description: t('sidebar.tips.phpFormatDesc'),
-          items: [
-            t('sidebar.tips.phpSyntax'),
-            t('sidebar.tips.phpPsr'),
-            t('sidebar.tips.phpNamespace'),
-            t('sidebar.tips.phpOop')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.phpModern'),
-          icon: BulbIcon,
-          iconColor: '#8892bf',
-          description: t('sidebar.tips.phpModernDesc'),
-          example: getExample('php'),
-          actions: [
-            { text: t('sidebar.tips.trySQL'), path: '/format/sql' },
-            { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
-          ]
-        }
-      },
-      ruby: {
-        left: {
-          title: t('sidebar.tips.rubyFormat'),
-          icon: CodeIcon,
-          iconColor: '#cc342d',
-          description: t('sidebar.tips.rubyFormatDesc'),
-          items: [
-            t('sidebar.tips.rubyElegant'),
-            t('sidebar.tips.rubyGems'),
-            t('sidebar.tips.rubyRails'),
-            t('sidebar.tips.rubyDsl')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.rubyPhilosophy'),
-          icon: StarIcon,
-          iconColor: '#d91a1c',
-          description: t('sidebar.tips.rubyPhilosophyDesc'),
-          example: getExample('ruby'),
-          actions: [
-            { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
-            { text: t('sidebar.tips.tryJS'), path: '/format/js' }
-          ]
-        }
-      },
-      shell: {
-        left: {
-          title: t('sidebar.tips.shellFormat'),
-          icon: CodeIcon,
-          iconColor: '#2c3e50',
-          description: t('sidebar.tips.shellFormatDesc'),
-          items: [
-            t('sidebar.tips.shellBash'),
-            t('sidebar.tips.shellZsh'),
-            t('sidebar.tips.shellScript'),
-            t('sidebar.tips.shellAutomation')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.shellPower'),
-          icon: BulbIcon,
-          iconColor: '#34495e',
-          description: t('sidebar.tips.shellPowerDesc'),
-          example: getExample('shell'),
-          actions: [
-            { text: t('sidebar.tips.tryYAML'), path: '/format/yaml' },
-            { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
-          ]
-        }
-      },
       markdown: {
         left: {
           title: t('sidebar.tips.markdownFormat'),
@@ -474,31 +399,6 @@ const getTipsForPath = (path) => {
           ]
         }
       },
-      java: {
-        left: {
-          title: t('sidebar.tips.javaFormat'),
-          icon: CodeIcon,
-          iconColor: '#f89820',
-          description: t('sidebar.tips.javaFormatDesc'),
-          items: [
-            t('sidebar.tips.javaOop'),
-            t('sidebar.tips.javaEnterprise'),
-            t('sidebar.tips.javaSpring'),
-            t('sidebar.tips.javaPerformance')
-          ]
-        },
-        right: {
-          title: t('sidebar.tips.javaEcosystem'),
-          icon: BulbIcon,
-          iconColor: '#ed8b00',
-          description: t('sidebar.tips.javaEcosystemDesc'),
-          example: getExample('java'),
-          actions: [
-            { text: t('sidebar.tips.tryXML'), path: '/format/xml' },
-            { text: t('sidebar.tips.tryJSON'), path: '/format/json' }
-          ]
-        }
-      }
     },
     encrypt: {
       base64: {

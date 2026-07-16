@@ -44,20 +44,6 @@ module.exports = {
     //   autorestart: true,
     //   watch: false,
     //   max_memory_restart: '1G'
-    // },
-    // {
-    //   name: 'toolhub-backend',
-    //   script: 'npm',
-    //   args: 'start',
-    //   cwd: './toolhub-server',
-    //   env: {
-    //     NODE_ENV: 'production',
-    //     PORT: 3001
-    //   },
-    //   instances: 1,
-    //   autorestart: true,
-    //   watch: false,
-    //   max_memory_restart: '1G'
     // }
   ]
 }; 

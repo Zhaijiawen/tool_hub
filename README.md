@@ -66,13 +66,11 @@ npm run client
 ## 访问
 
 - 前端：http://localhost:5173
-- 后端：http://localhost:3000
 
 ## 项目结构
 
 ```toolhub/
-├── toolhub/          # 前端项目
-├── toolhub-server/   # 后端项目
+├── toolhub/          # 前端项目（纯静态，部署于 Cloudflare Pages）
 ├── package.json      # 项目配置
 └── README.md         # 项目说明
 ```
