@@ -79,6 +79,7 @@
     "util": "^0.12.5",
     "uuid": "^13.0.0",
     "vue": "^3.3.8",
+    "vue-advanced-cropper": "^2.8.9",
     "vue-cropper": "^1.0.3",
     "vue-i18n": "^9.8.0",
     "vue-router": "^4.2.5"
