@@ -1,0 +1,4 @@
+# Vue Router 使用 history 模式，需要将所有未匹配到静态资源的路径都回退到 index.html
+# 由前端路由自行处理页面渲染，否则直接访问 /format/json 或刷新页面会返回 404
+/*    /index.html   200
+
