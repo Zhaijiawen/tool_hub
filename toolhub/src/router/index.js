@@ -296,6 +296,11 @@ const router = createRouter({
               path: 'json-schema',
               component: () => import('@/components/convert/JsonSchema.vue')
             },
+            // 图表渲染（Mermaid 本地渲染，可导出 SVG / PNG）
+            {
+              path: 'diagram',
+              component: () => import('@/components/convert/Diagram.vue')
+            }
           ]
         },
 

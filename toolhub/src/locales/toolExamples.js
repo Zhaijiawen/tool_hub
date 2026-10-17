@@ -14,6 +14,12 @@ export const examples = {
 操作: 点击"识别"
 结果: 码制 EAN_13 + 13 位编码，可直接查价 / 入库`,
 
+  diagram: `类型: 流程图
+语法: flowchart TD
+      A[用户下单] --> B{库存充足?}
+      B -->|是| C[创建订单]
+导出: SVG（可编辑）/ PNG（2 倍高清）`,
+
   base64: `// 原文本
 Hello World!
 
@@ -201,6 +207,12 @@ Result: transparent PNG, ready for posters / e-commerce`,
 Input: a product photo with an EAN-13 barcode
 Action: click "Scan"
 Result: symbology EAN_13 + 13-digit code, ready for pricing / stock`,
+
+  diagram: `Type: Flowchart
+Syntax: flowchart TD
+        A[Place order] --> B{In stock?}
+        B -->|Yes| C[Create order]
+Export: SVG (editable) / PNG (2x high-res)`,
 
   base64: `// Original text
 Hello World!

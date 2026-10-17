@@ -616,6 +616,11 @@ const menuOptions = computed(() => [
             key: 'json-schema',
             path: '/convert/json-schema'
           },
+          {
+            label: t('convert.diagram.title'),
+            key: 'diagram',
+            path: '/convert/diagram'
+          }
         ]
       }
     ]

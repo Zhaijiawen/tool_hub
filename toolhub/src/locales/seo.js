@@ -1027,6 +1027,18 @@ export const seoConfig = {
         keywords: ['JSON Schema', 'JSON Schema生成', 'JSON转Schema', 'JSON验证', 'OpenAPI']
       }
     },
+    diagram: {
+      en: {
+        name: 'Mermaid Chart Renderer',
+        description: 'Render Mermaid flowcharts, sequence diagrams, class diagrams, mindmaps and more offline in your browser. Export SVG or PNG with no upload.',
+        keywords: ['mermaid renderer', 'mermaid editor', 'flowchart maker', 'sequence diagram tool', 'offline diagram tool', 'export diagram svg']
+      },
+      zh: {
+        name: '图表渲染（Mermaid）',
+        description: '在浏览器本地渲染 Mermaid 流程图、时序图、类图、思维导图等，可导出 SVG / PNG，源码不上传、离线可用。',
+        keywords: ['Mermaid 渲染', '在线流程图', '时序图工具', '思维导图生成', '离线图表工具', '导出 SVG 图表']
+      }
+    },
     'mock-data': {
       en: {
         name: 'Mock Data Generator',

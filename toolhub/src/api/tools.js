@@ -599,6 +599,13 @@ const tools = [
     category: 'convert'
   },
   {
+    id: 'diagram',
+    name: 'convert.diagram.title',
+    path: '/convert/diagram',
+    description: 'convert.diagram.description',
+    category: 'convert'
+  },
+  {
     id: 'mockData',
     name: 'other.mockData.title',
     path: '/other/mock-data',

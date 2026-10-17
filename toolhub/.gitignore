@@ -16,10 +16,18 @@ dist-ssr
 # 通过 `npm run fetch:imgly-assets` 从官方 CDN 拉取到 public/imgly-bg/（自托管，隐私合规）。
 public/imgly-bg/
 
+# Mermaid 预构建 bundle（约 5.2MB），不入库。
+# 交给 Rollup 打包会让整站构建多出约 1700 个模块并触发 OOM，故改为运行时动态注入脚本。
+# 通过 `npm run fetch:mermaid-assets` 从 node_modules 复制到 public/mermaid/（自托管，不依赖 CDN）。
+public/mermaid/
+
 # unplugin-vue-components / unplugin-auto-import 自动生成的类型声明文件
 # 每次 dev/build 时自动重新生成，无需纳入版本控制
 components.d.ts
 auto-imports.d.ts
+
+# WorkBuddy 会话工作目录（非项目产物，不入库）
+.workbuddy/
 
 # Editor directories and files
 .vscode/*

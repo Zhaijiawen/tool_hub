@@ -3017,6 +3017,33 @@ export const toolDescriptions = {
       '一维码尽量正对铺满画面，二维码保留四个定位角',
       '反光、模糊、过度压缩会降低识别率'
     ]
+  },
+
+  diagram: {
+    features: [
+      '浏览器本地渲染 Mermaid 图表，源码不出本机、断网可用',
+      '支持流程图 / 时序图 / 类图 / 状态图 / ER 图 / 甘特图 / 饼图 / Git 图 / 思维导图 / 时间线 / 四象限图等 12 类',
+      '内置 12 个可直接上手的示例模板',
+      '一键导出矢量 SVG 或 2 倍高清 PNG',
+      '主题可跟随站点暗色模式自动切换'
+    ],
+    useCases: [
+      'README / 技术文档中的架构与流程插图',
+      '把设计稿或口头描述快速画成流程图',
+      '在需求文档与演讲稿里画时序图、状态图',
+      '替代需要联网上传的在线图表编辑器'
+    ],
+    usageSteps: [
+      '从「示例模板」选一个类型，或直接编写 Mermaid 语法',
+      '左侧编辑源码，右侧实时预览渲染结果',
+      '选择主题（默认跟随站点明暗）',
+      '点击「下载 SVG」或「下载 PNG」导出'
+    ],
+    bestPractices: [
+      '语法错误会在下方红框给出具体原因，照提示修正即可',
+      '流程图分支过多时用子图（subgraph）分组提升可读性',
+      '导出 PNG 适合贴文档，导出 SVG 适合再编辑或高清打印'
+    ]
   }
 }
 
@@ -6120,6 +6147,33 @@ export const toolDescriptionsEn = {
       'Keep the barcode clear, evenly lit, and free of heavy distortion',
       'Face 1D codes straight and fill the frame; keep all four QR finder patterns',
       'Glare, blur, or heavy compression lowers the success rate'
+    ]
+  },
+
+  diagram: {
+    features: [
+      'Renders Mermaid diagrams locally in the browser — source never leaves the device and it works offline',
+      'Supports 12 diagram families: flowchart, sequence, class, state, ER, gantt, pie, git graph, mindmap, timeline, quadrant and journey',
+      '12 ready-to-use built-in templates',
+      'Export vector SVG or 2x high-resolution PNG',
+      'Theme follows the site dark mode automatically'
+    ],
+    useCases: [
+      'Architecture and flow illustrations for READMEs / technical docs',
+      'Turning a mockup or verbal description into a flowchart fast',
+      'Sequence and state diagrams for specs or slide decks',
+      'Replacing online diagram editors that require uploading your source'
+    ],
+    usageSteps: [
+      'Pick a type from "Templates", or write Mermaid syntax directly',
+      'Edit the source on the left and watch the live preview on the right',
+      'Choose a theme (defaults to following the site appearance)',
+      'Click "Download SVG" or "Download PNG" to export'
+    ],
+    bestPractices: [
+      'Syntax errors show the exact reason in the red alert below — just follow the hint',
+      'For large flowcharts, group branches with "subgraph" for readability',
+      'Export PNG for pasting into documents, SVG for further editing or high-res printing'
     ]
   }
 }
