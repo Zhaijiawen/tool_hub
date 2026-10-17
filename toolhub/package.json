@@ -85,6 +85,7 @@
     "pcre2-wasm": "^10.49.2",
     "piexifjs": "^1.0.6",
     "pinia": "^2.1.7",
+    "potrace-wasm": "^1.0.4",
     "prettier": "^3.2.5",
     "process": "^0.11.10",
     "pyodide": "^0.28.3",

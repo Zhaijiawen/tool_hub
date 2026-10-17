@@ -495,6 +495,14 @@ const tools = [
     category: 'image'
   },
   {
+    id: 'trace',
+    name: 'image.trace.title',
+    path: '/image/trace',
+    description: 'image.trace.description',
+    category: 'image',
+    wasm: true
+  },
+  {
     id: 'pdfTools',
     name: 'document.pdfTools.title',
     path: '/document/pdf-tools',

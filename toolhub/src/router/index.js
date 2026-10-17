@@ -353,6 +353,11 @@ const router = createRouter({
             {
               path: 'barcode',
               component: () => import('@/components/image/BarcodeScanner.vue')
+            },
+            // 图片转 SVG（Potrace WASM）
+            {
+              path: 'trace',
+              component: () => import('@/components/image/ImageToSvg.vue')
             }
           ]
         },

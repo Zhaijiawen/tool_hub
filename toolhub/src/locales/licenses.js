@@ -4,8 +4,8 @@ export const licensesText = {
     title: '开源许可与版权声明',
     seo: {
       title: '开源许可 - ToolHub 开发者工具箱',
-      description: 'ToolHub 使用的开源组件许可声明，含 MuPDF (AGPL-3.0) 与 FFmpeg (GPL-2.0+) 的版权与对应源代码提供说明。',
-      keywords: '开源许可,AGPL,GPL,MuPDF,FFmpeg,版权,源代码,ToolHub'
+      description: 'ToolHub 使用的开源组件许可声明，含 MuPDF (AGPL-3.0)、FFmpeg (GPL-2.0+)、@imgly/background-removal (AGPL-3.0) 与 Potrace (GPL-2.0) 的版权与对应源代码提供说明。',
+      keywords: '开源许可,AGPL,GPL,MuPDF,FFmpeg,imgly,Potrace,版权,源代码,ToolHub'
     },
     intro: 'ToolHub 是一个 100% 前端、在浏览器本地运行的工具站点。我们在部分工具中以 WebAssembly 形式集成了开源组件。依据相应开源许可证的要求，我们在此声明这些组件的版权信息，并提供其对应源代码的获取方式。本页面不构成法律意见。',
     general: {
@@ -36,9 +36,31 @@ export const licensesText = {
       license: 'GPL-2.0 许可证文本：',
       licenseUrl: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
     },
+    imgly: {
+      title: '四、@imgly/background-removal（AI 抠图，AGPL-3.0）',
+      desc: 'AI 抠图基于 IMG.LY 的 background-removal-js，以 GNU Affero General Public License v3.0（AGPL-3.0）授权。该库以 ONNX Runtime Web 在本地浏览器运行 ISNet 模型完成前景分割。依据 AGPL-3.0 第 13 条，我们在此提供其对应源代码的获取方式。',
+      version: '使用版本：@imgly/background-removal@1.7.0（模型权重约 334MB，由本站自托管于同域 /imgly-bg/ 路径，运行时直接本地下载，不经过任何第三方 CDN）。',
+      upstream: '项目上游源代码：',
+      upstreamUrl: 'https://github.com/imgly/background-removal-js',
+      modified: '我们以 npm 官方构建形式原样引入，未修改其源码；仅通过配置项将模型权重的加载路径指向本站自托管地址（同域名），避免向第三方 CDN 发起请求。',
+      license: 'AGPL-3.0 许可证文本：',
+      licenseUrl: 'https://www.gnu.org/licenses/agpl-3.0.html'
+    },
+    potrace: {
+      title: '五、Potrace（图片转 SVG，GPL-2.0）',
+      desc: '图片转 SVG 使用 Potrace 位图追踪算法。Potrace 由 Peter Selinger 开发，以 GNU General Public License v2.0（GPL-2.0）授权；本项目所用的 potrace-wasm 为 Potrace 的 Emscripten / WebAssembly 移植（wasm 已内联在包内，无需额外下载）。GPL 要求在分发该二进制时提供其完整对应源代码。',
+      version: '使用版本：potrace-wasm@1.0.4（内含 wasm 约 230KB）。',
+      upstream: 'Potrace 上游源代码：',
+      upstreamUrl: 'http://potrace.sourceforge.net/',
+      wasmPort: 'potrace-wasm 移植版本源代码：',
+      wasmPortUrl: 'https://github.com/IguteChung/potrace-wasm',
+      modified: '我们以 npm 官方构建形式原样引入 potrace-wasm，未修改其源码；本站仅在其上层做了图片二值化预处理（阈值 / 反色）后再送入引擎。',
+      license: 'GPL-2.0 许可证文本：',
+      licenseUrl: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+    },
     duty: {
-      title: '四、源代码提供方式',
-      desc: '对于上述受 AGPL-3.0 / GPL-2.0+ 覆盖的组件，您可通过以下任一方式获取其对应源代码：（1）访问本站开源仓库，获取我们对胶水 / 封装层的修改；（2）访问上述各组件的上游仓库，获取其原始源代码。如需以物理介质形式获取，或对源码提供有任何疑问，可通过仓库 Issues 联系我们。'
+      title: '六、源代码提供方式',
+      desc: '对于上述受 AGPL-3.0 / GPL-2.0+ / GPL-2.0 覆盖的组件，您可通过以下任一方式获取其对应源代码：（1）访问本站开源仓库，获取我们对胶水 / 封装层的修改；（2）访问上述各组件的上游仓库，获取其原始源代码。如需以物理介质形式获取，或对源码提供有任何疑问，可通过仓库 Issues 联系我们。'
     },
     disclaimer: {
       title: '免责声明',
@@ -49,8 +71,8 @@ export const licensesText = {
     title: 'Open Source Licenses & Copyright Notices',
     seo: {
       title: 'Open Source Licenses - ToolHub Developer Toolkit',
-      description: 'Open source license notices for ToolHub, including copyright and corresponding-source information for MuPDF (AGPL-3.0) and FFmpeg (GPL-2.0+).',
-      keywords: 'open source,license,AGPL,GPL,MuPDF,FFmpeg,copyright,source code,ToolHub'
+      description: 'Open source license notices for ToolHub, including copyright and corresponding-source information for MuPDF (AGPL-3.0), FFmpeg (GPL-2.0+), @imgly/background-removal (AGPL-3.0) and Potrace (GPL-2.0).',
+      keywords: 'open source,license,AGPL,GPL,MuPDF,FFmpeg,imgly,Potrace,copyright,source code,ToolHub'
     },
     intro: 'ToolHub is a 100% client-side toolkit that runs entirely in the browser. Some tools integrate open-source components distributed as WebAssembly. In accordance with the relevant open-source licenses, we state the copyright information of these components and provide access to their corresponding source code. This page is not legal advice.',
     general: {
@@ -81,9 +103,31 @@ export const licensesText = {
       license: 'GPL-2.0 license text:',
       licenseUrl: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
     },
+    imgly: {
+      title: '4. @imgly/background-removal (AI background removal, AGPL-3.0)',
+      desc: 'AI background removal is based on background-removal-js by IMG.LY, licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). It runs the ISNet model locally in the browser via ONNX Runtime Web for foreground segmentation. Under AGPL-3.0 §13 we provide access to its corresponding source code here.',
+      version: 'Version used: @imgly/background-removal@1.7.0. The model weights (~334MB) are self-hosted on this site under the same-origin /imgly-bg/ path — they are downloaded directly from our own domain, never from a third-party CDN.',
+      upstream: 'Project upstream source:',
+      upstreamUrl: 'https://github.com/imgly/background-removal-js',
+      modified: 'We use the official npm build unmodified; we only configure the model weight path to our self-hosted origin.',
+      license: 'AGPL-3.0 license text:',
+      licenseUrl: 'https://www.gnu.org/licenses/agpl-3.0.html'
+    },
+    potrace: {
+      title: '5. Potrace (image to SVG, GPL-2.0)',
+      desc: 'Image to SVG uses the Potrace bitmap tracing algorithm. Potrace was developed by Peter Selinger and is licensed under the GNU General Public License v2.0 (GPL-2.0). The potrace-wasm package used here is an Emscripten / WebAssembly port of Potrace, with the wasm inlined in the bundle so no extra download is required. The GPL requires offering its complete corresponding source when the binary is conveyed.',
+      version: 'Version used: potrace-wasm@1.0.4 (inlined wasm ~230KB).',
+      upstream: 'Potrace upstream source:',
+      upstreamUrl: 'http://potrace.sourceforge.net/',
+      wasmPort: 'potrace-wasm port source:',
+      wasmPortUrl: 'https://github.com/IguteChung/potrace-wasm',
+      modified: 'We use the official potrace-wasm npm build unmodified; we only binarize the image (threshold / invert) before feeding it to the engine.',
+      license: 'GPL-2.0 license text:',
+      licenseUrl: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+    },
     duty: {
-      title: '4. How to obtain source code',
-      desc: 'For the components covered by AGPL-3.0 / GPL-2.0+ above, you may obtain the corresponding source code by either of the following: (1) visit this site\'s open-source repository for our wrapper / glue modifications; (2) visit each component\'s upstream repository for its original source. If you need the source on physical media, or have any question about source availability, please reach us via the repository Issues.'
+      title: '6. How to obtain source code',
+      desc: 'For the components covered by AGPL-3.0 / GPL-2.0+ / GPL-2.0 above, you may obtain the corresponding source code by either of the following: (1) visit this site\'s open-source repository for our wrapper / glue modifications; (2) visit each component\'s upstream repository for its original source. If you need the source on physical media, or have any question about source availability, please reach us via the repository Issues.'
     },
     disclaimer: {
       title: 'Disclaimer',

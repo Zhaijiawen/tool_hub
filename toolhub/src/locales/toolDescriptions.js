@@ -3044,6 +3044,33 @@ export const toolDescriptions = {
       '流程图分支过多时用子图（subgraph）分组提升可读性',
       '导出 PNG 适合贴文档，导出 SVG 适合再编辑或高清打印'
     ]
+  },
+
+  trace: {
+    features: [
+      '在本地浏览器完成位图到矢量的描摹（Potrace / WebAssembly），图片不上传且可离线使用',
+      '黑白阈值可调（0-255），配合反色开关处理白底黑稿与黑底白稿',
+      '可选处理宽度（原图 / 1600 / 1000 / 600 px），大图也能较快出结果',
+      '透明区域自动按白底处理，避免被误描摹成黑色块',
+      '输出标准 SVG，可直接下载或复制源码'
+    ],
+    useCases: [
+      '把 Logo、图标草图转成可无限缩放的 SVG',
+      '将手写签名、印章扫描件做成矢量素材',
+      '提取线稿图案用于激光切割、刻字或数控雕刻',
+      '替代需要把图片上传到服务器的在线矢量化站点'
+    ],
+    usageSteps: [
+      '选择一张黑白对比清晰的图片',
+      '调整黑白阈值控制描摹范围，必要时开启反色',
+      '点击「转为 SVG」，等待完成后的矢量预览',
+      '点击「下载 SVG」保存文件，或「复制 SVG 源码」直接使用'
+    ],
+    bestPractices: [
+      '阈值越大描摹区域越大（线条变粗），太小则会漏掉浅色笔迹',
+      '拍摄件建议先裁掉无关背景，可显著减少杂散路径',
+      '彩色照片会按亮度强制二值化，更适合处理线条稿而非照片'
+    ]
   }
 }
 
@@ -6174,6 +6201,33 @@ export const toolDescriptionsEn = {
       'Syntax errors show the exact reason in the red alert below — just follow the hint',
       'For large flowcharts, group branches with "subgraph" for readability',
       'Export PNG for pasting into documents, SVG for further editing or high-res printing'
+    ]
+  },
+
+  trace: {
+    features: [
+      'Bitmap-to-vector tracing runs locally (Potrace / WebAssembly) — images never leave your device and it works offline',
+      'Adjustable black/white threshold (0-255) plus an invert switch for both dark-on-light and light-on-dark artwork',
+      'Choose a processing width (original / 1600 / 1000 / 600 px) to keep large images fast',
+      'Transparent areas are flattened onto white so they are not traced as black blocks',
+      'Standard SVG output with download or copy-source options'
+    ],
+    useCases: [
+      'Turn a logo or icon sketch into an infinitely scalable SVG',
+      'Convert scanned handwriting signatures or stamps into vector assets',
+      'Extract line art for laser cutting, engraving or CNC work',
+      'Replace online vectorizers that require uploading your image'
+    ],
+    usageSteps: [
+      'Pick an image with clear black/white contrast',
+      'Tune the threshold to control what gets traced, and enable invert if needed',
+      'Click "Convert to SVG" and wait for the vector preview',
+      'Click "Download SVG" to save, or "Copy SVG source" to use it directly'
+    ],
+    bestPractices: [
+      'A higher threshold traces more area (thicker strokes); too low loses faint strokes',
+      'Crop away unrelated background first — it greatly reduces stray paths',
+      'Color photos are force-binarized by brightness; line art works much better than photos'
     ]
   }
 }

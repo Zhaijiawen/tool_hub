@@ -56,6 +56,44 @@
         </section>
 
         <section>
+          <h2>{{ getLicensesText('imgly.title', locale) }}</h2>
+          <p>{{ getLicensesText('imgly.desc', locale) }}</p>
+          <ul>
+            <li>{{ getLicensesText('imgly.version', locale) }}</li>
+            <li>
+              <strong>{{ getLicensesText('imgly.upstream', locale) }}</strong>
+              <a :href="getLicensesText('imgly.upstreamUrl', locale)" target="_blank" rel="noopener">{{ getLicensesText('imgly.upstreamUrl', locale) }}</a>
+            </li>
+            <li>{{ getLicensesText('imgly.modified', locale) }}</li>
+            <li>
+              <strong>{{ getLicensesText('imgly.license', locale) }}</strong>
+              <a :href="getLicensesText('imgly.licenseUrl', locale)" target="_blank" rel="noopener">{{ getLicensesText('imgly.licenseUrl', locale) }}</a>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>{{ getLicensesText('potrace.title', locale) }}</h2>
+          <p>{{ getLicensesText('potrace.desc', locale) }}</p>
+          <ul>
+            <li>{{ getLicensesText('potrace.version', locale) }}</li>
+            <li>
+              <strong>{{ getLicensesText('potrace.upstream', locale) }}</strong>
+              <a :href="getLicensesText('potrace.upstreamUrl', locale)" target="_blank" rel="noopener">{{ getLicensesText('potrace.upstreamUrl', locale) }}</a>
+            </li>
+            <li>
+              <strong>{{ getLicensesText('potrace.wasmPort', locale) }}</strong>
+              <a :href="getLicensesText('potrace.wasmPortUrl', locale)" target="_blank" rel="noopener">{{ getLicensesText('potrace.wasmPortUrl', locale) }}</a>
+            </li>
+            <li>{{ getLicensesText('potrace.modified', locale) }}</li>
+            <li>
+              <strong>{{ getLicensesText('potrace.license', locale) }}</strong>
+              <a :href="getLicensesText('potrace.licenseUrl', locale)" target="_blank" rel="noopener">{{ getLicensesText('potrace.licenseUrl', locale) }}</a>
+            </li>
+          </ul>
+        </section>
+
+        <section>
           <h2>{{ getLicensesText('duty.title', locale) }}</h2>
           <p>{{ getLicensesText('duty.desc', locale) }}</p>
         </section>

@@ -751,6 +751,18 @@ export const seoConfig = {
         keywords: ['条码识别', '二维码扫描', '条码扫描器', 'Code 128 识别', 'EAN 识别', '离线扫码']
       }
     },
+    trace: {
+      en: {
+        name: 'Image to SVG Converter',
+        description: 'Convert images to SVG vector graphics locally in your browser with adjustable threshold. Free, private, no upload.',
+        keywords: ['image to svg', 'png to svg', 'jpg to svg', 'vectorize image', 'bitmap tracer', 'offline svg converter']
+      },
+      zh: {
+        name: '图片转 SVG',
+        description: '在浏览器本地将图片转换为 SVG 矢量图，支持阈值与反色调节，免费、隐私、不上传。',
+        keywords: ['图片转 SVG', 'PNG 转 SVG', 'JPG 转 SVG', '图片矢量化', '位图描摹', '离线矢量转换']
+      }
+    },
     calculator: {
       en: {
         name: 'Online Calculator',

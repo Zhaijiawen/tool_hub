@@ -20,6 +20,11 @@ export const examples = {
       B -->|是| C[创建订单]
 导出: SVG（可编辑）/ PNG（2 倍高清）`,
 
+  trace: `输入: 白底黑色 Logo PNG（800×600）
+参数: 阈值 128 / 反色 关
+操作: 点击「转为 SVG」
+结果: 单色矢量路径，下载后可在任意尺寸下无损缩放`,
+
   base64: `// 原文本
 Hello World!
 
@@ -213,6 +218,11 @@ Syntax: flowchart TD
         A[Place order] --> B{In stock?}
         B -->|Yes| C[Create order]
 Export: SVG (editable) / PNG (2x high-res)`,
+
+  trace: `Input: black logo on white background, PNG 800×600
+Settings: threshold 128 / invert off
+Action: click "Convert to SVG"
+Result: monochrome vector path that scales losslessly at any size`,
 
   base64: `// Original text
 Hello World!

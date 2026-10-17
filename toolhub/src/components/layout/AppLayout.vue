@@ -673,6 +673,11 @@ const menuOptions = computed(() => [
             label: t('image.barcode.title'),
             key: 'image-barcode',
             path: '/image/barcode'
+          },
+          {
+            label: t('image.trace.title'),
+            key: 'image-trace',
+            path: '/image/trace'
           }
         ]
       },
