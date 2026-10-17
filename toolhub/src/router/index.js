@@ -227,6 +227,11 @@ const router = createRouter({
               path: 'regex',
               component: () => import('@/components/convert/Regex.vue')
             },
+            // PCRE2 高级正则（WASM）
+            {
+              path: 'pcre2-regex',
+              component: () => import('@/components/convert/Pcre2Regex.vue')
+            },
             // Markdown预览
             {
               path: 'markdown',
@@ -319,6 +324,65 @@ const router = createRouter({
             {
               path: 'exif',
               component: () => import('@/components/image/ExifViewer.vue')
+            },
+            // PNG 无损压缩（WASM）
+            {
+              path: 'png-optimize',
+              component: () => import('@/components/image/PngOptimize.vue')
+            },
+            // WebP / AVIF 转换（WASM）
+            {
+              path: 'webp-avif-convert',
+              component: () => import('@/components/image/WebpAvifConvert.vue')
+            },
+            // 图片转文字 OCR（WASM）
+            {
+              path: 'ocr',
+              component: () => import('@/components/image/OcrTool.vue')
+            }
+          ]
+        },
+
+        // ===== 文档工具路由 =====
+        {
+          path: 'document',
+          component: BaseView,
+          children: [
+            // PDF 工具集：转图片 / 合并 / 拆分（WASM）
+            {
+              path: 'pdf-tools',
+              component: () => import('@/components/document/PdfTools.vue')
+            }
+          ]
+        },
+
+        // ===== 数据工具路由 =====
+        {
+          path: 'data',
+          component: BaseView,
+          children: [
+            // SQLite 数据库：浏览器跑 SQL + OPFS 持久化（WASM）
+            {
+              path: 'sqlite',
+              component: () => import('@/components/data/SqliteTool.vue')
+            },
+            // Python 运行器：标准库模式（WASM）
+            {
+              path: 'python',
+              component: () => import('@/components/data/PythonTool.vue')
+            }
+          ]
+        },
+
+        // ===== 媒体工具路由 =====
+        {
+          path: 'media',
+          component: BaseView,
+          children: [
+            // FFmpeg 音视频：转码 / 提取音频 / 转 GIF（WASM）
+            {
+              path: 'media-tool',
+              component: () => import('@/components/media/MediaTool.vue')
             }
           ]
         },
@@ -426,6 +490,16 @@ const router = createRouter({
             {
               path: 'mock-data',
               component: () => import('@/components/other/MockData.vue')
+            },
+            // 文件压缩 / 解压（Brotli / Zstd / Gzip，WASM）
+            {
+              path: 'file-compress',
+              component: () => import('@/components/other/FileCompress.vue')
+            },
+            // 归档解压 / 压缩（libarchive，WASM）
+            {
+              path: 'archive',
+              component: () => import('@/components/other/ArchiveTool.vue')
             }
           ]
         },

@@ -439,6 +439,18 @@ export const seoConfig = {
         keywords: ['正则表达式测试', '正则表达式', '模式匹配']
       }
     },
+    pcre2Regex: {
+      en: {
+        name: 'PCRE2 Advanced Regex (WASM)',
+        description: 'Advanced regex tool powered by PCRE2 WASM — possessive quantifiers, recursion, variable-length lookbehind and Unicode properties beyond JavaScript regex',
+        keywords: ['pcre2', 'advanced regex', 'regex wasm', 'pcre regex', 'atomic group', 'possessive quantifier', 'wasm']
+      },
+      zh: {
+        name: 'PCRE2 高级正则工具（WASM）',
+        description: '基于 PCRE2 WASM 的高级正则工具，支持占有量词、递归、变长后顾断言与 Unicode 属性等 JS 正则不具备的特性',
+        keywords: ['PCRE2', '高级正则', '正则WASM', '原子组', '占有量词', 'PCRE正则']
+      }
+    },
     'http-status': {
       en: {
         name: 'HTTP Status Code Lookup',
@@ -525,7 +537,97 @@ export const seoConfig = {
         keywords: ['图像水印', '水印工具', '添加水印']
       }
     },
-  
+    pngOptimize: {
+      en: {
+        name: 'PNG Optimizer (WASM)',
+        description: 'Lossless PNG compression powered by oxipng WASM, runs entirely in your browser',
+        keywords: ['png optimizer', 'compress png', 'png compression', 'lossless png', 'wasm']
+      },
+      zh: {
+        name: 'PNG 压缩工具（WASM）',
+        description: '基于 oxipng WASM 的无损 PNG 压缩工具，完全在浏览器本地运行',
+        keywords: ['PNG压缩', '压缩PNG', '图片压缩', '无损压缩', 'WASM']
+      }
+    },
+    webpAvifConvert: {
+      en: {
+        name: 'WebP / AVIF Converter (WASM)',
+        description: 'Convert images to WebP or AVIF in your browser — smaller files, similar quality, fully local',
+        keywords: ['webp converter', 'avif converter', 'convert to webp', 'convert to avif', 'image format converter', 'wasm']
+      },
+      zh: {
+        name: 'WebP / AVIF 转换工具（WASM）',
+        description: '在浏览器中将图片转换为 WebP 或 AVIF 现代格式，体积更小、画质相当，完全本地运行',
+        keywords: ['WebP转换', 'AVIF转换', '转WebP', '转AVIF', '图片格式转换', 'WASM']
+      }
+    },
+    ocr: {
+      en: {
+        name: 'Image to Text OCR (WASM)',
+        description: 'Free offline OCR in your browser — extract text from images with Tesseract.js WebAssembly, 9 languages, fully local',
+        keywords: ['ocr', 'image to text', 'ocr online', 'extract text from image', 'tesseract ocr', 'offline ocr', 'wasm ocr']
+      },
+      zh: {
+        name: '图片转文字 OCR 工具（WASM）',
+        description: '浏览器内离线 OCR 文字识别，基于 Tesseract.js WebAssembly，支持 9 种语言，完全本地运行不上传',
+        keywords: ['OCR', '图片转文字', '文字识别', '图片识别文字', '离线OCR', 'WASM']
+      }
+    },
+
+    pdfTools: {
+      en: {
+        name: 'PDF Toolkit (WASM)',
+        description: 'Convert PDF pages to images, merge and split PDF files in your browser — MuPDF WebAssembly, fully local',
+        keywords: ['pdf to image', 'pdf to png', 'merge pdf', 'split pdf', 'pdf tools', 'mupdf', 'wasm pdf']
+      },
+      zh: {
+        name: 'PDF 工具集（WASM）',
+        description: '浏览器内将 PDF 转为图片、合并与拆分 PDF 文件，基于 MuPDF WebAssembly，完全本地运行不上传',
+        keywords: ['PDF转图片', 'PDF转PNG', '合并PDF', '拆分PDF', 'PDF工具', 'MuPDF', 'WASM']
+      }
+    },
+
+    // 数据工具
+    sqlite: {
+      en: {
+        name: 'SQLite Database Browser (WASM)',
+        description: 'Run SQLite in your browser — open .db files, execute SQL, browse tables, with OPFS persistent storage, fully local',
+        keywords: ['sqlite online', 'sqlite browser', 'open db file', 'sqlite wasm', 'opfs', 'sql editor online', 'sqlite viewer']
+      },
+      zh: {
+        name: 'SQLite 数据库浏览器（WASM）',
+        description: '浏览器内运行 SQLite：打开 .db 文件、执行 SQL、浏览表结构，支持 OPFS 持久化存储，完全本地运行不上传',
+        keywords: ['SQLite在线', 'SQLite浏览器', '打开db文件', 'SQLite WASM', 'OPFS持久化', '在线SQL编辑器', 'SQLite查看器']
+      }
+    },
+
+    python: {
+      en: {
+        name: 'Online Python Runner (WASM)',
+        description: 'Run Python code in your browser with Pyodide WebAssembly — standard library, instant execution, no upload, fully local.',
+        keywords: ['python online', 'python runner', 'run python in browser', 'pyodide', 'python wasm', 'online python interpreter', 'python playground']
+      },
+      zh: {
+        name: '在线 Python 运行器（WASM）',
+        description: '在浏览器中运行 Python 代码，基于 Pyodide WebAssembly，支持标准库，即时执行、完全本地运行不上传',
+        keywords: ['Python在线运行', '在线运行Python', '浏览器运行Python', 'Pyodide', 'Python WASM', '在线Python解释器', 'Python代码执行']
+      }
+    },
+
+    // 媒体工具
+    mediaTool: {
+      en: {
+        name: 'Audio & Video Toolkit (WASM)',
+        description: 'Transcode video, extract audio and convert video to GIF in your browser — FFmpeg WebAssembly, fully local',
+        keywords: ['video transcode', 'convert video to mp4', 'extract audio from video', 'video to gif', 'ffmpeg online', 'wasm ffmpeg', 'webm converter']
+      },
+      zh: {
+        name: '音视频处理工具（WASM）',
+        description: '浏览器内视频转码、提取音频、视频转 GIF，基于 FFmpeg WebAssembly，完全本地运行不上传',
+        keywords: ['视频转码', '视频转MP4', '提取音频', '视频转GIF', 'FFmpeg在线', 'WASM FFmpeg', 'WebM转换']
+      }
+    },
+
     // 文本工具
     case: {
       en: {
@@ -577,6 +679,30 @@ export const seoConfig = {
     },
   
     // 其他工具
+    fileCompress: {
+      en: {
+        name: 'File Compressor & Decompressor',
+        description: 'Compress and decompress files with Brotli, Zstd, and Gzip — entirely in your browser via WebAssembly',
+        keywords: ['brotli compress', 'zstd compress', 'gzip online', 'file compression', 'decompress br', 'decompress zst', 'wasm']
+      },
+      zh: {
+        name: '文件压缩 / 解压工具',
+        description: '浏览器内压缩 / 解压文件，支持 Brotli、Zstd（WASM）与 Gzip，纯本地处理不上传',
+        keywords: ['文件压缩', 'brotli压缩', 'zstd压缩', 'gzip在线', '解压br', '解压zst', 'WASM']
+      }
+    },
+    archive: {
+      en: {
+        name: 'Archive Extractor & Creator (WASM)',
+        description: 'Extract and create ZIP, TAR, 7Z, RAR and more archives entirely in your browser with libarchive WebAssembly',
+        keywords: ['archive extractor', 'unzip online', 'create zip', '7z extract', 'rar extract', 'tar gz', 'libarchive', 'wasm']
+      },
+      zh: {
+        name: '归档解压 / 压缩工具（WASM）',
+        description: '基于 libarchive WASM 的浏览器端归档工具，支持 ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST 等格式解压与打包，纯本地处理',
+        keywords: ['在线解压', '解压zip', '解压7z', '创建压缩包', 'tar解压', 'libarchive', 'WASM']
+      }
+    },
     qrcode: {
       en: {
         name: 'QR Code Generator & Reader',
@@ -639,14 +765,14 @@ export const seoConfig = {
     },
     exif: {
       en: {
-        name: 'Image EXIF Viewer',
-        description: 'View image EXIF metadata including camera settings, GPS location and device information.',
-        keywords: ['exif viewer', 'image metadata', 'photo info', 'gps location']
+        name: 'Image EXIF Viewer & Cleaner',
+        description: 'View image EXIF metadata and strip GPS location or wipe all EXIF in your browser — camera settings, device info, privacy cleanup, fully local.',
+        keywords: ['exif viewer', 'image metadata', 'photo info', 'gps location', 'remove exif', 'strip gps', 'exif cleaner', 'photo privacy']
       },
       zh: {
-        name: '图片 EXIF 查看器',
-        description: '查看图片的 EXIF 元数据，包括拍摄参数、GPS 位置、设备信息等',
-        keywords: ['EXIF查看', '图片元数据', '拍摄参数', 'GPS位置']
+        name: '图片 EXIF 查看与清理',
+        description: '在浏览器中查看图片 EXIF 元数据，并可擦除 GPS 位置或清除全部 EXIF：拍摄参数、设备信息、隐私清理，完全本地处理',
+        keywords: ['EXIF查看', '图片元数据', '拍摄参数', 'GPS位置', '去除EXIF', '擦除GPS', 'EXIF清理', '照片隐私']
       }
     },
     uuid: {

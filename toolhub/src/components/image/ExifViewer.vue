@@ -38,6 +38,60 @@
           <n-button @click="copyAllExif" :disabled="!exifData">{{ t('image.exif.copyAll') }}</n-button>
         </div>
 
+        <!-- 隐私清理（写入能力：exifr 只读，擦除依赖 piexifjs） -->
+        <div v-if="imagePreview" class="sanitize-panel">
+          <n-text style="font-size: 13px; font-weight: 600;">{{ t('image.exif.sanitizeTitle') }}</n-text>
+          <n-text depth="3" style="font-size: 12px;">{{ t('image.exif.sanitizeHint') }}</n-text>
+
+          <n-alert v-if="!isJpeg" type="warning" :show-icon="true" :bordered="true" style="margin-top: 8px;">
+            {{ t('image.exif.jpegOnly') }}
+          </n-alert>
+
+          <n-alert v-else-if="!hasGps && !hasExif" type="success" :show-icon="true" :bordered="true" style="margin-top: 8px;">
+            {{ t('image.exif.nothingToClean') }}
+          </n-alert>
+
+          <n-space v-else align="center" style="margin-top: 8px;" :wrap="true">
+            <n-tag v-if="hasGps" type="warning" :bordered="false" size="small">
+              {{ t('image.exif.gpsDetected') }}
+            </n-tag>
+            <n-button
+              v-if="hasGps"
+              type="warning"
+              :loading="processing"
+              :disabled="processing"
+              @click="runStrip('gps')"
+            >
+              {{ t('image.exif.stripGps') }}
+            </n-button>
+            <n-button
+              type="error"
+              ghost
+              :loading="processing"
+              :disabled="processing"
+              @click="runStrip('all')"
+            >
+              {{ t('image.exif.stripAll') }}
+            </n-button>
+          </n-space>
+        </div>
+
+        <!-- 处理结果 -->
+        <div v-if="sanitizeMessage" class="sanitize-result">
+          <n-alert :type="sanitizeMessage.type" :show-icon="true" closable @close="sanitizeMessage = ''">
+            {{ sanitizeMessage.text }}
+          </n-alert>
+          <n-button
+            v-if="pendingDownload"
+            type="primary"
+            size="small"
+            style="margin-top: 8px;"
+            @click="downloadCleaned"
+          >
+            {{ t('image.exif.downloadCleaned') }}
+          </n-button>
+        </div>
+
         <!-- 加载中 -->
         <div v-if="loading" class="loading-placeholder">
           <n-spin size="small" />
@@ -97,6 +151,7 @@ const fileSize = ref(0)
 const isDragging = ref(false)
 const loading = ref(false)
 const exifData = ref(null)
+const currentFile = ref(null)
 
 const fileSizeStr = computed(() => {
   const s = fileSize.value
@@ -120,8 +175,13 @@ const onDrop = (e) => {
 }
 
 const loadFile = async (file) => {
+  currentFile.value = file
   fileName.value = file.name
   fileSize.value = file.size
+  rawBytes.value = null
+  pendingDownload.value = null
+  sanitizeMessage.value = ''
+  if (imagePreview.value) URL.revokeObjectURL(imagePreview.value)
   imagePreview.value = URL.createObjectURL(file)
   loading.value = true
   exifData.value = null
@@ -129,6 +189,10 @@ const loadFile = async (file) => {
     const { parse } = await import('exifr')
     const result = await parse(file, { all: true, tiff: true, xmp: true, icc: false, iptc: true, gps: true })
     exifData.value = result
+    // 仅 JPEG 需要保留原始字节供擦除使用（其余格式不支持写入）
+    if (file.type === 'image/jpeg' || /\.jpe?g$/i.test(file.name)) {
+      rawBytes.value = await file.arrayBuffer()
+    }
   } catch (e) {
     exifData.value = null
   } finally {
@@ -221,6 +285,172 @@ const clearImage = () => {
   fileSize.value = 0
   exifData.value = null
   loading.value = false
+  processing.value = false
+  sanitizeMessage.value = ''
+  rawBytes.value = null
+}
+
+// ================= 隐私清理（写入 / 擦除） =================
+// 读取用 exifr（快、支持格式多），擦除用 piexifjs（MIT，85KB 纯 JS）。
+// 未选 wasm：浏览器端可用的 EXIF 写入方案里，wasm 版（exiftool）要么不存在、
+// 要么是 Node 专用包；piexifjs 体积小、无下载成本、能力足够（可精确控制 IFD）。
+const processing = ref(false)
+const sanitizeMessage = ref('') // { type, text }
+const rawBytes = ref(null) // 原始字节（擦除需基于原图反复操作）
+
+/** JPEG 才能写 EXIF（piexifjs 仅支持 JPEG 的 APP1 段） */
+const isJpeg = computed(() => {
+  const f = currentFile.value
+  return !!f && (f.type === 'image/jpeg' || /\.jpe?g$/i.test(f.name))
+})
+
+const hasGps = computed(() => {
+  if (!exifData.value) return false
+  const d = exifData.value
+  return !!(d.GPSLatitude || d.GPSLongitude || d.GPSAltitude || d.GPSLatitudeRef)
+})
+
+const hasExif = computed(() => Object.keys(exifData.value || {}).length > 0)
+
+/**
+ * 加载 piexifjs（UMD，走 default 导出）。
+ * 该库无 .d.ts，故以运行时取用避免类型报错。
+ */
+async function loadPiexif() {
+  const mod = await import('piexifjs')
+  const p = mod.default || mod
+  if (!p || typeof p.load !== 'function') throw new Error('PIEXIF_LOAD_FAILED')
+  return p
+}
+
+/** ArrayBuffer → binary string（piexifjs 只接受 binary string，不吃 ArrayBuffer/Uint8Array） */
+function toBinaryString(buffer) {
+  const bytes = new Uint8Array(buffer)
+  let out = ''
+  // 分块拼接，避免 apply 参数上限（大图可达数 MB）
+  const CHUNK = 0x8000
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    out += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK))
+  }
+  return out
+}
+
+/** binary string → Uint8Array */
+function fromBinaryString(bin) {
+  const out = new Uint8Array(bin.length)
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i) & 0xff
+  return out
+}
+
+/**
+ * 执行擦除。
+ * @param {'gps'|'all'} mode gps=只删 GPS（保留其他 EXIF）；all=删全部 EXIF
+ */
+async function runStrip(mode) {
+  if (!isJpeg.value || processing.value) return
+  processing.value = true
+  sanitizeMessage.value = ''
+  try {
+    if (!rawBytes.value) throw new Error('NO_SOURCE')
+
+    const piexif = await loadPiexif()
+    const bin = toBinaryString(rawBytes.value)
+
+    // 无 EXIF 时 piexif.load 也能工作（返回空 IFD），实测通过
+    const exifObj = piexif.load(bin)
+
+    const hadGps = Object.keys(exifObj.GPS || {}).length > 0
+    const hadExif =
+      Object.keys(exifObj['0th'] || {}).length > 0 ||
+      Object.keys(exifObj.Exif || {}).length > 0 ||
+      hadGps
+
+    if (mode === 'gps') {
+      if (!hadGps) {
+        sanitizeMessage.value = { type: 'info', text: t('image.exif.noGpsFound') }
+        return
+      }
+      exifObj.GPS = {}
+    } else {
+      exifObj['0th'] = {}
+      exifObj.Exif = {}
+      exifObj.GPS = {}
+      exifObj['1st'] = {}
+      exifObj.Interop = {}
+      exifObj.thumbnail = null
+      if (!hadExif) {
+        sanitizeMessage.value = { type: 'info', text: t('image.exif.noExifFound') }
+        return
+      }
+    }
+
+    const outBin = piexif.insert(piexif.dump(exifObj), bin)
+    const outBytes = fromBinaryString(outBin)
+
+    // 用**独立的 exifr** 复核结果：擦除必须真的生效，不能只看 UI 提示
+    const { parse } = await import('exifr')
+    const verify = await parse(new Blob([outBytes], { type: 'image/jpeg' }), { gps: true, tiff: true })
+    const stillGps = !!(verify && (verify.GPSLatitude || verify.GPSLongitude))
+    if (mode === 'gps' && stillGps) {
+      // 校验失败不产出文件，避免给用户"已擦除"的错觉
+      throw new Error('VERIFY_FAILED')
+    }
+
+    // 校验通过 → 更新源字节与预览，可继续操作或下载
+    rawBytes.value = outBytes.buffer
+    fileSize.value = outBytes.byteLength
+    const blobUrl = URL.createObjectURL(new Blob([outBytes], { type: 'image/jpeg' }))
+    URL.revokeObjectURL(imagePreview.value)
+    imagePreview.value = blobUrl
+
+    // 重新读取展示当前状态
+    const after = await parse(new Blob([outBytes], { type: 'image/jpeg' }), { all: true, tiff: true, xmp: true, icc: false, iptc: true, gps: true })
+    exifData.value = after || null
+
+    pendingDownload.value = { bytes: outBytes, name: outputName(mode) }
+    sanitizeMessage.value = {
+      type: 'success',
+      text: mode === 'gps'
+        ? t('image.exif.gpsRemoved')
+        : t('image.exif.exifRemoved')
+    }
+  } catch (err) {
+    const msg = String(err && err.message ? err.message : err)
+    if (msg === 'NO_SOURCE') {
+      sanitizeMessage.value = { type: 'error', text: t('image.exif.errors.noSource') }
+    } else if (msg === 'VERIFY_FAILED') {
+      sanitizeMessage.value = { type: 'error', text: t('image.exif.errors.verifyFailed') }
+    } else if (msg.includes('invalid file data') || msg.includes('invalid type')) {
+      sanitizeMessage.value = { type: 'error', text: t('image.exif.errors.jpegParseFailed') }
+    } else if (msg === 'PIEXIF_LOAD_FAILED') {
+      sanitizeMessage.value = { type: 'error', text: t('image.exif.errors.libLoadFailed') }
+    } else {
+      sanitizeMessage.value = { type: 'error', text: `${t('image.exif.failed')}: ${msg}` }
+    }
+  } finally {
+    processing.value = false
+  }
+}
+
+const pendingDownload = ref(null)
+
+function outputName(mode) {
+  const base = fileName.value.replace(/\.[^.]+$/, '') || 'image'
+  const suffix = mode === 'gps' ? '_no-gps' : '_clean'
+  return `${base}${suffix}.jpg`
+}
+
+const downloadCleaned = () => {
+  const d = pendingDownload.value
+  if (!d) return
+  const url = URL.createObjectURL(new Blob([d.bytes], { type: 'image/jpeg' }))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = d.name
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(url), 30000)
 }
 </script>
 
@@ -284,6 +514,19 @@ const clearImage = () => {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.sanitize-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid var(--n-border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.sanitize-result {
+  margin-top: 8px;
 }
 
 .loading-placeholder {

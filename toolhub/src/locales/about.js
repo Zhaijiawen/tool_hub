@@ -39,11 +39,23 @@ export const aboutText = {
       },
       convert: {
         title: '转换工具',
-        desc: '提供时间戳与日期格式互转、存储与时间单位换算、数制转换（2/8/10/16 进制及任意进制）、物理单位换算（长度、质量、温度、面积、速度等）、颜色格式转换（HEX/RGB/HSL/HSV/CMYK）、正则表达式测试、CIDR 子网计算器、JSON Schema 生成器、User Agent 解析、HTTP 状态码查询、字符编码查询、Markdown 实时预览等实用工具。'
+        desc: '提供时间戳与日期格式互转、存储与时间单位换算、数制转换（2/8/10/16 进制及任意进制）、物理单位换算（长度、质量、温度、面积、速度等）、颜色格式转换（HEX/RGB/HSL/HSV/CMYK）、正则表达式测试、基于 PCRE2 WASM 的高级正则工具（支持占有量词、原子组、递归、变长后视断言等 JS 正则不具备的特性）、CIDR 子网计算器、JSON Schema 生成器、User Agent 解析、HTTP 状态码查询、字符编码查询、Markdown 实时预览等实用工具。'
       },
       image: {
         title: '图片处理工具',
-        desc: '提供图片格式转换（支持 JPG、PNG、WebP、BMP、GIF、AVIF 等格式互转，含尺寸调整）、图片裁剪、旋转与翻转、文字/图片水印添加、图片压缩（可控质量）、EXIF 元数据查看器等功能。所有图片处理均在浏览器本地完成，不上传任何图片数据到服务器。'
+        desc: '提供图片格式转换（JPG、PNG、WebP、GIF 互转，含尺寸调整）、图片裁剪、旋转与翻转、文字/图片水印添加、图片压缩（可控质量）、基于 oxipng WASM 的无损 PNG 压缩、基于 libwebp / libavif WASM 的 WebP / AVIF 现代格式转换、基于 Tesseract.js WASM 的图片转文字 OCR（支持中英日韩等 9 种语言离线识别）、EXIF 元数据查看与隐私清理（可擦除 GPS 位置或清除全部 EXIF，擦除后自动复核）。所有图片处理均在浏览器本地完成，不上传任何图片数据到服务器。'
+      },
+      document: {
+        title: '文档处理工具',
+        desc: '基于 MuPDF WASM 的 PDF 工具集：PDF 页面转图片（PNG / JPEG，可选倍率与页码范围）、多文件合并、按页拆分（每页单独或按范围），支持加密 PDF 本地解锁。所有处理均在浏览器本地完成，不上传任何文件到服务器。'
+      },
+      data: {
+        title: '数据处理工具',
+        desc: '基于 SQLite 官方 WebAssembly 版本的数据库工具：上传 .db 文件查询浏览、执行任意 SQL（建表、增删改查、JOIN、事务），数据库可经 OPFS 持久化保存在浏览器中，刷新不丢失，也可导出为 .db 文件或 CSV。另提供 Python 运行器：基于 Pyodide（CPython 3.13 的 WebAssembly 构建）在浏览器本地执行 Python 代码，支持 json / re / datetime / math / statistics 等标准库，代码不上传。'
+      },
+      media: {
+        title: '音视频处理工具',
+        desc: '基于 FFmpeg WASM 的音视频处理：视频转码（MP4 / WebM，可调画质与分辨率）、从视频提取音频（MP3 / M4A / WAV / OGG / Opus）、视频转 GIF（256 色调色板优化），支持常见编解码器（libx264、libvpx、libmp3lame 等）。全部处理在浏览器本地完成，不上传任何文件到服务器。'
       },
       text: {
         title: '文本处理工具',
@@ -51,7 +63,7 @@ export const aboutText = {
       },
       other: {
         title: '其他实用工具',
-        desc: '二维码生成与解码、IP 地址查询（含 ISP 和地理位置）、DNS 解析查询、UUID v1/v4 批量生成、安全密码生成器（自定义字符集和长度）、文件 MD5/SHA 哈希校验、HTTP 客户端（支持自定义请求头）、SSL 证书解析器、Git Commit 规范消息生成器、Mock 数据生成器（支持 Faker.js 语法）、科学计算器、AI 提示词工具箱、脚本工具箱（内置 dayjs/lodash/CryptoJS 等库，浏览器端运行自定义 JavaScript 脚本）等。'
+        desc: '二维码生成与解码、IP 地址查询（含 ISP 和地理位置）、DNS 解析查询、UUID v1/v4 批量生成、安全密码生成器（自定义字符集和长度）、文件 MD5/SHA 哈希校验、文件压缩 / 解压（Brotli / Zstd / Gzip，WASM 本地引擎）、归档解压 / 压缩（libarchive WASM，支持 ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST 等格式）、HTTP 客户端（支持自定义请求头）、SSL 证书解析器、Git Commit 规范消息生成器、Mock 数据生成器（支持 Faker.js 语法）、科学计算器、AI 提示词工具箱、脚本工具箱（内置 dayjs/lodash/CryptoJS 等库，浏览器端运行自定义 JavaScript 脚本）等。'
       }
     },
     technology: {
@@ -147,11 +159,23 @@ export const aboutText = {
       },
       convert: {
         title: 'Conversion Tools',
-        desc: 'Includes timestamp and date format conversion, storage and time unit converters, number base conversion (binary/octal/decimal/hex and arbitrary bases), physical unit conversion (length, mass, temperature, area, speed, etc.), color format conversion (HEX/RGB/HSL/HSV/CMYK), regex tester, CIDR subnet calculator, JSON Schema generator, User Agent parser, HTTP status code reference, character encoding lookup, and Markdown live preview.'
+        desc: 'Includes timestamp and date format conversion, storage and time unit converters, number base conversion (binary/octal/decimal/hex and arbitrary bases), physical unit conversion (length, mass, temperature, area, speed, etc.), color format conversion (HEX/RGB/HSL/HSV/CMYK), regex tester, PCRE2 WASM advanced regex tool (possessive quantifiers, atomic groups, recursion, variable-length lookbehind and other features beyond JavaScript regex), CIDR subnet calculator, JSON Schema generator, User Agent parser, HTTP status code reference, character encoding lookup, and Markdown live preview.'
       },
       image: {
         title: 'Image Processing Tools',
-        desc: 'Provides image format conversion (supports JPG, PNG, WebP, BMP, GIF, AVIF and more, with optional resize), image cropping, rotation and flipping, text/image watermark overlay, image compression with quality control, and EXIF metadata viewer. All image processing runs entirely in the browser — no image data is uploaded to any server.'
+        desc: 'Provides image format conversion (JPG, PNG, WebP, GIF with optional resize), image cropping, rotation and flipping, text/image watermark overlay, image compression with quality control, lossless PNG compression powered by oxipng WASM, WebP/AVIF modern-format conversion powered by libwebp/libavif WASM, offline image-to-text OCR powered by Tesseract.js WASM (9 languages including English and Chinese), and EXIF metadata viewing with privacy cleanup (strip GPS location or wipe all EXIF, auto-verified after stripping). All image processing runs entirely in the browser — no image data is uploaded to any server.'
+      },
+      document: {
+        title: 'Document Processing Tools',
+        desc: 'A MuPDF WASM powered PDF toolkit: convert PDF pages to images (PNG / JPEG with selectable scale and page ranges), merge multiple files, and split by pages (one file per page or by ranges), with local password unlocking for encrypted PDFs. All processing runs entirely in the browser — no files are uploaded to any server.'
+      },
+      data: {
+        title: 'Data Processing Tools',
+        desc: 'A SQLite database tool built on the official SQLite WebAssembly release: upload .db files to query and browse, run arbitrary SQL (CREATE TABLE, INSERT/UPDATE/DELETE, SELECT, JOIN, transactions), with databases persisted in the browser via OPFS so they survive refreshes, exportable as .db files or CSV. Also includes a Python runner powered by Pyodide (CPython 3.13 compiled to WebAssembly) that executes Python locally in your browser with the json / re / datetime / math / statistics standard library — code never uploaded.'
+      },
+      media: {
+        title: 'Audio & Video Tools',
+        desc: 'FFmpeg WASM powered media processing: video transcoding (MP4 / WebM with adjustable quality and resolution), audio extraction from video (MP3 / M4A / WAV / OGG / Opus), and video to GIF (256-color palette optimized), with broad codec support (libx264, libvpx, libmp3lame and more). Everything runs in the browser — no files are uploaded to any server.'
       },
       text: {
         title: 'Text Processing Tools',
@@ -159,7 +183,7 @@ export const aboutText = {
       },
       other: {
         title: 'Other Utilities',
-        desc: 'QR code generator and decoder, IP address lookup (including ISP and geolocation), DNS resolver, UUID v1/v4 batch generator, secure password generator (customizable charset and length), file MD5/SHA hash checker, HTTP client (with custom headers), SSL certificate parser, Git commit message generator following Conventional Commits, Mock data generator (with Faker.js syntax), scientific calculator, AI prompt toolbox, and Script Toolkit (built-in dayjs/lodash/CryptoJS libraries, run custom JavaScript scripts entirely in the browser).'
+        desc: 'QR code generator and decoder, IP address lookup (including ISP and geolocation), DNS resolver, UUID v1/v4 batch generator, secure password generator (customizable charset and length), file MD5/SHA hash checker, file compress / decompress (Brotli / Zstd / Gzip via local WASM engines), archive extract / create (libarchive WASM — ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST and more), HTTP client (with custom headers), SSL certificate parser, Git commit message generator following Conventional Commits, Mock data generator (with Faker.js syntax), scientific calculator, AI prompt toolbox, and Script Toolkit (built-in dayjs/lodash/CryptoJS libraries, run custom JavaScript scripts entirely in the browser).'
       }
     },
     technology: {

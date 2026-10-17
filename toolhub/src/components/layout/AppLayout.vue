@@ -162,6 +162,9 @@
 
     <!-- Cookie 同意横幅 -->
     <CookieConsent />
+
+    <!-- 全局 WASM 下载进度指示器（可取消/重试） -->
+    <WasmDownloadBar />
   </n-layout>
 </template>
 
@@ -184,6 +187,8 @@ import ShareButton from '@/components/common/ShareButton.vue'
 import FavoriteButton from '@/components/common/FavoriteButton.vue'
 // 导入 Cookie 同意横幅
 import CookieConsent from '@/components/common/CookieConsent.vue'
+// 导入全局 WASM 下载进度条
+import WasmDownloadBar from '@/components/common/WasmDownloadBar.vue'
 // 导入收藏管理 composable
 import { useFavorites, getFavoriteName } from '@/composables/useFavorites'
 // 导入语言切换工具函数（支持按需动态加载语言包）
@@ -545,6 +550,11 @@ const menuOptions = computed(() => [
             path: '/convert/regex'
           },
           {
+            label: t('convert.pcre2Regex.title'),
+            key: 'pcre2-regex',
+            path: '/convert/pcre2-regex'
+          },
+          {
             label: t('convert.markdown.title'),
             key: 'markdown',
             path: '/convert/markdown'
@@ -636,12 +646,65 @@ const menuOptions = computed(() => [
             label: t('image.exif.title'),
             key: 'image-exif',
             path: '/image/exif'
+          },
+          {
+            label: t('image.pngOptimize.title'),
+            key: 'image-png-optimize',
+            path: '/image/png-optimize'
+          },
+          {
+            label: t('image.webpAvifConvert.title'),
+            key: 'image-webp-avif-convert',
+            path: '/image/webp-avif-convert'
+          },
+          {
+            label: t('image.ocr.title'),
+            key: 'image-ocr',
+            path: '/image/ocr'
           }
         ]
       },
       {
-    label: t('common.text'),
-    key: 'text',
+        label: t('common.document'),
+        key: 'document',
+        children: [
+          {
+            label: t('document.pdfTools.title'),
+            key: 'document-pdf-tools',
+            path: '/document/pdf-tools'
+          }
+        ]
+      },
+      {
+        label: t('common.data'),
+        key: 'data',
+        children: [
+          {
+            label: t('data.sqlite.title'),
+            key: 'data-sqlite',
+            path: '/data/sqlite'
+          },
+          {
+            label: t('data.python.title'),
+            key: 'data-python',
+            path: '/data/python'
+          }
+        ]
+      },
+      {
+        label: t('common.media'),
+        key: 'media',
+        children: [
+          {
+            label: t('media.mediaTool.title'),
+            key: 'media-media-tool',
+            path: '/media/media-tool'
+          }
+        ]
+      },
+      {
+        label: t('common.text'),
+        key: 'text',
     children: [
       {
         label: t('text.case.title'),
@@ -749,6 +812,16 @@ const menuOptions = computed(() => [
             label: t('other.mockData.title'),
             key: 'mock-data',
             path: '/other/mock-data'
+          },
+          {
+            label: t('other.fileCompress.title'),
+            key: 'file-compress',
+            path: '/other/file-compress'
+          },
+          {
+            label: t('other.archive.title'),
+            key: 'archive',
+            path: '/other/archive'
           }
         ]
       },

@@ -1,0 +1,19 @@
+# ToolHub 静态站点响应头配置（Cloudflare Pages）
+# 目的：1) WASM 长效缓存与正确 MIME；2) 为多线程 WASM（FFmpeg/oxipng 等 SharedArrayBuffer）开启 COOP/COEP。
+
+# .wasm 二进制：内容哈希文件名 + immutable 长效缓存；声明 MIME 以支持 instantiateStreaming
+/*.wasm
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/wasm
+
+# Tesseract 语言包（OCR 按需下载，内容固定，immutable 长效缓存）
+/lang/*.traineddata.gz
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/octet-stream
+
+# 跨源隔离：启用 SharedArrayBuffer（多线程 WASM 需要）。
+# 使用 credentialless 而非 require-corp，尽量避免破坏跨源 no-cors 资源（图片等）。
+# ⚠️ 部署后需回归验证 Google AdSense、外链 iframe、跨源图片/字体是否正常；如有破坏再按资源调整。
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless

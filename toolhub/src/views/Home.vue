@@ -35,7 +35,10 @@
             :to="tool.path"
             :class="['tool-card', `tool-card--${tool.category}`]"
           >
-            <span class="tool-name">{{ t(tool.name) }}</span>
+            <div class="tool-card-head">
+              <span class="tool-name">{{ t(tool.name) }}</span>
+              <WasmTag v-if="tool.wasm" class="tool-card-wasm" />
+            </div>
             <span class="tool-desc">{{ t(tool.description) }}</span>
           </router-link>
         </div>
@@ -96,6 +99,7 @@ import {
   ConstructOutline
 } from '@vicons/ionicons5'
 import { getAllToolsSync } from '@/api/tools'
+import WasmTag from '@/components/common/WasmTag.vue'
 import { useSeo } from '@/composables/useSeo'
 
 const { t, tm, locale } = useI18n()
@@ -111,13 +115,16 @@ const allTools = getAllToolsSync()
 
 // 分类配置（图标 + 顺序）
 const CATEGORY_META = {
-  format:  { icon: '🔧', order: 1 },
-  encrypt: { icon: '🔐', order: 2 },
-  convert: { icon: '🔄', order: 3 },
-  image:   { icon: '🖼️', order: 4 },
-  text:    { icon: '📝', order: 5 },
-  other:   { icon: '⚙️', order: 6 },
-  custom:  { icon: '🛠️', order: 7 },
+  format:   { icon: '🔧', order: 1 },
+  encrypt:  { icon: '🔐', order: 2 },
+  convert:  { icon: '🔄', order: 3 },
+  image:    { icon: '🖼️', order: 4 },
+  document: { icon: '📄', order: 5 },
+  data:     { icon: '🗃️', order: 6 },
+  media:    { icon: '🎬', order: 7 },
+  text:     { icon: '📝', order: 8 },
+  other:    { icon: '⚙️', order: 9 },
+  custom:   { icon: '🛠️', order: 10 },
 }
 
 const categories = computed(() => {
@@ -298,6 +305,15 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   box-shadow: var(--shadow-primary);
   transform: translateY(-2px);
 }
+.tool-card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.tool-card-wasm {
+  flex-shrink: 0;
+}
 .tool-name {
   font-size: 13px;
   font-weight: 600;
@@ -305,6 +321,7 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 .tool-desc {
   font-size: 11px;

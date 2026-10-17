@@ -260,6 +260,14 @@ const tools = [
     category: 'convert'
   },
   {
+    id: 'pcre2Regex',
+    name: 'convert.pcre2Regex.title',
+    path: '/convert/pcre2-regex',
+    description: 'convert.pcre2Regex.description',
+    category: 'convert',
+    wasm: true
+  },
+  {
     id: 'markdownPreview',
     name: 'convert.markdown.title',
     path: '/convert/markdown',
@@ -403,7 +411,8 @@ const tools = [
     name: 'other.fileHash.title',
     path: '/other/file-hash',
     description: 'other.fileHash.description',
-    category: 'other'
+    category: 'other',
+    wasm: true
   },
   {
     id: 'dns',
@@ -455,6 +464,62 @@ const tools = [
     category: 'image'
   },
   {
+    id: 'pngOptimize',
+    name: 'image.pngOptimize.title',
+    path: '/image/png-optimize',
+    description: 'image.pngOptimize.description',
+    category: 'image',
+    wasm: true
+  },
+  {
+    id: 'webpAvifConvert',
+    name: 'image.webpAvifConvert.title',
+    path: '/image/webp-avif-convert',
+    description: 'image.webpAvifConvert.description',
+    category: 'image',
+    wasm: true
+  },
+  {
+    id: 'ocr',
+    name: 'image.ocr.title',
+    path: '/image/ocr',
+    description: 'image.ocr.description',
+    category: 'image',
+    wasm: true
+  },
+  {
+    id: 'pdfTools',
+    name: 'document.pdfTools.title',
+    path: '/document/pdf-tools',
+    description: 'document.pdfTools.description',
+    category: 'document',
+    wasm: true
+  },
+  {
+    id: 'sqlite',
+    name: 'data.sqlite.title',
+    path: '/data/sqlite',
+    description: 'data.sqlite.description',
+    category: 'data',
+    wasm: true
+  },
+  {
+    id: 'python',
+    name: 'data.python.title',
+    path: '/data/python',
+    description: 'data.python.description',
+    category: 'data',
+    wasm: true
+  },
+  {
+    id: 'mediaTool',
+    name: 'media.mediaTool.title',
+    path: '/media/media-tool',
+    description: 'media.mediaTool.description',
+    category: 'media',
+    wasm: true
+  },
+  {
     id: 'httpClient',
     name: 'other.httpClient.title',
     path: '/other/http-client',
@@ -481,6 +546,22 @@ const tools = [
     path: '/other/git-commit',
     description: 'other.gitCommit.description',
     category: 'other'
+  },
+  {
+    id: 'fileCompress',
+    name: 'other.fileCompress.title',
+    path: '/other/file-compress',
+    description: 'other.fileCompress.description',
+    category: 'other',
+    wasm: true
+  },
+  {
+    id: 'archive',
+    name: 'other.archive.title',
+    path: '/other/archive',
+    description: 'other.archive.description',
+    category: 'other',
+    wasm: true
   },
   {
     id: 'textStats',

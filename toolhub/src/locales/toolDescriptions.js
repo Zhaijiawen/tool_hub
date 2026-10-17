@@ -577,6 +577,38 @@ export const toolDescriptions = {
     ]
   },
 
+  pcre2Regex: {
+    features: [
+      '基于 PCRE2 10.49 (WASM) 的高级正则引擎，支持 JS 正则不具备的特性',
+      '占有量词、原子组、递归匹配、变长后顾断言、Unicode 属性',
+      '10 个编译标志可组合（i/m/s/x/u/UCP/U/A/D/n）',
+      '全部匹配结果（matchAll）+ 捕获组 / 命名组展示',
+      '替换模板（$&、$1、${name}），支持替换首个 / 全部',
+      '编译错误精确定位到字符偏移',
+      'WASM 模块异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，文本不会上传到任何服务器'
+    ],
+    useCases: [
+      '测试 JS 正则无法表达的模式（嵌套结构、变长后顾）',
+      '验证 PCRE / PHP / Perl 兼容的正则表达式',
+      '在浏览器内做高级文本提取与替换',
+      '学习 PCRE2 特有语法并即时验证'
+    ],
+    usageSteps: [
+      '输入 PCRE2 正则表达式',
+      '按需勾选编译标志（如 i 忽略大小写、UCP 启用 Unicode 属性）',
+      '输入测试文本，点击「运行匹配」',
+      '查看匹配列表、捕获组与命名组',
+      '填写替换模板，点击「替换首个 / 替换全部」'
+    ],
+    bestPractices: [
+      '首次使用会自动下载 WASM 模块（约 443KB，有进度条，可取消）',
+      '处理 Unicode 文本时勾选 u（UTF）与 UCP',
+      '占有量词与原子组可避免灾难性回溯，提升性能',
+      '常用模式用 JS 正则工具即可，无需下载'
+    ]
+  },
+
   markdown: {
     features: [
       '实时 Markdown 预览',
@@ -1654,24 +1686,92 @@ export const toolDescriptions = {
       '支持 JPEG / TIFF / HEIC / RAW 等主流格式',
       '可单独复制任意字段，也可一键复制全部 EXIF',
       '图片预览带文件名和文件大小',
-      '纯本地解析，图片不会上传到任何服务器'
+      '**GPS 隐私擦除**：一键去除位置信息，同时保留拍摄参数等其他 EXIF',
+      '**全量清除**：一键抹掉全部 EXIF，适合发布前彻底清理',
+      '擦除后自动复核：用独立的解析库重新读取，确认元数据确实消失才允许下载',
+      '纯本地解析与擦除，图片不会上传到任何服务器'
     ],
     useCases: [
+      '分享照片前去除 GPS 位置信息（最常见的隐私泄露来源）',
+      '公开发布图片前清除全部拍摄元数据',
       '查看照片的拍摄日期、地点和设备信息',
       '检查照片是否被修改过（软件、时间戳）',
-      '提取 GPS 坐标在地图上定位拍摄位置',
       '批量对比多张照片的拍摄参数'
     ],
     usageSteps: [
       '拖拽或点击上传一张图片',
-      '自动解析并展示 EXIF 信息',
-      '按分组浏览各项元数据',
-      '点击复制按钮获取所需字段'
+      '自动解析并展示 EXIF 信息，按分组浏览各项元数据',
+      '如需清理，在「隐私清理」区选择「擦除 GPS（保留其他）」或「清除全部 EXIF」',
+      '程序用独立解析库复核擦除结果，确认后才可点击下载',
+      '下载清理后的图片（文件名自动追加 _no-gps 或 _clean 后缀）'
     ],
     bestPractices: [
-      '社交媒体平台通常会清除 EXIF，上传之前先检查',
-      'GPS 信息可能涉及隐私，分享照片前建议确认',
-      'RAW 格式的 EXIF 信息最为完整'
+      '社交媒体平台通常会清除 EXIF，但并非全部，敏感照片建议自己先擦除',
+      '想保留拍摄参数但去掉位置时，用「擦除 GPS」而非「清除全部」',
+      'EXIF 只是元数据，擦除不影响图片画质',
+      '仅 JPEG 支持写入 EXIF（存于 APP1 段）；PNG / WebP 若需清理建议先转 JPEG',
+      '下载文件建议保留原件，清理件文件名已加后缀便于区分'
+    ]
+  },
+
+  pngOptimize: {
+    features: [
+      '基于 oxipng (Rust/WASM) 的无损 PNG 压缩，压缩率远超纯 JS 方案',
+      '支持 0-6 共 7 档压缩级别，实时预览压缩前后体积对比',
+      '支持隔行扫描 (interlace) 与 Alpha 通道优化选项',
+      '显示原图 / 优化后体积与节省比例',
+      'WASM 模块异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，图片不会上传到任何服务器'
+    ],
+    useCases: [
+      '压缩网站 PNG 资源，加快页面加载速度',
+      '减小上传附件 / 邮件图片体积',
+      '批量优化设计稿导出图（逐张处理）',
+      '在保留无损画质的前提下缩减存储占用'
+    ],
+    usageSteps: [
+      '拖拽或点击上传一张 PNG 图片',
+      '首次使用会自动下载 WASM 模块（有进度条，可取消）',
+      '选择压缩级别（默认 2，越高越小但越慢）',
+      '按需开启隔行扫描 / Alpha 优化',
+      '查看体积对比，点击下载优化后的 PNG'
+    ],
+    bestPractices: [
+      '级别 2 是速度与压缩率的平衡点，日常推荐',
+      '级别 4-6 压缩更狠但耗时明显增加，大图慎用',
+      'oxipng 为无损压缩，不会损失任何画质',
+      '需要现代格式（WebP/AVIF）时请使用图片转换工具'
+    ]
+  },
+
+  webpAvifConvert: {
+    features: [
+      '基于 libwebp / libavif (WebAssembly) 的现代格式编码，Canvas 无法产出这两种格式',
+      '支持 WebP 与 AVIF 两种输出，质量 0-100 可调，均支持无损模式',
+      'AVIF 额外提供编码速度调节（0-10），在耗时与压缩率间取舍',
+      '实时对比原图 / 输出体积与节省比例，显示编码耗时',
+      'WASM 编码器按需异步下载（WebP ~300KB / AVIF ~3.5MB），带进度、可取消、缓存秒开',
+      '自动探测 SIMD 选择更快的 WebP 编码器',
+      '纯本地处理，图片不会上传到任何服务器'
+    ],
+    useCases: [
+      '将 JPG/PNG 照片转为 WebP/AVIF，同画质下体积减少 30%-70%',
+      '为网站准备现代格式图片资源（配合 picture 标签渐进增强）',
+      'AVIF 适合对压缩率要求极高的缩略图 / 图库场景',
+      '需要兼容旧浏览器时输出 WebP（支持度更广）'
+    ],
+    usageSteps: [
+      '拖拽或点击上传一张图片（浏览器可解码的格式均可）',
+      '选择输出格式 WebP 或 AVIF',
+      '调整质量（推荐 WebP 75 / AVIF 50），AVIF 可按需调速度',
+      '首次使用自动下载对应 WASM 编码器（有进度条，可取消）',
+      '查看体积对比与耗时，点击下载转换结果'
+    ],
+    bestPractices: [
+      'WebP 兼容性更好，AVIF 压缩率更高但编码更慢',
+      '照片类内容用质量 75 左右通常肉眼无损',
+      '含透明通道的图建议开启无损模式再对比体积',
+      'AVIF 大图编码耗时较长，可调高速度档位（如 8-10）'
     ]
   },
 
@@ -1699,6 +1799,201 @@ export const toolDescriptions = {
       'feat 用于新功能，fix 用于 Bug 修复',
       'body 中解释为什么这样改，而不是改了什么',
       'footer 中关联 issue 编号（如 Closes #123）'
+    ]
+  },
+
+  fileCompress: {
+    features: [
+      '支持 Brotli / Zstd / Gzip 三种格式的压缩与解压',
+      'Brotli 与 Zstd 由 WebAssembly 引擎驱动——浏览器原生只支持 gzip/deflate，属不可替代能力',
+      'Gzip 使用浏览器原生 CompressionStream，无需下载即可用',
+      '压缩质量可调（Brotli 1-11 / Zstd 1-19），实时显示原始/结果体积与压缩率',
+      '解压模式按文件魔数自动识别 zstd/gzip 格式',
+      'WASM 引擎异步下载、带进度、可取消，二次使用命中缓存秒开',
+      '纯本地处理，文件不会上传到任何服务器'
+    ],
+    useCases: [
+      '压缩日志、JSON、导出数据等文本文件，减小传输与存储体积',
+      '解压 .br / .zst / .gz 文件（浏览器原生无法解压 brotli/zstd）',
+      '压缩网站静态资源前预估 brotli/zstd 收益',
+      '验证压缩文件完整性（解压后对比原文件）'
+    ],
+    usageSteps: [
+      '拖拽或点击上传一个文件',
+      '选择模式（压缩 / 解压）与格式（Brotli / Zstd / Gzip）',
+      '压缩模式下拖动质量滑块（解压无需设置）',
+      '点击开始，首次使用 WASM 引擎会自动下载（有进度条）',
+      '查看体积对比与压缩率，点击下载结果文件'
+    ],
+    bestPractices: [
+      'Brotli 质量 6 是日常平衡点；11 体积最小但最慢',
+      'Zstd 质量 3 速度快且压缩率好，适合大文件',
+      '已高度压缩的文件（如图片、视频）再压收益甚微',
+      '解压失败时检查格式是否选错——brotli 文件需选 Brotli'
+    ]
+  },
+
+  archive: {
+    features: [
+      '基于 libarchive (WASM) 的归档解压与打包，支持格式远超浏览器原生',
+      '解压自动识别格式：ZIP / TAR / 7Z / RAR / GZ / BZ2 / XZ / ZST / CPIO / ISO 等',
+      '压缩包条目浏览（名称 / 大小 / 修改时间），支持单条目或全部解压下载',
+      '打包支持 ZIP / TAR / 7Z 容器 × Deflate / Store / Gzip / Bzip2 / XZ / Zstd / LZ4 算法',
+      '支持加密压缩包密码',
+      '计算在 Web Worker 中进行，不阻塞界面',
+      'WASM 模块异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，文件不会上传到任何服务器'
+    ],
+    useCases: [
+      '解压下载的 zip / 7z / rar / tar.gz 等压缩包',
+      '将多个文件打包为 zip / tar / 7z 分享或备份',
+      '在浏览器内查看压缩包内容而不落盘',
+      '转换归档容器与压缩算法组合'
+    ],
+    usageSteps: [
+      '选择「解压」或「压缩」模式',
+      '解压：上传压缩包，点击「打开压缩包」，按需解压单个或全部条目',
+      '压缩：上传多个文件，选择格式与压缩算法，点击「创建压缩包」',
+      '首次使用会自动下载 WASM 模块（约 1MB，有进度条，可取消）',
+      '点击下载按钮保存结果'
+    ],
+    bestPractices: [
+      '7Z 格式压缩率高但耗时，大文件建议选 ZIP + Deflate',
+      'TAR 仅打包不压缩，需要压缩时叠加 Gzip / Xz / Zstd',
+      '全部解压会触发多个下载，浏览器可能询问是否允许',
+      '加密压缩包先填密码再打开，可减少失败重试'
+    ]
+  },
+
+  ocr: {
+    features: [
+      '基于 Tesseract 5 LSTM 引擎 (WebAssembly) 的离线 OCR，浏览器无原生能力，不可替代',
+      '支持英语、简中、繁中、日语、韩语、德语、法语、西班牙语、俄语共 9 种语言，可多语言混选',
+      '语言包按需下载（0.7–3MB），仅下载用户选择的语言',
+      '自动探测 Relaxed SIMD / SIMD 选择最快的 core 变体（约 2.9MB）',
+      '页面分割模式可选：自动版面 / 文本块 / 单行 / 单词 / 稀疏文本',
+      '识别结果可编辑、一键复制、下载 TXT，显示置信度与耗时',
+      'WASM 引擎与语言包异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '识别计算在 Web Worker 中进行，不阻塞界面',
+      '纯本地处理，图片不会上传到任何服务器'
+    ],
+    useCases: [
+      '提取截图、扫描件、照片中的文字内容',
+      '将纸质文档拍照后转为可编辑文本',
+      '识别中英混排的图片文字（简中+英语混选）',
+      '提取无法复制文字的图片（如 PPT 截图、海报）'
+    ],
+    usageSteps: [
+      '拖拽或点击上传一张图片（PNG / JPG / BMP / WebP 等）',
+      '选择识别语言（默认英语；中英混排可同时选简中+英语）',
+      '按需选择版面模式（默认自动，单行文字选单行模式更准）',
+      '点击开始识别：首次使用会自动下载引擎与语言包（有进度条，可取消）',
+      '查看识别结果，可编辑修正后复制或下载 TXT'
+    ],
+    bestPractices: [
+      '只选图片中实际出现的语言，多选无关语言会降低准确率',
+      '扫描件 / 截图清晰度高时识别效果最好',
+      '单行文字选「单行文字」模式，多区域海报选「稀疏文本」',
+      '识别引擎约 2.9MB、语言包 0.7–3MB，首次下载后自动缓存'
+    ]
+  },
+
+  pdfTools: {
+    features: [
+      '基于 MuPDF (WebAssembly) 的 PDF 处理，浏览器无原生渲染/编辑能力，不可替代',
+      'PDF 转图片：逐页渲染为 PNG / JPEG，支持 1x / 2x / 3x 倍率与自定义页码范围',
+      '合并 PDF：按顺序拼接多个文件的全部页面，输出单个 PDF',
+      '拆分 PDF：每页导出为单独文件，或按页码范围（如 1-3,5,8-）导出多份文件',
+      '支持加密 PDF（填写打开密码后在本地解锁处理）',
+      '计算在 Web Worker 中进行，不阻塞界面',
+      'WASM 引擎（约 10MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，文件不会上传到任何服务器'
+    ],
+    useCases: [
+      '把 PDF 页面转成图片插入文档或分享',
+      '合并扫描件、合同、报告为单个 PDF',
+      '从大 PDF 中抽取需要的页面',
+      '把每页拆分为独立文件便于逐页处理'
+    ],
+    usageSteps: [
+      '选择「PDF 转图片」「合并 PDF」或「拆分 PDF」标签页',
+      '上传一个（转图片/拆分）或多个（合并）PDF 文件',
+      '按需设置输出格式、倍率、页码范围或拆分方式；加密 PDF 先填密码',
+      '点击开始：首次使用会自动下载 MuPDF 引擎（约 10MB，有进度条，可取消）',
+      '下载生成结果（批量下载会触发浏览器多次保存询问）'
+    ],
+    bestPractices: [
+      '倍率越高图片越清晰，耗时与体积也越大，日常 2x 即可',
+      '页码范围语法：1 基闭区间，如 "1-3,5,8-"（空结尾表示到最后一页）',
+      '合并顺序可用 ↑ ↓ 调整，合并的是全部页面',
+      '加密 PDF 先在页面底部填好打开密码再开始，避免失败重试'
+    ]
+  },
+
+  mediaTool: {
+    features: [
+      'FFmpeg 5.1 (WebAssembly) powered media processing — browsers have no native video transcoding capability, making this irreplaceable',
+      'Video transcode: MP4 (H.264 with adjustable CRF quality and output width) or WebM (VP8)',
+      'Extract audio: pulls the audio track and converts it to MP3 / M4A / WAV / OGG / Opus',
+      'Video to GIF: palettegen/paletteuse filter chain for 256-color palette optimization',
+      'Results preview inline (video / audio elements) and download in one click',
+      'Broad codec support: libx264, libx265, libvpx, libmp3lame, aac, libvorbis, libopus, libwebp',
+      'Runs in a Web Worker — the UI stays responsive',
+      'The WASM engine (~31MB) downloads asynchronously with progress and cancel; cached after first use',
+      'Fully local — media files are never uploaded to any server'
+    ],
+    useCases: [
+      'Convert MOV / MKV and other formats into web-friendly MP4 / WebM',
+      'Compress video size for easier sharing or uploading',
+      'Extract audio from a video to use it separately',
+      'Turn short video clips into GIFs for chat or documents'
+    ],
+    usageSteps: [
+      'Pick the "Video Transcode", "Extract Audio" or "Video to GIF" tab',
+      'Upload a video file (for audio extraction you can also upload an audio file to convert formats)',
+      'Set output format, quality (CRF), resolution / fps / width as needed',
+      'Click start: first use downloads the FFmpeg engine (~31MB, with progress and cancel)',
+      'Preview the result and download it'
+    ],
+    bestPractices: [
+      'MP4 quality is controlled by CRF (18–40, default 28): lower means sharper but larger',
+      'Resolution only caps the width — height scales proportionally and stays even (H.264 requirement)',
+      'GIF supports only 256 colors: higher fps and width mean bigger files, and short clips look best',
+      'Audio extraction needs an input with an audio track — videos without sound fail with a clear message instead of silently producing an empty file',
+      'This build cannot read media duration, so progress is indeterminate — time scales with video length and resolution'
+    ]
+  },
+
+  sqlite: {
+    features: [
+      '基于 SQLite 官方 WebAssembly 版本，浏览器无原生 SQL 数据库能力，不可替代',
+      '上传 .db / .sqlite 文件即用：校验文件头后导入，浏览表、执行任意 SQL',
+      'OPFS 持久化：数据库保存在浏览器 Origin Private File System，刷新页面不丢失',
+      '内存库模式：无需落盘的临时演算，刷新即清空',
+      '完整 SQL 支持：建表、INSERT/UPDATE/DELETE、SELECT、JOIN、事务等全功能',
+      '查询结果表格展示，可导出 CSV；整个数据库可导出 .db 文件',
+      '计算在 Web Worker 中进行，不阻塞界面',
+      'WASM 引擎（约 870KB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，数据库文件不会上传到任何服务器'
+    ],
+    useCases: [
+      '查看和分析本地 .db 数据库文件的内容',
+      '练习和验证 SQL 查询（JOIN、聚合、子查询）',
+      '临时创建数据库做数据演算',
+      '把查询结果导出为 CSV 交给其他工具处理'
+    ],
+    usageSteps: [
+      '选择打开方式：「上传数据库」「已保存的库」或「新建数据库」',
+      '上传方式：选择 .db 文件，确认数据库名称后导入（自动保存到 OPFS 持久化存储）',
+      '点击左侧表名快速浏览前 200 行数据',
+      '在 SQL 编辑器中编写查询，点击「执行 SQL」查看结果',
+      '需要时导出查询结果为 CSV，或导出整个数据库为 .db 文件'
+    ],
+    bestPractices: [
+      'OPFS 持久化需要跨域隔离（COOP/COEP）环境，本站已配置，本地打开文件方式可能不支持',
+      '内存库仅当前页面有效，重要数据请使用持久化库',
+      '浏览大表默认限制 200 行，完整数据请写带 LIMIT / OFFSET 的 SQL',
+      '数据库名称仅支持字母、数字、点、连字符与下划线，避免路径问题'
     ]
   },
 
@@ -1922,31 +2217,33 @@ export const toolDescriptions = {
 
   fileHash: {
     features: [
-      '支持MD5、SHA-1、SHA-256、SHA-512',
-      'SHA系列使用浏览器原生Web Crypto API',
-      '大文件分片处理并显示进度条',
-      '输入预期哈希值进行校验比对',
-      '绿色✓/红色✗直观显示校验结果'
+      '支持 MD5、SHA-1、SHA-256、SHA-512',
+      '**4MB 分块流式计算**：内存占用与文件大小无关，可处理 GB 级大文件',
+      '基于 hash-wasm（Rust→WebAssembly），分块结果与系统工具完全一致',
+      '实时进度条 + 可随时取消（GB 级文件计算期间也能中止）',
+      '四种算法一次遍历文件同时算出，不重复读取',
+      '输入预期哈希值进行校验比对，绿色✓/红色✗直观显示结果',
+      '所有计算在浏览器本地完成，文件不会上传'
     ],
     useCases: [
-      '下载文件完整性验证',
+      '下载文件完整性验证（GB 级安装包、镜像、离线包）',
       '文件去重和指纹识别',
       '软件包安全校验',
       '数据传输完整性检验',
-      '数字版权保护'
+      '大文件归档前的基线校验'
     ],
     usageSteps: [
-      '拖拽或点击选择要计算的文件',
-      '等待进度条显示计算完成',
-      '查看各算法的哈希值',
+      '拖拽或点击选择要计算的文件（支持 GB 级）',
+      '等待进度条走完；文件很大时可点「取消计算」中止',
+      '查看各算法的哈希值，可单独复制',
       '可选：输入预期哈希值进行对比',
       '绿色表示匹配，红色表示不匹配'
     ],
     bestPractices: [
-      'SHA-256是目前最常用的安全哈希算法',
-      'MD5和SHA-1已不推荐用于安全场景',
-      '文件超过500MB时计算时间较长请耐心等待',
-      '所有计算在浏览器本地完成，文件不会上传'
+      'SHA-256 是目前最常用的安全哈希算法；MD5 与 SHA-1 已不适用于安全场景',
+      '大文件不再受内存限制，但耗时仍与体积成正比（实测 1GB 约 1–3 秒）',
+      '校验下载文件时，把对方提供的哈希值粘贴到「哈希校验」框比对即可',
+      '所有计算在浏览器本地完成，文件不会上传到任何服务器'
     ]
   },
 
@@ -3251,6 +3548,38 @@ export const toolDescriptionsEn = {
     ]
   },
 
+  pcre2Regex: {
+    features: [
+      'Advanced regex engine based on PCRE2 10.49 (WASM), with features beyond JavaScript regex',
+      'Possessive quantifiers, atomic groups, recursion, variable-length lookbehind, Unicode properties',
+      '10 combinable compile flags (i/m/s/x/u/UCP/U/A/D/n)',
+      'Full match list (matchAll) with capture and named group display',
+      'Replacement templates ($&, $1, ${name}) with replace-first / replace-all',
+      'Compile errors pinpointed to the exact character offset',
+      'WASM module downloads asynchronously with progress, cancellable, and cached for instant reuse',
+      'Fully local processing — text is never uploaded to any server'
+    ],
+    useCases: [
+      'Test patterns JavaScript regex cannot express (nesting, variable-length lookbehind)',
+      'Validate PCRE / PHP / Perl compatible regular expressions',
+      'Advanced text extraction and replacement entirely in the browser',
+      'Learn and verify PCRE2-specific syntax on the fly'
+    ],
+    usageSteps: [
+      'Enter a PCRE2 regular expression',
+      'Check compile flags as needed (e.g. i for case-insensitive, UCP for Unicode properties)',
+      'Enter the test subject and click "Run match"',
+      'Review the match list, capture groups and named groups',
+      'Fill in a replacement template and click "Replace first / Replace all"'
+    ],
+    bestPractices: [
+      'The WASM module (~443KB) downloads automatically on first use (progress bar, cancellable)',
+      'Enable u (UTF) and UCP flags when working with Unicode text',
+      'Possessive quantifiers and atomic groups prevent catastrophic backtracking',
+      'For common patterns the JS regex tool suffices — no download needed'
+    ]
+  },
+
   markdown: {
     features: [
       'Real-time Markdown preview',
@@ -4297,30 +4626,32 @@ export const toolDescriptionsEn = {
   fileHash: {
     features: [
       'Supports MD5, SHA-1, SHA-256, SHA-512',
-      'SHA series uses browser-native Web Crypto API',
-      'Large file chunked processing with progress bar',
-      'Enter expected hash value for verification',
-      'Green ✓ / Red ✗ for intuitive match results'
+      '**4MB chunked streaming**: memory use is independent of file size, so GB-scale files work fine',
+      'Powered by hash-wasm (Rust → WebAssembly); chunked results match system tools exactly',
+      'Live progress bar with cancel at any time (even during GB-scale computation)',
+      'All four algorithms computed in a single file pass — no re-reading',
+      'Enter expected hash value for verification, with Green ✓ / Red ✗ results',
+      'All computations are local; no files are uploaded'
     ],
     useCases: [
-      'Verifying downloaded file integrity',
+      'Verifying downloaded file integrity (GB-scale installers, images, offline bundles)',
       'File deduplication and fingerprinting',
       'Software package security verification',
       'Data transmission integrity check',
-      'Digital rights protection'
+      'Baseline checks before archiving large files'
     ],
     usageSteps: [
-      'Drag and drop or click to select a file',
-      'Wait for the progress bar to complete',
-      'View hash values for each algorithm',
-      'Optional: enter expected hash to compare',
+      'Drag and drop or click to select a file (GB scale supported)',
+      'Wait for the progress bar; on large files click "Cancel" to abort',
+      'View and copy hash values for each algorithm',
+      'Optional: enter an expected hash to compare',
       'Green means match, red means mismatch'
     ],
     bestPractices: [
-      'SHA-256 is the most commonly used secure hash algorithm',
-      'MD5 and SHA-1 are not recommended for security purposes',
-      'Files over 500MB may take longer to compute',
-      'All computations are local; no files are uploaded'
+      'SHA-256 is the most commonly used secure hash; MD5 and SHA-1 are not suitable for security',
+      'Large files are no longer memory-bound, but time still scales with size (measured: ~1–3s per GB)',
+      'To verify a download, paste the published hash into the verification box',
+      'All computations run in the browser — no files are uploaded to any server'
     ]
   },
 
@@ -4390,25 +4721,123 @@ export const toolDescriptionsEn = {
       'Supports JPEG / TIFF / HEIC / RAW and more',
       'Copy individual fields or copy all EXIF at once',
       'Image preview with filename and file size',
-      'Local parsing only — images are not uploaded to any server'
+      '**GPS privacy strip**: remove location data in one click while keeping shooting parameters and other EXIF',
+      '**Full wipe**: erase all EXIF in one click before publishing',
+      'Auto-verified after stripping: the result is re-parsed with an independent library, and download unlocks only once the metadata is confirmed gone',
+      'Local parsing and stripping only — images are not uploaded to any server'
     ],
     useCases: [
+      'Remove GPS location before sharing photos (the most common privacy leak)',
+      'Clear all shooting metadata before publishing images publicly',
       'View photo date, location, and device info',
       'Check whether a photo contains GPS coordinates (privacy audit)',
-      'Compare shooting parameters from different cameras or phones',
-      'Verify whether image EXIF has been stripped'
+      'Compare shooting parameters from different cameras or phones'
     ],
     usageSteps: [
       'Drag an image to the upload area or click to browse',
-      'Check the "Basic Info" tab for device and date',
-      'Check the "Camera" tab for aperture, shutter speed, and ISO',
-      'Check the "GPS" tab for shooting location coordinates'
+      'Review the grouped EXIF data ("Basic Info", "Camera", "GPS" tabs)',
+      'To clean up, choose "Strip GPS (keep rest)" or "Wipe all EXIF" in the Privacy cleanup section',
+      'The app re-parses the result to verify; download unlocks only after verification passes',
+      'Download the cleaned image (filename gets a _no-gps or _clean suffix)'
     ],
     bestPractices: [
-      'Original camera files (not screenshots or social media) have the most complete EXIF',
-      'Screenshots and web-saved images typically have no EXIF',
-      'WeChat and other platforms strip GPS info for privacy',
-      'Copy GPS coordinates to a map app to find the photo location'
+      'Social platforms strip EXIF inconsistently — clean sensitive photos yourself first',
+      'To keep shooting parameters but drop location, use "Strip GPS" instead of "Wipe all EXIF"',
+      'EXIF is metadata only — stripping it does not affect image quality',
+      'Only JPEG supports EXIF writing (stored in the APP1 segment); convert PNG / WebP to JPEG first if you need to clean them',
+      'Keep the original file — cleaned downloads carry a suffix so the two are easy to tell apart'
+    ]
+  },
+
+  python: {
+    features: [
+      'Runs Python locally in your browser via Pyodide (CPython 3.13 compiled to WebAssembly) — no local setup needed',
+      'Full Python standard library: json / re / datetime / math / statistics / collections / itertools / heapq and more',
+      'Return values, print output and errors are shown separately, with execution time',
+      'Python exceptions are caught and reported by type and message (e.g. ZeroDivisionError: division by zero)',
+      'Five one-click examples (statistics, JSON handling, regex extraction, date math, algorithms)',
+      'Runs in a Web Worker, so long scripts do not freeze the UI',
+      'The WASM engine (~11MB) downloads asynchronously with progress and cancel; cached after first use',
+      'Fully local — your code is never uploaded to any server'
+    ],
+    useCases: [
+      'Validate a Python snippet or algorithm without opening a local environment',
+      'Batch text processing with regex or string operations',
+      'Compute summary statistics (mean, median, stdev, percentiles)',
+      'Practice data structures and algorithms (BFS, hand-written heap sort)',
+      'Transform and format JSON data'
+    ],
+    usageSteps: [
+      'Click an example to load sample code, or write your own Python',
+      'Click "Run Code": first use downloads the Python engine (~11MB, with progress and cancel)',
+      'Review the return value, stdout output and stderr errors',
+      'If an exception is raised, fix the code and run again'
+    ],
+    bestPractices: [
+      'Standard library mode without numpy / pandas — for matrix math or heavy data analysis, use a local Python environment',
+      'Code runs in a Worker, but heavy loops over large data can still take tens of seconds; please be patient',
+      'Python script duration is unpredictable, so the progress bar sits at 95% during execution — this does not mean it is stuck',
+      'Interactive input (input()) is unavailable: the browser has no stdin — use hardcoded inputs instead',
+      'Network access is unavailable: urllib/requests are sandboxed in Pyodide — run network code in a local environment'
+    ]
+  },
+  pngOptimize: {
+    features: [
+      'Lossless PNG compression powered by oxipng (Rust/WASM) — far better ratios than pure-JS solutions',
+      '7 compression levels (0-6) with live before/after size comparison',
+      'Optional interlace and Alpha channel optimization',
+      'Shows original vs. optimized size and savings percentage',
+      'WASM module downloads asynchronously with progress, cancellable, and cached for instant reuse',
+      'Fully local processing — images are never uploaded to any server'
+    ],
+    useCases: [
+      'Shrink PNG assets to speed up page loads',
+      'Reduce attachment and email image sizes',
+      'Optimize design exports one by one',
+      'Cut storage usage with zero quality loss'
+    ],
+    usageSteps: [
+      'Drag a PNG into the upload area or click to browse',
+      'The WASM module downloads automatically on first use (progress bar, cancellable)',
+      'Pick a compression level (default 2; higher = smaller but slower)',
+      'Optionally enable interlace / Alpha optimization',
+      'Compare sizes and download the optimized PNG'
+    ],
+    bestPractices: [
+      'Level 2 is the sweet spot between speed and ratio',
+      'Levels 4-6 are much slower — avoid for large images',
+      'oxipng is lossless: zero quality loss',
+      'For modern formats (WebP/AVIF) use the image converter instead'
+    ]
+  },
+  webpAvifConvert: {
+    features: [
+      'Modern-format encoding via libwebp / libavif (WebAssembly) — formats Canvas simply cannot produce',
+      'WebP and AVIF output with quality 0-100, both supporting lossless mode',
+      'AVIF adds an encoding-speed control (0-10) to trade time for ratio',
+      'Live original vs. output size comparison plus encoding duration',
+      'WASM encoder downloads on demand (WebP ~300KB / AVIF ~3.5MB) with progress, cancel, and caching',
+      'Automatic SIMD detection picks the faster WebP encoder',
+      'Fully local processing — images are never uploaded to any server'
+    ],
+    useCases: [
+      'Convert JPG/PNG photos to WebP/AVIF for 30%-70% smaller files at similar quality',
+      'Prepare modern-format assets for websites (progressive enhancement via picture tags)',
+      'AVIF shines for thumbnails and galleries where ratio matters most',
+      'Output WebP when you need broader legacy browser support'
+    ],
+    usageSteps: [
+      'Drag an image into the upload area or click to browse (any browser-decodable format)',
+      'Choose the output format: WebP or AVIF',
+      'Adjust quality (recommended: WebP 75 / AVIF 50); tune AVIF speed if needed',
+      'The matching WASM encoder downloads on first use (progress bar, cancellable)',
+      'Compare sizes and duration, then download the result'
+    ],
+    bestPractices: [
+      'WebP is more compatible; AVIF compresses better but encodes slower',
+      'Quality around 75 is usually visually lossless for photos',
+      'For images with transparency, try lossless mode and compare sizes',
+      'Large AVIF encodes take a while — raise the speed setting (e.g. 8-10) if impatient'
     ]
   },
   numberChinese: {
@@ -4674,6 +5103,234 @@ export const toolDescriptionsEn = {
       'Use lowercase for scope: auth / ui / api / deps',
       'One commit = one logical change; keep the subject concise',
       'Briefly mention breaking change in subject; detail migration steps in body'
+    ]
+  },
+
+  fileCompress: {
+    features: [
+      'Compress and decompress with Brotli, Zstd, and Gzip',
+      'Brotli & Zstd run on WebAssembly engines — browsers natively support only gzip/deflate, making this genuinely irreplaceable',
+      'Gzip uses the native CompressionStream — no download required',
+      'Adjustable quality (Brotli 1-11 / Zstd 1-19) with live original vs. result size and ratio',
+      'Decompress mode auto-detects zstd/gzip formats via magic bytes',
+      'WASM engines download asynchronously with progress, are cancellable, and cached for instant reuse',
+      'Fully local processing — files are never uploaded to any server'
+    ],
+    useCases: [
+      'Shrink text files (logs, JSON, exports) for transfer and storage',
+      'Decompress .br / .zst / .gz files — browsers cannot do brotli/zstd natively',
+      'Estimate brotli/zstd gains on static website assets',
+      'Verify archive integrity by decompressing and comparing'
+    ],
+    usageSteps: [
+      'Drag a file into the upload area or click to browse',
+      'Pick a mode (compress / decompress) and format (Brotli / Zstd / Gzip)',
+      'For compression, drag the quality slider (not needed for decompression)',
+      'Click start — the WASM engine downloads on first use (with progress bar)',
+      'Compare sizes and ratio, then download the result file'
+    ],
+    bestPractices: [
+      'Brotli level 6 is the daily sweet spot; 11 is smallest but slowest',
+      'Zstd level 3 is fast with good ratios — great for large files',
+      'Already-compressed files (images, video) gain little from re-compression',
+      'If decompression fails, check the format — brotli files need Brotli selected'
+    ]
+  },
+
+  archive: {
+    features: [
+      'Archive extraction and creation powered by libarchive (WASM) — far beyond native browser support',
+      'Extraction auto-detects format: ZIP / TAR / 7Z / RAR / GZ / BZ2 / XZ / ZST / CPIO / ISO and more',
+      'Browse archive entries (name / size / modified time); extract a single entry or all',
+      'Creation supports ZIP / TAR / 7Z containers × Deflate / Store / Gzip / Bzip2 / Xz / Zstd / LZ4 compression',
+      'Password support for encrypted archives',
+      'Computation runs in a Web Worker — the UI stays responsive',
+      'WASM module downloads asynchronously with progress, cancellable, and cached for instant reuse',
+      'Fully local processing — files are never uploaded to any server'
+    ],
+    useCases: [
+      'Extract downloaded zip / 7z / rar / tar.gz archives',
+      'Pack multiple files into zip / tar / 7z for sharing or backup',
+      'Inspect archive contents in the browser without saving to disk',
+      'Convert between archive containers and compression algorithms'
+    ],
+    usageSteps: [
+      'Pick the Extract or Create mode',
+      'Extract: upload an archive, click "Open archive", then extract a single entry or all',
+      'Create: upload multiple files, choose format and compression, click "Create archive"',
+      'The WASM module (~1MB) downloads automatically on first use (progress bar, cancellable)',
+      'Click the download button to save the result'
+    ],
+    bestPractices: [
+      '7Z offers the best ratio but is slow; for large files prefer ZIP + Deflate',
+      'TAR only packs without compression — pair it with Gzip / Xz / Zstd',
+      '"Extract all" triggers multiple downloads; browsers may ask for permission',
+      'For encrypted archives, enter the password before opening to avoid failed retries'
+    ]
+  },
+
+  ocr: {
+    features: [
+      'Offline OCR on the Tesseract 5 LSTM engine (WebAssembly) — no browser-native equivalent, truly irreplaceable',
+      '9 languages: English, Simplified/Traditional Chinese, Japanese, Korean, German, French, Spanish, Russian — mixable in one run',
+      'Language packs download on demand (0.7–3MB) — only the languages you select',
+      'Auto-detects Relaxed SIMD / SIMD to pick the fastest core variant (~2.9MB)',
+      'Page segmentation modes: auto / single block / single line / single word / sparse text',
+      'Editable results with one-click copy and TXT download, plus confidence and elapsed time',
+      'WASM engine and language packs download asynchronously with progress, cancellable, and cached for instant reuse',
+      'Recognition runs in a Web Worker — the UI stays responsive',
+      'Fully local processing — images are never uploaded to any server'
+    ],
+    useCases: [
+      'Extract text from screenshots, scans, and photos',
+      'Turn photographed paper documents into editable text',
+      'Recognize mixed Chinese/English images (select both languages)',
+      'Copy text from images that block selection (slides, posters)'
+    ],
+    usageSteps: [
+      'Drag or click to upload an image (PNG / JPG / BMP / WebP, etc.)',
+      'Select recognition languages (English by default; add Simplified Chinese for mixed content)',
+      'Optionally pick a layout mode (auto by default; single line for one-liners)',
+      'Click Recognize: the engine and language packs download on first use (progress bar, cancellable)',
+      'Review the result, edit if needed, then copy or download as TXT'
+    ],
+    bestPractices: [
+      'Select only the languages actually present — extra languages reduce accuracy',
+      'High-quality scans and screenshots give the best results',
+      'Use "Single line" mode for one-liners and "Sparse text" for multi-region posters',
+      'The engine is ~2.9MB and language packs 0.7–3MB; both are cached after the first download'
+    ]
+  },
+
+  pdfTools: {
+    features: [
+      'MuPDF-powered (WebAssembly) PDF processing — browsers have no native rendering/editing capability, making this irreplaceable',
+      'PDF to Images: renders pages to PNG / JPEG at 1x / 2x / 3x scale with custom page ranges',
+      'Merge PDFs: concatenates all pages of multiple files in order into a single PDF',
+      'Split PDF: exports each page as its own file, or splits by page ranges (e.g. 1-3,5,8-)',
+      'Supports encrypted PDFs (enter the open password to unlock locally)',
+      'Runs in a Web Worker — the UI stays responsive',
+      'The WASM engine (~10MB) downloads asynchronously with progress and cancel; cached after first use',
+      'Fully local — files are never uploaded to any server'
+    ],
+    useCases: [
+      'Convert PDF pages to images for documents or sharing',
+      'Merge scans, contracts and reports into a single PDF',
+      'Extract selected pages from a large PDF',
+      'Split every page into its own file for per-page processing'
+    ],
+    usageSteps: [
+      'Pick the "PDF to Images", "Merge PDFs" or "Split PDF" tab',
+      'Upload one PDF (to images / split) or several (merge)',
+      'Set output format, scale, page ranges or split mode; fill in the password for encrypted PDFs',
+      'Click start: first use downloads the MuPDF engine (~10MB, with progress and cancel)',
+      'Download the results (batch download triggers multiple browser save prompts)'
+    ],
+    bestPractices: [
+      'Higher scale means sharper images but slower conversion and larger files — 2x is a good default',
+      'Page range syntax: 1-based inclusive, e.g. "1-3,5,8-" (empty end means to the last page)',
+      'Merge concatenates all pages; reorder files with ↑ ↓ before merging',
+      'For encrypted PDFs, enter the open password before starting to avoid failed retries'
+    ]
+  },
+
+  sqlite: {
+    features: [
+      'Built on the official SQLite WebAssembly release — browsers have no native SQL database capability, making this irreplaceable',
+      'Upload .db / .sqlite files and use them immediately: validated header, imported, then browse tables and run arbitrary SQL',
+      'OPFS persistence: databases are stored in the browser Origin Private File System and survive refreshes',
+      'In-memory mode: no on-disk storage for quick experiments — cleared on refresh',
+      'Full SQL support: CREATE TABLE, INSERT/UPDATE/DELETE, SELECT, JOIN, transactions and more',
+      'Query results shown in a table, exportable as CSV; the whole database exports as a .db file',
+      'Runs in a Web Worker — the UI stays responsive',
+      'The WASM engine (~870KB) downloads asynchronously with progress and cancel; cached after first use',
+      'Fully local — database files are never uploaded to any server'
+    ],
+    useCases: [
+      'Inspect and analyze local .db database files',
+      'Practice and verify SQL queries (JOINs, aggregations, subqueries)',
+      'Spin up a temporary database for data experiments',
+      'Export query results as CSV for other tools'
+    ],
+    usageSteps: [
+      'Pick how to open: "Upload Database", "Saved Databases" or "New Database"',
+      'Upload: choose a .db file, confirm the database name, then import (auto-saved to OPFS persistent storage)',
+      'Click a table name on the left to preview its first 200 rows',
+      'Write a query in the SQL editor and click "Run SQL" to see the results',
+      'Export query results as CSV, or export the whole database as a .db file'
+    ],
+    bestPractices: [
+      'OPFS persistence requires a cross-origin isolated (COOP/COEP) environment — this site is configured for it, but opening files via file:// may not work',
+      'In-memory databases live only in the current page — use persistent storage for anything important',
+      'Browsing large tables is capped at 200 rows — write SQL with LIMIT / OFFSET for full data',
+      'Database names accept letters, digits, dots, hyphens and underscores only, to avoid path issues'
+    ]
+  },
+
+  python: {
+    features: [
+      '基于 Pyodide（CPython 3.13 编译为 WebAssembly）在浏览器本地运行 Python，无需安装任何环境',
+      '完整的 Python 标准库：json / re / datetime / math / statistics / collections / itertools / heapq 等',
+      '结果、print 输出、错误信息分离展示，附执行耗时',
+      'Python 异常捕获：显示异常类型与信息（如 ZeroDivisionError: division by zero）',
+      '5 个可一键载入的示例代码（统计计算 / JSON 处理 / 正则提取 / 日期计算 / 算法实现）',
+      '计算在 Web Worker 中执行，长脚本不会冻结界面',
+      'WASM 引擎（约 11MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地运行，代码不会上传到任何服务器'
+    ],
+    useCases: [
+      '快速验证一段 Python 逻辑或算法，不必打开本地环境',
+      '用正则或字符串处理批量文本',
+      '计算统计数据（均值、中位数、标准差、分位数）',
+      '练手数据结构与算法（BFS、堆排序等手写实现）',
+      '处理 JSON 数据、做格式转换'
+    ],
+    usageSteps: [
+      '点击上方示例按钮载入示例代码，或直接编写 Python 代码',
+      '点击「运行代码」：首次使用会自动下载 Python 引擎（约 11MB，有进度条，可取消）',
+      '查看返回值、stdout 输出与 stderr 错误',
+      '若有异常，按提示修正代码后重新运行'
+    ],
+    bestPractices: [
+      '标准库模式不含 numpy / pandas：需要矩阵运算或大数据分析时，用本地 Python 环境更合适',
+      '代码在 Worker 中执行，长耗时脚本（如大数据循环）仍可能需要几十秒，请耐心等待',
+      'Python 脚本耗时不可预知，故进度条在执行阶段固定显示 95%，不代表卡死',
+      '交互式输入（input()）不可用：浏览器无 stdin，如需交互请改用固定输入',
+      '网络请求不可用：标准库中的 urllib/requests 在 Pyodide 中受沙箱限制，涉及网络的功能请在本地环境运行'
+    ]
+  },
+
+  mediaTool: {
+    features: [
+      '基于 FFmpeg 5.1 (WebAssembly) 的音视频处理，浏览器无原生视频转码能力，不可替代',
+      '视频转码：MP4（H.264，可调 CRF 画质与输出宽度）或 WebM（VP8）',
+      '提取音频：从视频中提取音轨并转为 MP3 / M4A / WAV / OGG / Opus',
+      '视频转 GIF：palettegen/paletteuse 双段滤镜，生成 256 色调色板优化的 GIF',
+      '结果可直接在页面内预览播放（video / audio 元素）并下载',
+      '完整编解码支持：libx264、libx265、libvpx、libmp3lame、aac、libvorbis、libopus、libwebp',
+      '计算在 Web Worker 中进行，不阻塞界面',
+      'WASM 引擎（约 31MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地处理，媒体文件不会上传到任何服务器'
+    ],
+    useCases: [
+      '把 MOV / MKV 等格式转成网页通用的 MP4 / WebM',
+      '给视频压缩体积以便分享或上传',
+      '从视频中提取音频单独使用',
+      '把短视频片段做成 GIF 用于聊天或文档'
+    ],
+    usageSteps: [
+      '选择「视频转码」「提取音频」或「视频转 GIF」标签页',
+      '上传视频文件（提取音频也可直接传音频文件做格式转换）',
+      '按需设置输出格式、画质（CRF）、分辨率 / 帧率 / 宽度',
+      '点击开始：首次使用会自动下载 FFmpeg 引擎（约 31MB，有进度条，可取消）',
+      '预览结果并下载'
+    ],
+    bestPractices: [
+      'MP4 用 CRF 控制画质（18–40，默认 28）：数值越小越清晰、体积越大',
+      '分辨率只需限制宽度，高度会自动按比例缩放并保持偶数（H.264 要求）',
+      'GIF 只有 256 色：帧率与宽度越高体积越大，短片段效果最好',
+      '提取音频要求输入含音轨；无声音的视频会明确报错而非静默产出空文件',
+      '该构建读不到媒体时长，转换进度为不确定进度条，耗时与视频长度和分辨率正相关'
     ]
   },
 

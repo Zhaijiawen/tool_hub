@@ -48,6 +48,12 @@ export default defineConfig({
     }
   },
   
+  // Web Worker 构建配置
+  worker: {
+    // 输出 ES 模块：项目启用了代码分割（manualChunks），IIFE 格式不支持
+    format: 'es'
+  },
+
   // 构建配置（生产环境优化）
   build: {
     // 输出目录
@@ -164,6 +170,13 @@ export default defineConfig({
     host: '0.0.0.0', // 允许外部访问
     port: 5173, // 开发环境端口
     open: true, // 自动打开浏览器
+    // 跨源隔离（与 public/_headers 的生产配置保持一致）：
+    // SQLite OPFS 持久化要求 SharedArrayBuffer + 专用 Worker，
+    // dev 环境缺这两个响应头会静默降级为内存库。官方文档要求 Vite 显式配置。
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'credentialless'
+    },
     proxy: {
       // 代理 API 请求到后端服务器
       '/api': {
