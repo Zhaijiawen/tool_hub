@@ -705,6 +705,18 @@ const menuOptions = computed(() => [
         ]
       },
       {
+        label: t('common.ai'),
+        key: 'ai',
+        children: [
+          {
+            label: t('ai.tokenCalc.title'),
+            key: 'token-calc',
+            path: '/ai/token-calc'
+          }
+        ]
+      },
+
+      {
         label: t('common.text'),
         key: 'text',
     children: [

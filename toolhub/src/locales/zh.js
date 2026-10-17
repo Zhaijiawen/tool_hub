@@ -110,6 +110,7 @@ export default {
     data: '数据',
     media: '媒体',
     text: '文本',
+    ai: 'AI',
     other: '其他',
     custom: '自定义',
     copy: '复制',
@@ -2984,6 +2985,52 @@ hasHeader: '首行为表头',
       infoContent: '实时分析输入的文本，无需点击任何按钮。中文阅读速度按 500 字/分钟估算，英文按 200 词/分钟估算。词频统计展示 Top 20 高频词（中文逐字统计，英文按单词）。'
     }
   },
+  ai: {
+    tokenCalc: {
+      title: 'AI Token 计算器',
+      description: '本地估算 LLM 输入文本的 token 数，并按模型单价估算费用。纯前端运行，文本不上传。',
+      inputLabel: '文本 / JSON',
+      inputPlaceholder: '粘贴文本或 JSON，实时计算 token 数…',
+      modelLabel: '模型',
+      tokensLabel: 'Token 数',
+      charsLabel: '字符数',
+      wordsLabel: '词数',
+      costLabel: '估算费用（输入侧）',
+      costHint: '按输入单价（每 1K tokens）估算',
+      inputPriceLabel: '输入单价',
+      outputPriceLabel: '输出单价',
+      per1k: '/ 1K tokens',
+      approxNote: 'Claude / o1 系列为近似估算（基于 cl100k_base）',
+      loading: '正在加载分词器…',
+      clear: '清空',
+      copyTokens: '复制 Token 数',
+      copied: '已复制',
+      resultTitle: '统计结果'
+    }
+  },
+
+  ai: {
+    tokenCalc: {
+      title: 'AI Token 计算器',
+      description: '计算文本在大语言模型中的 token 数量，并估算 API 费用',
+      inputLabel: '输入文本',
+      inputPlaceholder: '粘贴或输入要统计的文本 / JSON / 代码...',
+      modelLabel: '模型',
+      modelPlaceholder: '选择模型',
+      tokenCount: 'Token 数量',
+      charCount: '字符数',
+      wordCount: '词数',
+      estimateCost: '预估费用',
+      copy: '复制',
+      clear: '清空',
+      pasteSample: '示例',
+      errorEmpty: '请输入内容',
+      encoding: '分词器',
+      note: '纯本地计算，文本不会上传到任何服务器',
+      approxNote: 'Claude 采用自有分词器，此处 token 数为基于 cl100k_base 的近似值，仅供粗略估算。'
+    }
+  },
+
   other: {
     qrcode: {
       title: '二维码生成 / 识别',

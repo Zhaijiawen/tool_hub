@@ -1,5 +1,9 @@
 // 代码示例数据 - 避免i18n转义问题
 export const examples = {
+  tokenCalc: `模型: GPT-4o
+文本: 帮我写一个快速排序算法，用 Python 实现，并加上注释。
+说明: 这段代码使用了分治思想，时间复杂度 O(n log n)。`,
+
   base64: `// 原文本
 Hello World!
 
@@ -174,6 +178,10 @@ console.log('Hello ToolHub');
 
 // 英文版本
 export const examplesEn = {
+  tokenCalc: `Model: GPT-4o
+Text: Write a quicksort algorithm in Python with comments.
+Note: This uses divide-and-conquer, O(n log n) time complexity.`,
+
   base64: `// Original text
 Hello World!
 

@@ -110,6 +110,7 @@ export default {
     data: 'Data',
     media: 'Media',
     text: 'Text',
+    ai: 'AI',
     other: 'Other',
     custom: 'Custom',
     copy: 'Copy',
@@ -2983,6 +2984,52 @@ hasHeader: 'First row is header',
       infoContent: 'Analysis updates in real-time as you type. Chinese reading speed estimated at 500 chars/min, English at 200 words/min. Word frequency shows Top 20 terms (Chinese character-by-character, English word-by-word).'
     }
   },
+  ai: {
+    tokenCalc: {
+      title: 'AI Token Calculator',
+      description: 'Count LLM tokens for your input text locally and estimate cost by model price. Runs fully in-browser, nothing uploaded.',
+      inputLabel: 'Text / JSON',
+      inputPlaceholder: 'Paste text or JSON to count tokens in real time…',
+      modelLabel: 'Model',
+      tokensLabel: 'Tokens',
+      charsLabel: 'Characters',
+      wordsLabel: 'Words',
+      costLabel: 'Estimated Cost (input)',
+      costHint: 'Estimated on input price (per 1K tokens)',
+      inputPriceLabel: 'Input price',
+      outputPriceLabel: 'Output price',
+      per1k: '/ 1K tokens',
+      approxNote: 'Claude / o1 series are approximate (based on cl100k_base)',
+      loading: 'Loading tokenizer…',
+      clear: 'Clear',
+      copyTokens: 'Copy Tokens',
+      copied: 'Copied',
+      resultTitle: 'Statistics'
+    }
+  },
+
+  ai: {
+    tokenCalc: {
+      title: 'AI Token Calculator',
+      description: 'Count tokens for your text in LLMs and estimate API cost',
+      inputLabel: 'Input text',
+      inputPlaceholder: 'Paste or type text / JSON / code to count...',
+      modelLabel: 'Model',
+      modelPlaceholder: 'Select a model',
+      tokenCount: 'Token count',
+      charCount: 'Characters',
+      wordCount: 'Words',
+      estimateCost: 'Estimated cost',
+      copy: 'Copy',
+      clear: 'Clear',
+      pasteSample: 'Sample',
+      errorEmpty: 'Please enter some text',
+      encoding: 'Tokenizer',
+      note: 'Computed fully locally — your text never leaves the browser',
+      approxNote: 'Claude uses its own tokenizer; the token count shown here is an approximation based on cl100k_base, for rough estimation only.'
+    }
+  },
+
   other: {
     qrcode: {
     title: 'QR Code Generator & Reader',

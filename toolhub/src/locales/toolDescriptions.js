@@ -2938,11 +2938,65 @@ export const toolDescriptions = {
       '枚举选项值之间用英文逗号分隔，前后不加空格',
       '自定义模板中 {index} 从 1 开始计数，可组合使用：user_{index}_{uuid}'
     ]
+  },
+
+  // AI 工具
+  tokenCalc: {
+    features: [
+      '支持 GPT-4o/4o-mini、Claude 3.5/Opus、o1 等主流模型的 token 估算',
+      '基于官方分词器（cl100k_base / o200k_base）精确计数',
+      '实时估算 API 调用费用',
+      '纯本地计算，文本不上传服务器'
+    ],
+    useCases: [
+      '预估大模型 API 调用成本',
+      '控制 prompt 长度避免超出上下文窗口',
+      '对比不同模型的 token 消耗',
+      '估算批量处理任务的费用'
+    ],
+    usageSteps: [
+      '选择目标模型',
+      '在输入框粘贴或输入文本 / JSON / 代码',
+      '查看实时的 token 数量与预估费用',
+      '可一键复制结果或清空重来'
+    ],
+    bestPractices: [
+      '长文本建议分段统计，避免单次过长',
+      '注意不同模型使用不同分词器，结果会有差异',
+      '费用估算为参考值，以厂商账单为准'
+    ]
   }
 }
 
 // 英文版本
 export const toolDescriptionsEn = {
+  // AI Tools
+  tokenCalc: {
+    features: [
+      'Estimate tokens for GPT-4o/4o-mini, Claude 3.5/Opus, o1 and other major models',
+      'Accurate counting based on official tokenizers (cl100k_base / o200k_base)',
+      'Real-time API cost estimation',
+      'Fully local — text never leaves the browser'
+    ],
+    useCases: [
+      'Estimate cost of LLM API calls',
+      'Keep prompts within context window limits',
+      'Compare token usage across models',
+      'Budget batch processing tasks'
+    ],
+    usageSteps: [
+      'Select the target model',
+      'Paste or type text / JSON / code into the input',
+      'View the live token count and estimated cost',
+      'Copy the result or clear to start over'
+    ],
+    bestPractices: [
+      'For very long text, count in chunks to avoid one huge input',
+      'Different models use different tokenizers, so counts vary',
+      'Cost estimates are indicative; refer to the provider bill'
+    ]
+  },
+
   // 格式化工具
   json: {
     features: [

@@ -391,6 +391,19 @@ const router = createRouter({
           ]
         },
 
+        // ===== AI 工具路由 =====
+        {
+          path: 'ai',
+          component: BaseView,
+          children: [
+            // AI Token 计算器：估算 LLM token 数与费用（纯前端）
+            {
+              path: 'token-calc',
+              component: () => import('@/components/ai/TokenCalc.vue')
+            }
+          ]
+        },
+
         // ===== 文本工具路由 =====
         {
           path: 'text',

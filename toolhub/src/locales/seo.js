@@ -715,6 +715,18 @@ export const seoConfig = {
         keywords: ['二维码生成', '二维码识别', '二维码扫描', '二维码解析', 'QR码']
       }
     },
+    tokenCalc: {
+      en: {
+        name: 'AI Token Calculator',
+        description: 'Count tokens for your text in LLMs like GPT-4o and Claude, and estimate API cost. Runs fully in your browser.',
+        keywords: ['ai token calculator', 'token counter', 'gpt token count', 'claude token', 'llm cost estimator']
+      },
+      zh: {
+        name: 'AI Token 计算器',
+        description: '计算文本在 GPT-4o、Claude 等大语言模型中的 token 数量并估算 API 费用，全部在浏览器本地完成。',
+        keywords: ['AI Token 计算器', 'token 计数', 'GPT token 统计', 'Claude token', '大模型费用估算']
+      }
+    },
     calculator: {
       en: {
         name: 'Online Calculator',

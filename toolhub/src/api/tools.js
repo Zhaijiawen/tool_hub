@@ -605,6 +605,14 @@ const tools = [
     path: '/custom/script-box',
     description: 'custom.scriptBox.description',
     category: 'custom'
+  },
+  // ===== AI 工具 =====
+  {
+    id: 'tokenCalc',
+    name: 'ai.tokenCalc.title',
+    path: '/ai/token-calc',
+    description: 'ai.tokenCalc.description',
+    category: 'ai'
   }
 ]
 
