@@ -252,6 +252,10 @@ export default {
     saveSuccess: 'Saved successfully',
     deleteSuccess: 'Deleted successfully',
     composer: 'Composer',
+    support: {
+      label: 'Buy me a coffee',
+      title: 'Support ToolHub'
+    },
     clear: 'Clear',
     example: 'Example',
     share: {

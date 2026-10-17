@@ -72,6 +72,18 @@
                   </template>
                 </n-button>
               </n-dropdown>
+              <!-- 打赏入口：Buy me a coffee (Ko-fi) -->
+              <n-button
+                type="warning"
+                class="header-button tip-button"
+                :title="t('common.support.title')"
+                @click="openTip"
+              >
+                <template #icon>
+                  <n-icon><cafe-icon /></n-icon>
+                </template>
+                <span class="button-text">{{ t('common.support.label') }}</span>
+              </n-button>
             </div>
           </div>
         </div>
@@ -185,7 +197,8 @@ import {
   LogoGithub as GithubIcon,
   LogoTwitter as TwitterIcon,
   LogoWechat as WechatIcon,
-  AppsOutline as PuzzleIcon
+  AppsOutline as PuzzleIcon,
+  CafeOutline as CafeIcon
 } from '@vicons/ionicons5'
 
 // 初始化国际化
@@ -780,6 +793,12 @@ const goToComposer = () => {
   router.push('/composer')
 }
 
+// 打赏入口：跳转到 Ko-fi 打赏页（新标签页打开）
+const KO_FI_TIP_URL = 'https://ko-fi.com/toolhubs/tip'
+const openTip = () => {
+  window.open(KO_FI_TIP_URL, '_blank', 'noopener,noreferrer')
+}
+
 // 控制知识提示显示（首页、composer、静态页面均不显示侧边栏/收藏栏）
 const shouldShowTips = computed(() => {
   const excludedPaths = ['/', '/composer', '/about', '/privacy', '/terms']
@@ -1025,6 +1044,31 @@ onUnmounted(() => {
   color: var(--button-text-color);
   background-color: var(--background-color);
   border-color: var(--border-color);
+}
+
+/* 打赏按钮：填充琥珀金（warning 语义色），作为醒目 CTA，与绿色主操作区分（覆盖上方通用按钮样式） */
+:deep(.tip-button.n-button) {
+  background-color: var(--warning-color);
+  border-color: var(--warning-color);
+  color: #fff;
+}
+
+:deep(.tip-button.n-button:hover) {
+  background-color: var(--warning-color);
+  border-color: var(--warning-color);
+  color: #fff;
+  filter: brightness(1.06);
+}
+
+:deep(.tip-button.n-button:active) {
+  background-color: var(--warning-color);
+  border-color: var(--warning-color);
+  color: #fff;
+  filter: brightness(0.94);
+}
+
+:deep(.tip-button.n-button .n-icon) {
+  color: #fff;
 }
 
 :deep(.n-button:hover) {

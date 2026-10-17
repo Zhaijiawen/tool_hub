@@ -252,6 +252,10 @@ export default {
     saveSuccess: '保存成功',
     deleteSuccess: '删除成功',
     composer: '编排',
+    support: {
+      label: '请我喝咖啡',
+      title: '支持 ToolHub'
+    },
     clear: '清空',
     example: '示例',
     share: {
