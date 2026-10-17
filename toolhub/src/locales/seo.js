@@ -577,13 +577,13 @@ export const seoConfig = {
     pdfTools: {
       en: {
         name: 'PDF Toolkit (WASM)',
-        description: 'Convert PDF pages to images, merge and split PDF files in your browser — MuPDF WebAssembly, fully local',
-        keywords: ['pdf to image', 'pdf to png', 'merge pdf', 'split pdf', 'pdf tools', 'mupdf', 'wasm pdf']
+        description: 'Convert PDF to images, merge, split, compress, extract text and organize pages in your browser — MuPDF WebAssembly, fully local',
+        keywords: ['pdf to image', 'pdf to png', 'merge pdf', 'split pdf', 'compress pdf', 'pdf text extract', 'delete pdf pages', 'mupdf', 'wasm pdf']
       },
       zh: {
         name: 'PDF 工具集（WASM）',
-        description: '浏览器内将 PDF 转为图片、合并与拆分 PDF 文件，基于 MuPDF WebAssembly，完全本地运行不上传',
-        keywords: ['PDF转图片', 'PDF转PNG', '合并PDF', '拆分PDF', 'PDF工具', 'MuPDF', 'WASM']
+        description: '浏览器内将 PDF 转为图片、合并、拆分、瘦身压缩、提取文字与整理页面，基于 MuPDF WebAssembly，完全本地运行不上传',
+        keywords: ['PDF转图片', 'PDF转PNG', '合并PDF', '拆分PDF', 'PDF瘦身', 'PDF提取文字', 'PDF删除页面', 'MuPDF', 'WASM']
       }
     },
 

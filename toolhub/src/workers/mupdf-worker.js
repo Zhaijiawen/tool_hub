@@ -118,6 +118,91 @@ async function handleMerge(msg) {
   )
 }
 
+/**
+ * PDF 瘦身压缩。
+ *
+ * saveToBuffer 的 options 是 MuPDF write options 字符串，实测两条硬约束：
+ * 1. 分隔符必须是「纯逗号」，带空格会抛 "Unused pdf arguments found"
+ *    （`compress=yes,garbage` 可用；`compress=yes, garbage` 直接失败）；
+ * 2. 仅识别特定键：garbage / compress=yes / compress-images / compress-fonts /
+ *    decompress / linearize / pretty / clean。臆测的键（如 compress-images=yes、
+ *    garbage=compact、compression=jpeg）会被判为 unknown 并终报 Unused pdf arguments。
+ */
+async function handleCompress(msg) {
+  const { id, buffer, password } = msg
+  const doc = openPdf(buffer, password)
+  const total = doc.countPages()
+  self.postMessage({ type: 'toolhub:job-progress', id, done: 1, total: 2 })
+  const opts = 'garbage,compress=yes,compress-images,compress-fonts'
+  const bytes = copyBytes(doc.saveToBuffer(opts).asUint8Array())
+  self.postMessage({ type: 'toolhub:job-progress', id, done: 2, total: 2 })
+  self.postMessage(
+    { type: 'toolhub:job-done', id, result: { kind: 'file', name: 'compressed.pdf', pageCount: total, bytes } },
+    [bytes.buffer]
+  )
+}
+
+/** 提取 PDF 文本层（toStructuredText → asText）。扫描件无文本层时返回空串。 */
+async function handleExtract(msg) {
+  const { id, buffer, range, password } = msg
+  const doc = openPdf(buffer, password)
+  const total = doc.countPages()
+  if (total <= 0) throw new Error('EMPTY_DOC')
+  const ranges = parseRanges(range, total)
+  const pages = []
+  for (const [s, e] of ranges) {
+    for (let p = s; p <= e; p++) pages.push(p)
+  }
+  const parts = []
+  for (let i = 0; i < pages.length; i++) {
+    const pageIndex = pages[i]
+    const page = doc.loadPage(pageIndex)
+    const text = page.toStructuredText().asText()
+    parts.push({ page: pageIndex + 1, text })
+    self.postMessage({ type: 'toolhub:job-progress', id, done: i + 1, total: pages.length })
+  }
+  self.postMessage({
+    type: 'toolhub:job-done',
+    id,
+    result: { kind: 'text', pageCount: total, parts }
+  })
+}
+
+/**
+ * 按页码范围保留 / 删除页面。
+ * 删除必须「从大到小」执行：deletePage 会平移后续索引，正序删会错位。
+ */
+async function handleOrganize(msg) {
+  const { id, buffer, mode, range, password } = msg
+  const doc = openPdf(buffer, password)
+  const total = doc.countPages()
+  if (total <= 0) throw new Error('EMPTY_DOC')
+  const ranges = parseRanges(range, total)
+  const target = new Set()
+  for (const [s, e] of ranges) {
+    for (let p = s; p <= e; p++) target.add(p)
+  }
+  let toDelete
+  if (mode === 'delete') {
+    toDelete = [...target]
+  } else {
+    toDelete = []
+    for (let i = 0; i < total; i++) if (!target.has(i)) toDelete.push(i)
+  }
+  // 全部删除没有意义，交给上层拦截
+  if (toDelete.length >= total) throw new Error('DELETE_ALL')
+  toDelete.sort((a, b) => b - a)
+  self.postMessage({ type: 'toolhub:job-progress', id, done: 1, total: 2 })
+  for (const p of toDelete) doc.deletePage(p)
+  const left = doc.countPages()
+  const bytes = copyBytes(doc.saveToBuffer().asUint8Array())
+  self.postMessage({ type: 'toolhub:job-progress', id, done: 2, total: 2 })
+  self.postMessage(
+    { type: 'toolhub:job-done', id, result: { kind: 'file', name: 'organized.pdf', pageCount: left, removed: toDelete.length, bytes } },
+    [bytes.buffer]
+  )
+}
+
 async function handleSplit(msg) {
   const { id, buffer, mode, range, password } = msg
   const src = openPdf(buffer, password)
@@ -182,6 +267,9 @@ self.addEventListener('message', async (e) => {
     if (msg.type === 'render') await handleRender(msg)
     else if (msg.type === 'merge') await handleMerge(msg)
     else if (msg.type === 'split') await handleSplit(msg)
+    else if (msg.type === 'compress') await handleCompress(msg)
+    else if (msg.type === 'extract') await handleExtract(msg)
+    else if (msg.type === 'organize') await handleOrganize(msg)
   } catch (err) {
     self.postMessage({
       type: 'toolhub:job-error',

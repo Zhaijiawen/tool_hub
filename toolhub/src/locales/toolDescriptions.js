@@ -1904,6 +1904,9 @@ export const toolDescriptions = {
       'PDF 转图片：逐页渲染为 PNG / JPEG，支持 1x / 2x / 3x 倍率与自定义页码范围',
       '合并 PDF：按顺序拼接多个文件的全部页面，输出单个 PDF',
       '拆分 PDF：每页导出为单独文件，或按页码范围（如 1-3,5,8-）导出多份文件',
+      'PDF 瘦身：清理无用对象并重压缩流；未经压缩的扫描件收益最大，已优化的文件收益有限（结果会如实显示体积变化）',
+      '提取文字：读取 PDF 内嵌文本层，可按全部页面或指定页码导出，支持复制与下载 .txt',
+      '页面整理：按页码范围删除或保留指定页面，可提取章节、删去封面与广告页',
       '支持加密 PDF（填写打开密码后在本地解锁处理）',
       '计算在 Web Worker 中进行，不阻塞界面',
       'WASM 引擎（约 10MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
@@ -1913,12 +1916,15 @@ export const toolDescriptions = {
       '把 PDF 页面转成图片插入文档或分享',
       '合并扫描件、合同、报告为单个 PDF',
       '从大 PDF 中抽取需要的页面',
-      '把每页拆分为独立文件便于逐页处理'
+      '把每页拆分为独立文件便于逐页处理',
+      '压缩过大的 PDF 以便邮件发送或上传受限的系统',
+      '从 PDF 复制文字内容到文档、词典或翻译工具',
+      '删除封面、目录、广告页或空白页'
     ],
     usageSteps: [
-      '选择「PDF 转图片」「合并 PDF」或「拆分 PDF」标签页',
-      '上传一个（转图片/拆分）或多个（合并）PDF 文件',
-      '按需设置输出格式、倍率、页码范围或拆分方式；加密 PDF 先填密码',
+      '选择「PDF 转图片」「合并 PDF」「拆分 PDF」「PDF 瘦身」「提取文字」或「页面整理」标签页',
+      '上传一个（除合并外）或多个（合并）PDF 文件',
+      '按需设置输出格式、倍率、页码范围或处理方式；加密 PDF 先填密码',
       '点击开始：首次使用会自动下载 MuPDF 引擎（约 10MB，有进度条，可取消）',
       '下载生成结果（批量下载会触发浏览器多次保存询问）'
     ],
@@ -1926,7 +1932,9 @@ export const toolDescriptions = {
       '倍率越高图片越清晰，耗时与体积也越大，日常 2x 即可',
       '页码范围语法：1 基闭区间，如 "1-3,5,8-"（空结尾表示到最后一页）',
       '合并顺序可用 ↑ ↓ 调整，合并的是全部页面',
-      '加密 PDF 先在页面底部填好打开密码再开始，避免失败重试'
+      '加密 PDF 先在页面底部填好打开密码再开始，避免失败重试',
+      '瘦身对已用专业工具压缩过的 PDF 收效很小，属正常现象；收益最大的是扫描生成的原始 PDF',
+      '"提取文字"读的是内嵌文本层而非 OCR，扫描件请改用 OCR 工具'
     ]
   },
 
@@ -5394,6 +5402,9 @@ export const toolDescriptionsEn = {
       'PDF to Images: renders pages to PNG / JPEG at 1x / 2x / 3x scale with custom page ranges',
       'Merge PDFs: concatenates all pages of multiple files in order into a single PDF',
       'Split PDF: exports each page as its own file, or splits by page ranges (e.g. 1-3,5,8-)',
+      'Compress: drops unused objects and recompresses streams; uncompressed scans benefit most, already-optimized files gain little (the size change is always shown honestly)',
+      'Extract Text: reads the embedded text layer from all or selected pages, with copy and .txt download',
+      'Organize Pages: keep or delete pages by range — ideal for pulling out a chapter or dropping covers and ad pages',
       'Supports encrypted PDFs (enter the open password to unlock locally)',
       'Runs in a Web Worker — the UI stays responsive',
       'The WASM engine (~10MB) downloads asynchronously with progress and cancel; cached after first use',
@@ -5403,12 +5414,15 @@ export const toolDescriptionsEn = {
       'Convert PDF pages to images for documents or sharing',
       'Merge scans, contracts and reports into a single PDF',
       'Extract selected pages from a large PDF',
-      'Split every page into its own file for per-page processing'
+      'Split every page into its own file for per-page processing',
+      'Shrink an oversized PDF for email or upload-limited systems',
+      'Copy text out of a PDF into a document, dictionary or translator',
+      'Remove covers, tables of contents, ad pages or blanks'
     ],
     usageSteps: [
-      'Pick the "PDF to Images", "Merge PDFs" or "Split PDF" tab',
-      'Upload one PDF (to images / split) or several (merge)',
-      'Set output format, scale, page ranges or split mode; fill in the password for encrypted PDFs',
+      'Pick the "PDF to Images", "Merge PDFs", "Split PDF", "Compress", "Extract Text" or "Organize Pages" tab',
+      'Upload one PDF (anything except merge) or several (merge)',
+      'Set output format, scale, page ranges or action mode; fill in the password for encrypted PDFs',
       'Click start: first use downloads the MuPDF engine (~10MB, with progress and cancel)',
       'Download the results (batch download triggers multiple browser save prompts)'
     ],
@@ -5416,7 +5430,9 @@ export const toolDescriptionsEn = {
       'Higher scale means sharper images but slower conversion and larger files — 2x is a good default',
       'Page range syntax: 1-based inclusive, e.g. "1-3,5,8-" (empty end means to the last page)',
       'Merge concatenates all pages; reorder files with ↑ ↓ before merging',
-      'For encrypted PDFs, enter the open password before starting to avoid failed retries'
+      'For encrypted PDFs, enter the open password before starting to avoid failed retries',
+      'Compression rarely helps files already squeezed by other tools — raw scanned PDFs benefit most',
+      '"Extract Text" reads the embedded text layer, not OCR — for scans, use an OCR tool instead'
     ]
   },
 

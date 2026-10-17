@@ -2738,11 +2738,14 @@ hasHeader: '首行为表头',
   document: {
     pdfTools: {
       title: 'PDF 工具集',
-      description: '基于 MuPDF (WebAssembly) 的 PDF 处理：页面转图片、多文件合并、按页拆分，全部本地完成不上传',
+      description: '基于 MuPDF (WebAssembly) 的 PDF 处理：页面转图片、多文件合并、按页拆分、瘦身压缩、文字提取、页面整理，全部本地完成不上传',
       tabs: {
         toImage: 'PDF 转图片',
         merge: '合并 PDF',
-        split: '拆分 PDF'
+        split: '拆分 PDF',
+        compress: 'PDF 瘦身',
+        extract: '提取文字',
+        organize: '页面整理'
       },
       uploadHint: '点击或拖拽 PDF 文件到此处',
       mergeUploadHint: '点击或拖拽多个 PDF 文件到此处（至少 2 个）',
@@ -2777,17 +2780,41 @@ hasHeader: '首行为表头',
       download: '下载',
       downloadAll: '全部下载',
       multiDownloadHint: '批量下载会触发浏览器多次保存询问，若被拦截请逐个下载',
+      startCompress: '开始瘦身',
+      compressIntro: '清理无用对象并对流重新压缩。效果取决于原始文件：未压缩的扫描件通常能显著缩小，而 Word / Chrome / LaTeX 导出的 PDF 本身已压缩，通常只能小幅减小甚至略微变大',
+      compressDoneHint: '处理完成，右侧显示体积变化',
+      noGainHint: '该文件未能进一步压缩（通常说明它已经是压缩优化过的 PDF），可照常下载',
+      extractScopeLabel: '提取范围',
+      extractAll: '全部页面',
+      extractRange: '指定页码',
+      startExtract: '开始提取',
+      scanHint: '提取的是 PDF 内嵌文本层，不是 OCR：扫描件或截图型 PDF 没有文本层，结果会是空白',
+      extractedPages: '已提取页数',
+      emptyLayerHint: '所有页面都没有提取到文字，说明该文件很可能不含文本层（例如扫描件）。请改用 OCR 工具',
+      noTextOnPage: '（本页无文字）',
+      pageLabel: '第',
+      copyPage: '复制本页',
+      copyAll: '复制全部',
+      downloadText: '下载 .txt',
+      copied: '已复制',
+      organizeModeLabel: '处理方式',
+      organizeDelete: '删除所选页',
+      organizeKeep: '保留所选页',
+      startOrganize: '开始整理',
+      pagesRemoved: '已删除页数',
+      pagesLeft: '剩余页数',
       failed: '处理失败',
       errors: {
         passwordRequired: '该 PDF 已加密，请先填写打开密码',
         passwordWrong: '密码不正确，请检查后重试',
         openFailed: '无法打开该 PDF 文件，可能已损坏或格式不受支持',
         rangeInvalid: '页码范围无效，请检查格式（如 1-3,5,8-）',
-        emptyDoc: '该 PDF 没有页面'
+        emptyDoc: '该 PDF 没有页面',
+        deleteAll: '不能删除全部页面，PDF 至少需要保留一页'
       },
       emptyTip: '上传 PDF 后即可在本地转换、合并或拆分',
       infoTitle: '使用说明',
-      infoContent: 'PDF 工具集基于 MuPDF 引擎经 WebAssembly 在浏览器本地运行，文件不会上传到任何服务器。"PDF 转图片"可将页面渲染为 PNG/JPEG（倍率越高越清晰、耗时越长）；"合并"按列表顺序拼接多个 PDF 的全部页面；"拆分"可将每页导出为单独文件，或按页码范围（如 1-3,5）导出多份文件。首次使用需下载 MuPDF 引擎（约 10MB，有进度提示且可取消），之后自动缓存。'
+      infoContent: 'PDF 工具集基于 MuPDF 引擎经 WebAssembly 在浏览器本地运行，文件不会上传到任何服务器。"PDF 转图片"可将页面渲染为 PNG/JPEG（倍率越高越清晰、耗时越长）；"合并"按列表顺序拼接多个 PDF 的全部页面；"拆分"可将每页导出为单独文件，或按页码范围（如 1-3,5）导出多份文件；"PDF 瘦身"会清理无用对象并重压缩流，对未经压缩的扫描件效果最明显，已优化过的文件收益有限（界面会如实显示体积变化）；"提取文字"读取 PDF 内嵌文本层（不是 OCR，扫描件无文本层时结果为空）；"页面整理"可按页码范围删除或保留指定页。首次使用需下载 MuPDF 引擎（约 10MB，有进度提示且可取消），之后自动缓存。'
     }
   },
   data: {

@@ -2737,11 +2737,14 @@ hasHeader: 'First row is header',
   document: {
     pdfTools: {
       title: 'PDF Toolkit',
-      description: 'MuPDF-powered (WebAssembly) PDF processing: render pages to images, merge multiple files, split by pages — all local, nothing uploaded',
+      description: 'MuPDF-powered (WebAssembly) PDF processing: render pages to images, merge files, split by pages, compress, extract text and organize pages — all local, nothing uploaded',
       tabs: {
         toImage: 'PDF to Images',
         merge: 'Merge PDFs',
-        split: 'Split PDF'
+        split: 'Split PDF',
+        compress: 'Compress',
+        extract: 'Extract Text',
+        organize: 'Organize Pages'
       },
       uploadHint: 'Click or drop a PDF file here',
       mergeUploadHint: 'Click or drop multiple PDF files here (at least 2)',
@@ -2776,17 +2779,41 @@ hasHeader: 'First row is header',
       download: 'Download',
       downloadAll: 'Download all',
       multiDownloadHint: 'Batch download triggers multiple browser save prompts; if blocked, download files one by one',
+      startCompress: 'Compress',
+      compressIntro: 'Drops unused objects and recompresses streams. Results depend on the source: uncompressed scans usually shrink a lot, while PDFs exported from Word / Chrome / LaTeX are already compressed and may shrink only slightly — or even grow a little',
+      compressDoneHint: 'Done — see the size change above',
+      noGainHint: 'This file could not be compressed further (it is most likely already optimized). You can still download it',
+      extractScopeLabel: 'Scope',
+      extractAll: 'All pages',
+      extractRange: 'Specific pages',
+      startExtract: 'Extract text',
+      scanHint: 'This reads the embedded text layer, not OCR: scanned or screenshot-based PDFs have no text layer and will come back empty',
+      extractedPages: 'Pages extracted',
+      emptyLayerHint: 'No text was found on any page — this file most likely has no text layer (e.g. a scan). Try an OCR tool instead',
+      noTextOnPage: '(no text on this page)',
+      pageLabel: 'Page',
+      copyPage: 'Copy page',
+      copyAll: 'Copy all',
+      downloadText: 'Download .txt',
+      copied: 'Copied',
+      organizeModeLabel: 'Action',
+      organizeDelete: 'Delete selected pages',
+      organizeKeep: 'Keep selected pages',
+      startOrganize: 'Apply',
+      pagesRemoved: 'Pages removed',
+      pagesLeft: 'Pages left',
       failed: 'Processing failed',
       errors: {
         passwordRequired: 'This PDF is encrypted — please enter the open password',
         passwordWrong: 'Wrong password, please check and try again',
         openFailed: 'Cannot open this PDF — it may be corrupted or in an unsupported format',
         rangeInvalid: 'Invalid page range — check the format (e.g. 1-3,5,8-)',
-        emptyDoc: 'This PDF contains no pages'
+        emptyDoc: 'This PDF contains no pages',
+        deleteAll: 'Cannot delete every page — a PDF must keep at least one'
       },
       emptyTip: 'Upload a PDF to convert, merge or split it locally',
       infoTitle: 'Usage Guide',
-      infoContent: 'The PDF Toolkit runs on the MuPDF engine via WebAssembly entirely in your browser — files are never uploaded. "PDF to Images" renders pages as PNG/JPEG (higher scale = sharper but slower); "Merge" concatenates all pages of multiple PDFs in list order; "Split" exports each page as its own file or by page ranges (e.g. 1-3,5). First use downloads the MuPDF engine (about 10MB, with progress and cancel), then caches it automatically.'
+      infoContent: 'The PDF Toolkit runs on the MuPDF engine via WebAssembly entirely in your browser — files are never uploaded. "PDF to Images" renders pages as PNG/JPEG (higher scale = sharper but slower); "Merge" concatenates all pages of multiple PDFs in list order; "Split" exports each page as its own file or by page ranges (e.g. 1-3,5); "Compress" drops unused objects and recompresses streams — it helps most on uncompressed scans, while already-optimized files gain little (the size change is always shown honestly); "Extract Text" reads the embedded text layer rather than running OCR, so scanned PDFs return nothing; "Organize Pages" deletes or keeps pages by page range. First use downloads the MuPDF engine (about 10MB, with progress and cancel), then caches it automatically.'
     }
   },
   data: {

@@ -184,6 +184,57 @@ export function useMupdf() {
     }
   }
 
+  /**
+   * PDF 瘦身压缩（垃圾回收 + 流压缩 + 字体/图片重压缩）。
+   * @param {ArrayBuffer} buffer
+   * @param {{password?:string}} [opts]
+   * @returns {Promise<{kind:'file', name:string, pageCount:number, bytes:Uint8Array}>}
+   */
+  async function compress(buffer, opts = {}) {
+    busy.value = true
+    try {
+      await ensureReady()
+      return await runJob('compress', { buffer, ...opts })
+    } finally {
+      busy.value = false
+      stage.value = null
+    }
+  }
+
+  /**
+   * 提取 PDF 文本层内容（非 OCR，扫描件返回空文本）。
+   * @param {ArrayBuffer} buffer
+   * @param {{range:?string, password?:string}} [opts]
+   * @returns {Promise<{kind:'text', pageCount:number, parts:Array<{page:number, text:string}>}>}
+   */
+  async function extract(buffer, opts = {}) {
+    busy.value = true
+    try {
+      await ensureReady()
+      return await runJob('extract', { buffer, ...opts })
+    } finally {
+      busy.value = false
+      stage.value = null
+    }
+  }
+
+  /**
+   * 页面管理：按页码范围保留（keep）或删除（delete）页面。
+   * @param {ArrayBuffer} buffer
+   * @param {{mode:'keep'|'delete', range:?string, password?:string}} opts
+   * @returns {Promise<{kind:'file', name:string, pageCount:number, removed:number, bytes:Uint8Array}>}
+   */
+  async function organize(buffer, opts) {
+    busy.value = true
+    try {
+      await ensureReady()
+      return await runJob('organize', { buffer, ...opts })
+    } finally {
+      busy.value = false
+      stage.value = null
+    }
+  }
+
   function terminate() {
     if (worker) {
       worker.terminate()
@@ -205,6 +256,9 @@ export function useMupdf() {
     render,
     merge,
     split,
+    compress,
+    extract,
+    organize,
     terminate
   }
 }
