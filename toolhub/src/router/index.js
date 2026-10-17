@@ -23,8 +23,12 @@ const router = createRouter({
           path: 'about',
           component: () => import('@/views/About.vue')
         },
-        
-        
+        {
+          path: 'licenses',
+          component: () => import('@/views/Licenses.vue')
+        },
+
+
         // ===== 格式化工具路由 =====
         {
           path: 'format',

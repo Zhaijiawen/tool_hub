@@ -329,6 +329,7 @@ export default {
 
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
+    licenses: 'Open Source Licenses',
     description: "A simple and fast online tool collection for efficient work and life.",
     copyright: "© 2025 ToolHub. Open Source Project",
     links: 'Links',

@@ -329,6 +329,7 @@ export default {
 
     privacy: '隐私政策',
     terms: '使用条款',
+    licenses: '开源许可',
     description: "简单、快速的在线工具集合，助你高效开发与生活。",
     copyright: "© 2025 ToolHub. 开源项目",
     contact: '联系我们',

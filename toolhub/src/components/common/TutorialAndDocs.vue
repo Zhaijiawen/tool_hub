@@ -165,7 +165,7 @@ const tabContentCache = ref({
 
 // 控制显示逻辑
 const shouldShow = computed(() => {
-  const excludedPaths = ['/composer', '/about', '/privacy', '/terms']
+  const excludedPaths = ['/composer', '/about', '/privacy', '/terms', '/licenses']
   return !excludedPaths.includes(route.path)
 })
 

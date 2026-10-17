@@ -136,6 +136,8 @@
             <router-link to="/privacy" class="footer-link-v3">{{ t('footer.privacy') }}</router-link>
           <span class="footer-separator-v3">|</span>
           <router-link to="/terms" class="footer-link-v3">{{ t('footer.terms') }}</router-link>
+          <span class="footer-separator-v3">|</span>
+          <router-link to="/licenses" class="footer-link-v3">{{ t('footer.licenses') }}</router-link>
         </div>
 
         <div class="footer-line-v3 footer-meta-v3">
@@ -233,7 +235,7 @@ const { favorites, clearFavorites } = useFavorites()
 
 // 判断当前是否为工具页面（排除首页和静态页面）
 const isToolPage = computed(() => {
-  const excludedPaths = ['/', '/about', '/privacy', '/terms', '/composer']
+  const excludedPaths = ['/', '/about', '/privacy', '/terms', '/licenses', '/composer']
   return !excludedPaths.includes(route.path)
 })
 
@@ -874,7 +876,7 @@ const openTip = () => {
 
 // 控制知识提示显示（首页、composer、静态页面均不显示侧边栏/收藏栏）
 const shouldShowTips = computed(() => {
-  const excludedPaths = ['/', '/composer', '/about', '/privacy', '/terms']
+  const excludedPaths = ['/', '/composer', '/about', '/privacy', '/terms', '/licenses']
   return !excludedPaths.includes(route.path)
 })
 
