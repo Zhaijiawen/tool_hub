@@ -488,6 +488,13 @@ const tools = [
     wasm: true
   },
   {
+    id: 'barcode',
+    name: 'image.barcode.title',
+    path: '/image/barcode',
+    description: 'image.barcode.description',
+    category: 'image'
+  },
+  {
     id: 'pdfTools',
     name: 'document.pdfTools.title',
     path: '/document/pdf-tools',
@@ -612,6 +619,13 @@ const tools = [
     name: 'ai.tokenCalc.title',
     path: '/ai/token-calc',
     description: 'ai.tokenCalc.description',
+    category: 'ai'
+  },
+  {
+    id: 'bgRemoval',
+    name: 'ai.bgRemoval.title',
+    path: '/ai/bg-removal',
+    description: 'ai.bgRemoval.description',
     category: 'ai'
   }
 ]

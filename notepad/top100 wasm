@@ -1,0 +1,166 @@
+# WebAssembly (WASM) 全网选型指南：Top 100 热门工具库汇总
+
+这份文档整理了适用于**纯前端静态环境（如 Cloudflare Pages/Workers、Vite/Next.js 部署）**的 100 个 WebAssembly 工具库。所有选型均支持在浏览器端本地执行，无后端依赖。
+
+全表按照 **「包体积（由小到大） + 常用场景」** 排序，划分为三大梯队，便于根据“首页加载速度”与“按需懒加载”策略进行快速检索与对比选型。
+
+---
+
+## 目录索引
+1. [第一梯队：超轻量 / 毫秒级极速工具（< 1MB）](#第一梯队超轻量--毫秒级极速工具-1mb)
+2. [第二梯队：中型 / 深度文档与图像处理（1MB ~ 5MB）](#第二梯队中型--深度文档与图像处理1mb--5mb)
+3. [第三梯队：大型 / 引擎 / 音视频 / WebGPU AI 级（> 5MB）](#第三梯队大型--引擎--音视频--webgpu-ai-级-5mb)
+4. [纯前端架构最佳落地建议](#纯前端架构最佳落地建议)
+
+---
+
+## 第一梯队：超轻量 / 毫秒级极速工具（< 1MB）
+* **特点**：体积极小（通常数十 KB 至几百 KB），网络传输和初始化开销低于 50ms。
+* **推荐用法**：可作为工具箱高频功能直接引入，或仅作简单按需加载。
+
+| 序号 | WASM 包名 / 开源库 | 估计二进制体积 | 核心能力 / 主要作用 |
+| :--- | :--- | :--- | :--- |
+| 1 | **uuid-wasm** | ~20 KB | **高性能 UUID/NanoID**：秒级批量高并发生成各版本 UUID (v4/v7) 与 NanoID。 |
+| 2 | **xxhash-wasm** | ~30 KB | **极速非密码学哈希**：基于 C 语言 xxHash，在浏览器实现 RAM 极限速度的散列计算。 |
+| 3 | **base64-simd-wasm** | ~40 KB | **SIMD 加速 Base64**：利用 WASM SIMD 指令集极速编解码超大文本/二进制。 |
+| 4 | **ipnetwork-wasm** | ~40 KB | **IP / CIDR 子网计算**：超大网段 IPv4/IPv6 的聚合、子网划分与掩码计算。 |
+| 5 | **semver-wasm** | ~50 KB | **SemVer 版本比较**：Rust 语义化版本号解析、范围匹配与排序。 |
+| 6 | **cron-parser-wasm** | ~60 KB | **Cron 表达式解析**：毫秒级推演未来数百个 Cron 定时任务执行节点。 |
+| 7 | **glob-wasm** | ~70 KB | **通配符 Pattern 匹配**：超高吞吐的文件路径语义匹配与过滤。 |
+| 8 | **qr-code-generator-wasm** | ~80 KB | **矢量二维码生成**：毫秒级生成支持自定义容错率的 SVG/PNG 矢量二维码。 |
+| 9 | **bcrypt-wasm** | ~100 KB | **Bcrypt 密码加密**：纯 WASM 版本的安全密码哈希生成与比对校验。 |
+| 10 | **chardet-wasm** | ~100 KB | **字符集编码自动检测**：离线判断文本/二进制是 UTF-8、GBK、Shift-JIS 等。 |
+| 11 | **fast-xml-parser-wasm** | ~120 KB | **大文件 XML 解析**：毫秒级解析与构建巨型 XML 节点树。 |
+| 12 | **diff-match-patch-wasm**| ~120 KB | **文本 Diff 比对与 Patch**：大段代码或文本的逐字、逐行差异对比与补丁生成。 |
+| 13 | **oxipng-wasm** | ~150 KB | **极致 PNG 无损压缩**：Rust 编写的多线程 PNG 图像优化库，压榨极限体积。 |
+| 14 | **jmespath-wasm** | ~150 KB | **JMESPath 复杂查询**：在前端针对巨型 JSON 结构进行申明式提取与过滤。 |
+| 15 | **ed25519-dalek-wasm** | ~180 KB | **Ed25519 高速签名**：高性能非对称加密与数字签名/验签工具。 |
+| 16 | **jsonpath-wasm** | ~180 KB | **JSONPath 高性能查询**：比传统 JS 库快数倍的 JSON 节点选择器。 |
+| 17 | **flate2-wasm** | ~180 KB | **Gzip / Deflate 编解码**：轻量级网络数据包或日志流解压。 |
+| 18 | **brotli-wasm** | ~200 KB | **Brotli 压缩与解压**：高压缩比 Brotli 算法的前端编解码实现。 |
+| 19 | **roaring-wasm** | ~200 KB | **Roaring Bitmap 稀疏位图**：用于前端大数据集求交集、并集的高效位图结构。 |
+| 20 | **yaml-wasm** | ~220 KB | **YAML 极速解析与格式化**：相比纯 JS 库在处理大型 YAML 部署配置时更快。 |
+| 21 | **argon2-browser** | ~250 KB | **Argon2 密码哈希**：支持 Argon2i / Argon2id 的安全密码哈希算子（抗 GPU 爆破）。 |
+| 22 | **secp256k1-wasm** | ~300 KB | **椭圆曲线数字签名**：密码学密钥生成、ECDSA 签名与验签算子。 |
+| 23 | **moka-wasm** | ~300 KB | **高性能 LRU/LFU 内存缓存**：高并发场景下的前端极速内存淘汰缓存。 |
+| 24 | **zstd-wasm** | ~350 KB | **Zstandard 压缩/解压**：Facebook 开源的高性能流式解压算法 WASM 版。 |
+| 25 | **minify-html-wasm** | ~350 KB | **HTML/CSS/JS 极速压缩**：Rust `minify-html` 的前端绑定，瞬间压缩网页代码。 |
+| 26 | **hash-wasm** | ~400 KB | **全能密码学哈希库**：支持 MD5/SHA-256/SHA-512/BLAKE3/Argon2 等流式增量计算。 |
+| 27 | **tree-sitter-wasm** | ~400 KB | **多语言通用 AST 语法解析**：高亮、代码结构分析、代码补全的基础语法树引擎。 |
+| 28 | **pcre2-wasm** | ~500 KB | **PCRE2 正则表达式引擎**：补齐 JS 原生正则引擎缺少的 Lookaround 等高级语法。 |
+| 29 | **zxing-wasm** | ~600 KB | **条码/二维码 离线识别**：基于 C++ ZXing 编译，毫秒级多条码离线扫描。 |
+| 30 | **oxc-wasm** | ~800 KB | **JS/TS 极速 Parsing & Minify**：性能超越传统 Babel/Terser 数十倍。 |
+
+---
+
+## 第二梯队：中型 / 深度文档与图像处理（1MB ~ 5MB）
+* **特点**：专精于图像、PDF、解压、数据库等特定领域，相比纯 JS 方案在内存占用和计算性能上有数量级提升。
+* **推荐用法**：采用 `Dynamic Import` 进行按需懒加载，并在 Web Worker 中运行。
+
+| 序号 | WASM 包名 / 开源库 | 估计二进制体积 | 核心能力 / 主要作用 |
+| :--- | :--- | :--- | :--- |
+| 31 | **swc-wasm** | ~1.1 MB | **JS/TS 转译与打包**：下一代前端构建与代码混淆/降级工具。 |
+| 32 | **libwebp-wasm** | ~1.0 MB | **WebP 图像编解码**：把任意格式图片转成 WebP 或逆向解压。 |
+| 33 | **mozjpeg-wasm** | ~1.1 MB | **JPEG 极致画质压缩**：Mozilla 开源的高压缩比 JPEG 编码器。 |
+| 34 | **svgo-wasm** | ~1.1 MB | **SVG 矢量图优化压缩**：剔除冗余属性与元数据，减小 SVG 体积。 |
+| 35 | **proj4-wasm** | ~1.2 MB | **地图坐标系转换**：墨卡托投影与地理经纬度高精度快速转换。 |
+| 36 | **freetype-wasm** | ~1.2 MB | **字体栅格化与矢量提取**：提取 TTF/OTF 字体文件的 Path 矢量路径。 |
+| 37 | **image-rs-wasm** | ~1.2 MB | **通用图像处理**：格式转换、裁剪、旋转、滤镜、缩放（支持 PNG/JPEG/BMP）。 |
+| 38 | **epub-parser-wasm** | ~1.3 MB | **EPUB 电子书解析**：解包 EPUB 结构并提取章节文本与插图。 |
+| 39 | **potrace-wasm** | ~1.5 MB | **位图转 SVG 矢量图**：将 PNG/JPG 自动提取轮廓并矢量化。 |
+| 40 | **shiki-wasm** | ~1.5 MB | **VSCode 同款代码高亮**：基于 TextMate 语法的像素级代码高亮。 |
+| 41 | **7z-wasm** | ~1.6 MB | **7-Zip 算法引擎**：高压缩比 `.7z` 文件的解压与生成。 |
+| 42 | **libavif-wasm** | ~1.8 MB | **AVIF 现代格式编解码**：下一代高压缩比 AVIF 图片的前端处理。 |
+| 43 | **pdf-writer-wasm** | ~1.8 MB | **PDF 离线生成与编辑**：纯前端创建格式复杂的矢量 PDF 文档。 |
+| 44 | **sql.js (SQLite WASM)** | ~2.0 MB | **本地 SQLite 数据库**：在浏览器运行全功能 SQL，加载与查询 `.db` 文件。 |
+| 45 | **libarchive.js** | ~2.2 MB | **全能格式解压工具**：纯前端解压 `.7z`、`.rar`、`.tar.gz`、`.zip`。 |
+| 46 | **exiftool-wasm** | ~2.5 MB | **图片 EXIF 元数据读写**：提取/擦除照片 GPS、相机型号、快门参数。 |
+| 47 | **mermaid-wasm** | ~2.5 MB | **Mermaid 图表引擎**：高性能离线文本转流程图、时序图。 |
+| 48 | **wasm-graphviz** | ~2.8 MB | **DOT 语言绘图**：把文本描述自动渲染成结构化 SVG 网络拓扑图。 |
+| 49 | **geos-wasm** | ~3.0 MB | **地理空间拓扑分析**：判断多边形相交、缓冲区域计算。 |
+| 50 | **plantuml-wasm** | ~3.0 MB | **PlantUML 离线渲染**：UML 时序图、架构图本地离线绘制。 |
+| 51 | **monaco-editor-wasm** | ~3.0 MB | **Web 代码编辑与语法校验**：Monaco 底层语法辅助模块。 |
+| 52 | **tesseract-wasm** | ~3.2 MB | **本地 OCR 光学字符识别**：图片转可复制文本（语言包需按需加载）。 |
+| 53 | **pdfium-wasm** | ~3.5 MB | **PDF 渲染与转码**：Chrome 同款 PDF 引擎，转图片、合并、拆分。 |
+| 54 | **needle.component.wasm**| ~3.8 MB | **超轻量意图与结构化提取**：纯 CPU 运行的微型 AI 分发器 (Needle 2)。 |
+| 55 | **fontforge-wasm** | ~4.0 MB | **字体文件解析与裁剪**：TTF/OTF 提取子集（Font Subsetting）与格式转换。 |
+| 56 | **libgit2-wasm** | ~4.0 MB | **前端 Git 引擎**：在浏览器中执行 clone、commit、diff、diff3 合并。 |
+| 57 | **libvips-wasm** | ~4.5 MB | **超大图/巨幅图片极速处理**：极低内存消耗下裁切几万像素的超大图。 |
+| 58 | **gdal-wasm** | ~4.5 MB | **GIS 空间数据转换**：Shapefile / GeoJSON / GeoTIFF 空间坐标系转换。 |
+| 59 | **wireshark-dissectors-wasm**|~4.5 MB| **网络抓包解析 (Pcap/Pcapng)**：在网页端直接拆解分析 Pcap 文件。 |
+| 60 | **pandoc-wasm** | ~4.8 MB | **全能文档格式互转**：Markdown / Docx / HTML / LaTeX 相互转换。 |
+
+---
+
+## 第三梯队：大型 / 引擎 / 音视频 / WebGPU AI 级（> 5MB）
+* **特点**：桌面级应用迁移（音视频转码、AI 模型推理、OLAP 数据库、游戏引擎）。
+* **推荐用法**：必须严格配合 **Web Worker** 及 **WebGPU** 加速运行，且需在 UI 上提供清晰的下载加载进度条。
+
+| 序号 | WASM 包名 / 开源库 | 估计二进制体积 | 核心能力 / 主要作用 |
+| :--- | :--- | :--- | :--- |
+| 61 | **wasmoon (Lua WASM)** | ~5.0 MB | **Lua 5.4 解释器**：用于编写前端脚本扩展或游戏配置逻辑。 |
+| 62 | **lame-wasm** | ~5.0 MB | **高品质 MP3 编码**：将 PCM 原始音频流实时压成 MP3。 |
+| 63 | **opus-wasm** | ~5.0 MB | **Opus 音频编解码**：低延迟实时语音通话/录音压缩。 |
+| 64 | **flac-wasm** | ~5.0 MB | **FLAC 无损音频编解码**：提取与生成高保真音频文件。 |
+| 65 | **tiktoken-wasm** | ~5.0 MB | **OpenAI 官方 Token 计算**：精准计算 GPT-4o / Claude 消耗的 Token 数量。 |
+| 66 | **quickjs-wasm** | ~6.0 MB | **安全沙箱 JS 解释器**：在隔离环境安全运行用户自定义 JS 脚本。 |
+| 67 | **espeak-ng-wasm** | ~6.0 MB | **多语言基础语音合成**：轻量级文本朗读引擎。 |
+| 68 | **soundtouch-wasm** | ~6.0 MB | **音频变调与变速**：在不改变音高的情况下调整音频播放速度。 |
+| 69 | **raylib-wasm** | ~6.0 MB | **C 语言轻量图形引擎**：高性能 2D/3D 交互或游戏渲染。 |
+| 70 | **sqlite3-vfs-opfs-wasm**| ~6.0 MB | **OPFS 持久化 SQLite**：基于浏览器 Origin Private File System 的高吞吐本地数据库。 |
+| 71 | **hnswlib-wasm** | ~7.0 MB | **HNSW 近邻图向量搜索**：轻量级本地 RAG 检索向量数据库。 |
+| 72 | **bert-tokenizer-wasm** | ~6.0 MB | **NLP 分词器**：BERT/GPT 类模型的本地文本 Token 化预处理。 |
+| 73 | **ruby-wasm** | ~8.0 MB | **Ruby 语言运行时**：在浏览器运行原生 Ruby 代码。 |
+| 74 | **wasmer-js** | ~8.0 MB | **Universal WASI 运行时**：在浏览器中直接执行符合 WASI 规范的二进制。 |
+| 75 | **three-assimp-wasm** | ~8.0 MB | **3D 模型全能导入器**：解析 FBX / OBJ / GLTF / Collada 等 3D 模型。 |
+| 76 | **transformers-js-wasm** | ~8.0 MB | **Hugging Face 轻量模型运行库**：跑抠图 (RMBG)、Embedding 向量提取。 |
+| 77 | **nsfwjs-wasm** | ~8.0 MB | **本地敏感/黄暴图片鉴黄**：完全在端侧扫描违规图片。 |
+| 78 | **piper-tts-wasm** | ~10 MB | **本地文字转语音 (TTS)**：超高质量离线语音合成（含默认声音模型）。 |
+| 79 | **body-pix-wasm** | ~10 MB | **人体轮廓实时分割**：视频会议背景虚化与实时人像抠图。 |
+| 80 | **faiss-wasm** | ~10 MB | **向量相似度搜索引擎**：高维度 Vector 嵌入相似度毫秒级检索。 |
+| 81 | **opencv-wasm** | ~10 MB | **计算机视觉全家桶**：人脸检测、图像边缘识别、透视变换矫正。 |
+| 82 | **waifu2x-wasm** | ~12 MB | **二次元/动漫图片超分**：动漫线条/插画降噪放大。 |
+| 83 | **filament-wasm** | ~12 MB | **Google 实时 PBR 物理渲染**：Web 端移动级物理光照引擎。 |
+| 84 | **onnxruntime-web** | ~12 MB | **ONNX AI 模型通用推理**：配合 WebGPU 运行自定义深度学习模型。 |
+| 85 | **php-wasm (WordPress)**| ~12 MB | **PHP 8 解释器**：在纯前端无服务器运行完整 PHP/WordPress 站点。 |
+| 86 | **duckdb-wasm** | ~15 MB | **OLAP 超级数据库**：前端极速分析几百 MB 的 Parquet / CSV 数据包。 |
+| 87 | **whisper-wasm** | ~15 MB | **本地语音识别转文字**：OpenAI Whisper 算法纯前端离线听写。 |
+| 88 | **real-esrgan-webgpu** | ~15 MB | **AI 图片画质修复/放大**：WebGPU 驱动的老照片 4x 无损超分。 |
+| 89 | **mediapipe-wasm** | ~15 MB | **Google 姿态/手势/人脸追踪**：Webcam 视频流实时 468 点地标检测。 |
+| 90 | **web-llm (TVM WASM)** | ~18 MB | **浏览器端 LLM 推理引擎**：利用 WebGPU 在本地跑 Llama/Qwen 等 SLM。 |
+| 91 | **matplotlib-wasm** | ~18 MB | **Python 数据可视化**：在前端渲染复杂科研图表。 |
+| 92 | **pyodide (Python WASM)**| ~20 MB | **全功能 Python 运行时**：在浏览器跑 Python，自带 NumPy/Pandas 数据分析。 |
+| 93 | **godot-wasm** | ~20 MB | **Godot 游戏引擎运行时**：纯前端运行 Godot 导出的 Web 游戏。 |
+| 94 | **scipy-wasm** | ~25 MB | **科学计算工具箱**：线性代数、傅里叶变换、统计分析。 |
+| 95 | **@ffmpeg/ffmpeg (WASM)**| ~25 MB | **全能音视频处理**：视频切片、格式转换、音频提取、视频转 GIF。 |
+| 96 | **ffmpeg-core-simd** | ~28 MB | **SIMD 加速版 FFmpeg**：多核 CPU 榨干性能的音视频转码核心。 |
+| 97 | **opencascade-wasm** | ~30 MB | **工业级 3D CAD 引擎**：解析/预览 STEP, IGES, STL 工业三维图纸。 |
+| 98 | **vlc-wasm** | ~35 MB | **全能播放器核心**：播放几乎所有格式的特殊音视频编码流。 |
+| 99 | **blender-wasm** | ~40 MB | **3D 离线轻量渲染**：精简版 Blender 引擎，实现轻量 3D 转换。 |
+| 100| **webrtc-vad-wasm** | ~500 KB | **语音活动检测 (VAD)**：离线检测音频流中的人声静音切分（辅助音视频剪辑）。 |
+
+---
+
+## 纯前端架构最佳落地建议
+
+1. **首页 0 字节开销 (Dynamic Import)**：切勿在打包入口文件（如 `main.ts`）中直接静态 `import` WASM 库。一律采用异步导入：
+   ```javascript
+   const processImage = async (file) => {
+     const { compress_png } = await import('oxipng-wasm');
+     // 执行计算...
+   };
+
+
+  多线程与 Web Worker 隔离：对于第二、三梯队（特别是涉及大文件 Hash、音视频转码、解压）的 WASM 工具，务必放入 Web Worker 中跑，避免 CPU 飙满导致 UI 线程卡死。
+
+  Cloudflare Headers HTTP 响应头配置：
+  在静态根目录配置 _headers 文件，保障 WASM 长效缓存与多线程 SharedArrayBuffer 支持：
+
+  /*.wasm
+    Cache-Control: public, max-age=31536000, immutable
+    Content-Type: application/wasm
+
+  # 如需开启 FFmpeg 等多线程 SharedArrayBuffer 特性：
+  /*
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Embedder-Policy: require-corp

@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# @imgly/background-removal 模型权重（334MB，内容寻址存储），不入库。
+# 通过 `npm run fetch:imgly-assets` 从官方 CDN 拉取到 public/imgly-bg/（自托管，隐私合规）。
+public/imgly-bg/
+
 # unplugin-vue-components / unplugin-auto-import 自动生成的类型声明文件
 # 每次 dev/build 时自动重新生成，无需纳入版本控制
 components.d.ts

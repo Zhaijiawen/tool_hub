@@ -663,6 +663,11 @@ const menuOptions = computed(() => [
             label: t('image.ocr.title'),
             key: 'image-ocr',
             path: '/image/ocr'
+          },
+          {
+            label: t('image.barcode.title'),
+            key: 'image-barcode',
+            path: '/image/barcode'
           }
         ]
       },
@@ -712,6 +717,11 @@ const menuOptions = computed(() => [
             label: t('ai.tokenCalc.title'),
             key: 'token-calc',
             path: '/ai/token-calc'
+          },
+          {
+            label: t('ai.bgRemoval.title'),
+            key: 'bg-removal',
+            path: '/ai/bg-removal'
           }
         ]
       },

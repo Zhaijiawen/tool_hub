@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "build:prod": "vite build --mode production",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch:imgly-assets": "node scripts/fetch-imgly-assets.mjs"
   },
   "dependencies": {
     "@bokuweb/zstd-wasm": "^0.0.27",
@@ -32,6 +33,7 @@
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@iarna/toml": "^2.2.5",
+    "@imgly/background-removal": "^1.7.0",
     "@jsquash/avif": "^2.1.1",
     "@jsquash/oxipng": "^2.3.0",
     "@jsquash/webp": "^1.5.0",
@@ -40,6 +42,7 @@
     "@vicons/antd": "^0.12.0",
     "@vicons/ionicons5": "^0.12.0",
     "@vueuse/core": "^10.7.0",
+    "@zxing/browser": "^0.2.1",
     "antlr4": "^4.7.2",
     "argon2": "^0.43.0",
     "axios": "^1.6.2",

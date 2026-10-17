@@ -4,6 +4,16 @@ export const examples = {
 文本: 帮我写一个快速排序算法，用 Python 实现，并加上注释。
 说明: 这段代码使用了分治思想，时间复杂度 O(n log n)。`,
 
+  bgRemoval: `上传: 一张白底人物照片
+模型: 轻量（isnet_quint8）
+操作: 点击"去除背景"
+结果: 透明背景 PNG，可直接用于海报 / 电商`,
+
+  barcode: `模式: 上传图片
+输入: 一张含 EAN-13 的商品包装照片
+操作: 点击"识别"
+结果: 码制 EAN_13 + 13 位编码，可直接查价 / 入库`,
+
   base64: `// 原文本
 Hello World!
 
@@ -181,6 +191,16 @@ export const examplesEn = {
   tokenCalc: `Model: GPT-4o
 Text: Write a quicksort algorithm in Python with comments.
 Note: This uses divide-and-conquer, O(n log n) time complexity.`,
+
+  bgRemoval: `Upload: a portrait photo on a white background
+Model: light (isnet_quint8)
+Action: click "Remove background"
+Result: transparent PNG, ready for posters / e-commerce`,
+
+  barcode: `Mode: Upload image
+Input: a product photo with an EAN-13 barcode
+Action: click "Scan"
+Result: symbology EAN_13 + 13-digit code, ready for pricing / stock`,
 
   base64: `// Original text
 Hello World!

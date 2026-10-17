@@ -727,6 +727,30 @@ export const seoConfig = {
         keywords: ['AI Token 计算器', 'token 计数', 'GPT token 统计', 'Claude token', '大模型费用估算']
       }
     },
+    bgRemoval: {
+      en: {
+        name: 'AI Background Remover',
+        description: 'Remove image background locally in your browser with AI. Free, private, no upload — a local alternative to remove.bg.',
+        keywords: ['ai background remover', 'remove bg', 'background eraser', 'image cutout', 'transparent png maker']
+      },
+      zh: {
+        name: 'AI 抠图',
+        description: '在浏览器本地用 AI 去除图片背景，免费、隐私、无需上传，是 remove.bg 的本地替代方案。',
+        keywords: ['AI 抠图', '去背景', '背景消除', '图片抠图', '透明背景 PNG']
+      }
+    },
+    barcode: {
+      en: {
+        name: 'Barcode Scanner',
+        description: 'Scan 1D / 2D barcodes (QR, Code 128, EAN, UPC and more) from images or camera locally in your browser. Private, no upload.',
+        keywords: ['barcode scanner', 'qr scanner', 'qr code reader', 'code 128 reader', 'ean scanner', 'offline barcode reader']
+      },
+      zh: {
+        name: '条码识别',
+        description: '在浏览器本地识别图片与摄像头中的一维 / 二维条码（QR、Code 128、EAN、UPC 等），隐私、不上传。',
+        keywords: ['条码识别', '二维码扫描', '条码扫描器', 'Code 128 识别', 'EAN 识别', '离线扫码']
+      }
+    },
     calculator: {
       en: {
         name: 'Online Calculator',

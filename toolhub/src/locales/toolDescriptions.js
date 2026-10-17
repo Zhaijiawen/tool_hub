@@ -2965,6 +2965,58 @@ export const toolDescriptions = {
       '注意不同模型使用不同分词器，结果会有差异',
       '费用估算为参考值，以厂商账单为准'
     ]
+  },
+
+  bgRemoval: {
+    features: [
+      '浏览器本地运行 AI 模型去除图片背景，图片不上传服务器',
+      '基于 ISNet 神经网络（U²-Net），支持人物与多数物体',
+      '提供轻量（isnet_quint8）与高清（isnet_fp16）两种模型',
+      '模型权重自托管在本站，加载进度可见'
+    ],
+    useCases: [
+      '电商产品图去背景',
+      '人像 / 证件照抠图',
+      '设计素材快速提取主体',
+      '替代 remove.bg 等云端收费服务'
+    ],
+    usageSteps: [
+      '上传一张图片（点击或拖拽）',
+      '选择模型（轻量或高清）',
+      '点击"去除背景"，首次会下载模型权重（约 40~80MB）',
+      '查看对比结果，下载透明背景 PNG'
+    ],
+    bestPractices: [
+      '主体与背景对比明显时效果最佳',
+      '复杂发丝、半透明物体可能留有边缘，可后处理',
+      '大图处理较慢，建议先压缩到合适尺寸'
+    ]
+  },
+
+  barcode: {
+    features: [
+      '浏览器本地识别一维 / 二维条码，图片与摄像头画面不上传服务器',
+      '支持 QR Code、Data Matrix、Aztec、PDF 417 与 Code 128 / EAN / UPC 等常见码制',
+      '提供「上传图片」与「摄像头实时扫描」两种模式',
+      '识别结果自动去重，可一键复制内容文本'
+    ],
+    useCases: [
+      '商品包装 EAN / UPC 码查询与入库',
+      '运单号、资产标签等一维码快速录入',
+      '活动海报二维码本地核验链接',
+      '证件 / 票据 PDF 417 信息核对'
+    ],
+    usageSteps: [
+      '「上传图片」：选择或拖拽含条码的图片，点击识别',
+      '「摄像头」：开启摄像头权限，将条码对准镜头实时扫描',
+      '结果区列出每条码制类型与内容文本',
+      '点击「复制」复制文本，或「清空」重置列表'
+    ],
+    bestPractices: [
+      '条码需清晰、光照均匀、无严重畸变',
+      '一维码尽量正对铺满画面，二维码保留四个定位角',
+      '反光、模糊、过度压缩会降低识别率'
+    ]
   }
 }
 
@@ -2994,6 +3046,32 @@ export const toolDescriptionsEn = {
       'For very long text, count in chunks to avoid one huge input',
       'Different models use different tokenizers, so counts vary',
       'Cost estimates are indicative; refer to the provider bill'
+    ]
+  },
+
+  bgRemoval: {
+    features: [
+      'Remove image background locally in the browser — images are never uploaded',
+      'Powered by the ISNet neural network (U²-Net) for people and most objects',
+      'Two models: light (isnet_quint8) and HD (isnet_fp16)',
+      'Model weights are self-hosted on this site with a visible loading progress'
+    ],
+    useCases: [
+      'E-commerce product shots',
+      'Portrait / ID photo cutout',
+      'Quickly extract the subject from design assets',
+      'A free local alternative to cloud services like remove.bg'
+    ],
+    usageSteps: [
+      'Upload an image (click or drag & drop)',
+      'Pick a model (light or HD)',
+      'Click "Remove background"; model weights download on first use (~40–80MB)',
+      'View the comparison and download a transparent PNG'
+    ],
+    bestPractices: [
+      'Best results when the subject contrasts clearly with the background',
+      'Complex hair or translucent edges may need touch-up',
+      'Large images process slowly; resize to a sensible size first'
     ]
   },
 
@@ -6016,6 +6094,32 @@ export const toolDescriptionsEn = {
       'Use English or pinyin field names so they can be used directly in code',
       'Separate enum values with English commas and no extra spaces',
       '{index} in custom templates starts at 1; combine placeholders freely, e.g. user_{index}_{uuid}'
+    ]
+  },
+
+  barcode: {
+    features: [
+      'Recognize 1D / 2D barcodes locally — images and camera frames never leave the browser',
+      'Supports QR Code, Data Matrix, Aztec, PDF 417 and common 1D codes like Code 128 / EAN / UPC',
+      'Two modes: "Upload image" and "Live camera scan"',
+      'Auto-dedupes results; one-click copy of the decoded text'
+    ],
+    useCases: [
+      'Look up or stock products by EAN / UPC on packaging',
+      'Fast entry of tracking numbers and asset tags (1D codes)',
+      'Verify a poster QR link locally',
+      'Check PDF 417 data on IDs / tickets'
+    ],
+    usageSteps: [
+      'Upload: pick or drop an image with a barcode, then click Scan',
+      'Camera: grant permission and point the barcode at the lens for live scanning',
+      'The result list shows each symbology and decoded text',
+      'Click Copy to copy the text, or Clear to reset'
+    ],
+    bestPractices: [
+      'Keep the barcode clear, evenly lit, and free of heavy distortion',
+      'Face 1D codes straight and fill the frame; keep all four QR finder patterns',
+      'Glare, blur, or heavy compression lowers the success rate'
     ]
   }
 }

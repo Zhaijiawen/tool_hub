@@ -343,6 +343,11 @@ const router = createRouter({
             {
               path: 'ocr',
               component: () => import('@/components/image/OcrTool.vue')
+            },
+            // 条码识别（本地 ZXing 解码，支持图片与摄像头）
+            {
+              path: 'barcode',
+              component: () => import('@/components/image/BarcodeScanner.vue')
             }
           ]
         },
@@ -400,6 +405,11 @@ const router = createRouter({
             {
               path: 'token-calc',
               component: () => import('@/components/ai/TokenCalc.vue')
+            },
+            // 本地 AI 抠图：浏览器内去除图片背景（@imgly/background-removal，模型自托管）
+            {
+              path: 'bg-removal',
+              component: () => import('@/components/ai/BackgroundRemoval.vue')
             }
           ]
         },
