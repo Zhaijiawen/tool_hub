@@ -95,7 +95,9 @@ export default defineConfig({
             return 'vue-i18n'
           }
           // 语言包单独拆出，业务代码变更不影响其缓存
-          if (id.includes('src/locales/en.js') || id.includes('src/locales/zh.js')) {
+          // （i18n 已按分类拆分至 src/locales/messages/，此处匹配整个目录；
+          //   zh.js / en.js 仅为合并索引，体积可忽略）
+          if (id.includes('src/locales/messages/')) {
             return 'locales'
           }
           // Naive UI（按需加载插件会自动只引入使用到的组件，但 vueuc/css-render 等基础模块仍集中打包）
