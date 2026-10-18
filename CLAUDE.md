@@ -68,6 +68,16 @@ There are **no tests, no linters, no TypeScript type-checking** configured in th
 
 `vite.config.js` defines 15 `manualChunks` to split dependencies: `vue`, `vue-i18n`, `locales`, `ui` (Naive UI), `icons`, `utils`, `crypto`, `argon2`, `bcrypt`, `editor` (CodeMirror), `markdown`, `mathjs`, `formatter` (Prettier/js-beautify), `qrcode`. `.gz` and `.br` pre-compressed variants are generated for assets > 10KB during build.
 
+### WASM model tools (Whisper speech-to-text pattern)
+
+Speech-to-text (`src/components/media/SpeechToText.vue`) runs the Whisper tiny model fully on-device. The pattern for any future model-backed tool:
+
+- **Worker + composable split:** inference runs in a dedicated Web Worker (`src/workers/whisper-worker.js`); the page talks to it through a composable (`src/composables/useWhisper.js`) that wraps `useWasmModule` for download / progress / cancel.
+- **Assets are self-hosted and gitignored:** model files (`public/models/`) and runtime wasm (`public/wasm/ort/`) are fetched by a script (`scripts/fetch-whisper-assets.mjs`, wired into `fetch:assets`) — never downloaded from Hugging Face at runtime (`env.allowRemoteModels = false`).
+- **Vite alias quirks (both required):** `@xenova/transformers` statically imports Node-only `onnxruntime-node` (aliased to an empty stub in `src/vendor/`), and `onnxruntime-web` is pinned to the pure-wasm build. Both aliases MUST use anchored RegExp `find` (`/^onnxruntime-web$/`) in the array form — a string alias also rewrites subpath imports like `onnxruntime-web/webgpu` (used by `@imgly/background-removal`) into invalid paths.
+- **`@huggingface/jinja` is a hard dependency** of `@xenova/transformers` — if vendoring packages manually, it must be present or the worker build fails to resolve it.
+- **Registry flags:** model tools carry `wasm: true` and `isNew: true` in `tools.js` (drives the home-page WASM badge and the NEW marker).
+
 ## Adding a new tool
 
 When adding a new tool, you must update ALL of the following files. See `notepad/new_features_plan_v3.md` for the full checklist:

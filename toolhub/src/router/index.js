@@ -407,6 +407,11 @@ const router = createRouter({
             {
               path: 'media-tool',
               component: () => import('@/components/media/MediaTool.vue')
+            },
+            // Whisper 语音转文字：转写 / 翻译为英文（WASM）
+            {
+              path: 'speech-to-text',
+              component: () => import('@/components/media/SpeechToText.vue')
             }
           ]
         },

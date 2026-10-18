@@ -555,6 +555,15 @@ const tools = [
     isNew: true
   },
   {
+    id: 'speechToText',
+    name: 'media.speechToText.title',
+    path: '/media/speech-to-text',
+    description: 'media.speechToText.description',
+    category: 'media',
+    wasm: true,
+    isNew: true
+  },
+  {
     id: 'httpClient',
     name: 'other.httpClient.title',
     path: '/other/http-client',

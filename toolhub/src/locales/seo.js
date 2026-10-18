@@ -1075,6 +1075,18 @@ export const seoConfig = {
         description: '可视化配置字段生成 JSON 模拟数据，支持嵌套对象、数组、Faker 类型和枚举值',
         keywords: ['Mock数据', '假数据生成', 'JSON模拟数据', '测试数据生成', '随机数据']
       }
+    },
+    speechToText: {
+      en: {
+        name: 'Speech to Text (Whisper, WASM)',
+        description: 'Transcribe audio and video to text, or translate any language to English, entirely in your browser with the Whisper tiny model running on WebAssembly. Private, no upload.',
+        keywords: ['speech to text', 'audio transcription', 'whisper online', 'voice to text', 'transcribe audio', 'translate audio to english', 'offline transcription', 'wasm']
+      },
+      zh: {
+        name: '语音转文字（Whisper，WASM）',
+        description: '在浏览器本地用 Whisper tiny 模型（WebAssembly）将音频 / 视频转写为文字，或将任意语言翻译为英文，隐私、不上传。',
+        keywords: ['语音转文字', '音频转文字', '语音识别', '视频转文字', 'whisper', '离线转写', '音频翻译', 'WASM']
+      }
     }
   }
 

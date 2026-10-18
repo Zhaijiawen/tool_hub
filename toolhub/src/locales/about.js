@@ -55,7 +55,7 @@ export const aboutText = {
       },
       media: {
         title: '音视频处理工具',
-        desc: '基于 FFmpeg WASM 的音视频处理：视频转码（MP4 / WebM，可调画质与分辨率）、从视频提取音频（MP3 / M4A / WAV / OGG / Opus）、视频转 GIF（256 色调色板优化），支持常见编解码器（libx264、libvpx、libmp3lame 等）。全部处理在浏览器本地完成，不上传任何文件到服务器。'
+        desc: '基于 FFmpeg WASM 的音视频处理：视频转码（MP4 / WebM，可调画质与分辨率）、从视频提取音频（MP3 / M4A / WAV / OGG / Opus）、视频转 GIF（256 色调色板优化），支持常见编解码器（libx264、libvpx、libmp3lame 等）。另提供语音转文字：基于 Whisper tiny 模型（WASM 本地推理）将音频 / 视频转写为文字，或将任意语言翻译为英文，支持时间戳与 SRT 字幕导出。全部处理在浏览器本地完成，不上传任何文件到服务器。'
       },
       text: {
         title: '文本处理工具',
@@ -175,7 +175,7 @@ export const aboutText = {
       },
       media: {
         title: 'Audio & Video Tools',
-        desc: 'FFmpeg WASM powered media processing: video transcoding (MP4 / WebM with adjustable quality and resolution), audio extraction from video (MP3 / M4A / WAV / OGG / Opus), and video to GIF (256-color palette optimized), with broad codec support (libx264, libvpx, libmp3lame and more). Everything runs in the browser — no files are uploaded to any server.'
+        desc: 'FFmpeg WASM powered media processing: video transcoding (MP4 / WebM with adjustable quality and resolution), audio extraction from video (MP3 / M4A / WAV / OGG / Opus), and video to GIF (256-color palette optimized), with broad codec support (libx264, libvpx, libmp3lame and more). Also includes speech to text: transcribe audio / video to text with the Whisper tiny model (local WASM inference), or translate any language to English, with timestamps and SRT subtitle export. Everything runs in the browser — no files are uploaded to any server.'
       },
       text: {
         title: 'Text Processing Tools',

@@ -2542,6 +2542,37 @@ export const toolDescriptions = {
       '网络请求不可用：标准库中的 urllib/requests 在 Pyodide 中受沙箱限制，涉及网络的功能请在本地环境运行'
     ]
   },
+  speechToText: {
+    features: [
+      '浏览器没有原生语音识别质量可言（Web Speech API 依赖云端），本站用 Whisper tiny (int8 量化, WASM) 补齐，音频不出设备',
+      '多语言转写：自动检测语言，输出原文（实测中文、日语、英语均可）',
+      '翻译任务：任意语言的语音直接转成英文文本',
+      '分段级时间戳，可下载 SRT 字幕文件',
+      '长音频自动按 30 秒窗口分块处理，可实时显示中间结果',
+      '支持 MP3 / WAV / M4A / OGG / Opus / FLAC 及含音轨的视频文件',
+      'ONNX Runtime + 模型共约 52MB，首次下载带进度、可取消，之后缓存秒开',
+      '计算在 Web Worker 中进行，不阻塞界面'
+    ],
+    useCases: [
+      '会议录音、访谈整理成文字稿',
+      '外语视频、播客快速生成英文字幕',
+      '给视频配字幕（导出 SRT）',
+      '语音备忘录转文本存档'
+    ],
+    usageSteps: [
+      '上传音频文件（或含音轨的视频）',
+      '选择任务：转写保留原语言，或翻译为英文',
+      '可按需指定语言、开启时间戳与实时中间结果',
+      '点击「开始识别」：首次会下载引擎与模型（约 52MB，有进度条，可取消）',
+      '复制文本，或下载 TXT / SRT 字幕'
+    ],
+    bestPractices: [
+      'tiny 模型约 1-3 倍实时速度：10 分钟音频通常几分钟内完成，请勿关闭页面',
+      '清晰人声效果最好；嘈杂环境、多人混说、强口音会明显拉高错误率',
+      '对识别质量要求更高时，可先用「音视频处理」工具提取干净音轨再识别',
+      '自动检测在短片段上可能误判语言，不确定时手动指定语言更稳'
+    ]
+  },
 }
 
 // 英文版本
@@ -5105,7 +5136,38 @@ export const toolDescriptionsEn = {
       'Crop away unrelated background first — it greatly reduces stray paths',
       'Color photos are force-binarized by brightness; line art works much better than photos'
     ]
-  }
+  },
+  speechToText: {
+    features: [
+      'Browsers have no credible native speech recognition (the Web Speech API is cloud-dependent); this tool fills the gap with Whisper tiny (int8 quantized, WASM) — audio never leaves your device',
+      'Multilingual transcription: auto-detects the language and outputs the original text (verified for Chinese, Japanese, English)',
+      'Translation task: speech in any language transcribed directly to English text',
+      'Segment-level timestamps with SRT subtitle export',
+      'Long audio auto-chunked into 30-second windows, with live partial results',
+      'Supports MP3 / WAV / M4A / OGG / Opus / FLAC and video files with an audio track',
+      'ONNX Runtime + model total ~52MB, downloaded once with progress and cancel, then cached',
+      'Inference runs in a Web Worker, so the UI never blocks'
+    ],
+    useCases: [
+      'Turn meeting recordings and interviews into text',
+      'Quickly generate English subtitles for foreign-language videos and podcasts',
+      'Caption videos (export as SRT)',
+      'Archive voice memos as text'
+    ],
+    usageSteps: [
+      'Upload an audio file (or a video with an audio track)',
+      'Pick a task: transcribe in the original language, or translate to English',
+      'Optionally set the language, enable timestamps and live partial results',
+      'Click "Start Recognition": first use downloads the engine and model (~52MB, with progress and cancel)',
+      'Copy the text, or download TXT / SRT subtitles'
+    ],
+    bestPractices: [
+      'The tiny model runs at roughly 1-3x realtime: 10 minutes of audio usually finishes within minutes — keep the page open',
+      'Clear speech works best; noise, overlapping speakers and strong accents raise the error rate noticeably',
+      'For demanding audio, extract a clean track with the "Audio & Video Toolkit" first',
+      'Auto-detection can misfire on short clips — specify the language manually when unsure'
+    ]
+  },
 }
 
 // 获取工具描述的辅助函数

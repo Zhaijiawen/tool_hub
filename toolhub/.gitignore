@@ -25,6 +25,13 @@ public/mermaid/
 # 通过 `npm run fetch:pandoc-assets` 从 node_modules 复制到 public/wasm/。
 public/wasm/pandoc.wasm
 
+# 语音转文字（Whisper）资产，合计约 52MB，不入库：
+# - public/wasm/ort/：onnxruntime-web 的 simd-threaded wasm（10.5MB）+ 线程池代理 .mjs
+# - public/models/whisper-tiny/：Xenova/whisper-tiny int8 量化模型（约 42MB）
+# 通过 `npm run fetch:whisper-assets` 获取（模型来自 HuggingFace，需联网）。
+public/wasm/ort/
+public/models/
+
 # unplugin-vue-components / unplugin-auto-import 自动生成的类型声明文件
 # 每次 dev/build 时自动重新生成，无需纳入版本控制
 components.d.ts

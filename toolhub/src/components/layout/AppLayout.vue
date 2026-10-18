@@ -721,6 +721,11 @@ const menuOptions = computed(() => [
             label: t('media.mediaTool.title'),
             key: 'media-media-tool',
             path: '/media/media-tool'
+          },
+          {
+            label: t('media.speechToText.title'),
+            key: 'media-speech-to-text',
+            path: '/media/speech-to-text'
           }
         ]
       },

@@ -43,15 +43,28 @@ export default defineConfig({
 
   // 路径解析配置
   resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'), // 设置 @ 别名指向 src 目录
+    // 数组形式而非对象：正则 find（锚定裸限定符）无法作为对象字面量键，
+    // 必须走 [{ find, replacement }] 形式（@rollup/plugin-alias 支持）。
+    alias: [
+      { find: '@', replacement: resolve(__dirname, 'src') }, // 设置 @ 别名指向 src 目录
       // pandoc-wasm 的 package.json 用 exports 限制了深导入，拿不到它内部的
       // src/core.js；而浏览器入口（src/index.browser.js）会在 import 时把 56MB
       // 的 wasm 一次性拉下来、且带顶层 await，无法接入我们「Worker + 进度 + 取消」
       // 的加载体系。这里用别名直取纯逻辑的 core.js，由我们自己的 worker 负责
       // 实例化，从而在懒加载的同时保留进度条与取消能力。
-      'pandoc-wasm-core': resolve(__dirname, 'node_modules/pandoc-wasm/src/core.js')
-    }
+      { find: 'pandoc-wasm-core', replacement: resolve(__dirname, 'node_modules/pandoc-wasm/src/core.js') },
+      // @xenova/transformers 无条件静态 import onnxruntime-node（Node 专用，
+      // 含原生二进制）。浏览器分支只用 onnxruntime-web，换成空桩避免拖包。
+      // 锚定正则只匹配裸限定符：字符串别名会连带重写 onnxruntime-node/xxx
+      // 子路径导入，正则保证其他解析方式不受影响。
+      { find: /^onnxruntime-node$/, replacement: resolve(__dirname, 'src/vendor/onnxruntime-node-stub.js') },
+      // onnxruntime-web 的默认入口（exports → ort.bundle.min.mjs）面向 Node 场景
+      // 做条件分支；这里显式指向 wasm 变体——纯 JS 46KB，wasm 二进制由
+      // useWasmModule 下载后经 wasmBinary 喂给 worker（进度/取消/缓存体系）。
+      // 同样只匹配裸限定符，否则 onnxruntime-web/webgpu 等子路径（@imgly/
+      // background-removal 在用）会被错拼成 <文件>/webgpu 导致 ENOTDIR。
+      { find: /^onnxruntime-web$/, replacement: resolve(__dirname, 'node_modules/onnxruntime-web/dist/ort.wasm.min.mjs') }
+    ]
   },
   
   // Web Worker 构建配置
