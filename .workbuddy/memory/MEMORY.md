@@ -18,8 +18,11 @@
 
 ## 已知未验证项
 
-- **AI 抠图（@imgly/background-removal）推理未做端到端实机验证**（截至 2026-10-18）。仅验证了页面加载无报错、chunk 与 jsep wasm 在产物中、ort webgpu bundle 可 import。顶层 ort 升到 1.21.0 后需补测。
+- **AI 抠图（@imgly/background-removal）已通过 Node 等价推理验证**（2026-10-18）：分片重组 7/7 通过、`isnet_quint8` 真实前向输出前景占比 23.5%（理论 19.2%）吻合。**仍未覆盖的只有浏览器内 imgly 自身的 wasm/webgpu 后端调度**——需真实点击 UI，而 agent-browser 合成事件对该页面无效。
+- `public/imgly-bg/` 是 **imgly 的分片缓存格式**，不是直接可用的模型文件：87 个文件全是 4MB 切片、按 sha256 内容寻址命名，真正的索引是 `resources.json`（记录每逻辑文件的 chunks/offsets/size/mime，共 7 个逻辑文件：3 个模型 + 2 个 ort wasm + 2 个 .mjs 胶水）。要离线校验模型须按 offsets 重组。
+- **`isnet_quint8` 输入必须是 1024×1024**，不是 ISNet 论文默认的 320，ORT 会直接报 `Expected: 1024`。
 - pandoc 工具未做实机验证。
+
 
 ## 实机验证方法论（agent-browser）
 
