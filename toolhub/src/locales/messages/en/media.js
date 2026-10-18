@@ -66,6 +66,7 @@ export default {
       taskTranscribe: "Transcribe (keep original language)",
       taskTranslate: "Translate to English",
       language: "Language",
+      sourceLanguage: "Source language",
       langAuto: "Auto-detect",
       timestamps: "Generate timestamps",
       stream: "Show partial results live",

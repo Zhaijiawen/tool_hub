@@ -54,7 +54,9 @@
             </n-form-item>
           </n-gi>
           <n-gi>
-            <n-form-item :label="t('media.speechToText.language')">
+            <!-- 翻译任务的目标语言恒为英文，此处的选择器指的是「源语言」，
+                 故在 translate 模式下改标签，避免被误解为选择目标语言 -->
+            <n-form-item :label="t(task === 'translate' ? 'media.speechToText.sourceLanguage' : 'media.speechToText.language')">
               <n-select v-model:value="language" :options="languageOptions" filterable />
             </n-form-item>
           </n-gi>
@@ -266,20 +268,26 @@ function srtTs(seconds) {
 async function handleFileChange({ file: f }) {
   if (!f || !f.file) return
   clearFile()
-  file.value = f.file
-  audioUrl.value = URL.createObjectURL(f.file)
+  const myUrl = URL.createObjectURL(f.file)
+  const myFile = f.file
+  file.value = myFile
+  audioUrl.value = myUrl
   result.value = null
   errorText.value = ''
   // 读时长（给用户一个预期：whisper 速度约 1-3x 实时）
   try {
     const probe = new Audio()
     probe.preload = 'metadata'
-    probe.src = audioUrl.value
+    probe.src = myUrl
     await new Promise((resolve) => {
       probe.onloadedmetadata = resolve
       probe.onerror = resolve
       setTimeout(resolve, 3000)
     })
+    // 快速连续换文件时，旧探测可能晚于新文件返回——只接受当前文件的时长，
+    // 否则会把上一段音频的时长显示到新文件上
+    if (audioUrl.value !== myUrl) return
+    probe.src = '' // 释放探测对象的解码器引用
     if (isFinite(probe.duration) && probe.duration > 0) {
       durationText.value = `${t('media.speechToText.duration')}: ${formatTs(probe.duration)}`
     }
@@ -317,7 +325,10 @@ async function run() {
       task: task.value,
       language: language.value,
       timestamps: timestamps.value,
-      stream: stream.value
+      stream: stream.value,
+      // 必须传 onChunk：useWhisper 仅在存在该回调时把 chunk 累积进
+      // partialText，否则中间结果区永远为空、worker 发来的 chunk 也被丢弃
+      onChunk: stream.value ? () => {} : undefined
     })
     result.value = {
       text: out.text,

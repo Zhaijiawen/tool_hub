@@ -16,7 +16,8 @@
  *           → 'toolhub:whisper-progress'（模型下载进度）
  *           → 'toolhub:whisper-ready' | 'toolhub:whisper-error'
  * - job:    { type:'transcribe', id, audio, task, language, timestamps, stream }
- *           → 'toolhub:whisper-chunk'（流式中间结果，仅 stream=true）
+ *           → 'toolhub:whisper-chunk'（流式中间结果，仅 stream=true；text 由
+ *              本 worker 用 tokenizer 解码 chunk.tokens 得到）
  *           → 'toolhub:whisper-done' | 'toolhub:whisper-error'
  */
 
@@ -94,11 +95,28 @@ self.addEventListener('message', async (e) => {
     }
     if (msg.language) options.language = msg.language
     if (msg.stream) {
+      // transformers.js 的 chunk_callback 给出的 chunk 尚未解码——它只有
+      // tokens（token id 数组）、stride、input_features，text 要等后续
+      // _decode_asr() 合并时才生成。直接读 chunk.text 会恒为空串。
+      // 这里就地用 pipeline 自带的 tokenizer 解码该 chunk 的 tokens，
+      // 得到该 30s 窗口的文本，实现真正的流式中间结果。
       options.chunk_callback = (chunk) => {
+        let text = ''
+        try {
+          const tokens = chunk.tokens
+          if (Array.isArray(tokens) && tokens.length) {
+            text = transcriber.tokenizer.decode(tokens, {
+              skip_special_tokens: true
+            })
+          }
+        } catch (err) {
+          // 单个窗口解码失败不应中断整个推理，跳过该窗口即可
+          text = ''
+        }
         post({
           type: 'toolhub:whisper-chunk',
           id: msg.id,
-          chunk: { text: chunk.text || '', timestamp: chunk.timestamp || null }
+          chunk: { text, timestamp: null }
         })
       }
     }

@@ -66,6 +66,7 @@ export default {
       taskTranscribe: "转写（保留原语言）",
       taskTranslate: "翻译为英文",
       language: "语言",
+      sourceLanguage: "源语言",
       langAuto: "自动检测",
       timestamps: "生成时间戳",
       stream: "实时显示中间结果",
