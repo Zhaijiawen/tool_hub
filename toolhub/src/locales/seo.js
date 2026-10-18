@@ -439,7 +439,7 @@ export const seoConfig = {
         keywords: ['正则表达式测试', '正则表达式', '模式匹配']
       }
     },
-    pcre2Regex: {
+    'pcre2-regex': {
       en: {
         name: 'PCRE2 Advanced Regex (WASM)',
         description: 'Advanced regex tool powered by PCRE2 WASM — possessive quantifiers, recursion, variable-length lookbehind and Unicode properties beyond JavaScript regex',
@@ -537,7 +537,7 @@ export const seoConfig = {
         keywords: ['图像水印', '水印工具', '添加水印']
       }
     },
-    pngOptimize: {
+    'png-optimize': {
       en: {
         name: 'PNG Optimizer (WASM)',
         description: 'Lossless PNG compression powered by oxipng WASM, runs entirely in your browser',
@@ -549,7 +549,7 @@ export const seoConfig = {
         keywords: ['PNG压缩', '压缩PNG', '图片压缩', '无损压缩', 'WASM']
       }
     },
-    webpAvifConvert: {
+    'webp-avif-convert': {
       en: {
         name: 'WebP / AVIF Converter (WASM)',
         description: 'Convert images to WebP or AVIF in your browser — smaller files, similar quality, fully local',
@@ -574,7 +574,7 @@ export const seoConfig = {
       }
     },
 
-    pdfTools: {
+    'pdf-tools': {
       en: {
         name: 'PDF Toolkit (WASM)',
         description: 'Convert PDF to images, merge, split, compress, extract text and organize pages in your browser — MuPDF WebAssembly, fully local',
@@ -587,7 +587,7 @@ export const seoConfig = {
       }
     },
 
-    docConvert: {
+    'doc-convert': {
       en: {
         name: 'Document Converter (Pandoc)',
         description: 'Convert Markdown, Word (DOCX), HTML, EPUB, LaTeX and more locally in your browser with Pandoc — free and private, no upload',
@@ -628,7 +628,7 @@ export const seoConfig = {
     },
 
     // 媒体工具
-    mediaTool: {
+    'media-tool': {
       en: {
         name: 'Audio & Video Toolkit (WASM)',
         description: 'Transcode video, extract audio and convert video to GIF in your browser — FFmpeg WebAssembly, fully local',
@@ -692,7 +692,7 @@ export const seoConfig = {
     },
   
     // 其他工具
-    fileCompress: {
+    'file-compress': {
       en: {
         name: 'File Compressor & Decompressor',
         description: 'Compress and decompress files with Brotli, Zstd, and Gzip — entirely in your browser via WebAssembly',
@@ -728,7 +728,7 @@ export const seoConfig = {
         keywords: ['二维码生成', '二维码识别', '二维码扫描', '二维码解析', 'QR码']
       }
     },
-    tokenCalc: {
+    'token-calc': {
       en: {
         name: 'AI Token Calculator',
         description: 'Count tokens for your text in LLMs like GPT-4o and Claude, and estimate API cost. Runs fully in your browser.',
@@ -740,7 +740,7 @@ export const seoConfig = {
         keywords: ['AI Token 计算器', 'token 计数', 'GPT token 统计', 'Claude token', '大模型费用估算']
       }
     },
-    bgRemoval: {
+    'bg-removal': {
       en: {
         name: 'AI Background Remover',
         description: 'Remove image background locally in your browser with AI. Free, private, no upload — a local alternative to remove.bg.',
@@ -1076,7 +1076,7 @@ export const seoConfig = {
         keywords: ['Mock数据', '假数据生成', 'JSON模拟数据', '测试数据生成', '随机数据']
       }
     },
-    speechToText: {
+    'speech-to-text': {
       en: {
         name: 'Speech to Text (Whisper, WASM)',
         description: 'Transcribe audio and video to text, or translate any language to English, entirely in your browser with the Whisper tiny model running on WebAssembly. Private, no upload.',
