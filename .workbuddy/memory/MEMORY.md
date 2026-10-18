@@ -16,6 +16,14 @@
 - **`package-lock.json` 必须提交**（2026-10-18 已从 .gitignore 移除该规则）。手工 `npm install` 造出的嵌套结构若不入锁文件，只是「本机恰好能跑」。**验收标准是 `npm ci` 后依赖布局等价，而非当前 node_modules 看起来正常。**
 - ort 1.14 的 emscripten 胶水**内联在包 JS 内**，无独立 `.mjs` 线程代理文件；`scripts/fetch-whisper-assets.mjs` 取两个 `.wasm` 变体（`ort-wasm-simd-threaded.wasm` / `ort-wasm-simd.wasm`）即可。
 
+## 组件约定（踩坑沉淀，改 upload 前必读）
+
+- **naive-ui `n-upload` + `:max` 的静默丢弃是跨组件的系统性坑**。判定方法：`grep ':max="' src/components` 找出全部用法，再看每个是否用了 `v-model:file-list`。
+  - **受控**（有 `v-model:file-list`）→ 安全，重置 `fileList.value = []` 即可。
+  - **非受控 + 有 `:max`** → 内部 `uncontrolledFileListRef` 持续占用 max 名额，第二次选择被 `slice(0, max - len)` 丢成空数组，**不报错、无提示**。修法：`ref="uploadRef"` + 在文件成功进入组件状态后调 `uploadRef.value?.clear()`。
+  - 已修：SpeechToText / Rotate / Watermark / Crop / CsvViewer / Convert。`FileHash.vue` 是正确范本（`v-model` + `ref` + `clear`）。
+  - 排查时注意**症状隐蔽性**：Rotate/Watermark/Crop 没有「清空」按钮，用户唯一换图的途径（再选一次）正是失效路径，选错后完全无法纠正。
+
 ## 已知未验证项
 
 - **AI 抠图（@imgly/background-removal）已通过 Node 等价推理验证**（2026-10-18）：分片重组 7/7 通过、`isnet_quint8` 真实前向输出前景占比 23.5%（理论 19.2%）吻合。**仍未覆盖的只有浏览器内 imgly 自身的 wasm/webgpu 后端调度**——需真实点击 UI，而 agent-browser 合成事件对该页面无效。

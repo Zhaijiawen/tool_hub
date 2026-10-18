@@ -19,6 +19,7 @@
           </n-tab-pane>
           <n-tab-pane name="upload" :tab="t('convert.csvViewer.tabUpload')">
             <n-upload
+              ref="uploadRef"
               accept=".csv,.tsv,.txt"
               :max="1"
               :show-file-list="false"
@@ -126,6 +127,8 @@ const delimiterMode = ref('auto')
 const hasHeader     = ref(true)
 const searchText    = ref('')
 const parseError    = ref('')
+// n-upload 非受控组件，配合 :max="1" 使用；需手动 clear() 才能重新选择文件
+const uploadRef     = ref(null)
 
 const headers  = ref([])   // 列名数组
 const rows     = ref([])   // 数据行数组（对象）
@@ -255,6 +258,9 @@ const handleFileUpload = ({ file }) => {
     rawText.value = e.target.result
     inputTab.value = 'paste'
     parse()
+    // n-upload 非受控且 :max="1"：上传后切回「上传」标签重选文件时，
+    // 内部列表仍占用着 max 名额，新文件会被静默丢弃
+    uploadRef.value?.clear()
   }
   reader.readAsText(f, 'utf-8')
 }

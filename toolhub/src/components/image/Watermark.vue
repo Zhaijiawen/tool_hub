@@ -5,7 +5,7 @@
 
     <n-card :title="$t('image.watermark.title')">
       <n-space vertical size="large">
-        <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
+        <n-upload ref="uploadRef" accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
           <n-upload-dragger>
             <div class="upload-trigger">
               <n-icon size="48" :depth="3">
@@ -88,6 +88,9 @@ const message = useMessage()
 const originalImage = ref(null)
 const watermarkedImage = ref(null)
 const error = ref('')
+// n-upload 非受控且 :max="1"：内部列表满后新选择会被静默丢弃，
+// 导致「换一张图」点了没反应。每次接收新文件后清空内部列表。
+const uploadRef = ref(null)
 
 const formData = reactive({
   text: '',
@@ -113,6 +116,8 @@ const handleFileChange = (options) => {
     originalImage.value = e.target.result
     watermarkedImage.value = null
     error.value = ''
+    // 清空 n-upload 内部列表，保证下次能重新选择文件
+    uploadRef.value?.clear()
   }
   reader.readAsDataURL(file)
 }

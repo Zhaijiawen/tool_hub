@@ -8,6 +8,7 @@
 
         <!-- 上传区域 -->
         <n-upload
+          ref="uploadRef"
           accept="image/*"
           :max="10"
           multiple
@@ -281,6 +282,8 @@ const onHeightChange = (val) => {
 
 // ── 图片列表 ────────────────────────────────
 const imageList = ref([])
+// n-upload 非受控组件，配合 :max="10" 使用；clearAll 时需一并 clear()
+const uploadRef = ref(null)
 
 const hasConverted = computed(() => imageList.value.some(i => i.convertedUrl))
 
@@ -453,6 +456,9 @@ const clearAll = () => {
   })
   imageList.value = []
   globalError.value = ''
+  // n-upload 非受控且 :max="10"：不清内部列表的话，累计选满 10 次后
+  // upload 组件会永久拒绝新文件（业务上限清空也没用）
+  uploadRef.value?.clear()
 }
 </script>
 

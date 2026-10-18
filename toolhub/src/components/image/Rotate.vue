@@ -5,7 +5,7 @@
 
     <n-card :title="$t('image.rotate.title')" :bordered="false">
       <n-space vertical size="large">
-    <n-upload accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
+    <n-upload ref="uploadRef" accept="image/*" :max="1" :show-file-list="false" @change="handleFileChange">
       <n-upload-dragger>
         <div class="upload-trigger">
           <n-icon size="48" :depth="3">
@@ -86,6 +86,9 @@ const originalImage = ref('')
 const rotatedImage = ref('')
 const angle = ref(90)
 const error = ref('')
+// n-upload 非受控且 :max="1"：内部列表满后新选择会被 slice(0, 0) 静默丢弃，
+// 导致「换一张图」点了没反应。需在每次成功接收新文件后清空内部列表。
+const uploadRef = ref(null)
 
 // 处理文件上传
 async function handleFileChange({ file }) {
@@ -110,6 +113,8 @@ async function handleFileChange({ file }) {
     const reader = new FileReader()
     reader.onload = (e) => {
       originalImage.value = e.target.result
+      // 清空 n-upload 内部列表，保证下次能重新选择文件
+      uploadRef.value?.clear()
     }
     reader.readAsDataURL(file.file)
   } catch (err) {

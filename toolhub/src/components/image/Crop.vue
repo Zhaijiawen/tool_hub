@@ -6,6 +6,7 @@
     <n-card :title="$t('image.crop.title')" :bordered="false">
       <n-space vertical size="large">
         <n-upload
+          ref="uploadRef"
           :max="1"
           accept="image/*"
           :show-file-list="false"
@@ -91,6 +92,9 @@ const imgSrc = ref('')
 const croppedImg = ref('')
 const cropperRef = ref(null)
 const aspectRatio = ref(undefined)
+// n-upload 非受控且 :max="1"：内部列表满后新选择会被静默丢弃，
+// 导致「换一张图」点了没反应。每次接收新文件后清空内部列表。
+const uploadRef = ref(null)
 let cropResult = null
 
 function onFileChange({ file }) {
@@ -98,6 +102,11 @@ function onFileChange({ file }) {
     const reader = new FileReader()
     reader.onload = (e) => {
       imgSrc.value = e.target.result
+      // 换图时清掉上一次的裁剪结果与裁剪器内部状态
+      croppedImg.value = ''
+      cropResult = null
+      // 清空 n-upload 内部列表，保证下次能重新选择文件
+      uploadRef.value?.clear()
     }
     reader.readAsDataURL(file.file)
   }
