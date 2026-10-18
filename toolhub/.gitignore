@@ -16,6 +16,13 @@ dist-ssr
 # 通过 `npm run fetch:imgly-assets` 从官方 CDN 拉取到 public/imgly-bg/（自托管，隐私合规）。
 public/imgly-bg/
 
+# 由 public/imgly-bg/resources.json 的分片重组出的 ort wasm/mjs（约 33MB），不入库。
+# AI 抠图在多线程下需要 pthread 代理，代理 Worker 无法沿用 blob URL，会回退到
+# 站点根的硬编码路径 /onnxruntime-web/ort-wasm-simd-threaded.wasm；该路径缺失时
+# SPA fallback 返回 index.html，wasm 实例化直接失败（实机验证踩过）。
+# 通过 `npm run fetch:imgly-assets` 后自动执行 `npm run assemble:imgly-ort` 生成。
+public/onnxruntime-web/
+
 # Mermaid 预构建 bundle（约 5.2MB），不入库。
 # 交给 Rollup 打包会让整站构建多出约 1700 个模块并触发 OOM，故改为运行时动态注入脚本。
 # 通过 `npm run fetch:mermaid-assets` 从 node_modules 复制到 public/mermaid/（自托管，不依赖 CDN）。

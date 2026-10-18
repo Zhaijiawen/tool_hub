@@ -57,16 +57,15 @@ export default defineConfig({
       // 含原生二进制）。浏览器分支只用 onnxruntime-web，换成空桩避免拖包。
       // 锚定正则只匹配裸限定符：字符串别名会连带重写 onnxruntime-node/xxx
       // 子路径导入，正则保证其他解析方式不受影响。
-      { find: /^onnxruntime-node$/, replacement: resolve(__dirname, 'src/vendor/onnxruntime-node-stub.js') },
-      // onnxruntime-web 双版本并存：@xenova/transformers 2.17.2 硬 pin 1.14.0
-      // （ort 自 1.17 起把 Tensor.data 改成原型 getter，transformers 的
-      // Object.assign 浅拷贝会丢 data，推理即崩——实机验证抓到），而
-      // @imgly/background-removal 需要新版 onnxruntime-web/webgpu 子路径。
-      // 处理：1.14.0 嵌套安装在 @xenova/transformers/node_modules/ 下，
-      // 顶层保留 1.19.2 供 imgly 子路径解析；bare 导入用本别名直取
-      // 1.14.0 的 wasm-only UMD 构建（不含 webgl，省体积）。wasm 二进制
-      // 由 useWasmModule 下载后经 wasmBinary 喂给 worker。
-      { find: /^onnxruntime-web$/, replacement: resolve(__dirname, 'node_modules/@xenova/transformers/node_modules/onnxruntime-web/dist/ort.wasm.min.js') }
+      { find: /^onnxruntime-node$/, replacement: resolve(__dirname, 'src/vendor/onnxruntime-node-stub.js') }
+      // 注意：这里**不能**给裸限定符 onnxruntime-web 加别名。
+      // @xenova/transformers 2.17.2 的 dist 是 webpack 预打包，内部以路径
+      // 字符串 "./node_modules/onnxruntime-web/dist/ort-web.min.js" 硬引用——
+      // ort-web.min.js 只存在于 1.14.x（1.17+ 已改名 ort.wasm.min.js 等），
+      // 因此该路径天然只会命中嵌套安装的 1.14.0，无需（也不能）用 alias 干预：
+      // 一旦 alias 裸限定符，@imgly/background-removal 的 import("onnxruntime-web")
+      // 也会被改写到 1.14 的 ort.wasm.min.js，与它自托管的 1.21 wasm 不匹配，
+      // 实例化直接失败（实机验证：expected magic word ... found 3c 21 64 6f）。
     ]
   },
   

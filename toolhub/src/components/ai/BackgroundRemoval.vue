@@ -61,6 +61,11 @@
       />
       <div v-if="processing && progressText" class="prog-text">{{ progressText }}</div>
 
+      <!-- 失败详情：只弹 toast 会让 wasm/模型加载失败完全无从排查 -->
+      <n-alert v-if="error && !processing" type="error" :show-icon="true" class="err">
+        {{ error }}
+      </n-alert>
+
       <!-- 结果对比 -->
       <div v-if="resultUrl" class="result-block">
         <div class="result-title">{{ t('ai.bgRemoval.resultTitle') }}</div>
@@ -131,6 +136,7 @@ function onFileChange(e) {
   revoke(resultUrl.value)
   previewUrl.value = ''
   resultUrl.value = ''
+  error.value = ''
   file.value = f
   previewUrl.value = URL.createObjectURL(f)
 }
@@ -139,10 +145,14 @@ async function removeBg() {
   if (!file.value) return
   processing.value = true
   progress.value = 0
+  error.value = ''
   progressText.value = t('ai.bgRemoval.loadingModel')
   try {
     const blob = await imglyRemoveBackground(file.value, {
-      publicPath: '/imgly-bg/',
+      // 必须是绝对 URL：imgly 内部用 new URL('resources.json', publicPath) 拼接
+      // 分片地址，base 非法会直接抛 "Failed to construct 'URL': Invalid base URL"，
+      // 表现为静默失败（catch 后只弹一个笼统的错误提示）。
+      publicPath: new URL('/imgly-bg/', window.location.origin).toString(),
       model: selectedModel.value,
       output: { format: 'image/png' },
       progress: (key, current, total) => {
@@ -158,6 +168,9 @@ async function removeBg() {
     message.success(t('ai.bgRemoval.done'))
   } catch (err) {
     console.error('[bgRemoval] failed:', err)
+    // 保留原始原因：imgly 的失败信息（如 wasm 实例化失败）藏在 err.message 里，
+    // 只弹笼统提示会让排障完全失去线索
+    error.value = String(err && err.message ? err.message : err)
     message.error(t('ai.bgRemoval.error'))
   } finally {
     processing.value = false
@@ -296,5 +309,10 @@ onBeforeUnmount(() => {
 }
 .privacy-note {
   margin-top: 18px;
+}
+.err {
+  margin-top: 12px;
+  font-size: 12px;
+  word-break: break-word;
 }
 </style>
