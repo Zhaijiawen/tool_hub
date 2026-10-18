@@ -13,6 +13,7 @@
 
         <!-- 文件上传 -->
         <n-upload
+          ref="uploadRef"
           accept="audio/*,.mp3,.wav,.m4a,.ogg,.opus,.flac,.webm"
           :max="1"
           :show-file-list="false"
@@ -119,6 +120,12 @@
         <n-alert v-else-if="errorText" type="error" :show-icon="true">
           {{ errorText }}
         </n-alert>
+        <n-alert
+          v-else-if="emptyResult && result && !result.text"
+          type="warning"
+          :show-icon="true"
+          :title="t('media.speechToText.emptyResult')"
+        />
 
         <!-- 流式中间结果 -->
         <div v-if="stream && partialText && running" class="partial">
@@ -187,12 +194,17 @@ const whisper = useWhisper()
 const file = ref(null)
 const audioUrl = ref('')
 const durationText = ref('')
+// n-upload 内部维护文件列表，:max="1" 会在列表已满时静默丢弃新选择。
+// 组件层面「清空」时必须同步清掉它，否则清空后无法重新选择文件。
+const uploadRef = ref(null)
 const task = ref('transcribe')
 const language = ref(null)
 const timestamps = ref(false)
 const stream = ref(true)
 const result = ref(null)
 const errorText = ref('')
+// 识别完成但文本为空——需要与「失败」区分开，给出可行动的原因
+const emptyResult = ref(false)
 
 const taskOptions = computed(() => [
   { label: t('media.speechToText.taskTranscribe'), value: 'transcribe' },
@@ -281,6 +293,10 @@ function clearFile() {
   durationText.value = ''
   result.value = null
   errorText.value = ''
+  emptyResult.value = false
+  // 关键：同步清空 n-upload 内部列表，否则 :max="1" 会在下一次选择时
+  // 因列表已满而静默丢弃新文件（naive-ui Upload.mjs 用 slice(0, max-len) 截断）。
+  uploadRef.value?.clear()
 }
 
 function cancelDownload() {
@@ -292,6 +308,7 @@ function cancelDownload() {
 async function run() {
   if (!file.value) return
   errorText.value = ''
+  emptyResult.value = false
   result.value = null
   const started = Date.now()
   try {
@@ -306,6 +323,10 @@ async function run() {
       text: out.text,
       chunks: out.chunks,
       elapsed: ((Date.now() - started) / 1000).toFixed(1)
+    }
+    // 空结果要给出可行动的解释，否则用户只看到「字符数: 0」无从判断
+    if (!out.text || !out.text.trim()) {
+      emptyResult.value = true
     }
   } catch (err) {
     errorText.value = String(err && err.message ? err.message : err)

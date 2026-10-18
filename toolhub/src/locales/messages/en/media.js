@@ -80,6 +80,7 @@ export default {
       downloadSrt: "Download SRT subtitles",
       segments: "Segments",
       cancelled: "Download cancelled",
+      emptyResult: "No speech was recognized. Common causes: the recording level is too low (the tiny model often returns nothing when the peak stays under 0.1), the audio is silent throughout, or it contains no speech. Check the audio and try again.",
       infoTitle: "Usage Guide",
       infoContent: "This tool runs Whisper tiny (int8 quantized, @xenova/transformers + ONNX Runtime WebAssembly) entirely in your browser — audio is never uploaded. \"Transcribe\" outputs text in the detected language; \"Translate to English\" turns speech in any language directly into English text (Whisper's translation task). With timestamps enabled you can download SRT subtitle files. Recognition time scales with audio length — tiny runs at roughly 1-3x realtime; results are best for clear speech, and accuracy drops in noisy environments or with multiple overlapping speakers."
     }

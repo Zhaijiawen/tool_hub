@@ -5,7 +5,7 @@
  * 1. 推理放 worker——一次 30s 窗口的编码+解码是秒级重活，主线程跑必卡。
  * 2. onnxruntime 的 wasm 二进制由主线程经 useWasmModule 下载后喂进来
  *    （进度/取消/缓存体系），同时把 wasmPaths 指向自托管目录——
- *    threaded wasm 的线程池代理（.mjs）由 onnxruntime 自行拉取，必须就位。
+ *    ort 1.14 的线程 worker 由其内联胶水创建，无需外部代理文件。
  * 3. 模型走本地 /models/whisper-tiny/（fetch:whisper-assets 落位），
  *    并关闭 allowRemoteModels：缺文件时直接报错，不静默回源 huggingface.co。
  * 4. 音频解码不在 worker 做：worker 里没有 AudioContext。主线程
@@ -36,10 +36,13 @@ function post(msg, transfer) {
 }
 
 function fail(id, message) {
+  let text = String(message && message.message ? message.message : message)
+  // 浏览器端排障：worker 内的堆栈不会进主线程 console，随错误一起上报
+  if (message && message.stack) text += '\n' + message.stack
   post({
     type: 'toolhub:whisper-error',
     id,
-    message: String(message && message.message ? message.message : message)
+    message: text
   })
 }
 
@@ -52,7 +55,9 @@ self.addEventListener('message', async (e) => {
       if (msg.wasmBinary) {
         const bytes = new Uint8Array(msg.wasmBinary)
         env.backends.onnx.wasm.wasmBinary = bytes
-        // 线程池代理（ort-wasm-simd-threaded.mjs）由 ort 自行从 wasmPaths 拉取
+        // ort 1.14（transformers 2.17.2 的 pin 版本）的 emscripten 胶水内联在
+        // ort 包 JS 里，线程 worker 由其内部 Blob 创建，无需外部 .mjs 代理。
+        // wasmPaths 仍指向自托管目录，供非 threaded 变体等运行时探测回退用。
         env.backends.onnx.wasm.wasmPaths = WASM_PATHS
       }
 

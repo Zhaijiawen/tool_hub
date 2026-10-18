@@ -80,6 +80,7 @@ export default {
       downloadSrt: "下载 SRT 字幕",
       segments: "分段",
       cancelled: "已取消下载",
+      emptyResult: "未识别到语音内容。常见原因：录音音量过低（峰值低于 0.1 时 tiny 模型常输出空）、整段为静音，或不含人声。请检查音频后重试。",
       infoTitle: "使用说明",
       infoContent: "本工具基于 Whisper tiny（int8 量化，@xenova/transformers + ONNX Runtime WebAssembly）在浏览器本地运行，音频不会上传。\"转写\"按检测到的语言输出原文，\"翻译为英文\"把任意语言语音直接转成英文文本（Whisper 的翻译任务）。生成时间戳后可下载 SRT 字幕文件。识别速度与音频长度正相关，tiny 模型约 1-3 倍实时；对清晰人声效果最好，嘈杂环境或多 Speaker 混说时错误率会上升。"
     }

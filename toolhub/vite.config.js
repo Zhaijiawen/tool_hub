@@ -58,12 +58,15 @@ export default defineConfig({
       // 锚定正则只匹配裸限定符：字符串别名会连带重写 onnxruntime-node/xxx
       // 子路径导入，正则保证其他解析方式不受影响。
       { find: /^onnxruntime-node$/, replacement: resolve(__dirname, 'src/vendor/onnxruntime-node-stub.js') },
-      // onnxruntime-web 的默认入口（exports → ort.bundle.min.mjs）面向 Node 场景
-      // 做条件分支；这里显式指向 wasm 变体——纯 JS 46KB，wasm 二进制由
-      // useWasmModule 下载后经 wasmBinary 喂给 worker（进度/取消/缓存体系）。
-      // 同样只匹配裸限定符，否则 onnxruntime-web/webgpu 等子路径（@imgly/
-      // background-removal 在用）会被错拼成 <文件>/webgpu 导致 ENOTDIR。
-      { find: /^onnxruntime-web$/, replacement: resolve(__dirname, 'node_modules/onnxruntime-web/dist/ort.wasm.min.mjs') }
+      // onnxruntime-web 双版本并存：@xenova/transformers 2.17.2 硬 pin 1.14.0
+      // （ort 自 1.17 起把 Tensor.data 改成原型 getter，transformers 的
+      // Object.assign 浅拷贝会丢 data，推理即崩——实机验证抓到），而
+      // @imgly/background-removal 需要新版 onnxruntime-web/webgpu 子路径。
+      // 处理：1.14.0 嵌套安装在 @xenova/transformers/node_modules/ 下，
+      // 顶层保留 1.19.2 供 imgly 子路径解析；bare 导入用本别名直取
+      // 1.14.0 的 wasm-only UMD 构建（不含 webgl，省体积）。wasm 二进制
+      // 由 useWasmModule 下载后经 wasmBinary 喂给 worker。
+      { find: /^onnxruntime-web$/, replacement: resolve(__dirname, 'node_modules/@xenova/transformers/node_modules/onnxruntime-web/dist/ort.wasm.min.js') }
     ]
   },
   

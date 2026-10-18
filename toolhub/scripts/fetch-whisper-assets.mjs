@@ -1,13 +1,17 @@
 /**
  * 获取语音转文字（Whisper）工具所需的大体积资产：
  *
- * 1. onnxruntime-web 的 WASM 后端（约 10.5MB + 24KB 线程代理）
- *    node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm
- *    -> public/wasm/ort/ort-wasm-simd-threaded.wasm
- *    选 simd-threaded 变体：站点已配 COOP/COEP(credentialless)，
- *    SharedArrayBuffer 可用，多线程推理显著快于单线程。
- *    .mjs 是 emscripten 的线程池 worker 代理，onnxruntime 建线程时会
- *    从 wasmPaths 拉取，必须一起就位（只喂 wasmBinary 不够）。
+ * 1. onnxruntime-web 的 WASM 后端二进制
+ *    node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm -> public/wasm/ort/
+ *    node_modules/onnxruntime-web/dist/ort-wasm-simd.wasm         -> public/wasm/ort/
+ *    版本必须是 1.14.0（@xenova/transformers 2.17.2 的硬性 pin，见其
+ *    package.json dependencies）。ort 自 1.17 起把 Tensor.data 改成原型
+ *    getter（数据挪进自有字段 cpuData），transformers 用 Object.assign
+ *    浅拷贝 ONNX Tensor，拷不到 data → 推理期 "Cannot use 'in' operator
+ *    to search for 'subarray' in undefined" 崩溃（实机验证抓到）。
+ *    两个变体都要就位：ort 运行时探测 SharedArrayBuffer 可用性后自行
+ *    选择 threaded / 非 threaded 二进制（1.14 的 emscripten 胶水内联在
+ *    ort 包的 JS 里，无独立 .mjs 代理文件）。
  *
  * 2. Whisper tiny（int8 量化）模型文件（合计约 43.5MB）
  *    Xenova/whisper-tiny -> public/models/whisper-tiny/
@@ -31,7 +35,7 @@ function mb(bytes) {
 }
 
 // ---------- 1. onnxruntime-web wasm ----------
-const ORT_FILES = ['ort-wasm-simd-threaded.wasm', 'ort-wasm-simd-threaded.mjs']
+const ORT_FILES = ['ort-wasm-simd-threaded.wasm', 'ort-wasm-simd.wasm']
 const ORT_DIR = path.join(ROOT, 'public/wasm/ort')
 
 let ortCopied = false
