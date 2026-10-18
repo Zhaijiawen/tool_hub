@@ -114,7 +114,7 @@
     </n-card>
 
   </div>
-  <TutorialAndDocs toolKey="httpStatus" />
+  <TutorialAndDocs toolKey="http-status" />
 </template>
 
 <script setup>

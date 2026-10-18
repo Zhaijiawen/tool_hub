@@ -102,7 +102,7 @@
 
       </n-space>
     </n-card>
-  <TutorialAndDocs toolKey="csvViewer" />
+  <TutorialAndDocs toolKey="csv" />
   </div>
 </template>
 

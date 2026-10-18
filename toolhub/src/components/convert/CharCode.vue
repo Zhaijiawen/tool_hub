@@ -71,7 +71,7 @@
     </n-card>
     
   </div>
-  <TutorialAndDocs toolKey="charCode" />
+  <TutorialAndDocs toolKey="char-code" />
 </template>
 
 <script setup>

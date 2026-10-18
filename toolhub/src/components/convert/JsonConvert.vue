@@ -1,7 +1,7 @@
 <template>
   <div class="json-convert-tool">
     <!-- 工具简介 -->
-    <ToolIntro toolKey="jsonToTs" />
+    <ToolIntro toolKey="jsonConvert" />
 
     <n-card :title="t('convert.jsonConvert.title')" :bordered="false">
       <n-space vertical size="large">

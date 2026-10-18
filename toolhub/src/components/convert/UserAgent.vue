@@ -80,7 +80,7 @@
     </n-card>
 
   </div>
-  <TutorialAndDocs toolKey="userAgent" />
+  <TutorialAndDocs toolKey="user-agent" />
 </template>
 
 <script setup>

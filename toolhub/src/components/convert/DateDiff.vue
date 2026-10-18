@@ -70,7 +70,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    <TutorialAndDocs toolKey="datecalc" />
+    <TutorialAndDocs toolKey="date-diff" />
   </div>
 </template>
 

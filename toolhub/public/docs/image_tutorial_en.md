@@ -1,44 +1,37 @@
-# Image Processing — Usage Tutorial
+# Image Tools — Usage Tutorial
 
-The image tools let you convert, resize, crop, rotate, and compress images — all in the browser. Each operation has its own tab, and they work independently.
+Image operations are split into separate tools, each focused on one job. Everything runs in the browser; images never leave your device.
 
 ## Format conversion
 
-Drag an image onto the page or click to browse. The tool shows the original format and file size. Pick a target format from the dropdown — JPEG, PNG, WebP, AVIF, or BMP. For lossy formats (JPEG, WebP, AVIF), a quality slider lets you balance file size against visual quality. The output updates in real time as you adjust.
+Upload images (multi-select, up to 10) and pick a target format — JPEG, PNG, or GIF. Lossy formats (JPEG) show a quality slider; PNG and GIF are lossless with no quality option. To change dimensions, expand "Resize": enter width/height in pixels or percent, aspect ratio locked by default. When done, click "Download All".
 
-Click download to save the converted image. The file never left your browser.
+WebP and AVIF are not here — those modern formats are handled by the "WebP / AVIF conversion" tool with WASM encoders, producing smaller files at similar quality.
 
-Quick format tips:
-- PNG to JPEG: Transparent areas become white. If your PNG has transparency, either pick WebP or accept the white background.
-- JPEG to PNG: File size will increase since PNG is lossless. You're not gaining quality — the JPEG artifacts are already baked in.
-- Anything to WebP/AVIF: Best compression, but check the output if you're sending it to someone who might open it in older software.
+Quick format advice:
+- PNG to JPEG: transparent areas become white. If the PNG has an alpha channel, either choose WebP or accept the white background.
+- JPEG to PNG: the file grows because PNG is lossless. Quality doesn't improve — JPEG's artifacts are already baked in.
 
-## Resize
+## WebP / AVIF conversion
 
-Enter target dimensions in pixels. The aspect ratio lock is on by default — change width and height scales together. Unlock it if you need a specific non-proportional size, but expect stretching.
+Upload an image, pick WebP or AVIF, adjust the quality slider, and watch the compression preview in real time. Generated locally by WASM encoders — typically 25-50% smaller than the original JPEG/PNG at comparable quality. Ideal for slimming down website assets.
 
-The resize is done with the browser's built-in interpolation. For downscaling, this is perfectly fine. For upscaling, the result will look soft — there's no way around that without AI upscaling.
+## PNG optimization
 
-Common presets are available: half size, thumbnail (150px), and social media dimensions.
+PNG only, and **lossless** — pixels unchanged, file smaller. Seven compression levels; higher levels squeeze harder and take longer. The tool shows before/after size comparison. Already-optimized PNGs will show minimal gains; that's normal.
 
 ## Crop
 
-Draw a selection rectangle on the image by clicking and dragging. The selection shows pixel coordinates and dimensions in real time. You can type exact pixel values if you need precision — useful for profile pictures that require specific dimensions.
+Upload an image, drag a selection rectangle on the preview, and watch pixel coordinates update live. For precise dimensions, type width/height directly or lock a preset aspect ratio. Download when done.
 
-Available constraint modes:
-- **Free**: Any aspect ratio you want
-- **Square** (1:1): For avatars, profile pictures, Instagram
-- **4:3 / 16:9 / 3:2**: Common photo and video aspect ratios
-- **Custom**: Lock to any ratio you specify
+## Rotate
 
-## Rotate and flip
+Upload an image, drag the angle slider (0-360°, 90° steps). Original and rotated previews sit side by side; download when satisfied. Custom angles require interpolation, so non-right angles show slight quality changes; 90° steps are lossless.
 
-Rotate in 90-degree increments or enter a custom angle. 90-degree rotations are lossless — pixels are just rearranged, not resampled. Custom angles require interpolation, so expect a slight quality change at non-right-angle rotations.
+## Watermark
 
-Flip horizontally and vertically are instant. Horizontally flipping a photo with text will mirror the text — useful for selfies (front cameras often mirror the preview), not useful for documents.
+Upload an image, type the watermark text, and adjust color, font size, opacity, and rotation angle. Good for marking samples or adding a simple copyright notice. The watermark is drawn into the pixels — not an overlay — so it's baked in on download.
 
-## Compression
+## EXIF
 
-If you just need to shrink a file without changing anything else, use the compress tab. Load any image and adjust the quality slider. The tool shows a before/after comparison with file sizes and a visual preview so you can see what you're trading off.
-
-For JPEGs, going from quality 100 to 80 typically halves the file size with no visible difference. Below 60, artifacts start appearing — look for blocky areas in gradients and blurring around sharp edges.
+View a photo's full EXIF data (camera, lens, exposure parameters, GPS, etc.), or strip it in one click. Running a strip before sharing is a good habit — GPS coordinates and device model are things you probably don't want to broadcast.

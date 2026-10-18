@@ -75,7 +75,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    <TutorialAndDocs toolKey="encode" />
+    <TutorialAndDocs toolKey="jwt" />
   </div>
 </template>
 

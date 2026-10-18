@@ -61,7 +61,7 @@
         {{ error }}
       </n-alert>
     </n-card>
-    <TutorialAndDocs toolKey="encode" />
+    <TutorialAndDocs toolKey="htmlCodec" />
   </div>
 </template>
 

@@ -70,7 +70,7 @@
     </n-card>
 
   </div>
-  <TutorialAndDocs toolKey="numberBase" />
+  <TutorialAndDocs toolKey="number-base" />
 </template>
 
 <script setup>

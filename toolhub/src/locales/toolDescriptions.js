@@ -137,60 +137,6 @@ export const toolDescriptions = {
     ]
   },
 
-  "ecdh-key-exchange": {
-    features: [
-      '支持多种椭圆曲线标准',
-      '安全的密钥交换协议',
-      '实时密钥生成',
-      '密钥验证功能'
-    ],
-    useCases: [
-      '安全通信协议',
-      'VPN 和隧道连接',
-      '移动应用安全',
-      'IoT 设备通信'
-    ],
-    usageSteps: [
-      '选择椭圆曲线类型',
-      '生成本地密钥对',
-      '输入对方公钥',
-      '计算共享密钥'
-    ],
-    bestPractices: [
-      '使用标准化的椭圆曲线',
-      '验证对方公钥的有效性',
-      '定期更新密钥对',
-      '安全传输公钥信息'
-    ]
-  },
-
-  "ecdsa-sign": {
-    features: [
-      '支持多种椭圆曲线标准',
-      '数字签名生成和验证',
-      '密钥对管理',
-      '签名格式转换'
-    ],
-    useCases: [
-      '区块链交易签名',
-      '软件包完整性验证',
-      '数字证书签名',
-      '安全通信认证'
-    ],
-    usageSteps: [
-      '选择椭圆曲线类型',
-      '生成或导入密钥对',
-      '输入要签名的消息',
-      '生成签名或验证签名'
-    ],
-    bestPractices: [
-      '使用标准化的椭圆曲线',
-      '安全保存私钥',
-      '使用强随机数生成器',
-      '定期更新密钥对'
-    ]
-  },
-
   // 转换工具
   timestamp: {
     features: [
@@ -220,61 +166,7 @@ export const toolDescriptions = {
   },
 
   // 图像工具
-  convert: {
-    features: [
-      '支持 JPG、PNG、WebP、GIF 等格式',
-      '质量参数可调节',
-      '批量转换功能',
-      '保持图像质量'
-    ],
-    useCases: [
-      '网页图片优化',
-      '移动应用图片处理',
-      '图片格式标准化',
-      '存储空间优化'
-    ],
-    usageSteps: [
-      '上传要转换的图像',
-      '选择目标格式',
-      '调整质量参数',
-      '下载转换结果'
-    ],
-    bestPractices: [
-      '根据用途选择合适的格式',
-      '注意图像质量和文件大小的平衡',
-      '保持原始图像的备份',
-      '考虑浏览器兼容性'
-    ]
-  },
-
   // 文本工具
-  textCase: {
-    features: [
-      '支持多种大小写格式',
-      '批量转换功能',
-      '实时预览效果',
-      '保持特殊字符'
-    ],
-    useCases: [
-      '编程变量命名',
-      '文档标题格式化',
-      '数据库字段命名',
-      'API 参数标准化'
-    ],
-    usageSteps: [
-      '输入要转换的文本',
-      '选择目标格式',
-      '点击转换按钮',
-      '复制转换结果'
-    ],
-    bestPractices: [
-      '保持命名的一致性',
-      '遵循语言规范',
-      '使用有意义的名称',
-      '避免过长的名称'
-    ]
-  },
-
   // 其他工具
   qrcode: {
     features: [
@@ -440,33 +332,6 @@ export const toolDescriptions = {
   },
 
   // 更多加密工具
-  hex: {
-    features: [
-      '十六进制编码解码',
-      '二进制数据转换',
-      '颜色值处理',
-      '批量转换功能'
-    ],
-    useCases: [
-      '二进制数据分析',
-      '颜色值转换',
-      '网络协议分析',
-      '数据调试和验证'
-    ],
-    usageSteps: [
-      '输入要转换的数据',
-      '选择转换方向',
-      '点击转换按钮',
-      '查看转换结果'
-    ],
-    bestPractices: [
-      '注意大小写一致性',
-      '验证转换结果',
-      '处理特殊字符',
-      '考虑数据完整性'
-    ]
-  },
-
   // 更多转换工具
   color: {
     features: [
@@ -744,33 +609,6 @@ export const toolDescriptions = {
     ]
   },
 
-  "date-calc": {
-    features: [
-      '日期加减计算',
-      '工作日计算',
-      '时区转换',
-      '日期格式转换'
-    ],
-    useCases: [
-      '项目计划制定',
-      '财务计算',
-      '日程安排',
-      '数据分析'
-    ],
-    usageSteps: [
-      '选择计算类型',
-      '输入日期参数',
-      '设置计算规则',
-      '查看计算结果'
-    ],
-    bestPractices: [
-      '注意时区差异',
-      '考虑闰年规则',
-      '处理边界情况',
-      '验证计算结果'
-    ]
-  },
-
   // 更多加密工具
   rsa: {
     features: [
@@ -879,114 +717,6 @@ export const toolDescriptions = {
     ]
   },
 
-  java: {
-    features: [
-      'Java 语法高亮显示',
-      '自动缩进和格式化',
-      '代码风格统一',
-      '多种格式化选项'
-    ],
-    useCases: [
-      'Java 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
-    ],
-    usageSteps: [
-      '将 Java 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
-    ],
-    bestPractices: [
-      '遵循 Java 编码规范',
-      '保持代码结构清晰',
-      '适当添加注释说明',
-      '使用有意义的变量和方法名'
-    ]
-  },
-
-  php: {
-    features: [
-      'PHP 语法高亮显示',
-      '自动缩进和格式化',
-      'PSR 标准支持',
-      '多种格式化选项'
-    ],
-    useCases: [
-      'PHP 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
-    ],
-    usageSteps: [
-      '将 PHP 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
-    ],
-    bestPractices: [
-      '遵循 PSR 编码规范',
-      '使用有意义的变量名',
-      '适当添加注释说明',
-      '保持代码结构清晰'
-    ]
-  },
-
-  ruby: {
-    features: [
-      'Ruby 语法高亮显示',
-      '自动缩进和格式化',
-      'Ruby 风格指南支持',
-      '多种格式化选项'
-    ],
-    useCases: [
-      'Ruby 代码格式化和美化',
-      '团队协作开发',
-      '代码审查和重构',
-      '项目代码规范统一'
-    ],
-    usageSteps: [
-      '将 Ruby 代码粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
-    ],
-    bestPractices: [
-      '遵循 Ruby 风格指南',
-      '使用有意义的变量名',
-      '保持代码简洁优雅',
-      '适当添加注释说明'
-    ]
-  },
-
-  shell: {
-    features: [
-      'Shell 语法高亮显示',
-      '自动缩进和格式化',
-      '多种 Shell 方言支持',
-      '多种格式化选项'
-    ],
-    useCases: [
-      'Shell 脚本格式化和美化',
-      '系统管理脚本编写',
-      '自动化脚本开发',
-      '脚本代码规范统一'
-    ],
-    usageSteps: [
-      '将 Shell 脚本粘贴到输入框',
-      '选择格式化选项（美化/压缩）',
-      '点击格式化按钮',
-      '查看格式化结果'
-    ],
-    bestPractices: [
-      '使用有意义的变量名',
-      '添加适当的注释说明',
-      '处理错误和异常情况',
-      '遵循 Shell 脚本最佳实践'
-    ]
-  },
-
   vue: {
     features: [
       'Vue 语法高亮显示',
@@ -1011,87 +741,6 @@ export const toolDescriptions = {
       '使用有意义的组件名',
       '保持代码结构清晰',
       '适当添加注释说明'
-    ]
-  },
-
-  "ed25519-sign": {
-    features: [
-      'Ed25519 密钥对生成',
-      '数字签名生成',
-      '签名验证',
-      '高性能椭圆曲线算法'
-    ],
-    useCases: [
-      '数字签名和验证',
-      '身份认证',
-      '软件包签名',
-      '区块链应用'
-    ],
-    usageSteps: [
-      '生成 Ed25519 密钥对',
-      '使用私钥对数据进行签名',
-      '使用公钥验证签名',
-      '查看签名结果'
-    ],
-    bestPractices: [
-      '安全保存私钥',
-      '定期更换密钥对',
-      '验证公钥的真实性',
-      '使用安全的随机数生成器'
-    ]
-  },
-
-  "rsa-sign": {
-    features: [
-      'RSA 密钥对生成',
-      '数字签名生成',
-      '签名验证',
-      '多种哈希算法支持'
-    ],
-    useCases: [
-      '数字签名和验证',
-      '身份认证',
-      '软件包签名',
-      '安全通信'
-    ],
-    usageSteps: [
-      '生成 RSA 密钥对',
-      '使用私钥对数据进行签名',
-      '使用公钥验证签名',
-      '查看签名结果'
-    ],
-    bestPractices: [
-      '安全保存私钥',
-      '使用强密钥长度（2048位以上）',
-      '定期更换密钥对',
-      '验证公钥的真实性'
-    ]
-  },
-
-  url: {
-    features: [
-      'URL 编码和解码',
-      '特殊字符处理',
-      '批量处理功能',
-      '多种编码标准支持'
-    ],
-    useCases: [
-      'URL 参数编码',
-      'Web 开发调试',
-      'API 接口开发',
-      '数据传输安全'
-    ],
-    usageSteps: [
-      '输入要编码或解码的文本',
-      '选择编码或解码操作',
-      '点击相应按钮进行处理',
-      '复制或下载结果'
-    ],
-    bestPractices: [
-      '注意字符编码的一致性',
-      '验证解码结果的正确性',
-      '处理特殊字符时要小心',
-      '在 URL 中使用编码后的数据'
     ]
   },
 
@@ -1284,33 +933,6 @@ export const toolDescriptions = {
     ]
   },
 
-  "storage-time": {
-    features: [
-      '存储容量转换',
-      '时间单位转换',
-      '实时计算',
-      '精度控制'
-    ],
-    useCases: [
-      '存储容量计算',
-      '时间单位换算',
-      '性能分析',
-      '系统设计'
-    ],
-    usageSteps: [
-      '选择转换类型',
-      '输入数值',
-      '选择源单位',
-      '选择目标单位'
-    ],
-    bestPractices: [
-      '注意单位类型',
-      '验证输入数值',
-      '选择合适的精度',
-      '检查转换结果'
-    ]
-  },
-
   "user-agent": {
     features: [
       '浏览器信息解析',
@@ -1335,33 +957,6 @@ export const toolDescriptions = {
       '注意隐私保护',
       '验证解析结果',
       '处理异常情况'
-    ]
-  },
-
-  imageConvert: {
-    features: [
-      '多种格式支持',
-      '质量控制',
-      '实时预览',
-      '大小优化'
-    ],
-    useCases: [
-      '网页图片优化',
-      '格式兼容性',
-      '文件大小减少',
-      '图片处理工作流'
-    ],
-    usageSteps: [
-      '上传源图片',
-      '选择目标格式',
-      '调整质量设置',
-      '下载转换后的图片'
-    ],
-    bestPractices: [
-      '根据用途选择合适的格式',
-      '平衡质量和文件大小',
-      '考虑浏览器兼容性',
-      '在不同设备上测试'
     ]
   },
 
@@ -2285,36 +1880,6 @@ export const toolDescriptions = {
     ]
   },
 
-  compress: {
-    features: [
-      '支持JPG、PNG、WebP格式图片压缩',
-      '质量滑块10%到100%自由调节',
-      '显示原始大小与压缩后大小及压缩率',
-      '批量上传最多10张图片',
-      '一键下载所有压缩结果'
-    ],
-    useCases: [
-      '网页图片加载速度优化',
-      '邮件附件图片压缩',
-      '移动端上传前图片预处理',
-      '博客和电商产品图优化',
-      '批量处理摄影作品用于网络分享'
-    ],
-    usageSteps: [
-      '拖拽或点击选择1到10张图片',
-      '调整质量滑块设置压缩程度',
-      '等待自动压缩完成',
-      '对比查看压缩前后大小和压缩率',
-      '点击下载保存压缩后的图片'
-    ],
-    bestPractices: [
-      '80%质量通常能在质量和体积间取得好平衡',
-      'PNG图片压缩效果不如JPG/WebP',
-      '批量压缩时统一设置质量滑块更高效',
-      '压缩操作在浏览器本地完成，图片不会上传'
-    ]
-  },
-
   promptBox: {
     features: [
       '内置 16 个专业 Prompt 模板，覆盖代码、写作、分析、角色、增强 5 大分类',
@@ -2386,38 +1951,6 @@ export const toolDescriptions = {
   },
 
   // ===== CSV/TSV 预览解析（中文） =====
-  csvViewer: {
-    features: [
-      '支持粘贴文本和上传文件两种输入方式（最大 5MB）',
-      '自动检测逗号、Tab、分号、管道符四种分隔符',
-      '首行表头自动识别，亦可手动关闭',
-      '渲染为可排序的数据表格，支持点击列标题排序',
-      '全局关键字搜索实时过滤数据行',
-      '支持导出为 JSON 数组和重新下载为标准 CSV',
-      '大文件友好：超过 10000 行时自动截断并提示',
-      '所有解析处理完全在浏览器本地完成，数据不上传'
-    ],
-    useCases: [
-      '快速预览服务端导出的 CSV 报表',
-      '核查 Excel 转 CSV 后的数据格式',
-      '将 CSV 数据转换为 JSON 供前端使用',
-      '分析 TSV 格式的日志或数据集',
-      '数据清洗前的快速浏览和过滤'
-    ],
-    usageSteps: [
-      '选择"粘贴文本"直接粘贴内容，或切换"上传文件"拖拽文件',
-      '分隔符默认自动检测，如识别有误可手动切换',
-      '可选择首行是否作为表头',
-      '在搜索框输入关键词实时过滤，点击列标题排序',
-      '点击"导出 JSON"或"下载 CSV"按钮输出数据'
-    ],
-    bestPractices: [
-      '文件请确保使用 UTF-8 编码，否则中文可能乱码',
-      '大文件（>1MB）建议直接上传，避免粘贴操作卡顿',
-      '导出 JSON 前可先用搜索筛选出目标数据'
-    ]
-  },
-
   // ===== IP/CIDR 子网计算器（中文） =====
   cidr: {
     features: [
@@ -2699,114 +2232,6 @@ export const toolDescriptions = {
     ]
   },
 
-  dateDiff: {
-    features: [
-      '计算两个日期间隔',
-      '支持多种单位（年/月/日/时/分/秒）',
-      '精确到毫秒',
-      '工作日差计算'
-    ],
-    useCases: [
-      '计算年龄',
-      '项目工期计算',
-      '倒计时显示',
-      '时间跨度统计'
-    ],
-    usageSteps: [
-      '输入开始日期',
-      '输入结束日期',
-      '选择显示单位',
-      '查看时间差'
-    ],
-    bestPractices: [
-      '注意时区一致性',
-      '考虑夏令时影响',
-      '工作日计算排除周末',
-      '精确计算使用时间戳'
-    ]
-  },
-
-  dnsQuery: {
-    features: [
-      'DNS 记录查询',
-      '支持 A、AAAA、MX、TXT、CNAME 等',
-      '多 DNS 服务器查询',
-      '查询历史记录'
-    ],
-    useCases: [
-      '域名解析调试',
-      '邮件服务器配置验证',
-      'CDN 配置检查',
-      'DNS 传播验证'
-    ],
-    usageSteps: [
-      '输入域名',
-      '选择记录类型',
-      '选择 DNS 服务器',
-      '查看查询结果'
-    ],
-    bestPractices: [
-      '使用多个 DNS 服务器验证',
-      'TTL 影响缓存时间',
-      '注意 DNS 传播延迟',
-      '定期检查 DNS 记录'
-    ]
-  },
-
-  ipQuery: {
-    features: [
-      'IP 地址查询',
-      '地理位置定位',
-      'ISP 信息',
-      'IP 段归属查询'
-    ],
-    useCases: [
-      'IP 地址归属查询',
-      '网络问题排查',
-      '访客来源分析',
-      '安全审计'
-    ],
-    usageSteps: [
-      '输入 IP 地址',
-      '点击查询',
-      '查看地理位置和 ISP',
-      '查看详细信息'
-    ],
-    bestPractices: [
-      'IPv4 和 IPv6 支持',
-      'IP 数据库定期更新',
-      '注意代理和 VPN 影响',
-      '隐私保护考虑'
-    ]
-  },
-
-  colorPicker: {
-    features: [
-      '颜色选择器',
-      '多种格式输出（HEX、RGB、HSL）',
-      '颜色转换',
-      '取色器功能'
-    ],
-    useCases: [
-      'UI 设计取色',
-      '颜色格式转换',
-      '配色方案生成',
-      'CSS 颜色值获取'
-    ],
-    usageSteps: [
-      '使用拾色器选择颜色',
-      '或输入颜色值',
-      '查看多种格式输出',
-      '复制所需格式'
-    ],
-    bestPractices: [
-      '了解不同格式适用场景',
-      'HEX 用于 CSS',
-      'RGB 用于图像处理',
-      'HSL 便于调整亮度和饱和度'
-    ]
-  },
-
   csv: {
     features: [
       'CSV 文件查看',
@@ -2858,33 +2283,6 @@ export const toolDescriptions = {
       '压缩时平衡质量和体积',
       'PNG 适合透明背景',
       'JPG 适合照片'
-    ]
-  },
-
-  jsonToTs: {
-    features: [
-      'JSON 转 TypeScript 类型',
-      '自动推断类型',
-      '嵌套对象支持',
-      '数组类型处理'
-    ],
-    useCases: [
-      'API 响应类型生成',
-      '接口定义自动化',
-      'TypeScript 开发',
-      '类型安全'
-    ],
-    usageSteps: [
-      '粘贴 JSON 数据',
-      '生成 TypeScript 接口',
-      '调整类型名称',
-      '复制代码'
-    ],
-    bestPractices: [
-      '检查生成的类型准确性',
-      '处理可选字段',
-      '注意联合类型',
-      '优化嵌套结构'
     ]
   },
 
@@ -3112,6 +2510,38 @@ export const toolDescriptions = {
       '不确定某种组合是否支持时看 pandoc 的警告提示；不支持的组合会直接报错'
     ]
   },
+  python: {
+    features: [
+      '基于 Pyodide（CPython 3.13 编译为 WebAssembly）在浏览器本地运行 Python，无需安装任何环境',
+      '完整的 Python 标准库：json / re / datetime / math / statistics / collections / itertools / heapq 等',
+      '结果、print 输出、错误信息分离展示，附执行耗时',
+      'Python 异常捕获：显示异常类型与信息（如 ZeroDivisionError: division by zero）',
+      '5 个可一键载入的示例代码（统计计算 / JSON 处理 / 正则提取 / 日期计算 / 算法实现）',
+      '计算在 Web Worker 中执行，长脚本不会冻结界面',
+      'WASM 引擎（约 11MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
+      '纯本地运行，代码不会上传到任何服务器'
+    ],
+    useCases: [
+      '快速验证一段 Python 逻辑或算法，不必打开本地环境',
+      '用正则或字符串处理批量文本',
+      '计算统计数据（均值、中位数、标准差、分位数）',
+      '练手数据结构与算法（BFS、堆排序等手写实现）',
+      '处理 JSON 数据、做格式转换'
+    ],
+    usageSteps: [
+      '点击上方示例按钮载入示例代码，或直接编写 Python 代码',
+      '点击「运行代码」：首次使用会自动下载 Python 引擎（约 11MB，有进度条，可取消）',
+      '查看返回值、stdout 输出与 stderr 错误',
+      '若有异常，按提示修正代码后重新运行'
+    ],
+    bestPractices: [
+      '标准库模式不含 numpy / pandas：需要矩阵运算或大数据分析时，用本地 Python 环境更合适',
+      '代码在 Worker 中执行，长耗时脚本（如大数据循环）仍可能需要几十秒，请耐心等待',
+      'Python 脚本耗时不可预知，故进度条在执行阶段固定显示 95%，不代表卡死',
+      '交互式输入（input()）不可用：浏览器无 stdin，如需交互请改用固定输入',
+      '网络请求不可用：标准库中的 urllib/requests 在 Pyodide 中受沙箱限制，涉及网络的功能请在本地环境运行'
+    ]
+  },
 }
 
 // 英文版本
@@ -3306,60 +2736,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  "ecdh-key-exchange": {
-    features: [
-      'Support for multiple elliptic curve standards',
-      'Secure key exchange protocol',
-      'Real-time key generation',
-      'Key verification functionality'
-    ],
-    useCases: [
-      'Secure communication protocols',
-      'VPN and tunnel connections',
-      'Mobile app security',
-      'IoT device communication'
-    ],
-    usageSteps: [
-      'Select elliptic curve type',
-      'Generate local key pair',
-      'Enter other party\'s public key',
-      'Calculate shared key'
-    ],
-    bestPractices: [
-      'Use standardized elliptic curves',
-      'Verify other party\'s public key validity',
-      'Regularly update key pairs',
-      'Securely transmit public key information'
-    ]
-  },
-
-  "ecdsa-sign": {
-    features: [
-      'Support for multiple elliptic curve standards',
-      'Digital signature generation and verification',
-      'Key pair management',
-      'Signature format conversion'
-    ],
-    useCases: [
-      'Blockchain transaction signing',
-      'Software package integrity verification',
-      'Digital certificate signing',
-      'Secure communication authentication'
-    ],
-    usageSteps: [
-      'Select elliptic curve type',
-      'Generate or import key pair',
-      'Enter message to sign',
-      'Generate signature or verify signature'
-    ],
-    bestPractices: [
-      'Use standardized elliptic curves',
-      'Securely store private keys',
-      'Use strong random number generators',
-      'Regularly update key pairs'
-    ]
-  },
-
   // 转换工具
   timestamp: {
     features: [
@@ -3389,33 +2765,6 @@ export const toolDescriptionsEn = {
   },
 
   // 图像工具
-  imageConvert: {
-    features: [
-      'Support for JPG, PNG, WebP, GIF formats',
-      'Adjustable quality parameters',
-      'Batch conversion functionality',
-      'Maintains image quality'
-    ],
-    useCases: [
-      'Web image optimization',
-      'Mobile app image processing',
-      'Image format standardization',
-      'Storage space optimization'
-    ],
-    usageSteps: [
-      'Upload image to convert',
-      'Select target format',
-      'Adjust quality parameters',
-      'Download conversion result'
-    ],
-    bestPractices: [
-      'Choose appropriate format based on usage',
-      'Balance image quality and file size',
-      'Keep backup of original images',
-      'Consider browser compatibility'
-    ]
-  },
-
   // 文本工具
   case: {
     features: [
@@ -3636,33 +2985,6 @@ export const toolDescriptionsEn = {
   },
 
   // More encryption tools
-  hex: {
-    features: [
-      'Hexadecimal encoding and decoding',
-      'Binary data conversion',
-      'Color value processing',
-      'Batch conversion functionality'
-    ],
-    useCases: [
-      'Binary data analysis',
-      'Color value conversion',
-      'Network protocol analysis',
-      'Data debugging and validation'
-    ],
-    usageSteps: [
-      'Enter data to convert',
-      'Select conversion direction',
-      'Click convert button',
-      'View conversion result'
-    ],
-    bestPractices: [
-      'Maintain case consistency',
-      'Verify conversion results',
-      'Handle special characters',
-      'Consider data integrity'
-    ]
-  },
-
   // More conversion tools
   color: {
     features: [
@@ -3941,33 +3263,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  "date-calc": {
-    features: [
-      'Multiple time unit support',
-      'Precise difference calculation',
-      'Timezone handling',
-      'Real-time calculation'
-    ],
-    useCases: [
-      'Project time calculation',
-      'Duration estimation',
-      'Time interval analysis',
-      'Schedule planning'
-    ],
-    usageSteps: [
-      'Select start date',
-      'Select end date',
-      'Choose calculation unit',
-      'View calculation result'
-    ],
-    bestPractices: [
-      'Pay attention to timezone settings',
-      'Validate date ranges',
-      'Choose appropriate precision',
-      'Handle boundary cases'
-    ]
-  },
-
   // 更多加密工具
   rsa: {
     features: [
@@ -4076,114 +3371,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  java: {
-    features: [
-      'Java syntax highlighting',
-      'Automatic indentation and formatting',
-      'Code style unification',
-      'Multiple formatting options'
-    ],
-    useCases: [
-      'Java code formatting and beautification',
-      'Team collaboration development',
-      'Code review and refactoring',
-      'Project code standardization'
-    ],
-    usageSteps: [
-      'Paste Java code into input box',
-      'Select formatting options (beautify/compress)',
-      'Click format button',
-      'View formatted result'
-    ],
-    bestPractices: [
-      'Follow Java coding standards',
-      'Keep code structure clear',
-      'Add appropriate comments',
-      'Use meaningful variable and method names'
-    ]
-  },
-
-  php: {
-    features: [
-      'PHP syntax highlighting',
-      'Automatic indentation and formatting',
-      'PSR standard support',
-      'Multiple formatting options'
-    ],
-    useCases: [
-      'PHP code formatting and beautification',
-      'Team collaboration development',
-      'Code review and refactoring',
-      'Project code standardization'
-    ],
-    usageSteps: [
-      'Paste PHP code into input box',
-      'Select formatting options (beautify/compress)',
-      'Click format button',
-      'View formatted result'
-    ],
-    bestPractices: [
-      'Follow PHP coding standards',
-      'Use meaningful variable names',
-      'Add appropriate comments',
-      'Keep code structure clear'
-    ]
-  },
-
-  ruby: {
-    features: [
-      'Ruby syntax highlighting',
-      'Automatic indentation and formatting',
-      'Ruby style guide support',
-      'Multiple formatting options'
-    ],
-    useCases: [
-      'Ruby code formatting and beautification',
-      'Team collaboration development',
-      'Code review and refactoring',
-      'Project code standardization'
-    ],
-    usageSteps: [
-      'Paste Ruby code into input box',
-      'Select formatting options (beautify/compress)',
-      'Click format button',
-      'View formatted result'
-    ],
-    bestPractices: [
-      'Follow Ruby style guide',
-      'Use meaningful variable names',
-      'Keep code concise and elegant',
-      'Add appropriate comments'
-    ]
-  },
-
-  shell: {
-    features: [
-      'Shell syntax highlighting',
-      'Automatic indentation and formatting',
-      'Multiple Shell dialects support',
-      'Multiple formatting options'
-    ],
-    useCases: [
-      'Shell script formatting and beautification',
-      'System management script writing',
-      'Automated script development',
-      'Standardized script code'
-    ],
-    usageSteps: [
-      'Paste Shell script into input box',
-      'Select formatting options (beautify/compress)',
-      'Click format button',
-      'View formatted result'
-    ],
-    bestPractices: [
-      'Use meaningful variable names',
-      'Add appropriate comments',
-      'Handle errors and exceptions',
-      'Follow Shell script best practices'
-    ]
-  },
-
   vue: {
     features: [
       'Vue syntax highlighting',
@@ -4208,87 +3395,6 @@ export const toolDescriptionsEn = {
       'Use meaningful component names',
       'Keep code structure clear',
       'Add appropriate comments'
-    ]
-  },
-
-  "ed25519-sign": {
-    features: [
-      'Ed25519 key pair generation',
-      'Digital signature generation',
-      'Signature verification',
-      'High-performance elliptic curve algorithm'
-    ],
-    useCases: [
-      'Digital signature and verification',
-      'Identity authentication',
-      'Software package signing',
-      'Blockchain application'
-    ],
-    usageSteps: [
-      'Generate Ed25519 key pair',
-      'Sign data with private key',
-      'Verify signature with public key',
-      'View signature result'
-    ],
-    bestPractices: [
-      'Securely store private keys',
-      'Rotate keys regularly',
-      'Verify public key authenticity',
-      'Use secure random number generator'
-    ]
-  },
-
-  "rsa-sign": {
-    features: [
-      'RSA key pair generation',
-      'Digital signature generation',
-      'Signature verification',
-      'Multiple hash algorithms support'
-    ],
-    useCases: [
-      'Digital signature and verification',
-      'Identity authentication',
-      'Software package signing',
-      'Secure communication'
-    ],
-    usageSteps: [
-      'Generate RSA key pair',
-      'Sign data with private key',
-      'Verify signature with public key',
-      'View signature result'
-    ],
-    bestPractices: [
-      'Securely store private keys',
-      'Use strong key length (2048 bits or above)',
-      'Rotate keys regularly',
-      'Verify public key authenticity'
-    ]
-  },
-
-  url: {
-    features: [
-      'URL encoding and decoding',
-      'Special character handling',
-      'Batch processing functionality',
-      'Multiple encoding standards support'
-    ],
-    useCases: [
-      'URL parameter encoding',
-      'Web development debugging',
-      'API development',
-      'Secure data transmission'
-    ],
-    usageSteps: [
-      'Enter text to encode or decode',
-      'Select encode or decode operation',
-      'Click the corresponding button to process',
-      'Copy or download the result'
-    ],
-    bestPractices: [
-      'Ensure consistent character encoding',
-      'Verify decoding results correctly',
-      'Be careful with special characters',
-      'Use URL-encoded data in URLs'
     ]
   },
 
@@ -4481,33 +3587,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  "storage-time": {
-    features: [
-      'Storage capacity conversion',
-      'Time unit conversion',
-      'Real-time calculation',
-      'Precision control'
-    ],
-    useCases: [
-      'Storage capacity calculation',
-      'Time unit conversion',
-      'Performance analysis',
-      'System design'
-    ],
-    usageSteps: [
-      'Select conversion type',
-      'Enter value',
-      'Select source unit',
-      'Select target unit'
-    ],
-    bestPractices: [
-      'Pay attention to unit types',
-      'Validate input values',
-      'Choose appropriate precision',
-      'Check conversion results'
-    ]
-  },
-
   "user-agent": {
     features: [
       'Browser information parsing',
@@ -4532,33 +3611,6 @@ export const toolDescriptionsEn = {
       'Pay attention to privacy protection',
       'Verify parsing results',
       'Handle exceptional cases'
-    ]
-  },
-
-  convert: {
-    features: [
-      'Multiple format support',
-      'Quality control',
-      'Real-time preview',
-      'Size optimization'
-    ],
-    useCases: [
-      'Web image optimization',
-      'Format compatibility',
-      'File size reduction',
-      'Image processing workflow'
-    ],
-    usageSteps: [
-      'Upload source image',
-      'Select target format',
-      'Adjust quality settings',
-      'Download converted image'
-    ],
-    bestPractices: [
-      'Choose appropriate format for use case',
-      'Balance quality and file size',
-      'Consider browser compatibility',
-      'Test across different devices'
     ]
   },
 
@@ -4640,33 +3692,6 @@ export const toolDescriptionsEn = {
       'Position watermarks strategically',
       'Balance visibility and aesthetics',
       'Test on different backgrounds'
-    ]
-  },
-
-  textCase: {
-    features: [
-      'Multiple case format support',
-      'Real-time conversion',
-      'Batch processing',
-      'Special character preservation'
-    ],
-    useCases: [
-      'Programming variable naming',
-      'Document title formatting',
-      'Database field naming',
-      'API parameter standardization'
-    ],
-    usageSteps: [
-      'Enter text to convert',
-      'Select target case format',
-      'Click conversion button',
-      'Copy converted result'
-    ],
-    bestPractices: [
-      'Maintain naming consistency',
-      'Follow language conventions',
-      'Use meaningful names',
-      'Avoid overly long names'
     ]
   },
 
@@ -4911,35 +3936,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  compress: {
-    features: [
-      'Supports JPG, PNG, and WebP image compression',
-      'Quality slider freely adjustable from 10% to 100%',
-      'Displays original size, compressed size, and compression ratio',
-      'Batch upload up to 10 images at once',
-      'Download all compressed results with one click'
-    ],
-    useCases: [
-      'Optimizing web page image loading speed',
-      'Compressing email attachment images',
-      'Pre-processing images before mobile upload',
-      'Optimizing blog and e-commerce product images',
-      'Batch processing photos for web sharing'
-    ],
-    usageSteps: [
-      'Drag and drop or click to select 1-10 images',
-      'Adjust the quality slider to set compression level',
-      'Wait for automatic compression to complete',
-      'Compare sizes before and after with compression ratio',
-      'Click download to save compressed images'
-    ],
-    bestPractices: [
-      '80% quality usually achieves a good balance between quality and size',
-      'PNG compression is less effective than JPG/WebP',
-      'Setting one quality slider for batch compression is more efficient',
-      'All compression is done locally; images are not uploaded'
-    ]
-  },
   exif: {
     features: [
       'Drag & drop to upload images, parses EXIF metadata in real time',
@@ -5533,39 +4529,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  python: {
-    features: [
-      '基于 Pyodide（CPython 3.13 编译为 WebAssembly）在浏览器本地运行 Python，无需安装任何环境',
-      '完整的 Python 标准库：json / re / datetime / math / statistics / collections / itertools / heapq 等',
-      '结果、print 输出、错误信息分离展示，附执行耗时',
-      'Python 异常捕获：显示异常类型与信息（如 ZeroDivisionError: division by zero）',
-      '5 个可一键载入的示例代码（统计计算 / JSON 处理 / 正则提取 / 日期计算 / 算法实现）',
-      '计算在 Web Worker 中执行，长脚本不会冻结界面',
-      'WASM 引擎（约 11MB）异步下载，带进度显示，可取消，二次访问命中缓存秒开',
-      '纯本地运行，代码不会上传到任何服务器'
-    ],
-    useCases: [
-      '快速验证一段 Python 逻辑或算法，不必打开本地环境',
-      '用正则或字符串处理批量文本',
-      '计算统计数据（均值、中位数、标准差、分位数）',
-      '练手数据结构与算法（BFS、堆排序等手写实现）',
-      '处理 JSON 数据、做格式转换'
-    ],
-    usageSteps: [
-      '点击上方示例按钮载入示例代码，或直接编写 Python 代码',
-      '点击「运行代码」：首次使用会自动下载 Python 引擎（约 11MB，有进度条，可取消）',
-      '查看返回值、stdout 输出与 stderr 错误',
-      '若有异常，按提示修正代码后重新运行'
-    ],
-    bestPractices: [
-      '标准库模式不含 numpy / pandas：需要矩阵运算或大数据分析时，用本地 Python 环境更合适',
-      '代码在 Worker 中执行，长耗时脚本（如大数据循环）仍可能需要几十秒，请耐心等待',
-      'Python 脚本耗时不可预知，故进度条在执行阶段固定显示 95%，不代表卡死',
-      '交互式输入（input()）不可用：浏览器无 stdin，如需交互请改用固定输入',
-      '网络请求不可用：标准库中的 urllib/requests 在 Pyodide 中受沙箱限制，涉及网络的功能请在本地环境运行'
-    ]
-  },
-
   mediaTool: {
     features: [
       '基于 FFmpeg 5.1 (WebAssembly) 的音视频处理，浏览器无原生视频转码能力，不可替代',
@@ -5669,38 +4632,6 @@ export const toolDescriptionsEn = {
   },
 
   // ===== CSV/TSV Viewer (English) =====
-  csvViewer: {
-    features: [
-      'Two input methods: paste text or upload a file (up to 5 MB)',
-      'Auto-detects comma, tab, semicolon, and pipe delimiters',
-      'First-row header auto-detection with manual override',
-      'Renders data in a sortable table — click any column header to sort',
-      'Real-time global keyword search to filter rows instantly',
-      'Export as a JSON array or re-download as a clean CSV',
-      'Large-file friendly: rows beyond 10,000 are truncated with a notice',
-      'All parsing runs entirely in the browser — no data is uploaded'
-    ],
-    useCases: [
-      'Quickly preview a CSV report exported from a server',
-      'Verify data integrity after converting Excel to CSV',
-      'Convert CSV data to JSON for use in front-end code',
-      'Analyze TSV-format logs or datasets',
-      'Browse and filter data before a cleaning session'
-    ],
-    usageSteps: [
-      'Choose "Paste Text" to paste content, or switch to "Upload File" to drag and drop',
-      'The delimiter is auto-detected by default; switch manually if needed',
-      'Toggle whether the first row is treated as a header',
-      'Type in the search box to filter rows; click column headers to sort',
-      'Click "Export JSON" or "Download CSV" to save the result'
-    ],
-    bestPractices: [
-      'Ensure your file is UTF-8 encoded to avoid garbled characters',
-      'For files > 1 MB, upload directly rather than pasting to avoid lag',
-      'Filter the data with the search box before exporting JSON'
-    ]
-  },
-
   // ===== IP/CIDR Calculator (English) =====
   cidr: {
     features: [
@@ -5982,114 +4913,6 @@ export const toolDescriptionsEn = {
     ]
   },
 
-  dateDiff: {
-    features: [
-      'Calculate interval between two dates',
-      'Multiple units support (year/month/day/hour/min/sec)',
-      'Precise to millisecond',
-      'Business day difference calculation'
-    ],
-    useCases: [
-      'Age calculation',
-      'Project duration calculation',
-      'Countdown display',
-      'Time span statistics'
-    ],
-    usageSteps: [
-      'Enter start date',
-      'Enter end date',
-      'Select display unit',
-      'View time difference'
-    ],
-    bestPractices: [
-      'Ensure timezone consistency',
-      'Consider daylight saving time effects',
-      'Business day calculation excludes weekends',
-      'Use timestamps for precise calculation'
-    ]
-  },
-
-  dnsQuery: {
-    features: [
-      'DNS record query',
-      'A, AAAA, MX, TXT, CNAME, etc. support',
-      'Multiple DNS server query',
-      'Query history'
-    ],
-    useCases: [
-      'Domain resolution debugging',
-      'Mail server configuration verification',
-      'CDN configuration check',
-      'DNS propagation verification'
-    ],
-    usageSteps: [
-      'Enter domain name',
-      'Select record type',
-      'Select DNS server',
-      'View query results'
-    ],
-    bestPractices: [
-      'Verify with multiple DNS servers',
-      'TTL affects cache time',
-      'Note DNS propagation delay',
-      'Check DNS records regularly'
-    ]
-  },
-
-  ipQuery: {
-    features: [
-      'IP address lookup',
-      'Geolocation',
-      'ISP information',
-      'IP range attribution query'
-    ],
-    useCases: [
-      'IP address attribution query',
-      'Network troubleshooting',
-      'Visitor origin analysis',
-      'Security audit'
-    ],
-    usageSteps: [
-      'Enter IP address',
-      'Click query',
-      'View location and ISP',
-      'View detailed information'
-    ],
-    bestPractices: [
-      'IPv4 and IPv6 support',
-      'IP database updates regularly',
-      'Note proxy and VPN effects',
-      'Privacy protection considerations'
-    ]
-  },
-
-  colorPicker: {
-    features: [
-      'Color picker',
-      'Multiple format output (HEX, RGB, HSL)',
-      'Color conversion',
-      'Eyedropper feature'
-    ],
-    useCases: [
-      'UI design color picking',
-      'Color format conversion',
-      'Color scheme generation',
-      'CSS color value retrieval'
-    ],
-    usageSteps: [
-      'Use picker to select color',
-      'Or enter color value',
-      'View multiple format outputs',
-      'Copy desired format'
-    ],
-    bestPractices: [
-      'Understand different format use cases',
-      'HEX for CSS',
-      'RGB for image processing',
-      'HSL convenient for brightness/saturation adjustment'
-    ]
-  },
-
   csv: {
     features: [
       'CSV file viewing',
@@ -6141,33 +4964,6 @@ export const toolDescriptionsEn = {
       'Balance quality and size when compressing',
       'PNG suitable for transparent backgrounds',
       'JPG suitable for photos'
-    ]
-  },
-
-  jsonToTs: {
-    features: [
-      'JSON to TypeScript types',
-      'Auto-infer types',
-      'Nested object support',
-      'Array type handling'
-    ],
-    useCases: [
-      'API response type generation',
-      'Interface definition automation',
-      'TypeScript development',
-      'Type safety'
-    ],
-    usageSteps: [
-      'Paste JSON data',
-      'Generate TypeScript interface',
-      'Adjust type names',
-      'Copy code'
-    ],
-    bestPractices: [
-      'Check generated type accuracy',
-      'Handle optional fields',
-      'Note union types',
-      'Optimize nested structures'
     ]
   },
 
