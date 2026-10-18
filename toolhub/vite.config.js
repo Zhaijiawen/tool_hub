@@ -44,7 +44,13 @@ export default defineConfig({
   // 路径解析配置
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src') // 设置 @ 别名指向 src 目录
+      '@': resolve(__dirname, 'src'), // 设置 @ 别名指向 src 目录
+      // pandoc-wasm 的 package.json 用 exports 限制了深导入，拿不到它内部的
+      // src/core.js；而浏览器入口（src/index.browser.js）会在 import 时把 56MB
+      // 的 wasm 一次性拉下来、且带顶层 await，无法接入我们「Worker + 进度 + 取消」
+      // 的加载体系。这里用别名直取纯逻辑的 core.js，由我们自己的 worker 负责
+      // 实例化，从而在懒加载的同时保留进度条与取消能力。
+      'pandoc-wasm-core': resolve(__dirname, 'node_modules/pandoc-wasm/src/core.js')
     }
   },
   
@@ -176,17 +182,9 @@ export default defineConfig({
     headers: {
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'credentialless'
-    },
-    proxy: {
-      // 代理 API 请求到后端服务器
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api')
-      }
     }
   },
-  
+
   // 预览服务器配置（生产环境）
   preview: {
     host: '0.0.0.0', // 允许外部访问

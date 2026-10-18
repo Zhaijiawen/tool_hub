@@ -37,7 +37,10 @@
           >
             <div class="tool-card-head">
               <span class="tool-name">{{ t(tool.name) }}</span>
-              <WasmTag v-if="tool.wasm" class="tool-card-wasm" />
+              <span class="tool-card-tags">
+                <NewTag v-if="tool.isNew" class="tool-card-new" />
+                <WasmTag v-if="tool.wasm" class="tool-card-wasm" />
+              </span>
             </div>
             <span class="tool-desc">{{ t(tool.description) }}</span>
           </router-link>
@@ -100,6 +103,7 @@ import {
 } from '@vicons/ionicons5'
 import { getAllToolsSync } from '@/api/tools'
 import WasmTag from '@/components/common/WasmTag.vue'
+import NewTag from '@/components/common/NewTag.vue'
 import { useSeo } from '@/composables/useSeo'
 
 const { t, tm, locale } = useI18n()
@@ -310,6 +314,14 @@ const toolsIntroCategories = computed(() => tm('home.toolsIntro.categories'))
   align-items: center;
   gap: 6px;
   min-width: 0;
+}
+/* 名称与徽标同一行：名称可收缩，徽标不换行 */
+.tool-card-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 .tool-card-wasm {
   flex-shrink: 0;

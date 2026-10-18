@@ -3079,7 +3079,39 @@ export const toolDescriptions = {
       '拍摄件建议先裁掉无关背景，可显著减少杂散路径',
       '彩色照片会按亮度强制二值化，更适合处理线条稿而非照片'
     ]
-  }
+  },
+
+  docConvert: {
+    features: [
+      '浏览器几乎没有原生文档排版互转能力，本站用 Pandoc (WebAssembly) 补齐，同类在线转换几乎都要上传文件',
+      '支持 Markdown、HTML、LaTeX、reStructuredText、Org、AsciiDoc、Textile、Opml、DocBook、Jira 记法之间的文本互转',
+      '支持输出 Word (.docx)、EPUB、RTF 等二进制格式，可直接下载',
+      '可直接上传 .docx / .epub / .rtf 等文件转成 Markdown、HTML、纯文本',
+      '可选生成「独立文档」（补全 HTML/LaTeX 的文档骨架）与自动目录',
+      '引擎与转换都在 Web Worker 中运行，不阻塞界面',
+      '纯本地运行，文档不会上传到任何服务器'
+    ],
+    useCases: [
+      '把手写的 Markdown 稿变成 Word 交给同事或客户',
+      '把公司 Word 模板/周报转成 Markdown 放进仓库',
+      '把旧 HTML 页面批量转成 Markdown 迁移到静态站',
+      '把 Markdown 转成 EPUB 在电子书阅读器上看',
+      '把 LaTeX 片段转成 HTML 贴到网页里'
+    ],
+    usageSteps: [
+      '选择输入方式：粘贴文本，或上传文档文件',
+      '选择源格式与目标格式（上传文件时会自动按后缀推断源格式）',
+      '按需勾选独立文档 / 自动目录 / 提取内嵌图片',
+      '点击「开始转换」：首次会下载 Pandoc 引擎（约 56MB，有进度条、可取消）',
+      '文本结果可直接复制或下载；docx / epub 等以文件形式下载'
+    ],
+    bestPractices: [
+      '引擎约 56MB，建议在网络充裕时使用；下载过一次后会被缓存，再次进入无需重复下载',
+      'Word → Markdown 时，精美排版会退化为 Markdown 能表达的结构，复杂表格/文本框可能丢失部分格式',
+      '转换 EPUB / DOCX 这类打包格式时必须上传文件（而不是粘贴文本）',
+      '不确定某种组合是否支持时看 pandoc 的警告提示；不支持的组合会直接报错'
+    ]
+  },
 }
 
 // 英文版本
@@ -5433,6 +5465,38 @@ export const toolDescriptionsEn = {
       'For encrypted PDFs, enter the open password before starting to avoid failed retries',
       'Compression rarely helps files already squeezed by other tools — raw scanned PDFs benefit most',
       '"Extract Text" reads the embedded text layer, not OCR — for scans, use an OCR tool instead'
+    ]
+  },
+
+  docConvert: {
+    features: [
+      'Browsers have almost no native document-layout conversion; this tool fills the gap with Pandoc (WebAssembly), where nearly every online alternative requires uploading the file',
+      'Converts between text formats: Markdown, HTML, LaTeX, reStructuredText, Org, AsciiDoc, Textile, OPML, DocBook and Jira markup',
+      'Can emit binary formats such as Word (.docx), EPUB and RTF as downloadable files',
+      'Upload .docx / .epub / .rtf files and convert them to Markdown, HTML or plain text',
+      'Optional standalone document output (wraps HTML/LaTeX in a full document skeleton) and auto table of contents',
+      'Engine and conversions run in a Web Worker — the UI stays responsive',
+      'Fully local — documents are never uploaded to any server'
+    ],
+    useCases: [
+      'Turn a Markdown draft into Word to hand to colleagues or clients',
+      'Convert a company Word template or weekly report into Markdown for the repo',
+      'Migrate legacy HTML pages to Markdown for a static site',
+      'Convert Markdown to EPUB for reading on an e-reader',
+      'Convert a LaTeX fragment to HTML for embedding in a page'
+    ],
+    usageSteps: [
+      'Pick an input method: paste text, or upload a document file',
+      'Choose the source and target formats (uploading a file infers the source format from its extension)',
+      'Optionally enable standalone output, auto TOC, or embedded-image extraction',
+      'Click "Convert": the first run downloads the Pandoc engine (~56MB, with a progress bar and cancel)',
+      'Copy or download text results; docx / epub come back as downloadable files'
+    ],
+    bestPractices: [
+      'The engine is ~56MB — use a comfortable connection; it is cached afterwards and not re-downloaded',
+      'Word → Markdown degrades rich layout into what Markdown can express; complex tables and text boxes may lose formatting',
+      'Packaged formats like EPUB / DOCX must be uploaded as a file rather than pasted as text',
+      'Check Pandoc warnings when unsure whether a combination is supported; unsupported pairs fail outright'
     ]
   },
 

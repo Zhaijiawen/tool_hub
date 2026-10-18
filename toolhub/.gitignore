@@ -21,6 +21,10 @@ public/imgly-bg/
 # 通过 `npm run fetch:mermaid-assets` 从 node_modules 复制到 public/mermaid/（自托管，不依赖 CDN）。
 public/mermaid/
 
+# pandoc.wasm（56MB）不入库，随 pandoc-wasm npm 包分发，来源可复现。
+# 通过 `npm run fetch:pandoc-assets` 从 node_modules 复制到 public/wasm/。
+public/wasm/pandoc.wasm
+
 # unplugin-vue-components / unplugin-auto-import 自动生成的类型声明文件
 # 每次 dev/build 时自动重新生成，无需纳入版本控制
 components.d.ts

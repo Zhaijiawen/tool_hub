@@ -367,10 +367,15 @@ const router = createRouter({
           path: 'document',
           component: BaseView,
           children: [
-            // PDF 工具集：转图片 / 合并 / 拆分（WASM）
+            // PDF 工具集：转图片 / 合并 / 拆分 / 瘦身 / 提取文字 / 页面整理（WASM）
             {
               path: 'pdf-tools',
               component: () => import('@/components/document/PdfTools.vue')
+            },
+            // 文档格式互转：Pandoc（WASM，首次使用时才下载 56MB 引擎）
+            {
+              path: 'doc-convert',
+              component: () => import('@/components/document/DocConvert.vue')
             }
           ]
         },

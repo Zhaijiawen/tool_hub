@@ -587,6 +587,19 @@ export const seoConfig = {
       }
     },
 
+    docConvert: {
+      en: {
+        name: 'Document Converter (Pandoc)',
+        description: 'Convert Markdown, Word (DOCX), HTML, EPUB, LaTeX and more locally in your browser with Pandoc — free and private, no upload',
+        keywords: ['document converter', 'markdown to docx', 'docx to markdown', 'html to markdown', 'epub converter', 'latex converter', 'pandoc online', 'offline converter']
+      },
+      zh: {
+        name: '文档格式转换（Pandoc）',
+        description: '在浏览器本地用 Pandoc 互转 Markdown、Word、HTML、EPUB、LaTeX 等文档格式，免费且隐私，无需上传',
+        keywords: ['文档格式转换', 'Markdown 转 Word', 'Word 转 Markdown', 'HTML 转 Markdown', 'EPUB 转换', 'LaTeX 转换', 'pandoc 在线', '离线文档转换']
+      }
+    },
+
     // 数据工具
     sqlite: {
       en: {

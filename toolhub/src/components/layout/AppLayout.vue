@@ -689,6 +689,11 @@ const menuOptions = computed(() => [
             label: t('document.pdfTools.title'),
             key: 'document-pdf-tools',
             path: '/document/pdf-tools'
+          },
+          {
+            label: t('document.docConvert.title'),
+            key: 'document-doc-convert',
+            path: '/document/doc-convert'
           }
         ]
       },

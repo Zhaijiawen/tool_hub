@@ -5,323 +5,221 @@
 
 
     <n-card :title="$t('other.qrcode.title')">
-      <n-tabs type="line" animated>
-        <!-- 生成二维码 -->
-        <n-tab-pane name="generate" :tab="$t('other.qrcode.generate')">
-          <n-form>
-            <n-form-item :label="$t('other.qrcode.content')">
-              <n-input 
-                v-model:value="generateForm.content" 
-                type="textarea"
-                :placeholder="$t('other.qrcode.contentPlaceholder')" 
-                :autosize="{ minRows: 3, maxRows: 8 }" 
-                @input="onContentChange"
+      <n-form>
+        <n-form-item :label="$t('other.qrcode.content')">
+          <n-input
+            v-model:value="generateForm.content"
+            type="textarea"
+            :placeholder="$t('other.qrcode.contentPlaceholder')"
+            :autosize="{ minRows: 3, maxRows: 8 }"
+            @input="onContentChange"
               />
-            </n-form-item>
+        </n-form-item>
 
-            <n-form-item :label="$t('other.qrcode.size')">
-              <n-slider 
-                v-model:value="generateForm.size" 
-                :min="100" 
-                :max="500" 
-                :step="10" 
-                @update:value="onSizeChange"
-              />
-              <div class="text-right mt-2">{{ generateForm.size }}px</div>
-            </n-form-item>
+        <n-form-item :label="$t('other.qrcode.size')">
+          <n-slider 
+            v-model:value="generateForm.size" 
+            :min="100" 
+            :max="500" 
+            :step="10" 
+            @update:value="onSizeChange"
+          />
+          <div class="text-right mt-2">{{ generateForm.size }}px</div>
+        </n-form-item>
 
-            <n-form-item :label="$t('other.qrcode.level')">
-              <n-select 
-                v-model:value="generateForm.level" 
-                :options="errorCorrectionLevels" 
-                @update:value="onLevelChange"
-              />
-            </n-form-item>
+        <n-form-item :label="$t('other.qrcode.level')">
+          <n-select 
+            v-model:value="generateForm.level" 
+            :options="errorCorrectionLevels" 
+            @update:value="onLevelChange"
+          />
+        </n-form-item>
 
-            <!-- 高级定制选项 -->
-            <n-collapse>
-              <n-collapse-item :title="$t('other.qrcode.advancedOptions')" name="advanced">
-                <!-- 颜色设置 -->
-                <n-card :title="$t('other.qrcode.colors')" size="small" class="mb-4">
-                  <n-space vertical>
-                    <n-space>
-                      <n-form-item :label="$t('other.qrcode.foregroundColor')">
-                        <n-color-picker 
-                          v-model:value="generateForm.foregroundColor" 
-                          @update:value="onColorChange"
-                          :show-alpha="false"
-                        />
-                      </n-form-item>
-                      <n-form-item :label="$t('other.qrcode.backgroundColor')">
-                        <n-color-picker 
-                          v-model:value="generateForm.backgroundColor" 
-                          @update:value="onColorChange"
-                          :show-alpha="false"
-                        />
-                      </n-form-item>
-                      <n-button size="small" @click="resetColors">
-                        {{ $t('other.qrcode.resetColors') }}
-                      </n-button>
-                    </n-space>
+        <!-- 高级定制选项 -->
+        <n-collapse>
+          <n-collapse-item :title="$t('other.qrcode.advancedOptions')" name="advanced">
+            <!-- 颜色设置 -->
+            <n-card :title="$t('other.qrcode.colors')" size="small" class="mb-4">
+              <n-space vertical>
+                <n-space>
+                  <n-form-item :label="$t('other.qrcode.foregroundColor')">
+                    <n-color-picker 
+                      v-model:value="generateForm.foregroundColor" 
+                      @update:value="onColorChange"
+                      :show-alpha="false"
+                    />
+                  </n-form-item>
+                  <n-form-item :label="$t('other.qrcode.backgroundColor')">
+                    <n-color-picker 
+                      v-model:value="generateForm.backgroundColor" 
+                      @update:value="onColorChange"
+                      :show-alpha="false"
+                    />
+                  </n-form-item>
+                  <n-button size="small" @click="resetColors">
+                    {{ $t('other.qrcode.resetColors') }}
+                  </n-button>
+                </n-space>
 
-                    <!-- 预设主题 -->
-                    <div>
-                      <n-text depth="3">{{ $t('other.qrcode.colorPresets') }}:</n-text>
-                      <n-space class="mt-2">
-                        <n-button 
-                          v-for="preset in colorPresets" 
-                          :key="preset.name"
-                          size="small" 
-                          @click="applyColorPreset(preset)"
-                          :style="{ backgroundColor: preset.foreground, color: preset.background }"
-                        >
-                          {{ $t(`other.qrcode.preset${preset.name}`) }}
-                        </n-button>
-                      </n-space>
-                    </div>
-                  </n-space>
-                </n-card>
-
-                <!-- Logo设置 -->
-                <n-card :title="$t('other.qrcode.logo')" size="small">
-                  <n-alert 
-                    v-if="logoFile" 
-                    type="warning" 
-                    size="small" 
-                    :title="$t('other.qrcode.logoTips')"
-                    class="mb-3"
-                  />
-                  <n-space vertical>
-                    <!-- Logo上传 -->
-                    <n-upload 
-                      accept="image/*" 
-                      :max="1" 
-                      :show-file-list="false" 
-                      @change="handleLogoUpload"
-                      :custom-request="() => {}"
+                <!-- 预设主题 -->
+                <div>
+                  <n-text depth="3">{{ $t('other.qrcode.colorPresets') }}:</n-text>
+                  <n-space class="mt-2">
+                    <n-button 
+                      v-for="preset in colorPresets" 
+                      :key="preset.name"
+                      size="small" 
+                      @click="applyColorPreset(preset)"
+                      :style="{ backgroundColor: preset.foreground, color: preset.background }"
                     >
-                      <n-upload-dragger v-if="!logoFile">
-                        <div class="logo-upload-trigger">
-                          <n-icon size="24" :depth="3">
-                            <upload-outlined />
-                          </n-icon>
-                          <n-text style="margin-top: 8px; font-size: 12px;">
-                            {{ $t('other.qrcode.logoUploadTip') }}
-                          </n-text>
-                        </div>
-                      </n-upload-dragger>
-                    </n-upload>
-
-                    <!-- Logo预览和控制 -->
-                    <div v-if="logoFile" class="logo-controls">
-                      <n-space vertical>
-                        <div class="logo-preview">
-                          <n-image 
-                            :src="logoUrl" 
-                            width="60" 
-                            height="60" 
-                            object-fit="cover"
-                            :preview-disabled="false"
-                          />
-                          <n-button size="tiny" @click="removeLogo" type="error" class="remove-logo-btn">
-                            {{ $t('other.qrcode.removeLogo') }}
-                          </n-button>
-                        </div>
-
-                        <n-form-item :label="$t('other.qrcode.logoSizePercent')">
-                          <n-slider 
-                            v-model:value="generateForm.logoSize" 
-                            :min="8" 
-                            :max="20" 
-                            :step="1" 
-                            @update:value="onLogoSettingChange"
-                          />
-                          <div class="text-right mt-1">{{ generateForm.logoSize }}%</div>
-                          <n-text depth="3" style="font-size: 12px;">
-                            {{ $t('other.qrcode.logoSizeWarning') }}
-                          </n-text>
-                        </n-form-item>
-
-                        <n-form-item :label="$t('other.qrcode.logoOpacity')">
-                          <n-slider 
-                            v-model:value="generateForm.logoOpacity" 
-                            :min="50" 
-                            :max="100" 
-                            :step="5" 
-                            @update:value="onLogoSettingChange"
-                          />
-                          <div class="text-right mt-1">{{ generateForm.logoOpacity }}%</div>
-                        </n-form-item>
-
-                        <n-form-item :label="$t('other.qrcode.logoRadius')">
-                          <n-slider 
-                            v-model:value="generateForm.logoRadius" 
-                            :min="0" 
-                            :max="50" 
-                            :step="5" 
-                            @update:value="onLogoSettingChange"
-                          />
-                          <div class="text-right mt-1">{{ generateForm.logoRadius }}%</div>
-                        </n-form-item>
-                      </n-space>
-                    </div>
+                      {{ $t(`other.qrcode.preset${preset.name}`) }}
+                    </n-button>
                   </n-space>
-                </n-card>
-              </n-collapse-item>
-            </n-collapse>
-
-            <n-space class="mt-4" v-if="qrCodeUrl">
-              <n-button @click="downloadQRCode">
-                {{ $t('common.download') }}
-              </n-button>
-              <n-button @click="copyQRCodeToClipboard">
-                {{ $t('common.copy') }}
-              </n-button>
-            </n-space>
-
-            <!-- QR码预览区域 -->
-            <div v-if="qrCodeUrl" class="qr-preview mt-4">
-              <n-card embedded>
-                <div class="qr-display">
-                  <img :src="qrCodeUrl" :alt="$t('other.qrcode.title')" class="qr-image" />
-                  <div class="qr-info">
-                    <n-space vertical size="small">
-                      <n-text depth="3">{{ $t('other.qrcode.size') }}: {{ generateForm.size }}px</n-text>
-                      <n-text depth="3">{{ $t('other.qrcode.level') }}: {{ getCurrentLevelText() }}</n-text>
-                      <n-text depth="3">{{ $t('other.qrcode.characterCount') }}: {{ generateForm.content.length }}</n-text>
-                    </n-space>
-                  </div>
                 </div>
-              </n-card>
-            </div>
-
-            <!-- 快速模板 -->
-            <n-card :title="$t('other.qrcode.quickTemplates')" size="small" class="mt-4">
-              <n-space>
-                <n-button size="small" @click="fillTemplate('wifi')">{{ $t('other.qrcode.templateWifi') }}</n-button>
-                <n-button size="small" @click="fillTemplate('email')">{{ $t('other.qrcode.templateEmail') }}</n-button>
-                <n-button size="small" @click="fillTemplate('phone')">{{ $t('other.qrcode.templatePhone') }}</n-button>
-                <n-button size="small" @click="fillTemplate('sms')">{{ $t('other.qrcode.templateSms') }}</n-button>
-                <n-button size="small" @click="fillTemplate('vcard')">{{ $t('other.qrcode.templateVcard') }}</n-button>
               </n-space>
             </n-card>
-          </n-form>
-        </n-tab-pane>
 
-        <!-- 解码二维码 -->
-        <n-tab-pane name="decode" :tab="$t('other.qrcode.decode')">
-          <!-- 解码方式切换 -->
-          <n-space class="mb-4">
-            <n-radio-group v-model:value="decodeMode">
-              <n-space>
-                <n-radio value="upload">{{ $t('other.qrcode.decodeUpload') }}</n-radio>
-                <n-radio value="camera">{{ $t('other.qrcode.decodeCamera') }}</n-radio>
+            <!-- Logo设置 -->
+            <n-card :title="$t('other.qrcode.logo')" size="small">
+              <n-alert 
+                v-if="logoFile" 
+                type="warning" 
+                size="small" 
+                :title="$t('other.qrcode.logoTips')"
+                class="mb-3"
+              />
+              <n-space vertical>
+                <!-- Logo上传 -->
+                <n-upload 
+                  accept="image/*" 
+                  :max="1" 
+                  :show-file-list="false" 
+                  @change="handleLogoUpload"
+                  :custom-request="() => {}"
+                >
+                  <n-upload-dragger v-if="!logoFile">
+                    <div class="logo-upload-trigger">
+                      <n-icon size="24" :depth="3">
+                        <upload-outlined />
+                      </n-icon>
+                      <n-text style="margin-top: 8px; font-size: 12px;">
+                        {{ $t('other.qrcode.logoUploadTip') }}
+                      </n-text>
+                    </div>
+                  </n-upload-dragger>
+                </n-upload>
+
+                <!-- Logo预览和控制 -->
+                <div v-if="logoFile" class="logo-controls">
+                  <n-space vertical>
+                    <div class="logo-preview">
+                      <n-image 
+                        :src="logoUrl" 
+                        width="60" 
+                        height="60" 
+                        object-fit="cover"
+                        :preview-disabled="false"
+                      />
+                      <n-button size="tiny" @click="removeLogo" type="error" class="remove-logo-btn">
+                        {{ $t('other.qrcode.removeLogo') }}
+                      </n-button>
+                    </div>
+
+                    <n-form-item :label="$t('other.qrcode.logoSizePercent')">
+                      <n-slider 
+                        v-model:value="generateForm.logoSize" 
+                        :min="8" 
+                        :max="20" 
+                        :step="1" 
+                        @update:value="onLogoSettingChange"
+                      />
+                      <div class="text-right mt-1">{{ generateForm.logoSize }}%</div>
+                      <n-text depth="3" style="font-size: 12px;">
+                        {{ $t('other.qrcode.logoSizeWarning') }}
+                      </n-text>
+                    </n-form-item>
+
+                    <n-form-item :label="$t('other.qrcode.logoOpacity')">
+                      <n-slider 
+                        v-model:value="generateForm.logoOpacity" 
+                        :min="50" 
+                        :max="100" 
+                        :step="5" 
+                        @update:value="onLogoSettingChange"
+                      />
+                      <div class="text-right mt-1">{{ generateForm.logoOpacity }}%</div>
+                    </n-form-item>
+
+                    <n-form-item :label="$t('other.qrcode.logoRadius')">
+                      <n-slider 
+                        v-model:value="generateForm.logoRadius" 
+                        :min="0" 
+                        :max="50" 
+                        :step="5" 
+                        @update:value="onLogoSettingChange"
+                      />
+                      <div class="text-right mt-1">{{ generateForm.logoRadius }}%</div>
+                    </n-form-item>
+                  </n-space>
+                </div>
               </n-space>
-            </n-radio-group>
-          </n-space>
+            </n-card>
+          </n-collapse-item>
+        </n-collapse>
 
-          <!-- 上传模式 -->
-          <div v-if="decodeMode === 'upload'">
-            <n-upload
-              accept="image/*"
-              :max="1"
-              :show-file-list="false"
-              @change="handleFileChange"
-              :custom-request="() => {}"
-              ref="uploadRef"
-            >
-              <n-upload-dragger>
-                <div class="upload-trigger">
-                  <n-icon size="48" :depth="3">
-                    <upload-outlined />
-                  </n-icon>
-                  <n-text style="margin-top: 8px">
-                    {{ $t('other.qrcode.uploadTip') }}
-                  </n-text>
-                </div>
-              </n-upload-dragger>
-            </n-upload>
+        <n-space class="mt-4" v-if="qrCodeUrl">
+          <n-button @click="downloadQRCode">
+            {{ $t('other.qrcode.downloadPng') }}
+          </n-button>
+          <n-button @click="downloadSVG">
+            {{ $t('other.qrcode.downloadSvg') }}
+          </n-button>
+          <n-button @click="copyQRCodeToClipboard">
+            {{ $t('common.copy') }}
+          </n-button>
+        </n-space>
 
-            <!-- 图片预览 -->
-            <div v-if="previewUrl" class="preview-section mt-4">
-              <n-card embedded>
-                <div class="preview-display">
-                  <n-image
-                    :src="previewUrl"
-                    :alt="$t('other.qrcode.preview')"
-                    width="300"
-                    :preview-disabled="false"
-                  />
-                </div>
-              </n-card>
-            </div>
-          </div>
-
-          <!-- 摄像头模式 -->
-          <div v-if="decodeMode === 'camera'" class="camera-section">
-            <div v-if="!cameraActive">
-              <n-button type="primary" @click="startCamera">
-                {{ $t('other.qrcode.startCamera') }}
-              </n-button>
-            </div>
-            <div v-else class="camera-container">
-              <video ref="videoRef" autoplay playsinline class="camera-video" />
-              <canvas ref="scanCanvasRef" style="display:none;" />
-              <div class="camera-controls">
-                <n-tag v-if="scanning" type="info">{{ $t('other.qrcode.scanning') }}</n-tag>
-                <n-button @click="stopCamera" type="error" size="small">{{ $t('other.qrcode.stopCamera') }}</n-button>
+        <!-- QR码预览区域 -->
+        <div v-if="qrCodeUrl" class="qr-preview mt-4">
+          <n-card embedded>
+            <div class="qr-display">
+              <img :src="qrCodeUrl" :alt="$t('other.qrcode.title')" class="qr-image" />
+              <div class="qr-info">
+                <n-space vertical size="small">
+                  <n-text depth="3">{{ $t('other.qrcode.size') }}: {{ generateForm.size }}px</n-text>
+                  <n-text depth="3">{{ $t('other.qrcode.level') }}: {{ getCurrentLevelText() }}</n-text>
+                  <n-text depth="3">{{ $t('other.qrcode.characterCount') }}: {{ generateForm.content.length }}</n-text>
+                </n-space>
               </div>
             </div>
-          </div>
+          </n-card>
+        </div>
 
-          <!-- 解码结果 -->
-          <n-alert 
-            v-if="decodeResult" 
-            type="success" 
-            :title="$t('other.qrcode.decodeResult')" 
-            class="mt-4"
-          >
-            <div class="decode-result">
-              <n-text>{{ decodeResult }}</n-text>
-              <n-space class="mt-3">
-                <n-button size="small" @click="copyDecodeResult">
-                  {{ $t('common.copy') }}
-                </n-button>
-                <n-button size="small" @click="openAsUrl" v-if="isValidUrl(decodeResult)">
-                  {{ $t('other.qrcode.openLink') }}
-                </n-button>
-              </n-space>
-            </div>
-          </n-alert>
-
-          <!-- 错误提示 -->
-          <n-alert 
-            v-if="decodeError" 
-            type="error" 
-            :title="$t('common.error')" 
-            class="mt-4"
-          >
-            {{ decodeError }}
-          </n-alert>
-        </n-tab-pane>
-      </n-tabs>
-
-      <!-- 使用说明 -->
+        <!-- 快速模板 -->
+        <n-card :title="$t('other.qrcode.quickTemplates')" size="small" class="mt-4">
+          <n-space>
+            <n-button size="small" @click="fillTemplate('wifi')">{{ $t('other.qrcode.templateWifi') }}</n-button>
+            <n-button size="small" @click="fillTemplate('email')">{{ $t('other.qrcode.templateEmail') }}</n-button>
+            <n-button size="small" @click="fillTemplate('phone')">{{ $t('other.qrcode.templatePhone') }}</n-button>
+            <n-button size="small" @click="fillTemplate('sms')">{{ $t('other.qrcode.templateSms') }}</n-button>
+            <n-button size="small" @click="fillTemplate('vcard')">{{ $t('other.qrcode.templateVcard') }}</n-button>
+          </n-space>
+        </n-card>
+      </n-form>
+    </n-card>
       <n-alert type="info" :title="$t('other.qrcode.infoTitle')" class="info-section">
         {{ $t('other.qrcode.infoContent') }}
       </n-alert>
-    </n-card>
     <TutorialAndDocs toolKey="qrcode" />
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, nextTick, onUnmounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage } from 'naive-ui'
 import { UploadOutlined } from '@vicons/antd'
 import QRCode from 'qrcode'
-import jsQR from 'jsqr'
 import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 import ToolIntro from '@/components/common/ToolIntro.vue'
 const { t } = useI18n()
@@ -368,24 +266,6 @@ const errorCorrectionLevels = [
 // 二维码URL
 const qrCodeUrl = ref('')
 
-// 预览URL
-const previewUrl = ref('')
-
-// 解码结果
-const decodeResult = ref('')
-const decodeError = ref('')
-
-// 上传组件引用
-const uploadRef = ref(null)
-
-// 摄像头扫描
-const decodeMode = ref('upload')
-const cameraActive = ref(false)
-const scanning = ref(false)
-const videoRef = ref(null)
-const scanCanvasRef = ref(null)
-let cameraStream = null
-let scanInterval = null
 
 // 防抖生成二维码
 function debouncedGenerate() {
@@ -626,6 +506,71 @@ function downloadQRCode() {
   message.success(t('other.qrcode.qrCodeDownloaded'))
 }
 
+// 将 File 读为 data URL（用于把 Logo 内嵌进 SVG）
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = () => reject(new Error('Logo读取失败'))
+    reader.readAsDataURL(file)
+  })
+}
+
+// 下载 SVG 矢量二维码
+// 说明：qrcode 库的 toString(type:'svg') 输出以 viewBox 模块为单位，
+// 因此嵌入 Logo 时必须按 viewBox 尺寸换算，不能直接用像素尺寸。
+async function downloadSVG() {
+  if (!generateForm.content.trim()) return
+
+  try {
+    let svg = await QRCode.toString(generateForm.content, {
+      type: 'svg',
+      width: generateForm.size,
+      margin: 2,
+      errorCorrectionLevel: generateForm.level,
+      color: {
+        dark: generateForm.foregroundColor,
+        light: generateForm.backgroundColor
+      }
+    })
+
+    // 若配置了 Logo，把 Logo 以 data URL 形式内嵌进 SVG（与 PNG 路径一致的
+    // 尺寸比例、居中、圆角与透明度，另加一层同色系底衬提高识别率）
+    if (logoFile.value) {
+      const vbMatch = svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/)
+      if (vbMatch) {
+        const vb = parseFloat(vbMatch[1])
+        const logoDataUrl = await fileToDataURL(logoFile.value)
+        const logoUnits = vb * (generateForm.logoSize / 100)
+        const bgUnits = logoUnits * 1.2
+        const pos = (vb - logoUnits) / 2
+        const bgPos = (vb - bgUnits) / 2
+        const logoR = logoUnits * (generateForm.logoRadius / 100)
+        const bgR = bgUnits * (generateForm.logoRadius / 100)
+        const clipId = `qrlogo${Date.now()}`
+        const layer =
+          `<defs><clipPath id="${clipId}"><rect x="${pos}" y="${pos}" width="${logoUnits}" height="${logoUnits}" rx="${logoR}"/></clipPath></defs>` +
+          `<rect x="${bgPos}" y="${bgPos}" width="${bgUnits}" height="${bgUnits}" rx="${bgR}" fill="${generateForm.backgroundColor}"/>` +
+          `<image href="${logoDataUrl}" x="${pos}" y="${pos}" width="${logoUnits}" height="${logoUnits}" opacity="${generateForm.logoOpacity / 100}" clip-path="url(#${clipId})" preserveAspectRatio="xMidYMid meet"/>`
+        svg = svg.replace('</svg>', layer + '</svg>')
+      }
+    }
+
+    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `qrcode-${Date.now()}.svg`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    message.success(t('other.qrcode.svgDownloaded'))
+  } catch (err) {
+    message.error(err.message || t('other.qrcode.generateFailed'))
+  }
+}
+
 // 复制二维码到剪贴板
 async function copyQRCodeToClipboard() {
   if (!qrCodeUrl.value) return
@@ -665,161 +610,9 @@ END:VCARD`
   }
 }
 
-// 处理文件上传
-async function handleFileChange({ file }) {
-  if (!file) return
 
-  try {
-    decodeError.value = ''
-    decodeResult.value = ''
-    
-    // 清理之前的预览URL
-    if (previewUrl.value) {
-      URL.revokeObjectURL(previewUrl.value)
-    }
-    
-    // 创建新的预览
-    previewUrl.value = URL.createObjectURL(file.file)
 
-    // 读取图片数据
-    const imageData = await readImageData(file.file)
 
-    // 解码二维码
-    const code = jsQR(imageData.data, imageData.width, imageData.height)
-
-    if (code) {
-      decodeResult.value = code.data
-      message.success(t('other.qrcode.decodeSuccess'))
-    } else {
-      throw new Error(t('other.qrcode.noQRCodeFound'))
-    }
-  } catch (err) {
-    decodeError.value = err.message
-    message.error(t('other.qrcode.decodeFailed'))
-  } finally {
-    // 清除上传组件的文件列表，允许重复上传同一文件
-    if (uploadRef.value) {
-      uploadRef.value.clear()
-    }
-  }
-}
-
-// 读取图片数据
-function readImageData(file) {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      canvas.width = img.width
-      canvas.height = img.height
-      ctx.drawImage(img, 0, 0)
-      resolve(ctx.getImageData(0, 0, img.width, img.height))
-    }
-    img.onerror = reject
-    img.src = URL.createObjectURL(file)
-  })
-}
-
-// 开启摄像头扫描
-async function startCamera() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    message.error(t('other.qrcode.cameraNotSupported'))
-    return
-  }
-  try {
-    cameraStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' }
-    })
-    cameraActive.value = true
-    // 等待 DOM 更新，确保 video 元素已渲染
-    await nextTick()
-    if (videoRef.value) {
-      videoRef.value.srcObject = cameraStream
-      await videoRef.value.play()
-      scanLoop()
-    }
-  } catch (err) {
-    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-      message.error(t('other.qrcode.cameraPermissionDenied'))
-    } else {
-      message.error(t('other.qrcode.cameraError') + ': ' + err.message)
-    }
-    cameraActive.value = false
-    cameraStream = null
-  }
-}
-
-// 停止摄像头扫描
-function stopCamera() {
-  if (scanInterval) {
-    clearInterval(scanInterval)
-    scanInterval = null
-  }
-  if (cameraStream) {
-    cameraStream.getTracks().forEach(track => track.stop())
-    cameraStream = null
-  }
-  if (videoRef.value) {
-    videoRef.value.srcObject = null
-  }
-  cameraActive.value = false
-  scanning.value = false
-}
-
-// 扫描循环：每 200ms 从视频帧中尝试解码二维码
-function scanLoop() {
-  scanning.value = true
-  scanInterval = setInterval(() => {
-    const video = videoRef.value
-    const canvas = scanCanvasRef.value
-    if (!video || !canvas || video.readyState < video.HAVE_ENOUGH_DATA) return
-
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const code = jsQR(imageData.data, imageData.width, imageData.height, {
-      inversionAttempts: 'dontInvert'
-    })
-    if (code) {
-      decodeResult.value = code.data
-      decodeError.value = ''
-      message.success(t('other.qrcode.cameraScanSuccess'))
-      stopCamera()
-    }
-  }, 200)
-}
-
-// 复制解码结果
-function copyDecodeResult() {
-  if (!decodeResult.value) return
-  navigator.clipboard.writeText(decodeResult.value)
-  message.success(t('common.copySuccess'))
-}
-
-// 检查是否为有效URL
-function isValidUrl(string) {
-  try {
-    new URL(string)
-    return true
-  } catch (_) {
-    return false
-  }
-}
-
-// 打开链接
-function openAsUrl() {
-  if (isValidUrl(decodeResult.value)) {
-    window.open(decodeResult.value, '_blank')
-  }
-}
-
-// 组件销毁时停止摄像头，防止资源泄漏
-onUnmounted(() => {
-  stopCamera()
-})
 </script>
 
 <style scoped>
@@ -877,14 +670,6 @@ onUnmounted(() => {
   text-align: center;
 }
 
-.upload-trigger {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
-
 .logo-upload-trigger {
   display: flex;
   flex-direction: column;
@@ -911,19 +696,6 @@ onUnmounted(() => {
   margin-left: auto;
 }
 
-.preview-section {
-  display: flex;
-  justify-content: center;
-}
-
-.preview-display {
-  text-align: center;
-}
-
-.decode-result {
-  word-break: break-all;
-}
-
 .info-section {
   margin-top: 16px;
 }
@@ -939,31 +711,4 @@ onUnmounted(() => {
   box-shadow: var(--shadow-md);
 }
 
-/* 摄像头扫描样式 */
-.camera-section {
-  width: 100%;
-}
-
-.camera-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.camera-video {
-  width: 100%;
-  max-width: 480px;
-  border-radius: 8px;
-  border: 2px solid var(--n-border-color, #e0e0e6);
-  background: #000;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-.camera-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
 </style>

@@ -2,10 +2,9 @@
 
 ## Quick generation
 
-1. Type or paste your content (URL, text, whatever) into the input area
-2. Pick an error correction level — M is fine for most things
-3. Hit Generate
-4. Click the result image to download as PNG
+1. Type or paste your content (URL, text, whatever) into the input area — the code renders instantly
+2. Adjust size, error correction level, or colors if needed, or overlay a logo under Advanced
+3. Click Download PNG or Download SVG to save
 
 That's it. The tool picks the optimal version and encoding mode automatically.
 
@@ -44,4 +43,8 @@ More data = bigger QR code = harder to scan from a distance. A URL under 100 cha
 
 ## Download and use
 
-The output is a standard PNG file. For print: export at a large module size (10-15px) and don't scale it down. For digital: 256-512px total size works well. The PNG has a transparent white background that renders cleanly on any surface.
+Two formats to choose from:
+
+**PNG —** Raster, ready for digital use. 256-512px total size works well and renders cleanly on any surface. For print, push the size slider higher rather than scaling down.
+
+**SVG —** Vector, stays sharp at any size. Pick it for print, large posters, or when you want to keep editing in design tools (Illustrator, Figma). If a logo is configured it gets embedded in the SVG with the same proportions, corner radius, and opacity as the PNG.

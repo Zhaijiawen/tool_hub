@@ -412,7 +412,8 @@ const tools = [
     path: '/other/file-hash',
     description: 'other.fileHash.description',
     category: 'other',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'dns',
@@ -461,7 +462,8 @@ const tools = [
     name: 'image.exif.title',
     path: '/image/exif',
     description: 'image.exif.description',
-    category: 'image'
+    category: 'image',
+    isNew: true
   },
   {
     id: 'pngOptimize',
@@ -469,7 +471,8 @@ const tools = [
     path: '/image/png-optimize',
     description: 'image.pngOptimize.description',
     category: 'image',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'webpAvifConvert',
@@ -477,7 +480,8 @@ const tools = [
     path: '/image/webp-avif-convert',
     description: 'image.webpAvifConvert.description',
     category: 'image',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'ocr',
@@ -485,14 +489,16 @@ const tools = [
     path: '/image/ocr',
     description: 'image.ocr.description',
     category: 'image',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'barcode',
     name: 'image.barcode.title',
     path: '/image/barcode',
     description: 'image.barcode.description',
-    category: 'image'
+    category: 'image',
+    isNew: true
   },
   {
     id: 'trace',
@@ -500,7 +506,8 @@ const tools = [
     path: '/image/trace',
     description: 'image.trace.description',
     category: 'image',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'pdfTools',
@@ -508,7 +515,17 @@ const tools = [
     path: '/document/pdf-tools',
     description: 'document.pdfTools.description',
     category: 'document',
-    wasm: true
+    wasm: true,
+    isNew: true
+  },
+  {
+    id: 'docConvert',
+    name: 'document.docConvert.title',
+    path: '/document/doc-convert',
+    description: 'document.docConvert.description',
+    category: 'document',
+    wasm: true,
+    isNew: true
   },
   {
     id: 'sqlite',
@@ -516,7 +533,8 @@ const tools = [
     path: '/data/sqlite',
     description: 'data.sqlite.description',
     category: 'data',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'python',
@@ -524,7 +542,8 @@ const tools = [
     path: '/data/python',
     description: 'data.python.description',
     category: 'data',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'mediaTool',
@@ -532,7 +551,8 @@ const tools = [
     path: '/media/media-tool',
     description: 'media.mediaTool.description',
     category: 'media',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'httpClient',
@@ -568,7 +588,8 @@ const tools = [
     path: '/other/file-compress',
     description: 'other.fileCompress.description',
     category: 'other',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'archive',
@@ -576,7 +597,8 @@ const tools = [
     path: '/other/archive',
     description: 'other.archive.description',
     category: 'other',
-    wasm: true
+    wasm: true,
+    isNew: true
   },
   {
     id: 'textStats',
@@ -611,7 +633,8 @@ const tools = [
     name: 'convert.diagram.title',
     path: '/convert/diagram',
     description: 'convert.diagram.description',
-    category: 'convert'
+    category: 'convert',
+    isNew: true
   },
   {
     id: 'mockData',
@@ -634,14 +657,17 @@ const tools = [
     name: 'ai.tokenCalc.title',
     path: '/ai/token-calc',
     description: 'ai.tokenCalc.description',
-    category: 'ai'
+    category: 'ai',
+    isNew: true
   },
   {
     id: 'bgRemoval',
     name: 'ai.bgRemoval.title',
     path: '/ai/bg-removal',
     description: 'ai.bgRemoval.description',
-    category: 'ai'
+    category: 'ai',
+    wasm: true,
+    isNew: true
   }
 ]
 

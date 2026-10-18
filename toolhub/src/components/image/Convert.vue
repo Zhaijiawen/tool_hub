@@ -186,10 +186,12 @@ const globalFormat = ref('image/jpeg')
 const globalQuality = ref(80)
 const globalError = ref('')
 
+// WebP / AVIF 不在此列：那两种现代格式由「WebP / AVIF 转换」工具用 WASM 编码器
+// 专门处理（同画质下体积更小）。这里只保留 canvas 原生支持的通用格式，
+// 避免两个入口做同一件事、用户不知道该点哪个。
 const formatOptions = [
   { label: 'JPEG', value: 'image/jpeg' },
   { label: 'PNG',  value: 'image/png'  },
-  { label: 'WebP', value: 'image/webp' },
   { label: 'GIF',  value: 'image/gif'  }
 ]
 
@@ -313,7 +315,6 @@ const getOutputExt = () => {
   const map = {
     'image/jpeg': 'jpg',
     'image/png':  'png',
-    'image/webp': 'webp',
     'image/gif':  'gif'
   }
   return map[globalFormat.value] || 'jpg'
