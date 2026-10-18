@@ -6,8 +6,13 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
+# 锁文件必须提交：本项目的依赖树对版本极其敏感——
+# @xenova/transformers 2.17.2 硬 pin onnxruntime-web 1.14.0，而顶层需要
+# 1.19.2 供 @imgly/background-removal 的 webgpu 子路径解析，且顶层
+# onnxruntime-common 也随大版本变动。锁文件缺失会让 ort 版本漂移，
+# 直接导致 Whisper 推理在浏览器端崩溃（ort 1.17+ 的 Tensor.data
+# 改为原型 getter，transformers 的 Object.assign 浅拷贝拿不到 data）。
+# yarn.lock 同理：团队统一用 npm（存在 package-lock.json），故不再忽略。
 
 # Build output
 dist/

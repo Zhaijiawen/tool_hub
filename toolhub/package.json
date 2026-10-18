@@ -89,7 +89,7 @@
     "mupdf": "^1.28.1",
     "naive-ui": "^2.35.0",
     "nanoid": "^5.1.9",
-    "onnxruntime-web": "^1.19.2",
+    "onnxruntime-web": "1.21.0",
     "pandoc-wasm": "^1.1.0",
     "pcre2-wasm": "^10.49.2",
     "piexifjs": "^1.0.6",
