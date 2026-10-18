@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:prod": "vite build --mode production",
+    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "build:prod": "node scripts/generate-sitemap.mjs && vite build --mode production",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "sitemap:check": "node scripts/generate-sitemap.mjs --check",
     "preview": "vite preview",
     "fetch:imgly-assets": "node scripts/fetch-imgly-assets.mjs",
     "fetch:mermaid-assets": "node scripts/fetch-mermaid-assets.mjs",
