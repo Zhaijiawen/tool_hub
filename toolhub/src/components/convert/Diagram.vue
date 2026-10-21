@@ -320,37 +320,85 @@ function exportSvg() {
   download(new Blob([svgHtml.value], { type: 'image/svg+xml;charset=utf-8' }), 'diagram.svg')
 }
 
-function exportPng() {
-  if (!svgHtml.value) return
-  const svgEl = previewEl.value && previewEl.value.querySelector('svg')
-  if (!svgEl) return
-  const rect = svgEl.getBoundingClientRect()
-  const vb = svgEl.viewBox && svgEl.viewBox.baseVal
-  const width = (vb && vb.width) || svgEl.width?.baseVal?.value || rect.width || 800
-  const height = (vb && vb.height) || svgEl.height?.baseVal?.value || rect.height || 600
-  const scale = 2
-  const svgText = svgHtml.value
-  const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const img = new Image()
-  img.onload = () => {
-    const canvas = document.createElement('canvas')
-    canvas.width = Math.max(1, Math.round(width * scale))
-    canvas.height = Math.max(1, Math.round(height * scale))
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = effectiveTheme.value === 'dark' ? '#1f1f1f' : '#ffffff'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-    URL.revokeObjectURL(url)
-    canvas.toBlob((pngBlob) => {
-      if (pngBlob) download(pngBlob, 'diagram.png')
-    }, 'image/png')
+// 把 SVG 字符串规范化为可直接栅格化的形式：补全 xmlns 与显式宽高。
+// 若缺 viewBox 则回退到解析出的 width/height，保证 drawImage 尺寸正确。
+function serializeSvg(svgString, w, h) {
+  const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml')
+  const svg = doc.querySelector('svg')
+  if (svg) {
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    if (w) svg.setAttribute('width', String(w))
+    if (h) svg.setAttribute('height', String(h))
   }
-  img.onerror = () => {
-    URL.revokeObjectURL(url)
+  return new XMLSerializer().serializeToString(doc.documentElement)
+}
+
+function exportPng() {
+  if (!svgHtml.value || !mermaid) return
+  const code = (source.value || '').trim()
+  if (!code) return
+  try {
+    // 关键点：用 htmlLabels:false 重新渲染一份纯矢量 SVG。
+    // mermaid 默认用 <foreignObject> 渲染文字标签，而含 <foreignObject> 的 SVG
+    // 被当成 <img> 画到 canvas 后，浏览器会判定画布被污染（tainted），
+    // toBlob() 抛 SecurityError，PNG 导出静默失败。关闭 htmlLabels 后标签改为
+    // <text>/<tspan>，无 foreignObject，导出即可正常。预览仍用原配置，不受影响。
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: effectiveTheme.value,
+      htmlLabels: false,
+      flowchart: { curve: 'basis' },
+      fontFamily: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif'
+    })
+    mermaid
+      .render('diagram-export-' + Date.now(), code)
+      .then(({ svg }) => {
+        const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml')
+        const svgEl = parsed.querySelector('svg')
+        const vb = svgEl && svgEl.viewBox && svgEl.viewBox.baseVal
+        const width = (vb && vb.width) || svgEl?.width?.baseVal?.value || 800
+        const height = (vb && vb.height) || svgEl?.height?.baseVal?.value || 600
+        const scale = 2
+        const outW = Math.max(1, Math.round(width * scale))
+        const outH = Math.max(1, Math.round(height * scale))
+        const outSvg = serializeSvg(svg, outW, outH)
+        const blob = new Blob([outSvg], { type: 'image/svg+xml;charset=utf-8' })
+        const url = URL.createObjectURL(blob)
+        const img = new Image()
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas')
+            canvas.width = outW
+            canvas.height = outH
+            const ctx = canvas.getContext('2d')
+            ctx.fillStyle = effectiveTheme.value === 'dark' ? '#1f1f1f' : '#ffffff'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+            URL.revokeObjectURL(url)
+            canvas.toBlob((pngBlob) => {
+              if (pngBlob) download(pngBlob, 'diagram.png')
+              else message.error(t('convert.diagram.pngFailed'))
+            }, 'image/png')
+          } catch (e) {
+            // 极端情况下（如仍被污染）避免静默失败，给出可见提示
+            URL.revokeObjectURL(url)
+            message.error(t('convert.diagram.pngFailed'))
+          }
+        }
+        img.onerror = () => {
+          URL.revokeObjectURL(url)
+          message.error(t('convert.diagram.pngFailed'))
+        }
+        img.src = url
+      })
+      .catch(() => {
+        message.error(t('convert.diagram.pngFailed'))
+      })
+  } catch (e) {
     message.error(t('convert.diagram.pngFailed'))
   }
-  img.src = url
 }
 
 function copySource() {
