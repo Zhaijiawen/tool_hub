@@ -3,9 +3,13 @@
  *
  * 来源：@jsquash/webp@1.5.0（Squoosh App 移植，Apache-2.0）
  * - webp_enc.js / webp_enc_simd.js：Emscripten MODULARIZE glue，原样拷贝，
- *   仅将 `new URL("*.wasm", import.meta.url).href` 回退改为抛错——
- *   避免 Vite 构建期把它当静态资源解析（白吐 ~630KB 死资产），
- *   同时强制 wasm 只能以「编译好的 WebAssembly.Module」注入（走我们的下载/缓存/进度链路）。
+ *   仅将 `new URL("*.wasm", import.meta.url).href` 回退改为非 eager 的 `undefined` 占位——
+ *   避免 Vite 构建期把它当静态资源解析（白吐 ~630KB 死资产）；
+ *   真正的报错「wasm must be provided as a compiled WebAssembly.Module」下移到
+ *   getBinary/getBinaryPromise，仅在未提供 instantiateWasm 的误用时才抛出。
+ *   wasm 始终以「编译好的 WebAssembly.Module」经 initEmscriptenModule 注入
+ *   （走我们的下载/缓存/进度链路），Emscripten 走 instantiateWasm 分支，
+ *   不会触及 getBinary，故顶层占位不会触发报错。
  * - emscriptenUtils.js：jsquash 的 initEmscriptenModule（与 @jsquash/webp/utils.js 相同，
  *   各 jsquash 包该文件一致，故共享一份）。
  * - meta.js：libwebp 默认参数（quality 75 等）。

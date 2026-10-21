@@ -3,7 +3,9 @@
  *
  * 来源：@jsquash/avif@2.1.1（Squoosh App 移植，Apache-2.0）
  * - avif_enc.js：Emscripten MODULARIZE glue，原样拷贝，仅将
- *   `new URL("avif_enc.wasm", import.meta.url).href` 回退改为抛错（理由同 webp/index.js）。
+ *   `new URL("avif_enc.wasm", import.meta.url).href` 回退改为非 eager 的 `undefined` 占位
+ *   （理由同 webp/index.js：避免 Vite 静态解析死资产；真正的报错下移到 getBinarySync，
+ *   仅在未提供 instantiateWasm 的误用时抛出）。
  * - meta.js：libavif 默认参数（quality 50 / speed 6 / bitDepth 8）。
  *
  * 与上游 encode.js 包装层的差异（重要）：
