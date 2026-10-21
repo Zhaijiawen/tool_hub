@@ -23,6 +23,18 @@
 let sqlite3 = null
 let ready = false
 
+/**
+ * OPFS 可用性判据。
+ * 注意：sqlite-wasm 在正常（非测试）上下文会通过 asyncPostInit -> postInit
+ * （index.mjs 4740-4743）删除 `sqlite3.opfs` 工具对象，因此 **不能** 用
+ * `'opfs' in sqlite3` 判定可用性——那在正常环境永远为 false，会误判 OPFS
+ * 不可用（即使 crossOriginIsolated=true 且浏览器支持 OPFS）。
+ * 真正的可用标志是 installOpfsVfs() 成功后挂在 `sqlite3.oo1.OpfsDb` 上的构造器。
+ */
+function opfsUsable() {
+  return !!(sqlite3 && sqlite3.oo1 && sqlite3.oo1.OpfsDb)
+}
+
 // 当前打开的数据库
 let db = null // oo1.DB / oo1.OpfsDb 实例
 let dbName = '' // 展示名
@@ -133,7 +145,7 @@ async function deleteOpfsFile(name) {
 
 /** 上传导入：校验 SQLite 头 → importDb 写入 OPFS（强制关 WAL）→ 打开 */
 async function handleImport(msg) {
-  if (!('opfs' in sqlite3)) throw new Error('OPFS_UNAVAILABLE')
+  if (!opfsUsable()) throw new Error('OPFS_UNAVAILABLE')
   const name = String(msg.name || '').trim()
   if (!name) throw new Error('NAME_REQUIRED')
   const bytes = new Uint8Array(msg.bytes)
@@ -150,7 +162,7 @@ async function handleImport(msg) {
 
 /** 打开已存在的 OPFS 库（不存在则新建空库） */
 async function handleOpenOpfs(msg) {
-  if (!('opfs' in sqlite3)) throw new Error('OPFS_UNAVAILABLE')
+  if (!opfsUsable()) throw new Error('OPFS_UNAVAILABLE')
   const name = String(msg.name || '').trim()
   if (!name) throw new Error('NAME_REQUIRED')
   closeDb()
@@ -206,7 +218,7 @@ self.addEventListener('message', async (e) => {
       self.postMessage({
         type: 'toolhub:sqlite-ready',
         version: sqlite3.version.libVersion,
-        opfs: 'opfs' in sqlite3
+        opfs: opfsUsable()
       })
     } catch (err) {
       self.postMessage({

@@ -28,6 +28,19 @@
   - 已修：SpeechToText / Rotate / Watermark / Crop / CsvViewer / Convert。`FileHash.vue` 是正确范本（`v-model` + `ref` + `clear`）。
   - 排查时注意**症状隐蔽性**：Rotate/Watermark/Crop 没有「清空」按钮，用户唯一换图的途径（再选一次）正是失效路径，选错后完全无法纠正。
 
+## vendored sqlite-wasm 的 OPFS 可用性判据陷阱
+
+- **绝不能用 `'opfs' in sqlite3` 判定 OPFS 是否可用**。vendored `sqlite-wasm/index.mjs` 在正常（非测试）
+  上下文会经 `asyncPostInit -> postInit`（4740-4743 行）**删除 `sqlite3.opfs` 工具对象**，所以
+  `'opfs' in sqlite3` 在正常环境**永远为 false**，会误判 OPFS 不可用——即使 `crossOriginIsolated===true`
+  且浏览器支持 OPFS。这个误判与 COOP/COEP 头、安全上下文都无关。
+- 正确的可用标志是 `installOpfsVfs()` 成功后挂在 `sqlite3.oo1.OpfsDb` 上的构造器，判定式
+  `!!(sqlite3.oo1 && sqlite3.oo1.OpfsDb)`。
+- 时序保证：`asyncPostInit` 先跑 `initializersAsync`（含 `installOpfsVfs`）再 `postInit` 删 `sqlite3.opfs`，
+  整链完成才 resolve `sqlite3InitModule`，故 worker 拿到 sqlite3 时 `OpfsDb` 是否已挂载已确定。
+- 已修：`toolhub/src/workers/sqlite-worker.js` 用 `opfsUsable()` 替换了 3 处 `'opfs' in sqlite3`
+  （ready 握手 `opfs` 字段 + import/openOpfs 的 `OPFS_UNAVAILABLE` 校验）。排查过程见 2026-10-21 日志。
+
 ## 已知未验证项
 
 - **AI 抠图已在浏览器内端到端验证通过**（2026-10-18）：真实点击「去除背景」后 4s 完成，输出 11906 字节 RGBA PNG（colorType=6，尺寸与原图一致），UI 正常显示对比视图。此前该功能因 publicPath 相对路径 + pthread 代理路径缺失 + vite alias 劫持 ort 导入而**从未真正成功过**（三个问题叠加）。

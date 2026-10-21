@@ -8,7 +8,7 @@
       </template>
 
       <n-alert type="info" :bordered="true" style="margin-bottom: 12px;">
-        <n-space vertical size="2px">
+        <n-space vertical :size="2">
           <n-text depth="3" style="font-size: 12px;">{{ t('data.python.stdlibOnly') }}</n-text>
           <n-text depth="3" style="font-size: 12px;">{{ t('data.python.engineNote') }}</n-text>
         </n-space>
