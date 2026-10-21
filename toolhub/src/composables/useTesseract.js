@@ -15,6 +15,34 @@
  */
 
 import { relaxedSimd, simd } from 'wasm-feature-detect';
+import { toRaw } from 'vue';
+
+/**
+ * 去除 Vue reactive Proxy，使 payload 可被 worker.postMessage 结构化克隆。
+ *
+ * 背景：组件里 `selectedLangs` 等是 ref，其 `.value` 是 Vue reactive 代理对象。
+ * 代理对象（Proxy）无法被 structured clone，直接传给 Worker 会抛
+ * "Failed to execute 'postMessage' on 'Worker': [object Object] could not be cloned"。
+ * 这里在「主线程→Worker」序列化边界统一去代理，避免任何调用方把响应式数据漏进 Worker。
+ *
+ * - 基本类型/null 原样返回；
+ * - ArrayBuffer / TypedArray（图片/语言包字节）原样返回，绝不拷贝大块二进制；
+ * - 数组逐元素去代理；
+ * - 普通对象逐键去代理；
+ * - 其它类型（Date/Map/类实例等）原样返回，避免破坏。
+ */
+function unproxy(value) {
+  if (value === null || typeof value !== 'object') return value;
+  const v = toRaw(value); // 非响应式对象 toRaw 原样返回
+  if (Array.isArray(v)) return v.map(unproxy);
+  if (ArrayBuffer.isView(v) || v instanceof ArrayBuffer) return v;
+  if (v.constructor === Object || v.constructor === undefined) {
+    const out = {};
+    for (const k of Object.keys(v)) out[k] = unproxy(v[k]);
+    return out;
+  }
+  return v;
+}
 
 /**
  * 可选语言（tesseract.js-data 4.0.0_best_int，LSTM-only，与 lstm 系 core 配对）。
@@ -91,7 +119,7 @@ export class TesseractEngine {
       // useWasmModule 复用同一 ArrayBuffer，postMessage 转移会 detach 它，必须拷贝
       const wasmCopy = wasm.slice(0);
       worker.postMessage(
-        { type: 'toolhub:tesseract-init', glue, wasm: wasmCopy },
+        unproxy({ type: 'toolhub:tesseract-init', glue, wasm: wasmCopy }),
         [wasmCopy],
       );
     });
@@ -138,9 +166,29 @@ export class TesseractEngine {
     return new Promise((resolve, reject) => {
       this.pending.set(`${action}-${jobId}`, { resolve, reject });
       this.worker.postMessage(
-        { workerId: 'toolhub-ocr', jobId, action, payload },
+        { workerId: 'toolhub-ocr', jobId, action, payload: unproxy(payload) },
         transfer,
       );
+    });
+  }
+
+  /**
+   * 引导 core wasm 实例化，设置 worker 内的 TessModule。
+   *
+   * 关键时序：worker 端 TessModule 只在 `load` action 里被赋值
+   * （Core({wasmBinary}).then(t => TessModule = t)）。loadLanguage 依赖
+   * TessModule.FS 写语言包、initialize 依赖 new TessModule.TessBaseAPI()，
+   * 因此 load 必须排在它们前面，否则 TessModule 为 undefined 会抛
+   * "Cannot read properties of undefined (reading 'TessBaseAPI')"。
+   * worker 端 load 对已存在的 TessModule 幂等（直接 resolve），重复调用无副作用。
+   */
+  async loadCore() {
+    await this.send('load', {
+      options: {
+        lstmOnly: true,
+        corePath: null,
+        logging: false,
+      },
     });
   }
 
@@ -185,6 +233,7 @@ export class TesseractEngine {
    * @returns {Promise<{text:string, confidence:number}>}
    */
   async recognize(imageBuffer, langCodes, langData, psm) {
+    await this.loadCore();
     await this.loadLanguages(langData);
     await this.initialize(langCodes);
     if (psm) await this.setParameters({ tessedit_pageseg_mode: String(psm) });
