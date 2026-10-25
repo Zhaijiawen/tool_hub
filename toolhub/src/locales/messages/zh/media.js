@@ -46,6 +46,8 @@ export default {
         outputMissing: "转换完成但未找到输出文件，请尝试其他参数",
         transcodeFailed: "视频转码失败，请尝试降低分辨率或更换输出格式",
         gifFailed: "GIF 生成失败，请尝试降低帧率或宽度",
+        outOfMemory: "处理失败：文件过大，超出了本地 FFmpeg 引擎的内存上限（初始堆仅 32MB）。请尝试压缩/裁剪视频、降低分辨率或帧率后再试，或改用桌面端专业软件处理更大文件。",
+        fileTooLarge: "文件过大（{size} MB），超出建议上限 {max} MB，很可能因内存不足而失败。请改用更小的文件或更低的分辨率/帧率。",
         workerNotReady: "FFmpeg 引擎尚未就绪",
         workerError: "FFmpeg 引擎发生错误",
         initTimeout: "FFmpeg 引擎初始化超时，请刷新页面重试"

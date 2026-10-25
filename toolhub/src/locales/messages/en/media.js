@@ -46,6 +46,8 @@ export default {
         outputMissing: "Conversion finished but no output file was produced — try different settings",
         transcodeFailed: "Video transcoding failed — try a lower resolution or a different output format",
         gifFailed: "GIF generation failed — try a lower frame rate or width",
+        outOfMemory: "Processing failed: the file is too large for the local FFmpeg engine's memory limit (only a 32MB initial heap). Try compressing/trimming the video, lowering resolution or frame rate, or use a desktop tool for larger files.",
+        fileTooLarge: "File is too large ({size} MB), exceeding the recommended limit of {max} MB and likely to fail due to insufficient memory. Use a smaller file or a lower resolution/frame rate.",
         workerNotReady: "The FFmpeg engine is not ready yet",
         workerError: "The FFmpeg engine encountered an error",
         initTimeout: "FFmpeg engine initialization timed out — please refresh and try again"

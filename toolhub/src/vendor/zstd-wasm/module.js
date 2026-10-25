@@ -15,4 +15,3 @@ export const waitInitialized = () => __awaiter(void 0, void 0, void 0, function*
     yield initialized;
 });
 export { Module };
-//# sourceMappingURL=module.js.map

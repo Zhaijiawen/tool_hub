@@ -234,10 +234,10 @@ const computeHashes = async (file) => {
 
     // 工厂是异步的（内部要编译 wasm），四个并发初始化
     const [md5h, sha1h, sha256h, sha512h] = await Promise.all([
-      unwrap(md5m).createMD5(),
-      unwrap(sha1m).createSHA1(),
-      unwrap(sha256m).createSHA256(),
-      unwrap(sha512m).createSHA512()
+      unwrap(md5m, 'createMD5').createMD5(),
+      unwrap(sha1m, 'createSHA1').createSHA1(),
+      unwrap(sha256m, 'createSHA256').createSHA256(),
+      unwrap(sha512m, 'createSHA512').createSHA512()
     ])
     if (abortFlag) return
 
@@ -279,9 +279,19 @@ const computeHashes = async (file) => {
   }
 }
 
-/** UMD 经 Vite 转 ESM 后，具名导出可能挂在 default 上 */
-function unwrap(mod) {
-  return mod && typeof mod.createSHA256 === 'function' ? mod : (mod?.default || mod)
+/**
+ * 取出哈希工厂所在的模块对象。
+ * hash-wasm 的各 vendored 文件是自我执行的 IIFE，会把 createXXX 写到
+ * 全局 `globalThis.hashwasm`（无 ESM 具名导出，import 进来是空 namespace）。
+ * 因此不能只靠模块自身的具名导出判断——这里同时检查模块自身、default、
+ * 以及真正的全局对象，按需要的具体工厂函数名定位，避免误判取不到函数。
+ */
+function unwrap(mod, createFn) {
+  const candidates = [mod, mod?.default, globalThis.hashwasm]
+  for (const c of candidates) {
+    if (c && typeof c[createFn] === 'function') return c
+  }
+  return mod
 }
 
 /** 用户取消计算 */

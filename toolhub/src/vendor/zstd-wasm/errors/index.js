@@ -8,4 +8,3 @@ export const isError = (code) => {
 //   const _getErrorName = Module.cwrap('ZSTD_getErrorName', 'string', ['number']);
 //   return _getErrorName(code);
 // };
-//# sourceMappingURL=index.js.map

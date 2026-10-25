@@ -52,11 +52,27 @@ function outputPath(inputName, ext) {
   return `${stem}_out.${ext}`
 }
 
-/** 执行 ffmpeg 命令，返回返回码；同时把 stderr 存入 logs */
+/**
+ * 执行 ffmpeg 命令，返回返回码；同时把 stderr 存入 logs。
+ * 单线程 ffmpeg-core 在处理较大/复杂媒体时，wasm 堆（初始 32MB、依赖
+ * 不可靠的增长路径）会触发 `memory access out of bounds` 的 RuntimeError 陷阱，
+ * 该异常会直接从 exec 抛出。这里把它归一为 OUT_OF_MEMORY 错误码，
+ * 让 UI 给出「文件过大/内存不足」的友好提示，而不是把原始 wasm 文本暴露给用户。
+ * 注意：仅匹配真正的越界陷阱文案；setTimeout 触发的 Aborted() 不在此列，
+ * 避免把超时误判为内存不足。
+ */
 function run(args, timeoutMs = -1) {
   logs = []
   ffmpeg.setTimeout(timeoutMs)
-  ffmpeg.exec(...args)
+  try {
+    ffmpeg.exec(...args)
+  } catch (e) {
+    const msg = String((e && e.message) || e)
+    if (/memory access out of bounds/i.test(msg)) {
+      throw new Error('OUT_OF_MEMORY')
+    }
+    throw e
+  }
   return ffmpeg.ret
 }
 

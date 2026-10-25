@@ -19,10 +19,18 @@ self.addEventListener(
     const data = e.data
     if (data && data.type === 'toolhub:wasm-binary') {
       globalThis.__toolhubWasmBinary = new Uint8Array(data.buffer)
-      // 动态 import 触发 comlink expose；此后消息由 bundle 内部监听器接管
-      import('../vendor/libarchive/worker-bundle.js').catch((err) => {
-        console.error('[libarchive-worker] failed to load vendored worker-bundle:', err)
-      })
+      // 动态 import 触发 bundle 顶层同步 expose(A)；import resolve 即代表 comlink 已
+      // 就绪。回传 ready 让主线程再发 CONSTRUCT，避免握手竞态：CONSTRUCT 在 expose 之前
+      // 到达会被丢弃，导致主线程 proxy 握手永远挂起（表现为「处理中」卡死）。
+      import('../vendor/libarchive/worker-bundle.js')
+        .then(() => self.postMessage({ type: 'toolhub:archive-ready' }))
+        .catch((err) => {
+          console.error('[libarchive-worker] failed to load vendored worker-bundle:', err)
+          self.postMessage({
+            type: 'toolhub:archive-error',
+            error: String((err && err.message) ? err.message : err)
+          })
+        })
     }
   },
   { once: true }

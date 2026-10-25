@@ -38,4 +38,3 @@ export const decompress = (buf, opts = { defaultHeapSize: 1024 * 1024 }) => {
         throw e;
     }
 };
-//# sourceMappingURL=decompress.js.map

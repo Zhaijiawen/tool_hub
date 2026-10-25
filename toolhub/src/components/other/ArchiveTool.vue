@@ -493,8 +493,15 @@ async function createArchive() {
   try {
     await ensureWasmInjected()
     await new Promise((r) => setTimeout(r, 0))
+    // 1) createFiles 是 ref([])，其 .value 是 Vue reactive 代理数组；reactive Proxy 无法被
+    //    comlink 的 postMessage 结构化克隆（与 OCR 的 selectedLangs.value 同源 bug）。
+    //    map 经 Vue rawIterator 返回普通数组，File 元素本身不被代理，无需深拷贝。
+    // 2) worker 的 write 期望 files 为 [{ file, pathname }]（会读 element.file.size），
+    //    而不是裸 File[]；裸数组会让 element.file 为 undefined 而报 "reading 'size'"。
+    //    pathname 省略时 worker 回退用 file.name 作为归档内条目名。
+    const plainFiles = createFiles.value.map((f) => ({ file: f }))
     const out = await Archive.write({
-      files: createFiles.value,
+      files: plainFiles,
       outputFileName: outputName.value || 'archive.zip',
       compression: compression.value,
       format: format.value

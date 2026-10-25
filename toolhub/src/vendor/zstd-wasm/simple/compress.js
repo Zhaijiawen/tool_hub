@@ -38,4 +38,3 @@ export const compress = (buf, level) => {
         throw e;
     }
 };
-//# sourceMappingURL=compress.js.map

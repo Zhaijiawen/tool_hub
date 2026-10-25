@@ -356,4 +356,3 @@ if (Module['preInit']) {
 }
 Module['init'] = init;
 export { Module };
-//# sourceMappingURL=zstd.js.map

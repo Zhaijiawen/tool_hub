@@ -247,9 +247,27 @@ const ERROR_KEYS = {
   OUTPUT_MISSING: 'media.mediaTool.errors.outputMissing',
   TRANSCODE_FAILED: 'media.mediaTool.errors.transcodeFailed',
   GIF_FAILED: 'media.mediaTool.errors.gifFailed',
+  OUT_OF_MEMORY: 'media.mediaTool.errors.outOfMemory',
   WORKER_NOT_READY: 'media.mediaTool.errors.workerNotReady',
   WORKER_ERROR: 'media.mediaTool.errors.workerError',
   FFMPEG_INIT_TIMEOUT: 'media.mediaTool.errors.initTimeout'
+}
+
+// 单线程 ffmpeg-core 初始堆仅 32MB、增长路径不可靠，文件过大极易触发
+// wasm 内存越界陷阱。这里设一个护栏：超过即拒绝并提示（仅拦截明显超限，
+// 中等文件仍允许尝试；真正的上限由引擎内存决定）。
+const VIDEO_MAX_MB = 200 // 视频转码 / 转 GIF 的输入
+const AUDIO_MAX_MB = 300 // 音频处理 / 提取的输入
+
+function checkSize(file, maxMB) {
+  const mb = file.size / (1024 * 1024)
+  if (mb > maxMB) {
+    message.warning(
+      t('media.mediaTool.errors.fileTooLarge', { size: mb.toFixed(1), max: maxMB })
+    )
+    return false
+  }
+  return true
 }
 
 function fail(err) {
@@ -338,6 +356,7 @@ function setVideoFile(f) {
     message.warning(t('media.mediaTool.videoOnly'))
     return
   }
+  if (!checkSize(f, VIDEO_MAX_MB)) return
   videoFile.value = f
   clearResult()
   errorText.value = ''
@@ -384,6 +403,7 @@ function setAudioFile(f) {
     message.warning(t('media.mediaTool.audioFileOnly'))
     return
   }
+  if (!checkSize(f, AUDIO_MAX_MB)) return
   audioFile.value = f
   clearResult()
   errorText.value = ''
@@ -429,6 +449,7 @@ function setGifFile(f) {
     message.warning(t('media.mediaTool.videoOnly'))
     return
   }
+  if (!checkSize(f, VIDEO_MAX_MB)) return
   gifFile.value = f
   clearResult()
   errorText.value = ''
