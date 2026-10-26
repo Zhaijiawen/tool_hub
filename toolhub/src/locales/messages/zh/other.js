@@ -632,7 +632,7 @@ export default {
     },
     archive: {
       title: "归档解压 / 压缩",
-      description: "基于 libarchive (WASM) 的压缩包解压与打包工具",
+      description: "基于 libarchive (WASM) 解压、本地生成标准 ZIP / TAR——全部在浏览器内完成，文件不上传",
       mode: "模式",
       extract: "解压",
       create: "压缩",
@@ -652,13 +652,9 @@ export default {
       compression: "压缩算法",
       outputName: "输出文件名",
       createArchive: "创建压缩包",
-      compDeflate: "Deflate（通用）",
-      compStore: "Store（仅打包）",
+      compNone: "不压缩（仅打包）",
       compGzip: "Gzip",
-      compBzip2: "Bzip2",
-      compXz: "XZ",
-      compZstd: "Zstd",
-      compLz4: "LZ4",
+      compBuiltin: "ZIP 使用内置 Deflate 压缩（无需额外选择）",
       download: "下载",
       noFile: "请先上传压缩包",
       noFiles: "请先上传要打包的文件",
@@ -666,6 +662,7 @@ export default {
       openFailed: "打开压缩包失败：格式不支持或文件已损坏",
       extractFailed: "解压失败：文件可能已损坏或密码错误",
       createFailed: "创建压缩包失败",
+      createLargeWarn: "待打包文件总体积为 {mb}MB。创建全程在浏览器内由 fflate 完成（无 WASM 内存上限），但超大输入可能占用较多内存并耗时较久——若感觉卡顿，可减少/合并文件，或使用系统压缩工具。",
       createSuccess: "压缩包创建成功",
       processing: "处理中...",
       loadingWasm: "加载 WASM...",
@@ -674,7 +671,7 @@ export default {
       fileTooLarge: "压缩包 {size} 超出安全上限：libarchive 需要在内存中展开归档内容，超过 2GB 会超出浏览器内存限制。建议先用系统工具拆分后再处理。",
       largeFileMemoryWarning: "压缩包较大（>1GB）：解压后的内容会全部驻留内存，若压缩比高则实际占用可能是原文件的数倍，请留意浏览器内存情况。",
       infoTitle: "使用说明",
-      infoContent: "基于 libarchive 编译到 WebAssembly：解压侧自动识别压缩包格式，支持 ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST/CPIO/ISO 等（浏览器原生仅支持 gzip/deflate 解压）；压缩侧支持 ZIP/TAR/7Z 容器 × Deflate/Store/Gzip/Bzip2/XZ/Zstd/LZ4 算法组合。首次使用会下载约 1MB 的 WASM 模块（有进度条、可取消），之后访问命中缓存瞬时完成。所有处理均在浏览器本地完成，文件不会上传到服务器。"
+      infoContent: "解压由 libarchive 编译到 WebAssembly 驱动：自动识别格式，支持 ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST/CPIO/ISO 等（浏览器原生仅支持 gzip/deflate 解压）。创建侧使用 fflate 在本地写出标准归档：ZIP 采用内置 Deflate 压缩，TAR 为纯打包容器、可选 Gzip 包裹；创建无需下载 WASM。解压首次使用会下载约 1MB 的 WASM 模块（有进度条、可取消），之后命中缓存瞬时完成。所有处理均在浏览器本地完成，文件不会上传到服务器。"
     },
     mockData: {
       title: "Mock 数据生成器",

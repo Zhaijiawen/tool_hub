@@ -165,17 +165,21 @@
               <n-radio-group v-model:value="format" size="small">
                 <n-radio-button value="zip">ZIP</n-radio-button>
                 <n-radio-button value="tar">TAR</n-radio-button>
-                <n-radio-button value="7zip">7Z</n-radio-button>
               </n-radio-group>
             </div>
             <div class="option-row">
               <span class="option-label">{{ t('other.archive.compression') }}</span>
-              <n-select
-                v-model:value="compression"
-                :options="compressionOptions"
-                size="small"
-                style="max-width: 200px;"
-              />
+              <template v-if="format === 'tar'">
+                <n-select
+                  v-model:value="compression"
+                  :options="compressionOptions"
+                  size="small"
+                  style="max-width: 200px;"
+                />
+              </template>
+              <n-text v-else depth="3" style="font-size: 12px;">
+                {{ t('other.archive.compBuiltin') }}
+              </n-text>
             </div>
             <div class="option-row">
               <span class="option-label">{{ t('other.archive.outputName') }}</span>
@@ -189,12 +193,16 @@
             <n-button
               type="primary"
               :loading="processing"
-              :disabled="processing || wasmLoading"
+              :disabled="processing"
               @click="createArchive"
             >
               {{ processing ? t('other.archive.processing') : (wasmLoading ? t('other.archive.loadingWasm') : t('other.archive.createArchive')) }}
             </n-button>
           </div>
+
+          <n-alert v-if="createWarn" type="warning" closable @close="createWarn = ''" style="margin-top: 4px;">
+            {{ createWarn }}
+          </n-alert>
 
           <div v-if="createResultUrl" class="result">
             <n-space align="center" :wrap="true">
@@ -227,8 +235,13 @@ import TutorialAndDocs from '@/components/common/TutorialAndDocs.vue'
 import ToolIntro from '@/components/common/ToolIntro.vue'
 import WasmTag from '@/components/common/WasmTag.vue'
 import { useWasmModule } from '@/composables/useWasmModule'
-// vendor 胶水：主入口与 worker-bundle 均已打补丁，wasm/worker 均由本站注入
+// 解压沿用 libarchive（读取侧表现良好，支持 ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST/CPIO/ISO 等）。
+// 创建侧 libarchive 2.0.2 的 write 路径对「标准归档」不可用（filter=none 时输出 0 字节，
+// 其它过滤器只能产出“过滤器包裹格式”的双层文件而非独立 .zip/.tar），故创建改用 fflate
+// 产出标准 PK·ZIP（Deflate）与 TAR（可选 Gzip，见 tar-writer.js）。
 import { Archive } from '@/vendor/libarchive/libarchive.js'
+import * as fflate from 'fflate'
+import { buildTar } from './tar-writer.js'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -258,6 +271,10 @@ const extractingIdx = ref(-1)
 const ARCHIVE_SAFE_LIMIT = 2 * 1024 * 1024 * 1024
 const ARCHIVE_WARN_LIMIT = 1024 * 1024 * 1024 // 1GB：提示解压后可能占用大量内存
 
+// 创建侧改用 fflate（主线程同步 deflate / gzip），无 wasm 内存上限；
+// 仅对超大输入做非阻塞的温和提示（见 createArchive），不强制拦截。
+const CREATE_WARN_LIMIT = 300 * 1024 * 1024
+
 const archiveFileSize = computed(() => archiveFile.value?.size || 0)
 const archiveTooLarge = computed(() => archiveFileSize.value > ARCHIVE_SAFE_LIMIT)
 
@@ -266,11 +283,13 @@ const archiveAboveWarnLimit = computed(() => archiveFileSize.value > ARCHIVE_WAR
 
 // ---- 压缩模式状态 ----
 const createFiles = ref([])
-const format = ref('zip')           // zip | tar | 7zip
-const compression = ref('deflate')  // 见 compressionOptions
+const format = ref('zip')           // zip | tar
+// 创建侧压缩算法（fflate）：ZIP 取 deflate（默认）/ store（不压缩）；TAR 取 none（纯打包）/ gzip。
+const compression = ref('deflate')
 const outputName = ref('archive.zip')
 const createResultUrl = ref('')
 const createResultSize = ref(0)
+const createWarn = ref('')
 
 // WASM 加载器：libarchive.wasm（980KB，首次操作时下载，带进度/可取消/缓存）
 const wasm = useWasmModule('libarchive', {
@@ -281,22 +300,32 @@ const wasm = useWasmModule('libarchive', {
 
 const wasmLoading = computed(() => ['downloading', 'compiling'].includes(wasm.status.value))
 
+// TAR 的压缩选项（fflate 仅支持 none/gzip）：none 纯打包、gzip 包裹。
+// ZIP 走 fflate 内置 Deflate，无需选算法（模板显示 compBuiltin 文案）。
 const compressionOptions = computed(() => [
-  { label: t('other.archive.compDeflate'), value: 'deflate' },
-  { label: t('other.archive.compStore'), value: 'store' },
-  { label: t('other.archive.compGzip'), value: 'gzip' },
-  { label: t('other.archive.compBzip2'), value: 'bzip2' },
-  { label: t('other.archive.compXz'), value: 'xz' },
-  { label: t('other.archive.compZstd'), value: 'zstd' },
-  { label: t('other.archive.compLz4'), value: 'lz4' }
+  { label: t('other.archive.compNone'), value: 'none' },
+  { label: t('other.archive.compGzip'), value: 'gzip' }
 ])
 
-// 切换格式时同步默认压缩算法与输出扩展名
-const FORMAT_DEFAULTS = {
-  zip: { compression: 'deflate', ext: '.zip' },
-  tar: { compression: 'store', ext: '.tar' },
-  '7zip': { compression: 'deflate', ext: '.7z' }
+// 格式 / 压缩切换时同步默认输出扩展名（仅当用户仍在使用默认名，避免覆盖手动命名）
+const KNOWN_DEFAULT_NAMES = new Set(['archive.zip', 'archive.tar', 'archive.tar.gz'])
+function suggestExt() {
+  if (format.value === 'zip') return '.zip'
+  return compression.value === 'gzip' ? '.tar.gz' : '.tar'
 }
+function syncDefaultExt() {
+  if (!outputName.value || KNOWN_DEFAULT_NAMES.has(outputName.value.toLowerCase())) {
+    outputName.value = 'archive' + suggestExt()
+  }
+}
+// 切换格式时同时重置一个合理的默认压缩（zip→deflate，tar→none），并校正扩展名。
+watch(format, (f) => {
+  compression.value = f === 'tar' ? 'none' : 'deflate'
+  syncDefaultExt()
+})
+watch([format, compression], () => {
+  syncDefaultExt()
+})
 
 function formatSize(s) {
   if (!s) return '0 B'
@@ -312,6 +341,14 @@ function formatDate(ms) {
     return ''
   }
 }
+
+// 按当前格式/压缩校正输出扩展名，保留用户命名中的基础名。
+function withExt(name) {
+  const cleaned = (name || '').replace(/\.(zip|tar|tar\.gz)$/i, '')
+  return cleaned + suggestExt()
+}
+
+// TAR 写入器见 ./tar-writer.js（手写 ustar，已单测验证）。
 
 const triggerFileInput = () => fileInputRef.value?.click()
 
@@ -490,25 +527,45 @@ async function createArchive() {
     return
   }
   processing.value = true
+  createWarn.value = ''
   try {
-    await ensureWasmInjected()
-    await new Promise((r) => setTimeout(r, 0))
     // 1) createFiles 是 ref([])，其 .value 是 Vue reactive 代理数组；reactive Proxy 无法被
-    //    comlink 的 postMessage 结构化克隆（与 OCR 的 selectedLangs.value 同源 bug）。
+    //    structuredClone / postMessage 克隆（与 OCR 的 selectedLangs.value 同源 bug）。
     //    map 经 Vue rawIterator 返回普通数组，File 元素本身不被代理，无需深拷贝。
-    // 2) worker 的 write 期望 files 为 [{ file, pathname }]（会读 element.file.size），
-    //    而不是裸 File[]；裸数组会让 element.file 为 undefined 而报 "reading 'size'"。
-    //    pathname 省略时 worker 回退用 file.name 作为归档内条目名。
-    const plainFiles = createFiles.value.map((f) => ({ file: f }))
-    const out = await Archive.write({
-      files: plainFiles,
-      outputFileName: outputName.value || 'archive.zip',
-      compression: compression.value,
-      format: format.value
-    })
-    createResultSize.value = out.size
+    const files = createFiles.value
+    // 2) 读取每个文件字节，组装成 fflate 需要的 { 条目名: Uint8Array }。
+    const record = {}
+    let total = 0
+    for (const f of files) {
+      const buf = new Uint8Array(await f.arrayBuffer())
+      record[f.name] = buf
+      total += buf.length
+    }
+    if (total > CREATE_WARN_LIMIT) {
+      createWarn.value = t('other.archive.createLargeWarn', { mb: Math.round(total / 1024 / 1024) })
+    }
+
+    let outBytes
+    if (format.value === 'zip') {
+      // 标准 PK·ZIP：fflate deflate（level 6）或 store（level 0，不压缩）。
+      const level = compression.value === 'store' ? 0 : 6
+      outBytes = await new Promise((resolve, reject) => {
+        fflate.zip(record, { level }, (err, data) => (err ? reject(err) : resolve(data)))
+      })
+    } else {
+      // 标准 TAR：自实现 ustar 写入（含 GNU 长文件名），可选 gzip 包裹。
+      const tarBytes = buildTar(record)
+      outBytes = compression.value === 'gzip' ? fflate.gzipSync(tarBytes) : tarBytes
+    }
+
+    // 始终按格式/压缩校正输出扩展名，避免下载到“扩展名与内容不符”的文件。
+    const outName = withExt(outputName.value || 'archive')
+    createResultSize.value = outBytes.length
     if (createResultUrl.value) URL.revokeObjectURL(createResultUrl.value)
-    createResultUrl.value = URL.createObjectURL(out)
+    createResultUrl.value = URL.createObjectURL(
+      new Blob([outBytes], { type: 'application/octet-stream' })
+    )
+    outputName.value = outName
     message.success(t('other.archive.createSuccess'))
   } catch (e) {
     message.error(String(e && e.message ? e.message : e) || t('other.archive.createFailed'))
@@ -516,15 +573,6 @@ async function createArchive() {
     processing.value = false
   }
 }
-
-// 监听格式切换：同步默认压缩算法与输出名
-watch(format, (f) => {
-  const d = FORMAT_DEFAULTS[f]
-  if (!d) return
-  compression.value = d.compression
-  const base = (outputName.value || 'archive').replace(/\.(zip|tar|7z)$/i, '') || 'archive'
-  outputName.value = base + d.ext
-})
 </script>
 
 <style scoped>

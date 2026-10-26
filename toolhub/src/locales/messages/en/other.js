@@ -632,7 +632,7 @@ export default {
     },
     archive: {
       title: "Archive Extract / Create",
-      description: "Extract and create archives with libarchive (WASM)",
+      description: "Extract archives with libarchive (WASM); create standard ZIP / TAR locally — all in your browser, nothing uploaded",
       mode: "Mode",
       extract: "Extract",
       create: "Create",
@@ -652,13 +652,9 @@ export default {
       compression: "Compression",
       outputName: "Output file name",
       createArchive: "Create archive",
-      compDeflate: "Deflate (general)",
-      compStore: "Store (no compression)",
+      compNone: "None (store, no compression)",
       compGzip: "Gzip",
-      compBzip2: "Bzip2",
-      compXz: "XZ",
-      compZstd: "Zstd",
-      compLz4: "LZ4",
+      compBuiltin: "ZIP uses built-in Deflate compression (no choice needed)",
       download: "Download",
       noFile: "Please upload an archive first",
       noFiles: "Please upload files to pack first",
@@ -666,6 +662,7 @@ export default {
       openFailed: "Failed to open archive: unsupported format or corrupted file",
       extractFailed: "Extraction failed: the file may be corrupted or the password is wrong",
       createFailed: "Failed to create archive",
+      createLargeWarn: "The files to pack total {mb}MB. Creation runs entirely in the browser with fflate (no WASM memory limit), but very large inputs can use a lot of memory and take a while — if it feels slow, pack fewer/larger files or use a system tool.",
       createSuccess: "Archive created successfully",
       processing: "Processing...",
       loadingWasm: "Loading WASM...",
@@ -674,7 +671,7 @@ export default {
       fileTooLarge: "Archive {size} exceeds the safe limit: libarchive expands archive contents in memory, and anything over 2GB exceeds browser memory limits. Consider splitting it with a system tool first.",
       largeFileMemoryWarning: "Large archive (>1GB): all extracted content stays in memory, so with a high compression ratio actual usage can be several times the original size. Keep an eye on browser memory.",
       infoTitle: "Usage Instructions",
-      infoContent: "Powered by libarchive compiled to WebAssembly. Extraction auto-detects the archive format and supports ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST/CPIO/ISO and more (browsers can only natively decompress gzip/deflate). Creation supports ZIP/TAR/7Z containers with Deflate/Store/Gzip/Bzip2/XZ/Zstd/LZ4 compression. On first use a ~1MB WASM module downloads with a progress bar (cancellable); later visits are served from cache instantly. All processing runs locally in your browser — files are never uploaded."
+      infoContent: "Extraction is powered by libarchive compiled to WebAssembly: it auto-detects the format and supports ZIP/TAR/7Z/RAR/GZ/BZ2/XZ/ZST/CPIO/ISO and more (browsers can only natively decompress gzip/deflate). Creation uses fflate to write standard archives locally: ZIP uses built-in Deflate, and TAR is a plain container that can optionally be wrapped with Gzip. No WASM download is needed for creation. On first use of extraction a ~1MB WASM module downloads with a progress bar (cancellable) and is cached afterwards. All processing runs locally in your browser — files are never uploaded."
     },
     mockData: {
       title: "Mock Data Generator",

@@ -41,7 +41,7 @@
     <!-- Tools (90 total) -->
     <url>
         <loc>https://toolhubs.org/ai/bg-removal</loc>
-        <lastmod>2026-10-17</lastmod>
+        <lastmod>2026-10-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -95,7 +95,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/convert/diagram</loc>
-        <lastmod>2026-10-18</lastmod>
+        <lastmod>2026-10-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -197,7 +197,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/data/python</loc>
-        <lastmod>2026-10-17</lastmod>
+        <lastmod>2026-10-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -395,7 +395,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/image/crop</loc>
-        <lastmod>2026-06-23</lastmod>
+        <lastmod>2026-10-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -419,7 +419,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/image/rotate</loc>
-        <lastmod>2026-06-22</lastmod>
+        <lastmod>2026-10-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -431,7 +431,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/image/watermark</loc>
-        <lastmod>2026-06-23</lastmod>
+        <lastmod>2026-10-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -443,7 +443,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/media/media-tool</loc>
-        <lastmod>2026-10-17</lastmod>
+        <lastmod>2026-10-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -455,7 +455,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/other/archive</loc>
-        <lastmod>2026-10-17</lastmod>
+        <lastmod>2026-10-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -485,7 +485,7 @@
     </url>
     <url>
         <loc>https://toolhubs.org/other/file-hash</loc>
-        <lastmod>2026-10-17</lastmod>
+        <lastmod>2026-10-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
