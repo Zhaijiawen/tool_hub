@@ -81,7 +81,7 @@
             </div>
           </figure>
         </div>
-        <n-button type="primary" tertiary @click="download">
+        <n-button type="primary" @click="download">
           {{ t('ai.bgRemoval.download') }}
         </n-button>
       </div>
@@ -114,6 +114,7 @@ const resultUrl = ref('')
 const processing = ref(false)
 const progress = ref(0)
 const progressText = ref('')
+const error = ref('')
 
 const modelOptions = computed(() => [
   { label: t('ai.bgRemoval.modelQuint8'), value: 'isnet_quint8' },
