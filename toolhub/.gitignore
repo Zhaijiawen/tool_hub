@@ -28,9 +28,11 @@ public/onnxruntime-web/
 # 通过 `npm run fetch:mermaid-assets` 从 node_modules 复制到 public/mermaid/（自托管，不依赖 CDN）。
 public/mermaid/
 
-# pandoc.wasm（56MB）不入库，随 pandoc-wasm npm 包分发，来源可复现。
-# 通过 `npm run fetch:pandoc-assets` 从 node_modules 复制到 public/wasm/。
+# pandoc.wasm（原始 56MB / gzip 后约 16MB）不入库，随 pandoc-wasm npm 包分发，来源可复现。
+# 通过 `npm run fetch:pandoc-assets` 从 node_modules 压缩生成 public/wasm/pandoc.wasm.gz
+# （gzip 存储以规避 Cloudflare 单文件 25MB 上限，运行时由 useWasmModule 解压）。
 public/wasm/pandoc.wasm
+public/wasm/pandoc.wasm.gz
 
 # 语音转文字（Whisper）资产，合计约 52MB，不入库：
 # - public/wasm/ort/：onnxruntime-web 的 simd-threaded wasm（10.5MB）+ 线程池代理 .mjs

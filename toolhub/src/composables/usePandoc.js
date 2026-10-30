@@ -2,7 +2,8 @@
  * ToolHub pandoc 驱动（主线程侧）。
  *
  * 职责：
- * - 经 useWasmModule 下载 pandoc.wasm（56MB，带进度/取消/缓存）；
+ * - 经 useWasmModule 下载 pandoc.wasm.gz（gzip 后约 16MB，规避 Cloudflare 单文件 25MB
+ *   上限；运行时解压为原始 58MB wasm），带进度/取消/缓存；
  * - 启动 ESM worker 并把 wasm 字节喂进去完成握手；
  * - 以 job 协议驱动文档转换。
  *
@@ -14,11 +15,14 @@ import { ref, computed } from 'vue'
 import { useWasmModule } from './useWasmModule'
 
 export function usePandoc() {
-  // compile:false —— 56MB 在主线程编译再传 worker 毫无意义，交给 worker 自己实例化。
+  // compile:false —— 58MB 在主线程编译再传 worker 毫无意义，交给 worker 自己实例化。
+  // decompress:'gzip' —— 资源以 .wasm.gz 存储（约 16MB）规避 Cloudflare 单文件 25MB 上限，
+  // 运行时解压为原始 wasm 字节。
   const wasm = useWasmModule('pandoc', {
-    url: '/wasm/pandoc.wasm',
+    url: '/wasm/pandoc.wasm.gz',
     name: 'Pandoc',
-    compile: false
+    compile: false,
+    decompress: 'gzip'
   })
 
   const workerReady = ref(false)

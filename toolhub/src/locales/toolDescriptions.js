@@ -1555,7 +1555,7 @@ export const toolDescriptions = {
       'Pick the "Video Transcode", "Extract Audio" or "Video to GIF" tab',
       'Upload a video file (for audio extraction you can also upload an audio file to convert formats)',
       'Set output format, quality (CRF), resolution / fps / width as needed',
-      'Click start: first use downloads the FFmpeg engine (~31MB, with progress and cancel)',
+      'Click start: first use downloads the FFmpeg engine (~10MB compressed, with progress and cancel)',
       'Preview the result and download it'
     ],
     bestPractices: [
@@ -4582,7 +4582,7 @@ export const toolDescriptionsEn = {
       '选择「视频转码」「提取音频」或「视频转 GIF」标签页',
       '上传视频文件（提取音频也可直接传音频文件做格式转换）',
       '按需设置输出格式、画质（CRF）、分辨率 / 帧率 / 宽度',
-      '点击开始：首次使用会自动下载 FFmpeg 引擎（约 31MB，有进度条，可取消）',
+      '点击开始：首次使用会自动下载 FFmpeg 引擎（压缩后约 10MB，有进度条，可取消）',
       '预览结果并下载'
     ],
     bestPractices: [

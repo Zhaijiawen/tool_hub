@@ -287,7 +287,14 @@
 | `ffmpeg-core.js` | `@ffmpeg/core/dist/esm/ffmpeg-core.js`（Emscripten 胶水 + FFmpeg 高层 API，**已打补丁**） |
 
 - **未 vendor**：上游 `@ffmpeg/ffmpeg` 的主线程 `FFmpeg` 类与 worker —— 本站不用该路线（原因见下）。
-- 二进制：`public/wasm/ffmpeg-core.wasm`（**32.2MB**，站内最大资产；gzip 后约 9.7MB，靠 Cloudflare 自动压缩 + Cache API immutable 缓存）。**无 CI 重建，手动快照**。
+- 二进制：`public/wasm/ffmpeg-core.wasm.gz`（gzip 压缩存储，约 **10MB**；运行时由
+  `useWasmModule` 的 `decompress:'gzip'` 用浏览器原生 `DecompressionStream` 解压为原始
+  32MB wasm）。**之所以压缩**：原始 32.2MB 超过 Cloudflare Pages 单文件 25MB 部署上限，
+  压成 ~10MB 既能过部署，又把用户实际下载量从 32MB 降到 10MB。同法也用于 pandoc
+  （`public/wasm/pandoc.wasm.gz`，约 16MB；由 `scripts/fetch-pandoc-assets.mjs`
+  从 `node_modules/pandoc-wasm` 压缩生成，未提交 git）。
+- 重新生成 ffmpeg 快照：`@ffmpeg/core@0.12.10` 取 `dist/esm/ffmpeg-core.wasm`，
+  `gzip -9` 后落到 `public/wasm/ffmpeg-core.wasm.gz` 即可。**无 CI 重建，手动快照**。
 - 配套 worker 入口（非 vendor，属本项目代码）：`src/workers/ffmpeg-worker.js`；
   主线程驱动：`src/composables/useFfmpeg.js`；工具组件：`src/components/media/MediaTool.vue`。
 - **架构决策：自建单层 worker（不用上游 FFmpeg 类）**

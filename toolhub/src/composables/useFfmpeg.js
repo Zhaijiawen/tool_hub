@@ -2,7 +2,8 @@
  * ToolHub FFmpeg 驱动（主线程侧）。
  *
  * 职责：
- * - 经 useWasmModule 下载 ffmpeg-core.wasm（32.2MB，带进度/取消/缓存）；
+ * - 经 useWasmModule 下载 ffmpeg-core.wasm.gz（gzip 后约 10MB，规避 Cloudflare 单文件 25MB
+ *   上限；运行时解压为原始 32MB wasm），带进度/取消/缓存；
  * - 管理自建 Vite ESM worker 生命周期：注入 wasm 字节 → 动态 import vendored
  *   ffmpeg-core.js → ready 握手；
  * - 以 job 协议驱动 probe / transcode / audio / gif。
@@ -24,10 +25,13 @@ import { useWasmModule } from './useWasmModule'
 
 export function useFfmpeg() {
   // compile:false —— 32MB 编译在 worker 内由胶水完成，主线程再 compile 纯属浪费
+  // decompress:'gzip' —— 资源以 .wasm.gz 存储（约 10MB）以规避 Cloudflare 单文件 25MB 上限，
+  // 运行时再解压为原始 wasm 字节喂给 wasmBinary
   const wasm = useWasmModule('ffmpeg-core', {
-    url: '/wasm/ffmpeg-core.wasm',
+    url: '/wasm/ffmpeg-core.wasm.gz',
     name: 'FFmpeg',
-    compile: false
+    compile: false,
+    decompress: 'gzip'
   })
 
   const workerReady = ref(false)

@@ -89,17 +89,49 @@ async function writeCache(url, buffer) {
 }
 
 /**
+ * 浏览器原生解压（gzip）。用于「压缩存储、运行时解压」的大体积 wasm，
+ * 以规避 Cloudflare Pages 单文件 25MB 上限。返回原始字节 ArrayBuffer。
+ * DecompressionStream 在 Chrome 80+ / Firefox 113+ / Safari 16.4+ 可用。
+ * 注：缓存里存的是压缩字节（更小），每次 load 都会重新解压——解压成本低、
+ * 且避免把 30+/50+MB 原始字节再塞进 Cache API。
+ */
+async function gunzip(buffer) {
+  const ds = new DecompressionStream('gzip')
+  const writer = ds.writable.getWriter()
+  writer.write(new Uint8Array(buffer))
+  writer.close()
+  const reader = ds.readable.getReader()
+  const chunks = []
+  let len = 0
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    chunks.push(value)
+    len += value.length
+  }
+  const out = new Uint8Array(len)
+  let off = 0
+  for (const c of chunks) {
+    out.set(c, off)
+    off += c.length
+  }
+  return out.buffer
+}
+
+/**
  * 使用一个 WASM 模块。
  * @param {string} id 唯一标识（如 'ffmpeg-core'）
  * @param {Object} opts
  * @param {string} opts.url   .wasm 二进制地址
  * @param {string} [opts.name] 展示名（默认取 id）
  * @param {boolean} [opts.compile=true] 是否顺带 WebAssembly.compile
+ * @param {'gzip'|null} [opts.decompress=null] 若资源为压缩存储（如 .wasm.gz），
+ *   指定解压算法；解压在 fetch+缓存之后进行，缓存中保留的是压缩字节。
  * @returns {{ id:string, status:import('vue').Ref, progress:import('vue').Ref,
  *            load:Function, cancel:Function }}
  */
 export function useWasmModule(id, opts = {}) {
-  const { url, name = id, compile = true } = opts
+  const { url, name = id, compile = true, decompress = null } = opts
 
   const status = ref('idle') // idle | downloading | compiling | ready | error
   const progress = ref(0)
@@ -136,6 +168,19 @@ export function useWasmModule(id, opts = {}) {
             controllers.delete(id)
           }
           await writeCache(url, buffer)
+        }
+
+        // 压缩存储的资源（如 .wasm.gz）在此解压为原始字节，再交给编译/实例化。
+        // 但某些静态服务器（Vite dev 的 server.compress / 预压缩资产逻辑）会把 *.gz
+        // 当作「预压缩资源」自动加 Content-Encoding 并透明解压，使 fetch 拿回的已是
+        // 原始字节（wasm magic 00 61 73 6d）。若此时再 gunzip 会报
+        // "incorrect header check"。故按 magic 判断当前字节是否真为 gzip：
+        //   gzip → 1f 8b；wasm → 00 61 73 6d；两者无歧义。
+        if (decompress === 'gzip') {
+          const head = new Uint8Array(buffer, 0, Math.min(2, buffer.byteLength))
+          if (head[0] === 0x1f && head[1] === 0x8b) {
+            buffer = await gunzip(buffer)
+          }
         }
 
         setStatus('compiling')
