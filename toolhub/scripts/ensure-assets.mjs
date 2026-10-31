@@ -21,27 +21,32 @@ const groups = [
   {
     key: 'imgly（抠图模型 + onnxruntime-web）',
     marker: 'public/imgly-bg/resources.json',
-    script: 'fetch:imgly-assets'
+    script: 'fetch:imgly-assets',
+    source: 'cdn' // 外部官方 CDN，可能偶发不可达
   },
   {
     key: 'mermaid',
     marker: 'public/mermaid/mermaid.min.js',
-    script: 'fetch:mermaid-assets'
+    script: 'fetch:mermaid-assets',
+    source: 'local' // 源在 node_modules，干净构建必有，失败应阻断
   },
   {
     key: 'pandoc',
     marker: 'public/wasm/pandoc.wasm.gz',
-    script: 'fetch:pandoc-assets'
+    script: 'fetch:pandoc-assets',
+    source: 'local' // 源在 node_modules/pandoc-wasm，干净构建必有，失败应阻断
   },
   {
     key: 'whisper（语音识别 onnxruntime）',
     marker: 'public/wasm/ort/ort-wasm-simd-threaded.wasm',
-    script: 'fetch:whisper-assets'
+    script: 'fetch:whisper-assets',
+    source: 'cdn' // 模型来自 HuggingFace，可能偶发不可达
   }
 ]
 
 const npmBin = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-const failed = []
+const failed = new Set() // 外部 CDN 组：生成失败，告警但不阻断
+const fatal = new Set() // 本地源组：生成失败，应阻断构建
 
 console.log('[ensure-assets] 检查构建所需的大体积资产（缺失才生成）...')
 for (const g of groups) {
@@ -53,19 +58,30 @@ for (const g of groups) {
   console.log(`  … ${g.key}：缺失，执行 \`npm run ${g.script}\``)
   const r = spawnSync(npmBin, ['run', g.script], { stdio: 'inherit' })
   if (r.status !== 0) {
-    console.warn(
-      `  ⚠ ${g.key}：生成失败（退出码 ${r.status}）。相关功能在生产环境可能不可用；` +
-        `请检查网络或手动运行 \`npm run fetch:assets\`。`
-    )
-    failed.push(g.key)
+    ;(g.source === 'local' ? fatal : failed).add(g.key)
   }
 }
 
-if (failed.length) {
+// 二次校验：拉取后再次确认 marker 存在（防止 fetch 脚本「退出 0 但实际没写出」的静默失败）。
+for (const g of groups) {
+  if (!existsSync(`${ROOT}/${g.marker}`)) {
+    ;(g.source === 'local' ? fatal : failed).add(g.key)
+  }
+}
+
+if (failed.size) {
   console.warn(
-    `[ensure-assets] 以下资产组生成失败，已跳过以避免阻断整站构建：${failed.join('；')}`
+    `[ensure-assets] 以下外部 CDN 资产组生成失败，已跳过以避免阻断整站构建：` +
+      `${[...failed].join('；')}。相关功能在生产环境可能不可用；请检查网络或手动运行 \`npm run fetch:assets\`。`
   )
 }
 
-// 始终以 0 退出：资产缺失不应让整站部署失败（同上，非阻断）。
+if (fatal.size) {
+  console.error(
+    `[ensure-assets] 致命错误：以下本地源资产组（源在 node_modules，干净构建应必存在）` +
+      `仍缺失：${[...fatal].join('；')}。请确认 \`npm ci\` 已正确安装依赖后重试。构建中止。`
+  )
+  process.exit(1)
+}
+
 process.exit(0)
