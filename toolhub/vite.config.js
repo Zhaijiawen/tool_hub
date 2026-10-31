@@ -2,15 +2,52 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import { execSync } from 'node:child_process'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import viteCompression from 'vite-plugin-compression'
 
+/**
+ * 构建前资产自检插件。
+ *
+ * 动机：被 gitignore 的大体积资产（imgly 模型 / onnxruntime-web / mermaid / pandoc /
+ * whisper）需由对应 fetch 脚本在构建前生成，否则部署产物里缺文件，线上请求被 SPA
+ * 回退成 index.html（运行时 fetch().json() 解析 <!doctype 或 WebAssembly.instantiate
+ * 拿到 HTML 而报 "expected magic word … found 3c 21 64 6f"）。
+ *
+ * 此前该自检只挂在 `npm run build` 的前置命令与 `predev` 上。若部署方的构建命令是
+ * `vite build`（直接调用，绕过 npm script 前缀），自检不会执行，于是线上缺资产。
+ * 故改为在 Vite 的 buildStart 钩子里执行——只要走 Vite 构建（无论命令怎么写）都会触发，
+ * 且幂等（marker 存在即跳过），与 npm script 前缀并存也无害。
+ */
+function ensureAssetsPlugin() {
+  return {
+    name: 'toolhub-ensure-assets',
+    buildStart() {
+      try {
+        execSync('node scripts/ensure-assets.mjs', {
+          stdio: 'inherit',
+          cwd: __dirname
+        })
+      } catch (e) {
+        // 致命组（源在 node_modules 的本地资产）缺失时脚本已 exit(1) 阻断构建；
+        // 这里把异常继续抛出，确保构建失败而非带病继续。
+        throw e
+      }
+    }
+  }
+}
+
+
 // Vite 配置 - https://vite.dev/config/
 export default defineConfig({
   // 插件配置
   plugins: [
+    // 构建前资产自检（见上方函数说明）：确保 imgly/mermaid/pandoc/whisper 等大体积
+    // 资产在无论以何种命令触发 Vite 构建时都已生成，避免线上缺资产被 SPA 回退成 HTML。
+    ensureAssetsPlugin(),
+
     vue(),
   
     // Naive UI 按需自动导入组件（无需在 main.js 全量注册）
