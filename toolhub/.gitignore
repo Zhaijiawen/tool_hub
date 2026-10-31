@@ -14,6 +14,9 @@ dist-ssr
 
 # @imgly/background-removal 模型权重（334MB，内容寻址存储），不入库。
 # 通过 `npm run fetch:imgly-assets` 从官方 CDN 拉取到 public/imgly-bg/（自托管，隐私合规）。
+# 注意：构建脚本 `npm run build` / `npm run dev` 前会自动执行 `scripts/ensure-assets.mjs`，
+# 检测到本文件缺失会自动拉取，无需手动跑 fetch。空仓库直接部署时缺它会被 SPA 回退成
+# index.html，运行时 `response.json()` 解析到 <!doctype 报错（已踩坑）。
 public/imgly-bg/
 
 # 由 public/imgly-bg/resources.json 的分片重组出的 ort wasm/mjs（约 33MB），不入库。

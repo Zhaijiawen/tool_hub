@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.mjs && vite build",
-    "build:prod": "node scripts/generate-sitemap.mjs && vite build --mode production",
+    "predev": "node scripts/ensure-assets.mjs",
+    "build": "node scripts/ensure-assets.mjs && node scripts/generate-sitemap.mjs && vite build",
+    "build:prod": "node scripts/ensure-assets.mjs && node scripts/generate-sitemap.mjs && vite build --mode production",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "sitemap:check": "node scripts/generate-sitemap.mjs --check",
     "preview": "vite preview",
