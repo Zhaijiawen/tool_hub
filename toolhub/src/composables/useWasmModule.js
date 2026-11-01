@@ -136,11 +136,14 @@ async function gunzip(buffer) {
  * @param {boolean} [opts.compile=true] 是否顺带 WebAssembly.compile
  * @param {'gzip'|null} [opts.decompress=null] 若资源为压缩存储（如 .wasm.gz），
  *   指定解压算法；解压在 fetch+缓存之后进行，缓存中保留的是压缩字节。
+ * @param {boolean} [opts.expectWasm=true] 资源是否为 WebAssembly 模块。为 false 时跳过
+ *   wasm magic 校验（用于 Tesseract 语言包 `*.traineddata.gz` 等 gzip 训练数据，本身非 wasm）。
+ *   注意：SPA 回退（返回 HTML）的识别对所有资源均生效，不受此开关影响。
  * @returns {{ id:string, status:import('vue').Ref, progress:import('vue').Ref,
  *            load:Function, cancel:Function }}
  */
 export function useWasmModule(id, opts = {}) {
-  const { url, name = id, compile = true, decompress = null } = opts
+  const { url, name = id, compile = true, decompress = null, expectWasm = true } = opts
 
   const status = ref('idle') // idle | downloading | compiling | ready | error
   const progress = ref(0)
@@ -181,7 +184,7 @@ export function useWasmModule(id, opts = {}) {
           rawBuffer = buffer
         }
 
-        // —— SPA 回退防护 ——
+        // —— SPA 回退防护（对所有资源生效）——
         // 缺失的资源会被服务器返回 index.html（`<!doctype`）。若直接喂给 WebAssembly，
         // 会得到晦涩的 "expected magic word … found 3c 21 64 6f"。这里提前识别并抛出
         // 清晰错误；若该脏数据来自上次失败的缓存，则清掉它以便自愈（下次重新拉取真实文件）。
@@ -189,7 +192,7 @@ export function useWasmModule(id, opts = {}) {
         const isHtmlFallback = probe[0] === 0x3c && probe[1] === 0x21 // '<!'
         if (isHtmlFallback) {
           if (fromCache) await evictCache(url)
-          throw new Error(`资源 ${url} 不存在（服务器返回了 HTML 而非 wasm）。请确认部署产物包含该文件。`)
+          throw new Error(`资源 ${url} 不存在（服务器返回了 HTML 而非预期文件）。请确认部署产物包含该文件。`)
         }
 
         // 压缩存储的资源（如 .wasm.gz）在此解压为原始字节，再交给编译/实例化。
@@ -204,14 +207,17 @@ export function useWasmModule(id, opts = {}) {
           }
         }
 
-        // —— 合法性校验 ——
-        // 解压后（或本就未压缩）的字节必须是合法 wasm（magic: 00 61 73 6d），否则说明
-        // 资源损坏/解码失败，同样不让它污染缓存（来自缓存则清除自愈）。
-        const w = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength))
-        const isWasm = w[0] === 0x00 && w[1] === 0x61 && w[2] === 0x73 && w[3] === 0x6d
-        if (!isWasm) {
-          if (fromCache) await evictCache(url)
-          throw new Error(`资源 ${url} 不是有效的 WebAssembly 模块（解压/解码失败）。`)
+        // —— 合法性校验（仅对 wasm 资源，受 expectWasm 控制）——
+        // 解压后（或本就未压缩）的字节应为合法 wasm（magic: 00 61 73 6d）。expectWasm=false
+        // 时跳过（如 Tesseract 语言包 `*.traineddata.gz` 是 gzip 训练数据而非 wasm）。校验失败
+        // 说明资源损坏/解码失败，同样不让它污染缓存（来自缓存则清除自愈）。
+        if (expectWasm) {
+          const w = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength))
+          const isWasm = w[0] === 0x00 && w[1] === 0x61 && w[2] === 0x73 && w[3] === 0x6d
+          if (!isWasm) {
+            if (fromCache) await evictCache(url)
+            throw new Error(`资源 ${url} 不是有效的 WebAssembly 模块（解压/解码失败）。`)
+          }
         }
 
         // 仅在确认为有效资源后才写入缓存（存压缩字节以省空间）；命中有效缓存则跳过写入。

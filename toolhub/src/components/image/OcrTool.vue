@@ -272,6 +272,9 @@ function getLangLoader(code) {
       url: `/lang/${code}.traineddata.gz`,
       name: `Tesseract ${code}`,
       compile: false,
+      // 语言包是 gzip 压缩的训练数据（*.traineddata.gz），并非 wasm；
+      // 关闭 wasm magic 校验，但保留 SPA 回退（缺失→返回 HTML）的识别与缓存自愈。
+      expectWasm: false,
     }))
   }
   return langLoaders.get(code)
