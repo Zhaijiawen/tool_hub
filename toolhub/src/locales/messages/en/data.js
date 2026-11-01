@@ -10,6 +10,7 @@ export default {
         new: "New Database"
       },
       opfsUnavailable: "This environment does not support OPFS persistent storage (requires cross-origin isolation COOP/COEP and dedicated Worker support). Only a temporary in-memory database is available — data is lost on refresh.",
+      retryOpfs: "Retry detecting OPFS",
       uploadHint: "Click or drop a .db / .sqlite file here",
       uploadSubHint: "The file is imported into browser storage locally and never uploaded to any server",
       dbNameLabel: "Database name",

@@ -25,6 +25,9 @@
           >
             {{ t('data.sqlite.opfsUnavailable') }}
           </n-alert>
+          <n-space v-if="workerReady && !opfsAvailable" size="small" style="margin-top: 8px;">
+            <n-button size="small" :loading="opfsRetrying" @click="retryOpfs">{{ t('data.sqlite.retryOpfs') }}</n-button>
+          </n-space>
 
           <!-- 上传导入 -->
           <n-space v-if="openMode === 'upload'" vertical size="medium">
@@ -288,6 +291,14 @@ const dragging = ref(false)
 const pickedFile = ref(null)
 const newName = ref('')
 const newKind = ref('opfs')
+const opfsRetrying = ref(false)
+
+async function retryOpfs() {
+  opfsRetrying.value = true
+  sqlite.retryOpfs()
+  // 给 worker 一点时间重试；无论结果都靠 opfs-ready 消息点亮（或保持灰色）
+  setTimeout(() => { opfsRetrying.value = false }, 2500)
+}
 const savedFiles = ref([])
 
 const NAME_RE = /^[\w.-]{1,64}$/

@@ -15805,7 +15805,8 @@ async function sqlite3InitModule$1(moduleArg = {}) {
 					}
 				});
 			};
-			globalThis.sqlite3ApiBootstrap.initializersAsync.push(async (sqlite3) => {
+						sqlite3.installOpfsVfs = installOpfsVfs;
+globalThis.sqlite3ApiBootstrap.initializersAsync.push(async (sqlite3) => {
 				return installOpfsVfs().catch((e) => {
 					sqlite3.config.warn("Ignoring inability to install 'opfs' sqlite3_vfs:", e);
 				});

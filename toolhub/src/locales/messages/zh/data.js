@@ -10,6 +10,7 @@ export default {
         new: "新建数据库"
       },
       opfsUnavailable: "当前环境不支持 OPFS 持久化存储（需要跨域隔离 COOP/COEP 与专用 Worker 支持），仅能使用临时内存数据库，刷新后数据丢失",
+      retryOpfs: "重试检测 OPFS",
       uploadHint: "点击或拖拽 .db / .sqlite 文件到此处",
       uploadSubHint: "文件在本地导入浏览器存储，不会上传到任何服务器",
       dbNameLabel: "数据库名称",

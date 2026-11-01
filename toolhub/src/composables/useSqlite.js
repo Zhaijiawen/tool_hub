@@ -50,6 +50,11 @@ export function useSqlite() {
     const msg = e.data
     if (!msg || typeof msg !== 'object') return
 
+    if (msg.type === 'toolhub:sqlite-opfs-ready') {
+      // 首次 init 时 OPFS 偶发失败、后续重试成功 —— 点亮 UI（不覆盖 workerReady 等）
+      opfsAvailable.value = true
+      return
+    }
     if (msg.type === 'toolhub:sqlite-ready') {
       workerReady.value = true
       sqliteVersion.value = msg.version || ''
@@ -91,6 +96,12 @@ export function useSqlite() {
       job.reject(err instanceof ErrorEvent ? new Error('WORKER_ERROR') : err)
     }
     pending.clear()
+  }
+
+  /** 手动触发 worker 重新检测 OPFS 可用性（init 偶发失败时由 UI 调用） */
+  function retryOpfs() {
+    if (!worker || !workerReady.value) return
+    worker.postMessage({ type: 'toolhub:sqlite-probe-opfs' })
   }
 
   /** 下载 wasm 并启动 worker（幂等；失败可重试） */
@@ -287,6 +298,7 @@ export function useSqlite() {
     importDb,
     openOpfs,
     openMemory,
+    retryOpfs,
     exec,
     browse,
     exportDb,

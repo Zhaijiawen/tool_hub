@@ -220,6 +220,20 @@ self.addEventListener('message', async (e) => {
         version: sqlite3.version.libVersion,
         opfs: opfsUsable()
       })
+
+      // —— OPFS 自检 / 自愈 ——
+      // vendored sqlite-wasm 把 installOpfsVfs 注册为「一次性」异步初始化器；若首次冷启动
+      // 时 OPFS async proxy worker 偶发加载超时/失败，该失败会被 installOpfsVfs 内部的
+      // .catch 静默吞掉，导致 sqlite3.oo1.OpfsDb 永不挂载、opfsUsable() 永久为 false，
+      // 于是 UI 的 OPFS 单选框永远置灰（且此后无法自动恢复）。
+      // 在本应支持 OPFS 的环境（跨域隔离 + SharedArrayBuffer）下，延迟 1.5s 再尝试一次
+      // installOpfsVfs；成功挂载后再主动通知 UI 点亮，避免一次性检测失败后卡死。
+      if (!opfsUsable() && self.crossOriginIsolated && typeof sqlite3.installOpfsVfs === 'function') {
+        setTimeout(async () => {
+          try { await sqlite3.installOpfsVfs() } catch (_) { /* 仍失败则保持内存库降级 */ }
+          if (opfsUsable()) self.postMessage({ type: 'toolhub:sqlite-opfs-ready' })
+        }, 1500)
+      }
     } catch (err) {
       self.postMessage({
         type: 'toolhub:sqlite-error',
@@ -270,6 +284,12 @@ self.addEventListener('message', async (e) => {
         result = { files: await listOpfsFiles() }
         break
       }
+      case 'probeOpfs':
+        if (!opfsUsable() && typeof sqlite3.installOpfsVfs === 'function') {
+          try { await sqlite3.installOpfsVfs() } catch (_) { /* 忽略失败 */ }
+        }
+        if (opfsUsable()) self.postMessage({ type: 'toolhub:sqlite-opfs-ready' })
+        return
       case 'close':
         closeDb()
         result = {}
