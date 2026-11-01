@@ -40,6 +40,13 @@
   整链完成才 resolve `sqlite3InitModule`，故 worker 拿到 sqlite3 时 `OpfsDb` 是否已挂载已确定。
 - 已修：`toolhub/src/workers/sqlite-worker.js` 用 `opfsUsable()` 替换了 3 处 `'opfs' in sqlite3`
   （ready 握手 `opfs` 字段 + import/openOpfs 的 `OPFS_UNAVAILABLE` 校验）。排查过程见 2026-10-21 日志。
+- **`installOpfsVfs` 是「一次性」初始化器且失败会被静默吞，必须可重试自愈**（2026-11-01 修复）：
+  vendored `index.mjs` 把它 push 进 `initializersAsync`，其 promise 在 `asyncPostInit` 链里被 await，
+  但内部 `.catch` 把 OPFS async proxy worker 偶发超时/失败**静默吞掉** → `sqlite3.oo1.OpfsDb` 永不挂载、
+  `opfsUsable()` 永久 false。主线程 `opfsAvailable` 只在 worker `ready` 回执设一次 → **UI 永久置灰**。
+  修复：在 `index.mjs` 加回官方本就有的 `sqlite3.installOpfsVfs = installOpfsVfs`（此前被打补丁删掉）使其可外部重跑；
+  worker 在 `!opfsUsable() && self.crossOriginIsolated` 时延迟 1.5s 重试并在成功时发 `opfs-ready` 点亮，
+  并新增 `probeOpfs` 消息 + `useSqlite.retryOpfs()` + UI「重试检测 OPFS」按钮作手动兜底。
 
 ## 已知未验证项
 
