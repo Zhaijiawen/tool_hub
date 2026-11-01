@@ -68,7 +68,7 @@
               <n-button
                 type="primary"
                 :disabled="!canImport"
-                :loading="busy"
+                :loading="loading"
                 @click="runImport"
               >
                 {{ t('data.sqlite.importButton') }}
@@ -117,7 +117,7 @@
               <n-button
                 type="primary"
                 :disabled="!canCreate"
-                :loading="busy"
+                :loading="loading"
                 @click="runCreate"
               >
                 {{ t('data.sqlite.createButton') }}
@@ -214,8 +214,8 @@
         </n-space>
       </template>
 
-      <!-- 下载 / 执行进度 -->
-      <div v-if="busy" class="progress-area">
+      <!-- 下载 / 执行进度（初始化预热与执行中均显示） -->
+      <div v-if="loading" class="progress-area">
         <n-progress
           type="line"
           :percentage="displayProgress"
@@ -238,7 +238,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onUnmounted, h } from 'vue'
+import { ref, computed, watch, onMounted, onActivated, onUnmounted, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useMessage, NButton } from 'naive-ui'
 import CodeEditor from '@/components/common/CodeEditor.vue'
@@ -258,6 +258,13 @@ const db = computed(() => sqlite.dbInfo.value)
 const phaseText = computed(() =>
   stage.value === 'download' ? t('data.sqlite.phaseDownloading') : t('data.sqlite.phaseWorking')
 )
+
+// 初始化中 / 执行中统一视为「忙」，用于禁用按钮 + 显示进度。
+// 关键修复：首次进入时 worker 尚未启动、OPFS 可用性未检测，单选框会置灰；
+// 挂载即预热 ensureReady()，让 OPFS 状态在用户操作前就绪。
+const loading = computed(() => busy.value || stage.value !== null)
+onMounted(() => { sqlite.ensureReady().catch(() => {}) })
+onActivated(() => { sqlite.ensureReady().catch(() => {}) })
 
 const errorText = ref('')
 watch(errorMsg, (v) => { if (v) errorText.value = translateError(v) })
@@ -309,10 +316,10 @@ const nameStatus = computed(() => {
 })
 
 const canImport = computed(() =>
-  !!pickedFile.value && NAME_RE.test(newName.value) && !busy.value
+  !!pickedFile.value && NAME_RE.test(newName.value) && !loading.value
 )
 const canCreate = computed(() =>
-  NAME_RE.test(newName.value) && !busy.value && (newKind.value === 'memory' || opfsAvailable.value)
+  NAME_RE.test(newName.value) && !loading.value && (newKind.value === 'memory' || opfsAvailable.value)
 )
 
 function onFileChange(e) {

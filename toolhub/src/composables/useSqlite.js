@@ -41,6 +41,7 @@ export function useSqlite() {
   let worker = null
   let jobSeq = 0
   const pending = new Map() // id -> { resolve, reject }
+  let initPromise = null // 防止并发/重复初始化起多个 worker
 
   const displayProgress = computed(() =>
     stage.value === 'download' ? Math.round(wasm.progress.value * 100) : jobProgress.value
@@ -104,41 +105,51 @@ export function useSqlite() {
     worker.postMessage({ type: 'toolhub:sqlite-probe-opfs' })
   }
 
-  /** 下载 wasm 并启动 worker（幂等；失败可重试） */
+  /** 下载 wasm 并启动 worker（幂等；失败可重试）。
+   *  支持并发调用：首个调用负责真正初始化，后续调用复用同一 Promise，
+   *  避免组件挂载（onMounted 主动预热）与用户首次点击动作同时触发而重复起 worker。 */
   async function ensureReady() {
     if (workerReady.value) return
+    if (initPromise) return initPromise
     errorMsg.value = ''
     stage.value = 'download'
-    const { buffer } = await wasm.load()
+    initPromise = (async () => {
+      const { buffer } = await wasm.load()
 
-    worker = new Worker(new URL('../workers/sqlite-worker.js', import.meta.url), {
-      type: 'module'
-    })
-    worker.addEventListener('message', handleMessage)
-    worker.addEventListener('error', handleError)
+      worker = new Worker(new URL('../workers/sqlite-worker.js', import.meta.url), {
+        type: 'module'
+      })
+      worker.addEventListener('message', handleMessage)
+      worker.addEventListener('error', handleError)
 
-    // 转移副本：useWasmModule 的 bytesPromise 复用同一 ArrayBuffer，
-    // 直接转移会 detach 缓存字节。
-    const copy = buffer.slice(0)
-    worker.postMessage({ type: 'toolhub:sqlite-init', wasm: copy }, [copy])
+      // 转移副本：useWasmModule 的 bytesPromise 复用同一 ArrayBuffer，
+      // 直接转移会 detach 缓存字节。
+      const copy = buffer.slice(0)
+      worker.postMessage({ type: 'toolhub:sqlite-init', wasm: copy }, [copy])
 
-    await new Promise((resolve, reject) => {
-      const timer = setInterval(() => {
-        if (workerReady.value) {
+      await new Promise((resolve, reject) => {
+        const timer = setInterval(() => {
+          if (workerReady.value) {
+            clearInterval(timer)
+            resolve()
+          } else if (errorMsg.value) {
+            clearInterval(timer)
+            reject(new Error(errorMsg.value))
+          }
+        }, 50)
+        // 防御性超时：868KB 实例化 + OPFS proxy worker 启动正常秒级完成
+        setTimeout(() => {
           clearInterval(timer)
-          resolve()
-        } else if (errorMsg.value) {
-          clearInterval(timer)
-          reject(new Error(errorMsg.value))
-        }
-      }, 50)
-      // 防御性超时：868KB 实例化 + OPFS proxy worker 启动正常秒级完成
-      setTimeout(() => {
-        clearInterval(timer)
-        if (!workerReady.value) reject(new Error('SQLITE_INIT_TIMEOUT'))
-      }, 60000)
+          if (!workerReady.value) reject(new Error('SQLITE_INIT_TIMEOUT'))
+        }, 60000)
+      })
+      stage.value = null
+    })().catch((err) => {
+      stage.value = null
+      initPromise = null
+      throw err
     })
-    stage.value = null
+    return initPromise
   }
 
   function runJob(type, payload) {
