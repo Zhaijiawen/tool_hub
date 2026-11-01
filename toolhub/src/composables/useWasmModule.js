@@ -88,6 +88,15 @@ async function writeCache(url, buffer) {
   } catch (_) { /* 忽略写入失败（如隐私模式） */ }
 }
 
+/** 清除某 URL 的缓存条目（用于自愈：丢弃上次失败遗留的脏数据，如 SPA 回退的 HTML）。 */
+async function evictCache(url) {
+  if (typeof caches === 'undefined') return
+  try {
+    const cache = await caches.open(CACHE_NAME)
+    await cache.delete(url)
+  } catch (_) { /* 忽略 */ }
+}
+
 /**
  * 浏览器原生解压（gzip）。用于「压缩存储、运行时解压」的大体积 wasm，
  * 以规避 Cloudflare Pages 单文件 25MB 上限。返回原始字节 ArrayBuffer。
@@ -155,6 +164,8 @@ export function useWasmModule(id, opts = {}) {
     bytesPromise = (async () => {
       try {
         let buffer = await readCache(url)
+        let fromCache = !!buffer
+        let rawBuffer = buffer // 原始（压缩）字节，用于缓存以省空间
         if (buffer) {
           setProgress(1)
         } else {
@@ -167,7 +178,18 @@ export function useWasmModule(id, opts = {}) {
           } finally {
             controllers.delete(id)
           }
-          await writeCache(url, buffer)
+          rawBuffer = buffer
+        }
+
+        // —— SPA 回退防护 ——
+        // 缺失的资源会被服务器返回 index.html（`<!doctype`）。若直接喂给 WebAssembly，
+        // 会得到晦涩的 "expected magic word … found 3c 21 64 6f"。这里提前识别并抛出
+        // 清晰错误；若该脏数据来自上次失败的缓存，则清掉它以便自愈（下次重新拉取真实文件）。
+        const probe = new Uint8Array(buffer, 0, Math.min(2, buffer.byteLength))
+        const isHtmlFallback = probe[0] === 0x3c && probe[1] === 0x21 // '<!'
+        if (isHtmlFallback) {
+          if (fromCache) await evictCache(url)
+          throw new Error(`资源 ${url} 不存在（服务器返回了 HTML 而非 wasm）。请确认部署产物包含该文件。`)
         }
 
         // 压缩存储的资源（如 .wasm.gz）在此解压为原始字节，再交给编译/实例化。
@@ -177,11 +199,23 @@ export function useWasmModule(id, opts = {}) {
         // "incorrect header check"。故按 magic 判断当前字节是否真为 gzip：
         //   gzip → 1f 8b；wasm → 00 61 73 6d；两者无歧义。
         if (decompress === 'gzip') {
-          const head = new Uint8Array(buffer, 0, Math.min(2, buffer.byteLength))
-          if (head[0] === 0x1f && head[1] === 0x8b) {
+          if (probe[0] === 0x1f && probe[1] === 0x8b) {
             buffer = await gunzip(buffer)
           }
         }
+
+        // —— 合法性校验 ——
+        // 解压后（或本就未压缩）的字节必须是合法 wasm（magic: 00 61 73 6d），否则说明
+        // 资源损坏/解码失败，同样不让它污染缓存（来自缓存则清除自愈）。
+        const w = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength))
+        const isWasm = w[0] === 0x00 && w[1] === 0x61 && w[2] === 0x73 && w[3] === 0x6d
+        if (!isWasm) {
+          if (fromCache) await evictCache(url)
+          throw new Error(`资源 ${url} 不是有效的 WebAssembly 模块（解压/解码失败）。`)
+        }
+
+        // 仅在确认为有效资源后才写入缓存（存压缩字节以省空间）；命中有效缓存则跳过写入。
+        if (!fromCache) await writeCache(url, rawBuffer)
 
         setStatus('compiling')
         let module = null
